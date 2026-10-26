@@ -1,0 +1,6 @@
+{
+  "type": "https://krishiloop.example/problems/abstained",
+  "title": "Abstained",
+  "status": 422,
+  "detail": "No sourced rule matched."
+}

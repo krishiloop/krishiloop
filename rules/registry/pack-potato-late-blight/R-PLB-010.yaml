@@ -1,0 +1,36 @@
+rule_id: R-PLB-010
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: vegetative
+action:
+  kind: practice
+  traffic_light: amber
+  title:
+    en: If protection is used repeatedly, do not rely on one product type; ask your
+      officer about alternating types.
+sources:
+- doc_id: DOC-CIP-001
+  page: 26
+  quote: Alternate applications of high-risk fungicides with low-risk fungicides,
+    including the use of fungicides with different modes of action.
+  quote_sha256: 3755885992c8e3728b2900b0ebb4bdb7c37a26702173b316828982e4b5020704
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: vegetative
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

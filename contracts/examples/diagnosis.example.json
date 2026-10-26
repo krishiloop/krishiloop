@@ -1,0 +1,32 @@
+{
+  "diagnosis_id": "dx-0001",
+  "crop": "rice",
+  "model": {
+    "name": "rice-leaf-mnv4s",
+    "version": "0.0.1",
+    "sha256": "e6954ed9cce48114b2875996c433c4ada96795c4f7b5401b3ed7578086bbe242"
+  },
+  "on_device": true,
+  "labels": [
+    {
+      "label": "rice_blast",
+      "prob": 0.41
+    },
+    {
+      "label": "brown_spot",
+      "prob": 0.33
+    },
+    {
+      "label": "healthy",
+      "prob": 0.1
+    }
+  ],
+  "calibrated": true,
+  "temperature": 1.7,
+  "ood_score": 0.62,
+  "status": "abstained",
+  "abstention_reason": "low_confidence",
+  "cam_available": true,
+  "inference_ms": 180,
+  "created_at": "2026-10-27T00:30:00Z"
+}

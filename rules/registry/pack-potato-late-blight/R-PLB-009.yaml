@@ -1,0 +1,36 @@
+rule_id: R-PLB-009
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: vegetative
+action:
+  kind: monitoring
+  traffic_light: amber
+  title:
+    en: 'Heavy rain after a contact-type protection: check whether your crop is still
+      protected; ask your officer.'
+sources:
+- doc_id: DOC-CIP-001
+  page: 24
+  quote: Contact products do not protect new tissue (grown after application) and
+    are washed away by rain.
+  quote_sha256: 95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: vegetative
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

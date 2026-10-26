@@ -1,0 +1,35 @@
+rule_id: R-PLB-007
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: maturity
+action:
+  kind: harvest
+  traffic_light: amber
+  title:
+    en: Harvest on time and avoid working in the field when it is humid.
+sources:
+- doc_id: DOC-CIP-001
+  page: 28
+  quote: Harvest in a timely fashion and avoid field work under humid conditions,
+    which favor tuber infection and further disease spread.
+  quote_sha256: f831ec238743dbfea715ff75de31780682a5825d12136631efaed3835969cfa9
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: maturity
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

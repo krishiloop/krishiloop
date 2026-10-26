@@ -1,0 +1,35 @@
+rule_id: R-PLB-003
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: pre_planting
+action:
+  kind: practice
+  traffic_light: amber
+  title:
+    en: Avoid planting potato after potato; remove volunteer potato plants.
+sources:
+- doc_id: DOC-CIP-001
+  page: 27
+  quote: Avoid potato monocropping to escape primary inoculum likely to be present
+    in plants or tuber debris infected during the previous season.
+  quote_sha256: 5f489f5c8117d72e1082e6c04773abade62bda636ec68e26e240ba8bb2d68647
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: pre_planting
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

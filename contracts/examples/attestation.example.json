@@ -1,0 +1,19 @@
+{
+  "attestation_id": "att-0001",
+  "field_id": "BD-DEMO-01",
+  "action_id": null,
+  "kind": "observation",
+  "photo": {
+    "sha256": "158d9a75203977cf6b967252917bab54c7ae9ced4dbeefc83b2830107221d15d",
+    "stored": true,
+    "gps_exif_stripped": true
+  },
+  "server_received_at": "2026-10-27T00:30:00Z",
+  "client_captured_at": null,
+  "s2_chip_ref": null,
+  "note": {
+    "en": "EXAMPLE"
+  },
+  "custody": "self",
+  "created_by": "farmer"
+}

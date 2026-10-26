@@ -1,0 +1,65 @@
+rule_id: R-PLB-008
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: vegetative
+  - fact: forecast_humid_mild_days
+    op: gte
+    value: param:humid_mild_days_min
+  - fact: crop_protected
+    op: eq
+    value: false
+action:
+  kind: input_decision
+  traffic_light: red
+  title:
+    en: 'Humid, mild days ahead and your crop is not protected: contact your officer
+      about protection options now.'
+  decision: recheck
+sources:
+- doc_id: DOC-CIP-001
+  page: 24
+  quote: If a farmer thinks his crop is not well protected during the period favorable
+    to infection, he should consider using a systemic or translaminar product.
+  quote_sha256: 4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c
+- doc_id: DOC-CIP-001
+  page: 19
+  quote: '4 days in optimal conditions: moderate temperatures and high humidity'
+  quote_sha256: 8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a
+reviewer_parameters:
+- name: humid_mild_days_min
+  value: 2
+  set_by: team
+  note: NOT from source; to be set by the pathologist.
+- name: humid_rh_pct_min
+  value: 90
+  unit: '%'
+  set_by: team
+  note: NOT from source; to be set by the pathologist.
+- name: mild_temp_c_range
+  value: 10-25
+  unit: C
+  set_by: team
+  note: NOT from source; to be set by the pathologist.
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires when humid + unprotected
+  facts:
+    stage: vegetative
+    forecast_humid_mild_days: 3
+    crop_protected: false
+  expect: fires
+- name: silent when protected
+  facts:
+    stage: vegetative
+    forecast_humid_mild_days: 3
+    crop_protected: true
+  expect: silent

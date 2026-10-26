@@ -1,0 +1,35 @@
+rule_id: R-PLB-004
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: pre_planting
+action:
+  kind: practice
+  traffic_light: green
+  title:
+    en: Prefer a well-drained, airy field.
+sources:
+- doc_id: DOC-CIP-001
+  page: 26
+  quote: Soils must have good drainage and adequate aeration, in order to avoid moisture
+    on foliage and ground.
+  quote_sha256: 9877eb551f630f9892e6e10d4a7174d0d1f2541e943b86f9dd1035d080276653
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: pre_planting
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

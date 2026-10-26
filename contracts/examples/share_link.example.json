@@ -1,0 +1,14 @@
+{
+  "share_id": "sh-0001",
+  "field_id": "BD-DEMO-01",
+  "scope": {
+    "attestation_ids": [
+      "att-0001"
+    ],
+    "include_photos": false
+  },
+  "expires_at": "2026-11-26T00:00:00Z",
+  "created_at": "2026-10-27T00:30:00Z",
+  "revoked_at": null,
+  "url": "https://krishiloop.example/s/sh-0001"
+}

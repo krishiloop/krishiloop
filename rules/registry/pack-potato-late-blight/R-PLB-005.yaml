@@ -1,0 +1,35 @@
+rule_id: R-PLB-005
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: hilling
+action:
+  kind: practice
+  traffic_light: green
+  title:
+    en: Make high, well-formed hills.
+sources:
+- doc_id: DOC-CIP-001
+  page: 27
+  quote: Make high, well-formed hills to avoid or reduce contact of tubers with sporangia
+    or zoospores coming from infected foliage.
+  quote_sha256: e137783d6c67ec96e63840d96fc5af182a789bec8438bdbb7e67a4605aaf93b3
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: hilling
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

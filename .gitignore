@@ -1,0 +1,49 @@
+# --- secrets: NEVER commit ---
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+kaggle.json
+**/credentials*.json
+
+# --- private corpus (not licensed for redistribution) ---
+corpus_private/
+corpus/private/
+
+# --- data & model artifacts (go to HF Hub / Kaggle, not git) ---
+data/
+outputs/
+*.onnx
+*.pt
+*.pth
+*.safetensors
+*.zip
+*.parquet
+*.tif
+*.tiff
+
+# --- python ---
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- node ---
+node_modules/
+dist/
+.vite/
+
+# --- misc ---
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+
+# training outputs (downloaded from Kaggle)
+ml/vision/artifacts/*.onnx
+ml/vision/artifacts/*.log.txt

@@ -1,0 +1,20 @@
+{
+  "item_id": "inbox-0001",
+  "field_id": "BD-DEMO-01",
+  "farmer_display_name": "Demo farmer A",
+  "reason_code": "low_confidence",
+  "reason": {
+    "en": "Low-confidence diagnosis"
+  },
+  "diagnosis_id": "dx-0001",
+  "top_labels": [
+    {
+      "label": "rice_blast",
+      "prob": 0.41
+    }
+  ],
+  "question": null,
+  "photo_attached": false,
+  "status": "open",
+  "created_at": "2026-10-27T00:30:00Z"
+}

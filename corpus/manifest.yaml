@@ -1,0 +1,16 @@
+documents:
+- doc_id: DOC-CIP-001
+  title: 'Potato late blight: Technical manual'
+  authors: W. Pérez; G. Forbes
+  year: 2010
+  publisher: International Potato Center (CIP)
+  url: https://cipotato.org/wp-content/uploads/2014/08/005446.pdf
+  licence_status: permitted
+  licence_note: 'Publisher statement (PDF p.2): readers encouraged to quote or reproduce
+    with acknowledgement; send CIP a copy/link.'
+  acknowledgement: 'Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual.
+    CIP, Lima. ISBN 978-92-9060-391-7.'
+  text: corpus/text/DOC-CIP-001.txt
+  language: en
+  packs:
+  - pack-potato-late-blight

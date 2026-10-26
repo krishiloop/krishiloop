@@ -1,0 +1,7 @@
+jsonschema>=4.23
+referencing>=0.35
+pyyaml>=6
+pytest>=8
+pynacl>=1.5
+base58>=2.1
+rfc8785>=0.1

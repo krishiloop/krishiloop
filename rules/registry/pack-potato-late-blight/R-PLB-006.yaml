@@ -1,0 +1,35 @@
+rule_id: R-PLB-006
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: vegetative
+action:
+  kind: irrigation
+  traffic_light: amber
+  title:
+    en: Avoid excessive furrow irrigation, especially where the soil drains poorly.
+sources:
+- doc_id: DOC-CIP-001
+  page: 28
+  quote: Avoid excessive furrow irrigation, especially in soils with deficient drainage,
+    because it may create micro- climates that favor disease or tuber rot.
+  quote_sha256: 05364bf8e94c06286d414f135ca3f0f7783621e9f4e767209b53fe23cfdd50a7
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: vegetative
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

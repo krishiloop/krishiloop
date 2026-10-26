@@ -1,0 +1,22 @@
+{
+  "plan_id": "5e4d3c2b-1a09-4f8e-9d7c-6b5a49382716",
+  "pack_id": "pack-bd-rice",
+  "field_id": "BD-DEMO-01",
+  "farmer_profile_id": "demo-farmer-a",
+  "status": "abstained",
+  "crop": "rice",
+  "season": "aman",
+  "stage": "grain_fill",
+  "valid_from": "2026-10-27",
+  "valid_to": "2026-11-02",
+  "abstention": {
+    "reason_code": "low_confidence",
+    "reason": {
+      "en": "The photo does not match any disease we know well enough.",
+      "bn": "উদাহরণ"
+    },
+    "inbox_item_id": "inbox-0001"
+  },
+  "generated_at": "2026-10-27T00:30:00Z",
+  "snapshot_id": "snap-BD-DEMO-01-20261027"
+}

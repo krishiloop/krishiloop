@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://krishiloop.example/schemas/field_snapshot.schema.json",
+  "title": "FieldSnapshot",
+  "description": "Nightly/live field context; every block has source + timestamps. mode=snapshot is shown as 'Data as of <created_at>'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "snapshot_id",
+    "field_id",
+    "mode",
+    "location",
+    "crop",
+    "stage",
+    "created_at"
+  ],
+  "properties": {
+    "snapshot_id": {
+      "type": "string"
+    },
+    "field_id": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "live",
+        "snapshot"
+      ]
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lat",
+        "lon",
+        "precision",
+        "country"
+      ],
+      "properties": {
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "precision": {
+          "enum": [
+            "field_private",
+            "fuzzed_1km",
+            "union_level",
+            "sample_location"
+          ]
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "crop": {
+      "type": "string",
+      "pattern": "^[a-z_]+$"
+    },
+    "variety": {
+      "type": "string"
+    },
+    "planting_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "stage": {
+      "type": "string",
+      "pattern": "^[a-z_]+$"
+    },
+    "s2": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "acquired_at",
+        "cloud_cover",
+        "ndvi_mean"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "acquired_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "cloud_cover": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "ndvi_mean": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": -1,
+          "maximum": 1
+        },
+        "ndvi_p10": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ndvi_p90": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "chip_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timelapse_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "animated season time-lapse (wow layer W2)"
+        }
+      }
+    },
+    "forecast": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "issued_at",
+        "days"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "days": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "date"
+            ],
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "tmax_c": {
+                "type": "number"
+              },
+              "tmin_c": {
+                "type": "number"
+              },
+              "precip_mm": {
+                "type": "number",
+                "minimum": 0
+              },
+              "rh_mean_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "risk": {
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "unknown"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "flood": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "issued_at",
+        "trend",
+        "discharge"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "trend": {
+          "enum": [
+            "rising",
+            "stable",
+            "falling",
+            "unknown"
+          ]
+        },
+        "discharge": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "date",
+              "m3s"
+            ],
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date"
+              },
+              "m3s": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

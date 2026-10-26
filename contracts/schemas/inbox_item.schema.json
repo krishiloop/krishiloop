@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://krishiloop.example/schemas/inbox_item.schema.json",
+  "title": "OfficerInboxItem",
+  "description": "A case the system abstained on, routed to the extension officer. Photo only with consent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "item_id",
+    "field_id",
+    "farmer_display_name",
+    "reason_code",
+    "reason",
+    "photo_attached",
+    "status",
+    "created_at"
+  ],
+  "properties": {
+    "item_id": {
+      "type": "string"
+    },
+    "field_id": {
+      "type": "string"
+    },
+    "farmer_display_name": {
+      "type": "string",
+      "description": "pseudonymous; never a phone number"
+    },
+    "reason_code": {
+      "enum": [
+        "low_confidence",
+        "out_of_distribution",
+        "missing_source",
+        "validator_blocked",
+        "conflicting_rules",
+        "data_unavailable",
+        "farmer_requested",
+        "no_matching_rule"
+      ]
+    },
+    "reason": {
+      "$ref": "action.schema.json#/$defs/i18n"
+    },
+    "diagnosis_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "top_labels": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "$ref": "diagnosis.schema.json#/$defs/label_prob"
+      }
+    },
+    "question": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "photo_attached": {
+      "type": "boolean"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "resolved"
+      ]
+    },
+    "resolution_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolved_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "resolved_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

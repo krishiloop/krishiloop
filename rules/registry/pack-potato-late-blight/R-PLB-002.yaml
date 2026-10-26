@@ -1,0 +1,34 @@
+rule_id: R-PLB-002
+version: 1
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: planting
+action:
+  kind: practice
+  traffic_light: amber
+  title:
+    en: Plant only healthy seed tubers.
+sources:
+- doc_id: DOC-CIP-001
+  page: 27
+  quote: Use of healthy seed tubers for planting must be guaranteed.
+  quote_sha256: 70abd95e92a2cb0309d9f09ed8480bb5607d001fc3118be593ebb8fe9befc125
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
+tests:
+- name: fires at stage
+  facts:
+    stage: planting
+  expect: fires
+- name: silent at other stage
+  facts:
+    stage: storage
+  expect: silent

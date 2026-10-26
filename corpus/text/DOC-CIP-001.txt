@@ -1,0 +1,179 @@
+# DOC-CIP-001 — excerpt (pages 19, 24, 26-28 of the PDF)
+# Source: Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. International Potato Center (CIP), Lima. ISBN 978-92-9060-391-7.
+# https://cipotato.org/wp-content/uploads/2014/08/005446.pdf
+# Reproduced with acknowledgement under CIP's statement (PDF p.2): "Readers are encouraged to quote or reproduce material from them in their own publications. As copyright holder CIP requests acknowledgement, and a copy of the publication where the citation or material appears."
+
+=== PAGE 19 ===
+18
+constitute the initial inoculum; mycelium grows through the stem and reaches the soil surface. When
+mycelium reaches aerial parts of the plant, sporangia are formed and dispersed by the wind or are splashed
+to neighbor plants. Sporangia are produced during wet nights and are dispersed to new leaves in the
+mornings, to reinitiate the cycle. The germ tubes of sporangia or zoospores form appressoria and penetrate
+through cells adjacent to the occlusive cells of stomata. They can also penetrate the periclinal wall of
+epidermal cells and form an intercellular mycelium. In a couple of days (4 days in optimal conditions:
+moderate temperatures and high humidity), after infection has started, new sporangiophores emerge
+through stomata and produce numerous sporangia that will infect other plants. In just one season, many
+asexual generations can be produced. Under humid conditions, sporangia located in leaves and stems are
+washed off and pulled down to the soil where they can produce zoospores and infect tubers near the soil
+surface. Infection takes place through wounds or lenticels. Once inside the tuber cells, haustoria are
+formed, in the same way they are formed in leaves, and use cell content as food. Infections during the
+season may occur when tubers are exposed to contaminated foliage or sporangia still present in the soil.
+Most of these tubers get infected with rot in the soil through secondary infections produced by other
+microorganisms, induce infections under inappropriate storage conditions, or mycelium survives on seed
+tubers until the next season.
+Figure 19.
+Mycelium of P.
+infestans developing
+on seed tubers, after
+inappropriate storage
+(Photo: W. Pérez).
+Figure 20.
+Conditions of
+cloudiness and
+drizzling that favor
+late blight epidemics
+(Photo: O. Ortiz).
+
+
+=== PAGE 24 ===
+23
+Systemic products are more efficient in young plants, where new tissue grows fast. Because resistance to
+the product could appear, the use of systemic or translaminar products after infection is not recommend-
+able but, it is in fact done. If a farmer thinks his crop is not well protected during the period favorable to
+infection, he should consider using a systemic or translaminar product.
+Contact products do not protect new tissue (grown after application) and are washed away by rain. The
+amount of fungicide remaining on the leaf depends on the product and the amount and nature of the rain.
+
+
+=== PAGE 26 ===
+25
+Resistance to fungicides
+Resistance to fungicides means less than normal sensitivity to those products in a pathogen population.
+This kind of resistance is the consequence of stable and hereditary mutations. Resistance to active ingredi-
+ent metalaxyl is one of the best examples reported among P. infestans populations worldwide, becoming
+a limiting factor for using this fungicide. A temporary decrease of sensitivity to a particular fungicide would
+be an adaptation of the pathogen, however, as it is not inherited, it may be reverted by changes in chemical
+control strategies.
+Two types of risk of resistance to fungicides have been reported: fungicide inherent risk and pathogen
+inherent risk. Chemical features of the active ingredient and its mode of action on the pathogen are
+determinant factors for the fungicide inherent risk. Therefore, there are fungicides of high, medium and
+low risk for the development of resistance. Characteristics of pathogen life cycle, its reproductive rate,
+mode of dispersal and its mutation potential are associated with the pathogen inherent risk. Selection
+pressure of resistant isolates of the pathogen to a particular fungicide in large crop areas is related to the
+pathogen inherent risk. Therefore, there are pathogens of high, medium and low risk for the development
+of resistance.
+The combination of both types of risk shows the real risk for the appearance of resistance to fungicides. A
+particular case is that of Phytophthora infestans which quickly developed resistance to phenylamide
+fungicides (metalaxyl, metalaxyl-M (mefenoxam), furalaxyl, oxadixyl, benalaxyl and ofurace) but not to
+dimethomorph , iprovalicarb, fluazinam, cymoxanil, azoxistrobin and fenamidone (fungicides QoI),
+propamocarb and organotins. That is why the Fungicide Resistance Action Committee (FRAC) has classified
+P. infestans as a high risk pathogen for phenylamide-type fungicides and only a medium risk pathogen for
+fungicides with other modes of action.
+Antiresistance Management Strategies
+- Restrict the number of high-risk fungicide applications.
+- Mix a high-risk fungicide with a low-risk fungicide to be sure spores will not survive.
+- Alternate applications of high-risk fungicides with low-risk fungicides, including the use of fungicides
+with different modes of action.
+- Add other integrated management practices, different from those of the chemical component in order
+to avoid disease development.
+Cultural control
+Cultural control involves all the activities carried out during agronomic management which alter the
+microclimate, host condition and pathogen behavior in such a way that they avoid or reduce pathogen
+activity.
+Planting time
+Schedule planting time, especially in places where planting is made under irrigation, to avoid the period of
+higher incidence of the disease. This is not always possible in continuous production areas.
+Selection of crop fields
+Soils must have good drainage and adequate aeration, in order to avoid moisture on foliage and ground.
+Those areas remaining wet due to excessive soil moisture or excessive shading are potential sources for
+incidence of late blight. Some traditional techniques as “huacho rozado” in Colombia and Ecuador, which
+apparently improve drainage and aeration, have been associated with reduction of late blight (Unpub-
+lished data).
+
+
+=== PAGE 27 ===
+26
+Destruction of volunteer plants and weeds
+Avoid potato monocropping to escape primary inoculum likely to be present in plants or tuber debris
+infected during the previous season. Destroy any other alternative host, not only for P. infestans but for
+other diseases and pests.
+Selection of variety
+It is advisable to use resistant varieties. Combining varieties should be avoided in order to achieve ad-
+equate agronomic management of the crop and better disease control. Nevertheless, some authors rec-
+ommend the mixture of varieties to reduce disease severity and obtain adequate yields, particularly the
+combination of susceptible and resistant varieties.
+Selection of seed
+Use of healthy seed tubers for planting must be guaranteed. Sometimes seed can be infected with P.
+infestans without blight symptoms. So far, there is no evidence that infected seed can be “cleaned” or
+healed with fungicides. However,  there is a risk that infected tubers will sporulate and contaminate more
+tubers during the storage process or transportation. This is particularly problematic in countries where
+seeds are cut. In case contamination is likely to occur, it is possible to avoid an increase by treating seed with
+an effective product against P. infestans (Table 4).
+Distance between plants and between rows
+Distance between plants and between planting rows must be appropriate to reduce moisture on the
+foliage. This practice should be related to the variety and purpose of the crop (seed or consumer potato).
+However, data generated about the effects of plant density on late blight incidence are not consistent and
+often farmers must make density decisions based on other demands.
+Hilling
+Make high, well-formed hills to avoid or reduce contact of tubers with sporangia or zoospores coming from
+infected foliage. Hilling high has also been related to less severity of blight on foliage, because it promotes
+better drainage and aeration of soil causing foliage to dry faster.
+Plant nutrition
+Some authors have reported that high doses of phosphorus and potassium reduce late blight whereas high
+doses of nitrogen increase its incidence. Phosphorus and nitrogen apparently have contrary effects on
+tuber blight. Nitrogen slows down tuber maturity, which favors blight appearance, while phosphorus
+reduces incidence, accelerating maturity. A recent investigation in the Andean region proved that fertiliza-
+tion effects on late blight were less than effects of fertilization on yield so farmers generally make fertili-
+zation decisions based on yield.
+Foliage cutting
+Fifteen days before harvesting, foliage should be cut and removed from the field. In some countries,
+desiccants (sulfuric acid) or an herbicide (for example, DIQUAT) is used. Nonetheless, sulfuric acid is very
+dangerous and Diquat may damage tubers under certain conditions. It seems that several tuber diseases
+are favored when stem and root tissues rot. Therefore, “green lifting” (or “green harvest”) has been studied
+in the Netherlands; it consists of harvesting the tubers and putting them back in the soil, without any stem
+or roots. Based on this investigation, we could suppose that uprooting the plant (instead of cutting it at soil
+level), would be favorable but no studies on this topic are known. Because of its simplicity and efficacy, it
+
+
+=== PAGE 28 ===
+27
+seems that cutting foliage with a machete is generally recommended for small farmers, because it reduces
+late blight incidence in tubers due to early removal or destruction of plant foliage prior to harvesting.
+Irrigation
+Avoid excessive furrow irrigation, especially in soils with deficient drainage, because it may create micro-
+climates that favor disease or tuber rot. In places where sprinkler irrigation is used, do not irrigate in the
+evening as leaves will remain wet for a longer period of time and will favor foliage infection, exposing
+tubers to a potential infection.
+Sanitation
+In those areas where the disease is sporadic or limited to few sources of infection, desiccants should be
+applied to eliminate initial sources of inoculum, in order to prevent pathogen spread. Infected leaves can
+be easily removed from small plots or gardens.
+Timely harvest
+Harvest in a timely fashion and avoid field work under humid conditions, which favor tuber infection and
+further disease spread.
+Destruction of discarded tubers
+After harvesting, it is recommended to pick up discarded tubers (rotting, damaged, etc.) and use them to
+feed pigs or, lacking that, they should be otherwise discarded (composting or burying) to avoid their
+becoming a source of primary inoculum or a reserve for other pests and diseases.
+Appropriate storage
+Healthy tubers must be stored in order to avoid infections during the storage period. The use of diffused
+light stores is recommended. The use of seed tubers with green sprouts coming from these stores may
+result in a more uniform crop which can be harvested earlier, thus reducing exposure time to late blight.
+Biological control
+Biological control consists of reducing disease through the interaction of one or more live organisms with
+the disease-causing pathogen. A wide variety of investigations have reported the antagonistic effect of
+several microorganisms against P. infestans. Among these microorganisms are: Serratia spp., Streptomyces
+spp., Pseudomonas spp., Bacillus spp., Trichoderma spp., Fusarium spp., Aspergillus spp., Penicillium spp.,
+Myrothecium spp., etc. Biological control is not common and reports of successful control are rare.
+The use of garlic or onion extracts or infusions, or some vegetable ferments as barley, wheat, rice, garlic,
+tara, etc., has also been successful under laboratory and greenhouse conditions but, there is no clear
+evidence for its efficiency in the field.
+Several reports mention that sprinkling liquid compost on potato leaves and stems makes microorganisms
+present in this liquid compete with Phytophthora infestans for living space on the surface of both organs,
+making pathogen establishment and further infection difficult. However, success has not yet been proved
+on commercial fields.  By the same , preventive application of commercial bio-fungicides formulated from
+Bacillus subtilis, which theoretically hinder pathogen establishment, interrupting its development and
+inducing plant-acquired resistance, is under investigation because results obtained under field conditions
+are sometimes contradictory and usually show low efficacy.
+
+

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://krishiloop.example/schemas/problem.schema.json",
+  "title": "Problem",
+  "description": "RFC 9457 problem details for API errors.",
+  "type": "object",
+  "required": [
+    "type",
+    "title",
+    "status"
+  ],
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "detail": {
+      "type": "string"
+    },
+    "instance": {
+      "type": "string"
+    }
+  }
+}

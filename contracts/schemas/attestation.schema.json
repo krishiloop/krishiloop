@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://krishiloop.example/schemas/attestation.schema.json",
+  "title": "ActionAttestation",
+  "description": "Farmer 'I did it' attestation (SHOULD for Oct 31). Photo hash + SERVER timestamp; GPS EXIF stripped from stored copy. Not proof that satellites saw the action (we never claim that for small plots).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attestation_id",
+    "field_id",
+    "kind",
+    "server_received_at",
+    "custody",
+    "created_by"
+  ],
+  "properties": {
+    "attestation_id": {
+      "type": "string"
+    },
+    "field_id": {
+      "type": "string"
+    },
+    "action_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "action_done",
+        "observation"
+      ]
+    },
+    "photo": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "sha256",
+        "stored",
+        "gps_exif_stripped"
+      ],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "stored": {
+          "type": "boolean"
+        },
+        "gps_exif_stripped": {
+          "type": "boolean"
+        }
+      }
+    },
+    "server_received_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "client_captured_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "s2_chip_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "note": {
+      "$ref": "action.schema.json#/$defs/i18n"
+    },
+    "custody": {
+      "enum": [
+        "self",
+        "officer",
+        "sms_pin"
+      ],
+      "description": "who holds it; custodial is NOT farmer-held"
+    },
+    "created_by": {
+      "enum": [
+        "farmer",
+        "officer"
+      ]
+    }
+  }
+}

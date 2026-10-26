@@ -1,0 +1,22 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - name: Contracts (JSON Schema 2020-12 + examples)
+        run: python tools/validate_contracts.py
+      - name: Quote integrity (every rule quote verbatim on its declared page)
+        run: python tools/check_quotes.py
+      - name: Tests
+        run: python -m pytest -q
