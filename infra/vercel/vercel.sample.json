@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://api-not-connected-yet.invalid/api/:path*" },
+    { "source": "/status/:path*", "destination": "https://api-not-connected-yet.invalid/status/:path*" },
+    { "source": "/.well-known/:path*", "destination": "https://api-not-connected-yet.invalid/.well-known/:path*" },
+    { "source": "/health", "destination": "https://api-not-connected-yet.invalid/health" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
+}

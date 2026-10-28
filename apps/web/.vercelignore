@@ -1,0 +1,9 @@
+# Not uploaded to Vercel
+node_modules
+dist
+test-results
+playwright-report
+.vercel
+# Photo model files never ship from here: the v0 model's training data blocks redistribution (ml/vision/MODEL_CARD.md)
+public/models/*.onnx
+.env*
