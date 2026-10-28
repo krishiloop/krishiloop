@@ -57,3 +57,7 @@ docs/design/screens/
 # Playwright output
 apps/web/test-results/
 apps/web/playwright-report/
+infra/docker/build-context/
+apps/web/vercel.json
+.vercel/
+apps/web/.vercel/

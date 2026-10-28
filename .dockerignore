@@ -1,0 +1,14 @@
+.git
+.venv
+**/__pycache__
+**/node_modules
+apps/web/dist
+apps/web/test-results
+data
+docs/design/screens
+ml/vision/artifacts/*.onnx
+ml/vision/artifacts/*.onnx.data
+ml/vision/artifacts/*.npz
+corpus_private
+.env
+.env.*
