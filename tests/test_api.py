@@ -203,3 +203,13 @@ def test_trust_earned_in_one_demo_session_stays_there(client, monkeypatch, tmp_p
     assert client.get(f"/api/verify/{area['trust_credential_id']}").json()["status"] == "invalid"   # not an advice receipt
     other = client.post("/api/demo/session").json()["session_id"]
     assert client.get(f"/api/demo/{other}/areas/rice@BD").json()["gate_open"] is False
+
+
+def test_area_trust_replay_says_what_it_is(client, monkeypatch, tmp_path):
+    import json
+    import services.api.main as m
+    monkeypatch.setattr(m, "REPLAY", tmp_path / "missing.json")
+    assert client.get("/api/replay/area-trust").status_code == 404
+    (tmp_path / "replay.json").write_text(json.dumps({"note": "Replay of public CC BY rice datasets", "areas": {}}), encoding="utf-8")
+    monkeypatch.setattr(m, "REPLAY", tmp_path / "replay.json")
+    assert "Replay of public" in client.get("/api/replay/area-trust").json()["note"]

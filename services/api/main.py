@@ -411,6 +411,18 @@ def demo_area(sid: str, area: str):
     return _photo_service(_sandbox(sid)).area(area)
 
 
+REPLAY = ROOT / "ml" / "vision" / "artifacts" / "area_trust_replay.json"
+
+
+@app.get("/api/replay/area-trust")
+def area_trust_replay():
+    """Earned-trust curves replayed from public CC BY rice datasets (ml/vision/analysis/earned_trust_sim_v2.py --curves).
+    The datasets' labels stand in for officers' verdicts; the payload says so in its own words."""
+    if not REPLAY.exists():
+        raise HTTPException(404, "no replay has been generated on this server")
+    return json.loads(REPLAY.read_text(encoding="utf-8"))
+
+
 @app.post("/api/demo/{sid}/plan")
 def demo_plan(sid: str, body: PlanRequest, request: Request):
     sb = _sandbox(sid)
