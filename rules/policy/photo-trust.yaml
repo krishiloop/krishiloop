@@ -1,0 +1,26 @@
+# Photo-trust policy: when a photo model may answer farmers in one area without the officer.
+# Data, reviewed like a rule (plan/EARNED_TRUST_DESIGN.md). The numbers are team-set, NOT from a source, and the
+# policy has not been reviewed by an agronomist or a statistician yet.
+policy_id: photo-trust
+version: 1
+status: draft
+# A suggestion is "sure" when its calibrated top probability reaches this.
+sure_threshold: 0.85
+# The gate looks at the officer's verdicts on the most recent sure suggestions.
+window: 50
+min_sure_answers: 30
+# Wilson 95% lower bound on the precision of those sure suggestions.
+open_lower_bound: 0.85
+close_lower_bound: 0.80
+# Share of automatic answers still sent to the officer while the gate is open.
+audit_rate: 0.10
+tiers:
+  - tier: 0
+    may: pre-fill the officer's case with a top-2 suggestion
+    needs: nothing (the officer decides)
+  - tier: 1
+    may: answer the farmer automatically, for low-risk practices only
+    needs: the gate open in that area
+  - tier: 2
+    may: feed an input decision (spray or not)
+    needs: not enabled in version 1
