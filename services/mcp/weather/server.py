@@ -87,7 +87,7 @@ def _fact_basis(pack_id: str) -> dict[str, dict]:
 
 @server.tool(annotations=READ_LOCAL, structured_output=True)
 def weather_parameters(
-    pack_id: Annotated[str, Field(description="Rule pack id, as listed by the knowledge server's list_packs "
+    pack_id: Annotated[str, Field(description="Rule pack id, as listed by the rules server's list_packs "
                                               "(e.g. pack-potato-late-blight)")],
 ) -> dict[str, Any]:
     """The weather facts a rule pack's planner derives, the reviewer-set parameters behind them (with who set each

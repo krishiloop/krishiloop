@@ -21,14 +21,17 @@ from services.api import main as api
 from services.engine import snapshot as snap_mod
 from services.engine.planner import DEMO_FIELDS, DEMO_PROFILES, make_plan
 from services.engine.rules import REGISTRY, load_pack, pack_parameters
-from services.mcp.knowledge import server as knowledge
+from services.mcp import stores
+from services.mcp.photo_trust import server as photo_trust
+from services.mcp.receipts import server as receipts
+from services.mcp.rules import server as rules
 from services.mcp.satellite import server as satellite
 from services.mcp.weather import server as weather
 from services.trust import store as store_mod
 from services.trust.store import ROOT, TrustStore, did_from_base_url
 from services.vision.service import PhotoService
 
-SERVERS = (weather.server, satellite.server, knowledge.server)
+SERVERS = (weather.server, satellite.server, receipts.server, rules.server, photo_trust.server)
 BASE, DID, SEED = "https://krishiloop.example", "did:web:krishiloop.example", "11" * 32
 
 
@@ -82,13 +85,17 @@ def test_every_tool_only_reads_and_recall_is_not_a_tool():
             names.setdefault(srv.name, set()).add(t.name)
     assert names == {"krishiloop-weather": {"forecast_snapshot", "weather_parameters"},
                      "krishiloop-satellite": {"list_collections", "search_scenes", "scene_metadata"},
-                     "krishiloop-knowledge": {"verify_credential", "list_packs", "get_rule", "area_photo_trust"}}
+                     "krishiloop-receipts": {"verify_credential", "get_credential", "status_list_info"},
+                     "krishiloop-rules": {"list_packs", "get_rule", "search_rules"},
+                     "krishiloop-photo-trust": {"list_areas", "area_photo_trust", "trust_replay"}}
 
 
 @pytest.mark.parametrize("module, tool, args", [
     ("services.mcp.weather", "weather_parameters", {"pack_id": "pack-bd-rice"}),
     ("services.mcp.satellite", "list_collections", {}),
-    ("services.mcp.knowledge", "list_packs", {}),
+    ("services.mcp.receipts", "verify_credential", {"credential_id": "not-a-uuid"}),
+    ("services.mcp.rules", "list_packs", {}),
+    ("services.mcp.photo_trust", "list_areas", {}),
 ])
 def test_servers_run_over_stdio(module, tool, args):
     async def go():
@@ -102,7 +109,7 @@ def test_server_runs_over_streamable_http():
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
         port = s.getsockname()[1]
-    proc = subprocess.Popen([sys.executable, "-m", "services.mcp.knowledge", "--transport", "http", "--port", str(port)],
+    proc = subprocess.Popen([sys.executable, "-m", "services.mcp.rules", "--transport", "http", "--port", str(port)],
                             cwd=str(ROOT), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         async def go():
@@ -272,15 +279,15 @@ def test_scene_metadata(stac):
     assert ok(satellite.server, "list_collections")["providers"]["earth-search"]["collections"]
 
 
-# ---------------------------------------------------------------- receipts and knowledge
+# ---------------------------------------------------------------- receipts
 @pytest.fixture()
 def kn(tmp_path, monkeypatch):
-    """An official store and the data folder the knowledge server reads, both in tmp_path."""
-    monkeypatch.setattr(knowledge, "DATA_DIR", tmp_path)
+    """An official store, and the data folder the receipts, rules and photo-trust servers read, all in tmp_path."""
+    monkeypatch.setattr(stores, "DATA_DIR", tmp_path)
     monkeypatch.setenv("PUBLIC_BASE_URL", BASE)
     monkeypatch.setenv("ISSUER_DID", DID)
     monkeypatch.setenv("KRISHILOOP_ISSUER_SEED", SEED)
-    return TrustStore(BASE, DID, SEED, data_dir=knowledge._official_dir())
+    return TrustStore(BASE, DID, SEED, data_dir=stores.official_dir())
 
 
 def _plan(store, tmp_path) -> dict:
@@ -293,40 +300,71 @@ def _plan(store, tmp_path) -> dict:
     return plan
 
 
-def test_verify_matches_the_public_verifier_and_sees_a_recall_at_once(kn, tmp_path, monkeypatch):
+def _unsigned(cred: dict) -> dict:
+    return {k: v for k, v in cred.items() if k != "proof"}
+
+
+def test_receipts_match_the_public_api_and_see_a_recall_at_once(kn, tmp_path, monkeypatch):
     action = _plan(kn, tmp_path)["actions"][0]
     cred, ref = action["receipt_credential_id"], action["receipt"]["rule_refs"][0]
-    out = ok(knowledge.server, "verify_credential", {"credential_id": cred})
+    out = ok(receipts.server, "verify_credential", {"credential_id": cred})
     assert out["status"] == "authentic" and out["sandbox"] is False and out["credential"]["id"] == cred
     monkeypatch.setattr(api, "_store", kn)
-    public = TestClient(api.app).get(f"/api/verify/{cred}").json()
+    public = TestClient(api.app)
     keys = ("status", "reason", "sandbox", "status_list", "credential")
-    assert {k: out[k] for k in keys} == {k: public[k] for k in keys}
+    assert {k: out[k] for k in keys} == {k: public.get(f"/api/verify/{cred}").json()[k] for k in keys}
+    stored = ok(receipts.server, "get_credential", {"credential_id": cred})
+    assert stored["credential"] == out["credential"] == public.get(f"/api/credentials/{cred}").json()
+    assert stored["type"] == ["AdviceReceiptCredential"] and stored["sandbox"] is False
+    info = ok(receipts.server, "status_list_info")
+    assert info["status_list"] == f"{BASE}/status/1" and info["entries_used"] == kn.status.next_index >= 1
+    assert info["entries_revoked"] == 0 and info["recalled_rule_versions"] == []
     kn.recall_rule(ref["rule_id"], ref["version"], "test recall")      # the admin's recall, outside MCP
-    out = ok(knowledge.server, "verify_credential", {"credential_id": cred})
+    out = ok(receipts.server, "verify_credential", {"credential_id": cred})
     assert out["status"] == "recalled" and f"{ref['rule_id']} v{ref['version']}" in out["reason"]
-    assert ok(knowledge.server, "get_rule", {"rule_id": ref["rule_id"]})["recall_in_official_store"]["reason"] == "test recall"
-    rules = {r["rule_id"]: r for p in ok(knowledge.server, "list_packs")["packs"] for r in p["rules"]}
-    assert rules[ref["rule_id"]]["recalled_in_official_store"] is True
+    info = ok(receipts.server, "status_list_info", {"include_credential": True})
+    (recall,) = info["recalled_rule_versions"]
+    assert info["entries_revoked"] == 1 and recall["rule_version"] == f"{ref['rule_id']}@{ref['version']}"
+    assert recall["reason"] == "test recall"
+    assert _unsigned(info["credential"]) == _unsigned(public.get("/status/1").json())
+    assert ok(rules.server, "get_rule", {"rule_id": ref["rule_id"]})["recall_in_official_store"]["reason"] == "test recall"
+    listed = {r["rule_id"]: r for p in ok(rules.server, "list_packs")["packs"] for r in p["rules"]}
+    assert listed[ref["rule_id"]]["recalled_in_official_store"] is True
 
 
-def test_verify_rejects_unknown_and_malformed_ids_and_creates_nothing(kn, tmp_path):
-    before = sorted(p for p in tmp_path.rglob("*"))
+def test_receipts_reject_unknown_and_malformed_ids_and_create_nothing(kn, tmp_path):
+    before = sorted(tmp_path.rglob("*"))
     for bad in ("..%5C..%5Csecret", "../../secrets/.env", "C:\\Windows\\win.ini", "not-a-uuid", f"urn:uuid:{uuid.uuid4()}"):
-        assert ok(knowledge.server, "verify_credential", {"credential_id": bad})["status"] == "invalid"
-    assert sorted(p for p in tmp_path.rglob("*")) == before
+        assert ok(receipts.server, "verify_credential", {"credential_id": bad})["status"] == "invalid"
+        assert "unknown credential" in err(receipts.server, "get_credential", {"credential_id": bad})
+    ok(receipts.server, "status_list_info")
+    assert "unknown or expired" in err(receipts.server, "status_list_info", {"session_id": "ffffffffffffffff"})
+    assert sorted(tmp_path.rglob("*")) == before
 
 
-def test_verification_needs_the_seed_and_never_echoes_it(kn, monkeypatch):
-    cred = f"urn:uuid:{uuid.uuid4()}"
+def test_only_the_receipts_server_needs_the_seed_and_never_echoes_it(kn, tmp_path, monkeypatch):
+    cred = _plan(kn, tmp_path)["actions"][0]["receipt_credential_id"]
     monkeypatch.delenv("KRISHILOOP_ISSUER_SEED")
-    assert "KRISHILOOP_ISSUER_SEED is not set" in err(knowledge.server, "verify_credential", {"credential_id": cred})
-    assert ok(knowledge.server, "list_packs")["packs"]             # knowledge tools need no secret
+    assert "KRISHILOOP_ISSUER_SEED" in err(receipts.server, "verify_credential", {"credential_id": cred})
+    assert "KRISHILOOP_ISSUER_SEED" in err(receipts.server, "status_list_info", {"include_credential": True})
+    assert ok(receipts.server, "get_credential", {"credential_id": cred})["credential"]["id"] == cred
+    assert ok(receipts.server, "status_list_info")["entries_used"] >= 1
+    assert ok(rules.server, "list_packs")["packs"] and ok(photo_trust.server, "list_areas")["areas"] == []
     monkeypatch.setenv("KRISHILOOP_ISSUER_SEED", "zq" * 32)
-    message = err(knowledge.server, "verify_credential", {"credential_id": cred})
+    message = err(receipts.server, "verify_credential", {"credential_id": cred})
     assert "malformed" in message and "zq" not in message
 
 
+def test_stores_are_found_where_the_api_finds_them(tmp_path, monkeypatch):
+    assert stores.SANDBOX_TTL_S == api.SANDBOX_TTL_S
+    monkeypatch.setattr(store_mod, "ROOT", tmp_path)
+    monkeypatch.setattr(stores, "DATA_DIR", tmp_path / "data")
+    monkeypatch.setenv("PUBLIC_BASE_URL", "http://localhost:8000")
+    monkeypatch.delenv("ISSUER_DID", raising=False)
+    assert TrustStore("http://localhost:8000", did_from_base_url("http://localhost:8000"), SEED).dir == stores.official_dir()
+
+
+# ---------------------------------------------------------------- photo trust
 LABELS = ["healthy", "blast", "brown_spot"]
 CLASS_DIRS = np.random.RandomState(0).randn(3, 16)
 
@@ -337,7 +375,7 @@ def _fake_features(image: bytes) -> np.ndarray:
     return CLASS_DIRS[LABELS.index(label)] + 0.15 * np.random.RandomState(int(n)).randn(16)
 
 
-def test_area_photo_trust_reads_the_sandbox_ledger_and_credential(kn, tmp_path, monkeypatch):
+def test_photo_trust_reads_the_sandbox_ledger_and_the_planners_trust_index(kn, tmp_path, monkeypatch):
     sid = "0123456789abcdef"
     sandbox = TrustStore(BASE, DID, SEED, data_dir=tmp_path / "demo" / sid / "trust", status_id=f"demo-{sid}")
     svc = PhotoService(sandbox, tmp_path / "demo" / sid / "photo", "leaf@1", "a" * 64, LABELS,
@@ -348,46 +386,84 @@ def test_area_photo_trust_reads_the_sandbox_ledger_and_credential(kn, tmp_path, 
         if case["route"] == "officer" and (svc.judge(case["case_id"], LABELS[i % 3], "officer-1")["event"] or {}).get("event") == "opened":
             break
     args = {"area": "rice@BD", "session_id": sid}
-    out = ok(knowledge.server, "area_photo_trust", args)
+    out = ok(photo_trust.server, "area_photo_trust", args)
     (model,) = out["models"]
-    assert out["trusted_models"] == ["leaf@1"] and model["ledger"]["gate_open"] and model["ledger"]["lower_bound"] >= 0.85
-    assert model["ledger"] == {k: v for k, v in svc.area("rice@BD").items() if k not in ("area", "model", "trust_credential_id")}
-    assert model["trust_credential"]["status"] == "authentic" and model["trust_credential_id"] == svc.area("rice@BD")["trust_credential_id"]
+    area = svc.area("rice@BD")
+    assert out["trusted_models"] == ["leaf@1"] and model["trust_stands"] and model["ledger"]["gate_open"]
+    assert model["ledger"] == {k: v for k, v in area.items() if k not in ("area", "model", "trust_credential_id")}
+    assert model["trust_credential_id"] == area["trust_credential_id"] == sandbox.trusted_photo_model("leaf@1", "rice@BD")
+    assert ok(photo_trust.server, "list_areas", {"session_id": sid})["areas"] == [
+        {"area": "rice@BD", "model": "leaf@1", "verdicts": area["verdicts"], "gate_open": True, "trust_stands": True}]
     cred = model["trust_credential_id"]
-    v = ok(knowledge.server, "verify_credential", {"credential_id": cred})
+    v = ok(receipts.server, "verify_credential", {"credential_id": cred})
     assert v["status"] == "authentic" and v["sandbox"] is True and v["status_list"] == f"{BASE}/status/demo-{sid}"
-    assert ok(knowledge.server, "area_photo_trust", {"area": "rice@BD"})["trusted_models"] == []   # official is separate
+    assert ok(receipts.server, "status_list_info", {"session_id": sid})["entries_used"] == 1
+    assert ok(photo_trust.server, "area_photo_trust", {"area": "rice@BD"})["trusted_models"] == []   # official is separate
     sandbox.revoke(cred)            # trust withdrawn (drift); the next call sees it
-    assert ok(knowledge.server, "verify_credential", {"credential_id": cred})["status"] == "recalled"
-    assert ok(knowledge.server, "area_photo_trust", args)["trusted_models"] == []
-    monkeypatch.setattr(knowledge, "SANDBOX_TTL_S", -1)            # an expired session is unknown, as in the API
-    assert "expired" in err(knowledge.server, "area_photo_trust", args)
-    assert ok(knowledge.server, "verify_credential", {"credential_id": cred})["status"] == "invalid"
-    assert "crop@AREA" in err(knowledge.server, "area_photo_trust", {"area": "../rice"})
+    assert ok(receipts.server, "verify_credential", {"credential_id": cred})["status"] == "recalled"
+    assert ok(photo_trust.server, "area_photo_trust", args)["trusted_models"] == []
+    monkeypatch.setattr(stores, "SANDBOX_TTL_S", -1)            # an expired session is unknown, as in the API
+    assert "expired" in err(photo_trust.server, "area_photo_trust", args)
+    assert ok(receipts.server, "verify_credential", {"credential_id": cred})["status"] == "invalid"
+    assert "crop@AREA" in err(photo_trust.server, "area_photo_trust", {"area": "../rice"})
 
 
-def test_knowledge_server_finds_stores_where_the_api_does(tmp_path, monkeypatch):
-    assert knowledge.SANDBOX_TTL_S == api.SANDBOX_TTL_S
-    monkeypatch.setattr(store_mod, "ROOT", tmp_path)
-    monkeypatch.setattr(knowledge, "DATA_DIR", tmp_path / "data")
-    monkeypatch.setenv("PUBLIC_BASE_URL", "http://localhost:8000")
-    monkeypatch.delenv("ISSUER_DID", raising=False)
-    assert TrustStore("http://localhost:8000", did_from_base_url("http://localhost:8000"), SEED).dir == knowledge._official_dir()
+def test_trust_replay_returns_the_payload_and_its_own_note(tmp_path, monkeypatch):
+    fields = ["photos_seen", "officer_verdicts", "lower_bound_before_this_verdict", "gate_open", "auto_answers", "auto_right"]
+    replay = {"note": "Replay of public CC BY rice datasets: the dataset's labels stand in for an officer's verdicts.",
+              "settings": {"sure": 0.85}, "areas": {"bb": {"X-1": {"fields": fields, "points": [[1, 1, None, 0, 0, 0]],
+                                                                     "summary": {"photos": 1, "open_at_end": False}}}}}
+    path = tmp_path / "replay.json"
+    path.write_text(json.dumps(replay), encoding="utf-8")
+    monkeypatch.setattr(photo_trust, "REPLAY", path)
+    out = ok(photo_trust.server, "trust_replay")
+    assert out["note"] == replay["note"] and out["areas"] == {"X-1": {"photos": 1, "open_at_end": False}} and "curve" not in out
+    assert ok(photo_trust.server, "trust_replay", {"area": "X-1"})["curve"]["points"] == [[1, 1, None, 0, 0, 0]]
+    assert "unknown replay area" in err(photo_trust.server, "trust_replay", {"area": "X-9"})
+    assert "unknown backbone" in err(photo_trust.server, "trust_replay", {"backbone": "other"})
+    monkeypatch.setattr(photo_trust, "REPLAY", tmp_path / "missing.json")
+    assert "no replay" in err(photo_trust.server, "trust_replay")
 
 
+def test_the_committed_replay_is_served_as_it_is():
+    data = json.loads(photo_trust.REPLAY.read_text(encoding="utf-8"))
+    out = ok(photo_trust.server, "trust_replay")
+    assert out["note"] == data["note"] and out["areas"] == {k: v["summary"] for k, v in data["areas"][out["backbone"]].items()}
+
+
+# ---------------------------------------------------------------- rules
 def test_rules_carry_their_sources_verbatim():
-    packs = ok(knowledge.server, "list_packs")["packs"]
+    packs = ok(rules.server, "list_packs")["packs"]
     assert {p["pack_id"] for p in packs} == {p.name for p in REGISTRY.iterdir() if p.is_dir()}
     assert all(p["pack_tests"]["passed"] and p["rule_count"] == len(load_pack(p["pack_id"])) for p in packs)
-    rules = [r for p in packs for r in load_pack(p["pack_id"])]
-    results = run(knowledge.server, *[("get_rule", {"rule_id": r["rule_id"], "version": r["version"]}) for r in rules])
-    for rule, result in zip(rules, results):
+    all_rules = [r for p in packs for r in load_pack(p["pack_id"])]
+    results = run(rules.server, *[("get_rule", {"rule_id": r["rule_id"], "version": r["version"]}) for r in all_rules])
+    for rule, result in zip(all_rules, results):
         out = result.structured_content
         assert out["rule_sha256"] == rule["rule_sha256"] and out["action"] == rule["action"]
         for got, want in zip(out["sources"], rule["sources"]):
             assert (got["doc_id"], got["page"], got["quote"]) == (want["doc_id"], want["page"], want["quote"])
             assert got["quote_sha256"] == hashlib.sha256(got["quote"].encode("utf-8")).hexdigest()
             assert got["licence_status"] and got["acknowledgement"]
-    assert "unknown rule" in err(knowledge.server, "get_rule", {"rule_id": "R-PLB-999"})
-    assert "no version 9" in err(knowledge.server, "get_rule", {"rule_id": "R-PLB-001", "version": 9})
-    assert "look like" in err(knowledge.server, "get_rule", {"rule_id": "../R-PLB-001"})
+    assert "unknown rule" in err(rules.server, "get_rule", {"rule_id": "R-PLB-999"})
+    assert "no version 9" in err(rules.server, "get_rule", {"rule_id": "R-PLB-001", "version": 9})
+    assert "look like" in err(rules.server, "get_rule", {"rule_id": "../R-PLB-001"})
+
+
+def test_search_rules_needs_every_keyword_and_ranks_title_matches_first():
+    all_rules = [r for p in REGISTRY.iterdir() if p.is_dir() for r in load_pack(p.name)]
+    out = ok(rules.server, "search_rules", {"query": "SPRAY", "limit": 50})
+    expected = {r["rule_id"] for r in all_rules if "spray" in " ".join(r["action"]["title"].values()).casefold()}
+    found = [r["rule_id"] for r in out["rules"]]
+    assert expected and expected <= set(found) and out["total"] == len(found)
+    in_title = ["title" in r["matched_in"] for r in out["rules"]]
+    assert in_title == sorted(in_title, reverse=True)
+    assert ok(rules.server, "search_rules", {"query": "spray zzzqqqnotaword"})["total"] == 0
+    scoped = ok(rules.server, "search_rules", {"query": "spray", "pack_id": "pack-potato-late-blight"})["rules"]
+    assert scoped and all(r["pack_id"] == "pack-potato-late-blight" for r in scoped)
+    assert len(ok(rules.server, "search_rules", {"query": "spray", "limit": 1})["rules"]) == 1
+    assert "unknown pack" in err(rules.server, "search_rules", {"query": "spray", "pack_id": "../x"})
+    bangla = next(r for r in all_rules if any(not s["quote"].isascii() for s in r["sources"]))
+    word = next(s["quote"] for s in bangla["sources"] if not s["quote"].isascii()).split()[0]
+    hits = ok(rules.server, "search_rules", {"query": word, "limit": 50})["rules"]
+    assert any(h["rule_id"] == bangla["rule_id"] and "quote" in h["matched_in"] for h in hits)

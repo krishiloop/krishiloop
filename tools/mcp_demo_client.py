@@ -1,15 +1,17 @@
-"""Exercise every tool of KrishiLoop's three MCP servers through the MCP protocol, as an outside client would.
+"""Exercise every tool of KrishiLoop's five MCP servers through the MCP protocol, as an outside client would.
 
     python tools/mcp_demo_client.py            # stdio: each server is launched as a subprocess
     python tools/mcp_demo_client.py --http     # streamable HTTP: each server is started on 127.0.0.1
 
 Weather and satellite calls reach the public APIs (Open-Meteo, Earth Search, Planetary Computer), so this needs the
-internet. The knowledge server reads a DEMO FIXTURE built in a temporary folder, never the real trust store:
-- a throwaway issuer key (generated here, passed to the server in its environment, never printed);
+internet. The receipts, rules and photo-trust servers read a DEMO FIXTURE built in a temporary folder, never the real
+trust store:
+- a throwaway issuer key (generated here, passed only to the receipts server in its environment, never printed);
 - one plan for the sample Kenyan location (no farmer) from a live forecast, with its signed receipts;
 - an area ledger filled with SYNTHETIC photo features and scripted officer verdicts (as in tests/test_photo_service.py),
-  only to exercise area_photo_trust; it is not evidence about any model.
+  only to exercise the photo-trust tools; it is not evidence about any model.
 The recall in the middle is made through the trust store, as the API's admin endpoint does: recall is not an MCP tool.
+The replay (trust_replay) is the committed one, from public datasets; it is read as it is.
 """
 from __future__ import annotations
 
@@ -40,7 +42,7 @@ from services.trust.store import TrustStore, did_from_base_url  # noqa: E402
 from services.vision.service import PhotoService  # noqa: E402
 
 BASE = "http://localhost:8000"
-PORTS = {"weather": 8101, "satellite": 8102, "knowledge": 8103}
+PORTS = {"weather": 8101, "satellite": 8102, "receipts": 8103, "rules": 8104, "photo_trust": 8105}
 LABELS = ["healthy", "blast", "brown_spot"]
 DIRS = np.random.RandomState(0).randn(3, 16)
 
@@ -70,7 +72,8 @@ def build_fixture(tmp: Path, seed: str) -> dict:
     def fake_features(image: bytes) -> np.ndarray:
         label, n = image.decode().split(":")
         return DIRS[LABELS.index(label)] + 0.15 * np.random.RandomState(int(n)).randn(16)
-    svc = PhotoService(sandbox, tmp / "demo" / sid / "photo", "synthetic-leaf@fixture", "0" * 64, LABELS,
+    model = "synthetic-leaf@fixture"
+    svc = PhotoService(sandbox, tmp / "demo" / sid / "photo", model, "0" * 64, LABELS,
                        DIRS + 0.6 * np.random.RandomState(1).randn(3, 16), fake_features)
     photo_field = DEMO_FIELDS["BD-SAMPLE-02"]
     for i in range(80):
@@ -79,7 +82,8 @@ def build_fixture(tmp: Path, seed: str) -> dict:
             event = svc.judge(case["case_id"], LABELS[i % 3], "scripted-officer")["event"] or {}
             if event.get("event") == "opened":
                 break
-    fixture.update(session_id=sid, area=trust_area(photo_field))
+    area = trust_area(photo_field)
+    fixture.update(session_id=sid, area=area, area_credential=sandbox.trusted_photo_model(model, area))
     return fixture
 
 
@@ -185,55 +189,101 @@ async def satellite(c: Client, field: dict, transport: str) -> None:
 
 
 async def receipts(c: Client, fx: dict, transport: str) -> None:
-    await header(c, "krishiloop-knowledge", transport)
-    out = await call(c, "list_packs", {})
-    for p in out.get("packs", []):
-        say(f"   {p['pack_id']}: crops={p['crops']} rules={p['rule_count']} review={p['review_levels']} "
-            f"pack_tests_passed={p['pack_tests']['passed']} sources={[d['doc_id'] for d in p['source_documents']]}")
+    await header(c, "krishiloop-receipts", transport)
     plan = fx["plan"]
     say(f"   [fixture] plan for {fx['field']['field_id']} (sample location, no farmer): status={plan['status']}, "
         f"data_mode={plan['data_mode']}")
     action = (plan.get("actions") or [None])[0]
-    ref = action["receipt"]["rule_refs"][0] if action else {"rule_id": "R-PLB-008", "version": 1}
+    if action:
+        cred, ref = action["receipt_credential_id"], action["receipt"]["rule_refs"][0]
+        fx["rule_ref"] = ref
+        v = await call(c, "verify_credential", {"credential_id": cred})
+        say(f"   status={v.get('status')} sandbox={v.get('sandbox')}: {v.get('reason')}")
+        g = await call(c, "get_credential", {"credential_id": cred})
+        if g:
+            subject = g["credential"]["credentialSubject"]
+            say(f"   {g['type']} issued by {g['credential']['issuer']}; advice: {brief(subject['advice']['title']['en'], 90)}")
+            say(f"   rule refs: {[(r['rule_id'], r['version']) for r in subject['rule_refs']]}; "
+                f"sources: {[(s['doc_id'], s['page']) for s in subject['sources']]}")
+        s = await call(c, "status_list_info", {})
+        say(f"   {s.get('status_list')}: entries used={s.get('entries_used')} revoked={s.get('entries_revoked')} "
+            f"recalled={s.get('recalled_rule_versions')}")
+        fx["official"].recall_rule(ref["rule_id"], ref["version"], "demo: admin recall, outside MCP")
+        say(f"   [fixture] the admin recalls {ref['rule_id']} v{ref['version']} through the trust store (not an MCP tool)")
+        v = await call(c, "verify_credential", {"credential_id": cred})
+        say(f"   status={v.get('status')}: {v.get('reason')}")
+        s = await call(c, "status_list_info", {"include_credential": True})
+        say(f"   entries revoked={s.get('entries_revoked')}; recalled: "
+            + ", ".join(f"{r['rule_version']} at {r['at']} ({r['reason']})" for r in s.get("recalled_rule_versions", []))
+            + f"; signed list: {(s.get('credential') or {}).get('type')}")
+    v = await call(c, "verify_credential", {"credential_id": "urn:uuid:00000000-0000-4000-8000-000000000000"})
+    say(f"   status={v.get('status')}: {v.get('reason')}")
+    if fx.get("area_credential"):
+        say("   [fixture] the area photo-trust credential below comes from a SYNTHETIC ledger (see photo-trust)")
+        v = await call(c, "verify_credential", {"credential_id": fx["area_credential"]})
+        say(f"   status={v.get('status')} sandbox={v.get('sandbox')}: {brief(v.get('reason', ''), 120)}")
+
+
+async def rules(c: Client, fx: dict, transport: str) -> None:
+    await header(c, "krishiloop-rules", transport)
+    out = await call(c, "list_packs", {})
+    for p in out.get("packs", []):
+        say(f"   {p['pack_id']}: crops={p['crops']} rules={p['rule_count']} review={p['review_levels']} "
+            f"pack_tests_passed={p['pack_tests']['passed']} sources={[d['doc_id'] for d in p['source_documents']]}")
+    out = await call(c, "search_rules", {"query": "spray forecast", "limit": 5})
+    if out:
+        say(f"   {out['total']} rules match every word:")
+        for r in out["rules"]:
+            say(f"   {r['rule_id']} v{r['version']} {r['pack_id']} {r['kind']}/{r.get('decision')} "
+                f"matched_in={r['matched_in']} sources={r['sources']}")
+    ref = fx.get("rule_ref") or {"rule_id": "R-PLB-008", "version": 1}
     rule = await call(c, "get_rule", {"rule_id": ref["rule_id"], "version": ref["version"]})
     if rule:
         s = rule["sources"][0]
         say(f"   {rule['rule_id']} v{rule['version']} ({rule['action']['kind']}, {rule['action'].get('traffic_light')}): "
             f"{brief(rule['action']['title']['en'], 110)}")
         say(f"   source: {s['doc_id']} p.{s['page']} [{s['licence_status']}] \"{brief(s['quote'], 110)}\"")
-        say(f"   review: {rule['review'].get('level')}; parameters: {[p['name'] for p in rule['reviewer_parameters']]}")
-    if action:
-        cred = action["receipt_credential_id"]
-        v = await call(c, "verify_credential", {"credential_id": cred})
-        say(f"   status={v.get('status')} sandbox={v.get('sandbox')}: {v.get('reason')}")
-        fx["official"].recall_rule(ref["rule_id"], ref["version"], "demo: admin recall, outside MCP")
-        say(f"   [fixture] the admin recalls {ref['rule_id']} v{ref['version']} through the trust store (not an MCP tool)")
-        v = await call(c, "verify_credential", {"credential_id": cred})
-        say(f"   status={v.get('status')}: {v.get('reason')}")
-    v = await call(c, "verify_credential", {"credential_id": "urn:uuid:00000000-0000-4000-8000-000000000000"})
-    say(f"   status={v.get('status')}: {v.get('reason')}")
-    say("   [fixture] SYNTHETIC area ledger: fake photo features and scripted officer verdicts, only to exercise the tool")
+        say(f"   review: {rule['review'].get('level')}; parameters: {[p['name'] for p in rule['reviewer_parameters']]}; "
+            f"recall in official store: {brief(rule['recall_in_official_store'] or 'none', 100)}")
+
+
+async def photo_trust(c: Client, fx: dict, transport: str) -> None:
+    await header(c, "krishiloop-photo-trust", transport)
+    say("   [fixture] SYNTHETIC area ledger: fake photo features and scripted officer verdicts, only to exercise the tools")
+    out = await call(c, "list_areas", {"session_id": fx["session_id"]})
+    for a in out.get("areas", []):
+        say(f"   {a['area']} {a['model']}: verdicts={a['verdicts']} gate_open={a['gate_open']} trust_stands={a['trust_stands']}")
     a = await call(c, "area_photo_trust", {"area": fx["area"], "session_id": fx["session_id"]})
     for m in a.get("models", []):
         lg = m["ledger"] or {}
         say(f"   {m['model']}: gate_open={lg.get('gate_open')} verdicts={lg.get('verdicts')} "
             f"sure_right={lg.get('sure_right_in_window')}/{lg.get('sure_in_window')} lower_bound={lg.get('lower_bound')} "
-            f"credential={(m.get('trust_credential') or {}).get('status')}")
+            f"trust_stands={m['trust_stands']}")
     if a:
         say(f"   {a['summary']}")
-    if a.get("models") and a["models"][0]["trust_credential_id"]:
-        v = await call(c, "verify_credential", {"credential_id": a["models"][0]["trust_credential_id"]})
-        say(f"   status={v.get('status')} sandbox={v.get('sandbox')}: {brief(v.get('reason', ''), 120)}")
+        say(f"   policy v{a['policy']['version']} ({a['policy']['status']}): open at lower bound >= "
+            f"{a['policy']['open_lower_bound']}, close below {a['policy']['close_lower_bound']}")
     a = await call(c, "area_photo_trust", {"area": fx["area"]})
     say(f"   {a.get('summary')}")
+    r = await call(c, "trust_replay", {})
+    if r:
+        say(f"   note (from the replay file): {r['note']}")
+        for name, s in r["areas"].items():
+            say(f"   {name}: photos={s['photos']} verdicts_until_open={s['confirmations_until_open']} "
+                f"auto_answers={s['auto_answers']} auto_precision={s['auto_precision']} closings={s['gate_closings']}")
+        first = next(iter(r["areas"]))
+        curve = await call(c, "trust_replay", {"area": first})
+        if curve:
+            pts = curve["curve"]["points"]
+            say(f"   {first} curve: {len(pts)} points, fields={curve['curve']['fields']}; last={pts[-1]}")
 
 
 async def demo(http: bool) -> None:
     transport = "streamable HTTP" if http else "stdio"
     tmp = Path(tempfile.mkdtemp(prefix="krishiloop-mcp-demo-"))
     seed = secrets.token_hex(32)   # throwaway; never printed
-    servers = Servers(http, {"knowledge": {"KRISHILOOP_DATA_DIR": str(tmp), "KRISHILOOP_ISSUER_SEED": seed,
-                                           "PUBLIC_BASE_URL": BASE}})
+    data = {"KRISHILOOP_DATA_DIR": str(tmp), "PUBLIC_BASE_URL": BASE}
+    servers = Servers(http, {"receipts": {**data, "KRISHILOOP_ISSUER_SEED": seed}, "rules": data, "photo_trust": data})
     try:
         say(f"KrishiLoop MCP demo client: transport={transport}, {date.today().isoformat()}")
         fx = build_fixture(tmp, seed)
@@ -241,14 +291,19 @@ async def demo(http: bool) -> None:
             await weather(c, fx["field"], transport)
         async with servers.client("satellite") as c:
             await satellite(c, fx["field"], transport)
-        async with servers.client("knowledge") as c:
+        async with servers.client("receipts") as c:
             await receipts(c, fx, transport)
+        async with servers.client("rules") as c:
+            await rules(c, fx, transport)
+        async with servers.client("photo_trust") as c:
+            await photo_trust(c, fx, transport)
     finally:
         servers.close()
         shutil.rmtree(tmp, ignore_errors=True)
 
 
 def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8")   # Bangla rule text on a Windows console
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--http", action="store_true", help="use streamable HTTP instead of stdio")
     asyncio.run(demo(ap.parse_args().http))
