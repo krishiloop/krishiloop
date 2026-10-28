@@ -394,6 +394,17 @@ def demo_photo_cases(sid: str):
     return {"cases": _photo_service(_sandbox(sid)).list_cases()}
 
 
+@app.get("/api/demo/{sid}/photo/{case_id}/image")
+def demo_photo_image(sid: str, case_id: str):
+    """The farmer's photo for the officer: only with consent, only until the verdict."""
+    from fastapi.responses import Response
+    try:
+        return Response(_photo_service(_sandbox(sid)).photo(case_id), media_type="image/jpeg",
+                        headers={"Cache-Control": "no-store"})
+    except LedgerError:
+        raise HTTPException(404, "no photo for this case")
+
+
 @app.post("/api/demo/{sid}/photo/{case_id}/verdict")
 def demo_photo_verdict(sid: str, case_id: str, body: VerdictRequest):
     """In a demo session the visitor plays the officer. Real verdicts will need the officer's sign-in."""

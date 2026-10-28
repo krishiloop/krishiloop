@@ -266,3 +266,22 @@ def verify_receipt(receipt_cred: dict, fetch: Callable[[str], dict], resolve_key
     if expired:
         reason += "; this advice was for an earlier week and has expired"
     return {"status": "authentic", "reason": reason, "expired": expired, "credential": receipt_cred}
+
+
+def verify_area_trust(cred: dict, fetch: Callable[[str], dict], resolve_key: Callable[[str], VerifyKey]) -> dict[str, Any]:
+    """An area's earned photo trust: authentic while its gate stands, recalled once the gate closed (drift)."""
+    try:
+        if "AreaTrustCredential" not in cred.get("type", []):
+            return {"status": "invalid", "reason": "not a KrishiLoop area-trust credential"}
+        if not verify_signature(cred, resolve_key):
+            return {"status": "invalid", "reason": "signature does not verify (altered or not issued by us)"}
+        if parse_iso(cred["validFrom"]) > datetime.now(timezone.utc):
+            return {"status": "invalid", "reason": "not valid yet"}
+        if is_revoked(cred, fetch, resolve_key):
+            return {"status": "recalled", "reason": "photo trust in this area was withdrawn: the officer's recent verdicts "
+                                                    "no longer clear the bar", "credential": cred}
+    except Exception as e:  # never look authentic on malformed input
+        return {"status": "invalid", "reason": f"could not verify: {type(e).__name__}"}
+    return {"status": "authentic", "reason": "issued by KrishiLoop and unaltered: this photo model had earned trust in "
+                                             "this area when it was issued (this is not a guarantee of correctness)",
+            "credential": cred}

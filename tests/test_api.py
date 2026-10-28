@@ -177,9 +177,12 @@ def test_photo_case_flow_over_http(client, monkeypatch, tmp_path):
     assert case["route"] == "officer" and case["area"] == "rice@BD" and len(case["suggestion"]) == 2
     assert "x" not in case and "logits" not in case
     assert [c["case_id"] for c in client.get(f"/api/demo/{sid}/photo/cases").json()["cases"]] == [case["case_id"]]
+    assert case["photo_available"] is True
+    assert client.get(f"/api/demo/{sid}/photo/{case['case_id']}/image").content == b"blast:1"   # consented, still open
     v = client.post(f"/api/demo/{sid}/photo/{case['case_id']}/verdict", json={"label": "blast"})
     assert v.status_code == 200 and v.json()["area"]["verdicts"] == 1
     assert client.post(f"/api/demo/{sid}/photo/{case['case_id']}/verdict", json={"label": "blast"}).status_code == 409
+    assert client.get(f"/api/demo/{sid}/photo/{case['case_id']}/image").status_code == 404     # deleted at the verdict
     assert client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": "%%%"}).status_code == 422
     assert client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64("garbage")}).status_code == 422
     plan = client.post(f"/api/demo/{sid}/plan", json={"field_id": "BD-SAMPLE-01", "profile_id": "demo-farmer-d",
@@ -200,7 +203,8 @@ def test_trust_earned_in_one_demo_session_stays_there(client, monkeypatch, tmp_p
             client.post(f"/api/demo/{sid}/photo/{c['case_id']}/verdict", json={"label": lab})
     area = client.get(f"/api/demo/{sid}/areas/rice@BD").json()
     assert area["gate_open"] and area["trust_credential_id"]
-    assert client.get(f"/api/verify/{area['trust_credential_id']}").json()["status"] == "invalid"   # not an advice receipt
+    v = client.get(f"/api/verify/{area['trust_credential_id']}").json()
+    assert v["status"] == "authentic" and v["credential"]["credentialSubject"]["area"] == "rice@BD"
     other = client.post("/api/demo/session").json()["session_id"]
     assert client.get(f"/api/demo/{other}/areas/rice@BD").json()["gate_open"] is False
 

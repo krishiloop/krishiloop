@@ -147,6 +147,13 @@ class PhotoService:
                                          np.array([self.labels.index(c["verdict"]) for c in recent]))
         self._save_model_state(area, D, temp)
 
+    def photo(self, case_id: str) -> bytes:
+        """A consented photo, only while its case waits for the officer (it is deleted at the verdict)."""
+        case = self.case(case_id)
+        if not case["photo"]:
+            raise LedgerError("no photo kept for this case")
+        return (self.dir / "photos" / case["photo"]).read_bytes()
+
     def list_cases(self, limit: int = 100) -> list[dict]:
         d = self.dir / "cases"
         cases = [json.loads(p.read_text(encoding="utf-8")) for p in d.glob("pc-*.json")] if d.exists() else []
@@ -171,5 +178,5 @@ class PhotoService:
     @staticmethod
     def public(case: dict) -> dict:
         """What leaves the server: never the feature vector or the photo bytes."""
-        return {k: case[k] for k in ("case_id", "area", "model", "field_id", "created_at", "route", "sure", "suggestion",
-                                     "consent", "verdict")}
+        return {**{k: case[k] for k in ("case_id", "area", "model", "field_id", "created_at", "route", "sure", "suggestion",
+                                        "consent", "verdict")}, "photo_available": bool(case.get("photo"))}

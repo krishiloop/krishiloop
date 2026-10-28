@@ -78,9 +78,8 @@ def test_drift_withdraws_the_area_trust(svc):
             closed = r
             break
     assert closed and svc.store.trusted_photo_model("leaf@1", "rice@BD") is None
-    assert svc.store.verify(cred_id)["status"] == "invalid"          # not a receipt; its status entry is revoked:
-    from services.trust.vc import is_revoked
-    assert is_revoked(svc.store.get(cred_id), svc.store.get, svc.store.resolve_key)
+    v = svc.store.verify(cred_id)
+    assert v["status"] == "recalled" and "withdrawn" in v["reason"]
 
 
 def test_photos_are_kept_only_with_consent_and_only_until_the_verdict(svc, tmp_path):
