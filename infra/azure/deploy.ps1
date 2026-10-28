@@ -10,12 +10,12 @@ What it creates in one resource group:
 Secrets: generated here and written to D:\AI_congress\secrets\.env.azure (never printed, never committed). The issuer
 key is a NEW production key, not the development one.
 
-Run (after `az login`):  powershell -ExecutionPolicy Bypass -File infra\azure\deploy.ps1 -PublicBaseUrl https://krishiloop.vercel.app
-PublicBaseUrl is the address people see (it becomes the issuer did:web and the QR links). Decide it before the first
-receipt: changing it later starts a new signer identity.
+Run (after `az login`):  powershell -ExecutionPolicy Bypass -File infra\azure\deploy.ps1
+PublicBaseUrl is the address people see (it becomes the issuer did:web and the QR links). The owner chose
+https://krishiloop.vercel.app on Oct 28. Changing it after the first receipt starts a new signer identity.
 #>
 param(
-  [Parameter(Mandatory = $true)] [string]$PublicBaseUrl,
+  [string]$PublicBaseUrl = "https://krishiloop.vercel.app",
   [string]$Location = "centralindia",
   [string]$ResourceGroup = "rg-krishiloop",
   [string]$Prefix = "krishiloop",
