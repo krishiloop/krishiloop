@@ -10,8 +10,9 @@ Safety rules (each covered by tests):
 - a stale cached forecast is never used for "this week" (data_stale);
 - exactly one input decision per plan;
 - the farmer sees a fixed message on abstention; details go to the officer inbox record;
-- a photo diagnosis informs rules only past the gate (calibrated, in-distribution, confident); otherwise it becomes
-  a photo case for the officer, and the weather-based plan still stands.
+- a photo diagnosis informs rules only past the gate (the server holds earned-trust evidence for that model in that
+  area, and the reading is in-distribution and confident); a client's own "calibrated" claim never counts. Otherwise
+  it becomes a photo case for the officer, and the weather-based plan still stands.
 """
 from __future__ import annotations
 
@@ -42,6 +43,10 @@ FACT_VARIABLES = {"forecast_humid_mild_days": ("rh_mean_pct", "tmin_c", "tmax_c"
 UNITS = {"rh_mean_pct": "%", "tmin_c": "C", "tmax_c": "C", "precip_mm": "mm"}
 # Provisional gate for photo diagnoses (MODEL_CARD "Product gate"); thresholds are team-set, not from a source.
 DIAGNOSIS_GATE = {"min_top1": 0.85, "max_ood": 0.5}
+# Photo models with SERVER-side evidence, keyed (model "name@version", trust area) -> AreaTrustCredential id.
+# Only the earned-trust ledger may add entries (plan/EARNED_TRUST_DESIGN.md). A client's own "calibrated" flag never
+# counts: anyone can send it. Empty today, so every photo goes to the officer.
+TRUSTED_PHOTO_MODELS: dict[tuple[str, str], str] = {}
 REASONS = {  # fixed farmer-facing texts; never echo what the validator blocked
     "data_unavailable": "We don't have enough weather data for a sourced decision this week. Sent to your officer's inbox.",
     "data_stale": "Our weather data is out of date, so we won't guess. Sent to your officer's inbox.",
@@ -64,12 +69,18 @@ def _now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def diagnosis_gate(d: dict | None) -> tuple[bool, str]:
+def trust_area(field: dict) -> str:
+    """Photo trust is earned per crop and place, never globally."""
+    return f"{field['crop']}@{field.get('area_code') or field['country']}"
+
+
+def diagnosis_gate(d: dict | None, area: str | None = None) -> tuple[bool, str]:
     if not d:
         return False, "none"
     if d.get("status") == "abstained":
         return False, "model_abstained"
-    if not d.get("calibrated"):
+    model = f"{d['model']['name']}@{d['model']['version']}"
+    if (model, area) not in TRUSTED_PHOTO_MODELS:   # the server's evidence decides; the client's flag is ignored
         return False, "uncalibrated"
     if d.get("ood_score") is not None and d["ood_score"] > DIAGNOSIS_GATE["max_ood"]:
         return False, "out_of_distribution"
@@ -157,7 +168,7 @@ def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today
         return {**base, "status": "abstained", "abstention": {"reason_code": code, "reason": reason, "inbox_item_id": item_id}}
 
     if diagnosis is not None:
-        passed, note = diagnosis_gate(diagnosis)
+        passed, note = diagnosis_gate(diagnosis, trust_area(field))
         base["diagnosis_used"], base["diagnosis_note"] = passed, note
         if passed:
             facts.update(diagnosis_label=diagnosis["labels"][0]["label"], diagnosis_prob=diagnosis["labels"][0]["prob"],

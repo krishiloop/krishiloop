@@ -75,6 +75,45 @@ def test_uncalibrated_photo_becomes_an_officer_case(client, monkeypatch, tmp_pat
                                                       "diagnosis": bad}).status_code == 422
 
 
+def _photo_plan(client, monkeypatch, tmp_path, diag):
+    from datetime import date, timedelta
+    import services.api.main as m
+    monkeypatch.setenv("KRISHILOOP_ISSUER_SEED", "11" * 32)
+    monkeypatch.setattr(m, "ROOT", tmp_path)
+    days = [{"date": (date.today() + timedelta(days=i)).isoformat(), "rh_mean_pct": 60, "tmin_c": 12, "tmax_c": 20, "precip_mm": 0.0}
+            for i in range(7)]
+    snap = {"snapshot_id": "snap-p", "field_id": "KE-SAMPLE-01", "mode": "live", "location": {"precision": "sample_location"},
+            "created_at": m.snap_mod.datetime.now(m.snap_mod.timezone.utc).isoformat().replace("+00:00", "Z"),
+            "forecast": {"source": "open-meteo:forecast", "issued_at": "2026-10-28T00:00:00Z", "days": days}}
+    monkeypatch.setattr(m.snap_mod, "build", lambda field: snap)
+    sid = client.post("/api/demo/session").json()["session_id"]
+    r = client.post(f"/api/demo/{sid}/plan", json={"field_id": "KE-SAMPLE-01", "profile_id": "demo-farmer-a", "diagnosis": diag})
+    assert r.status_code == 200
+    return r.json(), client.get(f"/api/demo/{sid}/inbox").json()["items"]
+
+
+SURE_PHOTO = {"diagnosis_id": "d-2", "crop": "potato", "model": {"name": "rice-leaf-mnv4s", "version": "union-v0", "sha256": "a" * 64},
+              "on_device": True, "labels": [{"label": "late_blight", "prob": 0.99}], "calibrated": True, "ood_score": 0.01,
+              "status": "ok", "inference_ms": 48, "created_at": "2026-10-28T08:00:00Z"}
+
+
+def test_a_client_cannot_vouch_for_its_own_photo_model(client, monkeypatch, tmp_path):
+    plan, items = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO)   # claims calibrated, 99% sure, in-distribution
+    assert plan["diagnosis_used"] is False and plan["diagnosis_note"] == "uncalibrated"
+    assert any(i.get("diagnosis_id") == "d-2" for i in items)               # it went to the officer instead
+
+
+def test_only_server_evidence_opens_the_photo_gate(client, monkeypatch, tmp_path):
+    from services.engine import planner
+    monkeypatch.setattr(planner, "TRUSTED_PHOTO_MODELS", {("rice-leaf-mnv4s@union-v0", "potato@KE"): "urn:uuid:area-trust"})
+    plan, _ = _photo_plan(client, monkeypatch, tmp_path, dict(SURE_PHOTO, calibrated=False))   # the client's flag is ignored
+    assert plan["diagnosis_used"] is True and plan["diagnosis_note"] == "ok"
+    elsewhere = {("rice-leaf-mnv4s@union-v0", "potato@UG"): "urn:uuid:area-trust"}               # earned in another country only
+    monkeypatch.setattr(planner, "TRUSTED_PHOTO_MODELS", elsewhere)
+    plan, _ = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO)
+    assert plan["diagnosis_used"] is False
+
+
 def test_demo_receipts_survive_a_server_restart(client, monkeypatch, tmp_path):
     import services.api.main as m
     monkeypatch.setenv("KRISHILOOP_ISSUER_SEED", "11" * 32)
