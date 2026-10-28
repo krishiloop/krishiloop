@@ -1,0 +1,58 @@
+rule_id: R-BDR-012
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: diagnosis_label
+    op: eq
+    value: blast
+  - fact: stage
+    op: in
+    value:
+    - tillering
+    - booting
+action:
+  kind: practice
+  traffic_light: amber
+  title:
+    bn: ছবিতে ব্লাস্ট রোগের মতো দেখা যাচ্ছে। ইউরিয়া সাবধানে ও পরিমিত পরিমাণে দিন; কতটুকু দেবেন তা ঠিক করতে এলসিসি
+      (পাতার রঙ মেলানোর চার্ট) দিয়ে পাতার রঙ মিলিয়ে নিন, এবং ছবিটি আপনার কর্মকর্তাকে দেখান।
+    en: Your photo looks like blast. Use urea carefully and only in moderate amounts, match your leaf colour with a
+      leaf colour chart to decide how much, and show the photo to your officer.
+basis_note: 'Photo-informed: this rule can fire only when the photo model has earned trust in the farmer''s area
+  (rules/policy/photo-trust.yaml, tier 1; never an input decision). The advice is the sheet''s urea caution (p.2);
+  giving it after a photo that looks like blast is the team''s inference, stated openly.'
+sources:
+- doc_id: DOC-BRRIKB-002
+  page: 2
+  quote: সতর্কতার সাথে পরিমিত ইউরিয়া সার ব্যবহার করা দরকার। তবে ইউরিয়া সারের চাহিদা নির্ধারণের জন্য এলসিসি দিয়ে
+    ধানের পাতার রঙ মিলিয়ে নেয়া উত্তম।
+  quote_sha256: d7a4c0ebddf509a02f2d8e117c17d45a46c49cf6cae7273c9aa60f225049a480
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla title and quote pending native-speaker review; the quote was transcribed from a page
+    image (same quote as R-BDR-008).
+tests:
+- name: fires on a trusted blast photo at tillering
+  facts:
+    diagnosis_label: blast
+    stage: tillering
+  expect: fires
+- name: silent when the photo shows something else
+  facts:
+    diagnosis_label: brown_spot
+    stage: tillering
+  expect: silent
+- name: silent after booting
+  facts:
+    diagnosis_label: blast
+    stage: grain_fill
+  expect: silent
+- name: no photo means no photo advice
+  facts:
+    stage: tillering
+  expect: missing fact diagnosis_label
