@@ -1,8 +1,7 @@
 name: ci
 
 on:
-  push:
-    branches: [main]
+  push:   # every branch: the team works on branches and needs CI before a pull request exists
   pull_request:
 
 permissions:
