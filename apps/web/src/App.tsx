@@ -8,6 +8,7 @@ const Landing = lazy(() => import('./features/landing/Landing'));
 const FarmerApp = lazy(() => import('./features/farmer/FarmerApp'));
 const VerifyPage = lazy(() => import('./features/verify/VerifyPage'));
 const OfficerPage = lazy(() => import('./features/officer/OfficerPage'));
+const TrustPage = lazy(() => import('./features/trust/TrustPage'));
 
 function PageSkeleton() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="verify/:id" element={<VerifyPage />} />
             <Route path="officer" element={<OfficerPage />} />
             <Route path="officer/:id" element={<OfficerPage />} />
+            <Route path="trust" element={<TrustPage />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

@@ -1,5 +1,5 @@
 import { createStore } from '../../lib/store';
-import { readJSON, writeJSON } from '../../lib/storage';
+import { queryParam, readJSON, writeJSON } from '../../lib/storage';
 import { apiStore, fetchDemo, fetchPlan, fetchSnapshot, HttpError, PLAN_CACHE_PREFIX, recallEpoch, setForcedSample } from '../../lib/api/client';
 import { SCENARIOS, type Scenario } from '../../lib/api/mocks';
 import type { DataSource, DemoField, DemoProfile, FieldSnapshot, Plan, Sourced } from '../../lib/api/types';
@@ -125,6 +125,22 @@ export function selectField(fieldId: string) {
 export function selectProfile(profileId: string) {
   writeJSON(SEL_KEY, { fieldId: farmer.get().fieldId, profileId });
   farmer.set((s) => ({ ...s, profileId }));
+  void loadPlan();
+}
+
+/**
+ * ?field=BD-SAMPLE-02&profile=demo-farmer-d (the photo demo link on the trust page): once the lists are loaded, select that
+ * field and farmer in one step, so only one plan is built. Ids the API does not know are ignored.
+ */
+export function applyDeepLink() {
+  const st = farmer.get();
+  const f = queryParam('field');
+  const p = queryParam('profile');
+  const fieldId = f && st.fields.some((x) => x.field_id === f) ? f : st.fieldId;
+  const profileId = p && st.profiles.some((x) => x.farmer_profile_id === p) ? p : st.profileId;
+  if (!fieldId || !profileId || (fieldId === st.fieldId && profileId === st.profileId)) return;
+  writeJSON(SEL_KEY, { fieldId, profileId });
+  farmer.set((s) => ({ ...s, fieldId, profileId, scenario: apiStore.get().forced ? s.scenario : 'live' }));
   void loadPlan();
 }
 

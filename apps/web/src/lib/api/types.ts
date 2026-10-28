@@ -90,6 +90,17 @@ export interface ReceiptPlan {
   data_as_of: string;
 }
 
+/**
+ * Set on an advice receipt that a photo reading informed (a server photo case answered automatically): the
+ * AreaTrustCredential that stood when the advice was issued. If that credential is later withdrawn the receipt verifies
+ * as recalled and `rules` carries "photo trust for <model> in <area>".
+ */
+export interface AreaTrustRef {
+  credential_id: string;
+  area: string;
+  model: string;
+}
+
 export interface Receipt {
   receipt_id: string;
   claim: string;
@@ -98,6 +109,8 @@ export interface Receipt {
   plan?: ReceiptPlan;
   sources: ReceiptSource[];
   data: Reading[];
+  /** earned-trust backend: present when a photo reading informed this advice */
+  area_trust_ref?: AreaTrustRef;
   rule_refs: RuleRef[];
   reviewer_parameters?: ReviewerParameter[];
   graph_path?: string[];
@@ -183,6 +196,8 @@ export interface DemoField {
   crop: string;
   stage: string;
   pack_id: string;
+  /** a finer place than the country for photo trust areas (crop@area_code); the server falls back to `country` */
+  area_code?: string;
 }
 export interface DemoProfile {
   farmer_profile_id: string;
@@ -330,6 +345,125 @@ export interface DidDocument {
   id: string;
   verificationMethod?: { id: string; type: string; controller: string; publicKeyMultibase: string }[];
   assertionMethod?: string[];
+}
+
+/* ------------------------------------------------------------------ earned trust for photo diagnosis (plan/EARNED_TRUST_DESIGN.md) */
+
+export interface PhotoSuggestion {
+  label: string;
+  prob: number;
+}
+export type PhotoRoute = 'officer' | 'auto';
+
+/**
+ * POST /api/demo/{sid}/photo and GET /api/demo/{sid}/photo/cases. `suggestion` is the model's top-2, FROZEN in the area's
+ * ledger before any officer answered. It is the officer's to see: the farmer app never shows it as an answer unless the
+ * case went `auto` (the area's gate was open and the suggestion was sure).
+ */
+export interface PhotoCase {
+  case_id: string;
+  area: string;
+  model: string;
+  field_id: string;
+  created_at: string;
+  route: PhotoRoute;
+  /** the top probability reached the policy's "sure" level (0.85) */
+  sure: boolean;
+  suggestion: PhotoSuggestion[];
+  consent: boolean;
+  verdict: string | null;
+  /** the JPEG can still be fetched (consent given, case waiting for the officer) */
+  photo_available: boolean;
+}
+
+/** The gate of an area moved: trust was earned (`opened`) or withdrawn (`closed`, drift). */
+export interface GateEvent {
+  event: 'opened' | 'closed';
+  at: string;
+  verdicts: number;
+  sure_in_window: number;
+  precision: number | null;
+  lower_bound: number;
+  policy_version: number;
+}
+
+/** GET /api/demo/{sid}/areas/{area}: the evidence behind one area's gate. */
+export interface AreaStats {
+  area: string;
+  model: string;
+  policy_version: number;
+  /** all officer verdicts in this area for this model version */
+  verdicts: number;
+  /** sure suggestions among the last 50 judged ones (only sure suggestions count toward the gate) */
+  sure_in_window: number;
+  sure_right_in_window: number;
+  precision: number | null;
+  /** Wilson 95% lower bound on the precision of those sure suggestions (0 until there is evidence) */
+  lower_bound: number;
+  gate_open: boolean;
+  events: GateEvent[];
+  /** the live AreaTrustCredential while the gate stands, else null */
+  trust_credential_id: string | null;
+}
+
+/** POST /api/demo/{sid}/photo/{case_id}/verdict */
+export interface VerdictResult {
+  case: PhotoCase;
+  event: GateEvent | null;
+  area: AreaStats;
+}
+
+/** The signed content of an AreaTrustCredential (GET /api/verify/{id} -> credential.credentialSubject). */
+export interface AreaTrustSubject {
+  area: string;
+  model: string;
+  policy_id?: string;
+  policy_version: number;
+  verdicts: number;
+  sure_in_window: number;
+  sure_right_in_window: number;
+  precision: number | null;
+  lower_bound: number;
+  opened_at: string;
+}
+
+/** GET /api/replay/area-trust: replay of public datasets. The datasets' labels stand in for officers. */
+export interface ReplaySettings {
+  sure: number;
+  window: number;
+  min_n: number;
+  open_lb: number;
+  close_lb: number;
+  audit: number;
+  lams?: number[];
+  headline_lam?: number;
+  max_stream?: number;
+  strict_cosine?: number | null;
+}
+export interface ReplaySummary {
+  photos: number;
+  /** officer verdicts counted when the gate first opened; null = it never opened */
+  confirmations_until_open: number | null;
+  officer_confirmations: number;
+  auto_answers: number;
+  auto_precision: number | null;
+  auto_share_of_all_photos: number;
+  gate_closings: number;
+  open_at_end: boolean;
+  /** "0-50": [photos, top-1 right, top-2 right] (the suggestion shown to the officer, by stage) */
+  suggestion_by_stage?: Record<string, [number, number | null, number | null]>;
+}
+export interface ReplayArea {
+  fields?: string[];
+  /** [photos_seen, officer_verdicts, lower_bound_before_this_verdict (null before 30 sure verdicts), gate_open (0/1), auto_answers, auto_right] */
+  points: (number | null)[][];
+  summary: ReplaySummary;
+}
+export interface ReplayPayload {
+  note?: string;
+  settings: ReplaySettings;
+  /** backbone -> dataset key (BD-A ...) -> replay */
+  areas: Record<string, Record<string, ReplayArea>>;
 }
 
 /** Where a piece of data came from. Anything "sample" is always labelled in the UI. */

@@ -34,7 +34,7 @@ def _slug(s: str) -> str:
 
 
 class PhotoService:
-    def __init__(self, store, data_dir: Path, model: str, model_sha256: str, labels: list[str], text: np.ndarray,
+    def __init__(self, store, data_dir: Path, model: str, model_sha256: str | Callable[[], str], labels: list[str], text: np.ndarray,
                  featurize: Callable[[bytes], np.ndarray], policy: Policy | None = None, lam: float = probe.DEFAULT_LAMBDA):
         self.store, self.dir, self.model, self.model_sha256, self.labels = store, data_dir, model, model_sha256, list(labels)
         self.T, self.featurize, self.policy, self.lam = probe.l2n(np.asarray(text, dtype=np.float64)), featurize, \
@@ -171,7 +171,8 @@ class PhotoService:
         top = case["suggestion"][0]
         name, version = self.model.split("@", 1)
         return {"diagnosis_id": case_id, "crop": case["crop"],
-                "model": {"name": name, "version": version, "sha256": self.model_sha256},
+                "model": {"name": name, "version": version,
+                          "sha256": self.model_sha256() if callable(self.model_sha256) else self.model_sha256},
                 "on_device": False, "labels": case["suggestion"], "calibrated": True, "status": "ok", "inference_ms": 0,
                 "created_at": case["created_at"]}
 

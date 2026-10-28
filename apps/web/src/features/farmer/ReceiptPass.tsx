@@ -1,13 +1,13 @@
 import { useId, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ExternalLink, Flag, Scale, ScanLine, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ChevronDown, ExternalLink, Flag, Scale, ScanLine, ShieldCheck } from 'lucide-react';
 import { Qr } from './Qr';
 import { groupReadings, numericSeries, type ReadingGroup } from './readings';
 import { SampleBadge } from '../../components/ui/Badges';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtDate, fmtNum, humanize, pickText, shortId } from '../../lib/format';
 import { verifyUrl } from '../../lib/qr';
-import type { Action, ConfidenceLevel, DataSource, ReviewLevel } from '../../lib/api/types';
+import type { Action, AreaTrustRef, ConfidenceLevel, DataSource, ReviewLevel } from '../../lib/api/types';
 import { cx } from '../../lib/cx';
 
 const REVIEW_KEY: Record<ReviewLevel, Key> = { expert: 'review.expert', team: 'review.team', pending: 'review.pending' };
@@ -124,10 +124,12 @@ export function ReceiptPass({ action, source, index, total }: { action: Action; 
           <div className="pass-facts-wide">
             <dt>{t('receipt.data')}</dt>
             <dd className="pass-data">
-              {groups.length === 0 ? <span className="text-paper-dim">{t('receipt.dataNone')}</span> : groups.map((g) => <DataLine key={`${g.source}${g.variable}`} g={g} />)}
+              {groups.length === 0 ? <span className="text-paper-dim">{t('receipt.dataNone')}</span> : groups.map((g) => <DataLine key={`${g.source}${g.variable}`} g={g} serverPhoto={!!r.area_trust_ref} />)}
             </dd>
           </div>
         </dl>
+
+        {r.area_trust_ref ? <PhotoTrustPaper trust={r.area_trust_ref} /> : null}
 
         {r.reviewer_parameters?.length ? (
           <div className="pass-params">
@@ -157,7 +159,7 @@ export function ReceiptPass({ action, source, index, total }: { action: Action; 
         </button>
         <div id={panelId} className="pass-evidence" data-open={open}>
           <div>
-            <Evidence action={action} groups={groups} />
+            <Evidence action={action} groups={groups} serverPhoto={!!r.area_trust_ref} />
           </div>
         </div>
       </div>
@@ -191,7 +193,29 @@ export function varLabel(variable: string, t: (k: Key) => string): string {
   return k ? t(k) : humanize(variable);
 }
 
-export function DataLine({ g }: { g: ReadingGroup }) {
+/** `on-device-model:<name>@<version>` is how a receipt names the model of a photo reading. A receipt that carries an area trust reference was made from a SERVER photo case, so it is shown as that. */
+export const PHOTO_SOURCE_PREFIX = 'on-device-model:';
+export const photoSourceLabel = (source: string, serverPhoto: boolean, t: (k: Key, p?: Record<string, string | number>) => string) =>
+  serverPhoto && source.startsWith(PHOTO_SOURCE_PREFIX) ? t('receipt.photoServer', { model: source.slice(PHOTO_SOURCE_PREFIX.length) }) : source;
+
+/** What a photo-informed receipt says about the trust it relied on, on paper: the area, and a way to verify it. */
+export function PhotoTrustPaper({ trust }: { trust: AreaTrustRef }) {
+  const { t } = useI18n();
+  return (
+    <div className="pass-trust" data-testid="pass-photo-trust">
+      <p className="pass-params-title">
+        <ShieldCheck size={13} aria-hidden /> {t('verify.photo.block')}
+      </p>
+      <p>{t('verify.photo.block.body', { area: trust.area })}</p>
+      <Link className="pass-link" to={`/verify/${encodeURIComponent(trust.credential_id)}`} data-testid="pass-photo-trust-link">
+        {t('verify.photo.block.verify')}
+        <ArrowRight size={12} aria-hidden />
+      </Link>
+    </div>
+  );
+}
+
+export function DataLine({ g, serverPhoto = false }: { g: ReadingGroup; serverPhoto?: boolean }) {
   const { t, lang } = useI18n();
   const nums = numericSeries(g);
   const first = g.series[0]?.date;
@@ -212,14 +236,14 @@ export function DataLine({ g }: { g: ReadingGroup }) {
         </span>
       )}
       <span className="pass-mini">
-        {g.derived ? t('receipt.dataDerived') : g.source}
+        {g.derived ? t('receipt.dataDerived') : photoSourceLabel(g.source, serverPhoto, t)}
         {first && last && first !== last ? ` · ${t('receipt.dataMore', { n: g.series.length, from: fmtDate(first, lang), to: fmtDate(last, lang) })}` : ''}
       </span>
     </span>
   );
 }
 
-function Evidence({ action, groups }: { action: Action; groups: ReadingGroup[] }) {
+function Evidence({ action, groups, serverPhoto }: { action: Action; groups: ReadingGroup[]; serverPhoto: boolean }) {
   const { t, lang } = useI18n();
   const r = action.receipt;
   return (
@@ -253,7 +277,7 @@ function Evidence({ action, groups }: { action: Action; groups: ReadingGroup[] }
                     </td>
                     <td className="tabular">{fmtDate(d.observed_at, lang, 'short')}</td>
                     <td className="pass-mono">
-                      {d.source} · {fmtDate(d.retrieved_at, lang, 'datetime')}
+                      {photoSourceLabel(d.source, serverPhoto, t)} · {fmtDate(d.retrieved_at, lang, 'datetime')}
                     </td>
                   </tr>
                 ))}

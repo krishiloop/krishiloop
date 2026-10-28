@@ -1,4 +1,5 @@
-import { ExternalLink, Flag, Scale } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ExternalLink, Flag, Scale, ShieldCheck } from 'lucide-react';
 import { DataLine } from '../farmer/ReceiptPass';
 import { groupReadings } from '../farmer/readings';
 import { useI18n, type Key } from '../../lib/i18n';
@@ -89,12 +90,27 @@ export function ReceiptDetails({ receipt, cred }: { receipt: Receipt; cred: Cred
           </div>
         ) : null}
 
+        {receipt.area_trust_ref ? (
+          <div className="vd-block vd-wide" data-testid="receipt-photo-trust">
+            <h3 className="eyebrow flex items-center gap-2">
+              <ShieldCheck size={13} aria-hidden /> {t('verify.photo.block')}
+            </h3>
+            <p className="m-0 mt-2">{t('verify.photo.block.body', { area: receipt.area_trust_ref.area })}</p>
+            <p className="m-0 mt-1 mono text-dim">
+              {receipt.area_trust_ref.area} · {receipt.area_trust_ref.model}
+            </p>
+            <Link to={`/verify/${encodeURIComponent(receipt.area_trust_ref.credential_id)}`} className="link mt-2 inline-flex items-center gap-1.5 text-sm" data-testid="receipt-photo-trust-link">
+              {t('verify.photo.block.verify')} <ArrowRight size={13} aria-hidden />
+            </Link>
+          </div>
+        ) : null}
+
         <div className="vd-block vd-wide">
           <h3 className="eyebrow">{t('receipt.data')}</h3>
           {groups.length ? (
             <div className="vd-data pass-lite">
               {groups.map((g) => (
-                <DataLine key={`${g.source}${g.variable}`} g={g} />
+                <DataLine key={`${g.source}${g.variable}`} g={g} serverPhoto={!!receipt.area_trust_ref} />
               ))}
             </div>
           ) : (

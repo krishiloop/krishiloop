@@ -243,14 +243,15 @@ export function RecallPanel({ receipt, cred, sample, sandbox, verdict, onChanged
 }
 
 /* ------------------------------------------------------------------ what people get when a rule is withdrawn */
-export function NotificationPreview({ receipt, rules }: { receipt: Receipt; rules: string[] }) {
+export function NotificationPreview({ receipt, rules, photoEntries = [] }: { receipt: Receipt; rules: string[]; /** "photo trust for <model> in <area>" entries: the withdrawal is of photo trust, not of a rule */ photoEntries?: string[] }) {
   const { t, lang } = useI18n();
+  const photoOnly = photoEntries.length > 0 && rules.length === 0;
   const list = rules.length ? rules.join(', ') : receipt.rule_refs.map((r) => `${r.rule_id} v${r.version}`).join(', ');
   return (
     <section className="surface surface-pad" aria-labelledby="notif-t" data-testid="notification-preview">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id="notif-t" className="text-lg font-semibold tracking-tight">
-          {t('verify.notif.title')}
+          {photoOnly ? t('verify.photo.notif.title') : t('verify.notif.title')}
         </h2>
         <PreviewBadge label={t('verify.notif.tag')} />
       </div>
@@ -261,7 +262,7 @@ export function NotificationPreview({ receipt, rules }: { receipt: Receipt; rule
           </p>
           <div className="phone" aria-label={t('verify.notif.farmer')}>
             <div className="phone-bar" />
-            <p className="sms">{t('verify.notif.sms', { date: fmtDate(receipt.created_at, lang, 'short') })}</p>
+            <p className="sms">{photoOnly ? t('verify.photo.notif.sms', { date: fmtDate(receipt.created_at, lang, 'short') }) : t('verify.notif.sms', { date: fmtDate(receipt.created_at, lang, 'short') })}</p>
           </div>
         </div>
         <div>
@@ -270,7 +271,7 @@ export function NotificationPreview({ receipt, rules }: { receipt: Receipt; rule
           </p>
           <div className="inbox-row">
             <span className="inbox-dot" aria-hidden />
-            <p className="m-0 text-sm">{t('verify.notif.inbox', { rules: list })}</p>
+            <p className="m-0 text-sm">{photoOnly ? t('verify.photo.notif.inbox', { entries: photoEntries.join(', ') }) : t('verify.notif.inbox', { rules: list })}</p>
           </div>
         </div>
       </div>

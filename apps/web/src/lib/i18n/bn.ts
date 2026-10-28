@@ -7,6 +7,7 @@
  * "বাতিল" for Recalled, "খাঁটি" for Authentic, "কৃষি সম্প্রসারণ অফিসার" for extension officer, "রসিদ" for receipt.
  */
 import type { Key } from './index';
+import trust from './bn.trust';
 
 const d: Record<Key, string> = {
   /* ---------------------------------------------------------------- shell */
@@ -720,7 +721,7 @@ const d: Record<Key, string> = {
   'l.state.p7': 'ইনবক্স API-এর জন্য অফিসার অ্যাকাউন্ট (ডেমো ইনবক্সে শুধু আপনার নিজের সেশনের কেস দেখায়)',
   'l.state.p8': 'Sentinel-2 থেকে স্যাটেলাইট চিপ ও মৌসুমের টাইম-ল্যাপস',
   'l.state.p9': 'প্রত্যয়ন ও অনুমতি নিয়ে শেয়ার, প্রাদুর্ভাব রাডার',
-  'l.state.p10': 'ছবির ফলে চালিত পরামর্শ, নিজস্ব রসিদসহ। সার্ভার শুধু মাপা মডেলের ফল নেয়, আর এখনও কোনোটি মাপা হয়নি।',
+  'l.state.p10': 'আসল অফিসার ও আসল খামারে অর্জিত ছবির আস্থা। ডেমোতে তা শুধু স্যান্ডবক্সে আর পাবলিক ডেটাসেটের রিপ্লেতে অর্জিত হয়।',
 
   'l.close.title': 'একটি রসিদ স্ক্যান করুন।',
   'l.close.body': 'এই পাতার সবকিছু আসল, নয়তো নমুনা বলে লেবেল দেওয়া। কৃষক অ্যাপ খুলুন, একটি রসিদ স্ক্যান করুন, তারপর তার নিয়ম বাতিল করুন।',
@@ -728,6 +729,8 @@ const d: Record<Key, string> = {
   'l.close.cta.verify': 'রসিদ যাচাই করুন',
   'l.close.cta.officer': 'অফিসারের ইনবক্স',
   'l.close.credit': 'International AI Builders Congress 2026-এর জন্য তৈরি · AgriSphere AI · Precision Farm',
+
+  ...trust,
 };
 
 export default d;

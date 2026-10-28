@@ -19,6 +19,7 @@ function titleFor(path: string): Key | null {
   if (path.startsWith('/app')) return 'app.title';
   if (path.startsWith('/verify')) return 'verify.title';
   if (path.startsWith('/officer')) return 'officer.title';
+  if (path.startsWith('/trust')) return 'trust.title';
   return null;
 }
 

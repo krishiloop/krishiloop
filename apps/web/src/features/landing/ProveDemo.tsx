@@ -111,6 +111,13 @@ export function ProveDemo() {
               {t('l.prove.live')} <ArrowRight size={15} aria-hidden />
             </Link>
           </div>
+
+          <p className="prove-trust" data-testid="prove-trust">
+            <span>{t('l.prove.trust')}</span>
+            <Link to="/trust" className="link inline-flex items-center gap-1.5" data-testid="prove-trust-link">
+              {t('l.prove.trust.link')} <ArrowRight size={15} aria-hidden />
+            </Link>
+          </p>
         </Reveal>
       </div>
     </section>

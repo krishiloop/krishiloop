@@ -45,6 +45,16 @@ SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer", "X-Frame-Options": "DENY",
 }
 app = FastAPI(title="KrishiLoop API", version="0.4.0")
+
+
+@app.on_event("startup")
+def _warm_photo_model() -> None:
+    """Load the photo model in the background at start, so the first photo and area lookups do not wait for it."""
+    bb = vision_backbone.load()
+    if bb is not None:
+        bb.warm()
+
+
 _store: TrustStore | None = None
 _plan_cache: dict[tuple, dict] = {}   # (store, field, profile, day) -> plan: no new credentials on every click
 _hits: dict[str, deque] = defaultdict(deque)
@@ -366,7 +376,8 @@ def _photo_service(sb: dict) -> PhotoService:
     with _lock:
         svc = sb.get("photo")
         if svc is None or svc.model != bb.model:
-            svc = sb["photo"] = PhotoService(sb["store"], sb["dir"] / "photo", bb.model, bb.sha256, bb.labels, bb.T, bb.features)
+            svc = sb["photo"] = PhotoService(sb["store"], sb["dir"] / "photo", bb.model, lambda: bb.sha256, bb.labels, bb.T,
+                                             bb.features)
     return svc
 
 

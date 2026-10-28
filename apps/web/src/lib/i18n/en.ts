@@ -4,6 +4,7 @@
  * "Authentic" means issued by KrishiLoop and unaltered, nothing more.
  */
 import landing from './en.landing';
+import trust from './en.trust';
 
 const en = {
   /* ---------------------------------------------------------------- shell */
@@ -601,6 +602,7 @@ const en = {
   'l.hero.card.open': 'Open this receipt',
   'l.hero.card.unreachable': 'Verifier not reachable',
   ...landing,
+  ...trust,
 } as const satisfies Record<string, string>;
 
 export default en;

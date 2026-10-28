@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Camera, Check, CircleHelp, Download, FlaskConical, Hand, Image as ImageIcon, Leaf, Lock, Plus, RotateCcw, ShieldCheck, Sprout, Trash2 } from 'lucide-react';
+import { ArrowRight, Camera, Check, CircleHelp, Download, FlaskConical, Hand, Image as ImageIcon, Leaf, Lock, Plus, RotateCcw, ServerOff, ShieldCheck, Sprout, Trash2 } from 'lucide-react';
 import { DEFAULT_SCENARIO, enginesFor, type Engine } from './engines';
 import { OTHER, MAX_PHOTOS, topDisease, type Symptom } from './report';
 import { SAMPLE_SCENARIOS, type SampleScenarioId } from './samplePacks';
@@ -14,8 +14,12 @@ import { CitationSheet, SymptomChips } from './SymptomChips';
 import { ViewRequestCard } from './ViewRequestCard';
 import { DiagnosisReceipt } from './DiagnosisReceipt';
 import { PhotoDecision } from './PhotoDecision';
+import { AreaPhotoCard } from './AreaPhotoCard';
 import { availableLayers, type OverlayLayer } from './overlay';
 import { SampleBadge } from '../../../components/ui/Badges';
+import { SERVER_PHOTO_CROPS } from '../../trust/labels';
+import { useApiState } from '../../../lib/api/client';
+import { photoSupport } from '../../../lib/api/trust';
 import { useI18n, type Key } from '../../../lib/i18n';
 import { fmtNum, humanize, pickText } from '../../../lib/format';
 import { cx } from '../../../lib/cx';
@@ -26,6 +30,8 @@ export interface PhotoHintProps {
   /** the field profile's crop: it picks the engine and the crop pack. Nothing in this flow is specific to one crop. */
   crop?: string;
   farmerLabel: string;
+  /** the field's photo-trust area (crop@place). With it, a rice field in live mode offers the server's area check first. */
+  area?: string;
 }
 
 const SCENARIO_KEY: Record<SampleScenarioId, Key> = { needs_view: 'photo.sample.s.needs_view', confident: 'photo.sample.s.confident', unsure: 'photo.sample.s.unsure' };
@@ -42,12 +48,45 @@ const SCENARIO_KEY: Record<SampleScenarioId, Key> = { needs_view: 'photo.sample.
  */
 export function PhotoHint(props: PhotoHintProps) {
   const crop = props.crop ?? '';
+  const api = useApiState();
+  const support = photoSupport.use();
   const { real, sample } = enginesFor(crop);
   const [preferSample, setPreferSample] = useState(false);
   const [scenario, setScenario] = useState<SampleScenarioId>(DEFAULT_SCENARIO);
+  const [path, setPath] = useState<'area' | 'device'>('area');
+  // The server's area check (earned trust per area) is offered for the crop its photo model reads, with the live API, and
+  // until the server says it has no photo model. The on-device and sample flow below stays the fallback, unchanged.
+  const offered = !!props.area && SERVER_PHOTO_CROPS.includes(crop) && !api.forced && api.mode !== 'sample';
+  if (offered && props.area && path === 'area' && support !== 'unavailable') {
+    return <AreaPhotoCard key={`${props.fieldId}/${props.profileId}`} fieldId={props.fieldId} profileId={props.profileId} area={props.area} crop={crop} onUseDevice={() => setPath('device')} />;
+  }
+  const banner: ReactNode = offered ? <DeviceBanner unavailable={support === 'unavailable'} onBack={() => setPath('area')} /> : null;
   const engine = (preferSample || !real ? sample : real) ?? real;
   if (!engine) return <NoPack crop={crop} />;
-  return <PhotoCheck key={engine.info.id} {...props} crop={crop} engine={engine} canSwitch={!!real && !!sample} onSwitch={(toSample) => setPreferSample(toSample)} scenario={scenario} onScenario={setScenario} />;
+  return <PhotoCheck key={engine.info.id} {...props} crop={crop} engine={engine} canSwitch={!!real && !!sample} onSwitch={(toSample) => setPreferSample(toSample)} scenario={scenario} onScenario={setScenario} banner={banner} />;
+}
+
+/** Above the on-device flow when the area check was offered: a calm note when this server has no photo model, else a way back. */
+function DeviceBanner({ unavailable, onBack }: { unavailable: boolean; onBack: () => void }) {
+  const { t } = useI18n();
+  if (unavailable) {
+    return (
+      <div className="ap-note" data-testid="area-unavailable">
+        <ServerOff size={20} aria-hidden />
+        <div>
+          <p className="ap-note-title">{t('trust.farmer.unavailable.title')}</p>
+          <p className="ap-note-body">{t('trust.farmer.unavailable.body')}</p>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="mt-3">
+      <button type="button" className="btn btn-quiet btn-sm" onClick={onBack} data-testid="device-use-area">
+        <ShieldCheck size={14} aria-hidden /> {t('trust.farmer.useArea')}
+      </button>
+    </div>
+  );
 }
 
 function NoPack({ crop }: { crop: string }) {
@@ -78,7 +117,8 @@ function PhotoCheck({
   onSwitch,
   scenario,
   onScenario,
-}: PhotoHintProps & { crop: string; engine: Engine; canSwitch: boolean; onSwitch: (toSample: boolean) => void; scenario: SampleScenarioId; onScenario: (s: SampleScenarioId) => void }) {
+  banner,
+}: PhotoHintProps & { crop: string; engine: Engine; canSwitch: boolean; onSwitch: (toSample: boolean) => void; scenario: SampleScenarioId; onScenario: (s: SampleScenarioId) => void; banner?: ReactNode }) {
   const { t, lang } = useI18n();
   const s = usePhotoSession({ engine, scenario, fieldId, profileId, crop, farmerLabel });
   const { report, shots, active } = s;
@@ -131,6 +171,8 @@ function PhotoCheck({
           )}
         </div>
       </div>
+
+      {banner}
 
       {canSwitch ? (
         <div className="photo-seg mt-3" role="group" aria-label={t('photo.engine.label')}>

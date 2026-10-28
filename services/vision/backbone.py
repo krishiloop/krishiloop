@@ -6,6 +6,9 @@ Install: put an exported vision tower in $KRISHILENS_DIR:
   meta.json    {"name", "version", "size", "mean", "std"}
 ml/vision/export_backbone.py writes all three. Without them the photo endpoints answer 503: a photo is never guessed at.
 onnxruntime and Pillow are imported only here, so the rest of the API runs without them.
+
+Loading is in two parts: the small files at once (model name, labels, text embeddings), the 1.2 GB session and the file
+hash lazily, or ahead of time with warm(), so area statistics never wait for the model.
 """
 from __future__ import annotations
 
@@ -21,15 +24,34 @@ import numpy as np
 
 class Backbone:
     def __init__(self, d: Path):
-        import onnxruntime as ort
         meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
         self.model = f"{meta['name']}@{meta['version']}"
         self.size, self.mean, self.std = int(meta["size"]), np.array(meta["mean"]), np.array(meta["std"])
-        onnx_path = d / "vision.onnx"
-        self.sha256 = hashlib.sha256(onnx_path.read_bytes()).hexdigest()
-        self.session = ort.InferenceSession(str(onnx_path), providers=ort.get_available_providers())
+        self.onnx_path = d / "vision.onnx"
         text = np.load(d / "text.npz")
         self.labels, self.T = [str(x) for x in text["labels"]], text["T"].astype(np.float64)
+        self._session, self._sha256, self._lock = None, None, threading.Lock()
+
+    def _load(self):
+        with self._lock:
+            if self._session is None:
+                import onnxruntime as ort
+                digest = hashlib.sha256()
+                with open(self.onnx_path, "rb") as f:
+                    for block in iter(lambda: f.read(1 << 24), b""):
+                        digest.update(block)
+                self._sha256 = digest.hexdigest()
+                self._session = ort.InferenceSession(str(self.onnx_path), providers=ort.get_available_providers())
+            return self._session
+
+    @property
+    def sha256(self) -> str:
+        self._load()
+        return self._sha256
+
+    def warm(self) -> None:
+        """Load the session in the background, so the first photo does not wait for it."""
+        threading.Thread(target=self._load, daemon=True).start()
 
     def features(self, image: bytes) -> np.ndarray:
         from PIL import Image, ImageOps
@@ -41,7 +63,8 @@ class Backbone:
         left, top = int(round((nw - self.size) / 2.0)), int(round((nh - self.size) / 2.0))
         a = np.asarray(im.crop((left, top, left + self.size, top + self.size)), dtype=np.float32) / 255.0
         a = ((a - self.mean) / self.std).astype(np.float32).transpose(2, 0, 1)[None]
-        out = self.session.run(None, {self.session.get_inputs()[0].name: a})[0][0]
+        session = self._load()
+        out = session.run(None, {session.get_inputs()[0].name: a})[0][0]
         return out.astype(np.float64)
 
 

@@ -1,12 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Camera, CircleDot, FlaskConical, Inbox, MessageCircleQuestion, Undo2, CheckCheck, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Camera, ChartLine, CircleDot, FlaskConical, Inbox, Leaf, Lock, LockOpen, MessageCircleQuestion, Undo2, CheckCheck, ShieldCheck } from 'lucide-react';
 import { isLocalCase, isSampleCase, loadInbox, reopenCase, resolveCase, useInbox, useInboxMeta } from './inboxStore';
+import { loadPhotoCases, usePhotoCases } from './photoCases';
+import { PhotoCaseDetail } from './PhotoCaseDetail';
+import { areaLabelName } from '../trust/labels';
+import { caseStatus, meterView, type CaseStatus } from '../trust/gate';
+import { areaCache, photoImageUrl, useAreaStats } from '../../lib/api/trust';
 import { SampleBadge } from '../../components/ui/Badges';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtDate, fmtNum, humanize, pickText } from '../../lib/format';
 import { cx } from '../../lib/cx';
-import type { InboxItem } from '../../lib/api/types';
+import type { InboxItem, PhotoCase } from '../../lib/api/types';
 
 type Filter = 'open' | 'resolved' | 'all';
 
@@ -17,26 +22,40 @@ const codeLabel = (code: string, t: (k: Key) => string) => (KNOWN_CODES.includes
 /** `details` is free-form: show strings and numbers as they are and nested values as compact JSON. */
 const detailValue = (v: unknown): string => (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' ? String(v) : JSON.stringify(v));
 
+/** One line of the list: an inbox item (an abstention, a question) or a photo case from the server's photo check. */
+type Row = { kind: 'inbox'; id: string; created: string; status: CaseStatus; item: InboxItem } | { kind: 'photo'; id: string; created: string; status: CaseStatus; c: PhotoCase };
+
 export default function OfficerPage() {
   const { t } = useI18n();
   const { id } = useParams();
   const items = useInbox();
+  const photo = usePhotoCases();
   const { live } = useInboxMeta();
   const [filter, setFilter] = useState<Filter>('open');
   const nav = useNavigate();
 
   useEffect(() => {
     void loadInbox();
+    void loadPhotoCases();
   }, []);
 
-  const counts = useMemo(() => ({ open: items.filter((i) => i.status === 'open').length, resolved: items.filter((i) => i.status === 'resolved').length, all: items.length }), [items]);
-  const shown = items.filter((i) => filter === 'all' || i.status === filter);
-  const selected = id ? items.find((i) => i.item_id === id) ?? null : null;
+  const rows = useMemo<Row[]>(
+    () =>
+      [
+        ...items.map((item): Row => ({ kind: 'inbox', id: item.item_id, created: item.created_at, status: item.status, item })),
+        ...photo.cases.map((c): Row => ({ kind: 'photo', id: c.case_id, created: c.created_at, status: caseStatus(c), c })),
+      ].sort((a, b) => b.created.localeCompare(a.created)),
+    [items, photo.cases],
+  );
+  const counts = useMemo(() => ({ open: rows.filter((r) => r.status === 'open').length, resolved: rows.filter((r) => r.status === 'resolved').length, all: rows.length }), [rows]);
+  const shown = rows.filter((r) => filter === 'all' || r.status === filter);
+  const selectedRow = id ? (rows.find((r) => r.id === id) ?? null) : null;
+  const photoPending = !!id && id.startsWith('pc-') && !selectedRow && (photo.load === 'idle' || photo.load === 'loading');
 
   // a case that is not in the current filter (e.g. just resolved) keeps its filter so it does not vanish under the officer
   useEffect(() => {
-    if (selected && filter !== 'all' && selected.status !== filter) setFilter(selected.status);
-  }, [selected, filter]);
+    if (selectedRow && filter !== 'all' && selectedRow.status !== filter) setFilter(selectedRow.status === 'auto' ? 'all' : selectedRow.status);
+  }, [selectedRow, filter]);
 
   return (
     <div className="mx-auto max-w-[1280px] px-4 pt-6 pb-8 sm:px-6 sm:pt-10">
@@ -54,6 +73,12 @@ export default function OfficerPage() {
         </div>
         <p className="mt-3 max-w-[60ch] text-lg text-chrome">{t('officer.lead')}</p>
         <p className="mt-2 max-w-[70ch] text-sm text-dim">{live ? t('officer.demo') : t('officer.sample')}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Link to="/trust" className="btn btn-ghost btn-sm" data-testid="officer-trust-link">
+            <ChartLine size={15} aria-hidden /> {t('officer.trust.link')}
+          </Link>
+          <AreaStrip areas={[...new Set(photo.cases.map((c) => c.area))]} />
+        </div>
       </header>
 
       <div className="officer" data-has-detail={!!id}>
@@ -65,17 +90,21 @@ export default function OfficerPage() {
               </button>
             ))}
           </div>
+          {photo.load === 'unavailable' ? (
+            <p className="pcd-demo mb-3" data-testid="photo-cases-unavailable">
+              <Leaf size={15} aria-hidden /> {t('officer.pc.unavailable')}
+            </p>
+          ) : null}
           {shown.length === 0 ? (
             <div className="officer-empty surface">
               <Inbox size={26} strokeWidth={1.4} aria-hidden />
               <p className="m-0">{filter === 'open' ? t('officer.emptyOpen') : t('officer.empty')}</p>
+              {photo.load === 'ready' && photo.cases.length === 0 ? <p className="m-0 text-sm text-dim">{t('officer.pc.none')}</p> : null}
             </div>
           ) : (
             <ul className="m-0 grid list-none gap-2 p-0" data-testid="case-list">
-              {shown.map((it) => (
-                <li key={it.item_id}>
-                  <CaseRow item={it} active={it.item_id === id} />
-                </li>
+              {shown.map((r) => (
+                <li key={r.id}>{r.kind === 'photo' ? <PhotoCaseRow c={r.c} active={r.id === id} /> : <CaseRow item={r.item} active={r.id === id} />}</li>
               ))}
             </ul>
           )}
@@ -83,8 +112,17 @@ export default function OfficerPage() {
 
         <section className="officer-detail" aria-live="polite">
           {id ? (
-            selected ? (
-              <CaseDetail key={selected.item_id} item={selected} onBack={() => nav('/officer')} />
+            selectedRow ? (
+              selectedRow.kind === 'photo' ? (
+                <PhotoCaseDetail key={selectedRow.id} c={selectedRow.c} onBack={() => nav('/officer')} />
+              ) : (
+                <CaseDetail key={selectedRow.id} item={selectedRow.item} onBack={() => nav('/officer')} />
+              )
+            ) : photoPending ? (
+              <div className="officer-empty surface" aria-busy="true">
+                <div className="skeleton h-6 w-1/2" />
+                <div className="skeleton h-40 w-full" />
+              </div>
             ) : (
               <div className="officer-empty surface">
                 <Inbox size={26} strokeWidth={1.4} aria-hidden />
@@ -103,6 +141,62 @@ export default function OfficerPage() {
         </section>
       </div>
     </div>
+  );
+}
+
+/** Where each area's photo check stands, one chip per area, each a way into the area trust panel. */
+function AreaStrip({ areas }: { areas: string[] }) {
+  const { t } = useI18n();
+  if (!areas.length) return null;
+  return (
+    <ul className="m-0 flex list-none flex-wrap items-center gap-2 p-0" aria-label={t('officer.trust.strip')} data-testid="area-strip">
+      {areas.map((a) => (
+        <AreaStripChip key={a} area={a} />
+      ))}
+    </ul>
+  );
+}
+
+function AreaStripChip({ area }: { area: string }) {
+  const { t, lang } = useI18n();
+  const stats = useAreaStats(area) ?? areaCache.get().areas[area] ?? null;
+  const m = meterView(stats);
+  return (
+    <li>
+      <Link to="/trust" className="chip chip-mono" data-tone={m.gateOpen ? 'go' : undefined} data-testid="area-strip-chip">
+        {m.gateOpen ? <LockOpen size={12} aria-hidden /> : <Lock size={12} aria-hidden />}
+        {t('officer.trust.chip', { area, gate: m.gateOpen ? t('trust.meter.gate.open') : t('trust.meter.gate.closed'), n: fmtNum(m.verdicts, lang) })}
+      </Link>
+    </li>
+  );
+}
+
+/** A photo case in the list: the diamond marks it as the server's photo check, not an abstention. */
+function PhotoCaseRow({ c, active }: { c: PhotoCase; active: boolean }) {
+  const { t, lang } = useI18n();
+  const status = caseStatus(c);
+  const label = c.verdict ? areaLabelName(c.verdict, t) : '';
+  return (
+    <Link to={`/officer/${encodeURIComponent(c.case_id)}`} className={cx('case-row', active && 'is-active')} aria-current={active ? 'true' : undefined} data-testid="case-row" data-kind="photo">
+      {c.photo_available && photoImageUrl(c.case_id) ? <img className="case-thumb" src={photoImageUrl(c.case_id)!} alt="" loading="lazy" decoding="async" width={48} height={48} /> : <span className="case-dot" data-status={status === 'open' ? 'open' : 'resolved'} aria-hidden />}
+      <span className="min-w-0 flex-1">
+        <span className="flex items-center justify-between gap-2">
+          <span className="truncate font-semibold">
+            {t('officer.pc.kind')} · {c.area}
+          </span>
+          <span className="flex-none text-xs text-dim tabular">{fmtDate(c.created_at, lang, 'short')}</span>
+        </span>
+        <span className="mt-0.5 block truncate text-sm text-chrome">{status === 'open' ? t('officer.pc.open') : status === 'resolved' ? t('officer.pc.resolved', { label }) : t('officer.pc.auto')}</span>
+        <span className="mt-1 flex flex-wrap items-center gap-2 text-xs text-dim">
+          <span className="mono">{c.field_id}</span>
+          {c.photo_available ? (
+            <span className="inline-flex items-center gap-1">
+              <Camera size={12} aria-hidden /> {t('officer.photo')}
+            </span>
+          ) : null}
+        </span>
+      </span>
+    </Link>
   );
 }
 

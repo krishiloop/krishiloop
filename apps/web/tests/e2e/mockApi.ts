@@ -5,8 +5,9 @@
  */
 import type { Page, Route } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { SID, createPhotoMock, demoWithRice, type PhotoMockOptions } from './trustMock';
 
-export const SID = 'abcdef0123456789';
+export { SID };
 export const RECEIPT_ID = '11111111-2222-4333-8444-555555555555';
 const RULE_CRED = 'urn:uuid:aaaaaaaa-2222-4333-8444-555555555555';
 
@@ -76,9 +77,14 @@ export function liveFixtures() {
   return { plan, snapshot, credential, inbox, demo: mock('demo.json') };
 }
 
-/** Route every API call of the app to the fixtures. `calls` records what the browser asked for. */
-export async function mockApi(page: Page, opts: { recallOnPost?: boolean } = {}): Promise<Calls & { recalled: () => boolean }> {
+/**
+ * Route every API call of the app to the fixtures. `calls` records what the browser asked for.
+ * `photo`: the earned-trust part (tests/e2e/trustMock.ts). Without it the server has NO photo model (the photo endpoints
+ * answer 503 and there is no replay), which is also what today's dev server is, and the demo has only the Kenya field.
+ */
+export async function mockApi(page: Page, opts: { recallOnPost?: boolean; photo?: PhotoMockOptions } = {}) {
   const fx = liveFixtures();
+  const photo = createPhotoMock(opts.photo ?? { unavailable: true });
   const calls: Calls = { paths: [], headers: [], bodies: [] };
   let recalled = false;
   const json = (route: Route, body: unknown, status = 200) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
@@ -95,7 +101,11 @@ export async function mockApi(page: Page, opts: { recallOnPost?: boolean } = {})
     } catch {
       calls.bodies.push({});
     }
-    if (path === '/api/demo' && req.method() === 'GET') return json(route, { ...fx.demo, fields: fx.demo.fields.filter((f: { field_id: string }) => f.field_id === 'KE-SAMPLE-01') });
+    if (await photo.handle(route, req, path)) return;
+    if (path === '/api/demo' && req.method() === 'GET') {
+      const base = { ...fx.demo, fields: fx.demo.fields.filter((f: { field_id: string }) => f.field_id === 'KE-SAMPLE-01') };
+      return json(route, opts.photo ? demoWithRice(base) : base);
+    }
     if (path === '/api/demo/session') return json(route, { session_id: SID, status_list: `http://localhost:8000/status/demo-${SID}`, expires_in_s: 86400, note: 'sandbox: recalls here affect only this session’s receipts' });
     if (path === `/api/demo/${SID}/plan` || path === '/api/plan') {
       const body = req.postDataJSON() as { diagnosis?: unknown };
@@ -122,6 +132,5 @@ export async function mockApi(page: Page, opts: { recallOnPost?: boolean } = {})
     if (path === '/.well-known/did.json') return route.fulfill({ status: 404, contentType: 'application/json', body: '{"detail":"n/a"}' });
     return route.fulfill({ status: 404, contentType: 'application/json', body: JSON.stringify({ detail: 'not mocked' }) });
   });
-  void opts;
-  return Object.assign(calls, { recalled: () => recalled });
+  return Object.assign(calls, { recalled: () => recalled, photo });
 }

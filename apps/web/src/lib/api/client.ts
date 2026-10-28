@@ -53,7 +53,8 @@ export const useApiState = () => apiStore.use();
 
 const detailText = (d: unknown): string => (typeof d === 'string' ? d : JSON.stringify(d));
 
-async function request<T>(path: string, init: RequestInit = {}, timeoutMs = 8000): Promise<T> {
+/** One JSON call. Non-2xx answers become an HttpError (the API's `detail` is its message); a network failure throws a TypeError. */
+export async function request<T>(path: string, init: RequestInit = {}, timeoutMs = 8000): Promise<T> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
@@ -108,7 +109,7 @@ async function sourced<T>(live: () => Promise<T>, sample: () => T): Promise<Sour
 const SID_KEY = 'kl.demo.sid';
 /** plans saved for the sandbox of this tab (sessionStorage): `kl.plan.<field>.<profile>` */
 export const PLAN_CACHE_PREFIX = 'kl.plan.';
-const sessionStore = createStore<string | null>(readStore(SID_KEY, 'session'));
+export const sessionStore = createStore<string | null>(readStore(SID_KEY, 'session'));
 /** Bumped after every successful sandbox recall: screens that hold a plan rebuild it. */
 export const recallEpoch = createStore(0);
 let sessionCall: Promise<string> | null = null;
@@ -151,7 +152,7 @@ export function ensureSession(): Promise<string> {
 const isGoneSession = (e: unknown) => e instanceof HttpError && e.status === 404 && /session/i.test(e.message);
 
 /** A call inside the sandbox. If the server no longer knows the session, one new session is made and the call retried. */
-async function sandbox<T>(path: string, init: RequestInit = {}, timeoutMs?: number): Promise<T> {
+export async function sandbox<T>(path: string, init: RequestInit = {}, timeoutMs?: number): Promise<T> {
   for (let attempt = 0; ; attempt++) {
     const sid = await ensureSession();
     try {
@@ -182,10 +183,12 @@ export const fetchDemo = () => sourced(() => request<DemoPayload>('/api/demo'), 
  *  - `diagnosis` (contracts/schemas/diagnosis.schema.json, never pixels) is sent as is. The SERVER decides whether the
  *    photo reading counts: the plan comes back with `diagnosis_used` and `diagnosis_note`. Sample readings are never sent
  *    (the callers guarantee it, and `toDiagnosis` throws for them).
+ *  - `photoCaseId` (a server photo case answered automatically, `pc-...`): the server builds the diagnosis from its own
+ *    case, so the plan can use the area's earned trust. Sandbox only. A 409 means that case was not answered automatically.
  */
-export function fetchPlan(fieldId: string, profileId: string, opts: { money?: boolean; sample?: boolean; diagnosis?: Diagnosis; official?: boolean } = {}): Promise<Sourced<Plan>> {
+export function fetchPlan(fieldId: string, profileId: string, opts: { money?: boolean; sample?: boolean; diagnosis?: Diagnosis; official?: boolean; photoCaseId?: string } = {}): Promise<Sourced<Plan>> {
   if (opts.sample) return Promise.resolve({ data: mockPlan(fieldId, profileId, opts.money), source: 'sample' as DataSource, note: 'scenario' });
-  const body = JSON.stringify({ field_id: fieldId, profile_id: profileId, ...(opts.diagnosis ? { diagnosis: opts.diagnosis } : {}) });
+  const body = JSON.stringify({ field_id: fieldId, profile_id: profileId, ...(opts.diagnosis ? { diagnosis: opts.diagnosis } : {}), ...(opts.photoCaseId ? { photo_case_id: opts.photoCaseId } : {}) });
   return sourced(
     () => (opts.official ? request<Plan>('/api/plan', { method: 'POST', body }, 30000) : sandbox<Plan>('/plan', { method: 'POST', body }, 30000)),
     () => mockPlan(fieldId, profileId, opts.money),

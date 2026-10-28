@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowRight, Check, Copy, Printer, QrCode, RotateCcw, ScanLine } from 'lucide-react';
 import { InkFilter } from './Stamp';
-import { VerdictStage, type Verdict } from './VerdictStage';
+import { VerdictStage, type PhotoWithdrawn, type Verdict } from './VerdictStage';
+import { AreaTrustDetails } from './AreaTrustDetails';
 import { ReceiptDetails } from './ReceiptDetails';
 import { HowChecked, NotificationPreview, RecallPanel } from './VerifyParts';
-import { SAMPLE_RECEIPT_IDS, isReceipt, normalizeId, receiptsOnDevice } from './verifyUtil';
+import { SAMPLE_RECEIPT_IDS, isAreaTrust, isReceipt, normalizeId, receiptsOnDevice } from './verifyUtil';
+import { splitRecalled } from '../trust/gate';
 import { toast } from '../../components/ui/Toaster';
 import { SampleBadge } from '../../components/ui/Badges';
 import { useI18n } from '../../lib/i18n';
@@ -164,11 +166,18 @@ function VerifyResult({ id }: { id: string }) {
   const verdict: Verdict = phase === 'error' || !outcome ? 'unreachable' : outcome.status;
   const cred = outcome?.credential ?? null;
   const receipt = isReceipt(cred) ? cred.credentialSubject : null;
+  const area = isAreaTrust(cred) ? cred.credentialSubject : null;
   const sample = outcome?.source === 'sample' || isSampleId(id);
+  // a receipt withdrawn because the PHOTO TRUST it used was withdrawn says so, and is not shown as a rule recall
+  const split = splitRecalled(outcome?.rules);
+  const photo: PhotoWithdrawn | null =
+    verdict === 'recalled' && receipt && split.photoTrust.length
+      ? { entries: split.photoTrust, ruleRecalls: split.rules, credentialId: receipt.area_trust_ref?.credential_id ?? null }
+      : null;
 
   return (
     <div className="verify-result">
-      <VerdictStage status={verdict} receipt={receipt} sample={sample} sandbox={!!outcome?.sandbox} expired={!!outcome?.expired} reason={outcome?.reason} rules={outcome?.rules} play={phase === 'done'} />
+      <VerdictStage status={verdict} receipt={receipt} sample={sample} sandbox={!!outcome?.sandbox} expired={!!outcome?.expired} reason={outcome?.reason} rules={outcome?.rules} area={area} photo={photo} play={phase === 'done'} />
 
       <div className="mx-auto grid max-w-[920px] gap-5 px-4 pt-8 sm:px-6">
         {sample && verdict !== 'unreachable' ? <p className="m-0 rounded-xl border border-dashed border-line-2 p-3 text-sm text-chrome">{t('verify.sampleBanner')}</p> : null}
@@ -187,9 +196,10 @@ function VerifyResult({ id }: { id: string }) {
           </Link>
         </div>
 
-        {verdict === 'recalled' && receipt ? <NotificationPreview receipt={receipt} rules={outcome?.rules ?? []} /> : null}
+        {verdict === 'recalled' && receipt ? <NotificationPreview receipt={receipt} rules={photo ? photo.ruleRecalls : (outcome?.rules ?? [])} photoEntries={photo?.entries.map((e) => e.entry) ?? []} /> : null}
         {receipt && cred ? <ReceiptDetails receipt={receipt} cred={cred} /> : null}
-        {receipt && cred ? <HowChecked cred={cred} sample={sample} verdict={verdict} statusList={outcome?.status_list} /> : null}
+        {area && cred ? <AreaTrustDetails cred={cred} area={area} /> : null}
+        {(receipt || area) && cred ? <HowChecked cred={cred} sample={sample} verdict={verdict} statusList={outcome?.status_list} /> : null}
         {receipt && cred ? (
           <div className="no-print">
             <RecallPanel receipt={receipt} cred={cred} sample={isSampleId(id)} sandbox={!!outcome?.sandbox} verdict={verdict} statusList={outcome?.status_list} onChanged={() => setNonce((n) => n + 1)} />

@@ -116,7 +116,7 @@ const landing = {
   'l.state.p7': 'Officer accounts for the inbox API (the demo inbox shows only your own session’s cases)',
   'l.state.p8': 'Satellite chip and season time-lapse from Sentinel-2',
   'l.state.p9': 'Attestations and consented sharing, outbreak radar',
-  'l.state.p10': 'Advice driven by a photo reading, with its own receipt. The server takes a reading only from a calibrated model, and none is calibrated yet.',
+  'l.state.p10': 'Photo trust earned with real officers on real farms. The demo earns it only in a sandbox and in a replay of public datasets.',
 
   'l.close.title': 'Scan one receipt.',
   'l.close.body': 'Everything on this page is real or labelled sample. Open the farmer app, scan a receipt, then recall its rule.',

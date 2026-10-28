@@ -75,6 +75,7 @@ const STATUS_DONE = [
   { k: 'l.state.d6', to: '/app' },
   { k: 'l.state.d7', to: '/officer' },
   { k: 'l.state.d8', to: '/app#photo' },
+  { k: 'l.state.d9', to: '/trust' },
 ] as const satisfies readonly { k: Key; to?: string }[];
 const STATUS_TODO: Key[] = ['l.state.p1', 'l.state.p2', 'l.state.p3', 'l.state.p4', 'l.state.p5', 'l.state.p6', 'l.state.p7', 'l.state.p8', 'l.state.p9', 'l.state.p10'];
 

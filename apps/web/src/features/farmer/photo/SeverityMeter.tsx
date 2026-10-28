@@ -1,5 +1,5 @@
 import { useCallback, useId } from 'react';
-import { AnimatedNumber } from './Differential';
+import { AnimatedNumber } from '../../../components/ui/AnimatedNumber';
 import type { Severity } from './report';
 import { useI18n } from '../../../lib/i18n';
 import { fmtNum } from '../../../lib/format';

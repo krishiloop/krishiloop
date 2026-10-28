@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { RefreshCw, SlidersHorizontal, TriangleAlert } from 'lucide-react';
-import { init, loadPlan, selectField, selectProfile, useFarmer, chooseSource } from './farmerStore';
+import { applyDeepLink, init, loadPlan, selectField, selectProfile, useFarmer, chooseSource } from './farmerStore';
 import { Signal } from './Signal';
 import { ActionList } from './ActionList';
 import { MoneySaved } from './MoneySaved';
@@ -12,6 +12,7 @@ import { Abstention } from './Abstention';
 import { VoiceFab, VoiceSheet } from './VoiceSheet';
 import { DemoSheet } from './DemoSheet';
 import { PhotoHint } from './photo/PhotoHint';
+import { areaOf } from '../trust/labels';
 import { ModeBanner, DataBadge } from '../../components/shell/Controls';
 import { SampleBadge } from '../../components/ui/Badges';
 import { useI18n } from '../../lib/i18n';
@@ -38,7 +39,7 @@ export default function FarmerApp() {
   const photoLink = useRef(typeof window !== 'undefined' && window.location.hash === '#photo');
 
   useEffect(() => {
-    void init();
+    void init().then(applyDeepLink);
   }, []);
 
   const field = st.fields.find((f) => f.field_id === st.fieldId);
@@ -59,6 +60,7 @@ export default function FarmerApp() {
       fieldId={plan.field_id}
       profileId={plan.farmer_profile_id}
       crop={planField?.crop}
+      area={planField ? areaOf(planField) : undefined}
       farmerLabel={farmerLabel(plan.farmer_profile_id)}
     />
   ) : null;

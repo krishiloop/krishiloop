@@ -62,3 +62,15 @@ export function AuthenticSeal({ play }: { play: boolean }) {
     </svg>
   );
 }
+
+/** The mark for a withdrawn area trust: the same calm ring as the seal, with a cross that draws itself instead of a tick. */
+export function WithdrawnSeal({ play }: { play: boolean }) {
+  return (
+    <svg className="seal seal-withdrawn" data-play={play} viewBox="0 0 120 120" width="112" height="112" aria-hidden="true">
+      <circle className="seal-ring-bg" cx="60" cy="60" r="46" fill="none" strokeWidth="5" />
+      <circle className="seal-ring" cx="60" cy="60" r="46" fill="none" strokeWidth="5" strokeLinecap="round" pathLength="100" />
+      <circle className="seal-dots" cx="60" cy="60" r="54" fill="none" strokeWidth="2" strokeDasharray="1 5.6" strokeLinecap="round" />
+      <path className="seal-tick" d="M44 44 L76 76 M76 44 L44 76" fill="none" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" pathLength="100" />
+    </svg>
+  );
+}

@@ -1,4 +1,4 @@
-import type { Credential, Plan, Receipt } from '../../lib/api/types';
+import type { AreaTrustSubject, Credential, Plan, Receipt } from '../../lib/api/types';
 import { readJSON } from '../../lib/storage';
 import { PLAN_CACHE_PREFIX } from '../../lib/api/client';
 
@@ -23,6 +23,9 @@ export function normalizeId(input: string): string {
 }
 
 export const isReceipt = (c: Credential | null): c is Credential & { credentialSubject: Receipt } => !!c && c.type.includes('AdviceReceiptCredential');
+
+/** An area's earned photo trust (issued when its gate opened, withdrawn when it closed). */
+export const isAreaTrust = (c: Credential | null): c is Credential & { credentialSubject: AreaTrustSubject } => !!c && c.type.includes('AreaTrustCredential');
 
 /** Receipts the visitor already has in this tab's demo sandbox (from saved farmer plans), so the verifier can offer them. */
 export function receiptsOnDevice(): { id: string; title: string; rule: string; sample: boolean }[] {

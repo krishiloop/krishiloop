@@ -7,6 +7,7 @@
 @import "./officer.css" layer(components);
 @import "./landing.css" layer(components);
 @import "./story.css" layer(components);
+@import "./trust.css" layer(components);
 
 /* ------------------------------------------------------------------
    Fallback faces with the web fonts' metrics (measured against the loaded
