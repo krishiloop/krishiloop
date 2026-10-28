@@ -1,0 +1,410 @@
+{
+ "settings": {
+  "sure": 0.85,
+  "window": 50,
+  "min_n": 30,
+  "open_lb": 0.85,
+  "close_lb": 0.8,
+  "audit": 0.1,
+  "lams": [
+   0.3
+  ],
+  "headline_lam": 0.3,
+  "max_stream": 2000,
+  "strict_cosine": 0.95
+ },
+ "bioclip2": {
+  "BD-A lam=0.3": [
+   {
+    "photos": 258,
+    "confirmations_until_open": 229,
+    "officer_confirmations": 246,
+    "auto_answers": 13,
+    "auto_precision": 0.9231,
+    "auto_share_of_all_photos": 0.0504,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.56,
+      0.8
+     ],
+     "50-200": [
+      150,
+      0.753,
+      0.953
+     ],
+     "200-500": [
+      58,
+      0.759,
+      0.931
+     ],
+     "500-2000": [
+      0,
+      null,
+      null
+     ]
+    }
+   },
+   {
+    "photos": 258,
+    "confirmations_until_open": 221,
+    "officer_confirmations": 248,
+    "auto_answers": 12,
+    "auto_precision": 1.0,
+    "auto_share_of_all_photos": 0.0465,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.6,
+      0.7
+     ],
+     "50-200": [
+      150,
+      0.747,
+      0.933
+     ],
+     "200-500": [
+      58,
+      0.828,
+      0.948
+     ],
+     "500-2000": [
+      0,
+      null,
+      null
+     ]
+    }
+   },
+   {
+    "photos": 258,
+    "confirmations_until_open": 234,
+    "officer_confirmations": 248,
+    "auto_answers": 12,
+    "auto_precision": 0.8333,
+    "auto_share_of_all_photos": 0.0465,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.54,
+      0.84
+     ],
+     "50-200": [
+      150,
+      0.753,
+      0.933
+     ],
+     "200-500": [
+      58,
+      0.776,
+      0.966
+     ],
+     "500-2000": [
+      0,
+      null,
+      null
+     ]
+    }
+   }
+  ],
+  "BD-C lam=0.3": [
+   {
+    "photos": 510,
+    "confirmations_until_open": 126,
+    "officer_confirmations": 349,
+    "auto_answers": 187,
+    "auto_precision": 0.9679,
+    "auto_share_of_all_photos": 0.3667,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.78,
+      0.86
+     ],
+     "50-200": [
+      150,
+      0.72,
+      0.96
+     ],
+     "200-500": [
+      300,
+      0.827,
+      0.937
+     ],
+     "500-2000": [
+      10,
+      1.0,
+      1.0
+     ]
+    }
+   },
+   {
+    "photos": 510,
+    "confirmations_until_open": 179,
+    "officer_confirmations": 344,
+    "auto_answers": 177,
+    "auto_precision": 0.9774,
+    "auto_share_of_all_photos": 0.3471,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.62,
+      0.78
+     ],
+     "50-200": [
+      150,
+      0.773,
+      0.953
+     ],
+     "200-500": [
+      300,
+      0.837,
+      0.97
+     ],
+     "500-2000": [
+      10,
+      0.9,
+      1.0
+     ]
+    }
+   },
+   {
+    "photos": 510,
+    "confirmations_until_open": 177,
+    "officer_confirmations": 360,
+    "auto_answers": 161,
+    "auto_precision": 0.9938,
+    "auto_share_of_all_photos": 0.3157,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.62,
+      0.82
+     ],
+     "50-200": [
+      150,
+      0.773,
+      0.973
+     ],
+     "200-500": [
+      300,
+      0.84,
+      0.967
+     ],
+     "500-2000": [
+      10,
+      0.9,
+      1.0
+     ]
+    }
+   }
+  ],
+  "BD-D lam=0.3": [
+   {
+    "photos": 1633,
+    "confirmations_until_open": 93,
+    "officer_confirmations": 351,
+    "auto_answers": 1403,
+    "auto_precision": 0.9957,
+    "auto_share_of_all_photos": 0.8592,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.78,
+      0.9
+     ],
+     "50-200": [
+      150,
+      0.967,
+      0.987
+     ],
+     "200-500": [
+      300,
+      0.98,
+      0.99
+     ],
+     "500-2000": [
+      1133,
+      0.987,
+      0.996
+     ]
+    }
+   },
+   {
+    "photos": 1633,
+    "confirmations_until_open": 89,
+    "officer_confirmations": 351,
+    "auto_answers": 1414,
+    "auto_precision": 0.995,
+    "auto_share_of_all_photos": 0.8659,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.88,
+      0.92
+     ],
+     "50-200": [
+      150,
+      0.933,
+      0.987
+     ],
+     "200-500": [
+      300,
+      0.953,
+      0.987
+     ],
+     "500-2000": [
+      1133,
+      0.983,
+      0.996
+     ]
+    }
+   },
+   {
+    "photos": 1633,
+    "confirmations_until_open": 109,
+    "officer_confirmations": 394,
+    "auto_answers": 1405,
+    "auto_precision": 0.995,
+    "auto_share_of_all_photos": 0.8604,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.78,
+      0.9
+     ],
+     "50-200": [
+      150,
+      0.967,
+      0.993
+     ],
+     "200-500": [
+      300,
+      0.977,
+      0.997
+     ],
+     "500-2000": [
+      1133,
+      0.982,
+      0.996
+     ]
+    }
+   }
+  ],
+  "BD-E lam=0.3": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": 328,
+    "officer_confirmations": 1369,
+    "auto_answers": 702,
+    "auto_precision": 0.9444,
+    "auto_share_of_all_photos": 0.351,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.48,
+      0.68
+     ],
+     "50-200": [
+      150,
+      0.58,
+      0.813
+     ],
+     "200-500": [
+      300,
+      0.72,
+      0.897
+     ],
+     "500-2000": [
+      1500,
+      0.75,
+      0.91
+     ]
+    }
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": 381,
+    "officer_confirmations": 1427,
+    "auto_answers": 651,
+    "auto_precision": 0.9585,
+    "auto_share_of_all_photos": 0.3255,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.52,
+      0.78
+     ],
+     "50-200": [
+      150,
+      0.62,
+      0.793
+     ],
+     "200-500": [
+      300,
+      0.687,
+      0.883
+     ],
+     "500-2000": [
+      1500,
+      0.763,
+      0.901
+     ]
+    }
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": 510,
+    "officer_confirmations": 1446,
+    "auto_answers": 605,
+    "auto_precision": 0.9537,
+    "auto_share_of_all_photos": 0.3025,
+    "gate_closings": 0,
+    "open_at_end": true,
+    "suggestion_by_stage": {
+     "0-50": [
+      50,
+      0.44,
+      0.72
+     ],
+     "50-200": [
+      150,
+      0.58,
+      0.76
+     ],
+     "200-500": [
+      300,
+      0.68,
+      0.843
+     ],
+     "500-2000": [
+      1500,
+      0.761,
+      0.908
+     ]
+    }
+   }
+  ]
+ }
+}

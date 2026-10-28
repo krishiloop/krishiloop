@@ -1,0 +1,529 @@
+{
+ "settings": {
+  "sure": 0.85,
+  "window": 50,
+  "min_n": 30,
+  "open_lb": 0.85,
+  "close_lb": 0.8,
+  "audit": 0.1,
+  "alpha": 1.0,
+  "beta": 5.5,
+  "max_stream": 2000
+ },
+ "siglip2_b": {
+  "BD-A": [
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-C": [
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-D": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-E": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-A seeded": [
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-C seeded": [
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-D seeded": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-E seeded": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ]
+ },
+ "bioclip2": {
+  "BD-A": [
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-C": [
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-D": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": 174,
+    "officer_confirmations": 582,
+    "auto_answers": 1602,
+    "auto_precision": 0.9594,
+    "auto_share_of_all_photos": 0.801,
+    "gate_closings": 0,
+    "open_at_end": true
+   }
+  ],
+  "BD-E": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-A seeded": [
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 260,
+    "confirmations_until_open": null,
+    "officer_confirmations": 260,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-C seeded": [
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 806,
+    "confirmations_until_open": null,
+    "officer_confirmations": 806,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-D seeded": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ],
+  "BD-E seeded": [
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   },
+   {
+    "photos": 2000,
+    "confirmations_until_open": null,
+    "officer_confirmations": 2000,
+    "auto_answers": 0,
+    "auto_precision": null,
+    "auto_share_of_all_photos": 0.0,
+    "gate_closings": 0,
+    "open_at_end": false
+   }
+  ]
+ }
+}
