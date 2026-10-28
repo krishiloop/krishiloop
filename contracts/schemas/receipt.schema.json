@@ -205,6 +205,28 @@
           "format": "date-time"
         }
       }
+    },
+    "area_trust_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "credential_id",
+        "area",
+        "model"
+      ],
+      "description": "Present when a photo reading informed this advice: the AreaTrustCredential that allowed it. If that credential is revoked (the area's photo trust was withdrawn), this receipt verifies as recalled.",
+      "properties": {
+        "credential_id": {
+          "type": "string",
+          "pattern": "^urn:uuid:"
+        },
+        "area": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        }
+      }
     }
   },
   "$defs": {

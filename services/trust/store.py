@@ -113,6 +113,20 @@ class TrustStore:
     def receipt_credential(self, receipt: dict, valid_until: str | None = None) -> dict:
         return self.put(issue_credential("AdviceReceiptCredential", receipt, self.issuer, None, valid_until))
 
+    def area_trust_credential(self, subject: dict) -> dict:
+        """Earned photo trust in one area (plan/EARNED_TRUST_DESIGN.md); revoked when that area's gate closes."""
+        with self._lock:
+            return self.put(issue_credential("AreaTrustCredential", subject, self.issuer, self.status))
+
+    def revoke(self, cred_id: str) -> None:
+        """Withdraw one credential that has a status entry (e.g. an area's photo trust after its gate closed)."""
+        with self._lock:
+            idx = int(self.get(cred_id)["credentialStatus"]["statusListIndex"])
+            self.status.revoke(idx)
+            if idx not in self.state["revoked"]:
+                self.state["revoked"].append(idx)
+            self._save_state()
+
     # -------- recall + verify
     def recall_rule(self, rule_id: str, version: int, reason: str = "", actor: str = "admin") -> list[str]:
         """Withdraw a rule version: every receipt that used it verifies as 'recalled', and it is never issued again."""

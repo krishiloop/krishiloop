@@ -47,6 +47,7 @@ DIAGNOSIS_GATE = {"min_top1": 0.85, "max_ood": 0.5}
 # Only the earned-trust ledger may add entries (plan/EARNED_TRUST_DESIGN.md). A client's own "calibrated" flag never
 # counts: anyone can send it. Empty today, so every photo goes to the officer.
 TRUSTED_PHOTO_MODELS: dict[tuple[str, str], str] = {}
+PHOTO_FACTS = ("diagnosis_label", "diagnosis_prob", "_diagnosis", "_area_trust")
 REASONS = {  # fixed farmer-facing texts; never echo what the validator blocked
     "data_unavailable": "We don't have enough weather data for a sourced decision this week. Sent to your officer's inbox.",
     "data_stale": "Our weather data is out of date, so we won't guess. Sent to your officer's inbox.",
@@ -137,8 +138,9 @@ def _receipt(rule: dict, snap: dict, facts: dict, advice: dict, plan_ctx: dict, 
                 params.setdefault(name, defs[name])
     basis = rule.get("basis_note") or ("Forecast-dependent decision using reviewer-set thresholds (shown below); forecasts can be wrong."
                                        if derived else "Direct practice statement from the cited source.")
+    photo = {"area_trust_ref": facts["_area_trust"]} if diag and used & {"diagnosis_label", "diagnosis_prob"} else {}
     return {"receipt_id": str(uuid.uuid4()), "claim": advice["action_id"], "advice": advice, "plan": plan_ctx,
-            "sources": sources, "data": data,
+            "sources": sources, "data": data, **photo,
             "rule_refs": [{"rule_id": rule["rule_id"], "version": rule["version"], "credential_id": PLACEHOLDER_CRED,
                            "review_level": rule.get("review", {}).get("level", "pending")}],
             "reviewer_parameters": list(params.values()),
@@ -171,8 +173,10 @@ def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today
         passed, note = diagnosis_gate(diagnosis, trust_area(field))
         base["diagnosis_used"], base["diagnosis_note"] = passed, note
         if passed:
+            model, area = f"{diagnosis['model']['name']}@{diagnosis['model']['version']}", trust_area(field)
             facts.update(diagnosis_label=diagnosis["labels"][0]["label"], diagnosis_prob=diagnosis["labels"][0]["prob"],
-                         _diagnosis=diagnosis)
+                         _diagnosis=diagnosis,
+                         _area_trust={"credential_id": TRUSTED_PHOTO_MODELS[(model, area)], "area": area, "model": model})
         else:  # the photo becomes an officer case; the weather-based plan below still stands
             inbox.create(field["field_id"], profile["farmer_profile_id"],
                          "out_of_distribution" if note == "out_of_distribution" else "low_confidence",
@@ -185,9 +189,12 @@ def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today
         return abstain("data_stale", {"data_as_of": snap["created_at"]})
 
     fired, unknown_decisions, recalled_decisions = [], [], []
+    # photo-trust policy v1 (rules/policy/photo-trust.yaml): tier 2 is off, so a photo reading may shape practices
+    # but never an input decision; decision rules do not see it at all
+    decision_facts = {k: v for k, v in facts.items() if k not in PHOTO_FACTS}
     for r in rules:
-        result, missing = evaluate(r, facts)
         is_decision = r["action"]["kind"] == "input_decision"
+        result, missing = evaluate(r, decision_facts if is_decision else facts)
         if result is None and is_decision:
             unknown_decisions.append((r["rule_id"], sorted(missing)))
         elif result:

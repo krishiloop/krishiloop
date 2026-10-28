@@ -182,7 +182,7 @@ class StatusList:
 # ---------------------------------------------------------------- KrishiLoop credentials
 def issue_credential(kind: str, subject: dict, issuer: Issuer, status: StatusList | None = None,
                      valid_until: str | None = None) -> dict:
-    assert kind in ("RuleCredential", "AdviceReceiptCredential")
+    assert kind in ("RuleCredential", "AdviceReceiptCredential", "AreaTrustCredential")
     doc = {
         "@context": [VC_V2],
         "id": f"urn:uuid:{uuid.uuid4()}",
@@ -246,6 +246,16 @@ def verify_receipt(receipt_cred: dict, fetch: Callable[[str], dict], resolve_key
                 return {"status": "invalid", "reason": f"rule credential for {ref['rule_id']} does not match"}
             if is_revoked(rule_cred, fetch, resolve_key):
                 recalled.append(f"{ref['rule_id']} v{ref['version']}")
+        area_ref = receipt_cred["credentialSubject"].get("area_trust_ref")
+        if area_ref:   # a photo reading informed this advice: the area's earned trust must still stand
+            at = fetch(area_ref["credential_id"])
+            ats = at.get("credentialSubject") or {}
+            if not verify_signature(at, resolve_key) or at.get("id") != area_ref["credential_id"] \
+                    or "AreaTrustCredential" not in at.get("type", []) or at.get("issuer") != receipt_cred.get("issuer") \
+                    or ats.get("area") != area_ref["area"] or ats.get("model") != area_ref["model"]:
+                return {"status": "invalid", "reason": "area photo-trust credential does not match"}
+            if is_revoked(at, fetch, resolve_key):
+                recalled.append(f"photo trust for {area_ref['model']} in {area_ref['area']}")
     except Exception as e:  # malformed input or an unreachable status list must never look authentic
         return {"status": "invalid", "reason": f"could not verify: {type(e).__name__}"}
     if recalled:

@@ -231,3 +231,51 @@ def test_rule_firing_without_forecast_still_gets_a_receipt(store, tmp_path, monk
     s = _snap(True); s["forecast"] = None
     plan = plan_for(store, tmp_path, "demo-farmer-b", snap=s)
     assert plan["status"] == "ok" and _decision(plan)[0]["decision"] == "dont_spray"
+
+
+def _photo_practice_pack(monkeypatch):
+    """The Kenya pack plus one practice that reads a photo diagnosis (test-only; no shipped rule reads photos yet)."""
+    rules = load_pack("pack-potato-late-blight")
+    practice = copy.deepcopy(next(r for r in rules if r["rule_id"] == "R-PLB-001"))
+    practice.update(rule_id="R-PLB-901", when={"all": [{"fact": "diagnosis_label", "op": "eq", "value": "late_blight"}]})
+    practice["action"]["traffic_light"] = "red"     # outranks the other practices, so it is always shown
+    monkeypatch.setattr(planner_mod, "load_pack", lambda pack_id: list(rules) + [practice])
+
+
+PHOTO = {"diagnosis_id": "d-9", "crop": "potato", "model": {"name": "leaf", "version": "1", "sha256": "a" * 64},
+         "on_device": False, "labels": [{"label": "late_blight", "prob": 0.97}], "calibrated": True, "ood_score": 0.0,
+         "status": "ok", "inference_ms": 40, "created_at": "2026-10-28T08:00:00Z"}
+
+
+def _area_trust(store):
+    return store.area_trust_credential({"area": "potato@KE", "model": "leaf@1", "policy_id": "photo-trust", "policy_version": 1,
+                                        "verdicts": 120, "sure_in_window": 50, "sure_right_in_window": 49, "precision": 0.98,
+                                        "lower_bound": 0.895, "opened_at": "2026-10-28T08:00:00Z"})
+
+
+def test_photo_advice_carries_the_area_trust_and_falls_with_it(store, tmp_path, monkeypatch):
+    _photo_practice_pack(monkeypatch)
+    trust = _area_trust(store)
+    monkeypatch.setattr(planner_mod, "TRUSTED_PHOTO_MODELS", {("leaf@1", "potato@KE"): trust["id"]})
+    plan = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox", diagnosis=PHOTO)
+    assert plan["diagnosis_used"] is True
+    photo_act = next(a for a in plan["actions"] if "R-PLB-901" in a["action_id"].upper())
+    assert photo_act["receipt"]["area_trust_ref"] == {"credential_id": trust["id"], "area": "potato@KE", "model": "leaf@1"}
+    others = [a for a in plan["actions"] if a is not photo_act]
+    assert all("area_trust_ref" not in a["receipt"] for a in others)          # advice that never read the photo
+    assert store.verify(photo_act["receipt_credential_id"])["status"] == "authentic"
+    store.revoke(trust["id"])                                                 # the area's gate closed: drift
+    v = store.verify(photo_act["receipt_credential_id"])
+    assert v["status"] == "recalled" and "photo trust" in v["reason"]
+    assert all(store.verify(a["receipt_credential_id"])["status"] == "authentic" for a in others)
+
+
+def test_a_photo_never_changes_an_input_decision(store, tmp_path, monkeypatch):
+    _photo_practice_pack(monkeypatch)
+    monkeypatch.setattr(planner_mod, "TRUSTED_PHOTO_MODELS", {("leaf@1", "potato@KE"): _area_trust(store)["id"]})
+    without = plan_for(store, tmp_path)
+    with_photo = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox",
+                           diagnosis=dict(PHOTO, labels=[{"label": "healthy", "prob": 0.99}]))
+    decision = lambda p: next(a for a in p["actions"] if a["kind"] == "input_decision")
+    assert decision(with_photo)["decision"] == decision(without)["decision"]
+    assert "area_trust_ref" not in decision(with_photo)["receipt"]
