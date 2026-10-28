@@ -3,7 +3,12 @@ import { useI18n, type Key } from '../../lib/i18n';
 import { fmtDate } from '../../lib/format';
 import type { DataMode } from '../../lib/api/types';
 
-const MODE_KEY: Record<DataMode, Key> = { live: 'data.mode.live', snapshot: 'data.mode.snapshot', sample: 'data.mode.sample' };
+const MODE_KEY: Record<DataMode, Key> = {
+  live: 'data.mode.live',
+  snapshot: 'data.mode.snapshot',
+  sample: 'data.mode.sample',
+  unavailable: 'data.mode.unavailable',
+};
 
 /**
  * "Weather data as of {when} ({mode})": when the weather behind a plan or a receipt was saved, and whether it was fetched

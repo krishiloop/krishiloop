@@ -1,0 +1,44 @@
+# Text models for the Ask router (services/ask/). Weights are NEVER committed.
+# ml/ask/export_text_models.py downloads the files below, pinned by revision and sha256, into a folder OUTSIDE the
+# repo (default: <repo>/../../models/ask). The API loads them from $KRISHILOOP_ASK_MODELS. Without them the router
+# runs on BM25 alone and says so in every answer and in GET /api/ask/health.
+#
+# Licence and Bangla support were read from each model card on 2026-10-28 (evidence quoted below). Both models
+# run on CPU through ONNX Runtime. Neither is a generative model: they only score text, they never write it.
+embedder:
+  name: multilingual-e5-small
+  role: dense retrieval (one vector per question and per indexed passage)
+  repo: intfloat/multilingual-e5-small
+  revision: 614241f622f53c4eeff9890bdc4f31cfecc418b3
+  card: https://huggingface.co/intfloat/multilingual-e5-small
+  licence: MIT
+  licence_evidence: "model card metadata: 'license: mit'"
+  bangla_evidence: "model card metadata lists language 'bn'; the card says it 'supports 100 languages from xlm-roberta, but low-resource languages may see performance degradation'"
+  parameters: 118M
+  onnx_source: the ONNX export published in the model's own repository (onnx/ folder), fp32
+  files:
+    model.onnx: {path: onnx/model.onnx, size: 470268510, sha256: ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665}
+    tokenizer.json: {path: onnx/tokenizer.json, size: 17082730, sha256: 0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39}
+  query_prefix: "query: "
+  passage_prefix: "passage: "
+  pooling: mean
+  max_length: 512
+reranker:
+  name: gte-multilingual-reranker-base
+  role: cross-encoder rerank (scores a question and one rule text together)
+  repo: onnx-community/gte-multilingual-reranker-base
+  revision: ee64367e35a2db0da46bb6497e13a18f8bd585cb
+  base_model: Alibaba-NLP/gte-multilingual-reranker-base
+  base_revision: 8215cf04918ba6f7b6a62bb44238ce2953d8831c
+  card: https://huggingface.co/Alibaba-NLP/gte-multilingual-reranker-base
+  licence: Apache-2.0
+  licence_evidence: "base model card metadata: 'license: apache-2.0'; the onnx-community conversion card names that base model and states no other licence"
+  bangla_evidence: "base model card metadata lists language 'bn' among 70+ languages ('Supports over 70 languages')"
+  parameters: 306M
+  onnx_source: onnx-community's ONNX conversion of the base model (made for Transformers.js); no remote code is run
+  variants:
+    fp32: {path: onnx/model.onnx, size: 1257814850, sha256: 4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9}
+    int8: {path: onnx/model_quantized.onnx, size: 340858200, sha256: ccf51dba7f8aa9205753761cfaa68c55f741792501463a3bf25d7e5bcdac7c35}
+  files:
+    tokenizer.json: {path: tokenizer.json, size: 17082999, sha256: 3ffb37461c391f096759f4a9bbbc329da0f36952f88bab061fcf84940c022e98}
+  max_length: 512

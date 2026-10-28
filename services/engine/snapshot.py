@@ -80,6 +80,22 @@ def build(field: dict, cache_dir: Path | None = None) -> dict:
         raise
 
 
+def unavailable(field: dict) -> dict:
+    """No forecast and no saved one. Weather-dependent facts become unknown, so decisions that need them abstain
+    (unknown is never "no risk"); advice that does not depend on the weather can still be given, labelled as such."""
+    return {"snapshot_id": f"snap-unavailable-{field['field_id']}", "field_id": field["field_id"], "mode": "unavailable",
+            "forecast": None, "created_at": _now(),
+            "location": {k: field[k] for k in ("precision", "country") if k in field}}
+
+
+def build_or_unavailable(field: dict, cache_dir: Path | None = None) -> dict:
+    """build(), but a network failure with nothing cached gives an 'unavailable' snapshot instead of an error."""
+    try:
+        return build(field) if cache_dir is None else build(field, cache_dir)
+    except NETWORK_ERRORS:
+        return unavailable(field)
+
+
 def age_hours(snap: dict, now: datetime | None = None) -> float:
     created = datetime.fromisoformat(snap["created_at"].replace("Z", "+00:00"))
     return ((now or datetime.now(timezone.utc)) - created).total_seconds() / 3600

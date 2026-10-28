@@ -280,3 +280,16 @@ def test_a_photo_never_changes_an_input_decision(store, tmp_path, monkeypatch):
     decision = lambda p: next(a for a in p["actions"] if a["kind"] == "input_decision")
     assert decision(with_photo)["decision"] == decision(without)["decision"]
     assert "area_trust_ref" not in decision(with_photo)["receipt"]
+
+
+def test_no_weather_and_nothing_cached_abstains_instead_of_crashing(store, tmp_path, monkeypatch):
+    import urllib.error
+    from services.engine import snapshot as snap_mod
+
+    def offline(field, cache_dir=None):
+        raise urllib.error.URLError("no network")
+    monkeypatch.setattr(snap_mod, "build", offline)
+    plan = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, inbox_dir=tmp_path / "inbox")
+    assert plan["status"] == "abstained" and plan["abstention"]["reason_code"] == "data_unavailable"
+    assert plan["data_mode"] == "unavailable"
+    assert list(_plan_validator().iter_errors(plan)) == []

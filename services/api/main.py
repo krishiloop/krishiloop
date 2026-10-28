@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import base64
 import binascii
+import hashlib
 import hmac
 import json
 import os
@@ -38,6 +39,7 @@ from services.vision.service import PhotoService
 WEB = Path(__file__).resolve().parent / "web"
 VC_MEDIA = "application/vc"
 PLAN_LIMIT_PER_MIN = 20
+ASK_CACHE_MAX = 2000
 SANDBOX_TTL_S, SANDBOX_MAX = 24 * 3600, 200
 SECURITY_HEADERS = {
     "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
@@ -55,8 +57,21 @@ def _warm_photo_model() -> None:
         bb.warm()
 
 
+@app.on_event("startup")
+def _warm_ask_router() -> None:
+    """Build the Ask index (and load its text models, if installed) in the background, so the first question is quick."""
+    def warm():
+        try:
+            from services.ask import graph as ask_graph
+            ask_graph.get_router()
+        except Exception:   # the first question or GET /api/ask/health reports the problem instead
+            pass
+    threading.Thread(target=warm, daemon=True).start()
+
+
 _store: TrustStore | None = None
 _plan_cache: dict[tuple, dict] = {}   # (store, field, profile, day) -> plan: no new credentials on every click
+_ask_cache: "OrderedDict[tuple, dict]" = OrderedDict()   # same question, same day: same answer, no second inbox case
 _hits: dict[str, deque] = defaultdict(deque)
 _sandboxes: "OrderedDict[str, dict]" = OrderedDict()
 _lock = threading.Lock()
@@ -98,6 +113,13 @@ class RecallRequest(BaseModel):
 
 class ResolveRequest(BaseModel):
     note: str = Field(max_length=1000)
+
+
+class AskRequest(BaseModel):
+    field_id: str = Field(max_length=64)
+    profile_id: str = Field(max_length=64)
+    question: str = Field(min_length=1, max_length=500)
+    lang: str = Field(default="en", pattern=r"^[a-z]{2,3}$")
 
 
 def store() -> TrustStore:
@@ -223,6 +245,8 @@ def _recall(st: TrustStore, body: RecallRequest, actor: str) -> dict:
     with _lock:
         for k in [k for k in _plan_cache if k[0] == st.status_id]:
             _plan_cache.pop(k)  # cached plans may contain the recalled rule
+        for k in [k for k in _ask_cache if k[0] == st.status_id]:
+            _ask_cache.pop(k)   # and so may cached answers
     return {"recalled_rule_credentials": hits,
             "note": "receipts that used this rule version now verify as 'recalled'; the planner no longer serves it"}
 
@@ -396,6 +420,8 @@ def demo_photo(sid: str, body: PhotoRequest, request: Request):
     svc = _photo_service(sb)
     try:
         return svc.submit(field, image, body.consent)
+    except vision_backbone.PhotoModelUnavailable:   # a remote photo worker is down or starting: not the farmer's fault
+        raise HTTPException(503, "the photo model is not reachable right now; try again in a minute")
     except (OSError, ValueError):
         raise HTTPException(422, "not a readable image")
 
@@ -466,6 +492,48 @@ def demo_inbox(sid: str):
 def demo_stats(sid: str):
     sb = _sandbox(sid)
     return {**sb["store"].stats(), "inbox_open": sum(i["status"] == "open" for i in inbox.list_items(sb["inbox"]))}
+
+
+# ---------------------------------------------------------------- Ask router (services/ask/: LangGraph, rule text only)
+def _ask_router():
+    """Loaded on first use (LangGraph, the index and any installed text models). Without LangGraph there is no router."""
+    try:
+        from services.ask import graph as ask_graph
+    except ImportError:
+        raise HTTPException(503, "the Ask router needs LangGraph (requirements-dev.txt)")
+    return ask_graph.get_router()
+
+
+@app.post("/api/demo/{sid}/ask")
+def demo_ask(sid: str, body: AskRequest, request: Request):
+    """A farmer's question: one sourced rule's validated text with a signed receipt, or a case in the officer's inbox."""
+    sb = _sandbox(sid)
+    field, profile = DEMO_FIELDS.get(body.field_id), DEMO_PROFILES.get(body.profile_id)
+    if not field or not profile:
+        raise HTTPException(404, "unknown demo field or profile")
+    question = body.question.strip()
+    if not question:
+        raise HTTPException(422, "the question is empty")
+    key = (sb["store"].status_id, body.field_id, body.profile_id, body.lang,
+           hashlib.sha256(question.encode("utf-8")).hexdigest(), date.today().isoformat())
+    with _lock:
+        cached = _ask_cache.get(key)
+    if cached:
+        return cached
+    if _rate_limited(request.client.host if request.client else "unknown"):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    result = _ask_router().ask(question, body.lang, field, profile, sb["store"], inbox_dir=sb["inbox"])
+    with _lock:
+        _ask_cache[key] = result
+        while len(_ask_cache) > ASK_CACHE_MAX:
+            _ask_cache.popitem(last=False)
+    return result
+
+
+@app.get("/api/ask/health")
+def ask_health():
+    """Which Ask retrieval stages are active here (bm25 / dense / rerank), the models and licences, and why a stage is off."""
+    return _ask_router().health()
 
 
 # ---------------------------------------------------------------- simple pages

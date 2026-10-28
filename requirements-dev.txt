@@ -13,3 +13,7 @@ numpy==2.5.4
 scipy==1.18.1
 # Official MCP Python SDK (v2: FastMCP is now mcp.server.mcpserver.MCPServer); services/mcp/ and tests/test_mcp.py.
 mcp==2.3.0
+# Ask router (services/ask/): the pipeline runs on LangGraph; tokenizers reads the optional ONNX text models'
+# tokenizer.json (onnxruntime is in requirements-ml.txt; ml/ask/export_text_models.py installs the models).
+langgraph==1.2.14
+tokenizers==0.23.3

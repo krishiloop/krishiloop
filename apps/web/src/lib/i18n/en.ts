@@ -47,6 +47,7 @@ const en = {
   'data.mode.live': 'live',
   'data.mode.snapshot': 'saved snapshot',
   'data.mode.sample': 'sample',
+  'data.mode.unavailable': 'no weather data reachable',
   'footer.honest': 'Honest status: every control is marked implemented or planned. Sample data is always labelled.',
   'footer.openCore': 'Open core. Apache-2.0.',
   'footer.facts': 'Facts come only from our verified fact register.',

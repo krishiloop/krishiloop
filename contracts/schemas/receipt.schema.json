@@ -197,7 +197,8 @@
           "enum": [
             "live",
             "snapshot",
-            "sample"
+            "sample",
+            "unavailable"
           ]
         },
         "data_as_of": {

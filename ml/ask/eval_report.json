@@ -1,0 +1,8799 @@
+{
+ "synthetic": true,
+ "caveat": "SYNTHETIC evaluation: all questions were written by the team's coding agent from the rule texts, and the weather is a synthetic forecast. These numbers measure the router against its own authors' questions, not real farmers. Replace or verify the seed set with real farmer questions before quoting any of them.",
+ "generated_at": "2026-10-28T13:24:18Z",
+ "seed": {
+  "file": "ml/ask/questions.seed.jsonl",
+  "sha256": "baef151c32202e3b0d7fe9c1f349878817e16e81ca731b7d4fe6fd3999669622",
+  "items": 77,
+  "in_scope": 61,
+  "out_of_scope": 16,
+  "should_answer": 53,
+  "should_abstain": 24,
+  "languages": {
+   "bn": 34,
+   "en": 43
+  },
+  "label_check": "passed: every label agrees with the rule engine in its context"
+ },
+ "split": {
+  "method": "sha256(id) order within each (category, expected outcome, language) stratum; first 40% = dev",
+  "dev": 32,
+  "test": 45
+ },
+ "weather": {
+  "synthetic": true,
+  "presets": {
+   "calm": {
+    "rh_mean_pct": 55,
+    "tmin_c": 14,
+    "tmax_c": 24,
+    "precip_mm": 0.0
+   },
+   "humid_potato": {
+    "rh_mean_pct": 95,
+    "tmin_c": 12,
+    "tmax_c": 20,
+    "precip_mm": 1.0
+   },
+   "humid_rice": {
+    "rh_mean_pct": 88,
+    "tmin_c": 24,
+    "tmax_c": 31,
+    "precip_mm": 2.0
+   },
+   "heavy_rain": {
+    "rh_mean_pct": 75,
+    "tmin_c": 18,
+    "tmax_c": 26,
+    "precip_mm": 30.0
+   },
+   "missing": null
+  }
+ },
+ "definitions": {
+  "accuracy@k": "share of items with relevant rules whose top-k retrieved rules include one of them (retrieval only)",
+  "abstention_precision": "of the questions the router sent to the officer, the share that should have gone",
+  "abstention_recall": "of the questions that should go to the officer, the share that did",
+  "wrong_answers": "answers whose rule is not an expected one, including answers to questions that should abstain",
+  "coverage": "share of answerable questions answered with an expected rule",
+  "outcome_accuracy": "share of questions with the right outcome (expected rule, or abstention when expected)"
+ },
+ "router": {
+  "build_seconds": 16.9,
+  "index": {
+   "rule_units": 23,
+   "corpus_chunks": 34,
+   "corpus_docs": [
+    "DOC-CIP-001"
+   ],
+   "chunking": "semantic: embedding similarity between adjacent sentences",
+   "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
+   "registry_sha256": "a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905"
+  },
+  "lexicon_sha256": "e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a",
+  "decide_top_k": 3,
+  "prefer_margin": 0.03,
+  "models": {
+   "embedder": {
+    "name": "multilingual-e5-small",
+    "repo": "intfloat/multilingual-e5-small",
+    "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "licence": "MIT",
+    "bangla_evidence": "model card metadata lists language 'bn'; the card says it 'supports 100 languages from xlm-roberta, but low-resource languages may see performance degradation'",
+    "parameters": "118M",
+    "variant": "fp32",
+    "card": "https://huggingface.co/intfloat/multilingual-e5-small",
+    "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665"
+   },
+   "reranker": {
+    "name": "gte-multilingual-reranker-base",
+    "repo": "onnx-community/gte-multilingual-reranker-base",
+    "revision": "ee64367e35a2db0da46bb6497e13a18f8bd585cb",
+    "base_model": "Alibaba-NLP/gte-multilingual-reranker-base",
+    "licence": "Apache-2.0",
+    "bangla_evidence": "base model card metadata lists language 'bn' among 70+ languages ('Supports over 70 languages')",
+    "parameters": "306M",
+    "variant": "fp32",
+    "card": "https://huggingface.co/Alibaba-NLP/gte-multilingual-reranker-base",
+    "sha256": "4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9"
+   }
+  }
+ },
+ "modes": {
+  "bm25": {
+   "run": true,
+   "stages": [
+    "bm25"
+   ],
+   "threshold": 0.23814,
+   "threshold_fixed_on": "dev split (32 items): 28 correct outcomes",
+   "test": {
+    "items": 45,
+    "accuracy@1": 0.861,
+    "accuracy@3": 0.972,
+    "retrieval_items": 36,
+    "abstention_precision": 0.765,
+    "abstention_recall": 0.929,
+    "abstained": 17,
+    "should_abstain": 14,
+    "answered": 28,
+    "answered_right_rule": 25,
+    "wrong_answers": 3,
+    "coverage": 0.806,
+    "outcome_accuracy": 0.844
+   },
+   "dev (threshold fitted here)": {
+    "items": 32,
+    "accuracy@1": 0.72,
+    "accuracy@3": 1.0,
+    "retrieval_items": 25,
+    "abstention_precision": 0.833,
+    "abstention_recall": 1.0,
+    "abstained": 12,
+    "should_abstain": 10,
+    "answered": 20,
+    "answered_right_rule": 18,
+    "wrong_answers": 2,
+    "coverage": 0.818,
+    "outcome_accuracy": 0.875
+   },
+   "latency_ms_median": 18,
+   "latency_ms_p90": 35,
+   "replay_agrees_with_pipeline": true,
+   "items": [
+    {
+     "id": "q-p01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.767
+      ],
+      [
+       "R-PLB-003",
+       0.533
+      ],
+      [
+       "R-PLB-004",
+       0.533
+      ]
+     ]
+    },
+    {
+     "id": "q-p02",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-001",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.667
+      ],
+      [
+       "R-PLB-011",
+       0.778
+      ],
+      [
+       "R-PLB-008",
+       0.778
+      ]
+     ]
+    },
+    {
+     "id": "q-p03",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.332
+      ],
+      [
+       "R-PLB-002",
+       0.025
+      ],
+      [
+       "R-PLB-003",
+       0.025
+      ]
+     ]
+    },
+    {
+     "id": "q-p04",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       1.0
+      ],
+      [
+       "R-PLB-001",
+       0.61
+      ],
+      [
+       "R-PLB-003",
+       0.41
+      ]
+     ]
+    },
+    {
+     "id": "q-p05",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       0.772
+      ],
+      [
+       "R-PLB-003",
+       0.386
+      ],
+      [
+       "R-PLB-004",
+       0.386
+      ]
+     ]
+    },
+    {
+     "id": "q-p06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.328
+      ],
+      [
+       "R-PLB-004",
+       0.201
+      ],
+      [
+       "R-PLB-002",
+       0.075
+      ]
+     ]
+    },
+    {
+     "id": "q-p07",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.238
+      ],
+      [
+       "R-PLB-007",
+       0.183
+      ],
+      [
+       "R-PLB-004",
+       0.183
+      ]
+     ]
+    },
+    {
+     "id": "q-p08",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.271
+      ],
+      [
+       "R-PLB-011",
+       0.225
+      ],
+      [
+       "R-PLB-005",
+       0.118
+      ]
+     ]
+    },
+    {
+     "id": "q-p09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       1.0
+      ],
+      [
+       "R-PLB-001",
+       0.669
+      ],
+      [
+       "R-PLB-007",
+       0.331
+      ]
+     ]
+    },
+    {
+     "id": "q-p10",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.259
+      ],
+      [
+       "R-PLB-006",
+       0.333
+      ],
+      [
+       "R-PLB-008",
+       0.259
+      ]
+     ]
+    },
+    {
+     "id": "q-p11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.599
+      ],
+      [
+       "R-PLB-001",
+       0.401
+      ],
+      [
+       "R-PLB-002",
+       0.401
+      ]
+     ]
+    },
+    {
+     "id": "q-p12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.46
+      ],
+      [
+       "R-PLB-001",
+       0.143
+      ],
+      [
+       "R-PLB-002",
+       0.143
+      ]
+     ]
+    },
+    {
+     "id": "q-p13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.365
+      ],
+      [
+       "R-PLB-003",
+       0.317
+      ],
+      [
+       "R-PLB-001",
+       0.317
+      ]
+     ]
+    },
+    {
+     "id": "q-p14",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.46
+      ],
+      [
+       "R-PLB-001",
+       0.143
+      ],
+      [
+       "R-PLB-002",
+       0.143
+      ]
+     ]
+    },
+    {
+     "id": "q-p15",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.416
+      ],
+      [
+       "R-PLB-008",
+       0.378
+      ],
+      [
+       "R-PLB-009",
+       0.378
+      ]
+     ]
+    },
+    {
+     "id": "q-p16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.361
+      ],
+      [
+       "R-PLB-010",
+       0.361
+      ],
+      [
+       "R-PLB-008",
+       0.361
+      ]
+     ]
+    },
+    {
+     "id": "q-p17",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.569
+      ],
+      [
+       "R-PLB-007",
+       0.0
+      ],
+      [
+       "R-PLB-004",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-p18",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       1.0
+      ],
+      [
+       "R-PLB-006",
+       0.0
+      ],
+      [
+       "R-PLB-001",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-p19",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       1.0
+      ],
+      [
+       "R-PLB-001",
+       0.0
+      ],
+      [
+       "R-PLB-002",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-p20",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.665
+      ],
+      [
+       "R-PLB-008",
+       0.552
+      ],
+      [
+       "R-PLB-011",
+       0.552
+      ]
+     ]
+    },
+    {
+     "id": "q-p21",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       1.0
+      ],
+      [
+       "R-PLB-006",
+       0.0
+      ],
+      [
+       "R-PLB-001",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-p22",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.671
+      ],
+      [
+       "R-PLB-002",
+       0.618
+      ],
+      [
+       "R-PLB-010",
+       0.289
+      ]
+     ]
+    },
+    {
+     "id": "q-p23",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.614
+      ],
+      [
+       "R-PLB-011",
+       0.614
+      ],
+      [
+       "R-PLB-004",
+       0.386
+      ]
+     ]
+    },
+    {
+     "id": "q-p24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       1.0
+      ],
+      [
+       "R-PLB-011",
+       1.0
+      ],
+      [
+       "R-PLB-008",
+       1.0
+      ]
+     ]
+    },
+    {
+     "id": "q-p25",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       1.0
+      ],
+      [
+       "R-PLB-011",
+       1.0
+      ],
+      [
+       "R-PLB-002",
+       1.0
+      ]
+     ]
+    },
+    {
+     "id": "q-p26",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       1.0
+      ],
+      [
+       "R-PLB-010",
+       0.412
+      ],
+      [
+       "R-PLB-002",
+       0.412
+      ]
+     ]
+    },
+    {
+     "id": "q-p27",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.672
+      ],
+      [
+       "R-PLB-009",
+       0.672
+      ],
+      [
+       "R-PLB-008",
+       0.672
+      ]
+     ]
+    },
+    {
+     "id": "q-p28",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.505
+      ],
+      [
+       "R-PLB-009",
+       0.39
+      ],
+      [
+       "R-PLB-010",
+       0.31
+      ]
+     ]
+    },
+    {
+     "id": "q-p29",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.255
+      ],
+      [
+       "R-PLB-011",
+       0.255
+      ],
+      [
+       "R-PLB-002",
+       0.255
+      ]
+     ]
+    },
+    {
+     "id": "q-p30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.279
+      ],
+      [
+       "R-PLB-011",
+       0.279
+      ],
+      [
+       "R-PLB-002",
+       0.279
+      ]
+     ]
+    },
+    {
+     "id": "q-r01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.723
+      ],
+      [
+       "R-BDR-003",
+       0.653
+      ],
+      [
+       "R-BDR-001",
+       0.723
+      ]
+     ]
+    },
+    {
+     "id": "q-r02",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.403
+      ],
+      [
+       "R-BDR-002",
+       0.701
+      ],
+      [
+       "R-BDR-003",
+       0.701
+      ]
+     ]
+    },
+    {
+     "id": "q-r03",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001|R-BDR-005|R-BDR-006",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.735
+      ],
+      [
+       "R-BDR-006",
+       0.55
+      ],
+      [
+       "R-BDR-012",
+       0.45
+      ]
+     ]
+    },
+    {
+     "id": "q-r04",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       1.0
+      ],
+      [
+       "R-BDR-002",
+       1.0
+      ],
+      [
+       "R-BDR-003",
+       1.0
+      ]
+     ]
+    },
+    {
+     "id": "q-r05",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       1.0
+      ],
+      [
+       "R-BDR-002",
+       1.0
+      ],
+      [
+       "R-BDR-003",
+       1.0
+      ]
+     ]
+    },
+    {
+     "id": "q-r06",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       1.0
+      ],
+      [
+       "R-BDR-002",
+       1.0
+      ],
+      [
+       "R-BDR-003",
+       1.0
+      ]
+     ]
+    },
+    {
+     "id": "q-r07",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.551
+      ],
+      [
+       "R-BDR-005",
+       0.551
+      ],
+      [
+       "R-BDR-001",
+       0.551
+      ]
+     ]
+    },
+    {
+     "id": "q-r08",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.494
+      ],
+      [
+       "R-BDR-005",
+       0.682
+      ],
+      [
+       "R-BDR-003",
+       0.682
+      ]
+     ]
+    },
+    {
+     "id": "q-r09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-004",
+     "got": "answer R-BDR-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.705
+      ],
+      [
+       "R-BDR-003",
+       0.375
+      ],
+      [
+       "R-BDR-010",
+       0.202
+      ]
+     ]
+    },
+    {
+     "id": "q-r10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-004|R-BDR-010|R-BDR-009",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.819
+      ],
+      [
+       "R-BDR-010",
+       0.227
+      ],
+      [
+       "R-BDR-009",
+       0.197
+      ]
+     ]
+    },
+    {
+     "id": "q-r11",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.412
+      ],
+      [
+       "R-BDR-003",
+       0.412
+      ],
+      [
+       "R-BDR-005",
+       0.412
+      ]
+     ]
+    },
+    {
+     "id": "q-r12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-005",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       1.0
+      ],
+      [
+       "R-BDR-006",
+       0.331
+      ],
+      [
+       "R-BDR-002",
+       0.331
+      ]
+     ]
+    },
+    {
+     "id": "q-r13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-005|R-BDR-002",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.606
+      ],
+      [
+       "R-BDR-002",
+       0.303
+      ],
+      [
+       "R-BDR-003",
+       0.303
+      ]
+     ]
+    },
+    {
+     "id": "q-r14",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       1.0
+      ],
+      [
+       "R-BDR-010",
+       0.365
+      ],
+      [
+       "R-BDR-005",
+       0.21
+      ]
+     ]
+    },
+    {
+     "id": "q-r15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       1.0
+      ],
+      [
+       "R-BDR-005",
+       0.5
+      ],
+      [
+       "R-BDR-002",
+       0.5
+      ]
+     ]
+    },
+    {
+     "id": "q-r16",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       1.0
+      ],
+      [
+       "R-BDR-011",
+       0.558
+      ],
+      [
+       "R-BDR-010",
+       0.558
+      ]
+     ]
+    },
+    {
+     "id": "q-r17",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.709
+      ],
+      [
+       "R-BDR-010",
+       0.25
+      ],
+      [
+       "R-BDR-009",
+       0.291
+      ]
+     ]
+    },
+    {
+     "id": "q-r18",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.709
+      ],
+      [
+       "R-BDR-010",
+       0.25
+      ],
+      [
+       "R-BDR-009",
+       0.291
+      ]
+     ]
+    },
+    {
+     "id": "q-r19",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.882
+      ],
+      [
+       "R-BDR-012",
+       0.882
+      ],
+      [
+       "R-BDR-009",
+       0.277
+      ]
+     ]
+    },
+    {
+     "id": "q-r20",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.707
+      ],
+      [
+       "R-BDR-012",
+       0.707
+      ],
+      [
+       "R-BDR-009",
+       0.319
+      ]
+     ]
+    },
+    {
+     "id": "q-r21",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       1.0
+      ],
+      [
+       "R-BDR-012",
+       1.0
+      ],
+      [
+       "R-BDR-009",
+       0.427
+      ]
+     ]
+    },
+    {
+     "id": "q-r22",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.882
+      ],
+      [
+       "R-BDR-012",
+       0.882
+      ],
+      [
+       "R-BDR-009",
+       0.277
+      ]
+     ]
+    },
+    {
+     "id": "q-r23",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.906
+      ],
+      [
+       "R-BDR-008",
+       0.372
+      ],
+      [
+       "R-BDR-007",
+       0.372
+      ]
+     ]
+    },
+    {
+     "id": "q-r24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       1.0
+      ],
+      [
+       "R-BDR-012",
+       0.404
+      ],
+      [
+       "R-BDR-004",
+       0.596
+      ]
+     ]
+    },
+    {
+     "id": "q-r25",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       1.0
+      ],
+      [
+       "R-BDR-008",
+       0.606
+      ],
+      [
+       "R-BDR-012",
+       0.606
+      ]
+     ]
+    },
+    {
+     "id": "q-r26",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-010",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.158
+      ],
+      [
+       "R-BDR-010",
+       0.158
+      ],
+      [
+       "R-BDR-004",
+       0.158
+      ]
+     ]
+    },
+    {
+     "id": "q-r27",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       1.0
+      ],
+      [
+       "R-BDR-007",
+       0.363
+      ],
+      [
+       "R-BDR-008",
+       0.171
+      ]
+     ]
+    },
+    {
+     "id": "q-r28",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       1.0
+      ],
+      [
+       "R-BDR-002",
+       0.712
+      ],
+      [
+       "R-BDR-001",
+       0.712
+      ]
+     ]
+    },
+    {
+     "id": "q-r29",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       1.0
+      ],
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-r30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       1.0
+      ],
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-r31",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.183
+      ],
+      [
+       "R-BDR-005",
+       0.183
+      ],
+      [
+       "R-BDR-002",
+       0.16
+      ]
+     ]
+    },
+    {
+     "id": "q-o01",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.0
+      ],
+      [
+       "R-PLB-002",
+       0.0
+      ],
+      [
+       "R-PLB-003",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o02",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "answer R-BDR-009",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.249
+      ],
+      [
+       "R-BDR-004",
+       0.249
+      ],
+      [
+       "R-BDR-001",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o03",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.702
+      ],
+      [
+       "R-PLB-009",
+       0.275
+      ],
+      [
+       "R-PLB-008",
+       0.275
+      ]
+     ]
+    },
+    {
+     "id": "q-o04",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ],
+      [
+       "R-BDR-003",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o05",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ],
+      [
+       "R-BDR-003",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.154
+      ],
+      [
+       "R-PLB-006",
+       0.0
+      ],
+      [
+       "R-PLB-001",
+       0.233
+      ]
+     ]
+    },
+    {
+     "id": "q-o07",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.0
+      ],
+      [
+       "R-PLB-002",
+       0.0
+      ],
+      [
+       "R-PLB-003",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o08",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.127
+      ],
+      [
+       "R-BDR-008",
+       0.127
+      ],
+      [
+       "R-BDR-007",
+       0.127
+      ]
+     ]
+    },
+    {
+     "id": "q-o09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.23
+      ],
+      [
+       "R-BDR-004",
+       0.23
+      ],
+      [
+       "R-BDR-001",
+       0.23
+      ]
+     ]
+    },
+    {
+     "id": "q-o10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.252
+      ],
+      [
+       "R-BDR-003",
+       0.252
+      ],
+      [
+       "R-BDR-008",
+       0.252
+      ]
+     ]
+    },
+    {
+     "id": "q-o11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ],
+      [
+       "R-BDR-003",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o12",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ],
+      [
+       "R-BDR-003",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.34
+      ],
+      [
+       "R-BDR-012",
+       0.34
+      ],
+      [
+       "R-BDR-007",
+       0.34
+      ]
+     ]
+    },
+    {
+     "id": "q-o14",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.5
+      ],
+      [
+       "R-BDR-003",
+       0.5
+      ],
+      [
+       "R-BDR-001",
+       0.0
+      ]
+     ]
+    },
+    {
+     "id": "q-o15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.624
+      ],
+      [
+       "R-BDR-003",
+       0.249
+      ],
+      [
+       "R-BDR-001",
+       0.376
+      ]
+     ]
+    },
+    {
+     "id": "q-o16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.0
+      ],
+      [
+       "R-BDR-002",
+       0.0
+      ],
+      [
+       "R-BDR-003",
+       0.0
+      ]
+     ]
+    }
+   ]
+  },
+  "dense": {
+   "run": true,
+   "stages": [
+    "dense"
+   ],
+   "threshold": 0.835113,
+   "threshold_fixed_on": "dev split (32 items): 26 correct outcomes",
+   "test": {
+    "items": 45,
+    "accuracy@1": 0.778,
+    "accuracy@3": 0.917,
+    "retrieval_items": 36,
+    "abstention_precision": 0.846,
+    "abstention_recall": 0.786,
+    "abstained": 13,
+    "should_abstain": 14,
+    "answered": 32,
+    "answered_right_rule": 26,
+    "wrong_answers": 6,
+    "coverage": 0.839,
+    "outcome_accuracy": 0.822
+   },
+   "dev (threshold fitted here)": {
+    "items": 32,
+    "accuracy@1": 0.56,
+    "accuracy@3": 1.0,
+    "retrieval_items": 25,
+    "abstention_precision": 0.889,
+    "abstention_recall": 0.8,
+    "abstained": 9,
+    "should_abstain": 10,
+    "answered": 23,
+    "answered_right_rule": 18,
+    "wrong_answers": 5,
+    "coverage": 0.818,
+    "outcome_accuracy": 0.812
+   },
+   "latency_ms_median": 29,
+   "latency_ms_p90": 37,
+   "replay_agrees_with_pipeline": true,
+   "items": [
+    {
+     "id": "q-p01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.909
+      ],
+      [
+       "R-PLB-003",
+       0.889
+      ],
+      [
+       "R-PLB-004",
+       0.887
+      ]
+     ]
+    },
+    {
+     "id": "q-p02",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-003",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.866
+      ],
+      [
+       "R-PLB-005",
+       0.863
+      ],
+      [
+       "R-PLB-003",
+       0.862
+      ]
+     ]
+    },
+    {
+     "id": "q-p03",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.859
+      ],
+      [
+       "R-PLB-010",
+       0.836
+      ],
+      [
+       "R-PLB-005",
+       0.825
+      ]
+     ]
+    },
+    {
+     "id": "q-p04",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       0.877
+      ],
+      [
+       "R-PLB-005",
+       0.857
+      ],
+      [
+       "R-PLB-001",
+       0.846
+      ]
+     ]
+    },
+    {
+     "id": "q-p05",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.862
+      ],
+      [
+       "R-PLB-002",
+       0.856
+      ],
+      [
+       "R-PLB-004",
+       0.848
+      ]
+     ]
+    },
+    {
+     "id": "q-p06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-004",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.874
+      ],
+      [
+       "R-PLB-003",
+       0.872
+      ],
+      [
+       "R-PLB-001",
+       0.868
+      ]
+     ]
+    },
+    {
+     "id": "q-p07",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.848
+      ],
+      [
+       "R-PLB-003",
+       0.847
+      ],
+      [
+       "R-PLB-004",
+       0.846
+      ]
+     ]
+    },
+    {
+     "id": "q-p08",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.869
+      ],
+      [
+       "R-PLB-005",
+       0.868
+      ],
+      [
+       "R-PLB-001",
+       0.863
+      ]
+     ]
+    },
+    {
+     "id": "q-p09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.874
+      ],
+      [
+       "R-PLB-001",
+       0.867
+      ],
+      [
+       "R-PLB-005",
+       0.852
+      ]
+     ]
+    },
+    {
+     "id": "q-p10",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.886
+      ],
+      [
+       "R-PLB-009",
+       0.867
+      ],
+      [
+       "R-PLB-011",
+       0.867
+      ]
+     ]
+    },
+    {
+     "id": "q-p11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.848
+      ],
+      [
+       "R-PLB-004",
+       0.848
+      ],
+      [
+       "R-PLB-001",
+       0.845
+      ]
+     ]
+    },
+    {
+     "id": "q-p12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.904
+      ],
+      [
+       "R-PLB-004",
+       0.862
+      ],
+      [
+       "R-PLB-007",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-p13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.883
+      ],
+      [
+       "R-PLB-004",
+       0.865
+      ],
+      [
+       "R-PLB-003",
+       0.852
+      ]
+     ]
+    },
+    {
+     "id": "q-p14",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.904
+      ],
+      [
+       "R-PLB-004",
+       0.862
+      ],
+      [
+       "R-PLB-007",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-p15",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.871
+      ],
+      [
+       "R-PLB-005",
+       0.86
+      ],
+      [
+       "R-PLB-006",
+       0.859
+      ]
+     ]
+    },
+    {
+     "id": "q-p16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.857
+      ],
+      [
+       "R-PLB-005",
+       0.855
+      ],
+      [
+       "R-PLB-006",
+       0.847
+      ]
+     ]
+    },
+    {
+     "id": "q-p17",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.872
+      ],
+      [
+       "R-PLB-005",
+       0.856
+      ],
+      [
+       "R-PLB-007",
+       0.845
+      ]
+     ]
+    },
+    {
+     "id": "q-p18",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.883
+      ],
+      [
+       "R-PLB-005",
+       0.866
+      ],
+      [
+       "R-PLB-003",
+       0.863
+      ]
+     ]
+    },
+    {
+     "id": "q-p19",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.858
+      ],
+      [
+       "R-PLB-005",
+       0.849
+      ],
+      [
+       "R-PLB-008",
+       0.844
+      ]
+     ]
+    },
+    {
+     "id": "q-p20",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.872
+      ],
+      [
+       "R-PLB-004",
+       0.87
+      ],
+      [
+       "R-PLB-005",
+       0.869
+      ]
+     ]
+    },
+    {
+     "id": "q-p21",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.883
+      ],
+      [
+       "R-PLB-005",
+       0.866
+      ],
+      [
+       "R-PLB-003",
+       0.863
+      ]
+     ]
+    },
+    {
+     "id": "q-p22",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.885
+      ],
+      [
+       "R-PLB-001",
+       0.882
+      ],
+      [
+       "R-PLB-011",
+       0.878
+      ]
+     ]
+    },
+    {
+     "id": "q-p23",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.876
+      ],
+      [
+       "R-PLB-003",
+       0.869
+      ],
+      [
+       "R-PLB-011",
+       0.868
+      ]
+     ]
+    },
+    {
+     "id": "q-p24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.867
+      ],
+      [
+       "R-PLB-010",
+       0.864
+      ],
+      [
+       "R-PLB-008",
+       0.859
+      ]
+     ]
+    },
+    {
+     "id": "q-p25",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-011",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.853
+      ],
+      [
+       "R-PLB-001",
+       0.846
+      ],
+      [
+       "R-PLB-009",
+       0.845
+      ]
+     ]
+    },
+    {
+     "id": "q-p26",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.863
+      ],
+      [
+       "R-PLB-003",
+       0.856
+      ],
+      [
+       "R-PLB-001",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-p27",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.878
+      ],
+      [
+       "R-PLB-009",
+       0.874
+      ],
+      [
+       "R-PLB-008",
+       0.849
+      ]
+     ]
+    },
+    {
+     "id": "q-p28",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.871
+      ],
+      [
+       "R-PLB-011",
+       0.867
+      ],
+      [
+       "R-PLB-005",
+       0.841
+      ]
+     ]
+    },
+    {
+     "id": "q-p29",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.838
+      ],
+      [
+       "R-PLB-005",
+       0.823
+      ],
+      [
+       "R-PLB-008",
+       0.816
+      ]
+     ]
+    },
+    {
+     "id": "q-p30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-010",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.811
+      ],
+      [
+       "R-PLB-010",
+       0.808
+      ],
+      [
+       "R-PLB-001",
+       0.804
+      ]
+     ]
+    },
+    {
+     "id": "q-r01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.887
+      ],
+      [
+       "R-BDR-003",
+       0.88
+      ],
+      [
+       "R-BDR-005",
+       0.868
+      ]
+     ]
+    },
+    {
+     "id": "q-r02",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.873
+      ],
+      [
+       "R-BDR-001",
+       0.872
+      ],
+      [
+       "R-BDR-003",
+       0.871
+      ]
+     ]
+    },
+    {
+     "id": "q-r03",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001|R-BDR-005|R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.857
+      ],
+      [
+       "R-BDR-001",
+       0.857
+      ],
+      [
+       "R-BDR-005",
+       0.856
+      ]
+     ]
+    },
+    {
+     "id": "q-r04",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.869
+      ],
+      [
+       "R-BDR-002",
+       0.867
+      ],
+      [
+       "R-BDR-006",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-r05",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.867
+      ],
+      [
+       "R-BDR-003",
+       0.866
+      ],
+      [
+       "R-BDR-005",
+       0.861
+      ]
+     ]
+    },
+    {
+     "id": "q-r06",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.881
+      ],
+      [
+       "R-BDR-003",
+       0.879
+      ],
+      [
+       "R-BDR-002",
+       0.876
+      ]
+     ]
+    },
+    {
+     "id": "q-r07",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.872
+      ],
+      [
+       "R-BDR-005",
+       0.87
+      ],
+      [
+       "R-BDR-007",
+       0.865
+      ]
+     ]
+    },
+    {
+     "id": "q-r08",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.844
+      ],
+      [
+       "R-BDR-003",
+       0.84
+      ],
+      [
+       "R-BDR-009",
+       0.839
+      ]
+     ]
+    },
+    {
+     "id": "q-r09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-004",
+     "got": "answer R-BDR-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.9
+      ],
+      [
+       "R-BDR-003",
+       0.886
+      ],
+      [
+       "R-BDR-009",
+       0.875
+      ]
+     ]
+    },
+    {
+     "id": "q-r10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-004|R-BDR-010|R-BDR-009",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.9
+      ],
+      [
+       "R-BDR-009",
+       0.869
+      ],
+      [
+       "R-BDR-003",
+       0.868
+      ]
+     ]
+    },
+    {
+     "id": "q-r11",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.863
+      ],
+      [
+       "R-BDR-003",
+       0.862
+      ],
+      [
+       "R-BDR-002",
+       0.861
+      ]
+     ]
+    },
+    {
+     "id": "q-r12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-005",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.886
+      ],
+      [
+       "R-BDR-007",
+       0.865
+      ],
+      [
+       "R-BDR-006",
+       0.859
+      ]
+     ]
+    },
+    {
+     "id": "q-r13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-005|R-BDR-002",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.896
+      ],
+      [
+       "R-BDR-002",
+       0.856
+      ],
+      [
+       "R-BDR-006",
+       0.855
+      ]
+     ]
+    },
+    {
+     "id": "q-r14",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.886
+      ],
+      [
+       "R-BDR-007",
+       0.864
+      ],
+      [
+       "R-BDR-010",
+       0.855
+      ]
+     ]
+    },
+    {
+     "id": "q-r15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.867
+      ],
+      [
+       "R-BDR-005",
+       0.829
+      ],
+      [
+       "R-BDR-010",
+       0.826
+      ]
+     ]
+    },
+    {
+     "id": "q-r16",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.859
+      ],
+      [
+       "R-BDR-010",
+       0.835
+      ],
+      [
+       "R-BDR-011",
+       0.832
+      ]
+     ]
+    },
+    {
+     "id": "q-r17",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.91
+      ],
+      [
+       "R-BDR-010",
+       0.877
+      ],
+      [
+       "R-BDR-009",
+       0.852
+      ]
+     ]
+    },
+    {
+     "id": "q-r18",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.91
+      ],
+      [
+       "R-BDR-010",
+       0.877
+      ],
+      [
+       "R-BDR-009",
+       0.852
+      ]
+     ]
+    },
+    {
+     "id": "q-r19",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.863
+      ],
+      [
+       "R-BDR-008",
+       0.858
+      ],
+      [
+       "R-BDR-009",
+       0.857
+      ]
+     ]
+    },
+    {
+     "id": "q-r20",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.86
+      ],
+      [
+       "R-BDR-009",
+       0.856
+      ],
+      [
+       "R-BDR-012",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-r21",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.895
+      ],
+      [
+       "R-BDR-012",
+       0.89
+      ],
+      [
+       "R-BDR-009",
+       0.864
+      ]
+     ]
+    },
+    {
+     "id": "q-r22",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.863
+      ],
+      [
+       "R-BDR-008",
+       0.858
+      ],
+      [
+       "R-BDR-009",
+       0.857
+      ]
+     ]
+    },
+    {
+     "id": "q-r23",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-010",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.885
+      ],
+      [
+       "R-BDR-010",
+       0.86
+      ],
+      [
+       "R-BDR-009",
+       0.859
+      ]
+     ]
+    },
+    {
+     "id": "q-r24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.895
+      ],
+      [
+       "R-BDR-012",
+       0.863
+      ],
+      [
+       "R-BDR-008",
+       0.851
+      ]
+     ]
+    },
+    {
+     "id": "q-r25",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.901
+      ],
+      [
+       "R-BDR-012",
+       0.853
+      ],
+      [
+       "R-BDR-008",
+       0.851
+      ]
+     ]
+    },
+    {
+     "id": "q-r26",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-009",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.882
+      ],
+      [
+       "R-BDR-009",
+       0.867
+      ],
+      [
+       "R-BDR-010",
+       0.867
+      ]
+     ]
+    },
+    {
+     "id": "q-r27",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.896
+      ],
+      [
+       "R-BDR-012",
+       0.86
+      ],
+      [
+       "R-BDR-007",
+       0.858
+      ]
+     ]
+    },
+    {
+     "id": "q-r28",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.91
+      ],
+      [
+       "R-BDR-007",
+       0.883
+      ],
+      [
+       "R-BDR-005",
+       0.882
+      ]
+     ]
+    },
+    {
+     "id": "q-r29",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.902
+      ],
+      [
+       "R-BDR-007",
+       0.855
+      ],
+      [
+       "R-BDR-005",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-r30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.902
+      ],
+      [
+       "R-BDR-007",
+       0.855
+      ],
+      [
+       "R-BDR-005",
+       0.854
+      ]
+     ]
+    },
+    {
+     "id": "q-r31",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.885
+      ],
+      [
+       "R-BDR-003",
+       0.855
+      ],
+      [
+       "R-BDR-002",
+       0.85
+      ]
+     ]
+    },
+    {
+     "id": "q-o01",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-008",
+       0.826
+      ],
+      [
+       "R-PLB-007",
+       0.824
+      ],
+      [
+       "R-PLB-005",
+       0.823
+      ]
+     ]
+    },
+    {
+     "id": "q-o02",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.807
+      ],
+      [
+       "R-BDR-002",
+       0.806
+      ],
+      [
+       "R-BDR-005",
+       0.796
+      ]
+     ]
+    },
+    {
+     "id": "q-o03",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.823
+      ],
+      [
+       "R-PLB-009",
+       0.819
+      ],
+      [
+       "R-PLB-008",
+       0.802
+      ]
+     ]
+    },
+    {
+     "id": "q-o04",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.834
+      ],
+      [
+       "R-BDR-011",
+       0.825
+      ],
+      [
+       "R-BDR-006",
+       0.825
+      ]
+     ]
+    },
+    {
+     "id": "q-o05",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.819
+      ],
+      [
+       "R-BDR-008",
+       0.817
+      ],
+      [
+       "R-BDR-012",
+       0.808
+      ]
+     ]
+    },
+    {
+     "id": "q-o06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.862
+      ],
+      [
+       "R-PLB-003",
+       0.849
+      ],
+      [
+       "R-PLB-004",
+       0.843
+      ]
+     ]
+    },
+    {
+     "id": "q-o07",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.85
+      ],
+      [
+       "R-PLB-008",
+       0.848
+      ],
+      [
+       "R-PLB-009",
+       0.845
+      ]
+     ]
+    },
+    {
+     "id": "q-o08",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "answer R-BDR-009",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.858
+      ],
+      [
+       "R-BDR-009",
+       0.857
+      ],
+      [
+       "R-BDR-011",
+       0.856
+      ]
+     ]
+    },
+    {
+     "id": "q-o09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "answer R-BDR-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.866
+      ],
+      [
+       "R-BDR-009",
+       0.864
+      ],
+      [
+       "R-BDR-007",
+       0.862
+      ]
+     ]
+    },
+    {
+     "id": "q-o10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "answer R-BDR-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.851
+      ],
+      [
+       "R-BDR-005",
+       0.831
+      ],
+      [
+       "R-BDR-002",
+       0.83
+      ]
+     ]
+    },
+    {
+     "id": "q-o11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.816
+      ],
+      [
+       "R-BDR-005",
+       0.808
+      ],
+      [
+       "R-BDR-001",
+       0.807
+      ]
+     ]
+    },
+    {
+     "id": "q-o12",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "answer R-BDR-010",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.839
+      ],
+      [
+       "R-BDR-010",
+       0.838
+      ],
+      [
+       "R-BDR-012",
+       0.832
+      ]
+     ]
+    },
+    {
+     "id": "q-o13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.844
+      ],
+      [
+       "R-BDR-005",
+       0.838
+      ],
+      [
+       "R-BDR-009",
+       0.833
+      ]
+     ]
+    },
+    {
+     "id": "q-o14",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.827
+      ],
+      [
+       "R-BDR-006",
+       0.825
+      ],
+      [
+       "R-BDR-004",
+       0.824
+      ]
+     ]
+    },
+    {
+     "id": "q-o15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "answer R-BDR-010",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.868
+      ],
+      [
+       "R-BDR-011",
+       0.865
+      ],
+      [
+       "R-BDR-010",
+       0.865
+      ]
+     ]
+    },
+    {
+     "id": "q-o16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.849
+      ],
+      [
+       "R-BDR-009",
+       0.843
+      ],
+      [
+       "R-BDR-005",
+       0.842
+      ]
+     ]
+    }
+   ]
+  },
+  "hybrid": {
+   "run": true,
+   "stages": [
+    "bm25",
+    "dense"
+   ],
+   "threshold": 0.540875,
+   "threshold_fixed_on": "dev split (32 items): 29 correct outcomes",
+   "test": {
+    "items": 45,
+    "accuracy@1": 0.889,
+    "accuracy@3": 1.0,
+    "retrieval_items": 36,
+    "abstention_precision": 0.875,
+    "abstention_recall": 1.0,
+    "abstained": 16,
+    "should_abstain": 14,
+    "answered": 29,
+    "answered_right_rule": 28,
+    "wrong_answers": 1,
+    "coverage": 0.903,
+    "outcome_accuracy": 0.933
+   },
+   "dev (threshold fitted here)": {
+    "items": 32,
+    "accuracy@1": 0.76,
+    "accuracy@3": 1.0,
+    "retrieval_items": 25,
+    "abstention_precision": 0.833,
+    "abstention_recall": 1.0,
+    "abstained": 12,
+    "should_abstain": 10,
+    "answered": 20,
+    "answered_right_rule": 19,
+    "wrong_answers": 1,
+    "coverage": 0.864,
+    "outcome_accuracy": 0.906
+   },
+   "latency_ms_median": 30,
+   "latency_ms_p90": 40,
+   "replay_agrees_with_pipeline": true,
+   "items": [
+    {
+     "id": "q-p01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.838
+      ],
+      [
+       "R-PLB-003",
+       0.711
+      ],
+      [
+       "R-PLB-004",
+       0.71
+      ]
+     ]
+    },
+    {
+     "id": "q-p02",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.764
+      ],
+      [
+       "R-PLB-005",
+       0.543
+      ],
+      [
+       "R-PLB-003",
+       0.709
+      ]
+     ]
+    },
+    {
+     "id": "q-p03",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.596
+      ],
+      [
+       "R-PLB-005",
+       0.425
+      ],
+      [
+       "R-PLB-002",
+       0.418
+      ]
+     ]
+    },
+    {
+     "id": "q-p04",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       0.938
+      ],
+      [
+       "R-PLB-001",
+       0.728
+      ],
+      [
+       "R-PLB-005",
+       0.429
+      ]
+     ]
+    },
+    {
+     "id": "q-p05",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       0.814
+      ],
+      [
+       "R-PLB-005",
+       0.431
+      ],
+      [
+       "R-PLB-003",
+       0.617
+      ]
+     ]
+    },
+    {
+     "id": "q-p06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.6
+      ],
+      [
+       "R-PLB-004",
+       0.537
+      ],
+      [
+       "R-PLB-001",
+       0.472
+      ]
+     ]
+    },
+    {
+     "id": "q-p07",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.542
+      ],
+      [
+       "R-PLB-004",
+       0.515
+      ],
+      [
+       "R-PLB-005",
+       0.424
+      ]
+     ]
+    },
+    {
+     "id": "q-p08",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.57
+      ],
+      [
+       "R-PLB-005",
+       0.493
+      ],
+      [
+       "R-PLB-001",
+       0.467
+      ]
+     ]
+    },
+    {
+     "id": "q-p09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.937
+      ],
+      [
+       "R-PLB-001",
+       0.768
+      ],
+      [
+       "R-PLB-007",
+       0.591
+      ]
+     ]
+    },
+    {
+     "id": "q-p10",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.563
+      ],
+      [
+       "R-PLB-004",
+       0.579
+      ],
+      [
+       "R-PLB-006",
+       0.597
+      ]
+     ]
+    },
+    {
+     "id": "q-p11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.724
+      ],
+      [
+       "R-PLB-001",
+       0.623
+      ],
+      [
+       "R-PLB-005",
+       0.424
+      ]
+     ]
+    },
+    {
+     "id": "q-p12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.682
+      ],
+      [
+       "R-PLB-004",
+       0.502
+      ],
+      [
+       "R-PLB-001",
+       0.495
+      ]
+     ]
+    },
+    {
+     "id": "q-p13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.624
+      ],
+      [
+       "R-PLB-003",
+       0.585
+      ],
+      [
+       "R-PLB-004",
+       0.591
+      ]
+     ]
+    },
+    {
+     "id": "q-p14",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.682
+      ],
+      [
+       "R-PLB-004",
+       0.502
+      ],
+      [
+       "R-PLB-001",
+       0.495
+      ]
+     ]
+    },
+    {
+     "id": "q-p15",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.638
+      ],
+      [
+       "R-PLB-004",
+       0.538
+      ],
+      [
+       "R-PLB-008",
+       0.61
+      ]
+     ]
+    },
+    {
+     "id": "q-p16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.604
+      ],
+      [
+       "R-PLB-008",
+       0.601
+      ],
+      [
+       "R-PLB-004",
+       0.567
+      ]
+     ]
+    },
+    {
+     "id": "q-p17",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.721
+      ],
+      [
+       "R-PLB-007",
+       0.422
+      ],
+      [
+       "R-PLB-004",
+       0.422
+      ]
+     ]
+    },
+    {
+     "id": "q-p18",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.941
+      ],
+      [
+       "R-PLB-005",
+       0.433
+      ],
+      [
+       "R-PLB-006",
+       0.426
+      ]
+     ]
+    },
+    {
+     "id": "q-p19",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.929
+      ],
+      [
+       "R-PLB-001",
+       0.422
+      ],
+      [
+       "R-PLB-005",
+       0.425
+      ]
+     ]
+    },
+    {
+     "id": "q-p20",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.769
+      ],
+      [
+       "R-PLB-008",
+       0.71
+      ],
+      [
+       "R-PLB-011",
+       0.709
+      ]
+     ]
+    },
+    {
+     "id": "q-p21",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.941
+      ],
+      [
+       "R-PLB-005",
+       0.433
+      ],
+      [
+       "R-PLB-006",
+       0.426
+      ]
+     ]
+    },
+    {
+     "id": "q-p22",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.774
+      ],
+      [
+       "R-PLB-001",
+       0.452
+      ],
+      [
+       "R-PLB-005",
+       0.454
+      ]
+     ]
+    },
+    {
+     "id": "q-p23",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.741
+      ],
+      [
+       "R-PLB-004",
+       0.625
+      ],
+      [
+       "R-PLB-010",
+       0.737
+      ]
+     ]
+    },
+    {
+     "id": "q-p24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.932
+      ],
+      [
+       "R-PLB-008",
+       0.93
+      ],
+      [
+       "R-PLB-011",
+       0.93
+      ]
+     ]
+    },
+    {
+     "id": "q-p25",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.922
+      ],
+      [
+       "R-PLB-011",
+       0.921
+      ],
+      [
+       "R-PLB-009",
+       0.923
+      ]
+     ]
+    },
+    {
+     "id": "q-p26",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.927
+      ],
+      [
+       "R-PLB-004",
+       0.425
+      ],
+      [
+       "R-PLB-008",
+       0.632
+      ]
+     ]
+    },
+    {
+     "id": "q-p27",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.775
+      ],
+      [
+       "R-PLB-009",
+       0.773
+      ],
+      [
+       "R-PLB-008",
+       0.761
+      ]
+     ]
+    },
+    {
+     "id": "q-p28",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-011",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.686
+      ],
+      [
+       "R-PLB-009",
+       0.631
+      ],
+      [
+       "R-PLB-008",
+       0.575
+      ]
+     ]
+    },
+    {
+     "id": "q-p29",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.547
+      ],
+      [
+       "R-PLB-011",
+       0.535
+      ],
+      [
+       "R-PLB-008",
+       0.535
+      ]
+     ]
+    },
+    {
+     "id": "q-p30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.543
+      ],
+      [
+       "R-PLB-011",
+       0.538
+      ],
+      [
+       "R-PLB-005",
+       0.405
+      ]
+     ]
+    },
+    {
+     "id": "q-r01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.805
+      ],
+      [
+       "R-BDR-003",
+       0.767
+      ],
+      [
+       "R-BDR-001",
+       0.794
+      ]
+     ]
+    },
+    {
+     "id": "q-r02",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.787
+      ],
+      [
+       "R-BDR-005",
+       0.635
+      ],
+      [
+       "R-BDR-001",
+       0.787
+      ]
+     ]
+    },
+    {
+     "id": "q-r03",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001|R-BDR-005|R-BDR-006",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.704
+      ],
+      [
+       "R-BDR-005",
+       0.796
+      ],
+      [
+       "R-BDR-001",
+       0.703
+      ]
+     ]
+    },
+    {
+     "id": "q-r04",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.935
+      ],
+      [
+       "R-BDR-002",
+       0.933
+      ],
+      [
+       "R-BDR-005",
+       0.927
+      ]
+     ]
+    },
+    {
+     "id": "q-r05",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.934
+      ],
+      [
+       "R-BDR-005",
+       0.931
+      ],
+      [
+       "R-BDR-003",
+       0.933
+      ]
+     ]
+    },
+    {
+     "id": "q-r06",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.941
+      ],
+      [
+       "R-BDR-003",
+       0.939
+      ],
+      [
+       "R-BDR-002",
+       0.938
+      ]
+     ]
+    },
+    {
+     "id": "q-r07",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.711
+      ],
+      [
+       "R-BDR-005",
+       0.71
+      ],
+      [
+       "R-BDR-002",
+       0.589
+      ]
+     ]
+    },
+    {
+     "id": "q-r08",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.669
+      ],
+      [
+       "R-BDR-003",
+       0.761
+      ],
+      [
+       "R-BDR-005",
+       0.759
+      ]
+     ]
+    },
+    {
+     "id": "q-r09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-004",
+     "got": "answer R-BDR-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.802
+      ],
+      [
+       "R-BDR-003",
+       0.63
+      ],
+      [
+       "R-BDR-010",
+       0.532
+      ]
+     ]
+    },
+    {
+     "id": "q-r10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-004|R-BDR-010|R-BDR-009",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.859
+      ],
+      [
+       "R-BDR-009",
+       0.533
+      ],
+      [
+       "R-BDR-010",
+       0.547
+      ]
+     ]
+    },
+    {
+     "id": "q-r11",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.637
+      ],
+      [
+       "R-BDR-002",
+       0.636
+      ],
+      [
+       "R-BDR-003",
+       0.637
+      ]
+     ]
+    },
+    {
+     "id": "q-r12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-005",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.943
+      ],
+      [
+       "R-BDR-006",
+       0.595
+      ],
+      [
+       "R-BDR-002",
+       0.589
+      ]
+     ]
+    },
+    {
+     "id": "q-r13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-005|R-BDR-002",
+     "got": "answer R-BDR-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.751
+      ],
+      [
+       "R-BDR-002",
+       0.579
+      ],
+      [
+       "R-BDR-003",
+       0.577
+      ]
+     ]
+    },
+    {
+     "id": "q-r14",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.943
+      ],
+      [
+       "R-BDR-010",
+       0.61
+      ],
+      [
+       "R-BDR-005",
+       0.532
+      ]
+     ]
+    },
+    {
+     "id": "q-r15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.933
+      ],
+      [
+       "R-BDR-005",
+       0.664
+      ],
+      [
+       "R-BDR-003",
+       0.661
+      ]
+     ]
+    },
+    {
+     "id": "q-r16",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.93
+      ],
+      [
+       "R-BDR-010",
+       0.697
+      ],
+      [
+       "R-BDR-011",
+       0.695
+      ]
+     ]
+    },
+    {
+     "id": "q-r17",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.809
+      ],
+      [
+       "R-BDR-010",
+       0.564
+      ],
+      [
+       "R-BDR-009",
+       0.572
+      ]
+     ]
+    },
+    {
+     "id": "q-r18",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.809
+      ],
+      [
+       "R-BDR-010",
+       0.564
+      ],
+      [
+       "R-BDR-009",
+       0.572
+      ]
+     ]
+    },
+    {
+     "id": "q-r19",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.872
+      ],
+      [
+       "R-BDR-008",
+       0.87
+      ],
+      [
+       "R-BDR-009",
+       0.567
+      ]
+     ]
+    },
+    {
+     "id": "q-r20",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.783
+      ],
+      [
+       "R-BDR-012",
+       0.781
+      ],
+      [
+       "R-BDR-009",
+       0.587
+      ]
+     ]
+    },
+    {
+     "id": "q-r21",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.947
+      ],
+      [
+       "R-BDR-012",
+       0.945
+      ],
+      [
+       "R-BDR-009",
+       0.645
+      ]
+     ]
+    },
+    {
+     "id": "q-r22",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.872
+      ],
+      [
+       "R-BDR-008",
+       0.87
+      ],
+      [
+       "R-BDR-009",
+       0.567
+      ]
+     ]
+    },
+    {
+     "id": "q-r23",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.896
+      ],
+      [
+       "R-BDR-010",
+       0.505
+      ],
+      [
+       "R-BDR-008",
+       0.615
+      ]
+     ]
+    },
+    {
+     "id": "q-r24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.948
+      ],
+      [
+       "R-BDR-012",
+       0.634
+      ],
+      [
+       "R-BDR-008",
+       0.548
+      ]
+     ]
+    },
+    {
+     "id": "q-r25",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.951
+      ],
+      [
+       "R-BDR-012",
+       0.729
+      ],
+      [
+       "R-BDR-008",
+       0.728
+      ]
+     ]
+    },
+    {
+     "id": "q-r26",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-010",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.513
+      ],
+      [
+       "R-BDR-004",
+       0.52
+      ],
+      [
+       "R-BDR-010",
+       0.513
+      ]
+     ]
+    },
+    {
+     "id": "q-r27",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.948
+      ],
+      [
+       "R-BDR-007",
+       0.61
+      ],
+      [
+       "R-BDR-012",
+       0.516
+      ]
+     ]
+    },
+    {
+     "id": "q-r28",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.955
+      ],
+      [
+       "R-BDR-003",
+       0.438
+      ],
+      [
+       "R-BDR-002",
+       0.79
+      ]
+     ]
+    },
+    {
+     "id": "q-r29",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.951
+      ],
+      [
+       "R-BDR-005",
+       0.427
+      ],
+      [
+       "R-BDR-007",
+       0.428
+      ]
+     ]
+    },
+    {
+     "id": "q-r30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.951
+      ],
+      [
+       "R-BDR-005",
+       0.427
+      ],
+      [
+       "R-BDR-007",
+       0.428
+      ]
+     ]
+    },
+    {
+     "id": "q-r31",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.534
+      ],
+      [
+       "R-BDR-003",
+       0.507
+      ],
+      [
+       "R-BDR-002",
+       0.505
+      ]
+     ]
+    },
+    {
+     "id": "q-o01",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.412
+      ],
+      [
+       "R-PLB-008",
+       0.413
+      ],
+      [
+       "R-PLB-007",
+       0.412
+      ]
+     ]
+    },
+    {
+     "id": "q-o02",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.404
+      ],
+      [
+       "R-BDR-002",
+       0.403
+      ],
+      [
+       "R-BDR-005",
+       0.398
+      ]
+     ]
+    },
+    {
+     "id": "q-o03",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.762
+      ],
+      [
+       "R-PLB-009",
+       0.547
+      ],
+      [
+       "R-PLB-008",
+       0.538
+      ]
+     ]
+    },
+    {
+     "id": "q-o04",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.417
+      ],
+      [
+       "R-BDR-002",
+       0.41
+      ],
+      [
+       "R-BDR-001",
+       0.409
+      ]
+     ]
+    },
+    {
+     "id": "q-o05",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.402
+      ],
+      [
+       "R-BDR-007",
+       0.41
+      ],
+      [
+       "R-BDR-001",
+       0.396
+      ]
+     ]
+    },
+    {
+     "id": "q-o06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.498
+      ],
+      [
+       "R-PLB-001",
+       0.538
+      ],
+      [
+       "R-PLB-005",
+       0.508
+      ]
+     ]
+    },
+    {
+     "id": "q-o07",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.425
+      ],
+      [
+       "R-PLB-001",
+       0.42
+      ],
+      [
+       "R-PLB-008",
+       0.424
+      ]
+     ]
+    },
+    {
+     "id": "q-o08",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.492
+      ],
+      [
+       "R-BDR-007",
+       0.492
+      ],
+      [
+       "R-BDR-008",
+       0.489
+      ]
+     ]
+    },
+    {
+     "id": "q-o09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.54
+      ],
+      [
+       "R-BDR-007",
+       0.431
+      ],
+      [
+       "R-BDR-005",
+       0.427
+      ]
+     ]
+    },
+    {
+     "id": "q-o10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.541
+      ],
+      [
+       "R-BDR-003",
+       0.54
+      ],
+      [
+       "R-BDR-005",
+       0.415
+      ]
+     ]
+    },
+    {
+     "id": "q-o11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.403
+      ],
+      [
+       "R-BDR-002",
+       0.402
+      ],
+      [
+       "R-BDR-005",
+       0.404
+      ]
+     ]
+    },
+    {
+     "id": "q-o12",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.419
+      ],
+      [
+       "R-BDR-005",
+       0.416
+      ],
+      [
+       "R-BDR-002",
+       0.408
+      ]
+     ]
+    },
+    {
+     "id": "q-o13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.592
+      ],
+      [
+       "R-BDR-012",
+       0.585
+      ],
+      [
+       "R-BDR-005",
+       0.519
+      ]
+     ]
+    },
+    {
+     "id": "q-o14",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.662
+      ],
+      [
+       "R-BDR-003",
+       0.66
+      ],
+      [
+       "R-BDR-006",
+       0.413
+      ]
+     ]
+    },
+    {
+     "id": "q-o15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.434
+      ],
+      [
+       "R-BDR-002",
+       0.736
+      ],
+      [
+       "R-BDR-003",
+       0.549
+      ]
+     ]
+    },
+    {
+     "id": "q-o16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-005",
+       0.421
+      ],
+      [
+       "R-BDR-003",
+       0.418
+      ],
+      [
+       "R-BDR-009",
+       0.421
+      ]
+     ]
+    }
+   ]
+  },
+  "bm25+rerank": {
+   "run": true,
+   "stages": [
+    "bm25",
+    "rerank"
+   ],
+   "threshold": 0.355942,
+   "threshold_fixed_on": "dev split (32 items): 27 correct outcomes",
+   "test": {
+    "items": 45,
+    "accuracy@1": 0.806,
+    "accuracy@3": 0.972,
+    "retrieval_items": 36,
+    "abstention_precision": 0.7,
+    "abstention_recall": 1.0,
+    "abstained": 20,
+    "should_abstain": 14,
+    "answered": 25,
+    "answered_right_rule": 24,
+    "wrong_answers": 1,
+    "coverage": 0.774,
+    "outcome_accuracy": 0.844
+   },
+   "dev (threshold fitted here)": {
+    "items": 32,
+    "accuracy@1": 0.84,
+    "accuracy@3": 0.92,
+    "retrieval_items": 25,
+    "abstention_precision": 0.692,
+    "abstention_recall": 0.9,
+    "abstained": 13,
+    "should_abstain": 10,
+    "answered": 19,
+    "answered_right_rule": 18,
+    "wrong_answers": 1,
+    "coverage": 0.818,
+    "outcome_accuracy": 0.844
+   },
+   "latency_ms_median": 1514,
+   "latency_ms_p90": 1864,
+   "replay_agrees_with_pipeline": true,
+   "items": [
+    {
+     "id": "q-p01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.635
+      ],
+      [
+       "R-PLB-003",
+       0.543
+      ],
+      [
+       "R-PLB-004",
+       0.53
+      ]
+     ]
+    },
+    {
+     "id": "q-p02",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.485
+      ],
+      [
+       "R-PLB-005",
+       0.434
+      ],
+      [
+       "R-PLB-003",
+       0.335
+      ]
+     ]
+    },
+    {
+     "id": "q-p03",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.641
+      ],
+      [
+       "R-PLB-008",
+       0.418
+      ],
+      [
+       "R-PLB-003",
+       0.384
+      ]
+     ]
+    },
+    {
+     "id": "q-p04",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       0.711
+      ],
+      [
+       "R-PLB-005",
+       0.436
+      ],
+      [
+       "R-PLB-001",
+       0.435
+      ]
+     ]
+    },
+    {
+     "id": "q-p05",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-002",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.392
+      ],
+      [
+       "R-PLB-004",
+       0.363
+      ],
+      [
+       "R-PLB-008",
+       0.24
+      ]
+     ]
+    },
+    {
+     "id": "q-p06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.648
+      ],
+      [
+       "R-PLB-004",
+       0.487
+      ],
+      [
+       "R-PLB-005",
+       0.483
+      ]
+     ]
+    },
+    {
+     "id": "q-p07",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.356
+      ],
+      [
+       "R-PLB-001",
+       0.351
+      ],
+      [
+       "R-PLB-006",
+       0.329
+      ]
+     ]
+    },
+    {
+     "id": "q-p08",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.6
+      ],
+      [
+       "R-PLB-005",
+       0.473
+      ],
+      [
+       "R-PLB-006",
+       0.438
+      ]
+     ]
+    },
+    {
+     "id": "q-p09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.557
+      ],
+      [
+       "R-PLB-005",
+       0.451
+      ],
+      [
+       "R-PLB-001",
+       0.42
+      ]
+     ]
+    },
+    {
+     "id": "q-p10",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-003",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.376
+      ],
+      [
+       "R-PLB-004",
+       0.366
+      ],
+      [
+       "R-PLB-009",
+       0.355
+      ]
+     ]
+    },
+    {
+     "id": "q-p11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.421
+      ],
+      [
+       "R-PLB-001",
+       0.42
+      ],
+      [
+       "R-PLB-006",
+       0.319
+      ]
+     ]
+    },
+    {
+     "id": "q-p12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.587
+      ],
+      [
+       "R-PLB-004",
+       0.366
+      ],
+      [
+       "R-PLB-003",
+       0.359
+      ]
+     ]
+    },
+    {
+     "id": "q-p13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-005",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.307
+      ],
+      [
+       "R-PLB-004",
+       0.282
+      ],
+      [
+       "R-PLB-001",
+       0.223
+      ]
+     ]
+    },
+    {
+     "id": "q-p14",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.587
+      ],
+      [
+       "R-PLB-004",
+       0.366
+      ],
+      [
+       "R-PLB-003",
+       0.359
+      ]
+     ]
+    },
+    {
+     "id": "q-p15",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.401
+      ],
+      [
+       "R-PLB-004",
+       0.391
+      ],
+      [
+       "R-PLB-008",
+       0.342
+      ]
+     ]
+    },
+    {
+     "id": "q-p16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-006",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-008",
+       0.301
+      ],
+      [
+       "R-PLB-004",
+       0.291
+      ],
+      [
+       "R-PLB-011",
+       0.271
+      ]
+     ]
+    },
+    {
+     "id": "q-p17",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.56
+      ],
+      [
+       "R-PLB-005",
+       0.37
+      ],
+      [
+       "R-PLB-003",
+       0.339
+      ]
+     ]
+    },
+    {
+     "id": "q-p18",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.48
+      ],
+      [
+       "R-PLB-005",
+       0.436
+      ],
+      [
+       "R-PLB-003",
+       0.399
+      ]
+     ]
+    },
+    {
+     "id": "q-p19",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-007",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.35
+      ],
+      [
+       "R-PLB-005",
+       0.327
+      ],
+      [
+       "R-PLB-007",
+       0.301
+      ]
+     ]
+    },
+    {
+     "id": "q-p20",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.516
+      ],
+      [
+       "R-PLB-008",
+       0.406
+      ],
+      [
+       "R-PLB-006",
+       0.402
+      ]
+     ]
+    },
+    {
+     "id": "q-p21",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.48
+      ],
+      [
+       "R-PLB-005",
+       0.436
+      ],
+      [
+       "R-PLB-003",
+       0.399
+      ]
+     ]
+    },
+    {
+     "id": "q-p22",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.607
+      ],
+      [
+       "R-PLB-001",
+       0.56
+      ],
+      [
+       "R-PLB-005",
+       0.493
+      ]
+     ]
+    },
+    {
+     "id": "q-p23",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.485
+      ],
+      [
+       "R-PLB-008",
+       0.365
+      ],
+      [
+       "R-PLB-006",
+       0.35
+      ]
+     ]
+    },
+    {
+     "id": "q-p24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-008",
+       0.449
+      ],
+      [
+       "R-PLB-011",
+       0.416
+      ],
+      [
+       "R-PLB-006",
+       0.413
+      ]
+     ]
+    },
+    {
+     "id": "q-p25",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-011",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.281
+      ],
+      [
+       "R-PLB-008",
+       0.255
+      ],
+      [
+       "R-PLB-006",
+       0.187
+      ]
+     ]
+    },
+    {
+     "id": "q-p26",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.524
+      ],
+      [
+       "R-PLB-008",
+       0.46
+      ],
+      [
+       "R-PLB-006",
+       0.441
+      ]
+     ]
+    },
+    {
+     "id": "q-p27",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.695
+      ],
+      [
+       "R-PLB-011",
+       0.593
+      ],
+      [
+       "R-PLB-008",
+       0.551
+      ]
+     ]
+    },
+    {
+     "id": "q-p28",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.431
+      ],
+      [
+       "R-PLB-011",
+       0.382
+      ],
+      [
+       "R-PLB-008",
+       0.313
+      ]
+     ]
+    },
+    {
+     "id": "q-p29",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.653
+      ],
+      [
+       "R-PLB-008",
+       0.399
+      ],
+      [
+       "R-PLB-006",
+       0.368
+      ]
+     ]
+    },
+    {
+     "id": "q-p30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.496
+      ],
+      [
+       "R-PLB-008",
+       0.304
+      ],
+      [
+       "R-PLB-006",
+       0.274
+      ]
+     ]
+    },
+    {
+     "id": "q-r01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.464
+      ],
+      [
+       "R-BDR-002",
+       0.449
+      ],
+      [
+       "R-BDR-005",
+       0.394
+      ]
+     ]
+    },
+    {
+     "id": "q-r02",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.619
+      ],
+      [
+       "R-BDR-002",
+       0.6
+      ],
+      [
+       "R-BDR-003",
+       0.594
+      ]
+     ]
+    },
+    {
+     "id": "q-r03",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001|R-BDR-005|R-BDR-006",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.672
+      ],
+      [
+       "R-BDR-003",
+       0.651
+      ],
+      [
+       "R-BDR-010",
+       0.544
+      ]
+     ]
+    },
+    {
+     "id": "q-r04",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.502
+      ],
+      [
+       "R-BDR-002",
+       0.499
+      ],
+      [
+       "R-BDR-005",
+       0.419
+      ]
+     ]
+    },
+    {
+     "id": "q-r05",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.582
+      ],
+      [
+       "R-BDR-003",
+       0.569
+      ],
+      [
+       "R-BDR-004",
+       0.492
+      ]
+     ]
+    },
+    {
+     "id": "q-r06",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.631
+      ],
+      [
+       "R-BDR-002",
+       0.627
+      ],
+      [
+       "R-BDR-004",
+       0.557
+      ]
+     ]
+    },
+    {
+     "id": "q-r07",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.403
+      ],
+      [
+       "R-BDR-009",
+       0.4
+      ],
+      [
+       "R-BDR-002",
+       0.391
+      ]
+     ]
+    },
+    {
+     "id": "q-r08",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.505
+      ],
+      [
+       "R-BDR-004",
+       0.437
+      ],
+      [
+       "R-BDR-007",
+       0.415
+      ]
+     ]
+    },
+    {
+     "id": "q-r09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-004",
+     "got": "answer R-BDR-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.544
+      ],
+      [
+       "R-BDR-009",
+       0.487
+      ],
+      [
+       "R-BDR-003",
+       0.358
+      ]
+     ]
+    },
+    {
+     "id": "q-r10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-004|R-BDR-010|R-BDR-009",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.666
+      ],
+      [
+       "R-BDR-009",
+       0.547
+      ],
+      [
+       "R-BDR-008",
+       0.526
+      ]
+     ]
+    },
+    {
+     "id": "q-r11",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.408
+      ],
+      [
+       "R-BDR-002",
+       0.394
+      ],
+      [
+       "R-BDR-004",
+       0.374
+      ]
+     ]
+    },
+    {
+     "id": "q-r12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-005",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.364
+      ],
+      [
+       "R-BDR-005",
+       0.341
+      ],
+      [
+       "R-BDR-003",
+       0.34
+      ]
+     ]
+    },
+    {
+     "id": "q-r13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-005|R-BDR-002",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.617
+      ],
+      [
+       "R-BDR-005",
+       0.585
+      ],
+      [
+       "R-BDR-001",
+       0.567
+      ]
+     ]
+    },
+    {
+     "id": "q-r14",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.409
+      ],
+      [
+       "R-BDR-010",
+       0.265
+      ],
+      [
+       "R-BDR-007",
+       0.162
+      ]
+     ]
+    },
+    {
+     "id": "q-r15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.544
+      ],
+      [
+       "R-BDR-004",
+       0.474
+      ],
+      [
+       "R-BDR-007",
+       0.376
+      ]
+     ]
+    },
+    {
+     "id": "q-r16",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.585
+      ],
+      [
+       "R-BDR-011",
+       0.444
+      ],
+      [
+       "R-BDR-010",
+       0.419
+      ]
+     ]
+    },
+    {
+     "id": "q-r17",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.681
+      ],
+      [
+       "R-BDR-010",
+       0.562
+      ],
+      [
+       "R-BDR-001",
+       0.55
+      ]
+     ]
+    },
+    {
+     "id": "q-r18",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.681
+      ],
+      [
+       "R-BDR-010",
+       0.562
+      ],
+      [
+       "R-BDR-001",
+       0.55
+      ]
+     ]
+    },
+    {
+     "id": "q-r19",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.491
+      ],
+      [
+       "R-BDR-009",
+       0.423
+      ],
+      [
+       "R-BDR-012",
+       0.401
+      ]
+     ]
+    },
+    {
+     "id": "q-r20",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.627
+      ],
+      [
+       "R-BDR-012",
+       0.534
+      ],
+      [
+       "R-BDR-009",
+       0.458
+      ]
+     ]
+    },
+    {
+     "id": "q-r21",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.597
+      ],
+      [
+       "R-BDR-012",
+       0.563
+      ],
+      [
+       "R-BDR-009",
+       0.351
+      ]
+     ]
+    },
+    {
+     "id": "q-r22",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.491
+      ],
+      [
+       "R-BDR-009",
+       0.423
+      ],
+      [
+       "R-BDR-012",
+       0.401
+      ]
+     ]
+    },
+    {
+     "id": "q-r23",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.612
+      ],
+      [
+       "R-BDR-004",
+       0.511
+      ],
+      [
+       "R-BDR-010",
+       0.505
+      ]
+     ]
+    },
+    {
+     "id": "q-r24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.696
+      ],
+      [
+       "R-BDR-008",
+       0.381
+      ],
+      [
+       "R-BDR-003",
+       0.339
+      ]
+     ]
+    },
+    {
+     "id": "q-r25",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.794
+      ],
+      [
+       "R-BDR-004",
+       0.524
+      ],
+      [
+       "R-BDR-008",
+       0.423
+      ]
+     ]
+    },
+    {
+     "id": "q-r26",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.47
+      ],
+      [
+       "R-BDR-004",
+       0.439
+      ],
+      [
+       "R-BDR-003",
+       0.254
+      ]
+     ]
+    },
+    {
+     "id": "q-r27",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.644
+      ],
+      [
+       "R-BDR-012",
+       0.582
+      ],
+      [
+       "R-BDR-004",
+       0.58
+      ]
+     ]
+    },
+    {
+     "id": "q-r28",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.535
+      ],
+      [
+       "R-BDR-003",
+       0.289
+      ],
+      [
+       "R-BDR-007",
+       0.288
+      ]
+     ]
+    },
+    {
+     "id": "q-r29",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.573
+      ],
+      [
+       "R-BDR-004",
+       0.457
+      ],
+      [
+       "R-BDR-003",
+       0.4
+      ]
+     ]
+    },
+    {
+     "id": "q-r30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.573
+      ],
+      [
+       "R-BDR-004",
+       0.457
+      ],
+      [
+       "R-BDR-003",
+       0.4
+      ]
+     ]
+    },
+    {
+     "id": "q-r31",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.682
+      ],
+      [
+       "R-BDR-001",
+       0.458
+      ],
+      [
+       "R-BDR-004",
+       0.447
+      ]
+     ]
+    },
+    {
+     "id": "q-o01",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.241
+      ],
+      [
+       "R-PLB-003",
+       0.236
+      ],
+      [
+       "R-PLB-008",
+       0.17
+      ]
+     ]
+    },
+    {
+     "id": "q-o02",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.316
+      ],
+      [
+       "R-BDR-007",
+       0.114
+      ],
+      [
+       "R-BDR-005",
+       0.066
+      ]
+     ]
+    },
+    {
+     "id": "q-o03",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.457
+      ],
+      [
+       "R-PLB-009",
+       0.348
+      ],
+      [
+       "R-PLB-008",
+       0.282
+      ]
+     ]
+    },
+    {
+     "id": "q-o04",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.317
+      ],
+      [
+       "R-BDR-003",
+       0.31
+      ],
+      [
+       "R-BDR-008",
+       0.293
+      ]
+     ]
+    },
+    {
+     "id": "q-o05",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.268
+      ],
+      [
+       "R-BDR-001",
+       0.059
+      ],
+      [
+       "R-BDR-003",
+       0.044
+      ]
+     ]
+    },
+    {
+     "id": "q-o06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "answer R-PLB-006",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.433
+      ],
+      [
+       "R-PLB-006",
+       0.425
+      ],
+      [
+       "R-PLB-008",
+       0.383
+      ]
+     ]
+    },
+    {
+     "id": "q-o07",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.349
+      ],
+      [
+       "R-PLB-007",
+       0.325
+      ],
+      [
+       "R-PLB-008",
+       0.323
+      ]
+     ]
+    },
+    {
+     "id": "q-o08",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.432
+      ],
+      [
+       "R-BDR-004",
+       0.346
+      ],
+      [
+       "R-BDR-012",
+       0.271
+      ]
+     ]
+    },
+    {
+     "id": "q-o09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.199
+      ],
+      [
+       "R-BDR-008",
+       0.17
+      ],
+      [
+       "R-BDR-002",
+       0.134
+      ]
+     ]
+    },
+    {
+     "id": "q-o10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.348
+      ],
+      [
+       "R-BDR-012",
+       0.298
+      ],
+      [
+       "R-BDR-003",
+       0.213
+      ]
+     ]
+    },
+    {
+     "id": "q-o11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.337
+      ],
+      [
+       "R-BDR-007",
+       0.288
+      ],
+      [
+       "R-BDR-008",
+       0.137
+      ]
+     ]
+    },
+    {
+     "id": "q-o12",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.487
+      ],
+      [
+       "R-BDR-003",
+       0.354
+      ],
+      [
+       "R-BDR-001",
+       0.352
+      ]
+     ]
+    },
+    {
+     "id": "q-o13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.444
+      ],
+      [
+       "R-BDR-010",
+       0.398
+      ],
+      [
+       "R-BDR-007",
+       0.369
+      ]
+     ]
+    },
+    {
+     "id": "q-o14",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.497
+      ],
+      [
+       "R-BDR-003",
+       0.352
+      ],
+      [
+       "R-BDR-002",
+       0.272
+      ]
+     ]
+    },
+    {
+     "id": "q-o15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.509
+      ],
+      [
+       "R-BDR-002",
+       0.507
+      ],
+      [
+       "R-BDR-004",
+       0.496
+      ]
+     ]
+    },
+    {
+     "id": "q-o16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.468
+      ],
+      [
+       "R-BDR-001",
+       0.43
+      ],
+      [
+       "R-BDR-002",
+       0.415
+      ]
+     ]
+    }
+   ]
+  },
+  "hybrid+rerank": {
+   "run": true,
+   "stages": [
+    "bm25",
+    "dense",
+    "rerank"
+   ],
+   "threshold": 0.355942,
+   "threshold_fixed_on": "dev split (32 items): 26 correct outcomes",
+   "test": {
+    "items": 45,
+    "accuracy@1": 0.806,
+    "accuracy@3": 0.972,
+    "retrieval_items": 36,
+    "abstention_precision": 0.684,
+    "abstention_recall": 0.929,
+    "abstained": 19,
+    "should_abstain": 14,
+    "answered": 26,
+    "answered_right_rule": 24,
+    "wrong_answers": 2,
+    "coverage": 0.774,
+    "outcome_accuracy": 0.822
+   },
+   "dev (threshold fitted here)": {
+    "items": 32,
+    "accuracy@1": 0.76,
+    "accuracy@3": 0.92,
+    "retrieval_items": 25,
+    "abstention_precision": 0.667,
+    "abstention_recall": 0.8,
+    "abstained": 12,
+    "should_abstain": 10,
+    "answered": 20,
+    "answered_right_rule": 18,
+    "wrong_answers": 2,
+    "coverage": 0.818,
+    "outcome_accuracy": 0.812
+   },
+   "latency_ms_median": 1565,
+   "latency_ms_p90": 1887,
+   "replay_agrees_with_pipeline": true,
+   "items": [
+    {
+     "id": "q-p01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.635
+      ],
+      [
+       "R-PLB-003",
+       0.543
+      ],
+      [
+       "R-PLB-004",
+       0.53
+      ]
+     ]
+    },
+    {
+     "id": "q-p02",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.485
+      ],
+      [
+       "R-PLB-005",
+       0.434
+      ],
+      [
+       "R-PLB-003",
+       0.335
+      ]
+     ]
+    },
+    {
+     "id": "q-p03",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-001",
+     "got": "answer R-PLB-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.641
+      ],
+      [
+       "R-PLB-011",
+       0.446
+      ],
+      [
+       "R-PLB-010",
+       0.408
+      ]
+     ]
+    },
+    {
+     "id": "q-p04",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-002",
+     "got": "answer R-PLB-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-002",
+       0.711
+      ],
+      [
+       "R-PLB-005",
+       0.436
+      ],
+      [
+       "R-PLB-001",
+       0.435
+      ]
+     ]
+    },
+    {
+     "id": "q-p05",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-002",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.392
+      ],
+      [
+       "R-PLB-004",
+       0.363
+      ],
+      [
+       "R-PLB-006",
+       0.315
+      ]
+     ]
+    },
+    {
+     "id": "q-p06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.648
+      ],
+      [
+       "R-PLB-004",
+       0.487
+      ],
+      [
+       "R-PLB-005",
+       0.483
+      ]
+     ]
+    },
+    {
+     "id": "q-p07",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.356
+      ],
+      [
+       "R-PLB-001",
+       0.351
+      ],
+      [
+       "R-PLB-006",
+       0.329
+      ]
+     ]
+    },
+    {
+     "id": "q-p08",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-003",
+     "got": "answer R-PLB-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.6
+      ],
+      [
+       "R-PLB-005",
+       0.473
+      ],
+      [
+       "R-PLB-006",
+       0.438
+      ]
+     ]
+    },
+    {
+     "id": "q-p09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.557
+      ],
+      [
+       "R-PLB-005",
+       0.451
+      ],
+      [
+       "R-PLB-001",
+       0.42
+      ]
+     ]
+    },
+    {
+     "id": "q-p10",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-003",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-003",
+       0.376
+      ],
+      [
+       "R-PLB-004",
+       0.366
+      ],
+      [
+       "R-PLB-009",
+       0.355
+      ]
+     ]
+    },
+    {
+     "id": "q-p11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-004",
+     "got": "answer R-PLB-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-004",
+       0.421
+      ],
+      [
+       "R-PLB-001",
+       0.42
+      ],
+      [
+       "R-PLB-006",
+       0.319
+      ]
+     ]
+    },
+    {
+     "id": "q-p12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-005",
+     "got": "answer R-PLB-005",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.587
+      ],
+      [
+       "R-PLB-004",
+       0.366
+      ],
+      [
+       "R-PLB-003",
+       0.359
+      ]
+     ]
+    },
+    {
+     "id": "q-p13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-005",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.307
+      ],
+      [
+       "R-PLB-006",
+       0.293
+      ],
+      [
+       "R-PLB-004",
+       0.282
+      ]
+     ]
+    },
+    {
+     "id": "q-p14",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.587
+      ],
+      [
+       "R-PLB-004",
+       0.366
+      ],
+      [
+       "R-PLB-003",
+       0.359
+      ]
+     ]
+    },
+    {
+     "id": "q-p15",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.401
+      ],
+      [
+       "R-PLB-004",
+       0.391
+      ],
+      [
+       "R-PLB-005",
+       0.377
+      ]
+     ]
+    },
+    {
+     "id": "q-p16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-006",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-008",
+       0.301
+      ],
+      [
+       "R-PLB-004",
+       0.291
+      ],
+      [
+       "R-PLB-005",
+       0.288
+      ]
+     ]
+    },
+    {
+     "id": "q-p17",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-006",
+     "got": "answer R-PLB-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-006",
+       0.56
+      ],
+      [
+       "R-PLB-005",
+       0.37
+      ],
+      [
+       "R-PLB-004",
+       0.325
+      ]
+     ]
+    },
+    {
+     "id": "q-p18",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.48
+      ],
+      [
+       "R-PLB-005",
+       0.436
+      ],
+      [
+       "R-PLB-003",
+       0.399
+      ]
+     ]
+    },
+    {
+     "id": "q-p19",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-007",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.35
+      ],
+      [
+       "R-PLB-005",
+       0.327
+      ],
+      [
+       "R-PLB-007",
+       0.301
+      ]
+     ]
+    },
+    {
+     "id": "q-p20",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-007",
+     "got": "answer R-PLB-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.516
+      ],
+      [
+       "R-PLB-005",
+       0.407
+      ],
+      [
+       "R-PLB-008",
+       0.406
+      ]
+     ]
+    },
+    {
+     "id": "q-p21",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.48
+      ],
+      [
+       "R-PLB-005",
+       0.436
+      ],
+      [
+       "R-PLB-003",
+       0.399
+      ]
+     ]
+    },
+    {
+     "id": "q-p22",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.607
+      ],
+      [
+       "R-PLB-001",
+       0.56
+      ],
+      [
+       "R-PLB-005",
+       0.493
+      ]
+     ]
+    },
+    {
+     "id": "q-p23",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-PLB-008",
+     "got": "answer R-PLB-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.485
+      ],
+      [
+       "R-PLB-008",
+       0.365
+      ],
+      [
+       "R-PLB-003",
+       0.346
+      ]
+     ]
+    },
+    {
+     "id": "q-p24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-011",
+     "got": "answer R-PLB-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.467
+      ],
+      [
+       "R-PLB-008",
+       0.449
+      ],
+      [
+       "R-PLB-011",
+       0.416
+      ]
+     ]
+    },
+    {
+     "id": "q-p25",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-011",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-001",
+       0.289
+      ],
+      [
+       "R-PLB-004",
+       0.281
+      ],
+      [
+       "R-PLB-008",
+       0.255
+      ]
+     ]
+    },
+    {
+     "id": "q-p26",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.524
+      ],
+      [
+       "R-PLB-005",
+       0.473
+      ],
+      [
+       "R-PLB-008",
+       0.46
+      ]
+     ]
+    },
+    {
+     "id": "q-p27",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.695
+      ],
+      [
+       "R-PLB-011",
+       0.593
+      ],
+      [
+       "R-PLB-008",
+       0.551
+      ]
+     ]
+    },
+    {
+     "id": "q-p28",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-009",
+     "got": "answer R-PLB-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-009",
+       0.431
+      ],
+      [
+       "R-PLB-011",
+       0.382
+      ],
+      [
+       "R-PLB-008",
+       0.313
+      ]
+     ]
+    },
+    {
+     "id": "q-p29",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.653
+      ],
+      [
+       "R-PLB-005",
+       0.412
+      ],
+      [
+       "R-PLB-008",
+       0.399
+      ]
+     ]
+    },
+    {
+     "id": "q-p30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-PLB-010",
+     "got": "answer R-PLB-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-010",
+       0.496
+      ],
+      [
+       "R-PLB-001",
+       0.32
+      ],
+      [
+       "R-PLB-008",
+       0.304
+      ]
+     ]
+    },
+    {
+     "id": "q-r01",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.464
+      ],
+      [
+       "R-BDR-002",
+       0.449
+      ],
+      [
+       "R-BDR-005",
+       0.394
+      ]
+     ]
+    },
+    {
+     "id": "q-r02",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001",
+     "got": "answer R-BDR-001",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.619
+      ],
+      [
+       "R-BDR-002",
+       0.6
+      ],
+      [
+       "R-BDR-003",
+       0.594
+      ]
+     ]
+    },
+    {
+     "id": "q-r03",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-001|R-BDR-005|R-BDR-006",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.672
+      ],
+      [
+       "R-BDR-003",
+       0.651
+      ],
+      [
+       "R-BDR-010",
+       0.544
+      ]
+     ]
+    },
+    {
+     "id": "q-r04",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.502
+      ],
+      [
+       "R-BDR-002",
+       0.499
+      ],
+      [
+       "R-BDR-009",
+       0.437
+      ]
+     ]
+    },
+    {
+     "id": "q-r05",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-002",
+     "got": "answer R-BDR-002",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-002",
+       0.582
+      ],
+      [
+       "R-BDR-003",
+       0.569
+      ],
+      [
+       "R-BDR-004",
+       0.492
+      ]
+     ]
+    },
+    {
+     "id": "q-r06",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain data_unavailable",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.631
+      ],
+      [
+       "R-BDR-002",
+       0.627
+      ],
+      [
+       "R-BDR-004",
+       0.557
+      ]
+     ]
+    },
+    {
+     "id": "q-r07",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.403
+      ],
+      [
+       "R-BDR-009",
+       0.4
+      ],
+      [
+       "R-BDR-002",
+       0.391
+      ]
+     ]
+    },
+    {
+     "id": "q-r08",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-003",
+     "got": "answer R-BDR-003",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.505
+      ],
+      [
+       "R-BDR-002",
+       0.502
+      ],
+      [
+       "R-BDR-007",
+       0.415
+      ]
+     ]
+    },
+    {
+     "id": "q-r09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-004",
+     "got": "answer R-BDR-004",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.544
+      ],
+      [
+       "R-BDR-009",
+       0.487
+      ],
+      [
+       "R-BDR-003",
+       0.358
+      ]
+     ]
+    },
+    {
+     "id": "q-r10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-004|R-BDR-010|R-BDR-009",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.666
+      ],
+      [
+       "R-BDR-009",
+       0.547
+      ],
+      [
+       "R-BDR-008",
+       0.526
+      ]
+     ]
+    },
+    {
+     "id": "q-r11",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "answer R-BDR-009",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.449
+      ],
+      [
+       "R-BDR-003",
+       0.408
+      ],
+      [
+       "R-BDR-002",
+       0.394
+      ]
+     ]
+    },
+    {
+     "id": "q-r12",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-005",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.364
+      ],
+      [
+       "R-BDR-005",
+       0.341
+      ],
+      [
+       "R-BDR-003",
+       0.34
+      ]
+     ]
+    },
+    {
+     "id": "q-r13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-005|R-BDR-002",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.627
+      ],
+      [
+       "R-BDR-007",
+       0.617
+      ],
+      [
+       "R-BDR-005",
+       0.585
+      ]
+     ]
+    },
+    {
+     "id": "q-r14",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.409
+      ],
+      [
+       "R-BDR-010",
+       0.265
+      ],
+      [
+       "R-BDR-011",
+       0.176
+      ]
+     ]
+    },
+    {
+     "id": "q-r15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-006",
+     "got": "answer R-BDR-006",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-006",
+       0.544
+      ],
+      [
+       "R-BDR-004",
+       0.474
+      ],
+      [
+       "R-BDR-010",
+       0.447
+      ]
+     ]
+    },
+    {
+     "id": "q-r16",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.585
+      ],
+      [
+       "R-BDR-011",
+       0.444
+      ],
+      [
+       "R-BDR-010",
+       0.419
+      ]
+     ]
+    },
+    {
+     "id": "q-r17",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-007",
+     "got": "answer R-BDR-007",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.681
+      ],
+      [
+       "R-BDR-010",
+       0.562
+      ],
+      [
+       "R-BDR-001",
+       0.55
+      ]
+     ]
+    },
+    {
+     "id": "q-r18",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.681
+      ],
+      [
+       "R-BDR-010",
+       0.562
+      ],
+      [
+       "R-BDR-001",
+       0.55
+      ]
+     ]
+    },
+    {
+     "id": "q-r19",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.491
+      ],
+      [
+       "R-BDR-009",
+       0.423
+      ],
+      [
+       "R-BDR-012",
+       0.401
+      ]
+     ]
+    },
+    {
+     "id": "q-r20",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.627
+      ],
+      [
+       "R-BDR-012",
+       0.534
+      ],
+      [
+       "R-BDR-009",
+       0.458
+      ]
+     ]
+    },
+    {
+     "id": "q-r21",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "answer R-BDR-008",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.597
+      ],
+      [
+       "R-BDR-012",
+       0.563
+      ],
+      [
+       "R-BDR-010",
+       0.396
+      ]
+     ]
+    },
+    {
+     "id": "q-r22",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-008",
+       0.491
+      ],
+      [
+       "R-BDR-009",
+       0.423
+      ],
+      [
+       "R-BDR-012",
+       0.401
+      ]
+     ]
+    },
+    {
+     "id": "q-r23",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-008",
+     "got": "abstain question_unanswered",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.612
+      ],
+      [
+       "R-BDR-004",
+       0.511
+      ],
+      [
+       "R-BDR-010",
+       0.505
+      ]
+     ]
+    },
+    {
+     "id": "q-r24",
+     "split": "dev",
+     "lang": "en",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.696
+      ],
+      [
+       "R-BDR-008",
+       0.381
+      ],
+      [
+       "R-BDR-003",
+       0.339
+      ]
+     ]
+    },
+    {
+     "id": "q-r25",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-009",
+     "got": "answer R-BDR-009",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-009",
+       0.794
+      ],
+      [
+       "R-BDR-004",
+       0.524
+      ],
+      [
+       "R-BDR-008",
+       0.423
+      ]
+     ]
+    },
+    {
+     "id": "q-r26",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.47
+      ],
+      [
+       "R-BDR-004",
+       0.439
+      ],
+      [
+       "R-BDR-007",
+       0.388
+      ]
+     ]
+    },
+    {
+     "id": "q-r27",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-010",
+     "got": "answer R-BDR-010",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-010",
+       0.644
+      ],
+      [
+       "R-BDR-012",
+       0.582
+      ],
+      [
+       "R-BDR-004",
+       0.58
+      ]
+     ]
+    },
+    {
+     "id": "q-r28",
+     "split": "test",
+     "lang": "en",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.535
+      ],
+      [
+       "R-BDR-003",
+       0.289
+      ],
+      [
+       "R-BDR-007",
+       0.288
+      ]
+     ]
+    },
+    {
+     "id": "q-r29",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.573
+      ],
+      [
+       "R-BDR-004",
+       0.457
+      ],
+      [
+       "R-BDR-003",
+       0.4
+      ]
+     ]
+    },
+    {
+     "id": "q-r30",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.573
+      ],
+      [
+       "R-BDR-004",
+       0.457
+      ],
+      [
+       "R-BDR-003",
+       0.4
+      ]
+     ]
+    },
+    {
+     "id": "q-r31",
+     "split": "test",
+     "lang": "bn",
+     "expected": "answer R-BDR-011",
+     "got": "answer R-BDR-011",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.682
+      ],
+      [
+       "R-BDR-001",
+       0.458
+      ],
+      [
+       "R-BDR-002",
+       0.425
+      ]
+     ]
+    },
+    {
+     "id": "q-o01",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-007",
+       0.241
+      ],
+      [
+       "R-PLB-003",
+       0.236
+      ],
+      [
+       "R-PLB-008",
+       0.17
+      ]
+     ]
+    },
+    {
+     "id": "q-o02",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.316
+      ],
+      [
+       "R-BDR-007",
+       0.114
+      ],
+      [
+       "R-BDR-005",
+       0.066
+      ]
+     ]
+    },
+    {
+     "id": "q-o03",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-011",
+       0.457
+      ],
+      [
+       "R-PLB-009",
+       0.348
+      ],
+      [
+       "R-PLB-008",
+       0.282
+      ]
+     ]
+    },
+    {
+     "id": "q-o04",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.317
+      ],
+      [
+       "R-BDR-003",
+       0.31
+      ],
+      [
+       "R-BDR-002",
+       0.284
+      ]
+     ]
+    },
+    {
+     "id": "q-o05",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.268
+      ],
+      [
+       "R-BDR-001",
+       0.059
+      ],
+      [
+       "R-BDR-003",
+       0.044
+      ]
+     ]
+    },
+    {
+     "id": "q-o06",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "answer R-PLB-006",
+     "correct": false,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.447
+      ],
+      [
+       "R-PLB-004",
+       0.433
+      ],
+      [
+       "R-PLB-006",
+       0.425
+      ]
+     ]
+    },
+    {
+     "id": "q-o07",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-PLB-005",
+       0.349
+      ],
+      [
+       "R-PLB-008",
+       0.323
+      ],
+      [
+       "R-PLB-003",
+       0.268
+      ]
+     ]
+    },
+    {
+     "id": "q-o08",
+     "split": "test",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.432
+      ],
+      [
+       "R-BDR-004",
+       0.346
+      ],
+      [
+       "R-BDR-012",
+       0.271
+      ]
+     ]
+    },
+    {
+     "id": "q-o09",
+     "split": "dev",
+     "lang": "en",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-011",
+       0.269
+      ],
+      [
+       "R-BDR-003",
+       0.199
+      ],
+      [
+       "R-BDR-008",
+       0.17
+      ]
+     ]
+    },
+    {
+     "id": "q-o10",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.348
+      ],
+      [
+       "R-BDR-012",
+       0.298
+      ],
+      [
+       "R-BDR-011",
+       0.293
+      ]
+     ]
+    },
+    {
+     "id": "q-o11",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.337
+      ],
+      [
+       "R-BDR-011",
+       0.277
+      ],
+      [
+       "R-BDR-008",
+       0.137
+      ]
+     ]
+    },
+    {
+     "id": "q-o12",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-007",
+       0.487
+      ],
+      [
+       "R-BDR-010",
+       0.384
+      ],
+      [
+       "R-BDR-001",
+       0.352
+      ]
+     ]
+    },
+    {
+     "id": "q-o13",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-012",
+       0.444
+      ],
+      [
+       "R-BDR-004",
+       0.404
+      ],
+      [
+       "R-BDR-010",
+       0.398
+      ]
+     ]
+    },
+    {
+     "id": "q-o14",
+     "split": "dev",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-004",
+       0.497
+      ],
+      [
+       "R-BDR-003",
+       0.352
+      ],
+      [
+       "R-BDR-002",
+       0.272
+      ]
+     ]
+    },
+    {
+     "id": "q-o15",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "answer R-BDR-010",
+     "correct": false,
+     "top3": [
+      [
+       "R-BDR-003",
+       0.509
+      ],
+      [
+       "R-BDR-002",
+       0.507
+      ],
+      [
+       "R-BDR-010",
+       0.488
+      ]
+     ]
+    },
+    {
+     "id": "q-o16",
+     "split": "test",
+     "lang": "bn",
+     "expected": "abstain",
+     "got": "abstain question_unanswered",
+     "correct": true,
+     "top3": [
+      [
+       "R-BDR-001",
+       0.43
+      ],
+      [
+       "R-BDR-002",
+       0.415
+      ],
+      [
+       "R-BDR-003",
+       0.399
+      ]
+     ]
+    }
+   ]
+  }
+ },
+ "selected_mode": {
+  "mode": "hybrid",
+  "chosen_on": "dev split (SYNTHETIC): best outcome accuracy, then fewest wrong answers, then lowest latency, among the modes run on this machine",
+  "chosen_at": "2026-10-28T13:24:18Z"
+ }
+}

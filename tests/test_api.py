@@ -169,6 +169,23 @@ def test_photos_are_refused_without_an_installed_model(client, monkeypatch, tmp_
     assert r.status_code == 503
 
 
+class UnreachableBackbone(FakeBackbone):
+    """A remote photo worker that is down: every feature call fails to reach it."""
+
+    def features(self, image: bytes):
+        from services.vision.backbone import PhotoModelUnavailable
+        raise PhotoModelUnavailable("the photo worker cannot be reached")
+
+
+def test_an_unreachable_photo_worker_gives_503_not_500(client, monkeypatch, tmp_path):
+    import services.api.main as m
+    sid = _photo_session(client, monkeypatch, tmp_path)
+    monkeypatch.setattr(m.vision_backbone, "load", lambda: UnreachableBackbone())
+    r = client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64("blast:1")})
+    assert r.status_code == 503 and "not reachable" in r.json()["detail"]
+    assert client.get(f"/api/demo/{sid}/photo/cases").json()["cases"] == []    # nothing was frozen in the ledger
+
+
 def test_photo_case_flow_over_http(client, monkeypatch, tmp_path):
     sid = _photo_session(client, monkeypatch, tmp_path)
     r = client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64("blast:1"), "consent": True})

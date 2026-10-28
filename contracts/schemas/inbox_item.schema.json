@@ -37,8 +37,10 @@
         "farmer_requested",
         "no_matching_rule",
         "rule_recalled",
-        "data_stale"
-      ]
+        "data_stale",
+        "question_unanswered"
+      ],
+      "description": "question_unanswered: the Ask router found no sourced rule that answers the farmer's question for this field (low retrieval confidence, conditions unmet or unknown, or another crop); the question is in `question`."
     },
     "reason": {
       "$ref": "action.schema.json#/$defs/i18n"
@@ -60,7 +62,8 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "description": "the farmer's question as asked (phone numbers and e-mail addresses removed)"
     },
     "photo_attached": {
       "type": "boolean"

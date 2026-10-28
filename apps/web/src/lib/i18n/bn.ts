@@ -50,6 +50,7 @@ const d: Record<Key, string> = {
   'data.mode.live': 'সরাসরি',
   'data.mode.snapshot': 'জমানো কপি',
   'data.mode.sample': 'নমুনা',
+  'data.mode.unavailable': 'আবহাওয়ার তথ্য পাওয়া যায়নি',
   'footer.honest': 'সৎ অবস্থা: প্রতিটি সুবিধা “চালু” বা “পরিকল্পিত” বলে চিহ্নিত। নমুনা তথ্যে সবসময় লেবেল থাকে।',
   'footer.openCore': 'ওপেন কোর। Apache-2.0।',
   'footer.facts': 'তথ্য আসে শুধু আমাদের যাচাই করা তথ্য-তালিকা থেকে।',

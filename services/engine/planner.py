@@ -155,7 +155,7 @@ def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today
     today = today or date.today()
     pack_id = field["pack_id"]
     rules = load_pack(pack_id)
-    snap = snap or snap_mod.build(field)
+    snap = snap or snap_mod.build_or_unavailable(field)   # no weather at all: weather decisions abstain, never crash
     facts = {"stage": field["stage"], **snap_mod.weather_facts(snap, pack_parameters(pack_id), today),
              **{k: v for k, v in profile.items() if k != "farmer_profile_id"}}
     valid_to = today + timedelta(days=6)

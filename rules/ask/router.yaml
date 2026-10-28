@@ -1,0 +1,52 @@
+# Ask router settings: DATA, read by services/ask/graph.py.
+# `selected_mode` and `thresholds` are written by `ml/ask/eval_router.py --write-thresholds`: one retrieval-confidence
+# threshold per mode, fixed on the DEV split of a SYNTHETIC seed set (ml/ask/questions.seed.jsonl) and bound to the exact model files
+# (sha256) it was fixed with. A mode whose threshold is missing, or whose models differ, is not used. These numbers
+# must be re-fixed on real farmer questions before any claim is made about them.
+version: 1
+retrieval:
+  rrf_k: 60                 # reciprocal-rank fusion constant (the usual default)
+  rerank_top_n: 8           # fused candidates the cross-encoder reads
+  decide_top_k: 3           # retrieved rules checked against the threshold; only the best group may answer
+  prefer_margin: 0.03       # team-set, not fitted: candidates this close to the most confident one form the best group;
+                            # in it practices and monitoring go first (IPM first) unless the question is about spraying
+messages:
+  question_unanswered:
+    en: "We don't have a sourced answer for this yet. Sent to your officer."
+    bn: "এই প্রশ্নের উৎসসহ উত্তর আমাদের কাছে এখনো নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+  review:
+    bn: pending native-speaker review
+selected_mode:
+  mode: hybrid
+  chosen_on: 'dev split (SYNTHETIC): best outcome accuracy, then fewest wrong answers, then lowest latency, among the modes
+    run on this machine'
+  chosen_at: '2026-10-28T13:24:18Z'
+thresholds:
+  bm25:
+    value: 0.23814
+    fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
+    fitted_at: '2026-10-28T13:16:17Z'
+    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
+    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+  hybrid:
+    value: 0.540875
+    embedder_sha256: ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665
+    fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
+    fitted_at: '2026-10-28T13:16:38Z'
+    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
+    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+  bm25+rerank:
+    value: 0.355942
+    reranker_sha256: 4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9
+    fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
+    fitted_at: '2026-10-28T13:20:24Z'
+    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
+    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+  hybrid+rerank:
+    value: 0.355942
+    embedder_sha256: ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665
+    reranker_sha256: 4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9
+    fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
+    fitted_at: '2026-10-28T13:24:18Z'
+    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
+    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905

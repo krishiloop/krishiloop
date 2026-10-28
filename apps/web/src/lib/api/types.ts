@@ -66,7 +66,7 @@ export interface ReviewerParameter {
 }
 
 /** Where the weather behind a plan came from: fetched now, a saved snapshot, or bundled sample data. */
-export type DataMode = 'live' | 'snapshot' | 'sample';
+export type DataMode = 'live' | 'snapshot' | 'sample' | 'unavailable';
 
 /** The exact advice a receipt certifies (signed, so editing it breaks the signature). */
 export interface ReceiptAdvice {
