@@ -33,10 +33,13 @@ def _get(url: str, params: dict) -> dict:
         return json.loads(r.read())
 
 
-def build(field: dict) -> dict:
-    """field: {field_id, lat, lon, country, precision, label?, crop, stage, variety?, planting_date?, flood?}"""
-    SNAP_DIR.mkdir(parents=True, exist_ok=True)
-    cache = SNAP_DIR / f"{field['field_id']}.json"
+def build(field: dict, cache_dir: Path | None = None) -> dict:
+    """field: {field_id, lat, lon, country, precision, label?, crop, stage, variety?, planting_date?, flood?}
+
+    cache_dir: where the last live snapshot is kept for the offline fallback (default: the planner's SNAP_DIR)."""
+    cache_dir = cache_dir or SNAP_DIR
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cache = cache_dir / f"{field['field_id']}.json"
     try:
         f = _get(FORECAST, {"latitude": field["lat"], "longitude": field["lon"], "timezone": "auto", "forecast_days": 7,
                             "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,relative_humidity_2m_mean"})

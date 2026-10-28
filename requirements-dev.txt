@@ -11,3 +11,5 @@ uvicorn[standard]==0.54.0
 httpx==0.28.1
 numpy==2.5.4
 scipy==1.18.1
+# Official MCP Python SDK (v2: FastMCP is now mcp.server.mcpserver.MCPServer); services/mcp/ and tests/test_mcp.py.
+mcp==2.3.0
