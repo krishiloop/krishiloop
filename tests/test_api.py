@@ -75,7 +75,7 @@ def test_uncalibrated_photo_becomes_an_officer_case(client, monkeypatch, tmp_pat
                                                       "diagnosis": bad}).status_code == 422
 
 
-def _photo_plan(client, monkeypatch, tmp_path, diag):
+def _photo_plan(client, monkeypatch, tmp_path, diag, trust_area=None):
     from datetime import date, timedelta
     import services.api.main as m
     monkeypatch.setenv("KRISHILOOP_ISSUER_SEED", "11" * 32)
@@ -87,6 +87,11 @@ def _photo_plan(client, monkeypatch, tmp_path, diag):
             "forecast": {"source": "open-meteo:forecast", "issued_at": "2026-10-28T00:00:00Z", "days": days}}
     monkeypatch.setattr(m.snap_mod, "build", lambda field: snap)
     sid = client.post("/api/demo/session").json()["session_id"]
+    if trust_area:   # server-side evidence, as the area ledger issues it when its gate opens
+        m._sandbox(sid)["store"].area_trust_credential(
+            {"area": trust_area, "model": "rice-leaf-mnv4s@union-v0", "policy_id": "photo-trust", "policy_version": 1,
+             "verdicts": 90, "sure_in_window": 50, "sure_right_in_window": 49, "precision": 0.98, "lower_bound": 0.895,
+             "opened_at": "2026-10-28T08:00:00Z"})
     r = client.post(f"/api/demo/{sid}/plan", json={"field_id": "KE-SAMPLE-01", "profile_id": "demo-farmer-a", "diagnosis": diag})
     assert r.status_code == 200
     return r.json(), client.get(f"/api/demo/{sid}/inbox").json()["items"]
@@ -104,13 +109,11 @@ def test_a_client_cannot_vouch_for_its_own_photo_model(client, monkeypatch, tmp_
 
 
 def test_only_server_evidence_opens_the_photo_gate(client, monkeypatch, tmp_path):
-    from services.engine import planner
-    monkeypatch.setattr(planner, "TRUSTED_PHOTO_MODELS", {("rice-leaf-mnv4s@union-v0", "potato@KE"): "urn:uuid:area-trust"})
-    plan, _ = _photo_plan(client, monkeypatch, tmp_path, dict(SURE_PHOTO, calibrated=False))   # the client's flag is ignored
-    assert plan["diagnosis_used"] is True and plan["diagnosis_note"] == "ok"
-    elsewhere = {("rice-leaf-mnv4s@union-v0", "potato@UG"): "urn:uuid:area-trust"}               # earned in another country only
-    monkeypatch.setattr(planner, "TRUSTED_PHOTO_MODELS", elsewhere)
-    plan, _ = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO)
+    plan, _ = _photo_plan(client, monkeypatch, tmp_path, dict(SURE_PHOTO, calibrated=False), trust_area="potato@KE")
+    assert plan["diagnosis_used"] is True and plan["diagnosis_note"] == "ok"   # the client's flag is ignored either way
+    plan, _ = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO, trust_area="potato@UG")   # earned in another country
+    assert plan["diagnosis_used"] is False
+    plan, _ = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO)          # another visitor's sandbox: no evidence
     assert plan["diagnosis_used"] is False
 
 

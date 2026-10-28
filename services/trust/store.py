@@ -114,9 +114,17 @@ class TrustStore:
         return self.put(issue_credential("AdviceReceiptCredential", receipt, self.issuer, None, valid_until))
 
     def area_trust_credential(self, subject: dict) -> dict:
-        """Earned photo trust in one area (plan/EARNED_TRUST_DESIGN.md); revoked when that area's gate closes."""
+        """Earned photo trust in one area (plan/EARNED_TRUST_DESIGN.md); revoked when that area's gate closes.
+
+        The index lives in this store, so a demo sandbox's evidence never opens the gate anywhere else."""
         with self._lock:
-            return self.put(issue_credential("AreaTrustCredential", subject, self.issuer, self.status))
+            cred = issue_credential("AreaTrustCredential", subject, self.issuer, self.status)
+            self.state.setdefault("area_trust", {})[f"{subject['model']}|{subject['area']}"] = cred["id"]
+            return self.put(cred)
+
+    def trusted_photo_model(self, model: str, area: str) -> str | None:
+        """The live AreaTrustCredential id for this model in this area, if its trust stands."""
+        return self.state.get("area_trust", {}).get(f"{model}|{area}")
 
     def revoke(self, cred_id: str) -> None:
         """Withdraw one credential that has a status entry (e.g. an area's photo trust after its gate closed)."""
@@ -125,6 +133,9 @@ class TrustStore:
             self.status.revoke(idx)
             if idx not in self.state["revoked"]:
                 self.state["revoked"].append(idx)
+            index = self.state.get("area_trust", {})
+            for key in [k for k, v in index.items() if v == cred_id]:
+                del index[key]
             self._save_state()
 
     # -------- recall + verify

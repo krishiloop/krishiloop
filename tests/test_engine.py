@@ -256,7 +256,6 @@ def _area_trust(store):
 def test_photo_advice_carries_the_area_trust_and_falls_with_it(store, tmp_path, monkeypatch):
     _photo_practice_pack(monkeypatch)
     trust = _area_trust(store)
-    monkeypatch.setattr(planner_mod, "TRUSTED_PHOTO_MODELS", {("leaf@1", "potato@KE"): trust["id"]})
     plan = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox", diagnosis=PHOTO)
     assert plan["diagnosis_used"] is True
     photo_act = next(a for a in plan["actions"] if "R-PLB-901" in a["action_id"].upper())
@@ -265,6 +264,7 @@ def test_photo_advice_carries_the_area_trust_and_falls_with_it(store, tmp_path, 
     assert all("area_trust_ref" not in a["receipt"] for a in others)          # advice that never read the photo
     assert store.verify(photo_act["receipt_credential_id"])["status"] == "authentic"
     store.revoke(trust["id"])                                                 # the area's gate closed: drift
+    assert store.trusted_photo_model("leaf@1", "potato@KE") is None          # new photos go to the officer again
     v = store.verify(photo_act["receipt_credential_id"])
     assert v["status"] == "recalled" and "photo trust" in v["reason"]
     assert all(store.verify(a["receipt_credential_id"])["status"] == "authentic" for a in others)
@@ -272,7 +272,7 @@ def test_photo_advice_carries_the_area_trust_and_falls_with_it(store, tmp_path, 
 
 def test_a_photo_never_changes_an_input_decision(store, tmp_path, monkeypatch):
     _photo_practice_pack(monkeypatch)
-    monkeypatch.setattr(planner_mod, "TRUSTED_PHOTO_MODELS", {("leaf@1", "potato@KE"): _area_trust(store)["id"]})
+    _area_trust(store)
     without = plan_for(store, tmp_path)
     with_photo = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox",
                            diagnosis=dict(PHOTO, labels=[{"label": "healthy", "prob": 0.99}]))

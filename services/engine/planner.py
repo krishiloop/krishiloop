@@ -43,10 +43,9 @@ FACT_VARIABLES = {"forecast_humid_mild_days": ("rh_mean_pct", "tmin_c", "tmax_c"
 UNITS = {"rh_mean_pct": "%", "tmin_c": "C", "tmax_c": "C", "precip_mm": "mm"}
 # Provisional gate for photo diagnoses (MODEL_CARD "Product gate"); thresholds are team-set, not from a source.
 DIAGNOSIS_GATE = {"min_top1": 0.85, "max_ood": 0.5}
-# Photo models with SERVER-side evidence, keyed (model "name@version", trust area) -> AreaTrustCredential id.
-# Only the earned-trust ledger may add entries (plan/EARNED_TRUST_DESIGN.md). A client's own "calibrated" flag never
-# counts: anyone can send it. Empty today, so every photo goes to the officer.
-TRUSTED_PHOTO_MODELS: dict[tuple[str, str], str] = {}
+# Photo trust is SERVER-side evidence: the trust store's live AreaTrustCredentials (store.trusted_photo_model), issued
+# only when an area's ledger opens its gate (plan/EARNED_TRUST_DESIGN.md). A client's own "calibrated" flag never
+# counts: anyone can send it.
 PHOTO_FACTS = ("diagnosis_label", "diagnosis_prob", "_diagnosis", "_area_trust")
 REASONS = {  # fixed farmer-facing texts; never echo what the validator blocked
     "data_unavailable": "We don't have enough weather data for a sourced decision this week. Sent to your officer's inbox.",
@@ -75,13 +74,13 @@ def trust_area(field: dict) -> str:
     return f"{field['crop']}@{field.get('area_code') or field['country']}"
 
 
-def diagnosis_gate(d: dict | None, area: str | None = None) -> tuple[bool, str]:
+def diagnosis_gate(d: dict | None, area: str | None = None, store=None) -> tuple[bool, str]:
     if not d:
         return False, "none"
     if d.get("status") == "abstained":
         return False, "model_abstained"
     model = f"{d['model']['name']}@{d['model']['version']}"
-    if (model, area) not in TRUSTED_PHOTO_MODELS:   # the server's evidence decides; the client's flag is ignored
+    if store is None or not store.trusted_photo_model(model, area):   # server evidence decides; the client flag is ignored
         return False, "uncalibrated"
     if d.get("ood_score") is not None and d["ood_score"] > DIAGNOSIS_GATE["max_ood"]:
         return False, "out_of_distribution"
@@ -170,13 +169,13 @@ def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today
         return {**base, "status": "abstained", "abstention": {"reason_code": code, "reason": reason, "inbox_item_id": item_id}}
 
     if diagnosis is not None:
-        passed, note = diagnosis_gate(diagnosis, trust_area(field))
+        passed, note = diagnosis_gate(diagnosis, trust_area(field), store)
         base["diagnosis_used"], base["diagnosis_note"] = passed, note
         if passed:
             model, area = f"{diagnosis['model']['name']}@{diagnosis['model']['version']}", trust_area(field)
             facts.update(diagnosis_label=diagnosis["labels"][0]["label"], diagnosis_prob=diagnosis["labels"][0]["prob"],
                          _diagnosis=diagnosis,
-                         _area_trust={"credential_id": TRUSTED_PHOTO_MODELS[(model, area)], "area": area, "model": model})
+                         _area_trust={"credential_id": store.trusted_photo_model(model, area), "area": area, "model": model})
         else:  # the photo becomes an officer case; the weather-based plan below still stands
             inbox.create(field["field_id"], profile["farmer_profile_id"],
                          "out_of_distribution" if note == "out_of_distribution" else "low_confidence",
