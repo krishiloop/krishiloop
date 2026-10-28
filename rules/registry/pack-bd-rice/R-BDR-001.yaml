@@ -1,0 +1,93 @@
+rule_id: R-BDR-001
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - tillering
+    - booting
+    - heading
+    - flowering
+    - grain_fill
+    - maturity
+  - any:
+    - fact: bph_females_per_hill
+      op: gte
+      value: param:bph_females_min
+    - fact: bph_nymphs_per_hill
+      op: gte
+      value: param:bph_nymphs_min
+action:
+  kind: input_decision
+  traffic_light: red
+  title:
+    bn: 'সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।'
+    en: 'Above the threshold: contact your officer about control options now.'
+  decision: recheck
+basis_note: 'Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females
+  or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that
+  range as the count limit; the fact sheet''s own next step is a chemical control, which we replace with ''contact
+  your officer''. Counts are what the farmer reports.'
+sources:
+- doc_id: DOC-BRRIKB-001
+  page: 1
+  quote: জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই
+    দেখতে পাওয়া যায়
+  quote_sha256: 57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c
+reviewer_parameters:
+- name: bph_females_min
+  value: 2
+  unit: per hill
+  set_by: team
+  note: Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end
+    (cautious side). Pathologist to confirm which end to use.
+- name: bph_nymphs_min
+  value: 8
+  unit: per hill
+  set_by: team
+  note: Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious
+    side). Pathologist to confirm which end to use.
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires on many females
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 3
+    bph_nymphs_per_hill: 0
+  expect: fires
+- name: fires on many nymphs
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 0
+    bph_nymphs_per_hill: 9
+  expect: fires
+- name: fires on high females even if nymph count is missing
+  facts:
+    stage: heading
+    bph_females_per_hill: 3
+  expect: fires
+- name: silent when both counts are below the limits
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 7
+  expect: silent
+- name: silent outside the aman growth stages
+  facts:
+    stage: pre_planting
+    bph_females_per_hill: 5
+    bph_nymphs_per_hill: 20
+  expect: silent
+- name: unknown when a count is missing and the other is low
+  facts:
+    stage: grain_fill
+    bph_nymphs_per_hill: 3
+  expect: missing fact bph_females_per_hill

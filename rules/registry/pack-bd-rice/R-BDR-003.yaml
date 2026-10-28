@@ -1,0 +1,144 @@
+rule_id: R-BDR-003
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - booting
+    - heading
+    - flowering
+  - fact: bph_females_per_hill
+    op: lt
+    value: param:bph_females_min
+  - fact: bph_nymphs_per_hill
+    op: lt
+    value: param:bph_nymphs_min
+  - fact: forecast_humid_mild_days
+    op: lt
+    value: param:humid_mild_days_min
+  - fact: forecast_heavy_rain_days
+    op: eq
+    value: 0
+action:
+  kind: input_decision
+  traffic_light: green
+  title:
+    bn: 'এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।'
+    en: 'No spray needed now: count is below the threshold; count again in a few days.'
+  decision: dont_spray
+basis_note: 'Inference, stated openly: both planthopper counts are below the lower end of the BRRI threshold range
+  (p.1 of the planthopper sheet). At booting, heading and flowering we also need no forecast of weather that favours
+  bacterial leaf blight (humidity above 70%, p.2 of the leaf blight sheet), using the team-set limits below (NOT
+  from the source). Forecasts can be wrong; count again in a few days.'
+sources:
+- doc_id: DOC-BRRIKB-001
+  page: 1
+  quote: জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই
+    দেখতে পাওয়া যায়
+  quote_sha256: 57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c
+- doc_id: DOC-BRRIKB-003
+  page: 2
+  quote: বাতাসের আর্দ্রতা ৭০% এর অধিক হলে
+  quote_sha256: 67ae24f23a457ff04292bf84114d06823691447999c83f9f4e66da67be9e17e9
+reviewer_parameters:
+- name: bph_females_min
+  value: 2
+  unit: per hill
+  set_by: team
+  note: Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end
+    (cautious side). Pathologist to confirm which end to use.
+- name: bph_nymphs_min
+  value: 8
+  unit: per hill
+  set_by: team
+  note: Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious
+    side). Pathologist to confirm which end to use.
+- name: humid_mild_days_min
+  value: 4
+  unit: days of 7
+  set_by: team
+  note: NOT from source; to be set by the pathologist.
+- name: humid_rh_pct_min
+  value: 70
+  unit: '%'
+  set_by: team
+  note: The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to
+    confirm; in aman season mean RH is often above this on most days, so the rule may fire very often.
+- name: mild_temp_c_range
+  value: 22-32
+  unit: C
+  set_by: team
+  note: NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the
+    whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist.
+- name: heavy_rain_mm
+  value: 20
+  unit: mm/day
+  set_by: team
+  note: NOT from source (the source only says stormy rain); to be set by the pathologist.
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at heading with low counts and calm weather
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 1
+    forecast_heavy_rain_days: 0
+  expect: fires
+- name: silent at heading when humid warm days are forecast
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 5
+    forecast_heavy_rain_days: 0
+  expect: silent
+- name: silent at heading when heavy rain is forecast
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 0
+    forecast_heavy_rain_days: 2
+  expect: silent
+- name: silent when the count is high, whatever the weather
+  facts:
+    stage: heading
+    bph_females_per_hill: 3
+    bph_nymphs_per_hill: 0
+  expect: silent
+- name: silent at grain fill (needs no weather)
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+  expect: silent
+- name: unknown at heading when the humidity count is missing
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_heavy_rain_days: 0
+  expect: missing fact forecast_humid_mild_days
+- name: unknown at heading when the rain count is missing
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 1
+  expect: missing fact forecast_heavy_rain_days
+- name: unknown when a planthopper count is missing
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    forecast_humid_mild_days: 1
+    forecast_heavy_rain_days: 0
+  expect: missing fact bph_nymphs_per_hill

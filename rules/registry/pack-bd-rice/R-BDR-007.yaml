@@ -1,0 +1,49 @@
+rule_id: R-BDR-007
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - booting
+    - heading
+    - flowering
+action:
+  kind: monitoring
+  traffic_light: amber
+  title:
+    bn: শিষের গোড়ায় বাদামি দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।
+    en: Look at the base of the panicle (the neck) for brown spots. If you find them, tell your officer.
+basis_note: 'Inference, stated openly: the sheet describes neck blast and says infection before the grain fills
+  leaves all grains empty (p.1). The stages booting to flowering are the team''s choice for when to look; the sheet
+  does not name them.'
+sources:
+- doc_id: DOC-BRRIKB-002
+  page: 1
+  quote: শিষের গোড়া আক্রান্ত হলে সেখানে বাদামি দাগ পড়ে।
+  quote_sha256: c7ebba2e3c5d4d7de41ab1d1936fbbc5a315e3011b5d4b9bc2f8c99ad47e29ac
+- doc_id: DOC-BRRIKB-002
+  page: 1
+  quote: ধান পুষ্ট হওয়ার আগে রোগের আক্রমণের ফলে শিষের সব ধান চিটা হয়ে যায়।
+  quote_sha256: 4eccddee3a10db4b0618650b2c22bcc3d9e7ad8fa16755de8e33724710623216
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at heading
+  facts:
+    stage: heading
+  expect: fires
+- name: silent at tillering
+  facts:
+    stage: tillering
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage

@@ -14,3 +14,44 @@ documents:
   language: en
   packs:
   - pack-potato-late-blight
+- doc_id: DOC-BRRIKB-001
+  title: 'Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9'
+  publisher: Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank
+  url: http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf
+  licence_status: cited_permission_requested
+  licence_note: 'No licence or terms stated. Cited only by title, link, page and short verbatim quotes (25 words or fewer) with attribution; permission requested; text not committed. The PDF is a scanned image with no text layer: quotes were transcribed from the rendered page and need native-reader verification.'
+  acknowledgement: Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).
+  language: bn
+  packs:
+  - pack-bd-rice
+- doc_id: DOC-BRRIKB-002
+  title: 'Blast disease (ব্লাস্ট রোগ), Fact Sheet 4, Rice Production Training Manual, Module 10'
+  publisher: Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank
+  url: http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet4%20-%20Blast%20rog.pdf
+  licence_status: cited_permission_requested
+  licence_note: 'No licence or terms stated. Cited only by title, link, page and short verbatim quotes (25 words or fewer) with attribution; permission requested; text not committed. The PDF is a scanned image with no text layer: quotes were transcribed from the rendered pages and need native-reader verification.'
+  acknowledgement: Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 4 (blast).
+  language: bn
+  packs:
+  - pack-bd-rice
+- doc_id: DOC-BRRIKB-003
+  title: 'Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10'
+  publisher: Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank
+  url: http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf
+  licence_status: cited_permission_requested
+  licence_note: 'No licence or terms stated. Cited only by title, link, page and short verbatim quotes (25 words or fewer) with attribution; permission requested; text not committed. The PDF is a scanned image with no text layer: quotes were transcribed from the rendered pages and need native-reader verification.'
+  acknowledgement: Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).
+  language: bn
+  packs:
+  - pack-bd-rice
+- doc_id: DOC-BRRIKB-004
+  title: 'আমন ধানের ফলন বৃদ্ধিতে করণীয় (What to do to raise aman rice yield), by Dr Md Shahjahan Kabir, Director General, BRRI'
+  authors: Md. Shahjahan Kabir
+  publisher: Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank
+  url: http://knowledgebank-brri.org/wp-content/uploads/2018/07/Amon_Cultivation.pdf
+  licence_status: cited_permission_requested
+  licence_note: 'No licence or terms stated. Cited only by title, link, page and short verbatim quotes (25 words or fewer) with attribution; permission requested; text not committed. The PDF text layer uses a legacy (non-Unicode) Bangla font: quotes were transcribed from the rendered page and need native-reader verification.'
+  acknowledgement: Kabir, M. S., Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Aman cultivation article (PDF).
+  language: bn
+  packs:
+  - pack-bd-rice

@@ -1,0 +1,51 @@
+rule_id: R-BDR-006
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - booting
+    - heading
+    - flowering
+    - grain_fill
+boost_when:
+  fact: soil_drainage
+  op: eq
+  value: poor
+action:
+  kind: practice
+  traffic_light: green
+  title:
+    bn: 'জমিতে পানি জমে থাকতে দেবেন না: পানি জমে থাকলে গাছফড়িংয়ের আক্রমণ বেশি হয়।'
+    en: 'Do not let water stand in the field: planthopper attack is worse where water stands.'
+sources:
+- doc_id: DOC-BRRIKB-001
+  page: 1
+  quote: আর্দ্র ও ছায়াযুক্ত স্থান এবং জমিতে পানি জমে থাকলে আক্রমণ বেশি হয়।
+  quote_sha256: bd7b55ed4f90b002d1fb32ec14723d69460eb2d3f7bfef21686f4ed609f7b79e
+- doc_id: DOC-BRRIKB-001
+  page: 1
+  quote: জমে থাকা পানি সরিয়ে দেয়া।
+  quote_sha256: c3a29e3dfe54f7665dd297ae7977dda64610694cfb4af157bec4c14349295d50
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at heading
+  facts:
+    stage: heading
+  expect: fires
+- name: silent at maturity
+  facts:
+    stage: maturity
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage

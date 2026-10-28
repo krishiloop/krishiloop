@@ -1,0 +1,47 @@
+rule_id: R-BDR-010
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - tillering
+    - booting
+    - heading
+    - flowering
+action:
+  kind: monitoring
+  traffic_light: amber
+  title:
+    bn: পাতার ডগা ও কিনারায় নীলচে, ভেজা ভেজা দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।
+    en: Check leaf tips and edges for bluish, water-soaked spots. If you find them, tell your officer.
+sources:
+- doc_id: DOC-BRRIKB-003
+  page: 1
+  quote: প্রথমে পাতার অগ্রভাগ বা কিনারায় নীলাভ পানিচোষা দাগ দেখা যায়।
+  quote_sha256: a9614d7baace1e6149318a76ff0f250c4197975f97a78b64a7e725467429dd3f
+- doc_id: DOC-BRRIKB-003
+  page: 1
+  quote: ধান গাছের কুশি বা তার পরবর্তী যেকোন সময় পাতাপোড়া লক্ষণ দেখা যায়।
+  quote_sha256: 566015d3aa33c46ef06c7f272b1530b85ddc91c07b9a05a6a3b8bab367bce790
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at tillering
+  facts:
+    stage: tillering
+  expect: fires
+- name: silent at maturity
+  facts:
+    stage: maturity
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage

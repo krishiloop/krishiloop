@@ -1,0 +1,46 @@
+rule_id: R-BDR-009
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - tillering
+    - booting
+    - heading
+action:
+  kind: practice
+  traffic_light: amber
+  title:
+    bn: ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।
+    en: Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight.
+sources:
+- doc_id: DOC-BRRIKB-003
+  page: 2
+  quote: ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না
+  quote_sha256: c3d209f42251c7aadd18bf849fdbf5fcfad20d2eb5792ae202819f1c832682a4
+- doc_id: DOC-BRRIKB-003
+  page: 2
+  quote: রোগ দেখার পর ইউরিয়া উপরি প্রয়োগ বন্ধ করতে হবে
+  quote_sha256: 6248671c7d996806599fdd5ed6005d26ab5acb4a5ebaf837d514c420b28cc7be
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at booting
+  facts:
+    stage: booting
+  expect: fires
+- name: silent at grain fill
+  facts:
+    stage: grain_fill
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage

@@ -1,0 +1,46 @@
+rule_id: R-BDR-011
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - maturity
+action:
+  kind: harvest
+  traffic_light: amber
+  title:
+    bn: 'কাটার আগে ধান পাকা কি না দেখুন: শিষের মাথার ১০০টি ধানের ৮০টির চাল শক্ত হলে ধান পাকা। অনেক দেরি করবেন না,
+      নইলে অনেক ধান ঝরে পড়ে।'
+    en: 'Check your crop is ripe before you harvest: it is ripe when 80 in 100 grains at the top of the panicle
+      have firm rice. Do not wait much longer, or many grains fall.'
+sources:
+- doc_id: DOC-BRRIKB-004
+  page: 6
+  quote: শীষের অগ্রভাগের শতকরা ৮০ ভাগ ধানের চাল শক্ত হলে ধান ঠিকমতো পেকেছে বলে বিবেচিত হবে।
+  quote_sha256: 551f0a16122b4c197a5478ad6340570a5229d1d2a34dea2aaa37f5adb34ea6bc
+- doc_id: DOC-BRRIKB-004
+  page: 6
+  quote: অধিক পাকা অবস্থায় ফসল কাটলে অনেক ধান ঝড়ে পড়ে, শীষ ভেঙ্গে যায়
+  quote_sha256: a37ad47d87747ddc942c0321ec367938122330d41221575136c88f404c7dfeb2
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at maturity
+  facts:
+    stage: maturity
+  expect: fires
+- name: silent at grain fill
+  facts:
+    stage: grain_fill
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage

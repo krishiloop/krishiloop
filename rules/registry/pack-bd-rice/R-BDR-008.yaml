@@ -1,0 +1,44 @@
+rule_id: R-BDR-008
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - tillering
+    - booting
+action:
+  kind: practice
+  traffic_light: green
+  title:
+    bn: ব্লাস্ট রোগের ঝুঁকি কমাতে পরিমিত ইউরিয়া ব্যবহার করুন; কতটুকু দেবেন তা ঠিক করতে এলসিসি (পাতার রঙ মেলানোর
+      চার্ট) দিয়ে পাতার রঙ মিলিয়ে নিন।
+    en: Use urea in moderate amounts, and match your leaf colour with a leaf colour chart to decide how much, to
+      lower the risk of blast.
+sources:
+- doc_id: DOC-BRRIKB-002
+  page: 2
+  quote: সতর্কতার সাথে পরিমিত ইউরিয়া সার ব্যবহার করা দরকার। তবে ইউরিয়া সারের চাহিদা নির্ধারণের জন্য এলসিসি দিয়ে
+    ধানের পাতার রঙ মিলিয়ে নেয়া উত্তম।
+  quote_sha256: d7a4c0ebddf509a02f2d8e117c17d45a46c49cf6cae7273c9aa60f225049a480
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at tillering
+  facts:
+    stage: tillering
+  expect: fires
+- name: silent at maturity
+  facts:
+    stage: maturity
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage

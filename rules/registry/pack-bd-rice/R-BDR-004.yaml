@@ -1,0 +1,146 @@
+rule_id: R-BDR-004
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - booting
+    - heading
+    - flowering
+  - fact: bph_females_per_hill
+    op: lt
+    value: param:bph_females_min
+  - fact: bph_nymphs_per_hill
+    op: lt
+    value: param:bph_nymphs_min
+  - any:
+    - fact: forecast_humid_mild_days
+      op: gte
+      value: param:humid_mild_days_min
+    - fact: forecast_heavy_rain_days
+      op: gte
+      value: 1
+action:
+  kind: input_decision
+  traffic_light: red
+  title:
+    bn: 'উষ্ণ ও ভেজা আবহাওয়ার পূর্বাভাস আছে, যা পাতাপোড়া রোগের জন্য অনুকূল: পাতা দেখুন এবং সুরক্ষার উপায় নিয়ে
+      এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।'
+    en: 'Warm, wet weather is forecast, which favours bacterial leaf blight: check your leaves and contact your
+      officer about protection now.'
+  decision: recheck
+basis_note: 'Inference, stated openly: the BRRI bacterial leaf blight sheet names conditions that favour the disease
+  (humidity above 70%, high temperature of 26-30 C, stormy weather; p.2). It does not say a protective step is needed
+  in any forecast. Our forecast check applies the team-set limits below (NOT from the source) to the 7-day forecast,
+  and the next step is only to contact the officer. Forecasts can be wrong.'
+sources:
+- doc_id: DOC-BRRIKB-003
+  page: 2
+  quote: বাতাসের আর্দ্রতা ৭০% এর অধিক হলে
+  quote_sha256: 67ae24f23a457ff04292bf84114d06823691447999c83f9f4e66da67be9e17e9
+- doc_id: DOC-BRRIKB-003
+  page: 2
+  quote: উচ্চ তাপমাত্রায় (২৬-৩০ ডিগ্রী সেন্টিগ্রেড)
+  quote_sha256: 350ebecb133ad0ab01ae6f3597c8ce6e805125280a6541d487f4a910932931ac
+- doc_id: DOC-BRRIKB-003
+  page: 2
+  quote: ঝড়োবৃষ্টি আবহাওয়া থাকলে
+  quote_sha256: 511ce8362284a010702992a016878f58c584f5607b03c5268a3e37ee5fcae012
+reviewer_parameters:
+- name: bph_females_min
+  value: 2
+  unit: per hill
+  set_by: team
+  note: Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end
+    (cautious side). Pathologist to confirm which end to use.
+- name: bph_nymphs_min
+  value: 8
+  unit: per hill
+  set_by: team
+  note: Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious
+    side). Pathologist to confirm which end to use.
+- name: humid_mild_days_min
+  value: 4
+  unit: days of 7
+  set_by: team
+  note: NOT from source; to be set by the pathologist.
+- name: humid_rh_pct_min
+  value: 70
+  unit: '%'
+  set_by: team
+  note: The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to
+    confirm; in aman season mean RH is often above this on most days, so the rule may fire very often.
+- name: mild_temp_c_range
+  value: 22-32
+  unit: C
+  set_by: team
+  note: NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the
+    whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist.
+- name: heavy_rain_mm
+  value: 20
+  unit: mm/day
+  set_by: team
+  note: NOT from source (the source only says stormy rain); to be set by the pathologist.
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Weather limits are team-set and need the pathologist; Bangla text and quotes pending native-speaker
+    review (quotes transcribed from page images).
+tests:
+- name: fires when humid warm days are forecast
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 5
+    forecast_heavy_rain_days: 0
+  expect: fires
+- name: fires when heavy rain is forecast
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 0
+    forecast_heavy_rain_days: 2
+  expect: fires
+- name: silent when the weather is calm
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 0
+    forecast_heavy_rain_days: 0
+  expect: silent
+- name: silent when the planthopper rule already covers it
+  facts:
+    stage: heading
+    bph_females_per_hill: 3
+    bph_nymphs_per_hill: 0
+    forecast_humid_mild_days: 5
+    forecast_heavy_rain_days: 0
+  expect: silent
+- name: silent and no weather needed when the planthopper count is high
+  facts:
+    stage: heading
+    bph_females_per_hill: 3
+    bph_nymphs_per_hill: 0
+  expect: silent
+- name: silent at grain fill
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_humid_mild_days: 5
+    forecast_heavy_rain_days: 3
+  expect: silent
+- name: unknown at heading when the humidity count is missing
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+    forecast_heavy_rain_days: 0
+  expect: missing fact forecast_humid_mild_days

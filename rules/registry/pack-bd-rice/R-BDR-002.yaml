@@ -1,0 +1,96 @@
+rule_id: R-BDR-002
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - tillering
+    - grain_fill
+    - maturity
+  - fact: bph_females_per_hill
+    op: lt
+    value: param:bph_females_min
+  - fact: bph_nymphs_per_hill
+    op: lt
+    value: param:bph_nymphs_min
+action:
+  kind: input_decision
+  traffic_light: green
+  title:
+    bn: 'এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।'
+    en: 'No spray needed now: count is below the threshold; count again in a few days.'
+  decision: dont_spray
+basis_note: 'Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females
+  or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that
+  range as the count limit; the fact sheet''s own next step is a chemical control, which we replace with ''contact
+  your officer''. Counts are what the farmer reports.'
+sources:
+- doc_id: DOC-BRRIKB-001
+  page: 1
+  quote: জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই
+    দেখতে পাওয়া যায়
+  quote_sha256: 57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c
+reviewer_parameters:
+- name: bph_females_min
+  value: 2
+  unit: per hill
+  set_by: team
+  note: Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end
+    (cautious side). Pathologist to confirm which end to use.
+- name: bph_nymphs_min
+  value: 8
+  unit: per hill
+  set_by: team
+  note: Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious
+    side). Pathologist to confirm which end to use.
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at grain fill with low counts and no weather data
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+  expect: fires
+- name: fires at tillering with zero counts
+  facts:
+    stage: tillering
+    bph_females_per_hill: 0
+    bph_nymphs_per_hill: 0
+  expect: fires
+- name: silent when the female count is high
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 3
+    bph_nymphs_per_hill: 0
+  expect: silent
+- name: silent when the nymph count is high
+  facts:
+    stage: maturity
+    bph_females_per_hill: 0
+    bph_nymphs_per_hill: 9
+  expect: silent
+- name: silent at heading (the weather rule covers that stage)
+  facts:
+    stage: heading
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+  expect: silent
+- name: silent outside the aman growth stages
+  facts:
+    stage: pre_planting
+    bph_females_per_hill: 1
+    bph_nymphs_per_hill: 3
+  expect: silent
+- name: unknown when a planthopper count is missing
+  facts:
+    stage: grain_fill
+    bph_females_per_hill: 1
+  expect: missing fact bph_nymphs_per_hill

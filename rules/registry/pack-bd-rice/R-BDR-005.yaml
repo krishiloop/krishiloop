@@ -1,0 +1,46 @@
+rule_id: R-BDR-005
+version: 1
+pack_id: pack-bd-rice
+status: active
+crop: rice
+when:
+  all:
+  - fact: stage
+    op: in
+    value:
+    - booting
+    - heading
+    - flowering
+    - grain_fill
+action:
+  kind: monitoring
+  traffic_light: amber
+  title:
+    bn: 'গাছে মাকড়সা খুঁজে দেখুন: বেশির ভাগ গাছে অন্তত একটি থাকলে মাকড়সা গাছফড়িং খাচ্ছে, তাই স্প্রে করার আগে
+      আপনার কর্মকর্তাকে জিজ্ঞেস করুন।'
+    en: 'Look for spiders on your plants: if most plants have at least one, the spiders are eating the planthoppers,
+      so ask your officer before any spray.'
+sources:
+- doc_id: DOC-BRRIKB-001
+  page: 1
+  quote: জমির অধিকাংশ গাছে অন্তত একটি মাকড়সা দেখা গেলে কীটনাশক ব্যবহার করা উচিত নয়। কারণ মাকড়সা বাদামি গাছফড়িং
+    খেয়ে ধ্বংস করে।
+  quote_sha256: 915b6756df4cc98de7f21457707e25c6cdd76009cb0b50b585b6358534ef3ea7
+reviewer_parameters: []
+review:
+  level: pending
+  reviewers: []
+  notes: Draft (Oct 28). Bangla text and quotes pending native-speaker review; quotes were transcribed from page
+    images, not machine-extracted.
+tests:
+- name: fires at grain fill
+  facts:
+    stage: grain_fill
+  expect: fires
+- name: silent at tillering
+  facts:
+    stage: tillering
+  expect: silent
+- name: unknown when the stage is missing
+  facts: {}
+  expect: missing fact stage
