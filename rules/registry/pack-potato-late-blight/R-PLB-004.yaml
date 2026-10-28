@@ -8,6 +8,10 @@ when:
   - fact: stage
     op: eq
     value: pre_planting
+boost_when:
+  fact: soil_drainage
+  op: eq
+  value: poor
 action:
   kind: practice
   traffic_light: green

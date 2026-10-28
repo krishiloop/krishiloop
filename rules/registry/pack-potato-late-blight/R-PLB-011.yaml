@@ -1,0 +1,98 @@
+rule_id: R-PLB-011
+version: 2
+pack_id: pack-potato-late-blight
+status: active
+crop: potato
+when:
+  all:
+  - fact: stage
+    op: eq
+    value: vegetative
+  - any:
+    - fact: forecast_humid_mild_days
+      op: lt
+      value: param:humid_mild_days_min
+    - all:
+      - fact: crop_protected
+        op: eq
+        value: true
+      - fact: forecast_heavy_rain_days
+        op: eq
+        value: 0
+action:
+  kind: input_decision
+  decision: dont_spray
+  traffic_light: green
+  title:
+    en: 'No protective spray indicated this week: our forecast check found no period
+      favourable to late blight, or your crop is protected and no heavy rain is forecast.
+      Keep checking your plants.'
+basis_note: 'Inference, stated openly: the manual ties protection to periods favourable
+  to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact
+  products away (p. 24). Our forecast check, using the reviewer-set thresholds below,
+  found no such period, or the crop is protected and no heavy rain is forecast. Forecasts
+  can be wrong.'
+sources:
+- doc_id: DOC-CIP-001
+  page: 24
+  quote: If a farmer thinks his crop is not well protected during the period favorable
+    to infection, he should consider using a systemic or translaminar product.
+  quote_sha256: 4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c
+- doc_id: DOC-CIP-001
+  page: 19
+  quote: '4 days in optimal conditions: moderate temperatures and high humidity'
+  quote_sha256: 8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a
+- doc_id: DOC-CIP-001
+  page: 24
+  quote: Contact products do not protect new tissue (grown after application) and
+    are washed away by rain.
+  quote_sha256: 95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b
+reviewer_parameters:
+- name: humid_mild_days_min
+  value: 2
+  set_by: team
+  note: NOT from source; to be set by the pathologist.
+review:
+  level: pending
+  reviewers: []
+  notes: 'v2 (Oct 27): stage guard added; the p. 6 preface quote replaced because it
+    did not support the decision (code review M4); the protected branch now requires
+    no heavy rain (it used to fire green whatever the rain).'
+tests:
+- name: fires when dry
+  facts:
+    stage: vegetative
+    forecast_humid_mild_days: 0
+    crop_protected: false
+  expect: fires
+- name: fires when protected and no heavy rain
+  facts:
+    stage: vegetative
+    forecast_humid_mild_days: 4
+    crop_protected: true
+    forecast_heavy_rain_days: 0
+  expect: fires
+- name: silent when protected but heavy rain
+  facts:
+    stage: vegetative
+    forecast_humid_mild_days: 4
+    crop_protected: true
+    forecast_heavy_rain_days: 2
+  expect: silent
+- name: silent when humid and unprotected
+  facts:
+    stage: vegetative
+    forecast_humid_mild_days: 4
+    crop_protected: false
+  expect: silent
+- name: silent outside the vegetative stage
+  facts:
+    stage: storage
+    forecast_humid_mild_days: 0
+    crop_protected: false
+  expect: silent
+- name: unknown when the humidity count is missing
+  facts:
+    stage: vegetative
+    crop_protected: false
+  expect: missing fact forecast_humid_mild_days

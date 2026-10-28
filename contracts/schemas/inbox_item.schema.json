@@ -35,7 +35,9 @@
         "conflicting_rules",
         "data_unavailable",
         "farmer_requested",
-        "no_matching_rule"
+        "no_matching_rule",
+        "rule_recalled",
+        "data_stale"
       ]
     },
     "reason": {
@@ -91,6 +93,10 @@
         "string",
         "null"
       ]
+    },
+    "details": {
+      "type": "object",
+      "description": "Officer-only context: missing facts, blocked text, recalled rules."
     }
   }
 }

@@ -8,6 +8,10 @@ when:
   - fact: stage
     op: eq
     value: vegetative
+boost_when:
+  fact: soil_drainage
+  op: eq
+  value: poor
 action:
   kind: irrigation
   traffic_light: amber

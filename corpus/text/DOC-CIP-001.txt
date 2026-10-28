@@ -1,7 +1,34 @@
-# DOC-CIP-001 — excerpt (pages 19, 24, 26-28 of the PDF)
+# DOC-CIP-001 — excerpt (pages 6, 19, 24, 26-28 of the PDF)
 # Source: Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. International Potato Center (CIP), Lima. ISBN 978-92-9060-391-7.
 # https://cipotato.org/wp-content/uploads/2014/08/005446.pdf
 # Reproduced with acknowledgement under CIP's statement (PDF p.2): "Readers are encouraged to quote or reproduce material from them in their own publications. As copyright holder CIP requests acknowledgement, and a copy of the publication where the citation or material appears."
+
+=== PAGE 6 ===
+5
+Preface
+The development of new technologies has given specialists a better understanding of
+the biology of Phytophthora infestans (Mont.) de Bary.   However, much of this information is
+presented piecemeal in specific publications that at times are difficult to understand.  Inte-
+grating all the new information can be even more difficult.  This guide is an attempt to
+present some of the new information in a summarized form that gives a broad view of the
+problem. The CIP (International Potato Center) Project for Integrated Management of Late
+Blight has developed a wide variety of training activities for professionals, technicians and
+community leaders, as well as participatory research programs using the Farmer Field School
+methodology to facilitate knowledge transfer.  Furthermore, integrated management strate-
+gies have been developed together with national researchers and rural development institu-
+tions, considering agro-ecosystem care, farmer and environmental health, all of which are
+particularly affected by inappropriate and inefficient use of fungicides.
+We hope this guide will be useful for researchers, teachers, students, technicians and
+farmers interested in this topic. Chapters on the pathogen, the disease and integrated man-
+agement attempt to cover as much information as possible. For this reason, special care has
+been taken in analyzing some of the specialized and recent bibliography in order to present
+the information in a didactic and objective way. The chapter on evaluation of disease resis-
+tance has been laid out based on specialists’ experience and aims to be a useful guide for
+those who need to evaluate resistance of new varieties or evaluate new control strategies.
+The authors
+“He who loves practice without theory is like the sailor who boards ship without a rudder and
+compass and never knows where he may cast. “ Leonardo da Vinci
+
 
 === PAGE 19 ===
 18

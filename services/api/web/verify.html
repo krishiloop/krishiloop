@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KrishiLoop — Verify a receipt</title>
+<style>
+  :root{--ok:#1f8a4c;--bad:#c62828;--warn:#b26a00;--ink:#1d2421;--muted:#5f6b66;--bg:#f6f8f5}
+  body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--ink)}
+  main{max-width:640px;margin:0 auto;padding:24px 16px}
+  .card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-top:16px;position:relative;overflow:hidden}
+  .verdict{font-size:2rem;font-weight:800;letter-spacing:.04em}
+  .authentic{color:var(--ok)} .recalled{color:var(--bad)} .invalid{color:var(--warn)}
+  .stamp{position:absolute;right:-10px;top:24px;transform:rotate(-14deg) scale(2.4);opacity:0;border:5px solid var(--bad);color:var(--bad);
+         font-weight:900;font-size:1.6rem;padding:4px 14px;border-radius:8px;transition:all .5s cubic-bezier(.2,.9,.3,1.3)}
+  .stamp.on{opacity:.9;transform:rotate(-14deg) scale(1)}
+  small,.muted{color:var(--muted)} code{font-size:.8rem;word-break:break-all}
+  blockquote{margin:8px 0;padding:8px 12px;border-left:4px solid #cfd8d3;background:#f9fbfa}
+</style>
+</head>
+<body><main>
+  <div class="muted">KrishiLoop · receipt verifier</div>
+  <div class="card" id="card"><div class="verdict" id="verdict">Checking…</div><div id="reason" class="muted"></div><div class="stamp" id="stamp">RECALLED</div></div>
+  <div class="card" id="details" hidden></div>
+  <p class="muted"><small>"Authentic" means this receipt was issued by KrishiLoop and has not been altered. It is not a guarantee that the advice is correct; that is why every receipt shows its source.</small></p>
+</main>
+<script>
+const id = decodeURIComponent(location.pathname.split('/verify/')[1] || '');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+(async () => {
+  const el = document.getElementById('verdict');
+  let v;
+  try {
+    const res = await fetch('/api/verify/' + encodeURIComponent(id));
+    v = res.ok ? await res.json() : {status: 'invalid', reason: 'verifier error ' + res.status};
+  } catch (e) { v = {status: 'invalid', reason: 'could not reach the verifier'}; }
+  el.textContent = v.status === 'authentic' ? '✓ AUTHENTIC' : v.status === 'recalled' ? '⚠ RECALLED' : '✗ INVALID';
+  el.className = 'verdict ' + (['authentic', 'recalled'].includes(v.status) ? v.status : 'invalid');
+  document.getElementById('reason').textContent = v.reason || '';
+  if (v.status === 'recalled') setTimeout(() => document.getElementById('stamp').classList.add('on'), 150);
+  const c = v.credential;  // only the credential the server verified; never a second, unverified fetch
+  if (!c || v.status === 'invalid') return;
+  const s = c.credentialSubject || {}, a = s.advice || {}, p = s.plan || {};
+  const src = (s.sources || []).map(x => `<blockquote>“${esc(x.quote)}”<br><small>${esc(x.title)} — ${esc(x.publisher)}, PDF p. ${esc(x.page)} · ${esc(x.licence_status)}</small></blockquote>`).join('');
+  const rules = (s.rule_refs || []).map(x => `${esc(x.rule_id)} v${esc(x.version)} (${esc(x.review_level)} review)`).join(', ');
+  const params = (s.reviewer_parameters || []).map(q => `<li>${esc(q.name)} = ${esc(q.value)}${esc(q.unit||'')} — <em>set by ${esc(q.set_by)}, not from the source</em></li>`).join('');
+  const d = document.getElementById('details'); d.hidden = false;
+  d.innerHTML = `<div><strong>This receipt certifies the advice:</strong><blockquote>${esc((a.title || {}).en)}</blockquote>
+      <small>${a.decision ? 'Decision: ' + esc(a.decision) + ' · ' : ''}${a.traffic_light ? 'Light: ' + esc(a.traffic_light) + ' · ' : ''}for ${esc(p.crop)} (${esc(p.stage)}), ${esc(p.valid_from)} to ${esc(p.valid_to)} · weather data as of ${esc(p.data_as_of)} (${esc(p.data_mode)})${v.expired ? ' · <strong>expired</strong>' : ''}</small></div>
+    <strong>Source</strong>${src}<div><strong>Rule</strong>: ${rules}</div>
+    <div><strong>Confidence</strong>: ${esc(s.confidence?.level)} — ${esc(s.confidence?.basis)}</div>
+    ${params ? `<div><strong>Reviewer-set parameters</strong><ul>${params}</ul></div>` : ''}
+    <div class="muted"><small>Issuer ${esc(c.issuer)} · issued ${esc(c.validFrom)} · ${esc(c.proof?.cryptosuite)}</small><br><code>${esc(c.id)}</code></div>`;
+})();
+</script>
+</body></html>

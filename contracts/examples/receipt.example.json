@@ -43,5 +43,26 @@
     "validator_version": "0.1.0",
     "phrasing_model": null
   },
-  "created_at": "2026-10-27T00:30:00Z"
+  "created_at": "2026-10-27T00:30:00Z",
+  "advice": {
+    "action_id": "A-plb-healthy-seed",
+    "kind": "input_decision",
+    "title": {
+      "en": "Before planting: make sure your seed tubers are healthy"
+    },
+    "phrasing_model": null,
+    "decision": "recheck",
+    "traffic_light": "amber"
+  },
+  "plan": {
+    "plan_id": "0c9d7f3a-1b2c-4d5e-8f90-a1b2c3d4e5f6",
+    "pack_id": "pack-potato-late-blight",
+    "crop": "potato",
+    "stage": "pre_planting",
+    "valid_from": "2026-10-27",
+    "valid_to": "2026-11-02",
+    "field_ref": "3f9a1c0d5e7b2a46",
+    "data_mode": "sample",
+    "data_as_of": "2026-10-27T00:30:00Z"
+  }
 }

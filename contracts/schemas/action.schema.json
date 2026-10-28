@@ -125,6 +125,11 @@
     },
     "receipt": {
       "$ref": "receipt.schema.json"
+    },
+    "receipt_credential_id": {
+      "type": "string",
+      "pattern": "^urn:uuid:",
+      "description": "id of the signed AdviceReceiptCredential (QR target)"
     }
   },
   "allOf": [

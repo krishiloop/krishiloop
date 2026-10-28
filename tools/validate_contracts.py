@@ -1,8 +1,9 @@
 """Validate KrishiLoop contracts: every schema is valid JSON Schema 2020-12, and every example validates.
 
 Example files are named <schema-name>.<anything>.json or <schema-name>.example.json
-(e.g. plan.ok.example.json -> plan.schema.json). Credential examples are validated against
-credential.schema.json AND their proofs are verified by tools/vc.py tests.
+(e.g. plan.ok.example.json -> plan.schema.json). credential.schema.json has no example file here:
+issued rule credentials and receipts are validated against it, and their proofs verified, by
+tests/test_vc.py (the signing code is services/trust/vc.py).
 Exit code 0 = all good.
 """
 from __future__ import annotations

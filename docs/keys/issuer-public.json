@@ -1,0 +1,7 @@
+{
+  "issuer_did_planned": "did:web:krishiloop.github.io",
+  "verificationMethod": "did:web:krishiloop.github.io#key-1",
+  "type": "Multikey",
+  "publicKeyMultibase": "z6MkfeKjvi32udvUi1DGxcbDEtUsB2SYntJPXL35BzNG4MJX",
+  "created": "2026-10-27"
+}

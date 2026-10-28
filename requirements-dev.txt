@@ -1,7 +1,11 @@
-jsonschema>=4.23
-referencing>=0.35
-pyyaml>=6
-pytest>=8
-pynacl>=1.5
-base58>=2.1
-rfc8785>=0.1
+# Pinned to the versions tested locally (Oct 28, 2026). format-nongpl adds the URI/date-time format checkers.
+jsonschema[format-nongpl]==4.26.0
+referencing==0.37.0
+pyyaml==6.0.3
+pytest==9.1.1
+pynacl==1.6.2
+base58==2.1.1
+rfc8785==0.1.4
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+httpx==0.28.1

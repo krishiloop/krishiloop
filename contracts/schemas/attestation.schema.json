@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://krishiloop.example/schemas/attestation.schema.json",
   "title": "ActionAttestation",
-  "description": "Farmer 'I did it' attestation (SHOULD for Oct 31). Photo hash + SERVER timestamp; GPS EXIF stripped from stored copy. Not proof that satellites saw the action (we never claim that for small plots).",
+  "description": "Farmer 'I did it' attestation (SHOULD (P1)). Photo hash + SERVER timestamp; GPS EXIF stripped from stored copy. Not proof that satellites saw the action (we never claim that for small plots).",
   "type": "object",
   "additionalProperties": false,
   "required": [

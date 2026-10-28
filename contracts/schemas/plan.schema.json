@@ -96,7 +96,8 @@
                   "labour",
                   "voice_preference",
                   "past_outcome",
-                  "soil_drainage"
+                  "soil_drainage",
+                  "crop_protected"
                 ]
               },
               "value": {
@@ -128,7 +129,9 @@
             "conflicting_rules",
             "data_unavailable",
             "farmer_requested",
-            "no_matching_rule"
+            "no_matching_rule",
+            "rule_recalled",
+            "data_stale"
           ]
         },
         "reason": {
@@ -145,6 +148,30 @@
     },
     "snapshot_id": {
       "type": "string"
+    },
+    "data_mode": {
+      "enum": [
+        "live",
+        "snapshot",
+        "sample"
+      ]
+    },
+    "data_as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "diagnosis_used": {
+      "type": "boolean",
+      "description": "true only if the photo passed the gate and could inform rules"
+    },
+    "diagnosis_note": {
+      "enum": [
+        "ok",
+        "uncalibrated",
+        "low_confidence",
+        "out_of_distribution",
+        "model_abstained"
+      ]
     }
   },
   "allOf": [

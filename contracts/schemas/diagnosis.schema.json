@@ -12,7 +12,6 @@
     "on_device",
     "labels",
     "calibrated",
-    "ood_score",
     "status",
     "inference_ms",
     "created_at"
@@ -65,7 +64,8 @@
       "exclusiveMinimum": 0
     },
     "ood_score": {
-      "type": "number"
+      "type": "number",
+      "description": "Optional until the model has a real OOD head; v0 sends 1 - top-1 probability."
     },
     "status": {
       "enum": [
@@ -95,6 +95,57 @@
     "created_at": {
       "type": "string",
       "format": "date-time"
+    },
+    "severity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pct"
+      ],
+      "properties": {
+        "pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "lo": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "hi": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "description": "% of the photographed plant part affected (manual thresholds are stated in %)."
+    },
+    "symptoms": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "concept",
+          "strength"
+        ],
+        "properties": {
+          "concept": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "signature_ref": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "allOf": [

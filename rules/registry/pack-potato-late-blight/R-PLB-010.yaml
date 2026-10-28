@@ -8,6 +8,9 @@ when:
   - fact: stage
     op: eq
     value: vegetative
+  - fact: crop_protected
+    op: eq
+    value: true
 action:
   kind: practice
   traffic_light: amber
@@ -26,11 +29,13 @@ review:
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.
 tests:
-- name: fires at stage
+- name: fires when protection used
   facts:
     stage: vegetative
+    crop_protected: true
   expect: fires
-- name: silent at other stage
+- name: silent when no protection used
   facts:
-    stage: storage
+    stage: vegetative
+    crop_protected: false
   expect: silent

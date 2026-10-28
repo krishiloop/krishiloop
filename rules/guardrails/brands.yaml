@@ -1,0 +1,9 @@
+# Commercial product / brand names that must never appear in generated advice (Constitution Art. 3).
+# Seeded with names observed in our dated LLM test; extend from the national pesticide registration list once permitted.
+# Matching is whole-word for Latin script and substring for Bangla script. "trooper" also blocks the
+# ordinary word (e.g. "state trooper"): over-blocking sends the case to the officer, which is the safe side.
+terms:
+  - trooper
+  - tricor
+  - ট্রুপার
+  - ট্রাইকর

@@ -1,0 +1,19 @@
+# Demo fields and farmer profiles (data, not engine code): adding a pack never needs an engine change.
+# Every field here is a labelled SAMPLE location with no real farmer behind it.
+fields:
+- field_id: KE-SAMPLE-01
+  lat: -0.75
+  lon: 36.6
+  country: KE
+  precision: sample_location
+  label: Sample Kenyan highland location (no farmer)
+  crop: potato
+  stage: vegetative
+  pack_id: pack-potato-late-blight
+profiles:
+- farmer_profile_id: demo-farmer-a
+  crop_protected: false
+  soil_drainage: poor
+- farmer_profile_id: demo-farmer-b
+  crop_protected: true
+  soil_drainage: good

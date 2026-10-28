@@ -2,12 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://krishiloop.example/schemas/receipt.schema.json",
   "title": "Receipt",
-  "description": "Evidence behind ONE recommendation (Constitution Art. 1): sources with verbatim quotes, data readings with timestamps, rule versions (each backed by a signed RuleCredential that can be recalled), confidence. Delivered inside an AdviceReceiptCredential (credential.schema.json).",
+  "description": "Evidence behind ONE recommendation, and the recommendation itself (Constitution Art. 1): the exact advice shown (text, decision, traffic light), its plan window, sources with verbatim quotes, data readings with timestamps, rule versions (each backed by a signed RuleCredential that can be recalled), confidence. Delivered inside an AdviceReceiptCredential (credential.schema.json), so editing the advice breaks the signature.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "receipt_id",
     "claim",
+    "plan",
+    "advice",
     "sources",
     "data",
     "rule_refs",
@@ -109,6 +111,100 @@
     "created_at": {
       "type": "string",
       "format": "date-time"
+    },
+    "advice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "kind",
+        "title"
+      ],
+      "description": "The exact advice the farmer sees; signed.",
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "action.schema.json#/properties/kind"
+        },
+        "title": {
+          "$ref": "action.schema.json#/$defs/i18n"
+        },
+        "decision": {
+          "enum": [
+            "spray",
+            "dont_spray",
+            "recheck"
+          ]
+        },
+        "traffic_light": {
+          "enum": [
+            "green",
+            "amber",
+            "red"
+          ]
+        },
+        "phrasing_model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_id",
+        "pack_id",
+        "crop",
+        "stage",
+        "valid_from",
+        "valid_to",
+        "field_ref",
+        "data_mode",
+        "data_as_of"
+      ],
+      "properties": {
+        "plan_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "pack_id": {
+          "type": "string"
+        },
+        "crop": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "valid_from": {
+          "type": "string",
+          "format": "date"
+        },
+        "valid_to": {
+          "type": "string",
+          "format": "date"
+        },
+        "field_ref": {
+          "type": "string",
+          "description": "hash of the field id; no location or PII"
+        },
+        "data_mode": {
+          "enum": [
+            "live",
+            "snapshot",
+            "sample"
+          ]
+        },
+        "data_as_of": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     }
   },
   "$defs": {
@@ -214,6 +310,11 @@
             "union_level",
             "sample_location"
           ]
+        },
+        "forecast_for": {
+          "type": "string",
+          "format": "date",
+          "description": "for forecasts: the day the value is forecast for (observed_at = forecast issue time)"
         }
       }
     },
