@@ -1,0 +1,29 @@
+{
+  "labels": [
+    "healthy",
+    "blast",
+    "brown_spot",
+    "tungro",
+    "sheath_blight"
+  ],
+  "temperature": 0.7624813914299011,
+  "resize_short_side": 256,
+  "resample": "bilinear, antialiased (PIL)",
+  "center_crop": 224,
+  "mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "color": "RGB",
+  "layout": "NCHW",
+  "exif_orientation": "applied",
+  "output": "calibrated probabilities (softmax(logits / temperature))",
+  "recipe": "erm",
+  "training_data": "Dhan-Shomadhan, RiceyLeafDisease, RiceLeafDisease-BD5, RiceLeafDiseaseBD (all CC BY 4.0, Mendeley Data)"
+}

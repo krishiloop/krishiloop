@@ -1,0 +1,2363 @@
+{
+  "started_utc": "2026-10-27T22:08:29Z",
+  "seed": 7,
+  "v1_reference": {
+    "note": "fine-tuned MobileNetV4, artifacts/lodo.json; mean over the 4 held-out domains only",
+    "erm_mean_macro_f1": 0.2668,
+    "isp_mean_macro_f1": 0.2436,
+    "erm_worst": 0.1192
+  },
+  "bd_e_device_evidence": {
+    "metadata_rows": 9769,
+    "filename_patterns_top": [
+      [
+        "IMG99999999999",
+        4858
+      ],
+      [
+        "99999999_99999",
+        4656
+      ],
+      [
+        "IMG_99999999_9",
+        165
+      ],
+      [
+        "PXL_99999999_9",
+        82
+      ],
+      [
+        "9999999999999.",
+        8
+      ]
+    ],
+    "original_sizes_top": [
+      [
+        "1600x1200",
+        5582
+      ],
+      [
+        "1200x1600",
+        3930
+      ],
+      [
+        "3060x4080",
+        106
+      ],
+      [
+        "1920x2560",
+        67
+      ],
+      [
+        "2448x3264",
+        41
+      ],
+      [
+        "3264x2448",
+        11
+      ],
+      [
+        "2560x1920",
+        10
+      ],
+      [
+        "4080x3060",
+        7
+      ]
+    ]
+  },
+  "counts": {
+    "BD-A": {
+      "brown_spot": 49,
+      "blast": 74,
+      "tungro": 76,
+      "sheath_blight": 64
+    },
+    "BD-B": {
+      "sheath_blight": 207,
+      "brown_spot": 85,
+      "blast": 181,
+      "tungro": 106
+    },
+    "BD-C": {
+      "blast": 302,
+      "brown_spot": 267,
+      "healthy": 157,
+      "sheath_blight": 271
+    },
+    "BD-D": {
+      "blast": 709,
+      "healthy": 809,
+      "tungro": 490,
+      "sheath_blight": 622
+    },
+    "BD-E": {
+      "blast": 2581,
+      "tungro": 4410,
+      "brown_spot": 4269,
+      "sheath_blight": 3407,
+      "healthy": 1558
+    }
+  },
+  "bd_e_devices": {
+    "non-PXL filename": 16140,
+    "pixel (PXL_ filename)": 85
+  },
+  "backbones": {
+    "dinov2_b": {
+      "model": "vit_base_patch14_dinov2.lvd142m",
+      "dim": 768,
+      "zero_shot": false,
+      "seconds": 82
+    },
+    "dinov2_b_grey": {
+      "model": "vit_base_patch14_dinov2.lvd142m",
+      "dim": 768,
+      "zero_shot": false,
+      "seconds": 171
+    },
+    "dinov2_l": {
+      "model": "vit_large_patch14_dinov2.lvd142m",
+      "dim": 1024,
+      "zero_shot": false,
+      "seconds": 269
+    },
+    "dinov3_b": {
+      "model": "vit_base_patch16_dinov3.lvd1689m",
+      "dim": 768,
+      "zero_shot": false,
+      "seconds": 100
+    },
+    "bioclip2": {
+      "model": "('hf-hub:imageomics/bioclip-2', None)",
+      "dim": 768,
+      "zero_shot": true,
+      "seconds": 301
+    },
+    "bioclip2_grey": {
+      "model": "('hf-hub:imageomics/bioclip-2', None)",
+      "dim": 768,
+      "zero_shot": true,
+      "seconds": 577
+    },
+    "siglip2_b": {
+      "model": "('ViT-B-16-SigLIP2', 'webli')",
+      "dim": 768,
+      "zero_shot": true,
+      "seconds": 91
+    }
+  },
+  "e1_lodo": {
+    "bioclip2": {
+      "BD-A": {
+        "weight_decay": 0.0001,
+        "temperature": 1.459,
+        "source_val_macro_f1": 0.8334,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1844,
+          "balanced_accuracy": 0.2022,
+          "accuracy": 0.1977,
+          "ece": 0.6112,
+          "selective_accuracy_at_50pct": 0.2519,
+          "aurc": 0.7517,
+          "auroc_correct_vs_wrong_msp": 0.5876,
+          "gate_085": {
+            "pass_rate": 0.5361,
+            "precision": 0.2411
+          },
+          "per_class_recall": {
+            "blast": 0.0676,
+            "brown_spot": 0.0612,
+            "tungro": 0.0395,
+            "sheath_blight": 0.6406
+          },
+          "auroc_correct_vs_wrong_knn": 0.7337,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2966,
+            "precision": 0.4103
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3764,
+          "balanced_accuracy": 0.3359,
+          "accuracy": 0.3782,
+          "ece": 0.3896,
+          "selective_accuracy_at_50pct": 0.3841,
+          "aurc": 0.6213,
+          "auroc_correct_vs_wrong_msp": 0.5215,
+          "gate_085": {
+            "pass_rate": 0.4076,
+            "precision": 0.3686
+          },
+          "per_class_recall": {
+            "blast": 0.4033,
+            "brown_spot": 0.0235,
+            "tungro": 0.4528,
+            "sheath_blight": 0.4638
+          },
+          "auroc_correct_vs_wrong_knn": 0.4797,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2055,
+            "precision": 0.3445
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.459,
+        "source_val_macro_f1": 0.8235,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3338,
+          "balanced_accuracy": 0.26,
+          "accuracy": 0.2136,
+          "ece": 0.5734,
+          "selective_accuracy_at_50pct": 0.1787,
+          "aurc": 0.8387,
+          "auroc_correct_vs_wrong_msp": 0.4144,
+          "gate_085": {
+            "pass_rate": 0.4794,
+            "precision": 0.1757
+          },
+          "per_class_recall": {
+            "healthy": 0.6051,
+            "blast": 0.0199,
+            "brown_spot": 0.1311,
+            "sheath_blight": 0.2841
+          },
+          "auroc_correct_vs_wrong_knn": 0.5784,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2277,
+            "precision": 0.1762
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.0001,
+        "temperature": 1.697,
+        "source_val_macro_f1": 0.7926,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.5465,
+          "balanced_accuracy": 0.5329,
+          "accuracy": 0.5129,
+          "ece": 0.267,
+          "selective_accuracy_at_50pct": 0.6137,
+          "aurc": 0.3822,
+          "auroc_correct_vs_wrong_msp": 0.6306,
+          "gate_085": {
+            "pass_rate": 0.4525,
+            "precision": 0.6277
+          },
+          "per_class_recall": {
+            "healthy": 0.4363,
+            "blast": 0.5078,
+            "tungro": 0.7776,
+            "sheath_blight": 0.41
+          },
+          "auroc_correct_vs_wrong_knn": 0.5385,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2266,
+            "precision": 0.6695
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.001,
+        "temperature": 1.459,
+        "source_val_macro_f1": 0.9018,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3157,
+          "balanced_accuracy": 0.367,
+          "accuracy": 0.3405,
+          "ece": 0.4409,
+          "selective_accuracy_at_50pct": 0.4274,
+          "aurc": 0.5002,
+          "auroc_correct_vs_wrong_msp": 0.6578,
+          "gate_085": {
+            "pass_rate": 0.464,
+            "precision": 0.44
+          },
+          "per_class_recall": {
+            "healthy": 0.3909,
+            "blast": 0.289,
+            "brown_spot": 0.2457,
+            "tungro": 0.0236,
+            "sheath_blight": 0.8855
+          },
+          "auroc_correct_vs_wrong_knn": 0.6456,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2382,
+            "precision": 0.5981
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3451,
+        "worst": 0.1844,
+        "per_fold": {
+          "BD-A": 0.1844,
+          "BD-C": 0.3338,
+          "BD-D": 0.5465,
+          "BD-E": 0.3157
+        }
+      }
+    },
+    "bioclip2_grey": {
+      "BD-A": {
+        "weight_decay": 0.0001,
+        "temperature": 1.459,
+        "source_val_macro_f1": 0.8333,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1724,
+          "balanced_accuracy": 0.2192,
+          "accuracy": 0.2205,
+          "ece": 0.5737,
+          "selective_accuracy_at_50pct": 0.2748,
+          "aurc": 0.7252,
+          "auroc_correct_vs_wrong_msp": 0.5813,
+          "gate_085": {
+            "pass_rate": 0.4791,
+            "precision": 0.2698
+          },
+          "per_class_recall": {
+            "blast": 0.1892,
+            "brown_spot": 0.0,
+            "tungro": 0.0,
+            "sheath_blight": 0.6875
+          },
+          "auroc_correct_vs_wrong_knn": 0.7721,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2586,
+            "precision": 0.4559
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4436,
+          "balanced_accuracy": 0.4304,
+          "accuracy": 0.487,
+          "ece": 0.2844,
+          "selective_accuracy_at_50pct": 0.5675,
+          "aurc": 0.4521,
+          "auroc_correct_vs_wrong_msp": 0.6025,
+          "gate_085": {
+            "pass_rate": 0.4249,
+            "precision": 0.5691
+          },
+          "per_class_recall": {
+            "blast": 0.4033,
+            "brown_spot": 0.0471,
+            "tungro": 0.5755,
+            "sheath_blight": 0.6957
+          },
+          "auroc_correct_vs_wrong_knn": 0.5536,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2176,
+            "precision": 0.627
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.534,
+        "source_val_macro_f1": 0.8165,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3763,
+          "balanced_accuracy": 0.2936,
+          "accuracy": 0.2497,
+          "ece": 0.5209,
+          "selective_accuracy_at_50pct": 0.2329,
+          "aurc": 0.7647,
+          "auroc_correct_vs_wrong_msp": 0.479,
+          "gate_085": {
+            "pass_rate": 0.4383,
+            "precision": 0.2311
+          },
+          "per_class_recall": {
+            "healthy": 0.6242,
+            "blast": 0.0828,
+            "brown_spot": 0.1723,
+            "sheath_blight": 0.2952
+          },
+          "auroc_correct_vs_wrong_knn": 0.5789,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2066,
+            "precision": 0.2184
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.0001,
+        "temperature": 1.784,
+        "source_val_macro_f1": 0.7839,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3792,
+          "balanced_accuracy": 0.4318,
+          "accuracy": 0.3863,
+          "ece": 0.3749,
+          "selective_accuracy_at_50pct": 0.4639,
+          "aurc": 0.5402,
+          "auroc_correct_vs_wrong_msp": 0.6027,
+          "gate_085": {
+            "pass_rate": 0.4076,
+            "precision": 0.4785
+          },
+          "per_class_recall": {
+            "healthy": 0.1125,
+            "blast": 0.2412,
+            "tungro": 0.7592,
+            "sheath_blight": 0.6141
+          },
+          "auroc_correct_vs_wrong_knn": 0.5584,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.1989,
+            "precision": 0.5507
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.001,
+        "temperature": 1.613,
+        "source_val_macro_f1": 0.8973,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3455,
+          "balanced_accuracy": 0.3791,
+          "accuracy": 0.3524,
+          "ece": 0.3959,
+          "selective_accuracy_at_50pct": 0.4238,
+          "aurc": 0.5388,
+          "auroc_correct_vs_wrong_msp": 0.6151,
+          "gate_085": {
+            "pass_rate": 0.3692,
+            "precision": 0.4524
+          },
+          "per_class_recall": {
+            "healthy": 0.4551,
+            "blast": 0.3115,
+            "brown_spot": 0.3992,
+            "tungro": 0.0138,
+            "sheath_blight": 0.7159
+          },
+          "auroc_correct_vs_wrong_knn": 0.6035,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2012,
+            "precision": 0.564
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3183,
+        "worst": 0.1724,
+        "per_fold": {
+          "BD-A": 0.1724,
+          "BD-C": 0.3763,
+          "BD-D": 0.3792,
+          "BD-E": 0.3455
+        }
+      }
+    },
+    "dinov2_b": {
+      "BD-A": {
+        "weight_decay": 0.0001,
+        "temperature": 1.697,
+        "source_val_macro_f1": 0.8577,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1804,
+          "balanced_accuracy": 0.1979,
+          "accuracy": 0.1977,
+          "ece": 0.6184,
+          "selective_accuracy_at_50pct": 0.2519,
+          "aurc": 0.6834,
+          "auroc_correct_vs_wrong_msp": 0.6335,
+          "gate_085": {
+            "pass_rate": 0.5399,
+            "precision": 0.2394
+          },
+          "per_class_recall": {
+            "blast": 0.1622,
+            "brown_spot": 0.0408,
+            "tungro": 0.0263,
+            "sheath_blight": 0.5625
+          },
+          "auroc_correct_vs_wrong_knn": 0.6442,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2662,
+            "precision": 0.4
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3832,
+          "balanced_accuracy": 0.3797,
+          "accuracy": 0.456,
+          "ece": 0.3926,
+          "selective_accuracy_at_50pct": 0.519,
+          "aurc": 0.5058,
+          "auroc_correct_vs_wrong_msp": 0.5879,
+          "gate_085": {
+            "pass_rate": 0.6321,
+            "precision": 0.5082
+          },
+          "per_class_recall": {
+            "blast": 0.4365,
+            "brown_spot": 0.0,
+            "tungro": 0.3868,
+            "sheath_blight": 0.6957
+          },
+          "auroc_correct_vs_wrong_knn": 0.5556,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2884,
+            "precision": 0.6108
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.784,
+        "source_val_macro_f1": 0.8207,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4241,
+          "balanced_accuracy": 0.3521,
+          "accuracy": 0.324,
+          "ece": 0.4169,
+          "selective_accuracy_at_50pct": 0.3313,
+          "aurc": 0.6001,
+          "auroc_correct_vs_wrong_msp": 0.5508,
+          "gate_085": {
+            "pass_rate": 0.3641,
+            "precision": 0.3719
+          },
+          "per_class_recall": {
+            "healthy": 0.5924,
+            "blast": 0.3113,
+            "brown_spot": 0.191,
+            "sheath_blight": 0.3137
+          },
+          "auroc_correct_vs_wrong_knn": 0.5268,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.1505,
+            "precision": 0.4133
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.0001,
+        "temperature": 1.876,
+        "source_val_macro_f1": 0.8078,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4536,
+          "balanced_accuracy": 0.461,
+          "accuracy": 0.4407,
+          "ece": 0.3868,
+          "selective_accuracy_at_50pct": 0.5004,
+          "aurc": 0.4967,
+          "auroc_correct_vs_wrong_msp": 0.5826,
+          "gate_085": {
+            "pass_rate": 0.5707,
+            "precision": 0.4923
+          },
+          "per_class_recall": {
+            "healthy": 0.4536,
+            "blast": 0.055,
+            "tungro": 0.5878,
+            "sheath_blight": 0.7476
+          },
+          "auroc_correct_vs_wrong_knn": 0.4542,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2901,
+            "precision": 0.4351
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.0001,
+        "temperature": 1.973,
+        "source_val_macro_f1": 0.9189,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3077,
+          "balanced_accuracy": 0.3521,
+          "accuracy": 0.3306,
+          "ece": 0.4681,
+          "selective_accuracy_at_50pct": 0.4127,
+          "aurc": 0.5327,
+          "auroc_correct_vs_wrong_msp": 0.6416,
+          "gate_085": {
+            "pass_rate": 0.4993,
+            "precision": 0.413
+          },
+          "per_class_recall": {
+            "healthy": 0.396,
+            "blast": 0.1898,
+            "brown_spot": 0.2827,
+            "tungro": 0.0116,
+            "sheath_blight": 0.8802
+          },
+          "auroc_correct_vs_wrong_knn": 0.5398,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2255,
+            "precision": 0.4705
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3415,
+        "worst": 0.1804,
+        "per_fold": {
+          "BD-A": 0.1804,
+          "BD-C": 0.4241,
+          "BD-D": 0.4536,
+          "BD-E": 0.3077
+        }
+      }
+    },
+    "dinov2_b_grey": {
+      "BD-A": {
+        "weight_decay": 0.001,
+        "temperature": 1.078,
+        "source_val_macro_f1": 0.8539,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1453,
+          "balanced_accuracy": 0.1632,
+          "accuracy": 0.1597,
+          "ece": 0.6325,
+          "selective_accuracy_at_50pct": 0.1527,
+          "aurc": 0.7812,
+          "auroc_correct_vs_wrong_msp": 0.5524,
+          "gate_085": {
+            "pass_rate": 0.5133,
+            "precision": 0.1481
+          },
+          "per_class_recall": {
+            "blast": 0.0811,
+            "brown_spot": 0.0612,
+            "tungro": 0.0263,
+            "sheath_blight": 0.4844
+          },
+          "auroc_correct_vs_wrong_knn": 0.6875,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.251,
+            "precision": 0.2424
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3784,
+          "balanced_accuracy": 0.3637,
+          "accuracy": 0.4197,
+          "ece": 0.3828,
+          "selective_accuracy_at_50pct": 0.5087,
+          "aurc": 0.5001,
+          "auroc_correct_vs_wrong_msp": 0.6196,
+          "gate_085": {
+            "pass_rate": 0.494,
+            "precision": 0.5105
+          },
+          "per_class_recall": {
+            "blast": 0.4033,
+            "brown_spot": 0.0235,
+            "tungro": 0.4434,
+            "sheath_blight": 0.5845
+          },
+          "auroc_correct_vs_wrong_knn": 0.5321,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2073,
+            "precision": 0.6167
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.697,
+        "source_val_macro_f1": 0.8238,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4133,
+          "balanced_accuracy": 0.3252,
+          "accuracy": 0.3069,
+          "ece": 0.4309,
+          "selective_accuracy_at_50pct": 0.2871,
+          "aurc": 0.6968,
+          "auroc_correct_vs_wrong_msp": 0.4807,
+          "gate_085": {
+            "pass_rate": 0.322,
+            "precision": 0.2804
+          },
+          "per_class_recall": {
+            "healthy": 0.4841,
+            "blast": 0.3079,
+            "brown_spot": 0.2172,
+            "sheath_blight": 0.2915
+          },
+          "auroc_correct_vs_wrong_knn": 0.5535,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.1274,
+            "precision": 0.3228
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.0001,
+        "temperature": 1.876,
+        "source_val_macro_f1": 0.7951,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.5598,
+          "balanced_accuracy": 0.5249,
+          "accuracy": 0.5247,
+          "ece": 0.2863,
+          "selective_accuracy_at_50pct": 0.6152,
+          "aurc": 0.3908,
+          "auroc_correct_vs_wrong_msp": 0.6174,
+          "gate_085": {
+            "pass_rate": 0.5297,
+            "precision": 0.6095
+          },
+          "per_class_recall": {
+            "healthy": 0.7614,
+            "blast": 0.1664,
+            "tungro": 0.6265,
+            "sheath_blight": 0.545
+          },
+          "auroc_correct_vs_wrong_knn": 0.4282,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.246,
+            "precision": 0.4992
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.001,
+        "temperature": 1.319,
+        "source_val_macro_f1": 0.9253,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.304,
+          "balanced_accuracy": 0.3514,
+          "accuracy": 0.3209,
+          "ece": 0.4666,
+          "selective_accuracy_at_50pct": 0.4046,
+          "aurc": 0.5351,
+          "auroc_correct_vs_wrong_msp": 0.65,
+          "gate_085": {
+            "pass_rate": 0.4711,
+            "precision": 0.4158
+          },
+          "per_class_recall": {
+            "healthy": 0.4653,
+            "blast": 0.1775,
+            "brown_spot": 0.2523,
+            "tungro": 0.0102,
+            "sheath_blight": 0.8515
+          },
+          "auroc_correct_vs_wrong_knn": 0.5522,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2097,
+            "precision": 0.4953
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3556,
+        "worst": 0.1453,
+        "per_fold": {
+          "BD-A": 0.1453,
+          "BD-C": 0.4133,
+          "BD-D": 0.5598,
+          "BD-E": 0.304
+        }
+      }
+    },
+    "dinov2_l": {
+      "BD-A": {
+        "weight_decay": 0.001,
+        "temperature": 1.078,
+        "source_val_macro_f1": 0.8761,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2097,
+          "balanced_accuracy": 0.2151,
+          "accuracy": 0.2281,
+          "ece": 0.5798,
+          "selective_accuracy_at_50pct": 0.2366,
+          "aurc": 0.7412,
+          "auroc_correct_vs_wrong_msp": 0.5146,
+          "gate_085": {
+            "pass_rate": 0.5095,
+            "precision": 0.2313
+          },
+          "per_class_recall": {
+            "blast": 0.4459,
+            "brown_spot": 0.0,
+            "tungro": 0.0395,
+            "sheath_blight": 0.375
+          },
+          "auroc_correct_vs_wrong_knn": 0.5938,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.289,
+            "precision": 0.2632
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4664,
+          "balanced_accuracy": 0.4735,
+          "accuracy": 0.5492,
+          "ece": 0.3009,
+          "selective_accuracy_at_50pct": 0.6574,
+          "aurc": 0.342,
+          "auroc_correct_vs_wrong_msp": 0.6584,
+          "gate_085": {
+            "pass_rate": 0.6339,
+            "precision": 0.6185
+          },
+          "per_class_recall": {
+            "blast": 0.8343,
+            "brown_spot": 0.0,
+            "tungro": 0.5189,
+            "sheath_blight": 0.5411
+          },
+          "auroc_correct_vs_wrong_knn": 0.5621,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.3264,
+            "precision": 0.6772
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.697,
+        "source_val_macro_f1": 0.865,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3332,
+          "balanced_accuracy": 0.2494,
+          "accuracy": 0.2277,
+          "ece": 0.5889,
+          "selective_accuracy_at_50pct": 0.1948,
+          "aurc": 0.799,
+          "auroc_correct_vs_wrong_msp": 0.4272,
+          "gate_085": {
+            "pass_rate": 0.5507,
+            "precision": 0.2004
+          },
+          "per_class_recall": {
+            "healthy": 0.4013,
+            "blast": 0.0861,
+            "brown_spot": 0.0599,
+            "sheath_blight": 0.4502
+          },
+          "auroc_correct_vs_wrong_knn": 0.6503,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2548,
+            "precision": 0.315
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.0001,
+        "temperature": 1.784,
+        "source_val_macro_f1": 0.8438,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3369,
+          "balanced_accuracy": 0.3637,
+          "accuracy": 0.354,
+          "ece": 0.4969,
+          "selective_accuracy_at_50pct": 0.3574,
+          "aurc": 0.6563,
+          "auroc_correct_vs_wrong_msp": 0.5012,
+          "gate_085": {
+            "pass_rate": 0.6255,
+            "precision": 0.3611
+          },
+          "per_class_recall": {
+            "healthy": 0.115,
+            "blast": 0.3836,
+            "tungro": 0.2184,
+            "sheath_blight": 0.7379
+          },
+          "auroc_correct_vs_wrong_knn": 0.6134,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.3247,
+            "precision": 0.4719
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.001,
+        "temperature": 1.134,
+        "source_val_macro_f1": 0.9466,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3258,
+          "balanced_accuracy": 0.387,
+          "accuracy": 0.398,
+          "ece": 0.451,
+          "selective_accuracy_at_50pct": 0.5104,
+          "aurc": 0.4265,
+          "auroc_correct_vs_wrong_msp": 0.6775,
+          "gate_085": {
+            "pass_rate": 0.6195,
+            "precision": 0.4703
+          },
+          "per_class_recall": {
+            "healthy": 0.2914,
+            "blast": 0.1217,
+            "brown_spot": 0.5777,
+            "tungro": 0.005,
+            "sheath_blight": 0.9395
+          },
+          "auroc_correct_vs_wrong_knn": 0.515,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.3312,
+            "precision": 0.4846
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3014,
+        "worst": 0.2097,
+        "per_fold": {
+          "BD-A": 0.2097,
+          "BD-C": 0.3332,
+          "BD-D": 0.3369,
+          "BD-E": 0.3258
+        }
+      }
+    },
+    "dinov3_b": {
+      "BD-A": {
+        "weight_decay": 0.0001,
+        "temperature": 1.459,
+        "source_val_macro_f1": 0.8445,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2261,
+          "balanced_accuracy": 0.2094,
+          "accuracy": 0.2053,
+          "ece": 0.578,
+          "selective_accuracy_at_50pct": 0.1679,
+          "aurc": 0.842,
+          "auroc_correct_vs_wrong_msp": 0.4342,
+          "gate_085": {
+            "pass_rate": 0.4791,
+            "precision": 0.1746
+          },
+          "per_class_recall": {
+            "blast": 0.2838,
+            "brown_spot": 0.1837,
+            "tungro": 0.0263,
+            "sheath_blight": 0.3438
+          },
+          "auroc_correct_vs_wrong_knn": 0.5981,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2357,
+            "precision": 0.2581
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4209,
+          "balanced_accuracy": 0.4043,
+          "accuracy": 0.4456,
+          "ece": 0.3679,
+          "selective_accuracy_at_50pct": 0.5329,
+          "aurc": 0.4723,
+          "auroc_correct_vs_wrong_msp": 0.6153,
+          "gate_085": {
+            "pass_rate": 0.5458,
+            "precision": 0.5222
+          },
+          "per_class_recall": {
+            "blast": 0.7348,
+            "brown_spot": 0.0824,
+            "tungro": 0.4717,
+            "sheath_blight": 0.3285
+          },
+          "auroc_correct_vs_wrong_knn": 0.4448,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2763,
+            "precision": 0.475
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.613,
+        "source_val_macro_f1": 0.8183,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4107,
+          "balanced_accuracy": 0.3382,
+          "accuracy": 0.3139,
+          "ece": 0.4184,
+          "selective_accuracy_at_50pct": 0.3273,
+          "aurc": 0.6229,
+          "auroc_correct_vs_wrong_msp": 0.5487,
+          "gate_085": {
+            "pass_rate": 0.329,
+            "precision": 0.3689
+          },
+          "per_class_recall": {
+            "healthy": 0.5287,
+            "blast": 0.2583,
+            "brown_spot": 0.3258,
+            "sheath_blight": 0.2399
+          },
+          "auroc_correct_vs_wrong_knn": 0.4943,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.1474,
+            "precision": 0.449
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.0001,
+        "temperature": 1.697,
+        "source_val_macro_f1": 0.8165,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3499,
+          "balanced_accuracy": 0.3373,
+          "accuracy": 0.3308,
+          "ece": 0.492,
+          "selective_accuracy_at_50pct": 0.343,
+          "aurc": 0.6711,
+          "auroc_correct_vs_wrong_msp": 0.5129,
+          "gate_085": {
+            "pass_rate": 0.5567,
+            "precision": 0.3436
+          },
+          "per_class_recall": {
+            "healthy": 0.3832,
+            "blast": 0.1735,
+            "tungro": 0.4245,
+            "sheath_blight": 0.3682
+          },
+          "auroc_correct_vs_wrong_knn": 0.5308,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2627,
+            "precision": 0.3517
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.001,
+        "temperature": 1.319,
+        "source_val_macro_f1": 0.9126,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2908,
+          "balanced_accuracy": 0.3395,
+          "accuracy": 0.3347,
+          "ece": 0.4655,
+          "selective_accuracy_at_50pct": 0.4246,
+          "aurc": 0.4965,
+          "auroc_correct_vs_wrong_msp": 0.6654,
+          "gate_085": {
+            "pass_rate": 0.5094,
+            "precision": 0.4212
+          },
+          "per_class_recall": {
+            "healthy": 0.2362,
+            "blast": 0.2371,
+            "brown_spot": 0.2757,
+            "tungro": 0.0417,
+            "sheath_blight": 0.9067
+          },
+          "auroc_correct_vs_wrong_knn": 0.5687,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2899,
+            "precision": 0.4684
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3194,
+        "worst": 0.2261,
+        "per_fold": {
+          "BD-A": 0.2261,
+          "BD-C": 0.4107,
+          "BD-D": 0.3499,
+          "BD-E": 0.2908
+        }
+      }
+    },
+    "siglip2_b": {
+      "BD-A": {
+        "weight_decay": 0.0001,
+        "temperature": 1.459,
+        "source_val_macro_f1": 0.8703,
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1862,
+          "balanced_accuracy": 0.1862,
+          "accuracy": 0.1825,
+          "ece": 0.5752,
+          "selective_accuracy_at_50pct": 0.2366,
+          "aurc": 0.7537,
+          "auroc_correct_vs_wrong_msp": 0.6102,
+          "gate_085": {
+            "pass_rate": 0.3916,
+            "precision": 0.2427
+          },
+          "per_class_recall": {
+            "blast": 0.1216,
+            "brown_spot": 0.1224,
+            "tungro": 0.0789,
+            "sheath_blight": 0.4219
+          },
+          "auroc_correct_vs_wrong_knn": 0.5305,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.1977,
+            "precision": 0.3269
+          }
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3557,
+          "balanced_accuracy": 0.3801,
+          "accuracy": 0.418,
+          "ece": 0.4346,
+          "selective_accuracy_at_50pct": 0.4671,
+          "aurc": 0.5703,
+          "auroc_correct_vs_wrong_msp": 0.5371,
+          "gate_085": {
+            "pass_rate": 0.6321,
+            "precision": 0.4454
+          },
+          "per_class_recall": {
+            "blast": 0.8729,
+            "brown_spot": 0.0118,
+            "tungro": 0.4811,
+            "sheath_blight": 0.1546
+          },
+          "auroc_correct_vs_wrong_knn": 0.4513,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.3161,
+            "precision": 0.4426
+          }
+        }
+      },
+      "BD-C": {
+        "weight_decay": 0.0001,
+        "temperature": 1.613,
+        "source_val_macro_f1": 0.8518,
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4483,
+          "balanced_accuracy": 0.3861,
+          "accuracy": 0.326,
+          "ece": 0.467,
+          "selective_accuracy_at_50pct": 0.3635,
+          "aurc": 0.5682,
+          "auroc_correct_vs_wrong_msp": 0.5819,
+          "gate_085": {
+            "pass_rate": 0.4965,
+            "precision": 0.3636
+          },
+          "per_class_recall": {
+            "healthy": 0.8535,
+            "blast": 0.1457,
+            "brown_spot": 0.1873,
+            "sheath_blight": 0.3579
+          },
+          "auroc_correct_vs_wrong_knn": 0.5766,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2588,
+            "precision": 0.4109
+          }
+        }
+      },
+      "BD-D": {
+        "weight_decay": 0.001,
+        "temperature": 1.319,
+        "source_val_macro_f1": 0.8276,
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.4278,
+          "balanced_accuracy": 0.4167,
+          "accuracy": 0.376,
+          "ece": 0.4044,
+          "selective_accuracy_at_50pct": 0.4084,
+          "aurc": 0.5975,
+          "auroc_correct_vs_wrong_msp": 0.5459,
+          "gate_085": {
+            "pass_rate": 0.4696,
+            "precision": 0.4113
+          },
+          "per_class_recall": {
+            "healthy": 0.2843,
+            "blast": 0.1157,
+            "tungro": 0.8408,
+            "sheath_blight": 0.426
+          },
+          "auroc_correct_vs_wrong_knn": 0.5879,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2673,
+            "precision": 0.5007
+          }
+        }
+      },
+      "BD-E": {
+        "weight_decay": 0.01,
+        "temperature": 0.758,
+        "source_val_macro_f1": 0.9116,
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.285,
+          "balanced_accuracy": 0.3394,
+          "accuracy": 0.3215,
+          "ece": 0.509,
+          "selective_accuracy_at_50pct": 0.4483,
+          "aurc": 0.4618,
+          "auroc_correct_vs_wrong_msp": 0.7316,
+          "gate_085": {
+            "pass_rate": 0.5715,
+            "precision": 0.417
+          },
+          "per_class_recall": {
+            "healthy": 0.2997,
+            "blast": 0.2356,
+            "brown_spot": 0.2118,
+            "tungro": 0.0023,
+            "sheath_blight": 0.9475
+          },
+          "auroc_correct_vs_wrong_knn": 0.5798,
+          "gate_085_and_knn_top_half": {
+            "pass_rate": 0.2605,
+            "precision": 0.5062
+          }
+        }
+      },
+      "summary": {
+        "mean_heldout_macro_f1": 0.3368,
+        "worst": 0.1862,
+        "per_fold": {
+          "BD-A": 0.1862,
+          "BD-C": 0.4483,
+          "BD-D": 0.4278,
+          "BD-E": 0.285
+        }
+      }
+    }
+  },
+  "e2_zero_shot": {
+    "bioclip2": {
+      "BD-A": {
+        "n": 263,
+        "classes_present": [
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.1997,
+        "balanced_accuracy": 0.2585,
+        "accuracy": 0.2852,
+        "ece": 0.2616,
+        "selective_accuracy_at_50pct": 0.2977,
+        "aurc": 0.6624,
+        "auroc_correct_vs_wrong_msp": 0.5777,
+        "gate_085": {
+          "pass_rate": 0.0266,
+          "precision": 0.5714
+        },
+        "per_class_recall": {
+          "blast": 0.0405,
+          "brown_spot": 0.102,
+          "tungro": 0.8289,
+          "sheath_blight": 0.0625
+        }
+      },
+      "BD-B": {
+        "n": 579,
+        "classes_present": [
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.2745,
+        "balanced_accuracy": 0.3621,
+        "accuracy": 0.3972,
+        "ece": 0.151,
+        "selective_accuracy_at_50pct": 0.5052,
+        "aurc": 0.4759,
+        "auroc_correct_vs_wrong_msp": 0.6578,
+        "gate_085": {
+          "pass_rate": 0.0173,
+          "precision": 0.8
+        },
+        "per_class_recall": {
+          "blast": 0.011,
+          "brown_spot": 0.0235,
+          "tungro": 0.6604,
+          "sheath_blight": 0.7536
+        }
+      },
+      "BD-C": {
+        "n": 997,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "brown_spot",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.3429,
+        "balanced_accuracy": 0.2444,
+        "accuracy": 0.2518,
+        "ece": 0.2537,
+        "selective_accuracy_at_50pct": 0.1727,
+        "aurc": 0.814,
+        "auroc_correct_vs_wrong_msp": 0.3929,
+        "gate_085": {
+          "pass_rate": 0.012,
+          "precision": 0.1667
+        },
+        "per_class_recall": {
+          "healthy": 0.1975,
+          "blast": 0.298,
+          "brown_spot": 0.161,
+          "sheath_blight": 0.321
+        }
+      },
+      "BD-D": {
+        "n": 2630,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.4754,
+        "balanced_accuracy": 0.5337,
+        "accuracy": 0.5194,
+        "ece": 0.055,
+        "selective_accuracy_at_50pct": 0.6388,
+        "aurc": 0.3968,
+        "auroc_correct_vs_wrong_msp": 0.6512,
+        "gate_085": {
+          "pass_rate": 0.0186,
+          "precision": 0.4694
+        },
+        "per_class_recall": {
+          "healthy": 0.6922,
+          "blast": 0.0381,
+          "tungro": 0.7163,
+          "sheath_blight": 0.6881
+        }
+      },
+      "BD-E": {
+        "n": 16225,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.1984,
+        "balanced_accuracy": 0.2413,
+        "accuracy": 0.2881,
+        "ece": 0.2623,
+        "selective_accuracy_at_50pct": 0.295,
+        "aurc": 0.7108,
+        "auroc_correct_vs_wrong_msp": 0.5101,
+        "gate_085": {
+          "pass_rate": 0.0311,
+          "precision": 0.2778
+        },
+        "per_class_recall": {
+          "healthy": 0.1053,
+          "blast": 0.0407,
+          "brown_spot": 0.0244,
+          "tungro": 0.7676,
+          "sheath_blight": 0.2689
+        }
+      }
+    },
+    "bioclip2_grey": {
+      "BD-A": {
+        "n": 263,
+        "classes_present": [
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.3392,
+        "balanced_accuracy": 0.3459,
+        "accuracy": 0.365,
+        "ece": 0.1437,
+        "selective_accuracy_at_50pct": 0.374,
+        "aurc": 0.6477,
+        "auroc_correct_vs_wrong_msp": 0.5014,
+        "gate_085": {
+          "pass_rate": 0.0038,
+          "precision": 0.0
+        },
+        "per_class_recall": {
+          "blast": 0.2027,
+          "brown_spot": 0.102,
+          "tungro": 0.5789,
+          "sheath_blight": 0.5
+        }
+      },
+      "BD-B": {
+        "n": 579,
+        "classes_present": [
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.2734,
+        "balanced_accuracy": 0.362,
+        "accuracy": 0.399,
+        "ece": 0.1505,
+        "selective_accuracy_at_50pct": 0.519,
+        "aurc": 0.4708,
+        "auroc_correct_vs_wrong_msp": 0.6633,
+        "gate_085": {
+          "pass_rate": 0.0138,
+          "precision": 0.75
+        },
+        "per_class_recall": {
+          "blast": 0.0055,
+          "brown_spot": 0.0235,
+          "tungro": 0.6509,
+          "sheath_blight": 0.7681
+        }
+      },
+      "BD-C": {
+        "n": 997,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "brown_spot",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.2818,
+        "balanced_accuracy": 0.2304,
+        "accuracy": 0.2397,
+        "ece": 0.2475,
+        "selective_accuracy_at_50pct": 0.245,
+        "aurc": 0.7175,
+        "auroc_correct_vs_wrong_msp": 0.5245,
+        "gate_085": {
+          "pass_rate": 0.009,
+          "precision": 0.8889
+        },
+        "per_class_recall": {
+          "healthy": 0.1529,
+          "blast": 0.2252,
+          "brown_spot": 0.0712,
+          "sheath_blight": 0.4723
+        }
+      },
+      "BD-D": {
+        "n": 2630,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.4726,
+        "balanced_accuracy": 0.5363,
+        "accuracy": 0.5163,
+        "ece": 0.0505,
+        "selective_accuracy_at_50pct": 0.6342,
+        "aurc": 0.3978,
+        "auroc_correct_vs_wrong_msp": 0.6475,
+        "gate_085": {
+          "pass_rate": 0.0205,
+          "precision": 0.537
+        },
+        "per_class_recall": {
+          "healthy": 0.6391,
+          "blast": 0.0381,
+          "tungro": 0.751,
+          "sheath_blight": 0.717
+        }
+      },
+      "BD-E": {
+        "n": 16225,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.2088,
+        "balanced_accuracy": 0.2416,
+        "accuracy": 0.2537,
+        "ece": 0.2513,
+        "selective_accuracy_at_50pct": 0.2706,
+        "aurc": 0.7314,
+        "auroc_correct_vs_wrong_msp": 0.5297,
+        "gate_085": {
+          "pass_rate": 0.0145,
+          "precision": 0.2298
+        },
+        "per_class_recall": {
+          "healthy": 0.2022,
+          "blast": 0.0546,
+          "brown_spot": 0.0314,
+          "tungro": 0.3902,
+          "sheath_blight": 0.5298
+        }
+      }
+    },
+    "siglip2_b": {
+      "BD-A": {
+        "n": 263,
+        "classes_present": [
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.2567,
+        "balanced_accuracy": 0.3321,
+        "accuracy": 0.3346,
+        "ece": 0.0985,
+        "selective_accuracy_at_50pct": 0.4275,
+        "aurc": 0.5148,
+        "auroc_correct_vs_wrong_msp": 0.6784,
+        "gate_085": {
+          "pass_rate": 0.0,
+          "precision": null
+        },
+        "per_class_recall": {
+          "blast": 0.0541,
+          "brown_spot": 0.4694,
+          "tungro": 0.7895,
+          "sheath_blight": 0.0156
+        }
+      },
+      "BD-B": {
+        "n": 579,
+        "classes_present": [
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.1547,
+        "balanced_accuracy": 0.2012,
+        "accuracy": 0.1969,
+        "ece": 0.2607,
+        "selective_accuracy_at_50pct": 0.1626,
+        "aurc": 0.8223,
+        "auroc_correct_vs_wrong_msp": 0.4576,
+        "gate_085": {
+          "pass_rate": 0.0,
+          "precision": null
+        },
+        "per_class_recall": {
+          "blast": 0.4586,
+          "brown_spot": 0.2706,
+          "tungro": 0.0755,
+          "sheath_blight": 0.0
+        }
+      },
+      "BD-C": {
+        "n": 997,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "brown_spot",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.5245,
+        "balanced_accuracy": 0.5426,
+        "accuracy": 0.4915,
+        "ece": 0.0641,
+        "selective_accuracy_at_50pct": 0.6345,
+        "aurc": 0.3197,
+        "auroc_correct_vs_wrong_msp": 0.7094,
+        "gate_085": {
+          "pass_rate": 0.005,
+          "precision": 1.0
+        },
+        "per_class_recall": {
+          "healthy": 0.8599,
+          "blast": 0.1126,
+          "brown_spot": 0.9213,
+          "sheath_blight": 0.2768
+        }
+      },
+      "BD-D": {
+        "n": 2630,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.5633,
+        "balanced_accuracy": 0.5656,
+        "accuracy": 0.5947,
+        "ece": 0.127,
+        "selective_accuracy_at_50pct": 0.6563,
+        "aurc": 0.2628,
+        "auroc_correct_vs_wrong_msp": 0.6406,
+        "gate_085": {
+          "pass_rate": 0.0152,
+          "precision": 0.95
+        },
+        "per_class_recall": {
+          "healthy": 0.974,
+          "blast": 0.6474,
+          "tungro": 0.6184,
+          "sheath_blight": 0.0225
+        }
+      },
+      "BD-E": {
+        "n": 16225,
+        "classes_present": [
+          "healthy",
+          "blast",
+          "brown_spot",
+          "tungro",
+          "sheath_blight"
+        ],
+        "macro_f1": 0.312,
+        "balanced_accuracy": 0.3141,
+        "accuracy": 0.332,
+        "ece": 0.0852,
+        "selective_accuracy_at_50pct": 0.3402,
+        "aurc": 0.6621,
+        "auroc_correct_vs_wrong_msp": 0.5174,
+        "gate_085": {
+          "pass_rate": 0.0,
+          "precision": null
+        },
+        "per_class_recall": {
+          "healthy": 0.3562,
+          "blast": 0.1437,
+          "brown_spot": 0.766,
+          "tungro": 0.1535,
+          "sheath_blight": 0.1509
+        }
+      }
+    }
+  },
+  "e7_domain_id": {
+    "bioclip2": {
+      "accuracy": 0.9968,
+      "balanced_accuracy": 0.9846,
+      "chance_majority": 0.7932
+    },
+    "bioclip2_grey": {
+      "accuracy": 0.9958,
+      "balanced_accuracy": 0.9748,
+      "chance_majority": 0.7932
+    },
+    "dinov2_b": {
+      "accuracy": 0.9991,
+      "balanced_accuracy": 0.9935,
+      "chance_majority": 0.7932
+    },
+    "dinov2_b_grey": {
+      "accuracy": 0.9974,
+      "balanced_accuracy": 0.9838,
+      "chance_majority": 0.7932
+    },
+    "dinov2_l": {
+      "accuracy": 0.9998,
+      "balanced_accuracy": 0.9989,
+      "chance_majority": 0.7932
+    },
+    "dinov3_b": {
+      "accuracy": 0.9981,
+      "balanced_accuracy": 0.9817,
+      "chance_majority": 0.7932
+    },
+    "siglip2_b": {
+      "accuracy": 0.9991,
+      "balanced_accuracy": 0.9945,
+      "chance_majority": 0.7932
+    }
+  },
+  "e3_few_shot": {
+    "protocol": "k photos per class from distinct duplicate groups; those groups are removed from the test set; shots carry 25% of the training weight; 3 random draws; 'ncm' = nearest class mean of the shots alone",
+    "backbones": [
+      "dinov2_b_grey",
+      "bioclip2"
+    ],
+    "dinov2_b_grey": {
+      "BD-A": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.2484,
+            0.0485
+          ],
+          "ncm_macro_f1": [
+            0.3786,
+            0.0904
+          ],
+          "gate_085_pass_rate": 0.4871,
+          "gate_085_precision": 0.2682,
+          "auroc_msp": 0.5427
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.4547,
+            0.0093
+          ],
+          "ncm_macro_f1": [
+            0.5027,
+            0.0585
+          ],
+          "gate_085_pass_rate": 0.4148,
+          "gate_085_precision": 0.5099,
+          "auroc_msp": 0.6194
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.4922,
+            0.032
+          ],
+          "ncm_macro_f1": [
+            0.5751,
+            0.0265
+          ],
+          "gate_085_pass_rate": 0.4527,
+          "gate_085_precision": 0.6251,
+          "auroc_msp": 0.687
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.6254,
+            0.0109
+          ],
+          "ncm_macro_f1": [
+            0.5869,
+            0.0391
+          ],
+          "gate_085_pass_rate": 0.4713,
+          "gate_085_precision": 0.7774,
+          "auroc_msp": 0.6981
+        }
+      },
+      "BD-C": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.4876,
+            0.0199
+          ],
+          "ncm_macro_f1": [
+            0.2882,
+            0.0441
+          ],
+          "gate_085_pass_rate": 0.3335,
+          "gate_085_precision": 0.4664,
+          "auroc_msp": 0.5725
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.5904,
+            0.0196
+          ],
+          "ncm_macro_f1": [
+            0.609,
+            0.028
+          ],
+          "gate_085_pass_rate": 0.3651,
+          "gate_085_precision": 0.6583,
+          "auroc_msp": 0.6419
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.6765,
+            0.0194
+          ],
+          "ncm_macro_f1": [
+            0.6921,
+            0.03
+          ],
+          "gate_085_pass_rate": 0.4231,
+          "gate_085_precision": 0.7873,
+          "auroc_msp": 0.6972
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.7746,
+            0.0176
+          ],
+          "ncm_macro_f1": [
+            0.7376,
+            0.0219
+          ],
+          "gate_085_pass_rate": 0.5065,
+          "gate_085_precision": 0.8766,
+          "auroc_msp": 0.7467
+        }
+      },
+      "BD-D": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.6531,
+            0.0112
+          ],
+          "ncm_macro_f1": [
+            0.6078,
+            0.0614
+          ],
+          "gate_085_pass_rate": 0.5713,
+          "gate_085_precision": 0.7535,
+          "auroc_msp": 0.71
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.7326,
+            0.0145
+          ],
+          "ncm_macro_f1": [
+            0.8404,
+            0.0229
+          ],
+          "gate_085_pass_rate": 0.6322,
+          "gate_085_precision": 0.8417,
+          "auroc_msp": 0.7641
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.79,
+            0.0236
+          ],
+          "ncm_macro_f1": [
+            0.8561,
+            0.0239
+          ],
+          "gate_085_pass_rate": 0.6554,
+          "gate_085_precision": 0.8879,
+          "auroc_msp": 0.7787
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.8371,
+            0.0145
+          ],
+          "ncm_macro_f1": [
+            0.8845,
+            0.0272
+          ],
+          "gate_085_pass_rate": 0.7131,
+          "gate_085_precision": 0.9192,
+          "auroc_msp": 0.8131
+        }
+      },
+      "BD-E": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.3633,
+            0.0194
+          ],
+          "ncm_macro_f1": [
+            0.2976,
+            0.0127
+          ],
+          "gate_085_pass_rate": 0.4165,
+          "gate_085_precision": 0.4867,
+          "auroc_msp": 0.6533
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.4494,
+            0.0177
+          ],
+          "ncm_macro_f1": [
+            0.3448,
+            0.0261
+          ],
+          "gate_085_pass_rate": 0.3856,
+          "gate_085_precision": 0.578,
+          "auroc_msp": 0.6529
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.4923,
+            0.0178
+          ],
+          "ncm_macro_f1": [
+            0.4197,
+            0.0276
+          ],
+          "gate_085_pass_rate": 0.3954,
+          "gate_085_precision": 0.6526,
+          "auroc_msp": 0.6793
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.5667,
+            0.0161
+          ],
+          "ncm_macro_f1": [
+            0.52,
+            0.0193
+          ],
+          "gate_085_pass_rate": 0.4218,
+          "gate_085_precision": 0.715,
+          "auroc_msp": 0.6916
+        }
+      }
+    },
+    "bioclip2": {
+      "BD-A": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.2873,
+            0.0546
+          ],
+          "ncm_macro_f1": [
+            0.3965,
+            0.0725
+          ],
+          "gate_085_pass_rate": 0.469,
+          "gate_085_precision": 0.2807,
+          "auroc_msp": 0.5204
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.4308,
+            0.0374
+          ],
+          "ncm_macro_f1": [
+            0.5819,
+            0.0802
+          ],
+          "gate_085_pass_rate": 0.4148,
+          "gate_085_precision": 0.5034,
+          "auroc_msp": 0.6068
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.4763,
+            0.0298
+          ],
+          "ncm_macro_f1": [
+            0.6666,
+            0.0289
+          ],
+          "gate_085_pass_rate": 0.3748,
+          "gate_085_precision": 0.5275,
+          "auroc_msp": 0.6103
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.5942,
+            0.0166
+          ],
+          "ncm_macro_f1": [
+            0.6697,
+            0.0317
+          ],
+          "gate_085_pass_rate": 0.3517,
+          "gate_085_precision": 0.7502,
+          "auroc_msp": 0.6672
+        }
+      },
+      "BD-C": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.4063,
+            0.0058
+          ],
+          "ncm_macro_f1": [
+            0.3469,
+            0.1042
+          ],
+          "gate_085_pass_rate": 0.3506,
+          "gate_085_precision": 0.2849,
+          "auroc_msp": 0.501
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.5874,
+            0.0126
+          ],
+          "ncm_macro_f1": [
+            0.6734,
+            0.053
+          ],
+          "gate_085_pass_rate": 0.3406,
+          "gate_085_precision": 0.6208,
+          "auroc_msp": 0.6295
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.6773,
+            0.0149
+          ],
+          "ncm_macro_f1": [
+            0.7117,
+            0.0128
+          ],
+          "gate_085_pass_rate": 0.3876,
+          "gate_085_precision": 0.7313,
+          "auroc_msp": 0.6489
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.7496,
+            0.009
+          ],
+          "ncm_macro_f1": [
+            0.7468,
+            0.008
+          ],
+          "gate_085_pass_rate": 0.4633,
+          "gate_085_precision": 0.8579,
+          "auroc_msp": 0.7359
+        }
+      },
+      "BD-D": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.6173,
+            0.0442
+          ],
+          "ncm_macro_f1": [
+            0.6692,
+            0.051
+          ],
+          "gate_085_pass_rate": 0.5606,
+          "gate_085_precision": 0.7618,
+          "auroc_msp": 0.7119
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.736,
+            0.0135
+          ],
+          "ncm_macro_f1": [
+            0.8891,
+            0.01
+          ],
+          "gate_085_pass_rate": 0.6086,
+          "gate_085_precision": 0.8533,
+          "auroc_msp": 0.7481
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.7927,
+            0.009
+          ],
+          "ncm_macro_f1": [
+            0.8991,
+            0.0174
+          ],
+          "gate_085_pass_rate": 0.6762,
+          "gate_085_precision": 0.8895,
+          "auroc_msp": 0.7664
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.8512,
+            0.0011
+          ],
+          "ncm_macro_f1": [
+            0.9173,
+            0.0079
+          ],
+          "gate_085_pass_rate": 0.7387,
+          "gate_085_precision": 0.9328,
+          "auroc_msp": 0.8242
+        }
+      },
+      "BD-E": {
+        "k=1": {
+          "probe_macro_f1": [
+            0.3809,
+            0.0193
+          ],
+          "ncm_macro_f1": [
+            0.3763,
+            0.0302
+          ],
+          "gate_085_pass_rate": 0.4224,
+          "gate_085_precision": 0.5222,
+          "auroc_msp": 0.6727
+        },
+        "k=5": {
+          "probe_macro_f1": [
+            0.4327,
+            0.0132
+          ],
+          "ncm_macro_f1": [
+            0.4879,
+            0.024
+          ],
+          "gate_085_pass_rate": 0.4107,
+          "gate_085_precision": 0.5625,
+          "auroc_msp": 0.661
+        },
+        "k=10": {
+          "probe_macro_f1": [
+            0.4748,
+            0.022
+          ],
+          "ncm_macro_f1": [
+            0.489,
+            0.0091
+          ],
+          "gate_085_pass_rate": 0.4098,
+          "gate_085_precision": 0.6244,
+          "auroc_msp": 0.678
+        },
+        "k=25": {
+          "probe_macro_f1": [
+            0.5454,
+            0.0133
+          ],
+          "ncm_macro_f1": [
+            0.561,
+            0.0115
+          ],
+          "gate_085_pass_rate": 0.4323,
+          "gate_085_precision": 0.6982,
+          "auroc_msp": 0.6982
+        }
+      }
+    }
+  },
+  "e6_phone": {
+    "skipped": "phones with >= 200 images: [np.str_('non-PXL filename')]"
+  },
+  "finished_utc": "2026-10-27T22:49:05Z"
+}

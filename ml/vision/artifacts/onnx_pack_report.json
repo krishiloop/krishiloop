@@ -1,0 +1,54 @@
+{
+  "labels": [
+    "bacterial_leaf_blight",
+    "bacterial_leaf_streak",
+    "bacterial_panicle_blight",
+    "bakanae",
+    "brown_spot",
+    "dead_heart",
+    "downy_mildew",
+    "false_smut",
+    "grassy_stunt_virus",
+    "healthy",
+    "hispa",
+    "leaf_scald",
+    "leaf_smut",
+    "narrow_brown_spot",
+    "neck_blast",
+    "ragged_stunt_virus",
+    "rice_blast",
+    "sheath_blight",
+    "sheath_rot",
+    "stem_rot",
+    "tungro"
+  ],
+  "models": {
+    "mnv4_union": {
+      "fp32_mb": 10.26,
+      "fp16w_mb": 5.28,
+      "int8_mb": 2.94,
+      "fp32_cpu_ms_median": 4.9,
+      "fp16w_cpu_ms_median": 6.3,
+      "int8_cpu_ms_median": 5.7,
+      "n_sample": 120,
+      "prob_sum_ok": true,
+      "sanity_top1_fp32": 0.933,
+      "agreement_fp32_fp16w": 1.0,
+      "max_abs_prob_diff_fp16w": 0.0021,
+      "agreement_fp32_int8": 0.867,
+      "max_abs_prob_diff_int8": 0.901
+    },
+    "dinov2_probe_union": {
+      "fp32_mb": 87.49,
+      "fp16w_mb": 44.3,
+      "fp32_cpu_ms_median": 71.2,
+      "fp16w_cpu_ms_median": 74.2,
+      "n_sample": 120,
+      "prob_sum_ok": true,
+      "sanity_top1_fp32": 0.675,
+      "agreement_fp32_fp16w": 0.992,
+      "max_abs_prob_diff_fp16w": 0.0019
+    }
+  },
+  "int8_method": "static QDQ per-channel, 99 calibration images"
+}

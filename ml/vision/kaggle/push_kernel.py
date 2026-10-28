@@ -1,16 +1,19 @@
-"""Push ml/vision/kaggle/rice_baseline.py to Kaggle as a private GPU script kernel (owner = KAGGLE_USERNAME).
+"""Push a script from ml/vision/kaggle/ to Kaggle as a private GPU script kernel (owner = KAGGLE_USERNAME).
 
 Usage (tokens come from the environment, never from this repo):
-    KAGGLE_USERNAME=<user> KAGGLE_API_TOKEN=<token> python ml/vision/kaggle/push_kernel.py
+    KAGGLE_USERNAME=<user> KAGGLE_API_TOKEN=<token> [KERNEL_SCRIPT=x.py KERNEL_SLUG=y KERNEL_DATASETS=a/b,c/d] \
+        python ml/vision/kaggle/push_kernel.py
+KERNEL_DATASETS="" attaches no Kaggle datasets (the script downloads its own data, e.g. from Mendeley).
 """
 import json, os, sys, urllib.request, urllib.error
 from pathlib import Path
 
 user = os.environ["KAGGLE_USERNAME"]; token = os.environ["KAGGLE_API_TOKEN"]
-code = (Path(__file__).parent / "rice_baseline.py").read_text(encoding="utf-8")
+SCRIPT = os.environ.get("KERNEL_SCRIPT", "rice_baseline.py"); SLUG = os.environ.get("KERNEL_SLUG", "krishiloop-rice-baseline")
+code = (Path(__file__).parent / SCRIPT).read_text(encoding="utf-8")
 body = {
-    "slug": f"{user}/krishiloop-rice-baseline",
-    "newTitle": "KrishiLoop rice baseline",
+    "slug": f"{user}/{SLUG}",
+    "newTitle": SLUG.replace("-", " "),
     "text": code,
     "language": "python",
     "kernelType": "script",
@@ -18,7 +21,8 @@ body = {
     "enableGpu": True,
     "enableTpu": False,
     "enableInternet": True,
-    "datasetDataSources": ["alamshihab075/rice-leaf-disease-an-images-dataset", "imbikramsaha/paddy-doctor"],
+    "datasetDataSources": [d for d in os.environ.get(
+        "KERNEL_DATASETS", "alamshihab075/rice-leaf-disease-an-images-dataset,imbikramsaha/paddy-doctor").split(",") if d],
     "competitionDataSources": [],
     "kernelDataSources": [],
     "categoryIds": [],

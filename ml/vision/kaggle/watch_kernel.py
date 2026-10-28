@@ -35,7 +35,7 @@ try:
     (OUT / f"{slug}.log.txt").write_text(str(out.get("log", ""))[-200000:], encoding="utf-8")
     for f in out.get("files", []):
         name = f.get("fileName", "")
-        if name.endswith((".json", ".csv", ".onnx")):
+        if name.endswith((".json", ".csv", ".onnx", ".npz")):
             with urllib.request.urlopen(urllib.request.Request(f["url"], headers={"User-Agent": "kaggle-api/1.8"}), timeout=300) as r:
                 (OUT / name).write_bytes(r.read())
             print("downloaded", name)

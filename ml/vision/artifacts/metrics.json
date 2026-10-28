@@ -1,0 +1,104 @@
+{
+  "model": "mobilenetv4_conv_small.e2400_r224_in1k",
+  "epochs": 10,
+  "temperature": 0.4712037742137909,
+  "labels": [
+    "bacterial_leaf_blight",
+    "bacterial_leaf_streak",
+    "bakanae",
+    "brown_spot",
+    "false_smut",
+    "grassy_stunt_virus",
+    "healthy",
+    "hispa",
+    "leaf_scald",
+    "leaf_smut",
+    "narrow_brown_spot",
+    "neck_blast",
+    "ragged_stunt_virus",
+    "rice_blast",
+    "sheath_blight",
+    "sheath_rot",
+    "stem_rot",
+    "tungro"
+  ],
+  "in_dataset_val": {
+    "n": 6946,
+    "macro_f1": 0.9177320014839115,
+    "accuracy": 0.9267204403877258,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.9371492704826038,
+      "bacterial_leaf_streak": 1.0,
+      "bakanae": 1.0,
+      "brown_spot": 0.8945752302968271,
+      "false_smut": 0.9523809523809523,
+      "grassy_stunt_virus": 1.0,
+      "healthy": 0.9374217772215269,
+      "hispa": 0.7673469387755102,
+      "leaf_scald": 0.9868951612903226,
+      "leaf_smut": 1.0,
+      "narrow_brown_spot": 0.9927536231884058,
+      "neck_blast": 1.0,
+      "ragged_stunt_virus": 0.9333333333333333,
+      "rice_blast": 0.8125,
+      "sheath_blight": 0.9893617021276596,
+      "sheath_rot": 1.0,
+      "stem_rot": 1.0,
+      "tungro": 1.0
+    },
+    "ece_before": 0.31207942962646484,
+    "ece_after": 0.014745513908565044
+  },
+  "cross_dataset_shared_labels": {
+    "n": 7620,
+    "labels": [
+      "bacterial_leaf_blight",
+      "bacterial_leaf_streak",
+      "brown_spot",
+      "healthy",
+      "hispa",
+      "rice_blast",
+      "tungro"
+    ],
+    "macro_f1": 0.05978303671843801,
+    "accuracy": 0.06482939422130585,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.2938271604938272,
+      "bacterial_leaf_streak": 0.9876543209876543,
+      "brown_spot": 0.010356731875719217,
+      "healthy": 0.08616780045351474,
+      "hispa": 0.01066499372647428,
+      "rice_blast": 0.0023014959723820483,
+      "tungro": 0.030330882352941176
+    },
+    "ece": 0.7997256517410278
+  },
+  "ood_max_softmax": {
+    "n_in": 6946,
+    "n_out": 2399,
+    "auroc": 0.6191370948664064,
+    "ood_labels": [
+      "bacterial_panicle_blight",
+      "dead_heart",
+      "downy_mildew"
+    ]
+  },
+  "abstain_thresholds": {
+    "0.5": {
+      "in_dist_abstain_rate": 0.020299452922545348,
+      "ood_caught_rate": 0.20842017507294705
+    },
+    "0.6": {
+      "in_dist_abstain_rate": 0.038295421825511086,
+      "ood_caught_rate": 0.28345143809920803
+    },
+    "0.7": {
+      "in_dist_abstain_rate": 0.06089835876763605,
+      "ood_caught_rate": 0.3547311379741559
+    },
+    "0.8": {
+      "in_dist_abstain_rate": 0.09804203858335733,
+      "ood_caught_rate": 0.4289287203001251
+    }
+  }
+}

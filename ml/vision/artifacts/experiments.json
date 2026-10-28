@@ -1,0 +1,230 @@
+{
+  "data": {
+    "A": 29363,
+    "P": 10407,
+    "shared_labels": [
+      "bacterial_leaf_blight",
+      "bacterial_leaf_streak",
+      "brown_spot",
+      "healthy",
+      "hispa",
+      "rice_blast",
+      "tungro"
+    ],
+    "cross_duplicates_removed": 399
+  },
+  "E2_dinov2_probe_A_to_P": {
+    "n": 7620,
+    "macro_f1": 0.1994169249031119,
+    "accuracy": 0.25275590551181104,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.19506172839506172,
+      "bacterial_leaf_streak": 0.5802469135802469,
+      "brown_spot": 0.3970080552359033,
+      "healthy": 0.6014739229024944,
+      "hispa": 0.04767879548306148,
+      "rice_blast": 0.03855005753739931,
+      "tungro": 0.1875
+    }
+  },
+  "E2_dinov2_probe_P_to_A": {
+    "n": 20666,
+    "macro_f1": 0.19174470743362723,
+    "accuracy": 0.22742669118358658,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.05547619047619048,
+      "bacterial_leaf_streak": 0.0,
+      "brown_spot": 0.29257736420688163,
+      "healthy": 0.1399051490514905,
+      "hispa": 0.1706654594839294,
+      "rice_blast": 0.16116898148148148,
+      "tungro": 0.5477075588599752
+    }
+  },
+  "E3_dinov2_probe_union_heldout_all": {
+    "n": 7299,
+    "macro_f1": 0.813311233161596,
+    "accuracy": 0.8325798054528017,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.8335146898803046,
+      "bacterial_leaf_streak": 0.6451612903225806,
+      "bacterial_panicle_blight": 0.8428571428571429,
+      "bakanae": 0.8181818181818182,
+      "brown_spot": 0.8241965973534972,
+      "dead_heart": 0.9700598802395209,
+      "downy_mildew": 0.3783783783783784,
+      "false_smut": 0.9428571428571428,
+      "grassy_stunt_virus": 0.875,
+      "healthy": 0.9141025641025641,
+      "hispa": 0.8,
+      "leaf_scald": 0.8591885441527446,
+      "leaf_smut": 0.9145907473309609,
+      "narrow_brown_spot": 0.7709923664122137,
+      "neck_blast": 0.9928571428571429,
+      "ragged_stunt_virus": 0.65,
+      "rice_blast": 0.7256728778467909,
+      "sheath_blight": 0.7870370370370371,
+      "sheath_rot": 0.21428571428571427,
+      "stem_rot": 0.7222222222222222,
+      "tungro": 0.8866749688667497
+    }
+  },
+  "E3_union_heldout_A_only": {
+    "n": 5259,
+    "macro_f1": 0.7276245712469861,
+    "accuracy": 0.8765925080813843,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.9049338146811071,
+      "bacterial_leaf_streak": 0.7894736842105263,
+      "bacterial_panicle_blight": 0.0,
+      "bakanae": 0.8181818181818182,
+      "brown_spot": 0.8623103850641773,
+      "dead_heart": 0.0,
+      "downy_mildew": 0.0,
+      "false_smut": 0.9428571428571428,
+      "grassy_stunt_virus": 0.875,
+      "healthy": 0.9281045751633987,
+      "hispa": 0.8762626262626263,
+      "leaf_scald": 0.8591885441527446,
+      "leaf_smut": 0.9145907473309609,
+      "narrow_brown_spot": 0.7709923664122137,
+      "neck_blast": 0.9928571428571429,
+      "ragged_stunt_virus": 0.65,
+      "rice_blast": 0.7546218487394958,
+      "sheath_blight": 0.7870370370370371,
+      "sheath_rot": 0.21428571428571427,
+      "stem_rot": 0.7222222222222222,
+      "tungro": 0.9665071770334929
+    }
+  },
+  "E3_union_heldout_P_only": {
+    "n": 2040,
+    "macro_f1": 0.6583480147066181,
+    "accuracy": 0.7191176470588235,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.1590909090909091,
+      "bacterial_leaf_streak": 0.6081081081081081,
+      "bacterial_panicle_blight": 0.8428571428571429,
+      "bakanae": 0.0,
+      "brown_spot": 0.6616915422885572,
+      "dead_heart": 0.9700598802395209,
+      "downy_mildew": 0.3783783783783784,
+      "false_smut": 0.0,
+      "grassy_stunt_virus": 0.0,
+      "healthy": 0.8940809968847352,
+      "hispa": 0.6972789115646258,
+      "leaf_scald": 0.0,
+      "leaf_smut": 0.0,
+      "narrow_brown_spot": 0.0,
+      "neck_blast": 0.0,
+      "ragged_stunt_virus": 0.0,
+      "rice_blast": 0.6792452830188679,
+      "sheath_blight": 0.0,
+      "sheath_rot": 0.0,
+      "stem_rot": 0.0,
+      "tungro": 0.6022727272727273
+    }
+  },
+  "E1_mnv4_noweights_A_to_P": {
+    "n": 7620,
+    "macro_f1": 0.18490759550473834,
+    "accuracy": 0.21338582677165355,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.562962962962963,
+      "bacterial_leaf_streak": 0.8148148148148148,
+      "brown_spot": 0.20713463751438435,
+      "healthy": 0.24886621315192745,
+      "hispa": 0.01631116687578419,
+      "rice_blast": 0.34522439585730724,
+      "tungro": 0.019301470588235295
+    }
+  },
+  "E4_mnv4_union_heldout_all": {
+    "n": 7299,
+    "macro_f1": 0.9519613788301536,
+    "accuracy": 0.9490341142622277,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.9597388465723613,
+      "bacterial_leaf_streak": 0.946236559139785,
+      "bacterial_panicle_blight": 1.0,
+      "bakanae": 1.0,
+      "brown_spot": 0.943289224952741,
+      "dead_heart": 0.9730538922155688,
+      "downy_mildew": 0.9369369369369369,
+      "false_smut": 0.9142857142857143,
+      "grassy_stunt_virus": 1.0,
+      "healthy": 0.9576923076923077,
+      "hispa": 0.9101449275362319,
+      "leaf_scald": 0.9713603818615751,
+      "leaf_smut": 0.9928825622775801,
+      "narrow_brown_spot": 0.950381679389313,
+      "neck_blast": 1.0,
+      "ragged_stunt_virus": 1.0,
+      "rice_blast": 0.8985507246376812,
+      "sheath_blight": 0.9814814814814815,
+      "sheath_rot": 0.7142857142857143,
+      "stem_rot": 1.0,
+      "tungro": 0.9688667496886675
+    }
+  },
+  "E4_mnv4_union_heldout_A_only": {
+    "n": 5259,
+    "macro_f1": 0.9631400286189731,
+    "accuracy": 0.9619699562654497,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.9795427196149218,
+      "bacterial_leaf_streak": 1.0,
+      "bacterial_panicle_blight": 0.0,
+      "bakanae": 1.0,
+      "brown_spot": 0.9603267211201867,
+      "dead_heart": 0.0,
+      "downy_mildew": 0.0,
+      "false_smut": 0.9142857142857143,
+      "grassy_stunt_virus": 1.0,
+      "healthy": 0.9586056644880174,
+      "hispa": 0.9267676767676768,
+      "leaf_scald": 0.9713603818615751,
+      "leaf_smut": 0.9928825622775801,
+      "narrow_brown_spot": 0.950381679389313,
+      "neck_blast": 1.0,
+      "ragged_stunt_virus": 1.0,
+      "rice_blast": 0.8907563025210085,
+      "sheath_blight": 0.9814814814814815,
+      "sheath_rot": 0.7142857142857143,
+      "stem_rot": 1.0,
+      "tungro": 1.0
+    }
+  },
+  "E4_mnv4_union_heldout_P_only": {
+    "n": 2040,
+    "macro_f1": 0.9022507625987835,
+    "accuracy": 0.9156862745098039,
+    "per_class_recall": {
+      "bacterial_leaf_blight": 0.7727272727272727,
+      "bacterial_leaf_streak": 0.9324324324324325,
+      "bacterial_panicle_blight": 1.0,
+      "bakanae": 0.0,
+      "brown_spot": 0.8706467661691543,
+      "dead_heart": 0.9730538922155688,
+      "downy_mildew": 0.9369369369369369,
+      "false_smut": 0.0,
+      "grassy_stunt_virus": 0.0,
+      "healthy": 0.956386292834891,
+      "hispa": 0.8877551020408163,
+      "leaf_scald": 0.0,
+      "leaf_smut": 0.0,
+      "narrow_brown_spot": 0.0,
+      "neck_blast": 0.0,
+      "ragged_stunt_virus": 0.0,
+      "rice_blast": 0.9110512129380054,
+      "sheath_blight": 0.0,
+      "sheath_rot": 0.0,
+      "stem_rot": 0.0,
+      "tungro": 0.8579545454545454
+    }
+  },
+  "files_mb": {
+    "dinov2_probe_union.onnx": 1.01,
+    "mnv4_union.onnx": 0.24
+  }
+}

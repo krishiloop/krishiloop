@@ -1,0 +1,23 @@
+{
+  "near_dup_hamming": 6,
+  "unions": 13108,
+  "cross_dataset_duplicates_removed": 399,
+  "train": 22417,
+  "val": 6946,
+  "cross_test": 7620,
+  "ood": 2399,
+  "shared_labels": [
+    "bacterial_leaf_blight",
+    "bacterial_leaf_streak",
+    "brown_spot",
+    "healthy",
+    "hispa",
+    "rice_blast",
+    "tungro"
+  ],
+  "ood_labels": [
+    "bacterial_panicle_blight",
+    "dead_heart",
+    "downy_mildew"
+  ]
+}

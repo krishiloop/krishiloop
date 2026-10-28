@@ -1,0 +1,459 @@
+{
+  "started_utc": "2026-10-27T19:34:53Z",
+  "seed": 7,
+  "folds": {
+    "hold-out BD-A": {
+      "erm": {
+        "recipe": "erm",
+        "train_n": 16786,
+        "val_n": 3066,
+        "temperature": 0.767,
+        "train_domains": {
+          "BD-C": 850,
+          "BD-D": 2241,
+          "BD-E": 13695
+        },
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1192,
+          "balanced_accuracy": 0.1597,
+          "accuracy": 0.1597,
+          "baseline_train_majority": {
+            "accuracy": 0.289,
+            "macro_f1": 0.1121
+          },
+          "selective_accuracy_at_80pct": 0.1571,
+          "aurc": 0.8172,
+          "per_class_recall": {
+            "blast": 0.0811,
+            "brown_spot": 0.0,
+            "tungro": 0.0263,
+            "sheath_blight": 0.5312
+          },
+          "ece_raw": 0.558,
+          "ece_calibrated": 0.6308
+        }
+      },
+      "isp": {
+        "recipe": "isp",
+        "train_n": 16786,
+        "val_n": 3066,
+        "temperature": 0.767,
+        "train_domains": {
+          "BD-C": 850,
+          "BD-D": 2241,
+          "BD-E": 13695
+        },
+        "BD-A": {
+          "n": 263,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.1452,
+          "balanced_accuracy": 0.1681,
+          "accuracy": 0.1673,
+          "baseline_train_majority": {
+            "accuracy": 0.289,
+            "macro_f1": 0.1121
+          },
+          "selective_accuracy_at_80pct": 0.1667,
+          "aurc": 0.8222,
+          "per_class_recall": {
+            "blast": 0.1892,
+            "brown_spot": 0.0612,
+            "tungro": 0.0,
+            "sheath_blight": 0.4219
+          },
+          "ece_raw": 0.5216,
+          "ece_calibrated": 0.587
+        }
+      }
+    },
+    "hold-out BD-C": {
+      "erm": {
+        "recipe": "erm",
+        "train_n": 16715,
+        "val_n": 2982,
+        "temperature": 0.781,
+        "train_domains": {
+          "BD-B": 500,
+          "BD-A": 226,
+          "BD-D": 2264,
+          "BD-E": 13725
+        },
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.35,
+          "balanced_accuracy": 0.2697,
+          "accuracy": 0.2407,
+          "baseline_train_majority": {
+            "accuracy": 0.0,
+            "macro_f1": 0.0
+          },
+          "selective_accuracy_at_80pct": 0.2309,
+          "aurc": 0.7604,
+          "per_class_recall": {
+            "healthy": 0.4841,
+            "blast": 0.1126,
+            "brown_spot": 0.1648,
+            "sheath_blight": 0.3173
+          },
+          "ece_raw": 0.5152,
+          "ece_calibrated": 0.5716
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.9888,
+          "balanced_accuracy": 0.9882,
+          "accuracy": 0.9896,
+          "baseline_train_majority": {
+            "accuracy": 0.1831,
+            "macro_f1": 0.0774
+          },
+          "selective_accuracy_at_80pct": 1.0,
+          "aurc": 0.0003,
+          "per_class_recall": {
+            "blast": 0.9834,
+            "brown_spot": 0.9882,
+            "tungro": 0.9811,
+            "sheath_blight": 1.0
+          },
+          "ece_raw": 0.0431,
+          "ece_calibrated": 0.0174
+        }
+      },
+      "isp": {
+        "recipe": "isp",
+        "train_n": 16715,
+        "val_n": 2982,
+        "temperature": 0.81,
+        "train_domains": {
+          "BD-B": 500,
+          "BD-A": 226,
+          "BD-D": 2264,
+          "BD-E": 13725
+        },
+        "BD-C": {
+          "n": 997,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2668,
+          "balanced_accuracy": 0.1905,
+          "accuracy": 0.1625,
+          "baseline_train_majority": {
+            "accuracy": 0.0,
+            "macro_f1": 0.0
+          },
+          "selective_accuracy_at_80pct": 0.128,
+          "aurc": 0.9085,
+          "per_class_recall": {
+            "healthy": 0.4013,
+            "blast": 0.0596,
+            "brown_spot": 0.1498,
+            "sheath_blight": 0.1513
+          },
+          "ece_raw": 0.6191,
+          "ece_calibrated": 0.6697
+        },
+        "BD-B (white background)": {
+          "n": 579,
+          "classes_present": [
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.9754,
+          "balanced_accuracy": 0.9776,
+          "accuracy": 0.9758,
+          "baseline_train_majority": {
+            "accuracy": 0.1831,
+            "macro_f1": 0.0774
+          },
+          "selective_accuracy_at_80pct": 1.0,
+          "aurc": 0.0012,
+          "per_class_recall": {
+            "blast": 0.9724,
+            "brown_spot": 0.9765,
+            "tungro": 0.9906,
+            "sheath_blight": 0.971
+          },
+          "ece_raw": 0.043,
+          "ece_calibrated": 0.017
+        }
+      }
+    },
+    "hold-out BD-D": {
+      "erm": {
+        "recipe": "erm",
+        "train_n": 15382,
+        "val_n": 2682,
+        "temperature": 0.825,
+        "train_domains": {
+          "BD-B": 504,
+          "BD-A": 229,
+          "BD-C": 841,
+          "BD-E": 13808
+        },
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2908,
+          "balanced_accuracy": 0.2787,
+          "accuracy": 0.276,
+          "baseline_train_majority": {
+            "accuracy": 0.0,
+            "macro_f1": 0.0
+          },
+          "selective_accuracy_at_80pct": 0.2861,
+          "aurc": 0.7229,
+          "per_class_recall": {
+            "healthy": 0.2237,
+            "blast": 0.1453,
+            "tungro": 0.1653,
+            "sheath_blight": 0.5804
+          },
+          "ece_raw": 0.2746,
+          "ece_calibrated": 0.3264
+        }
+      },
+      "isp": {
+        "recipe": "isp",
+        "train_n": 15382,
+        "val_n": 2682,
+        "temperature": 0.801,
+        "train_domains": {
+          "BD-B": 504,
+          "BD-A": 229,
+          "BD-C": 841,
+          "BD-E": 13808
+        },
+        "BD-D": {
+          "n": 2630,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2756,
+          "balanced_accuracy": 0.2561,
+          "accuracy": 0.2411,
+          "baseline_train_majority": {
+            "accuracy": 0.0,
+            "macro_f1": 0.0
+          },
+          "selective_accuracy_at_80pct": 0.2329,
+          "aurc": 0.8067,
+          "per_class_recall": {
+            "healthy": 0.1236,
+            "blast": 0.2158,
+            "tungro": 0.3408,
+            "sheath_blight": 0.3441
+          },
+          "ece_raw": 0.2991,
+          "ece_calibrated": 0.3591
+        }
+      }
+    },
+    "hold-out BD-E": {
+      "erm": {
+        "recipe": "erm",
+        "train_n": 3804,
+        "val_n": 665,
+        "temperature": 0.771,
+        "train_domains": {
+          "BD-B": 487,
+          "BD-A": 222,
+          "BD-C": 860,
+          "BD-D": 2235
+        },
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.3072,
+          "balanced_accuracy": 0.337,
+          "accuracy": 0.3223,
+          "baseline_train_majority": {
+            "accuracy": 0.1591,
+            "macro_f1": 0.0549
+          },
+          "selective_accuracy_at_80pct": 0.3367,
+          "aurc": 0.6456,
+          "per_class_recall": {
+            "healthy": 0.4814,
+            "blast": 0.1561,
+            "brown_spot": 0.5732,
+            "tungro": 0.0145,
+            "sheath_blight": 0.4596
+          },
+          "ece_raw": 0.3518,
+          "ece_calibrated": 0.4211
+        }
+      },
+      "isp": {
+        "recipe": "isp",
+        "train_n": 3804,
+        "val_n": 665,
+        "temperature": 0.82,
+        "train_domains": {
+          "BD-B": 487,
+          "BD-A": 222,
+          "BD-C": 860,
+          "BD-D": 2235
+        },
+        "BD-E": {
+          "n": 16225,
+          "classes_present": [
+            "healthy",
+            "blast",
+            "brown_spot",
+            "tungro",
+            "sheath_blight"
+          ],
+          "macro_f1": 0.2866,
+          "balanced_accuracy": 0.3284,
+          "accuracy": 0.346,
+          "baseline_train_majority": {
+            "accuracy": 0.1591,
+            "macro_f1": 0.0549
+          },
+          "selective_accuracy_at_80pct": 0.3712,
+          "aurc": 0.5667,
+          "per_class_recall": {
+            "healthy": 0.2587,
+            "blast": 0.0814,
+            "brown_spot": 0.6468,
+            "tungro": 0.0082,
+            "sheath_blight": 0.6469
+          },
+          "ece_raw": 0.3169,
+          "ece_calibrated": 0.3688
+        }
+      }
+    },
+    "final (all domains)": {
+      "erm": {
+        "recipe": "erm",
+        "train_n": 17495,
+        "val_n": 3199,
+        "temperature": 0.762,
+        "train_domains": {
+          "BD-B": 500,
+          "BD-A": 228,
+          "BD-C": 847,
+          "BD-D": 2239,
+          "BD-E": 13681
+        }
+      }
+    }
+  },
+  "sources": {
+    "dhan": "/tmp/raw/znsxdctwtt",
+    "ricey": "/tmp/raw/t46kkgh2yw",
+    "bd5": "/tmp/raw/sjkptpgv79",
+    "munna": "/tmp/raw/86s4jzj2m4"
+  },
+  "bd_e_device_counts": {},
+  "dedupe": {
+    "merges": 10183,
+    "groups": 13737,
+    "cross_domain_groups_dropped": 8,
+    "images_in_cross_groups": 50,
+    "groups_with_conflicting_labels": 80
+  },
+  "counts": {
+    "BD-A": {
+      "brown_spot": 49,
+      "blast": 74,
+      "tungro": 76,
+      "sheath_blight": 64
+    },
+    "BD-B": {
+      "sheath_blight": 207,
+      "brown_spot": 85,
+      "blast": 181,
+      "tungro": 106
+    },
+    "BD-C": {
+      "blast": 302,
+      "brown_spot": 267,
+      "healthy": 157,
+      "sheath_blight": 271
+    },
+    "BD-D": {
+      "blast": 709,
+      "healthy": 809,
+      "tungro": 490,
+      "sheath_blight": 622
+    },
+    "BD-E": {
+      "blast": 2581,
+      "tungro": 4410,
+      "brown_spot": 4269,
+      "sheath_blight": 3407,
+      "healthy": 1558
+    }
+  },
+  "h2_domain_from_colour": {
+    "cv_accuracy": 0.994,
+    "chance": 0.78,
+    "n": 4000,
+    "note": "accuracy far above chance = a strong capture fingerprint"
+  },
+  "summary": {
+    "erm": {
+      "mean_macro_f1": 0.4112,
+      "worst": 0.1192,
+      "n_tests": 5
+    },
+    "isp": {
+      "mean_macro_f1": 0.3899,
+      "worst": 0.1452,
+      "n_tests": 5
+    }
+  },
+  "final_recipe": "erm",
+  "onnx_check": {
+    "max_abs_diff": 2.0265579223632812e-06,
+    "top1_agreement": 1.0,
+    "mb": 9.97
+  },
+  "finished_utc": "2026-10-27T21:55:21Z"
+}
