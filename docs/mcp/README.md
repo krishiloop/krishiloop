@@ -86,7 +86,7 @@ Only what we actually ran:
 | Official MCP Python SDK client (`mcp.Client` 2.3.0) in `tools/mcp_demo_client.py` | stdio | all 14 tools on the 5 servers called; weather and satellite against the live APIs (output below) | Windows 11, Python 3.13.2, Oct 28, 2026 |
 | same | streamable HTTP | all 14 tools called; same results, with different credential ids and timestamps | Windows 11, Oct 28, 2026 |
 | same, launched by absolute script path from another folder | stdio | all 5 servers list their tools | Windows 11, Oct 28, 2026 |
-| `tests/test_mcp.py` (SDK client: in-process, stdio subprocess and streamable-HTTP subprocess) | all three | 28 tests pass with no network | Windows 11 locally. CI (Windows and Ubuntu) runs when the branch is pushed; it has not run yet |
+| `tests/test_mcp.py` (SDK client: in-process, stdio subprocess and streamable-HTTP subprocess) | all three | 28 tests pass with no network | Windows 11 locally, and GitHub Actions CI on `windows-latest` and `ubuntu-latest` (Python 3.13): commit `fe3b1b2`, full suite 145 passed on each, Oct 28, 2026 |
 | Claude Code, Claude Desktop, Cursor, MCP Inspector | — | **not tested yet** | — |
 
 Who uses the servers today: the demo client. The orchestration graph that would call them (MASTER_PLAN P1 #21) is planned and not built.
