@@ -20,11 +20,16 @@ Tiers and gates: `D:\AI_congress\MASTER_PLAN.md` §4 (P0 never cut · P1 restore
 ## Week 1 — Tue Oct 27 → Sun Nov 1 · "core real, local" (gate G1)
 - [~] FE: premium UI v1 in `apps/web` (story landing, farmer app + Lite mode, verifier stamp, officer inbox)
 - [x] ML: experiments E1–E4 done; model card written; shipped MobileNetV4 union fp16-weights ONNX (5.3 MB), handed to the UI agent
-- [ ] ML (5090): calibration + ECE + OOD; Dhan-Shomadhan external test (BD field images); DINOv2 fine-tune → distill; Grad-CAM; make the Kaggle kernels public
-- [x] LEAD: CI workflow exists (`.github/workflows/ci.yml`). It has never run the trust/engine tests, because that code is not committed yet (commits on hold)
+- [x] ML: licence-clean benchmark v1 (near chance on unseen datasets, 0.27) and v2 study (zero-shot 0.41; 25 confirmed photos per disease → 0.70); MODEL_CARD v1/v2
+- [x] ML: earned-trust simulations (protocol 1 pre-registered: the gate opened in 1/24; protocol 2: opens per area after ~90–700 officer verdicts, then 94–99.7% precise); strict near-copy re-run pending
+- [x] BE: earned trust per area: photo-trust policy file, area ledger (frozen suggestions, Wilson gate, drift), text-anchored probe, AreaTrustCredential + receipt chain, server-only photo readings, demo photo-case API, BioCLIP 2 export with parity checks
+- [~] FE: earned-trust screens (farmer photo, officer one-tap verdict, /trust replay panel, withdrawn trust on the verifier)
+- [ ] ML: small on-device student (distil BioCLIP 2 features) for offline tier-0 suggestions; G2 multi-phone set
+- [ ] ML (5090): run the photo backbone in sovereign mode on the GPU; Grad-CAM; make the Kaggle kernels public
+- [x] LEAD: CI on every branch push; branch `g1/local-journey` pushed with the ordered commits (BD pack commit touches no engine file). CI result to check on GitHub
 - [ ] BE: recall proxy for the UI (server-side admin token; never in the browser) + notification record
 - [x] BE: officer inbox records + `GET /api/inbox` (admin token stands in for officer accounts)
-- [ ] KN: BD rice pack ~10–12 aman rules (short attributed quotes, permission requested) + scenario tests
+- [x] KN: BD rice pack, 12 rules (incl. the photo-keyed blast practice R-BDR-012) + scenario tests; Bangla quotes need native verification
 - [ ] BE: Ask router (question → rule IDs or abstain)
 - [ ] EV: eval harness (dose-error with coverage + correct-abstention)
 - [ ] BIZ/H1: roles; Secretariat (4 questions), BRRI/DAE/BARI and CIP emails; hero-field consent; 5090 access; 60 Bangla eval items
