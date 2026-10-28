@@ -74,13 +74,15 @@ def trust_area(field: dict) -> str:
     return f"{field['crop']}@{field.get('area_code') or field['country']}"
 
 
-def diagnosis_gate(d: dict | None, area: str | None = None, store=None) -> tuple[bool, str]:
+def diagnosis_gate(d: dict | None, area: str | None = None, store=None, from_server: bool = False) -> tuple[bool, str]:
     if not d:
         return False, "none"
     if d.get("status") == "abstained":
         return False, "model_abstained"
     model = f"{d['model']['name']}@{d['model']['version']}"
-    if store is None or not store.trusted_photo_model(model, area):   # server evidence decides; the client flag is ignored
+    # only a reading the server computed from its own photo case can pass, and only where the model earned trust;
+    # a client's report (its labels, probabilities or "calibrated" flag) never can
+    if not from_server or store is None or not store.trusted_photo_model(model, area):
         return False, "uncalibrated"
     if d.get("ood_score") is not None and d["ood_score"] > DIAGNOSIS_GATE["max_ood"]:
         return False, "out_of_distribution"
@@ -149,7 +151,7 @@ def _receipt(rule: dict, snap: dict, facts: dict, advice: dict, plan_ctx: dict, 
 
 
 def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today: date | None = None,
-              inbox_dir=None, diagnosis: dict | None = None) -> dict:
+              inbox_dir=None, diagnosis: dict | None = None, diagnosis_from_server: bool = False) -> dict:
     today = today or date.today()
     pack_id = field["pack_id"]
     rules = load_pack(pack_id)
@@ -169,7 +171,7 @@ def make_plan(field: dict, profile: dict, store, snap: dict | None = None, today
         return {**base, "status": "abstained", "abstention": {"reason_code": code, "reason": reason, "inbox_item_id": item_id}}
 
     if diagnosis is not None:
-        passed, note = diagnosis_gate(diagnosis, trust_area(field), store)
+        passed, note = diagnosis_gate(diagnosis, trust_area(field), store, diagnosis_from_server)
         base["diagnosis_used"], base["diagnosis_note"] = passed, note
         if passed:
             model, area = f"{diagnosis['model']['name']}@{diagnosis['model']['version']}", trust_area(field)

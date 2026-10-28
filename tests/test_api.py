@@ -108,13 +108,10 @@ def test_a_client_cannot_vouch_for_its_own_photo_model(client, monkeypatch, tmp_
     assert any(i.get("diagnosis_id") == "d-2" for i in items)               # it went to the officer instead
 
 
-def test_only_server_evidence_opens_the_photo_gate(client, monkeypatch, tmp_path):
-    plan, _ = _photo_plan(client, monkeypatch, tmp_path, dict(SURE_PHOTO, calibrated=False), trust_area="potato@KE")
-    assert plan["diagnosis_used"] is True and plan["diagnosis_note"] == "ok"   # the client's flag is ignored either way
-    plan, _ = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO, trust_area="potato@UG")   # earned in another country
-    assert plan["diagnosis_used"] is False
-    plan, _ = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO)          # another visitor's sandbox: no evidence
-    assert plan["diagnosis_used"] is False
+def test_a_client_report_never_passes_even_where_trust_was_earned(client, monkeypatch, tmp_path):
+    plan, items = _photo_plan(client, monkeypatch, tmp_path, SURE_PHOTO, trust_area="potato@KE")
+    assert plan["diagnosis_used"] is False             # only the server's own photo cases can use that trust
+    assert any(i.get("diagnosis_id") == "d-2" for i in items)
 
 
 def test_demo_receipts_survive_a_server_restart(client, monkeypatch, tmp_path):

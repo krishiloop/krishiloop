@@ -13,6 +13,10 @@ when:
     value:
     - tillering
     - booting
+boost_when:   # it answers the photo the farmer just sent, so it ranks first among practices
+  fact: diagnosis_label
+  op: eq
+  value: blast
 action:
   kind: practice
   traffic_light: amber

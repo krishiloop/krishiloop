@@ -256,7 +256,8 @@ def _area_trust(store):
 def test_photo_advice_carries_the_area_trust_and_falls_with_it(store, tmp_path, monkeypatch):
     _photo_practice_pack(monkeypatch)
     trust = _area_trust(store)
-    plan = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox", diagnosis=PHOTO)
+    plan = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox", diagnosis=PHOTO,
+                     diagnosis_from_server=True)
     assert plan["diagnosis_used"] is True
     photo_act = next(a for a in plan["actions"] if "R-PLB-901" in a["action_id"].upper())
     assert photo_act["receipt"]["area_trust_ref"] == {"credential_id": trust["id"], "area": "potato@KE", "model": "leaf@1"}
@@ -275,7 +276,7 @@ def test_a_photo_never_changes_an_input_decision(store, tmp_path, monkeypatch):
     _area_trust(store)
     without = plan_for(store, tmp_path)
     with_photo = make_plan(FIELD, DEMO_PROFILES["demo-farmer-a"], store, snap=_snap(True), inbox_dir=tmp_path / "inbox",
-                           diagnosis=dict(PHOTO, labels=[{"label": "healthy", "prob": 0.99}]))
+                           diagnosis=dict(PHOTO, labels=[{"label": "healthy", "prob": 0.99}]), diagnosis_from_server=True)
     decision = lambda p: next(a for a in p["actions"] if a["kind"] == "input_decision")
     assert decision(with_photo)["decision"] == decision(without)["decision"]
     assert "area_trust_ref" not in decision(with_photo)["receipt"]
