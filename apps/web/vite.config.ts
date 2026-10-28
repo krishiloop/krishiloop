@@ -26,8 +26,8 @@ export default defineConfig({
         name: 'KrishiLoop',
         short_name: 'KrishiLoop',
         description: 'Every piece of AI farm advice comes with a receipt anyone can check.',
-        theme_color: '#080c09',
-        background_color: '#080c09',
+        theme_color: '#f4f0e6',
+        background_color: '#f4f0e6',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/app',
@@ -44,14 +44,14 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // The 3D and story chunks are big and only needed on the landing page: cache them on first use instead of precaching.
+        // Precache the app shell; big or rarely needed chunks are cached on first use instead.
         globPatterns: ['**/*.{html,css,svg,png,webmanifest,woff2}', 'assets/*.js'],
         globIgnores: [
           '**/*{cyrillic,vietnamese,greek,devanagari,latin-ext}*.woff2',
           '**/*.wasm',
           'models/**',
-          // landing-only (3D, scroll story, smooth scroll) and the on-device model runtime: fetched on first use, then cached
-          '**/assets/{PerformanceMonitor,HeroScene,ChapterScene,MeshBackdrop,Landing,gsap,ScrollTrigger,SplitText,lenis,ort,hi,sw}*.js',
+          // the recorded fallback answers (only needed when the live server is unreachable) and the preview languages
+          '**/assets/{plans,verify-before,verify-after,asks,area-trust-replay,snapshots,inbox,recall,stats,packs,demo,hi,sw}*.js',
         ],
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         navigateFallback: '/index.html',
@@ -61,14 +61,10 @@ export default defineConfig({
           { urlPattern: ({ url }) => url.pathname.startsWith('/api/verify/') || url.pathname.startsWith('/status/'), handler: 'NetworkOnly' },
           { urlPattern: ({ url }) => url.pathname === '/api/demo', handler: 'StaleWhileRevalidate', options: { cacheName: 'kl-demo', expiration: { maxEntries: 4, maxAgeSeconds: 86400 } } },
           { urlPattern: ({ request, url }) => request.destination === 'script' && url.origin === self.location.origin, handler: 'CacheFirst', options: { cacheName: 'kl-chunks', expiration: { maxEntries: 40, maxAgeSeconds: 2592000 } } },
-          // the on-device photo model and its wasm runtime: fetched once on request, then offline
-          { urlPattern: ({ url }) => url.origin === self.location.origin && (url.pathname.startsWith('/models/') || url.pathname.endsWith('.wasm')), handler: 'CacheFirst', options: { cacheName: 'kl-photo-model', expiration: { maxEntries: 4, maxAgeSeconds: 7776000 } } },
         ],
       },
     }),
   ],
-  // onnxruntime-web loads its wasm through import.meta.url: let the browser load it as-is in dev
-  optimizeDeps: { exclude: ['onnxruntime-web'] },
   server: { host: '127.0.0.1', port: 5173, proxy },
   preview: { host: '127.0.0.1', port: 4173, proxy },
   build: {

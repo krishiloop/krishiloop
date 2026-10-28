@@ -1,0 +1,490 @@
+/* Primitives for src/ui. Utilities (Tailwind) can override these: this file sits in the `components` layer. */
+
+/* ------------------------------------------------------------------ buttons */
+.btn {
+  --btn-h: 44px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: var(--btn-h);
+  padding: 0 1.1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-ui);
+  font-weight: 580;
+  font-size: 0.97rem;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 140ms var(--ease-out),
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn-secondary {
+  border-color: var(--color-rule-2);
+  background: transparent;
+  color: var(--color-ink);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink-2);
+}
+.btn-danger {
+  background: var(--color-stop);
+  color: #fff;
+}
+.btn-go {
+  background: var(--color-go);
+  color: #fff;
+}
+/* on dark surfaces the meaning colours are light, so their buttons take dark ink (AA: npm run contrast) */
+[data-theme="dark"] :is(.btn-danger, .btn-go),
+.band-night :is(.btn-danger, .btn-go) {
+  color: #14130f;
+}
+.paper-object :is(.btn-danger, .btn-go) {
+  color: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: color-mix(in oklab, var(--color-ink) 86%, var(--color-paper));
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-ink);
+  }
+  .btn-ghost:hover {
+    color: var(--color-ink);
+    background: color-mix(in oklab, var(--color-ink) 6%, transparent);
+  }
+  .btn-danger:hover {
+    background: color-mix(in oklab, var(--color-stop) 88%, #000);
+  }
+}
+.btn-lg {
+  --btn-h: 52px;
+  padding: 0 1.4rem;
+  font-size: 1.04rem;
+}
+.btn-sm {
+  --btn-h: 36px;
+  padding: 0 0.8rem;
+  font-size: 0.88rem;
+}
+.btn-icon {
+  width: var(--btn-h);
+  padding: 0;
+}
+.btn .arrow {
+  transition: transform 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover .arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* text link with a calm underline */
+.link {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 35%, transparent);
+  transition: text-decoration-color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* ------------------------------------------------------------------ chips: one per item, never a soup */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 24px;
+  padding: 0.18rem 0.5rem;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+}
+.chip:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.chip-go {
+  color: var(--color-go);
+  border-color: color-mix(in oklab, var(--color-go) 40%, transparent);
+  background: var(--color-go-wash);
+}
+.chip-wait {
+  color: var(--color-wait);
+  border-color: color-mix(in oklab, var(--color-wait) 40%, transparent);
+  background: var(--color-wait-wash);
+}
+.chip-stop {
+  color: var(--color-stop);
+  border-color: color-mix(in oklab, var(--color-stop) 40%, transparent);
+  background: var(--color-stop-wash);
+}
+/* sample / recorded / simulated: carbon-copy blue with a dashed edge, everywhere the same */
+.chip-carbon {
+  color: var(--color-carbon);
+  border: 1px dashed color-mix(in oklab, var(--color-carbon) 70%, transparent);
+  background: var(--color-carbon-wash);
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ paper documents */
+.paper {
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+  box-shadow: var(--shadow-lift);
+}
+.panel {
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+}
+/* the torn, serrated foot of a receipt */
+.serrated-b {
+  --tooth: 9px;
+  -webkit-mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+  mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+  padding-bottom: calc(var(--tooth) / 2);
+}
+/* perforation line between the stub and the body of a ticket */
+.perf {
+  height: 0;
+  border-top: 2px dotted var(--color-rule-2);
+  position: relative;
+}
+.perf::before,
+.perf::after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--perf-bg, var(--color-paper));
+  border: 1px solid var(--color-rule);
+}
+.perf::before {
+  left: -9px;
+  clip-path: inset(0 0 0 50%);
+}
+.perf::after {
+  right: -9px;
+  clip-path: inset(0 50% 0 0);
+}
+
+/* ------------------------------------------------------------------ stamps
+   An inked rubber stamp: double rule, condensed caps, slight tilt, ink texture via a static mask.
+   The landing animation is .stamp-land (DESIGN.md: 420 ms, overshoot). */
+.stamp {
+  --ink: var(--color-go);
+  --tilt: -7deg;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15em;
+  padding: 0.42em 0.85em 0.38em;
+  border: 0.14em solid var(--ink);
+  border-radius: 0.32em;
+  outline: 0.06em solid var(--ink);
+  outline-offset: -0.34em;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 760;
+  font-stretch: 75%;
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(var(--tilt));
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='120'><filter id='i'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='11'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.05'/></filter><rect width='100%' height='100%' filter='url(%23i)'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='120'><filter id='i'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='11'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.05'/></filter><rect width='100%' height='100%' filter='url(%23i)'/></svg>");
+  -webkit-mask-size: 260px 120px;
+  mask-size: 260px 120px;
+  pointer-events: none;
+}
+.stamp:is(:lang(bn), :lang(hi)) {
+  font-stretch: 100%;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+.stamp small {
+  font-size: 0.34em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-stretch: 90%;
+}
+.stamp-go {
+  --ink: var(--color-go);
+}
+.stamp-stop {
+  --ink: var(--color-stop);
+}
+.stamp-wait {
+  --ink: var(--color-wait);
+}
+.stamp-carbon {
+  --ink: var(--color-carbon);
+}
+.stamp-ink {
+  --ink: var(--color-ink-3);
+}
+.stamp-land {
+  animation: stamp-land 420ms var(--ease-stamp) both;
+}
+@keyframes stamp-land {
+  from {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.5);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--tilt)) scale(1);
+  }
+}
+/* the paper under a stamp gives a little when it lands */
+.thud {
+  animation: thud 260ms var(--ease-out) 300ms both;
+}
+@keyframes thud {
+  40% {
+    transform: translateY(1.5px) scale(0.997);
+  }
+}
+
+/* ------------------------------------------------------------------ segmented control */
+.seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--color-rule);
+  border-radius: 12px;
+  background: var(--color-sunk);
+}
+.seg button {
+  min-height: 34px;
+  padding: 0 0.8rem;
+  border-radius: 9px;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink-2);
+  font-weight: 560;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.seg button[aria-pressed="true"],
+.seg button[aria-checked="true"],
+.seg button[aria-selected="true"] {
+  background: var(--color-card);
+  color: var(--color-ink);
+  box-shadow: 0 1px 0 rgb(27 26 22 / 0.06), 0 1px 3px rgb(27 26 22 / 0.12);
+}
+
+/* ------------------------------------------------------------------ sheet: a native <dialog>, bottom on phones, side on wide screens */
+dialog.sheet {
+  position: fixed;
+  inset: auto 0 0 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: min(90dvh, 900px);
+  display: none;
+  flex-direction: column;
+  background-color: var(--color-paper);
+  background-image: var(--paper-grain);
+  color: var(--color-ink);
+  border-radius: 18px 18px 0 0;
+  box-shadow: var(--shadow-pop);
+  transform: translateY(100%);
+  transition:
+    transform 300ms var(--ease-drawer),
+    overlay 300ms allow-discrete,
+    display 300ms allow-discrete;
+}
+dialog.sheet[open] {
+  display: flex;
+  transform: none;
+}
+@starting-style {
+  dialog.sheet[open] {
+    transform: translateY(100%);
+  }
+}
+dialog.sheet::backdrop {
+  background: rgb(20 19 16 / 0);
+  transition:
+    background-color 300ms ease,
+    overlay 300ms allow-discrete,
+    display 300ms allow-discrete;
+}
+dialog.sheet[open]::backdrop {
+  background: rgb(20 19 16 / 0.45);
+}
+@starting-style {
+  dialog.sheet[open]::backdrop {
+    background: rgb(20 19 16 / 0);
+  }
+}
+@media (min-width: 900px) {
+  dialog.sheet {
+    inset: 0 0 0 auto;
+    height: 100dvh;
+    max-height: none;
+    width: min(560px, 100vw);
+    border-radius: 0;
+    border-left: 1px solid var(--color-rule);
+    transform: translateX(100%);
+  }
+  dialog.sheet.sheet-wide {
+    width: min(760px, 100vw);
+  }
+  @starting-style {
+    dialog.sheet[open] {
+      transform: translateX(100%);
+    }
+  }
+}
+.sheet-grip {
+  width: 40px;
+  height: 4px;
+  margin: 8px auto 2px;
+  border-radius: 999px;
+  background: var(--color-rule-2);
+}
+@media (min-width: 900px) {
+  .sheet-grip {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ toast */
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: min(440px, calc(100vw - 32px));
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-ui);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  box-shadow: var(--shadow-pop);
+  font-size: 0.94rem;
+  transition:
+    transform 320ms var(--ease-out),
+    opacity 320ms var(--ease-out);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+/* ------------------------------------------------------------------ skeleton */
+.skeleton {
+  border-radius: var(--radius-ui);
+  background: color-mix(in oklab, var(--color-ink) 7%, transparent);
+}
+
+/* ------------------------------------------------------------------ receipt printing slot (DESIGN.md: three feed pauses) */
+.print-slot {
+  overflow: hidden;
+  padding: 0 14px 28px;
+  margin: 0 -14px;
+}
+.print-in {
+  animation: print-feed 900ms
+    linear(0, 0.2 16%, 0.22 24%, 0.5 42%, 0.52 50%, 0.8 68%, 0.82 75%, 0.96 90%, 1) both;
+}
+@keyframes print-feed {
+  from {
+    transform: translateY(-101%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ number roll: the final value is always in the DOM */
+.roll {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: bottom;
+  padding-block: 0.06em;
+}
+.roll > span {
+  display: inline-block;
+}
+.roll.is-rolling > span {
+  animation: roll-up 700ms var(--ease-out) both;
+  animation-delay: calc(var(--d, 0) * 45ms);
+}
+@keyframes roll-up {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+/* ------------------------------------------------------------------ hover lift for cards that are links */
+@media (hover: hover) and (pointer: fine) {
+  .lift {
+    transition:
+      transform 220ms var(--ease-out),
+      border-color 220ms ease;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-rule-2);
+  }
+}

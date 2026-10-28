@@ -1,0 +1,128 @@
+/**
+ * English copy shared by every screen of the redesigned app (src/ui, src/shell). Spread into `en.ts`;
+ * `bn.ui.ts` must carry every key. Copy rules: short words; "Authentic" never means "correct";
+ * sample, recorded and simulated data always say so.
+ */
+const ui = {
+  /* ---------------------------------------------------------------- shell */
+  'ui.nav.story': 'Story',
+  'ui.nav.app': 'Farmer app',
+  'ui.nav.officer': 'Officer',
+  'ui.nav.verify': 'Verify',
+  'ui.nav.trust': 'Trust',
+  'ui.nav.proof': 'Proof',
+  'ui.nav.about': 'About',
+  'ui.nav.menu': 'Menu',
+  'ui.nav.main': 'Main',
+  'ui.nav.skip': 'Skip to content',
+  'ui.nav.home': 'KrishiLoop home',
+  'ui.cta.tryApp': 'Try the farmer app',
+  'ui.cta.verify': 'Check a receipt',
+  'ui.theme.toDark': 'Switch to the dark theme',
+  'ui.theme.toLight': 'Switch to the paper theme',
+  'ui.lang.label': 'Language',
+  'ui.lang.preview': 'Preview',
+  'ui.lang.previewNote': 'Machine-translated preview, not yet reviewed by a native speaker. Parts without a translation show English.',
+  'ui.lang.bnNote': 'Bangla text is machine-written and waits for a native speaker’s review.',
+
+  /* ---------------------------------------------------------------- where data came from */
+  'ui.mark.live': 'Live',
+  'ui.mark.sample': 'Sample',
+  'ui.mark.sample.title': 'Sample data that shows the layout. Not a real reading.',
+  'ui.mark.recorded': 'Recorded {date}',
+  'ui.mark.recorded.title': 'A real answer from our server, recorded on {date} at a sample location. Shown because the live server is not connected.',
+  'ui.mark.simulation': 'Simulation',
+  'ui.mark.simulation.title': 'Runs in your browser to explain the idea. The real one runs on the server.',
+  'ui.mark.replay': 'Replay',
+  'ui.mark.replay.title': 'A replay of public datasets: their labels stand in for officers. Not real officers or farms.',
+  'ui.api.live': 'Live server',
+  'ui.api.recorded': 'Recorded data',
+  'ui.api.checking': 'Connecting',
+  'ui.api.note': 'The live server is not connected to this preview, so you see real answers recorded on {date}.',
+
+  /* ---------------------------------------------------------------- verdict stamps */
+  'ui.stamp.authentic': 'Authentic',
+  'ui.stamp.recalled': 'Recalled',
+  'ui.stamp.invalid': 'Cannot verify',
+  'ui.stamp.expired': 'Expired',
+  'ui.stamp.checking': 'Checking',
+
+  /* ---------------------------------------------------------------- decisions and action kinds */
+  'ui.decision.dont_spray': 'No spray needed',
+  'ui.decision.recheck': 'Re-check',
+  'ui.decision.spray': 'Act now',
+  'ui.kind.input_decision': 'Spray decision',
+  'ui.kind.monitoring': 'Check',
+  'ui.kind.irrigation': 'Water',
+  'ui.kind.harvest': 'Harvest',
+  'ui.kind.nutrient': 'Fertiliser',
+  'ui.kind.officer_contact': 'Officer',
+  'ui.kind.practice': 'Good practice',
+  'ui.kind.other': 'Advice',
+
+  /* ---------------------------------------------------------------- the receipt */
+  'ui.receipt.header': 'Advice receipt',
+  'ui.receipt.rule': 'Rule',
+  'ui.receipt.source': 'Source',
+  'ui.receipt.page': 'p. {page}',
+  'ui.receipt.data': 'Data',
+  'ui.receipt.readings': '{n} readings',
+  'ui.receipt.set': 'Set by people',
+  'ui.receipt.notSource': 'not from the source',
+  'ui.receipt.confidence': 'Confidence',
+  'ui.receipt.signed': 'Signed',
+  'ui.receipt.valid': 'Valid',
+  'ui.receipt.scan': 'Scan to check',
+  'ui.receipt.scanSub': 'Anyone can check it. No login.',
+  'ui.receipt.open': 'Open the receipt',
+  'ui.receipt.verify': 'Verify this receipt',
+  'ui.receipt.quoteLang': 'Quoted in {lang}',
+  'ui.review.pending': 'review pending',
+  'ui.review.team': 'team-reviewed',
+  'ui.review.expert': 'expert-reviewed',
+  'ui.conf.high': 'High',
+  'ui.conf.medium': 'Medium',
+  'ui.conf.low': 'Low',
+
+  /* ---------------------------------------------------------------- weather */
+  'ui.wx.title': 'Next 7 days',
+  'ui.wx.today': 'Today',
+  'ui.wx.rain': '{mm} mm',
+  'ui.wx.humid': '{pct}% humid',
+  'ui.wx.risk.high': 'Risky',
+  'ui.wx.risk.medium': 'Watch',
+  'ui.wx.risk.low': 'Calm',
+  'ui.wx.risk.unknown': 'No data',
+  'ui.wx.basis': 'Risky = humid and mild by thresholds our team set (not from a source; review pending).',
+  'ui.mode.live': 'Live',
+  'ui.mode.snapshot': 'Saved',
+  'ui.mode.sample': 'Sample',
+  'ui.mode.unavailable': 'No data',
+  'ui.asOf': 'Data as of {time}',
+
+  /* ---------------------------------------------------------------- common */
+  'ui.close': 'Close',
+  'ui.back': 'Back',
+  'ui.more': 'Show more',
+  'ui.less': 'Show less',
+  'ui.copy': 'Copy',
+  'ui.copied': 'Copied',
+  'ui.retry': 'Try again',
+  'ui.loading': 'Loading',
+  'ui.notFound': 'This page does not exist.',
+  'ui.notFoundBody': 'The link may be old. Start from the story, or open the farmer app.',
+  'ui.goHome': 'Go to the story',
+
+  /* ---------------------------------------------------------------- footer */
+  'ui.footer.tag': 'Every piece of AI farm advice comes with a receipt anyone can check — and if a rule turns out wrong, we recall it from every farmer who got it.',
+  'ui.footer.product': 'Product',
+  'ui.footer.evidence': 'Evidence',
+  'ui.footer.code': 'Source code',
+  'ui.footer.modelCard': 'Model card',
+  'ui.footer.prompts': 'Prompt library',
+  'ui.footer.api': 'API contracts',
+  'ui.footer.credit': 'Built for the International AI Builders Congress 2026 · AgriSphere AI · Precision Farm',
+  'ui.footer.noPii': 'No farmer data here: every field is a labelled sample location.',
+} as const satisfies Record<string, string>;
+
+export default ui;

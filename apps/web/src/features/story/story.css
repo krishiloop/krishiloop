@@ -1,0 +1,187 @@
+/* Story page motion (DESIGN.md "Motion"): transform / opacity only, plus stroke-dashoffset on small SVG paths.
+   Every hidden starting state sits under html.reveal-ready, so nothing can stay invisible without JavaScript.
+   Reduced motion is handled globally (index.css): 150 ms fades, no travel. */
+
+/* ---------------------------------------------------------------- chatbots: the marks stamp on, one by one */
+html.reveal-ready .bot-card:not(.is-in) .bot-mark {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.bot-card .bot-mark {
+  transition:
+    opacity 240ms var(--ease-out),
+    transform 380ms var(--ease-stamp);
+  transition-delay: calc(320ms + var(--j, 0) * 110ms);
+}
+
+/* ---------------------------------------------------------------- the loop */
+.loop-progress {
+  transition: stroke-dashoffset 700ms var(--ease-in-out);
+}
+.loop-marker {
+  transform-origin: 140px 140px;
+  transition: transform 700ms var(--ease-in-out);
+}
+.loop-artifact {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.985);
+  transition:
+    opacity 380ms var(--ease-out),
+    transform 480ms var(--ease-out),
+    visibility 0s linear 480ms;
+}
+.loop-artifact.is-on {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+@media (min-width: 1024px) {
+  .loop-step {
+    opacity: 0.28;
+    transition: opacity 420ms ease;
+  }
+  .loop-step.is-active {
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------- the recall ripple: each tile is a receipt that flips */
+.tile {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  perspective: 420px;
+}
+.tile-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  backface-visibility: hidden;
+  transition: transform 460ms var(--ease-in-out);
+  transition-delay: calc(var(--ring, 0) * 26ms);
+}
+.tile-ok {
+  background:
+    linear-gradient(var(--color-rule-2), var(--color-rule-2)) 22% 48% / 56% 1px no-repeat,
+    linear-gradient(var(--color-rule-2), var(--color-rule-2)) 22% 64% / 40% 1px no-repeat,
+    var(--color-card);
+  border: 1px solid var(--color-rule);
+  box-shadow: inset 0 3px 0 var(--color-go);
+}
+.tile-bad {
+  background:
+    linear-gradient(rgb(255 255 255 / 0.75), rgb(255 255 255 / 0.75)) 22% 48% / 56% 1px no-repeat,
+    var(--color-stop);
+  transform: rotateY(180deg);
+}
+.tile.is-off .tile-ok {
+  transform: rotateY(-180deg);
+}
+.tile.is-off .tile-bad {
+  transform: rotateY(0deg);
+}
+
+/* ---------------------------------------------------------------- feature tiles */
+.feat-bar {
+  transform-origin: bottom;
+  transition: transform 640ms var(--ease-out);
+  transition-delay: calc(240ms + var(--k, 0) * 55ms);
+}
+html.reveal-ready li:not(.is-in) .feat-bar {
+  transform: scaleY(0.08);
+}
+.feat-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1100ms var(--ease-in-out) 250ms;
+}
+html.reveal-ready li:not(.is-in) .feat-line {
+  stroke-dashoffset: 1;
+}
+.feat-arrow {
+  transition: transform 220ms var(--ease-out), color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .feat-tile:hover .feat-arrow {
+    transform: translate(2px, -2px);
+    color: var(--color-ink);
+  }
+}
+
+/* ---------------------------------------------------------------- earned trust: the line draws, then the gate lands */
+.trust-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1700ms var(--ease-in-out);
+}
+.is-drawn .trust-line {
+  stroke-dashoffset: 0;
+}
+.trust-gate {
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 260ms ease 760ms,
+    transform 520ms var(--ease-stamp) 760ms;
+}
+.is-drawn .trust-gate {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------- the engine: a command types itself, then its result */
+html.reveal-ready .type-cmd {
+  clip-path: inset(0 100% 0 0);
+}
+html.reveal-ready .type-out {
+  opacity: 0;
+}
+.is-in .type-cmd {
+  animation: type-cmd 1.5s steps(var(--chars, 60)) 0.3s forwards;
+}
+.is-in .type-out {
+  animation: type-out 520ms var(--ease-out) 1.9s forwards;
+}
+@keyframes type-cmd {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes type-out {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------- under the hood: the links draw in order */
+.hood-node {
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  transition-delay: calc(var(--k, 0) * 120ms);
+}
+html.reveal-ready .hood:not(.is-in) .hood-node {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.hood-link {
+  position: absolute;
+  top: 50%;
+  right: -13px;
+  width: 13px;
+  height: 2px;
+  background: var(--color-ink-3);
+  transform-origin: left center;
+  transform: scaleX(1);
+  transition: transform 360ms var(--ease-out);
+  transition-delay: calc(240ms + var(--k, 0) * 120ms);
+}
+html.reveal-ready .hood:not(.is-in) .hood-link {
+  transform: scaleX(0);
+}

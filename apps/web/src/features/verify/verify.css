@@ -1,0 +1,661 @@
+/* ==================================================================
+   The receipt verifier (/verify, /verify/:id). Tokens only (src/styles/index.css).
+   Motion, each with a purpose: the scan beam (the check is running), the stamp landing (the verdict),
+   the step ticks (what the verifier really does), the document's staggered entry. Transform and opacity only.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ entry */
+.vf-input {
+  flex: none;
+  width: 100%;
+  min-width: 0;
+  height: 52px;
+  padding: 0 1rem;
+  border: 1px solid var(--color-rule-2);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.98rem;
+  font-feature-settings: "zero" 1;
+  transition: border-color 160ms ease;
+}
+.vf-input:is(:focus, :hover) {
+  border-color: var(--color-ink-3);
+}
+@media (min-width: 640px) {
+  .vf-input {
+    flex: 1;
+    width: auto;
+  }
+}
+.vf-input::placeholder {
+  color: var(--color-ink-3);
+}
+.vf-input:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  border-color: var(--color-ink);
+}
+.vf-input[aria-invalid="true"] {
+  border-color: var(--color-stop);
+}
+
+/* the four answers, a 2 x 2 ledger of real stamps */
+.vf-legend {
+  list-style: none;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--color-rule);
+  border-left: 1px solid var(--color-rule);
+}
+.vf-legend > li {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 1.15rem;
+  padding: 1.6rem 1.1rem 1.35rem;
+  border-right: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  overflow: hidden;
+}
+.vf-legend .stamp {
+  font-size: 1.02rem;
+}
+@media (min-width: 640px) {
+  .vf-legend > li {
+    padding: 1.9rem 1.5rem 1.6rem;
+  }
+  .vf-legend .stamp {
+    font-size: 1.32rem;
+  }
+}
+
+.vf-recent-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 64px;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--color-rule);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .vf-recent-row:hover {
+    background: color-mix(in oklab, var(--color-ink) 4%, transparent);
+  }
+}
+.vf-recent-stamp {
+  display: grid;
+  flex: none;
+  width: 7.5rem;
+  place-items: center;
+}
+.vf-recent-stamp .stamp {
+  font-size: 0.86rem;
+}
+@media (min-width: 640px) {
+  .vf-recent-stamp {
+    width: 9rem;
+  }
+  .vf-recent-stamp .stamp {
+    font-size: 1rem;
+  }
+}
+
+/* ------------------------------------------------------------------ the verdict stage: full width, coloured by meaning */
+.vf-stage {
+  /* the xl stamp, sized to its column (the longest word, "Cannot verify", gets a smaller size) */
+  --vf-stamp: clamp(2.3rem, 1.35rem + 2.3vw, 3.5rem);
+  --vf-stamp-long: clamp(1.9rem, 1.15rem + 1.75vw, 2.75rem);
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid var(--color-rule);
+  background: var(--color-sunk);
+}
+.vf-stage[data-kind="authentic"] {
+  background: var(--color-go-wash);
+}
+.vf-stage[data-kind="recalled"] {
+  background: var(--color-stop-wash);
+}
+.vf-stage[data-kind="expired"] {
+  background: var(--color-wait-wash);
+}
+.vf-stage-grid {
+  display: grid;
+  align-items: center;
+  gap: 1.75rem 3.5rem;
+  min-height: clamp(20rem, 46vh, 27rem);
+  padding-block: clamp(2.25rem, 6vw, 4.25rem);
+}
+@media (min-width: 1024px) {
+  .vf-stage-grid {
+    grid-template-columns: minmax(0, 27rem) minmax(0, 1fr);
+  }
+}
+.vf-stamp-slot {
+  display: grid;
+  place-items: center;
+  min-height: 8.5rem;
+}
+.vf-stamp {
+  animation-delay: 90ms;
+}
+.vf-offline {
+  display: grid;
+  place-items: center;
+  width: 7.5rem;
+  height: 7.5rem;
+  border: 1.5px dashed var(--color-rule-2);
+  border-radius: 999px;
+  color: var(--color-ink-3);
+}
+.vf-meaning {
+  margin: 0.65rem 0 0;
+  max-width: 21ch;
+  font-family: var(--font-sans);
+  font-size: clamp(1.85rem, 1.2rem + 2.5vw, 3.2rem);
+  font-weight: 640;
+  font-stretch: 85%;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.vf-meaning:is(:lang(bn), :lang(hi)) {
+  font-stretch: 100%;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.28;
+}
+.vf-sub {
+  margin: 0.9rem 0 0;
+  max-width: 56ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--color-ink-2);
+}
+.vf-notes {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92rem;
+  color: var(--color-ink-2);
+}
+.vf-notes:empty {
+  display: none;
+}
+.vf-notes > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.vf-notes > li > :first-child {
+  flex: none;
+  margin-top: 0.15rem;
+}
+.vf-notes > li > span:last-child {
+  flex: 1;
+  min-width: 0;
+}
+.vf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+@media (max-width: 639px) {
+  .vf-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .vf-actions .btn {
+    padding-inline: 0.6rem;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* checking: this receipt's own QR under a scan beam */
+.vf-scan {
+  position: relative;
+  overflow: hidden;
+  padding: 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+  background: #fcfaf4;
+  box-shadow: var(--shadow-lift);
+}
+.vf-beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 55%, color-mix(in oklab, #1b1a16 10%, transparent));
+  transform: translateY(-100%);
+  animation: vf-beam 760ms var(--ease-in-out) 3 alternate both;
+}
+.vf-beam::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: #1b1a16;
+}
+@keyframes vf-beam {
+  to {
+    transform: translateY(0);
+  }
+}
+.vf-steps {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.vf-steps > li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--color-ink-3);
+  transition: color 200ms ease;
+}
+.vf-steps > li:is([data-state="active"], [data-state="done"]) {
+  color: var(--color-ink);
+}
+.vf-step-tick {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--color-rule-2);
+  border-radius: 999px;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+.vf-steps > li[data-state="active"] .vf-step-tick {
+  border-color: var(--color-ink);
+}
+.vf-steps > li[data-state="done"] .vf-step-tick {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.vf-step-tick > svg {
+  animation: vf-pop 220ms var(--ease-out) both;
+}
+@keyframes vf-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* ------------------------------------------------------------------ the receipt as a document */
+.vf-doc {
+  display: grid;
+  gap: 2.75rem;
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(4rem, 9vw, 6.5rem);
+}
+@media (min-width: 1024px) {
+  .vf-doc {
+    grid-template-columns: minmax(0, 25.5rem) minmax(0, 1fr);
+    align-items: start;
+    gap: 4rem;
+  }
+  .vf-doc-card {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+}
+.vf-doc-card,
+.vf-doc-body > * {
+  animation: vf-in 520ms var(--ease-out) both;
+}
+.vf-doc-body > :nth-child(2) {
+  animation-delay: 60ms;
+}
+.vf-doc-body > :nth-child(3) {
+  animation-delay: 120ms;
+}
+.vf-doc-body > :nth-child(n + 4) {
+  animation-delay: 180ms;
+}
+.vf-in {
+  animation: vf-in 420ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 50ms);
+}
+@keyframes vf-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.vf-sec {
+  padding-block: 1.75rem 2.1rem;
+  border-top: 1px solid var(--color-rule);
+}
+.vf-sec:first-child {
+  padding-top: 0.25rem;
+  border-top: 0;
+}
+.vf-sec-h {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 630;
+  font-stretch: 90%;
+  letter-spacing: -0.01em;
+}
+.vf-sec-h:lang(bn) {
+  font-stretch: 100%;
+  letter-spacing: 0;
+}
+.vf-sec-h > .mono {
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.vf-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+}
+.vf-table {
+  width: 100%;
+  min-width: 660px;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.vf-table :is(th, td) {
+  padding: 0.62rem 0.85rem;
+  border-bottom: 1px solid var(--color-rule);
+  text-align: left;
+  vertical-align: top;
+}
+.vf-table thead th {
+  background: var(--color-sunk);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+.vf-table thead th:lang(bn) {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vf-table tbody th {
+  font-weight: 400;
+}
+.vf-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.vf-table .text-right {
+  text-align: right;
+}
+
+.vf-dl {
+  display: grid;
+  grid-template-columns: minmax(7rem, 9.5rem) minmax(0, 1fr);
+  gap: 0.6rem 1.1rem;
+  font-size: 0.92rem;
+}
+.vf-dl > dt {
+  padding-top: 0.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+.vf-dl > dt:lang(bn) {
+  padding-top: 0;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vf-dl > dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--color-ink);
+}
+@media (max-width: 479px) {
+  .vf-dl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+  .vf-dl > dd {
+    margin-bottom: 0.7rem;
+  }
+}
+
+.vf-param {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  padding: 0.8rem 1rem;
+  border: 1px dashed color-mix(in oklab, var(--color-wait) 50%, transparent);
+  border-radius: var(--radius-ui);
+}
+
+.vf-local {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 1.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  font-size: 0.93rem;
+  color: var(--color-ink-2);
+}
+.vf-local[data-state="ok"] {
+  border-color: color-mix(in oklab, var(--color-go) 45%, transparent);
+  background: var(--color-go-wash);
+  color: var(--color-go);
+}
+.vf-local[data-state="bad"] {
+  border-color: color-mix(in oklab, var(--color-stop) 45%, transparent);
+  background: var(--color-stop-wash);
+  color: var(--color-stop);
+}
+
+.vf-tl {
+  position: relative;
+  display: grid;
+  gap: 1.15rem;
+  padding: 0;
+  list-style: none;
+}
+.vf-tl > li {
+  position: relative;
+  padding-left: 1.8rem;
+}
+.vf-tl > li::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  bottom: calc(-1.15rem + 3px);
+  left: 5px;
+  width: 2px;
+  background: var(--color-rule);
+}
+.vf-tl > li:last-child::before {
+  display: none;
+}
+.vf-tl-dot {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--color-ink-3);
+  border-radius: 999px;
+  background: var(--color-paper);
+}
+.vf-tl > li[data-tone="go"] .vf-tl-dot {
+  border-color: var(--color-go);
+  background: var(--color-go);
+}
+.vf-tl > li[data-tone="stop"] .vf-tl-dot {
+  border-color: var(--color-stop);
+  background: var(--color-stop);
+}
+.vf-tl > li[data-tone="wait"] .vf-tl-dot {
+  border-color: var(--color-wait);
+  background: var(--color-wait);
+}
+
+/* the lower bound against the bar */
+.vf-meter {
+  position: relative;
+  height: 12px;
+}
+.vf-meter-track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 999px;
+  background: var(--color-sunk);
+}
+.vf-meter-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink-3);
+  transform-origin: left center;
+  transition: transform 700ms var(--ease-out);
+}
+.vf-meter-fill[data-over] {
+  background: var(--color-go);
+}
+.vf-meter-bar {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------ camera */
+.vf-cam {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: var(--radius-frame);
+  background: #0f0e0c;
+}
+.vf-cam > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vf-cam-corners {
+  --c: #fcfaf4;
+  --l: 30px;
+  --w: 3px;
+  position: absolute;
+  inset: 15%;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / var(--w) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--w) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--l) no-repeat;
+}
+.vf-cam-beam {
+  position: absolute;
+  inset: 15%;
+  overflow: hidden;
+}
+.vf-cam-beam::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-bottom: 2px solid #fcfaf4;
+  transform: translateY(-100%);
+  animation: vf-beam 1500ms var(--ease-in-out) 4 alternate both;
+}
+
+/* ------------------------------------------------------------------ less motion: no travel, short fades only */
+@media (prefers-reduced-motion: reduce) {
+  .vf-beam,
+  .vf-cam-beam::after {
+    animation: none;
+    opacity: 0;
+  }
+  .vf-page .stamp-land,
+  .vf-doc-card,
+  .vf-doc-body > *,
+  .vf-in,
+  .vf-page .thud {
+    animation-name: vf-fade;
+  }
+}
+html.reduce-motion :is(.vf-beam, .vf-cam-beam::after) {
+  animation: none;
+  opacity: 0;
+}
+html.reduce-motion :is(.vf-page .stamp-land, .vf-doc-card, .vf-doc-body > *, .vf-in, .vf-page .thud) {
+  animation-name: vf-fade;
+  animation-duration: 150ms;
+  animation-delay: 0ms;
+}
+@keyframes vf-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ print: the verdict and the document, nothing else */
+@media print {
+  body:has(.vf-page) #root > header,
+  body:has(.vf-page) #root > footer,
+  body:has(.vf-page) .skip-link {
+    display: none !important;
+  }
+  .vf-stage {
+    border: 0;
+    background: none !important;
+  }
+  .vf-stage-grid {
+    min-height: 0;
+  }
+  .vf-doc-card {
+    position: static !important;
+  }
+  .vf-table-wrap {
+    overflow: visible;
+  }
+  .vf-doc-card,
+  .vf-doc-body > * {
+    animation: none !important;
+  }
+}

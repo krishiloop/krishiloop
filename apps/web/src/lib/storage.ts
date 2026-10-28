@@ -33,6 +33,18 @@ export function writeStore(key: string, value: string | null, kind: Kind = 'loca
   }
 }
 
+/** Remove every key that starts with `prefix`, from the real storage AND the in-memory copy (readStore falls back to it). */
+export function removePrefix(prefix: string, kind: Kind = 'local') {
+  for (const k of [...memory[kind].keys()]) if (k.startsWith(prefix)) memory[kind].delete(k);
+  try {
+    const a = area(kind);
+    if (!a) return;
+    for (const k of Object.keys(a)) if (k.startsWith(prefix)) a.removeItem(k);
+  } catch {
+    /* private mode: the in-memory copy is already cleared */
+  }
+}
+
 export function readJSON<T>(key: string, kind: Kind = 'local'): T | null {
   const raw = readStore(key, kind);
   if (!raw) return null;

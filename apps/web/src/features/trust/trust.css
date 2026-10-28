@@ -1,0 +1,441 @@
+/* /trust: earned trust for photo diagnosis. Tokens only (index.css); motion is transform/opacity (plus SVG clip width),
+   finite, and reduced-motion safe. */
+
+/* ------------------------------------------------------------------ hero meter */
+.tp-meter {
+  position: relative;
+}
+.tp-track {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--color-sunk);
+  border: 1px solid var(--color-rule);
+  overflow: hidden;
+}
+.tp-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink);
+  transform-origin: left center;
+  transform: scaleX(var(--p, 0));
+}
+.tp-fill[data-open="true"] {
+  background: var(--color-go);
+}
+.tp-notch {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  left: calc(var(--x) * 100%);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-ink);
+}
+.tp-notch[data-kind="close"] {
+  background: repeating-linear-gradient(to bottom, var(--color-stop) 0 3px, transparent 3px 6px);
+}
+.tp-hero-run .tp-fill {
+  animation: tp-fill 1500ms var(--ease-out) 250ms both;
+}
+@keyframes tp-fill {
+  from {
+    transform: scaleX(var(--from, 0));
+  }
+}
+.tp-lock {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+}
+.tp-hero-run .tp-lock-pop {
+  animation: tp-pop 420ms var(--ease-stamp) 1250ms both;
+}
+@keyframes tp-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* ------------------------------------------------------------------ policy tiles */
+.tp-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--color-rule);
+}
+@media (min-width: 900px) {
+  .tp-tiles {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.tp-tile {
+  padding: 18px 16px 18px 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+.tp-tile + .tp-tile {
+  padding-left: 16px;
+  border-left: 1px solid var(--color-rule);
+}
+@media (max-width: 899px) {
+  .tp-tile:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .tp-tile:last-child {
+    grid-column: 1 / -1;
+  }
+}
+.tp-big {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-stretch: 82%;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.1rem, 1.6rem + 1.6vw, 2.9rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* the tier ladder */
+.tp-tier {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 4px 14px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+@media (min-width: 640px) {
+  .tp-tier {
+    grid-template-columns: 3.2rem 1fr auto;
+  }
+}
+
+/* "how strict is the bar": dot rows */
+.tp-dots {
+  display: grid;
+  grid-template-columns: repeat(25, minmax(0, 1fr));
+  gap: 3px;
+  max-width: 340px;
+}
+.tp-dots i {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--color-ink);
+}
+.tp-dots i[data-miss="true"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--color-stop);
+}
+
+/* ------------------------------------------------------------------ the replay chart */
+.tp-stage {
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 1024px) {
+  .tp-stage {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 28px;
+  }
+}
+.tp-chart-wrap {
+  position: relative;
+  min-width: 0;
+}
+.tp-chart {
+  display: block;
+  overflow: visible;
+  touch-action: pan-y;
+}
+.tp-chart text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--color-ink-3);
+}
+.tp-chart .tp-grid {
+  stroke: var(--color-rule);
+  stroke-width: 1;
+}
+.tp-chart .tp-axis {
+  stroke: var(--color-rule-2);
+  stroke-width: 1;
+}
+.tp-chart .tp-bar {
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.tp-chart .tp-close {
+  stroke: var(--color-stop);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+.tp-chart .tp-bar-label {
+  fill: var(--color-ink);
+  font-weight: 600;
+}
+.tp-chart .tp-close-label {
+  fill: var(--color-stop);
+  font-weight: 600;
+}
+.tp-chart .tp-hatch line {
+  stroke: var(--color-rule-2);
+  stroke-width: 1;
+}
+.tp-chart .tp-open-zone {
+  fill: var(--color-go-wash);
+}
+.tp-chart .tp-curve {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2.25;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.tp-chart .tp-area {
+  fill: var(--color-ink);
+  opacity: 0.06;
+}
+.tp-chart .tp-head {
+  stroke: var(--color-ink);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+.tp-chart .tp-dot {
+  fill: var(--color-card);
+  stroke: var(--color-ink);
+  stroke-width: 2;
+}
+.tp-chart .tp-zone-label {
+  fill: var(--color-ink-3);
+}
+.tp-chart .tp-open-label {
+  fill: var(--color-go);
+  font-weight: 600;
+}
+/* the gate marker pops once when the playhead crosses it (DESIGN.md: "the gate marker pops; one time only") */
+.tp-marker {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tp-marker[data-on="true"] {
+  opacity: 1;
+}
+.tp-marker[data-pop="true"] {
+  animation: tp-pop 420ms var(--ease-stamp) both;
+}
+.tp-marker circle.ring {
+  fill: var(--color-card);
+  stroke: var(--color-go);
+  stroke-width: 2.5;
+}
+.tp-marker circle.core {
+  fill: var(--color-go);
+}
+.tp-marker-label {
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+}
+.tp-marker-label[data-on="true"] {
+  opacity: 1;
+}
+
+/* the play button and the scrubber */
+.tp-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.tp-range {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  accent-color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* the readout beside the chart */
+.tp-readout dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+.tp-readout dl > div {
+  padding: 12px 0;
+  border-top: 1px solid var(--color-rule);
+}
+.tp-readout dl > div:nth-child(even) {
+  padding-left: 14px;
+}
+@media (min-width: 1024px) {
+  .tp-readout dl {
+    grid-template-columns: 1fr;
+  }
+  .tp-readout dl > div:nth-child(even) {
+    padding-left: 0;
+  }
+}
+.tp-readout dt {
+  font-size: 0.8rem;
+  color: var(--color-ink-3);
+}
+.tp-readout dd {
+  margin: 2px 0 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "zero" 1;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+.tp-gate {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-rule-2);
+  font-weight: 600;
+  color: var(--color-ink-2);
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+.tp-gate[data-open="true"] {
+  color: var(--color-go);
+  border-color: color-mix(in oklab, var(--color-go) 45%, transparent);
+  background: var(--color-go-wash);
+}
+
+/* ------------------------------------------------------------------ area cards (they choose the replayed area) */
+.tp-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (min-width: 900px) {
+  .tp-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+.tp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 44px;
+  padding: 14px;
+  text-align: left;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+  cursor: pointer;
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+.tp-card:active {
+  transform: scale(0.98);
+}
+.tp-card[aria-pressed="true"] {
+  border-color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tp-card:hover {
+    border-color: var(--color-rule-2);
+  }
+  .tp-card[aria-pressed="true"]:hover {
+    border-color: var(--color-ink);
+  }
+}
+.tp-spark {
+  display: block;
+  width: 100%;
+  height: 38px;
+  overflow: visible;
+}
+.tp-spark path {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.tp-spark line {
+  stroke: var(--color-ink-3);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.tp-spark circle {
+  fill: var(--color-go);
+}
+
+/* ------------------------------------------------------------------ sandbox + details */
+.tp-notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px dashed var(--color-rule-2);
+  border-radius: var(--radius-ui);
+  color: var(--color-ink-2);
+}
+.tp-more > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+}
+.tp-more > summary::-webkit-details-marker {
+  display: none;
+}
+.tp-more > summary .tp-chev {
+  transition: transform 200ms var(--ease-out);
+}
+.tp-more[open] > summary .tp-chev {
+  transform: rotate(90deg);
+}
+.tp-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tp-list li {
+  position: relative;
+  padding: 10px 0 10px 22px;
+  border-top: 1px solid var(--color-rule);
+}
+.tp-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 1.15em;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--color-ink-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-hero-run .tp-fill,
+  .tp-hero-run .tp-lock-pop,
+  .tp-marker[data-pop="true"] {
+    animation: none;
+  }
+  .tp-card:active {
+    transform: none;
+  }
+}
+.tp-big-sm {
+  font-size: 2rem;
+}
+

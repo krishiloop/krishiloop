@@ -5,11 +5,13 @@ import { fetchDemoInbox } from '../../lib/api/client';
 import type { InboxItem, Plan } from '../../lib/api/types';
 
 /**
- * Officer inbox state.
- *  - live: the cases of this tab's demo sandbox (GET /api/demo/{sid}/inbox, no token), plus photo cases the phone kept
- *    for itself. The real officer inbox (GET /api/inbox) needs an officer account, which is planned.
- *  - sample (API unreachable, or ?sample=1): the SAMPLE cases plus any abstention the farmer app produced on this device.
- * Resolutions are kept in this browser only: the sandbox has no resolve endpoint.
+ * The officer inbox.
+ *  - live: this tab's demo-sandbox cases (GET /api/demo/{sid}/inbox, no token), plus photo cases the phone kept for itself.
+ *  - recorded (API unreachable, or ?sample=1): the recorded inbox of our server, plus abstentions the farmer app showed here.
+ * Resolving is kept in THIS browser only: the official resolve endpoint (POST /api/inbox/{id}/resolve) needs an officer's
+ * admin token, which a public demo never holds. The screens say so.
+ *
+ * `registerCase`, `registerPhotoCase`, `updatePhotoCase` and `withdrawPhotoCase` are called by the farmer app.
  */
 interface Overlay {
   resolved: Record<string, { note: string; at: string; by: string }>;
@@ -22,21 +24,24 @@ const empty: Overlay = { resolved: {}, reopened: [], fromPlans: [] };
 const overlay = createStore<Overlay>(readJSON<Overlay>(KEY) ?? empty);
 overlay.subscribe(() => writeJSON(KEY, overlay.get()));
 
+export type InboxLoad = 'idle' | 'loading' | 'ready' | 'error';
 interface Remote {
-  /** the sandbox's cases; null while sample data is what is shown */
+  /** the sandbox's cases; null while the recorded cases are what is shown */
   items: InboxItem[] | null;
-  loading: boolean;
+  load: InboxLoad;
+  /** live: from the sandbox; recorded: the recorded inbox */
+  source: 'live' | 'recorded' | null;
 }
-const remote = createStore<Remote>({ items: null, loading: false });
+const remote = createStore<Remote>({ items: null, load: 'idle', source: null });
 
-/** Fetch this session's cases. On any failure (or sample mode) the sample cases stay on screen. */
+/** Fetch this session's cases. Any failure leaves the recorded cases on screen, labelled. */
 export async function loadInbox(): Promise<void> {
-  remote.set((r) => ({ ...r, loading: true }));
+  remote.set((r) => ({ ...r, load: r.load === 'ready' ? 'ready' : 'loading' }));
   try {
     const res = await fetchDemoInbox();
-    remote.set({ items: res.source === 'live' ? res.data : null, loading: false });
+    remote.set({ items: res.source === 'live' ? res.data : null, load: 'ready', source: res.source === 'live' ? 'live' : 'recorded' });
   } catch {
-    remote.set({ items: null, loading: false });
+    remote.set({ items: null, load: 'error', source: 'recorded' });
   }
 }
 
@@ -66,9 +71,9 @@ export function registerCase(plan: Plan, farmerLabel: string) {
 }
 
 /**
- * A photo reading that went to the officer: the model was not sure enough to act (`low_confidence`), or the farmer asked
- * for a second opinion (`farmer_requested`). The photo itself is NOT sent (it never leaves the phone): the case carries
- * the labels, the probabilities and the diagnosis id, which is what the diagnosis receipt names.
+ * A photo reading that went to the officer from the on-device check: not sure enough (`low_confidence`), or the farmer
+ * asked for a second opinion (`farmer_requested`). The photo never leaves the phone: the case carries the labels, the
+ * probabilities and the diagnosis id.
  */
 export function registerPhotoCase(opts: {
   fieldId: string;
@@ -92,14 +97,8 @@ export function registerPhotoCase(opts: {
           bn: `নমুনা ছবির ফলাফল (স্ক্রিপ্ট করা উদাহরণ, মডেলের ফল নয়): ${asked ? 'কৃষক দ্বিতীয় মতামত চেয়েছেন।' : 'নিশ্চিত ছিল না, তাই অনুমান করেনি।'}`,
         }
       : asked
-        ? {
-            en: 'The farmer asked for a second opinion on a photo reading from the on-device model.',
-            bn: 'কৃষক ফোনের মডেলের ছবির ফলাফলে দ্বিতীয় মতামত চেয়েছেন।',
-          }
-        : {
-            en: 'Low-confidence photo reading: the on-device model was not sure, so it did not guess.',
-            bn: 'ছবির ফলাফলে আত্মবিশ্বাস কম: ফোনের মডেল নিশ্চিত ছিল না, তাই অনুমান করেনি।',
-          },
+        ? { en: 'The farmer asked for a second opinion on a photo reading from the on-device model.', bn: 'কৃষক ফোনের মডেলের ছবির ফলাফলে দ্বিতীয় মতামত চেয়েছেন।' }
+        : { en: 'Low-confidence photo reading: the on-device model was not sure, so it did not guess.', bn: 'ছবির ফলাফলে আত্মবিশ্বাস কম: ফোনের মডেল নিশ্চিত ছিল না, তাই অনুমান করেনি।' },
     diagnosis_id: opts.diagnosisId ?? `dx-local-${id.slice(-8)}`,
     top_labels: opts.top.slice(0, 3),
     question: null,
@@ -129,20 +128,13 @@ export function updatePhotoCase(id: string, patch: { top: { label: string; prob:
 export function withdrawPhotoCase(id: string, note: string) {
   const cur = overlay.get();
   if (!cur.fromPlans.some((c) => c.item_id === id)) return;
-  overlay.set({
-    ...cur,
-    resolved: { ...cur.resolved, [id]: { note, at: new Date().toISOString(), by: 'Farmer app' } },
-    reopened: cur.reopened.filter((x) => x !== id),
-  });
+  overlay.set({ ...cur, resolved: { ...cur.resolved, [id]: { note, at: new Date().toISOString(), by: 'farmer-app' } }, reopened: cur.reopened.filter((x) => x !== id) });
 }
 
+/** Resolve in this browser only (`by: 'demo-officer'`; the screens say who in their own words). */
 export function resolveCase(id: string, note: string) {
   const cur = overlay.get();
-  overlay.set({
-    ...cur,
-    resolved: { ...cur.resolved, [id]: { note, at: new Date().toISOString(), by: 'Sample officer' } },
-    reopened: cur.reopened.filter((x) => x !== id),
-  });
+  overlay.set({ ...cur, resolved: { ...cur.resolved, [id]: { note, at: new Date().toISOString(), by: 'demo-officer' } }, reopened: cur.reopened.filter((x) => x !== id) });
 }
 
 export function reopenCase(id: string) {
@@ -153,10 +145,13 @@ export function reopenCase(id: string) {
 }
 
 /** A case the phone made for itself (never sent): its id starts `inbox-photo-`. */
-const isLocalPhotoCase = (id: string) => id.startsWith('inbox-photo-');
+export const isLocalCase = (id: string) => id.startsWith('inbox-photo-');
+export const isRecordedCase = (id: string) => MOCK_INBOX.some((c) => c.item_id === id);
+/** Resolved here, in this browser (not on the server). */
+export const isResolvedHere = (id: string) => id in overlay.get().resolved;
 
 function merge(o: Overlay, live: InboxItem[] | null): InboxItem[] {
-  const base = live ? [...o.fromPlans.filter((c) => isLocalPhotoCase(c.item_id)), ...live] : [...o.fromPlans, ...MOCK_INBOX];
+  const base = live ? [...o.fromPlans.filter((c) => isLocalCase(c.item_id)), ...live] : [...o.fromPlans, ...MOCK_INBOX];
   return base
     .map((it): InboxItem => {
       const r = o.resolved[it.item_id];
@@ -167,17 +162,20 @@ function merge(o: Overlay, live: InboxItem[] | null): InboxItem[] {
     .sort((a, b) => b.created_at.localeCompare(a.created_at));
 }
 
+let cache: { o: Overlay; r: InboxItem[] | null; out: InboxItem[] } | null = null;
+const merged = (o: Overlay, r: InboxItem[] | null) => {
+  if (cache && cache.o === o && cache.r === r) return cache.out;
+  cache = { o, r, out: merge(o, r) };
+  return cache.out;
+};
+
 export const useInbox = (): InboxItem[] => {
   const o = overlay.use();
   const r = remote.use();
-  return merge(o, r.items);
+  return merged(o, r.items);
 };
 
-/** `live`: the cases come from the demo sandbox; otherwise they are sample cases. */
-export const useInboxMeta = (): { live: boolean; loading: boolean } => {
+export const useInboxMeta = (): { live: boolean; load: InboxLoad; source: Remote['source'] } => {
   const r = remote.use();
-  return { live: r.items !== null, loading: r.loading };
+  return { live: r.items !== null, load: r.load, source: r.source };
 };
-
-export const isSampleCase = (id: string) => MOCK_INBOX.some((c) => c.item_id === id);
-export const isLocalCase = isLocalPhotoCase;

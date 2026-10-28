@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildChart, gateWindows, nearestIndex, niceTicks, parsePoints, readoutAt, replayStats, shapeArea, shapeReplay, stageRows, type ChartBox, type ReplayPoint } from './replay';
 import { POLICY_V1, policyFromSettings, requiredRight, wilsonLowerBound } from './policy';
-import { buildSampleReplay } from './sampleReplay';
+import recordedReplay from '../../data/recorded/area-trust-replay.json';
 import type { ReplayArea, ReplayPayload } from '../../lib/api/types';
 
 /** A small hand-made replay area: 6 points, the bound counted from the 3rd, the gate opens after 4 verdicts. */
@@ -166,25 +166,23 @@ describe('the whole payload', () => {
     expect(shapeReplay({ areas: {} })).toBeNull();
     expect(shapeReplay({ areas: { bioclip2: { 'BD-A': { points: [], summary: {} } } } })).toBeNull();
   });
-  it('shapes the invented sample replay too: four areas, all with a counted bound; one never opens, one drifts and closes', () => {
-    const r = shapeReplay(buildSampleReplay())!;
+  it('shapes the real bundled replay (ml/vision/artifacts/area_trust_replay.json): four areas, each opens once, none closes', () => {
+    const r = shapeReplay(recordedReplay)!;
     expect(r.areas.map((a) => a.key)).toEqual(['BD-A', 'BD-C', 'BD-D', 'BD-E']);
+    expect(r.policy).toEqual(POLICY_V1);
     for (const a of r.areas) {
-      expect(a.points.length).toBeGreaterThan(20);
-      expect(a.points.length).toBeLessThanOrEqual(310);
       expect(a.firstBound).not.toBeNull();
+      expect(a.closings).toEqual([]);
       expect(a.points.every((p, i, all) => i === 0 || p.verdicts > all[i - 1]!.verdicts)).toBe(true);
     }
-    const by = (k: string) => r.areas.find((a) => a.key === k)!;
-    expect(by('BD-A').openAt).toBeNull();
-    expect(replayStats(by('BD-A')).neverOpened).toBe(true);
-    for (const k of ['BD-C', 'BD-D', 'BD-E']) expect(by(k).openAt).not.toBeNull();
-    expect(by('BD-E').closings.length).toBeGreaterThan(0);
-    expect(replayStats(by('BD-E')).closings).toBeGreaterThan(0);
-    expect(by('BD-D').closings).toEqual([]);
+    const opened = Object.fromEntries(r.areas.map((a) => [a.key, a.openAt]));
+    expect(opened).toEqual({ 'BD-A': 229, 'BD-C': 126, 'BD-D': 93, 'BD-E': 328 });
+    const d = replayStats(r.areas.find((a) => a.key === 'BD-D')!);
+    expect(d.autoShare).toBeCloseTo(0.8592, 4);
+    expect(d.autoPrecision).toBeCloseTo(0.9957, 4);
   });
-  it('the sample never contains a counted bound before 30 sure answers, and the bound never leaves 0..1', () => {
-    for (const a of shapeReplay(buildSampleReplay())!.areas) for (const p of a.points) if (p.lb !== null) expect(p.lb).toBeGreaterThanOrEqual(0), expect(p.lb).toBeLessThanOrEqual(1);
+  it('the real replay never counts a bound outside 0..1', () => {
+    for (const a of shapeReplay(recordedReplay)!.areas) for (const p of a.points) if (p.lb !== null) expect(p.lb).toBeGreaterThanOrEqual(0), expect(p.lb).toBeLessThanOrEqual(1);
   });
 });
 
@@ -250,6 +248,17 @@ describe('chart geometry', () => {
     const g = buildChart(model(), POLICY_V1, BOX);
     expect(g.at(2)).toEqual({ x: g.x(3), y: g.y(0.7) });
     expect(g.at(0).y).toBeNull();
+  });
+  it('can start the y axis at 0.5 (the trust page) without moving the bar or the points', () => {
+    const g = buildChart(model(), POLICY_V1, BOX, 0.5);
+    expect(g.y(1)).toBe(10);
+    expect(g.y(0.5)).toBe(170);
+    expect(g.y(0.2)).toBe(170); // clamped to the floor
+    expect(g.y(0.75)).toBe(90);
+    expect(g.yTicks).toEqual([0.5, 0.6, 0.7, 0.8, 0.9, 1]);
+    expect(g.bar.y).toBe(g.y(0.85));
+    expect(g.fill.endsWith(`${g.y(0.5)}Z`)).toBe(true);
+    expect(buildChart(model(), POLICY_V1, BOX).yTicks).toEqual([0, 0.25, 0.5, 0.75, 1]);
   });
   it('finds the point nearest to a position on the axis', () => {
     const m = model();

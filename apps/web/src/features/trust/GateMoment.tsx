@@ -1,17 +1,18 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { AuthenticSeal, WithdrawnSeal } from '../verify/Stamp';
+import { ArrowRight, Lock, LockOpen } from 'lucide-react';
+import { Chip } from '../../ui/Chip';
 import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { useMotionReduced } from '../../lib/motionPref';
 import type { GateEvent } from '../../lib/api/types';
 import { POLICY_V1, type Policy } from './policy';
+import './meter.css';
 
 /**
- * A gate event is a moment, not a row in a list: the seal draws itself for "Trust earned", a cross draws for "Trust
- * withdrawn", and the text says what changed for farmers in that area. It links to the credential, which anyone can verify.
- * Quiet by design: no confetti, no bounce. The only motion is the seal drawing and one short buzz on a withdrawal.
+ * A gate event is a moment, not a row in a list: the lock pops open for "Trust earned" and shut for "Trust withdrawn",
+ * and the text says what changed for farmers in that area. It links to the credential, which anyone can verify.
+ * Quiet by design: no confetti. The only motion is the lock popping once, and one short buzz on a withdrawal.
  */
 export function GateMoment({ event, area, credentialId, policy = POLICY_V1 }: { event: GateEvent; area: string; credentialId: string | null; policy?: Policy }) {
   const { t, lang } = useI18n();
@@ -47,26 +48,26 @@ export function GateMoment({ event, area, credentialId, policy = POLICY_V1 }: { 
   return (
     <section className="gm" data-event={event.event} role="status" aria-live="polite" data-testid="gate-moment" data-play="true">
       <div className="gm-art" aria-hidden>
-        {opened ? <AuthenticSeal play /> : <WithdrawnSeal play />}
+        {opened ? <LockOpen size={26} strokeWidth={1.8} /> : <Lock size={26} strokeWidth={1.8} />}
       </div>
-      <div className="gm-copy">
-        <h3 className="display gm-title" data-testid="gate-moment-title">
+      <div className="min-w-0">
+        <h3 className="t-head gm-title" data-testid="gate-moment-title">
           {t(opened ? 'trust.moment.opened' : 'trust.moment.closed', { area })}
         </h3>
         <p className="gm-body">{body}</p>
-        <p className="gm-chips">
-          <span className="chip chip-mono tabular">
+        <p className="m-0 mt-3 flex flex-wrap gap-2">
+          <Chip>
             {t('trust.meter.bound')} {two(event.lower_bound)}
-          </span>
-          <span className="chip chip-mono tabular">{t('trust.moment.chip.sure', { n: fmtNum(event.sure_in_window, lang) })}</span>
+          </Chip>
+          <Chip>{t('trust.moment.chip.sure', { n: fmtNum(event.sure_in_window, lang) })}</Chip>
         </p>
         {credentialId ? (
-          <Link to={`/verify/${encodeURIComponent(credentialId)}`} className="btn btn-sun btn-sm gm-link" data-testid="gate-moment-verify">
+          <Link to={`/verify/${encodeURIComponent(credentialId)}`} className="btn btn-secondary mt-3" data-testid="gate-moment-verify">
             {t(opened ? 'trust.moment.verify' : 'trust.moment.verifyWithdrawn')} <ArrowRight size={15} aria-hidden />
           </Link>
         ) : null}
       </div>
-      <span className="sr-only">{t(opened ? 'trust.moment.sr.opened' : 'trust.moment.sr.closed', { area })}</span>
+      <span className="sr-only-live">{t(opened ? 'trust.moment.sr.opened' : 'trust.moment.sr.closed', { area })}</span>
     </section>
   );
 }

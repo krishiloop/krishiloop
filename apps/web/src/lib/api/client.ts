@@ -15,13 +15,13 @@
  * The session id is kept in sessionStorage (one sandbox per browser tab). If the server forgot it (restart, 24 h
  * expiry) the next call makes a new one, and the plans saved for the old one are dropped.
  *
- * When the API is unreachable (network error, 5xx from the dev proxy, timeout) every call falls back to the bundled
- * sample JSON (mocks.ts) and the result says so: `source: 'sample'`. 4xx answers are real answers (e.g. unknown field)
- * and are surfaced as errors, never hidden behind samples.
+ * When the API is unreachable (network error, 5xx from the dev proxy, timeout) every call falls back to RECORDED real
+ * answers of our own server (mocks.ts -> src/data/recorded) and the result says so: `source: 'sample'`, shown in the UI
+ * as "Recorded <date>". 4xx answers are real answers (e.g. unknown field) and are surfaced as errors, never hidden.
  */
 import { createStore } from '../store';
-import { queryParam, readStore, writeStore } from '../storage';
-import { MOCK_DEMO, isSampleId, mockPlan, mockSnapshot, mockVerify, simulateRecall } from './mocks';
+import { queryParam, readStore, removePrefix, writeStore } from '../storage';
+import { MOCK_DEMO, MOCK_INBOX, isSampleId, mockPlan, mockSnapshot, mockVerify, simulateRecall } from './mocks';
 import type { DataSource, DemoPayload, DidDocument, Diagnosis, FieldSnapshot, InboxItem, PackInfo, Plan, Sourced, Stats, VerifyResponse } from './types';
 
 export class HttpError extends Error {
@@ -90,8 +90,8 @@ function describe(e: unknown): string {
   return 'network';
 }
 
-async function sourced<T>(live: () => Promise<T>, sample: () => T): Promise<Sourced<T>> {
-  if (apiStore.get().forced) return { data: sample(), source: 'sample', note: 'forced' };
+async function sourced<T>(live: () => Promise<T>, sample: () => T | Promise<T>): Promise<Sourced<T>> {
+  if (apiStore.get().forced) return { data: await sample(), source: 'sample', note: 'forced' };
   try {
     const data = await live();
     apiStore.set((s) => (s.mode === 'live' && s.reason === null ? s : { ...s, mode: 'live', reason: null }));
@@ -99,7 +99,7 @@ async function sourced<T>(live: () => Promise<T>, sample: () => T): Promise<Sour
   } catch (e) {
     if (isUnreachable(e)) {
       apiStore.set((s) => ({ ...s, mode: 'sample', reason: describe(e) }));
-      return { data: sample(), source: 'sample', note: describe(e) };
+      return { data: await sample(), source: 'sample', note: describe(e) };
     }
     throw e;
   }
@@ -118,10 +118,10 @@ let sessionCall: Promise<string> | null = null;
 export const currentSessionId = () => sessionStore.get();
 export const useSessionId = () => sessionStore.use();
 
-/** Drop the plans saved for the sandbox (they belong to it). */
+/** Drop the plans saved for the sandbox (they belong to it), from sessionStorage and its in-memory copy alike. */
 export function clearSavedPlans() {
   try {
-    for (const k of Object.keys(sessionStorage)) if (k.startsWith(PLAN_CACHE_PREFIX)) sessionStorage.removeItem(k);
+    removePrefix(PLAN_CACHE_PREFIX, 'session');
   } catch {
     /* storage unavailable */
   }
@@ -186,12 +186,12 @@ export const fetchDemo = () => sourced(() => request<DemoPayload>('/api/demo'), 
  *  - `photoCaseId` (a server photo case answered automatically, `pc-...`): the server builds the diagnosis from its own
  *    case, so the plan can use the area's earned trust. Sandbox only. A 409 means that case was not answered automatically.
  */
-export function fetchPlan(fieldId: string, profileId: string, opts: { money?: boolean; sample?: boolean; diagnosis?: Diagnosis; official?: boolean; photoCaseId?: string } = {}): Promise<Sourced<Plan>> {
-  if (opts.sample) return Promise.resolve({ data: mockPlan(fieldId, profileId, opts.money), source: 'sample' as DataSource, note: 'scenario' });
+export async function fetchPlan(fieldId: string, profileId: string, opts: { sample?: boolean; diagnosis?: Diagnosis; official?: boolean; photoCaseId?: string } = {}): Promise<Sourced<Plan>> {
+  if (opts.sample) return { data: await mockPlan(fieldId, profileId), source: 'sample' as DataSource, note: 'scenario' };
   const body = JSON.stringify({ field_id: fieldId, profile_id: profileId, ...(opts.diagnosis ? { diagnosis: opts.diagnosis } : {}), ...(opts.photoCaseId ? { photo_case_id: opts.photoCaseId } : {}) });
   return sourced(
     () => (opts.official ? request<Plan>('/api/plan', { method: 'POST', body }, 30000) : sandbox<Plan>('/plan', { method: 'POST', body }, 30000)),
-    () => mockPlan(fieldId, profileId, opts.money),
+    () => mockPlan(fieldId, profileId),
   );
 }
 
@@ -201,7 +201,7 @@ export function fetchPlan(fieldId: string, profileId: string, opts: { money?: bo
  * calendar says there is no forecast. Only sample plans use the bundled copy.
  */
 export async function fetchSnapshot(plan: Plan, planSource: DataSource): Promise<Sourced<FieldSnapshot | null>> {
-  if (planSource === 'sample' || apiStore.get().forced) return { data: mockSnapshot(plan.field_id), source: 'sample', note: 'bundled-snapshot' };
+  if (planSource === 'sample' || apiStore.get().forced) return { data: await mockSnapshot(plan.snapshot_id, plan.field_id), source: 'sample', note: 'recorded-snapshot' };
   try {
     const data = await request<FieldSnapshot>(`/api/snapshots/${encodeURIComponent(plan.snapshot_id)}`);
     return { data, source: 'live' };
@@ -219,10 +219,10 @@ export type VerifyOutcome =
 /** GET /api/verify/{id}. The page renders only `credential` from this one answer: there is no second fetch. */
 export async function verifyReceipt(id: string): Promise<VerifyOutcome> {
   if (isSampleId(id)) {
-    const r = mockVerify(id);
+    const r = await mockVerify(id);
     if (r) return { ...r, source: 'sample' };
   }
-  if (apiStore.get().forced) return { status: 'unreachable', reason: 'sample mode is on: only sample receipts can be checked', source: 'none' };
+  if (apiStore.get().forced) return { status: 'unreachable', reason: 'sample mode is on: only recorded receipts can be checked', source: 'none' };
   try {
     const r = await request<VerifyResponse>(`/api/verify/${encodeURIComponent(id)}`);
     apiStore.set((s) => (s.mode === 'live' ? s : { ...s, mode: 'live', reason: null }));
@@ -275,7 +275,7 @@ export async function recallRule(ruleId: string, version: number, opts: { reason
 export async function fetchDemoInbox(): Promise<Sourced<InboxItem[]>> {
   return sourced(
     async () => (await sandbox<{ items: InboxItem[] }>('/inbox')).items,
-    () => [],
+    () => MOCK_INBOX.map((i) => ({ ...i })),
   );
 }
 

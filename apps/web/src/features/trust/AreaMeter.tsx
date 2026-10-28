@@ -1,17 +1,18 @@
 import { Lock, LockOpen } from 'lucide-react';
 import type { CSSProperties } from 'react';
-import { AnimatedNumber } from '../../components/ui/AnimatedNumber';
+import { Chip } from '../../ui/Chip';
 import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { cx } from '../../lib/cx';
 import type { AreaStats } from '../../lib/api/types';
 import { meterView } from './gate';
 import { POLICY_V1, type Policy } from './policy';
+import './meter.css';
 
 /**
  * One area's evidence as an instrument: how many sure answers the officers have judged, and a bar for the cautious lower
- * bound with the line the gate waits for. The same component serves the farmer card (compact), the officer's detail, the
- * trust panel and the area strip, so a number never reads differently on two screens.
+ * bound with the line the gate waits for. The same component serves the farmer card (compact), the officer's detail and
+ * the trust page, so a number never reads differently on two screens.
  *
  * Honest by construction: until 30 sure answers are counted the bound is drawn hatched and labelled "not counted yet",
  * because a high bound on a handful of answers cannot open the gate. The fill slides (transform only) when the numbers
@@ -29,7 +30,7 @@ export function AreaMeter({ area, stats, compact = false, policy = POLICY_V1, cl
     return (
       <div className={cx('am', className)} data-compact={compact} aria-busy="true" data-testid="area-meter-loading">
         <div className="skeleton h-6 w-1/2" />
-        <div className="skeleton mt-4 h-3.5 w-full" />
+        <div className="skeleton h-3.5 w-full" />
       </div>
     );
   }
@@ -37,13 +38,13 @@ export function AreaMeter({ area, stats, compact = false, policy = POLICY_V1, cl
   return (
     <section className={cx('am', className)} data-phase={m.phase} data-compact={compact} data-testid="area-meter" aria-label={`${t('trust.title')}: ${area}`}>
       <div className="am-head">
-        <span className="chip chip-mono" data-testid="am-area">
+        <span className="mono text-[0.8rem] text-ink-2" data-testid="am-area">
           {area}
         </span>
-        <span className="chip" data-tone={m.gateOpen ? 'go' : undefined} data-open={m.gateOpen} data-testid="am-gate">
+        <Chip tone={m.gateOpen ? 'go' : 'neutral'} data-open={m.gateOpen} data-testid="am-gate">
           {m.gateOpen ? <LockOpen size={12} aria-hidden /> : <Lock size={12} aria-hidden />}
           {m.gateOpen ? t('trust.meter.gate.open') : t('trust.meter.gate.closed')}
-        </span>
+        </Chip>
       </div>
 
       <div className="am-wrap">
@@ -62,23 +63,16 @@ export function AreaMeter({ area, stats, compact = false, policy = POLICY_V1, cl
       <dl className="am-stats">
         <div>
           <dt>{t('trust.meter.verdicts')}</dt>
-          <dd className="tabular" data-testid="am-verdicts">
-            <AnimatedNumber value={m.verdicts} format={(n) => fmtNum(Math.round(n), lang)} />
-          </dd>
+          <dd data-testid="am-verdicts">{fmtNum(m.verdicts, lang)}</dd>
         </div>
         <div>
           <dt>{t('trust.meter.sure')}</dt>
-          <dd className="tabular" data-testid="am-sure">
-            {t('trust.meter.sureOf', { n: fmtNum(m.sure, lang), need: fmtNum(m.need, lang) })}
-            <span className="am-mini" aria-hidden>
-              <span style={{ ['--p' as string]: m.sureProgress } as CSSProperties} />
-            </span>
-          </dd>
+          <dd data-testid="am-sure">{t('trust.meter.sureOf', { n: fmtNum(m.sure, lang), need: fmtNum(m.need, lang) })}</dd>
         </div>
         <div>
           <dt>{t('trust.meter.bound')}</dt>
-          <dd className="tabular" data-testid="am-bound">
-            <AnimatedNumber value={m.lowerBound} format={two} />
+          <dd data-testid="am-bound">
+            {two(m.lowerBound)}
             <small>{t('trust.meter.bar', { bar })}</small>
             {!m.counted ? <span className="am-flag">{t('trust.meter.provisional')}</span> : null}
           </dd>

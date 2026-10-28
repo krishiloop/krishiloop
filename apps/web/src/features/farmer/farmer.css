@@ -1,0 +1,968 @@
+/* The farmer app (/app). Tokens only (src/styles/index.css); motion is transform and opacity only (DESIGN.md).
+   Every animation here has a stated purpose next to it. Reduced motion keeps short fades and drops all travel.
+   Class names are prefixed fa- so nothing leaks. (The base element rules now sit in @layer base, so the .btn-*
+   primitives style buttons correctly and no button overrides are needed here.) */
+
+/* farmer app: every control is at least 48 px tall (DESIGN.md farmer-control-min) */
+.fa-stage .btn {
+  --btn-h: 48px;
+}
+
+/* ================================================================ frame
+   Phones: one column (440 px at most), the page scrolls, the tabs stay at the bottom (thumb reach).
+   1024 px and up: a glass-box demo in three columns; the app sits in a quiet device frame and scrolls inside it. */
+.fa-device {
+  background-color: var(--color-paper);
+  background-image: var(--paper-grain);
+}
+.fa-panel {
+  padding: 20px 16px 32px;
+}
+@media (max-width: 1023.98px) {
+  .fa-device {
+    max-width: 440px;
+    min-height: 100dvh;
+    margin-inline: auto;
+  }
+  .fa-tabbar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 40;
+    max-width: 440px;
+    margin-inline: auto;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .fa-scroll {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (min-width: 1024px) {
+  .fa-stage {
+    display: grid;
+    grid-template-columns: minmax(250px, 320px) minmax(380px, 420px) minmax(280px, 1fr);
+    gap: clamp(20px, 2.4vw, 40px);
+    align-items: stretch;
+    max-width: 1480px;
+    height: calc(100dvh - var(--header-h));
+    min-height: 640px;
+    margin-inline: auto;
+    padding: 18px clamp(16px, 3vw, 40px) 22px;
+  }
+  .fa-device {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-frame);
+    box-shadow: var(--shadow-pop);
+  }
+  .fa-tabbar {
+    position: relative;
+  }
+  .fa-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .fa-rail {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 6px 6px 24px 2px;
+    scrollbar-width: thin;
+  }
+}
+
+/* ================================================================ header */
+.fa-head {
+  padding: 10px 16px 6px;
+  background-color: var(--color-paper);
+  border-bottom: 1px solid var(--color-rule);
+}
+.fa-hit {
+  min-height: 48px;
+  min-width: 48px;
+}
+.fa-head .btn-sm,
+.fa-more-langs .btn {
+  --btn-h: 48px;
+}
+.fa-langq {
+  display: inline-flex;
+  flex: none;
+  gap: 2px;
+  padding: 1px;
+  border: 1px solid var(--color-rule);
+  border-radius: 12px;
+  background: var(--color-sunk);
+}
+.fa-langq button {
+  min-height: 46px;
+  min-width: 46px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-ink-2);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.fa-langq button[aria-pressed="true"] {
+  background: var(--color-card);
+  color: var(--color-ink);
+  box-shadow:
+    0 1px 0 rgb(27 26 22 / 0.06),
+    0 1px 3px rgb(27 26 22 / 0.12);
+}
+
+/* ================================================================ tabs
+   The indicator slides to the chosen tab: it tells where you went (260 ms, --ease-in-out: on-screen movement). */
+.fa-tabbar {
+  background-color: var(--color-paper);
+  border-top: 1px solid var(--color-rule);
+}
+.fa-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.fa-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 64px;
+  padding: 6px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink-3);
+  font-size: 0.78rem;
+  font-weight: 560;
+  line-height: 1.1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 160ms ease;
+}
+.fa-tab:lang(bn),
+.fa-tab:lang(hi) {
+  font-size: 0.86rem;
+}
+.fa-tab[aria-selected="true"] {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+.fa-tab > span:first-child {
+  transition: transform 140ms var(--ease-out);
+}
+.fa-tab:active > span:first-child {
+  transform: scale(0.9);
+}
+.fa-tab:focus-visible {
+  outline-offset: -5px;
+}
+.fa-tab-ind {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 25%;
+  height: 3px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  transition: transform 260ms var(--ease-in-out);
+}
+.fa-tab-ind::before {
+  content: "";
+  width: 40px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--color-ink);
+}
+.fa-tabbar[data-input="key"] .fa-tab-ind {
+  transition: none;
+}
+.fa-tab-badge {
+  position: absolute;
+  top: -6px;
+  right: -11px;
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-stop);
+  color: var(--color-paper);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ================================================================ shared bits */
+.fa-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px dashed var(--color-rule-2);
+  border-radius: var(--radius-ui);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--color-ink-2);
+}
+.fa-row,
+.fa-qchip,
+.fa-rc-open {
+  -webkit-tap-highlight-color: transparent;
+}
+.fa-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+.fa-row:active {
+  transform: scale(0.985);
+}
+@media (hover: hover) and (pointer: fine) {
+  .fa-row:hover,
+  .fa-qchip:hover,
+  .fa-rc-row:hover {
+    border-color: var(--color-rule-2);
+  }
+}
+
+/* ---- "Why this?" */
+.fa-why {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+}
+.fa-why-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-ui);
+  background: transparent;
+  color: var(--color-ink);
+  font-weight: 600;
+  cursor: pointer;
+}
+.fa-hear {
+  width: auto;
+  gap: 8px;
+  padding: 0 16px;
+}
+.fa-why-body {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  border-top: 1px solid var(--color-rule);
+  animation: fa-fade 200ms var(--ease-out) both;
+}
+
+/* ---- receipt sheet */
+.fa-slot {
+  position: relative;
+  z-index: 10;
+  height: 12px;
+  margin-inline: -10px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.5);
+}
+.fa-act {
+  justify-content: flex-start;
+  min-height: 52px;
+  padding: 8px 12px;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.2;
+}
+.fa-whatnow {
+  padding: 12px 14px;
+  border: 1px solid color-mix(in oklab, var(--color-stop) 40%, var(--color-rule));
+  border-radius: var(--radius-ui);
+  background: var(--color-stop-wash);
+}
+
+/* ---- SMS preview on a basic phone (a drawing, aria-hidden: the real text sits next to it) */
+.fa-sms {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  animation: fa-rise 280ms var(--ease-out) both;
+}
+.fa-fphone {
+  flex: none;
+  width: 168px;
+  padding: 12px 12px 14px;
+  border: 1.5px solid var(--color-ink-2);
+  border-radius: 22px 22px 30px 30px;
+  background: var(--color-paper);
+}
+.fa-fphone-ear {
+  width: 34px;
+  height: 4px;
+  margin: 0 auto 10px;
+  border-radius: 999px;
+  background: var(--color-rule-2);
+}
+.fa-fphone-screen {
+  min-height: 152px;
+  padding: 8px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 4px;
+  background: var(--color-sunk);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.fa-fphone-screen p:lang(bn) {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+}
+.fa-fphone-from {
+  margin: 0 0 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--color-rule-2);
+  font-weight: 700;
+}
+.fa-fphone-pad {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.fa-fphone-nav {
+  width: 44px;
+  height: 22px;
+  border: 1.5px solid var(--color-rule-2);
+  border-radius: 999px;
+}
+.fa-fphone-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px 8px;
+  width: 100%;
+}
+.fa-fphone-keys span {
+  height: 10px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 5px;
+}
+
+/* ---- Ask */
+.fa-mic {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 140ms var(--ease-out);
+}
+.fa-mic:active:not(:disabled) {
+  transform: scale(0.96);
+}
+.fa-mic:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.fa-mic:focus-visible {
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+.fa-mic::before,
+.fa-mic::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--color-ink);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+/* the pulse says "I am listening" while the browser hears you; finite (it stops with recognition anyway) */
+.fa-mic[data-listening="true"]::before {
+  animation: fa-pulse 1.4s var(--ease-out) 6;
+}
+.fa-mic[data-listening="true"]::after {
+  animation: fa-pulse 1.4s var(--ease-out) 700ms 6;
+}
+.fa-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 1.02rem;
+}
+.fa-input::placeholder {
+  color: var(--color-ink-3);
+}
+.fa-input:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 1px;
+}
+.fa-qchip {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+.fa-qchip:active:not(:disabled) {
+  transform: scale(0.985);
+}
+.fa-qchip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.fa-dots {
+  flex: none;
+  width: 22px;
+  height: 1.2em;
+  background:
+    radial-gradient(circle, var(--color-ink-2) 2.5px, transparent 3px) 0 50% / 8px 8px no-repeat,
+    radial-gradient(circle, var(--color-ink-2) 2.5px, transparent 3px) 7px 50% / 8px 8px no-repeat,
+    radial-gradient(circle, var(--color-ink-2) 2.5px, transparent 3px) 14px 50% / 8px 8px no-repeat;
+  animation: fa-blink 900ms ease-in-out 12 alternate;
+}
+
+/* ---- the Ask router's path: stages appear in the order they ran (60 ms apart) */
+.fa-pipe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 4px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.fa-pipe > li {
+  animation: fa-rise 360ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+.fa-pipe-stage {
+  padding: 4px 8px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 6px;
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+.fa-pipe-stage:lang(bn) {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+}
+.fa-pipe-stage[data-state="skipped"] {
+  border-style: dashed;
+  background: transparent;
+  color: var(--color-ink-3);
+  text-decoration: line-through;
+}
+.fa-pipe-stage[data-state="unused"] {
+  border-style: dotted;
+  background: transparent;
+  color: var(--color-ink-3);
+}
+.fa-pipe-stage[data-stage="abstain"] {
+  border-color: currentColor;
+  background: var(--color-wait-wash);
+  color: var(--color-wait);
+}
+.fa-pipe-stage[data-stage="receipt"][data-state="ran"] {
+  border-color: currentColor;
+  background: var(--color-go-wash);
+  color: var(--color-go);
+}
+.fa-pipe-arrow {
+  color: var(--color-ink-3);
+  font-size: 0.75rem;
+}
+
+/* ---- Photo */
+.fa-switch {
+  position: relative;
+  flex: none;
+  width: 60px;
+  height: 48px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fa-switch::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 56px;
+  height: 32px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 999px;
+  background: var(--color-sunk);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+.fa-switch-knob {
+  position: absolute;
+  left: 6px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--color-ink-3);
+  transition:
+    transform 200ms var(--ease-out),
+    background-color 160ms ease;
+}
+.fa-switch[aria-checked="true"]::before {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+}
+.fa-switch[aria-checked="true"] .fa-switch-knob {
+  transform: translateX(24px);
+  background: var(--color-paper);
+}
+.fa-shot {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+  background: var(--color-sunk);
+}
+.fa-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fa-scan {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* the scan line says "the server is reading this photo"; it sweeps while the request runs (finite) */
+.fa-scan::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent calc(100% - 28px), rgb(252 250 244 / 0.28) calc(100% - 2px), #fcfaf4 calc(100% - 2px));
+  transform: translateY(-100%);
+  animation: fa-beam 1.6s var(--ease-in-out) 7 alternate both;
+}
+.fa-shot-cap {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: 0.8rem;
+}
+.fa-meter {
+  position: relative;
+  height: 10px;
+  border: 1px solid var(--color-rule);
+  border-radius: 999px;
+  background: var(--color-sunk);
+}
+.fa-meter-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-ink-2);
+  transform-origin: left center;
+  transition: transform 600ms var(--ease-out);
+}
+.fa-meter-fill[data-open="true"] {
+  background: var(--color-go);
+}
+.fa-meter-bar {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-ink);
+}
+
+/* ---- receipts list */
+.fa-rc-row {
+  overflow: hidden;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  transition: border-color 160ms ease;
+}
+.fa-rc-row.is-recalled {
+  border-color: color-mix(in oklab, var(--color-stop) 45%, var(--color-rule));
+}
+.fa-rc-open {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 68px;
+  padding: 10px 10px 10px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+}
+.fa-rc-stamp {
+  font-size: 0.82rem !important;
+}
+.fa-rc-now {
+  margin: 0;
+  padding: 10px 14px 12px;
+  border-top: 1px dashed var(--color-rule-2);
+  color: var(--color-ink-2);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* ---- left rail */
+.fa-pick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 7px 12px 7px 40px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  font-size: 0.94rem;
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+.fa-pick::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  border: 1.5px solid var(--color-rule-2);
+  border-radius: 999px;
+  background: var(--color-paper);
+  transition: border-width 120ms ease;
+}
+.fa-pick[data-checked="true"] {
+  border-color: var(--color-ink);
+}
+.fa-pick[data-checked="true"]::before {
+  border: 5px solid var(--color-ink);
+}
+.fa-pick:has(.fa-pick-input:focus-visible) {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.fa-pick-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.fa-try {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.fa-try-tick {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--color-rule-2);
+  border-radius: 999px;
+  color: var(--color-paper);
+}
+.fa-try[data-done="true"] .fa-try-tick {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+}
+/* a tick pops when the visitor has just done the thing (not when the rail first draws) */
+.fa-try[data-just="true"] .fa-try-tick {
+  animation: fa-tick 420ms var(--ease-stamp) both;
+}
+.fa-try-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--color-ink) 30%, transparent);
+  text-underline-offset: 0.22em;
+  cursor: pointer;
+}
+.fa-try-go[data-off="true"] {
+  color: var(--color-ink-3);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* ---- right rail: the inspector */
+.fa-ins-entry {
+  padding-top: 10px;
+  border-top: 1px solid var(--color-rule);
+}
+/* a new entry slides in at the top: it shows what just happened, newest first */
+.fa-ins-entry.is-new {
+  animation: fa-slide 320ms var(--ease-out) both;
+}
+.fa-ins-kind {
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.fa-ins-kind:lang(bn),
+.fa-ins-kind:lang(hi) {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.fa-ins-lines {
+  display: grid;
+  grid-template-columns: minmax(4.6rem, max-content) 1fr;
+  gap: 2px 10px;
+  margin: 6px 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+.fa-ins-lines dt {
+  color: var(--color-ink-3);
+}
+.fa-ins-lines dd {
+  margin: 0;
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+.fa-ins-lines :lang(bn) {
+  font-family: var(--font-sans);
+}
+
+/* ================================================================ signature moments */
+/* the decision pictogram pops in: this week's decision has arrived (stamp curve, once per plan) */
+.fa-pop svg[viewBox="0 0 64 64"] {
+  transform-origin: 50% 60%;
+  animation: fa-pop 520ms var(--ease-stamp) 120ms both;
+}
+/* lists arrive in order, 60 ms apart (DESIGN.md stagger) */
+.fa-stagger > * {
+  animation: fa-rise 420ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+/* rain bars grow from the ground once the strip is on screen: how much rain, day by day */
+.fa-wx:not(.is-in) li > span > span[style] {
+  transform: scaleY(0) !important;
+}
+.fa-wx.is-in li > span > span[style] {
+  animation: fa-grow 700ms var(--ease-out) both;
+}
+.fa-wx.is-in li:nth-child(2) > span > span[style] {
+  animation-delay: 60ms;
+}
+.fa-wx.is-in li:nth-child(3) > span > span[style] {
+  animation-delay: 120ms;
+}
+.fa-wx.is-in li:nth-child(4) > span > span[style] {
+  animation-delay: 180ms;
+}
+.fa-wx.is-in li:nth-child(5) > span > span[style] {
+  animation-delay: 240ms;
+}
+.fa-wx.is-in li:nth-child(6) > span > span[style] {
+  animation-delay: 300ms;
+}
+.fa-wx.is-in li:nth-child(7) > span > span[style] {
+  animation-delay: 360ms;
+}
+
+
+@keyframes fa-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fa-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes fa-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+@keyframes fa-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.62) rotate(-8deg);
+  }
+  60% {
+    opacity: 1;
+  }
+}
+@keyframes fa-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes fa-pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+@keyframes fa-beam {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes fa-blink {
+  from {
+    opacity: 0.35;
+  }
+}
+@keyframes fa-tick {
+  from {
+    transform: scale(0.6);
+  }
+}
+
+/* Reduced motion: no travel, no scale; short fades only (DESIGN.md). */
+@media (prefers-reduced-motion: reduce) {
+  .fa-stagger > *,
+  .fa-pipe > li,
+  .fa-ins-entry.is-new,
+  .fa-sms,
+  .fa-pop svg[viewBox="0 0 64 64"],
+  .fa-wx.is-in li > span > span[style] {
+    animation-name: fa-fade;
+  }
+  .fa-mic[data-listening="true"]::before {
+    animation: none;
+    opacity: 0.4;
+    transform: scale(1.12);
+  }
+  .fa-mic[data-listening="true"]::after,
+  .fa-scan::before,
+  .fa-try[data-just="true"] .fa-try-tick {
+    animation: none;
+  }
+  .fa-scan::before {
+    transform: none;
+    background: rgb(252 250 244 / 0.16);
+  }
+  .fa-tab-ind,
+  .fa-meter-fill,
+  .fa-switch-knob {
+    transition-duration: 0ms;
+  }
+}
+
+/* Print / Save as PDF: only the receipt (a clean copy rendered outside the dialog while printing). */
+.fa-print-root {
+  display: none;
+}
+@media print {
+  html.fa-printing body > *:not(.fa-print-root) {
+    display: none !important;
+  }
+  html.fa-printing body {
+    background: #fff !important;
+  }
+  html.fa-printing .fa-print-root {
+    display: block !important;
+    max-width: 120mm;
+    margin: 10mm auto;
+  }
+  html.fa-printing .fa-print-root * {
+    animation: none !important;
+  }
+  html.fa-printing .fa-print-root .paper {
+    box-shadow: none;
+  }
+}

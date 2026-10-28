@@ -1,0 +1,619 @@
+/* /proof: the evidence hub. Tokens only (index.css). Motion: finite flow pulses (stroke-dashoffset on pathLength=100
+   paths), staggered reveals, number rolls; all off with reduced motion. */
+
+/* ------------------------------------------------------------------ jump nav */
+.pf-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pf-jump a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    transform 140ms var(--ease-out);
+}
+.pf-jump a:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pf-jump a:hover {
+    border-color: var(--color-ink);
+  }
+}
+
+/* ------------------------------------------------------------------ architecture (desktop: grid + measured SVG) */
+.pa {
+  position: relative;
+}
+.pa-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  column-gap: 22px;
+  row-gap: 64px;
+}
+.pa-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.pa-base {
+  fill: none;
+  stroke: var(--color-rule-2);
+  stroke-width: 1.5;
+}
+.pa-base[data-lane="trust"] {
+  stroke: color-mix(in oklab, var(--color-ink) 45%, var(--color-rule-2));
+}
+.pa-arrow {
+  fill: var(--color-ink-3);
+}
+.pa-pulse {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 16 220;
+  stroke-dashoffset: 16;
+}
+.pa-pulse[data-lane="go"] {
+  stroke: var(--color-go);
+}
+.pa-pulse[data-lane="stop"] {
+  stroke: var(--color-stop);
+}
+.pa-pulse.is-run {
+  animation: pa-flow 760ms var(--ease-in-out) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes pa-flow {
+  from {
+    stroke-dashoffset: 16;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+.pa-node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 44px;
+  padding: 10px 11px;
+  text-align: left;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    transform 140ms var(--ease-out);
+}
+.pa-node:active {
+  transform: scale(0.97);
+}
+.pa-node[aria-pressed="true"] {
+  border-color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pa-node:hover {
+    border-color: var(--color-rule-2);
+  }
+  .pa-node[aria-pressed="true"]:hover {
+    border-color: var(--color-ink);
+  }
+}
+.pa-node[data-lane="trust"] {
+  background: var(--color-paper);
+}
+.pa-node .pa-ico {
+  color: var(--color-ink-2);
+}
+.pa-node b {
+  font-size: 0.86rem;
+  font-weight: 620;
+  line-height: 1.2;
+}
+.pa-node small {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  line-height: 1.3;
+  color: var(--color-ink-3);
+}
+.pa-lane-label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+/* the caption under the diagram: one line for the chosen step */
+.pa-cap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  align-items: start;
+  min-height: 92px;
+  padding: 16px 18px;
+  border-top: 1px solid var(--color-rule);
+}
+.pa-cap .pa-cap-in {
+  animation: pa-cap 220ms var(--ease-out) both;
+}
+@keyframes pa-cap {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* ------------------------------------------------------------------ architecture (phones: lanes) */
+.pm-lane {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 26px;
+  list-style: none;
+}
+.pm-lane::before,
+.pm-lane::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  background: var(--color-rule-2);
+}
+.pm-lane::after {
+  background: var(--color-ink);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+.pm-lane.is-run::after {
+  animation: pm-draw 1400ms var(--ease-in-out) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes pm-draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+.pm-lane li {
+  position: relative;
+  padding: 4px 0;
+}
+.pm-lane li::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 2px solid var(--color-ink-3);
+  z-index: 1;
+}
+.pm-lane .pa-node {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.pm-lane .pa-node > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pm-join {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-ink-3);
+}
+
+/* ------------------------------------------------------------------ evaluation tiles */
+.pf-tiles {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 720px) {
+  .pf-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .pf-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.pf-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+}
+.pf-num {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-stretch: 82%;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.4rem, 1.9rem + 1.6vw, 3.2rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.pf-bars {
+  display: grid;
+  gap: 6px;
+}
+.pf-bar {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr 2.8rem;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-ink-2);
+}
+.pf-bar i {
+  position: relative;
+  display: block;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--color-sunk);
+  overflow: hidden;
+}
+.pf-bar i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink-3);
+  transform-origin: left;
+  transform: scaleX(var(--v));
+}
+.pf-bar[data-strong="true"] i::after {
+  background: var(--color-ink);
+}
+.pf-bar[data-tone="bad"] i::after {
+  background: var(--color-stop);
+}
+.pf-bar b {
+  text-align: right;
+  font-weight: 500;
+}
+/* the bars grow once, as the tile reveals */
+html.reveal-ready [data-reveal]:not(.is-in) .pf-bar i::after {
+  transform: scaleX(0);
+}
+html.reveal-ready [data-reveal] .pf-bar i::after {
+  transition: transform 700ms var(--ease-out) 200ms;
+}
+.pf-line {
+  display: block;
+  width: 100%;
+  height: 72px;
+  overflow: visible;
+}
+.pf-line path {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2;
+}
+.pf-line circle {
+  fill: var(--color-card);
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.pf-line text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--color-ink-3);
+}
+.pf-mini {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.pf-mini th,
+.pf-mini td {
+  padding: 5px 4px;
+  border-top: 1px solid var(--color-rule);
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+.pf-mini th:first-child,
+.pf-mini td:first-child {
+  text-align: left;
+  font-family: var(--font-sans);
+}
+.pf-mini td {
+  white-space: nowrap;
+}
+/* a range (from–to) on a 0..100% track */
+.pf-range {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr 4.4rem;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-ink-2);
+}
+.pf-range i {
+  position: relative;
+  display: block;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--color-sunk);
+  overflow: hidden;
+}
+.pf-range i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--a) * 100%);
+  width: calc((var(--b) - var(--a)) * 100%);
+  background: var(--color-ink-3);
+}
+.pf-range[data-tone="bad"] i::after {
+  background: var(--color-stop);
+}
+.pf-range b {
+  text-align: right;
+  font-weight: 500;
+}
+.pf-mini thead th {
+  border-top: 0;
+  color: var(--color-ink-3);
+  font-size: 0.7rem;
+}
+.pf-src {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--color-rule-2);
+}
+.pf-src a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------------------ standards, MCP, register */
+.pf-std {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 800px) {
+  .pf-std {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 40px;
+  }
+}
+.pf-std li {
+  display: grid;
+  grid-template-columns: 7.2rem 1fr;
+  gap: 4px 14px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-rule);
+}
+.pf-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pf-state:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.pf-state[data-state="implemented"] {
+  color: var(--color-go);
+}
+.pf-state[data-state="partial"] {
+  color: var(--color-wait);
+}
+.pf-state[data-state="planned"] {
+  color: var(--color-ink-3);
+}
+.pf-servers {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .pf-servers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .pf-servers {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.pf-server {
+  padding: 14px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-doc);
+  background: var(--color-card);
+}
+.pf-tool {
+  display: block;
+  padding: 6px 0;
+  border-top: 1px dashed var(--color-rule);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  overflow-wrap: anywhere;
+}
+.pf-reg {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.pf-reg th,
+.pf-reg td {
+  padding: 10px 10px 10px 0;
+  border-top: 1px solid var(--color-rule);
+  text-align: left;
+  vertical-align: top;
+}
+.pf-reg thead th {
+  border-top: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-ink-3);
+}
+
+/* ------------------------------------------------------------------ check it yourself */
+.pf-check {
+  display: grid;
+  gap: 18px;
+}
+@media (min-width: 960px) {
+  .pf-check {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 32px;
+  }
+}
+.pf-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: var(--radius-ui);
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.pf-input:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 1px;
+}
+.pf-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.pf-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 4px 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-rule);
+}
+.pf-step[data-state="wait"] {
+  opacity: 0.45;
+}
+.pf-step[data-state="done"] .pf-dot,
+.pf-step[data-state="fail"] .pf-dot {
+  animation: tp-pop-in 320ms var(--ease-stamp) both;
+}
+@keyframes tp-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+.pf-dot {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-rule-2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-ink-3);
+}
+.pf-step[data-state="done"] .pf-dot {
+  border-color: var(--color-go);
+  background: var(--color-go-wash);
+  color: var(--color-go);
+}
+.pf-step[data-state="fail"] .pf-dot {
+  border-color: var(--color-stop);
+  background: var(--color-stop-wash);
+  color: var(--color-stop);
+}
+.pf-hex {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+.pf-canon {
+  display: block;
+  max-height: 3.2em;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--color-ink-3);
+  overflow-wrap: anywhere;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pa-pulse.is-run,
+  .pm-lane.is-run::after,
+  .pa-cap .pa-cap-in,
+  .pf-step .pf-dot {
+    animation: none !important;
+  }
+  .pm-lane::after {
+    display: none;
+  }
+  .pa-node:active,
+  .pf-jump a:active {
+    transform: none;
+  }
+  html.reveal-ready [data-reveal] .pf-bar i::after {
+    transition: none;
+  }
+}
+

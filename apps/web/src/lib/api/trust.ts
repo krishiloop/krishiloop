@@ -86,11 +86,12 @@ export type ReplayResult =
   | { state: 'missing' }
   | { state: 'error'; message: string };
 
+/** With no server, the REAL replay bundled from ml/vision/artifacts (recorded, not invented): the same numbers the server serves. */
 async function sampleReplay(): Promise<ReplayPayload> {
-  return (await import('../../features/trust/sampleReplay')).buildSampleReplay();
+  return (await import('../../data/recorded')).recordedReplay();
 }
 
-/** The replay of public datasets. In mock mode (sample data) the invented sample curves stand in, labelled as such. */
+/** The replay of public datasets. Without a server the bundled copy of the same real replay stands in, labelled "Recorded". */
 export async function fetchReplay(): Promise<ReplayResult> {
   if (apiStore.get().forced) return { state: 'sample', payload: await sampleReplay() };
   try {

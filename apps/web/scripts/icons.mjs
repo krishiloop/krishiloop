@@ -17,7 +17,7 @@ const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const plain = (size) => `<div style="width:${size}px;height:${size}px">${svg.replace('<svg ', `<svg width="${size}" height="${size}" `)}</div>`;
 const maskable = (size) => {
   const inner = Math.round(size * 0.74);
-  return `<div style="width:${size}px;height:${size}px;background:#0c110d;display:grid;place-items:center">${svg.replace('<svg ', `<svg width="${inner}" height="${inner}" `).replace('rx="16"', 'rx="0"')}</div>`;
+  return `<div style="width:${size}px;height:${size}px;background:#1b1a16;display:grid;place-items:center">${svg.replace('<svg ', `<svg width="${inner}" height="${inner}" `).replace('rx="16"', 'rx="0"')}</div>`;
 };
 for (const [file, size, body] of [
   ['public/icons/icon-192.png', 192, plain(192)],

@@ -1,0 +1,58 @@
+import { useI18n } from '../../lib/i18n';
+import { fmtNum } from '../../lib/format';
+import { cx } from '../../lib/cx';
+import { buildSms, smsInfo, verifyCode } from './sms';
+
+/**
+ * What this receipt would look like as an SMS on a basic phone: the decision, the rule, the receipt's short code and the
+ * verify link, with a live counter (160 characters in the GSM alphabet, 70 once the text is Bangla). A PREVIEW: sending
+ * SMS is planned, and the label says so.
+ */
+export function SmsPreview({ decision, rule, credentialId, url }: { decision: string; rule: string; credentialId: string; url: string }) {
+  const { t, lang } = useI18n();
+  const text = buildSms(t('fa.sms.template'), { decision, rule, code: verifyCode(credentialId), url });
+  const info = smsInfo(text);
+  const over = info.segments > 1;
+  return (
+    <section className="fa-sms" aria-labelledby="fa-sms-title" data-testid="fa-sms">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 id="fa-sms-title" className="text-sm font-semibold">
+          {t('fa.sms.title')}
+        </h3>
+        <span className="chip chip-carbon">{t('fa.sms.planned')}</span>
+      </div>
+      <div className="mt-4 flex flex-wrap items-start gap-5">
+        <div className="fa-fphone" aria-hidden>
+          <div className="fa-fphone-ear" />
+          <div className="fa-fphone-screen">
+            <p className="fa-fphone-from">KrishiLoop</p>
+            <p lang={lang} className="m-0">
+              {text}
+            </p>
+          </div>
+          <div className="fa-fphone-pad">
+            <span className="fa-fphone-nav" />
+            <div className="fa-fphone-keys">
+              {Array.from({ length: 12 }, (_, i) => (
+                <span key={i} />
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="min-w-[10rem] flex-1">
+          <p className="eyebrow">{t('fa.sms.text')}</p>
+          <p lang={lang} className="mono mt-2 break-words text-[0.8rem] leading-relaxed text-ink" data-testid="fa-sms-text">
+            {text}
+          </p>
+          <p className="mt-3 flex flex-wrap items-baseline gap-x-2 text-sm" aria-live="polite">
+            <span className={cx('mono text-lg font-semibold', over ? 'text-wait' : 'text-ink')} data-testid="fa-sms-count">
+              {fmtNum(info.units, lang)} / {fmtNum(info.limit, lang)}
+            </span>
+            <span className="text-ink-3">{info.unicode ? t('fa.sms.unicode') : t('fa.sms.gsm')}</span>
+            <span className="text-ink-2">{t('fa.sms.parts', { n: fmtNum(info.segments, lang) })}</span>
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}

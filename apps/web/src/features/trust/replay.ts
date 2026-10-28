@@ -274,12 +274,17 @@ export function niceTicks(max: number, target = 4): number[] {
 
 const r1 = (n: number) => Math.round(n * 10) / 10;
 
-export function buildChart(m: ReplayModel, policy: Policy, box: ChartBox): ChartGeometry {
+/**
+ * `yMin` (default 0) is the bottom of the y axis. The counted bounds of the real replay sit between 0.6 and 0.95, so the
+ * trust page draws 0.5..1 to keep the bar (0.85) and the close line (0.80) apart; the axis labels say where it starts.
+ */
+export function buildChart(m: ReplayModel, policy: Policy, box: ChartBox, yMin = 0): ChartGeometry {
   const plotW = Math.max(1, box.width - box.left - box.right);
   const plotH = Math.max(1, box.height - box.top - box.bottom);
   const xMax = Math.max(1, m.maxVerdicts);
+  const lo = Math.min(Math.max(yMin, 0), 0.95);
   const x = (v: number) => r1(box.left + (Math.min(Math.max(v, 0), xMax) / xMax) * plotW);
-  const y = (lb: number) => r1(box.top + (1 - Math.min(Math.max(lb, 0), 1)) * plotH);
+  const y = (lb: number) => r1(box.top + (1 - (Math.min(Math.max(lb, lo), 1) - lo) / (1 - lo)) * plotH);
 
   let curve = '';
   let pen = false;
@@ -292,7 +297,7 @@ export function buildChart(m: ReplayModel, policy: Policy, box: ChartBox): Chart
     pen = true;
   }
   const counted = m.points.filter((p) => p.lb !== null);
-  const fill = counted.length > 1 ? `${counted.map((p, i) => `${i ? 'L' : 'M'}${x(p.verdicts)} ${y(p.lb!)}`).join('')}L${x(counted.at(-1)!.verdicts)} ${y(0)}L${x(counted[0]!.verdicts)} ${y(0)}Z` : '';
+  const fill = counted.length > 1 ? `${counted.map((p, i) => `${i ? 'L' : 'M'}${x(p.verdicts)} ${y(p.lb!)}`).join('')}L${x(counted.at(-1)!.verdicts)} ${y(lo)}L${x(counted[0]!.verdicts)} ${y(lo)}Z` : '';
 
   const windows = m.windows.map((w) => {
     const x0 = x(w.from);
@@ -308,7 +313,7 @@ export function buildChart(m: ReplayModel, policy: Policy, box: ChartBox): Chart
     x,
     y,
     xTicks: niceTicks(xMax),
-    yTicks: [0, 0.25, 0.5, 0.75, 1],
+    yTicks: lo === 0 ? [0, 0.25, 0.5, 0.75, 1] : Array.from({ length: Math.round((1 - lo) / 0.1) + 1 }, (_, i) => Math.round((lo + i * 0.1) * 100) / 100).filter((v) => v <= 1),
     curve,
     fill,
     bar: { y: y(policy.openLb), value: policy.openLb },

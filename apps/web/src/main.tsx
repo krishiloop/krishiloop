@@ -1,22 +1,19 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-/* Self-hosted fonts (same families as Google Fonts, no third-party request: works offline, nothing to leak).
-   Geist for the interface, Instrument Serif for accents, Geist Mono for ids and numbers,
-   Hind Siliguri for Bangla (Bengali glyphs fall through to it automatically). */
-import '@fontsource-variable/geist/index.css';
-import '@fontsource-variable/geist-mono/index.css';
-import '@fontsource/instrument-serif/latin-400.css';
-import '@fontsource/instrument-serif/latin-400-italic.css';
-import '@fontsource/hind-siliguri/bengali-400.css';
-import '@fontsource/hind-siliguri/bengali-500.css';
-import '@fontsource/hind-siliguri/bengali-600.css';
-import '@fontsource/hind-siliguri/bengali-700.css';
+/* Self-hosted fonts, no third-party requests. One family across scripts (DESIGN.md):
+   Anek Latin is declared in index.css (preloaded); Anek Bangla and Anek Devanagari load only when their letters appear
+   (unicode-range). Newsreader and Tiro Bangla set verbatim source quotes; JetBrains Mono sets receipt lines and ids. */
+import '@fontsource-variable/anek-bangla/wght.css';
+import '@fontsource-variable/anek-devanagari/wght.css';
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource/tiro-bangla/bengali-400.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
 import './styles/index.css';
 
 import './lib/theme';
-import './lib/device';
-import './lib/motionPref';
+// listen for "install app" from the first moment: the browser fires it once, possibly before the farmer chunk loads
+import './features/farmer/install';
 import { bootLang } from './lib/i18n';
 import App from './App';
 

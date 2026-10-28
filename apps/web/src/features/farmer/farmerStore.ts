@@ -1,47 +1,55 @@
 import { createStore } from '../../lib/store';
-import { queryParam, readJSON, writeJSON } from '../../lib/storage';
-import { apiStore, fetchDemo, fetchPlan, fetchSnapshot, HttpError, PLAN_CACHE_PREFIX, recallEpoch, setForcedSample } from '../../lib/api/client';
-import { SCENARIOS, type Scenario } from '../../lib/api/mocks';
-import type { DataSource, DemoField, DemoProfile, FieldSnapshot, Plan, Sourced } from '../../lib/api/types';
+import { readJSON, writeJSON, writeStore } from '../../lib/storage';
+import { apiStore, fetchDemo, fetchPlan, fetchSnapshot, HttpError, PLAN_CACHE_PREFIX, recallEpoch, sessionStore } from '../../lib/api/client';
+import { sampleRecalls } from '../../lib/api/mocks';
+import type { DataSource, DemoField, DemoProfile, FieldSnapshot, Plan } from '../../lib/api/types';
+import { logBoot, logError, logPlan, logRecall } from './inspector';
+import { holdPlan, refreshStatuses } from './receipts';
+import { tick } from './checklist';
+import { profilesFor } from './words';
 
 /**
- * State of the farmer app: which field + farmer profile, the plan (live or sample), its snapshot.
- * Plans are built inside this tab's demo sandbox (POST /api/demo/{sid}/plan), so a recall from the verifier changes
- * exactly these receipts. Building a plan makes the API sign new credentials, so plans are cached per selection in
- * sessionStorage (the same lifetime as the sandbox) and rebuilt only when asked: a reload must never mint a new pile.
+ * State of the farmer app: the demo field and farmer, this week's plan, and the forecast behind it.
+ *
+ * Plans are built inside this tab's demo sandbox (POST /api/demo/{sid}/plan), so a recall in the officer console changes
+ * exactly these receipts. Building a plan signs new credentials, so a plan is kept per field and farmer for the tab
+ * (sessionStorage, the sandbox's own lifetime) and rebuilt only when asked: a reload never mints a new pile.
+ * When a recall reaches this tab (a sandbox recall, or a simulated one with recorded data) the plan on screen is dropped
+ * and rebuilt, so the farmer sees the server's answer after the recall (an abstention), never the stale decision.
  */
 export interface FarmerState {
-  status: 'idle' | 'loading' | 'ready' | 'error';
+  boot: 'idle' | 'loading' | 'ready' | 'error';
   fields: DemoField[];
   profiles: DemoProfile[];
   fieldId: string | null;
   profileId: string | null;
+  status: 'idle' | 'loading' | 'ready' | 'error';
   plan: Plan | null;
   planSource: DataSource | null;
-  planAt: number | null;
-  /** the plan on screen came from the saved copy, not a fresh call */
+  /** the plan on screen is the copy kept for this tab, not a fresh call */
   cached: boolean;
+  /** the plan was rebuilt because a recall reached this tab */
+  afterRecall: boolean;
+  /** the plan was built with a photo case the server answered automatically */
+  photoCaseId: string | null;
   snapshot: FieldSnapshot | null;
   error: string | null;
-  scenario: Scenario;
-  /** sample scenario with the money counter */
-  money: boolean;
 }
 
 const initial: FarmerState = {
-  status: 'idle',
+  boot: 'idle',
   fields: [],
   profiles: [],
   fieldId: null,
   profileId: null,
+  status: 'idle',
   plan: null,
   planSource: null,
-  planAt: null,
   cached: false,
+  afterRecall: false,
+  photoCaseId: null,
   snapshot: null,
   error: null,
-  scenario: 'live',
-  money: false,
 };
 
 export const farmer = createStore<FarmerState>(initial);
@@ -49,11 +57,9 @@ export const useFarmer = () => farmer.use();
 
 const SEL_KEY = 'kl.farmer.sel';
 const TTL = 6 * 3600 * 1000;
+/** The home market first: Bangladesh rice, the farmer whose rule the recorded recall withdrew. */
+const DEFAULT = { field: 'BD-SAMPLE-02', profile: 'demo-farmer-d' };
 const cacheKey = (f: string, p: string) => `${PLAN_CACHE_PREFIX}${f}.${p}`;
-
-// a recall in the sandbox changes what the planner would answer: forget the plan on screen so the app rebuilds it
-recallEpoch.subscribe(() => farmer.set((s) => ({ ...s, status: 'idle', plan: null, snapshot: null, cached: false })));
-let inflight: Promise<void> | null = null;
 
 interface Cached {
   plan: Plan;
@@ -61,116 +67,138 @@ interface Cached {
   snapshot: FieldSnapshot | null;
 }
 
-export function init(): Promise<void> {
-  if (farmer.get().status === 'ready' || farmer.get().status === 'loading') return inflight ?? Promise.resolve();
-  farmer.set((s) => ({ ...s, status: 'loading', error: null }));
-  inflight = (async () => {
-    try {
-      const demo = await fetchDemo();
-      const sel = readJSON<{ fieldId: string; profileId: string }>(SEL_KEY);
-      const fields = demo.data.fields;
-      const profiles = demo.data.profiles;
-      const fieldId = fields.find((f) => f.field_id === sel?.fieldId)?.field_id ?? fields[0]?.field_id ?? null;
-      const profileId = profiles.find((p) => p.farmer_profile_id === sel?.profileId)?.farmer_profile_id ?? profiles[0]?.farmer_profile_id ?? null;
-      farmer.set((s) => ({ ...s, fields, profiles, fieldId, profileId }));
-      await loadPlan();
-    } catch (e) {
-      farmer.set((s) => ({ ...s, status: 'error', error: message(e) }));
-    } finally {
-      inflight = null;
-    }
-  })();
-  return inflight;
-}
-
 function message(e: unknown): string {
-  if (e instanceof HttpError) return `${e.status}: ${e.message}`;
+  if (e instanceof HttpError) return `HTTP ${e.status}: ${e.message}`;
   return e instanceof Error ? e.message : String(e);
 }
 
-export async function loadPlan(opts: { force?: boolean } = {}): Promise<void> {
-  const { fieldId, profileId, money } = farmer.get();
+/* ------------------------------------------------------------------ mount, so a recall can rebuild the plan at once */
+let mounted = 0;
+export function attach() {
+  mounted++;
+  return () => {
+    mounted--;
+  };
+}
+
+/**
+ * Forget the plans kept for this tab. client.ts clearSavedPlans() removes them from sessionStorage, but lib/storage keeps
+ * an in-memory copy of every value it wrote and reads it back when sessionStorage has none, so a recall would otherwise
+ * be answered with the stale plan. Clearing through lib/storage drops both copies.
+ */
+function dropSavedPlans() {
+  const { fields, profiles } = farmer.get();
+  for (const f of fields) for (const p of profiles) writeStore(cacheKey(f.field_id, p.farmer_profile_id), null, 'session');
+}
+
+function onRecall(mode: 'sandbox' | 'sample') {
+  dropSavedPlans();
+  logRecall(mode);
+  tick('recall');
+  farmer.set((s) => ({ ...s, status: 'idle', plan: null, snapshot: null, cached: false, photoCaseId: null, afterRecall: true }));
+  if (mounted > 0 && farmer.get().boot === 'ready') void loadPlan();
+  void refreshStatuses();
+}
+recallEpoch.subscribe(() => onRecall('sandbox'));
+sampleRecalls.subscribe(() => onRecall('sample'));
+// a new sandbox (the server forgot the old one) owns none of the saved plans
+sessionStore.subscribe(() => {
+  if (sessionStore.get() === null) dropSavedPlans();
+});
+
+/* ------------------------------------------------------------------ selection */
+
+function fitSelection(fields: DemoField[], profiles: DemoProfile[], want: { fieldId?: string | null; profileId?: string | null }) {
+  const saved = readJSON<{ fieldId?: string; profileId?: string }>(SEL_KEY);
+  const has = (id: string | null | undefined) => !!id && fields.some((f) => f.field_id === id);
+  const fieldId = [want.fieldId, saved?.fieldId, DEFAULT.field].find(has) ?? fields[0]?.field_id ?? null;
+  const fit = profilesFor(fieldId, profiles);
+  const ok = (id: string | null | undefined) => !!id && fit.some((p) => p.farmer_profile_id === id);
+  const profileId = [want.profileId, saved?.profileId, DEFAULT.profile].find(ok) ?? fit[0]?.farmer_profile_id ?? null;
+  return { fieldId, profileId };
+}
+
+let bootCall: Promise<void> | null = null;
+
+/** Load the demo fields and farmers once, pick the deep-linked (or saved) field and farmer, and build the plan. */
+export function init(want: { fieldId?: string | null; profileId?: string | null } = {}): Promise<void> {
+  const st = farmer.get();
+  if (st.boot === 'ready') {
+    if (want.fieldId || want.profileId) {
+      const sel = fitSelection(st.fields, st.profiles, want);
+      if (sel.fieldId !== st.fieldId || sel.profileId !== st.profileId) return select(sel.fieldId, sel.profileId);
+    }
+    return st.status === 'idle' ? loadPlan() : Promise.resolve();
+  }
+  bootCall ??= (async () => {
+    farmer.set((s) => ({ ...s, boot: 'loading', error: null }));
+    try {
+      const demo = await fetchDemo();
+      const { fields, profiles } = demo.data;
+      logBoot(demo.source, fields.length, profiles.length);
+      const sel = fitSelection(fields, profiles, want);
+      farmer.set((s) => ({ ...s, boot: 'ready', fields, profiles, ...sel }));
+      await loadPlan();
+    } catch (e) {
+      logError('GET /api/demo', message(e));
+      farmer.set((s) => ({ ...s, boot: 'error', error: message(e) }));
+    } finally {
+      bootCall = null;
+    }
+  })();
+  return bootCall;
+}
+
+export function select(fieldId: string | null, profileId?: string | null): Promise<void> {
+  const st = farmer.get();
+  const fit = profilesFor(fieldId, st.profiles);
+  const pid = profileId && fit.some((p) => p.farmer_profile_id === profileId) ? profileId : fit.some((p) => p.farmer_profile_id === st.profileId) ? st.profileId : (fit[0]?.farmer_profile_id ?? null);
+  writeJSON(SEL_KEY, { fieldId, profileId: pid });
+  farmer.set((s) => ({ ...s, fieldId, profileId: pid, afterRecall: false, photoCaseId: null }));
+  return loadPlan();
+}
+
+/* ------------------------------------------------------------------ the plan */
+let planSeq = 0;
+
+/**
+ * Build (or reuse) this week's plan for the selected field and farmer.
+ * `force` asks the server again; `photoCaseId` rebuilds it with a photo case the server answered automatically.
+ */
+export async function loadPlan(opts: { force?: boolean; photoCaseId?: string } = {}): Promise<void> {
+  const { fieldId, profileId } = farmer.get();
   if (!fieldId || !profileId) {
     farmer.set((s) => ({ ...s, status: 'ready', plan: null }));
     return;
   }
-  const sample = apiStore.get().forced;
+  const token = ++planSeq;
+  const forced = apiStore.get().forced;
   const key = cacheKey(fieldId, profileId);
-  if (!opts.force && !sample) {
+  if (!opts.force && !forced && !opts.photoCaseId) {
     const hit = readJSON<Cached>(key, 'session');
-    if (hit && Date.now() - hit.at < TTL) {
-      const snap = hit.snapshot ?? (await fetchSnapshot(hit.plan, 'live')).data;
-      farmer.set((s) => ({ ...s, status: 'ready', plan: hit.plan, planSource: 'live', planAt: hit.at, cached: true, snapshot: snap, error: null }));
+    if (hit && Date.now() - hit.at < TTL && hit.plan.field_id === fieldId) {
+      const snapshot = hit.snapshot ?? (await fetchSnapshot(hit.plan, 'live').catch(() => ({ data: null }))).data;
+      if (token !== planSeq) return;
+      farmer.set((s) => ({ ...s, status: 'ready', plan: hit.plan, planSource: 'live', cached: true, photoCaseId: null, snapshot, error: null }));
+      logPlan(hit.plan, 'live', { cached: true });
+      holdPlan(hit.plan, 'live');
       return;
     }
   }
   farmer.set((s) => ({ ...s, status: 'loading', error: null }));
   try {
-    const p = await fetchPlan(fieldId, profileId, { money, sample });
-    const snap = await fetchSnapshot(p.data, p.source);
-    const at = Date.now();
-    if (p.source === 'live') writeJSON(key, { plan: p.data, at, snapshot: snap.data } satisfies Cached, 'session');
-    farmer.set((s) => ({ ...s, status: 'ready', plan: p.data, planSource: p.source, planAt: at, cached: false, snapshot: snap.data, error: null }));
+    const p = await fetchPlan(fieldId, profileId, { sample: forced, photoCaseId: opts.photoCaseId });
+    const snap = await fetchSnapshot(p.data, p.source).catch(() => ({ data: null }));
+    if (token !== planSeq) return;
+    if (p.source === 'live' && !opts.photoCaseId) writeJSON(key, { plan: p.data, at: Date.now(), snapshot: snap.data } satisfies Cached, 'session');
+    farmer.set((s) => ({ ...s, status: 'ready', plan: p.data, planSource: p.source, cached: false, photoCaseId: opts.photoCaseId ?? null, snapshot: snap.data, error: null }));
+    logPlan(p.data, p.source, { photoCaseId: opts.photoCaseId });
+    holdPlan(p.data, p.source);
   } catch (e) {
+    if (token !== planSeq) return;
+    logError(forced ? 'recorded · plans.json' : 'POST /api/demo/‹sid›/plan', message(e));
     farmer.set((s) => ({ ...s, status: 'error', error: message(e) }));
   }
 }
 
-export function selectField(fieldId: string) {
-  writeJSON(SEL_KEY, { fieldId, profileId: farmer.get().profileId });
-  farmer.set((s) => ({ ...s, fieldId, scenario: apiStore.get().forced ? s.scenario : 'live' }));
-  void loadPlan();
-}
-
-export function selectProfile(profileId: string) {
-  writeJSON(SEL_KEY, { fieldId: farmer.get().fieldId, profileId });
-  farmer.set((s) => ({ ...s, profileId }));
-  void loadPlan();
-}
-
-/**
- * ?field=BD-SAMPLE-02&profile=demo-farmer-d (the photo demo link on the trust page): once the lists are loaded, select that
- * field and farmer in one step, so only one plan is built. Ids the API does not know are ignored.
- */
-export function applyDeepLink() {
-  const st = farmer.get();
-  const f = queryParam('field');
-  const p = queryParam('profile');
-  const fieldId = f && st.fields.some((x) => x.field_id === f) ? f : st.fieldId;
-  const profileId = p && st.profiles.some((x) => x.farmer_profile_id === p) ? p : st.profileId;
-  if (!fieldId || !profileId || (fieldId === st.fieldId && profileId === st.profileId)) return;
-  writeJSON(SEL_KEY, { fieldId, profileId });
-  farmer.set((s) => ({ ...s, fieldId, profileId, scenario: apiStore.get().forced ? s.scenario : 'live' }));
-  void loadPlan();
-}
-
-/** Switch between the live API and bundled sample data. */
-export async function chooseSource(source: DataSource) {
-  setForcedSample(source === 'sample');
-  farmer.set((s) => ({ ...s, scenario: source === 'sample' ? (s.scenario === 'live' ? 'ke-a' : s.scenario) : 'live', money: source === 'sample' ? s.money : false, status: 'idle' }));
-  await init();
-}
-
-export async function applyScenario(id: Scenario) {
-  if (id === 'live') return chooseSource('live');
-  const sc = SCENARIOS.find((s) => s.id === id)!;
-  setForcedSample(true);
-  writeJSON(SEL_KEY, { fieldId: sc.field, profileId: sc.profile });
-  farmer.set((s) => ({ ...s, scenario: id, money: !!sc.money, fieldId: sc.field, profileId: sc.profile, status: 'idle' }));
-  await init();
-}
-
-let demoPlan: Promise<Sourced<Plan>> | null = null;
-
-/**
- * One demo plan for the story page (hero receipt, "AI vs KrishiLoop"): the OFFICIAL plan (POST /api/plan), which the server
- * keeps one of per day, so opening the story page never mints a pile of receipts and never creates a sandbox. The farmer
- * app and the recall controls use the visitor's own sandbox instead.
- */
-export function ensureDemoPlan(): Promise<Sourced<Plan>> {
-  demoPlan ??= fetchPlan('KE-SAMPLE-01', 'demo-farmer-a', { sample: apiStore.get().forced, official: true }).catch((e) => {
-    demoPlan = null;
-    throw e;
-  });
-  return demoPlan;
-}
+export const currentField = (s: FarmerState = farmer.get()) => s.fields.find((f) => f.field_id === s.fieldId) ?? null;
