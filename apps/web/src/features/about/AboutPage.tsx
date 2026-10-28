@@ -1,3 +1,6 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.about';
+import '../../lib/i18n/strings.story';
 import { ArrowRight, BotOff, Building2, ClipboardList, Eye, HeartHandshake, LockOpen, ReceiptText, Scale, ScanSearch, Sprout, type LucideIcon } from 'lucide-react';
 import { useI18n, type Key } from '../../lib/i18n';
 import { cx } from '../../lib/cx';

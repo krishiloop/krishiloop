@@ -1,3 +1,5 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.story';
 import './story.css';
 import { Hero } from './Hero';
 import { ProofStrip, Problem } from './Numbers';

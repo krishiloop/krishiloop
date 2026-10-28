@@ -1,3 +1,6 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.farmer';
+import '../../lib/i18n/strings.trust';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useI18n } from '../../lib/i18n';

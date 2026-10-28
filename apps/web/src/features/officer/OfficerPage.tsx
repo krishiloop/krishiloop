@@ -1,3 +1,6 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.officer';
+import '../../lib/i18n/strings.trust';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Camera, Inbox, Leaf, Undo2 } from 'lucide-react';

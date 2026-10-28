@@ -1,3 +1,5 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.proof';
 import type { ReactNode } from 'react';
 import { CircleCheck, CircleDashed, CircleDot, ExternalLink } from 'lucide-react';
 import { ExternalButton } from '../../ui/Button';

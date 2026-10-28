@@ -1,3 +1,6 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.verify';
+import '../../lib/i18n/strings.trust';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Check, FileJson, Link2, Printer, RotateCcw, ScanLine, X } from 'lucide-react';

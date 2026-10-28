@@ -1,11 +1,23 @@
 import { useCallback } from 'react';
 import { createStore } from '../store';
 import { queryParam, readStore, writeStore } from '../storage';
-import en from './en';
+import ui from './en.ui';
+import type enAll from './en';
 
 export type Lang = 'en' | 'bn' | 'hi' | 'sw';
-export type Key = keyof typeof en;
+/** Every key of every screen (en.ts joins them; imported for its type only, so no page pays for the others' words). */
+export type Key = keyof typeof enAll;
 type Dict = Partial<Record<Key, string>>;
+
+/**
+ * English loads per screen: the shell's words (en.ui) are here from the start, and each page registers its own
+ * dictionary when its chunk loads (`import '../../lib/i18n/strings.<screen>'`). The other languages stay whole
+ * dictionaries, loaded on demand when chosen.
+ */
+const en: Dict = { ...ui };
+export function registerStrings(strings: Dict) {
+  Object.assign(en, strings);
+}
 
 export const LANGS: { code: Lang; native: string; english: string; preview: boolean }[] = [
   { code: 'en', native: 'English', english: 'English', preview: false },

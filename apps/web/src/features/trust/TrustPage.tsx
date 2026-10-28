@@ -1,3 +1,5 @@
+// this page's words (English loads per screen)
+import '../../lib/i18n/strings.trust';
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { ChevronRight, FileQuestion, Lock, LockOpen, TriangleAlert } from 'lucide-react';
 import { DataMark } from '../../ui/DataMark';
