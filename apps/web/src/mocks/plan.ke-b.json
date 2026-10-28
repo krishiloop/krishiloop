@@ -1,0 +1,279 @@
+{
+  "plan_id": "534d504c-0000-4000-8000-000000000002",
+  "pack_id": "pack-potato-late-blight",
+  "field_id": "KE-SAMPLE-01",
+  "farmer_profile_id": "demo-farmer-b",
+  "crop": "potato",
+  "stage": "vegetative",
+  "valid_from": "2026-10-27",
+  "valid_to": "2026-11-02",
+  "generated_at": "2026-10-26T19:41:30Z",
+  "snapshot_id": "snap-KE-SAMPLE-01-20261026T1941",
+  "status": "ok",
+  "actions": [
+    {
+      "action_id": "A-r-plb-011-s0011",
+      "kind": "input_decision",
+      "title": {
+        "en": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants."
+      },
+      "receipt": {
+        "receipt_id": "534d504c-0000-4000-8000-000000000211",
+        "claim": "A-r-plb-011-s0011",
+        "sources": [
+          {
+            "doc_id": "DOC-CIP-001",
+            "title": "Potato late blight: Technical manual",
+            "publisher": "International Potato Center (CIP)",
+            "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+            "page": 24,
+            "quote": "If a farmer thinks his crop is not well protected during the period favorable to infection, he should consider using a systemic or translaminar product.",
+            "quote_sha256": "4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c",
+            "licence_status": "permitted",
+            "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+            "language": "en"
+          },
+          {
+            "doc_id": "DOC-CIP-001",
+            "title": "Potato late blight: Technical manual",
+            "publisher": "International Potato Center (CIP)",
+            "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+            "page": 19,
+            "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+            "quote_sha256": "8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a",
+            "licence_status": "permitted",
+            "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+            "language": "en"
+          },
+          {
+            "doc_id": "DOC-CIP-001",
+            "title": "Potato late blight: Technical manual",
+            "publisher": "International Potato Center (CIP)",
+            "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+            "page": 24,
+            "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+            "quote_sha256": "95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b",
+            "licence_status": "permitted",
+            "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+            "language": "en"
+          }
+        ],
+        "data": [
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-10-26]",
+            "value": 79,
+            "unit": "%",
+            "observed_at": "2026-10-26T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-10-27]",
+            "value": 81,
+            "unit": "%",
+            "observed_at": "2026-10-27T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-10-28]",
+            "value": 87,
+            "unit": "%",
+            "observed_at": "2026-10-28T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-10-29]",
+            "value": 88,
+            "unit": "%",
+            "observed_at": "2026-10-29T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-10-30]",
+            "value": 89,
+            "unit": "%",
+            "observed_at": "2026-10-30T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-10-31]",
+            "value": 84,
+            "unit": "%",
+            "observed_at": "2026-10-31T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "open-meteo:forecast",
+            "variable": "relative_humidity_2m_mean[2026-11-01]",
+            "value": 78,
+            "unit": "%",
+            "observed_at": "2026-11-01T00:00:00Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          },
+          {
+            "source": "krishiloop:derived",
+            "variable": "forecast_humid_mild_days",
+            "value": 0,
+            "unit": "days",
+            "observed_at": "2026-10-26T19:41:30Z",
+            "retrieved_at": "2026-10-26T19:41:30Z",
+            "location_precision": "sample_location"
+          }
+        ],
+        "rule_refs": [
+          {
+            "rule_id": "R-PLB-011",
+            "version": 2,
+            "credential_id": "urn:uuid:534d504c-0000-4000-8000-000000000111",
+            "review_level": "pending"
+          }
+        ],
+        "reviewer_parameters": [
+          {
+            "name": "humid_mild_days_min",
+            "value": 2,
+            "set_by": "team",
+            "note": "NOT from source; to be set by the pathologist."
+          }
+        ],
+        "confidence": {
+          "level": "medium",
+          "basis": "Inference, stated openly: the manual ties protection to periods favourable to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact products away (p. 24). Our forecast check, using the reviewer-set thresholds below, found no such period, or the crop is protected and no heavy rain is forecast. Forecasts can be wrong."
+        },
+        "generated_by": {
+          "planner_version": "0.2.0",
+          "validator_version": "0.2.0",
+          "phrasing_model": null
+        },
+        "created_at": "2026-10-26T19:41:30Z"
+      },
+      "decision": "dont_spray",
+      "traffic_light": "green",
+      "receipt_credential_id": "urn:uuid:534d504c-0000-4000-8000-000000000011"
+    },
+    {
+      "action_id": "A-r-plb-006-s0012",
+      "kind": "irrigation",
+      "title": {
+        "en": "Avoid excessive furrow irrigation, especially where the soil drains poorly."
+      },
+      "receipt": {
+        "receipt_id": "534d504c-0000-4000-8000-000000000212",
+        "claim": "A-r-plb-006-s0012",
+        "sources": [
+          {
+            "doc_id": "DOC-CIP-001",
+            "title": "Potato late blight: Technical manual",
+            "publisher": "International Potato Center (CIP)",
+            "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+            "page": 28,
+            "quote": "Avoid excessive furrow irrigation, especially in soils with deficient drainage, because it may create micro- climates that favor disease or tuber rot.",
+            "quote_sha256": "05364bf8e94c06286d414f135ca3f0f7783621e9f4e767209b53fe23cfdd50a7",
+            "licence_status": "permitted",
+            "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+            "language": "en"
+          }
+        ],
+        "data": [],
+        "rule_refs": [
+          {
+            "rule_id": "R-PLB-006",
+            "version": 1,
+            "credential_id": "urn:uuid:534d504c-0000-4000-8000-000000000106",
+            "review_level": "pending"
+          }
+        ],
+        "reviewer_parameters": [],
+        "confidence": {
+          "level": "high",
+          "basis": "Direct practice statement from the cited source."
+        },
+        "generated_by": {
+          "planner_version": "0.2.0",
+          "validator_version": "0.2.0",
+          "phrasing_model": null
+        },
+        "created_at": "2026-10-26T19:41:30Z"
+      },
+      "traffic_light": "amber",
+      "receipt_credential_id": "urn:uuid:534d504c-0000-4000-8000-000000000012"
+    },
+    {
+      "action_id": "A-r-plb-009-s0013",
+      "kind": "monitoring",
+      "title": {
+        "en": "Heavy rain after a contact-type protection: check whether your crop is still protected; ask your officer."
+      },
+      "receipt": {
+        "receipt_id": "534d504c-0000-4000-8000-000000000213",
+        "claim": "A-r-plb-009-s0013",
+        "sources": [
+          {
+            "doc_id": "DOC-CIP-001",
+            "title": "Potato late blight: Technical manual",
+            "publisher": "International Potato Center (CIP)",
+            "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+            "page": 24,
+            "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+            "quote_sha256": "95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b",
+            "licence_status": "permitted",
+            "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+            "language": "en"
+          }
+        ],
+        "data": [],
+        "rule_refs": [
+          {
+            "rule_id": "R-PLB-009",
+            "version": 1,
+            "credential_id": "urn:uuid:534d504c-0000-4000-8000-000000000109",
+            "review_level": "pending"
+          }
+        ],
+        "reviewer_parameters": [],
+        "confidence": {
+          "level": "high",
+          "basis": "Direct practice statement from the cited source."
+        },
+        "generated_by": {
+          "planner_version": "0.2.0",
+          "validator_version": "0.2.0",
+          "phrasing_model": null
+        },
+        "created_at": "2026-10-26T19:41:30Z"
+      },
+      "traffic_light": "amber",
+      "receipt_credential_id": "urn:uuid:534d504c-0000-4000-8000-000000000013"
+    }
+  ],
+  "personalization": {
+    "factors": [
+      {
+        "name": "soil_drainage",
+        "value": "good",
+        "effect": {
+          "en": "No drainage boost."
+        }
+      },
+      {
+        "name": "past_outcome",
+        "value": "crop_protected=True",
+        "effect": {
+          "en": "Protection status changes the spray decision."
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>KrishiLoop · every piece of AI farm advice comes with a receipt</title>
+    <meta name="description" content="KrishiLoop gives farmers AI advice with a receipt anyone can check: the source passage, the field data, the rule and the confidence. If a rule turns out wrong, we recall it from every farmer who got it." />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#080c09" />
+    <meta property="og:title" content="KrishiLoop: AI farm advice with a receipt" />
+    <meta property="og:description" content="Every piece of AI farm advice comes with a receipt anyone can check. If a rule turns out wrong, we recall it." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+      /* Set theme, language and Lite before first paint so nothing flashes. Storage can throw: all in try/catch. */
+      (function () {
+        try {
+          var d = document.documentElement;
+          var q = new URLSearchParams(location.search);
+          var theme = q.get('theme') || localStorage.getItem('kl.theme') || 'dark';
+          d.dataset.theme = theme === 'light' ? 'light' : 'dark';
+          var lang = q.get('lang') || localStorage.getItem('kl.lang');
+          if (lang === 'en' || lang === 'bn' || lang === 'hi' || lang === 'sw') d.lang = lang;
+          else if ((navigator.language || '').toLowerCase().indexOf('bn') === 0) d.lang = 'bn';
+          var mode = q.get('mode') || localStorage.getItem('kl.mode');
+          if (mode === 'lite') d.classList.add('lite');
+          if (localStorage.getItem('kl.motion') === 'paused') d.classList.add('reduce-motion');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>KrishiLoop needs JavaScript. Every piece of AI farm advice comes with a receipt anyone can check.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

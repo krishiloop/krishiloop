@@ -1,0 +1,38 @@
+{
+  "fields": [
+    {
+      "field_id": "KE-SAMPLE-01",
+      "lat": -0.75,
+      "lon": 36.6,
+      "country": "KE",
+      "precision": "sample_location",
+      "label": "Sample Kenyan highland location (no farmer)",
+      "crop": "potato",
+      "stage": "vegetative",
+      "pack_id": "pack-potato-late-blight"
+    },
+    {
+      "field_id": "BD-DEMO-01",
+      "lat": 24.75,
+      "lon": 90.4,
+      "country": "BD",
+      "precision": "sample_location",
+      "label": "Sample rice field, Bangladesh (placeholder, no farmer)",
+      "crop": "rice",
+      "stage": "grain_fill",
+      "pack_id": "pack-bd-rice"
+    }
+  ],
+  "profiles": [
+    {
+      "farmer_profile_id": "demo-farmer-a",
+      "crop_protected": false,
+      "soil_drainage": "poor"
+    },
+    {
+      "farmer_profile_id": "demo-farmer-b",
+      "crop_protected": true,
+      "soil_drainage": "good"
+    }
+  ]
+}

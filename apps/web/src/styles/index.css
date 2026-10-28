@@ -1,0 +1,336 @@
+@import "tailwindcss";
+/* Our component CSS lives in the `components` layer so Tailwind utilities (the `utilities` layer) can still override it:
+   unlayered CSS would beat `hidden`, `lg:hidden` and friends. */
+@import "./components.css" layer(components);
+@import "./farmer.css" layer(components);
+@import "./verify.css" layer(components);
+@import "./officer.css" layer(components);
+@import "./landing.css" layer(components);
+@import "./story.css" layer(components);
+
+/* ------------------------------------------------------------------
+   Fallback faces with the web fonts' metrics (measured against the loaded
+   fonts), so the swap when Geist and Instrument Serif arrive moves nothing.
+------------------------------------------------------------------ */
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 103.5%;
+  ascent-override: 97.6%;
+  descent-override: 29%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  font-style: normal;
+  src: local("Times New Roman"), local("Times"), local("Liberation Serif");
+  size-adjust: 83.3%;
+  ascent-override: 118.8%;
+  descent-override: 37.2%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  font-style: italic;
+  src: local("Times New Roman Italic"), local("Times-Italic"), local("Liberation Serif Italic");
+  size-adjust: 87.1%;
+  ascent-override: 113.7%;
+  descent-override: 35.6%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Geist Mono Fallback";
+  src: local("Courier New"), local("Courier"), local("Liberation Mono");
+  size-adjust: 100%;
+  ascent-override: 101%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
+
+/* ------------------------------------------------------------------
+   KrishiLoop tokens. Colour is reserved for meaning: neutrals carry the
+   page, sun-gold marks the one key action, green/amber/red only ever mean
+   go / re-check / stop (always with a word and an icon).
+   docs/design/DESIGN.md lists every pair with its contrast ratio.
+------------------------------------------------------------------ */
+@theme static {
+  --color-void: #080c09;
+  --color-ink: #0c110d;
+  --color-panel: #111712;
+  --color-panel-2: #171e18;
+  --color-line: #232b24;
+  --color-line-2: #313b32;
+  --color-bone: #eeebe0;
+  --color-chrome: #a9b1a4;
+  --color-dim: #8a9285;
+
+  --color-sun: #f0c96b;
+  --color-sun-ink: #1a1405;
+  --color-sun-soft: #f0c96b;
+
+  --color-go: #6fd08c;
+  --color-wait: #f2a93b;
+  --color-stop: #f58a76;
+  --color-go-fill: #3fcf72;
+  --color-wait-fill: #ffb12e;
+  --color-stop-fill: #ff5a43;
+  --color-leaf: #8fc77a;
+  --color-rain: #7fb6e8;
+
+  /* the receipt itself is paper in both themes */
+  --color-paper: #ece6d3;
+  --color-paper-2: #e3dcc6;
+  --color-paper-ink: #1b211b;
+  --color-paper-dim: #555d50;
+  --color-paper-line: #b9ae8c;
+  --color-paper-accent: #7a5200;
+
+  --font-sans: "Geist Variable", "Geist Fallback", "Hind Siliguri", ui-sans-serif, system-ui, "Nirmala UI", "Noto Sans Bengali", sans-serif;
+  --font-serif: "Instrument Serif", "Instrument Serif Fallback", "Hind Siliguri", ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono Variable", "Geist Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display: clamp(2.5rem, 1.1rem + 5.9vw, 6.1rem);
+  --text-display--line-height: 0.98;
+  --text-h1: clamp(2.1rem, 1.3rem + 3.5vw, 4rem);
+  --text-h1--line-height: 1.02;
+  --text-h2: clamp(1.75rem, 1.2rem + 2.3vw, 3rem);
+  --text-h2--line-height: 1.08;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.8vw, 1.7rem);
+  --text-h3--line-height: 1.2;
+
+  --radius-card: 1.5rem;
+  --radius-chip: 999px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 28px 48px -36px rgb(0 0 0 / 0.8);
+  --shadow-float: 0 24px 60px -24px rgb(0 0 0 / 0.65);
+  --track-tight: -0.025em;
+  --track-wide: 0.14em;
+}
+
+/* Light = warm rice paper, tuned (not inverted). The 3D hero stays a dark "window" in both themes. */
+[data-theme="light"] {
+  color-scheme: light;
+  --color-void: #f4f1e8;
+  --color-ink: #ece7da;
+  --color-panel: #fbf9f3;
+  --color-panel-2: #f3efe4;
+  --color-line: #ddd6c5;
+  --color-line-2: #c9c0ac;
+  --color-bone: #1b211b;
+  --color-chrome: #444d41;
+  --color-dim: #596254;
+  --color-sun: #8a5b00;
+  --color-sun-ink: #fff8e6;
+  --color-sun-soft: #e9bf55;
+  --color-go: #1b7544;
+  --color-wait: #8a5200;
+  --color-stop: #b3261e;
+  --color-leaf: #3f7a2c;
+  --color-rain: #2a64a8;
+  --color-paper: #fffdf7;
+  --color-paper-2: #f6f1e3;
+  --color-paper-line: #cfc5a8;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 24px 50px -34px rgb(60 45 20 / 0.35);
+  --shadow-float: 0 24px 60px -28px rgb(60 45 20 / 0.4);
+}
+/* Dark is also re-declared in full so a dark "window" (hero, verdict) keeps its colours inside the light theme. */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-void: #080c09;
+  --color-ink: #0c110d;
+  --color-panel: #111712;
+  --color-panel-2: #171e18;
+  --color-line: #232b24;
+  --color-line-2: #313b32;
+  --color-bone: #eeebe0;
+  --color-chrome: #a9b1a4;
+  --color-dim: #8a9285;
+  --color-sun: #f0c96b;
+  --color-sun-ink: #1a1405;
+  --color-go: #6fd08c;
+  --color-wait: #f2a93b;
+  --color-stop: #f58a76;
+  --color-leaf: #8fc77a;
+  --color-rain: #7fb6e8;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 28px 48px -36px rgb(0 0 0 / 0.8);
+  --shadow-float: 0 24px 60px -24px rgb(0 0 0 / 0.65);
+}
+
+/* Bangla needs room: taller lines, no negative tracking (it breaks the conjunct shapes) */
+html[lang="bn"] {
+  --track-tight: 0;
+  --track-wide: 0.02em;
+}
+html[lang="bn"] body {
+  line-height: 1.7;
+}
+html[lang="bn"] :where(h1, h2, h3, h4, .display) {
+  line-height: 1.28 !important;
+  letter-spacing: 0 !important;
+}
+html[lang="hi"] {
+  --track-tight: 0;
+  --track-wide: 0.02em;
+}
+html[lang="hi"] :where(h1, h2, h3, h4, .display) {
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+
+/* ------------------------------------------------------------------ base */
+html {
+  background: var(--color-void);
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: clip;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+body {
+  margin: 0;
+  background: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+::selection {
+  background: color-mix(in oklab, var(--color-sun) 38%, transparent);
+  color: var(--color-bone);
+}
+:focus-visible {
+  outline: 2px solid var(--color-sun);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+/* the page container is a programmatic focus target (route changes), not an interactive control */
+#main:focus,
+#main:focus-visible {
+  outline: none;
+}
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: var(--track-tight);
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+.sr-only-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Skip link: first tab stop on every page */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 200;
+  transform: translateY(-160%);
+  background: var(--color-bone);
+  color: var(--color-void);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 160ms var(--ease-out);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Film grain: removes the flat digital-black look. Off in Lite mode. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+[data-theme="light"] body::before {
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+}
+html.lite body::before {
+  display: none;
+}
+
+/* While the page scrolls, content slides under a resting pointer and hover states would flicker */
+html.is-scrolling body * {
+  pointer-events: none !important;
+}
+
+/* ------------------------------------------------------------------ motion preferences
+   "Reduced" is the OS setting OR the on-page Pause switch (html.reduce-motion). Fewer and gentler,
+   not zero: opacity/colour changes stay, travel and loops go. */
+@media (prefers-reduced-motion: reduce) {
+  html:not(.motion-on) *,
+  html:not(.motion-on) *::before,
+  html:not(.motion-on) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    backdrop-filter: none !important;
+    background: var(--color-panel) !important;
+  }
+}
+@media (prefers-contrast: more) {
+  :root {
+    --color-line: color-mix(in oklab, var(--color-bone) 40%, transparent);
+    --color-line-2: color-mix(in oklab, var(--color-bone) 60%, transparent);
+  }
+}

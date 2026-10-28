@@ -1,0 +1,123 @@
+[
+  {
+    "item_id": "inbox-0001",
+    "field_id": "BD-DEMO-01",
+    "farmer_display_name": "Demo farmer A",
+    "reason_code": "low_confidence",
+    "reason": {
+      "en": "Low-confidence diagnosis: the top two labels are close.",
+      "bn": "রোগ নির্ণয়ে আত্মবিশ্বাস কম: প্রথম দুটি লেবেল কাছাকাছি।"
+    },
+    "diagnosis_id": "dx-0001",
+    "top_labels": [
+      {
+        "label": "rice_blast",
+        "prob": 0.41
+      },
+      {
+        "label": "brown_spot",
+        "prob": 0.33
+      },
+      {
+        "label": "healthy",
+        "prob": 0.1
+      }
+    ],
+    "question": null,
+    "photo_attached": true,
+    "status": "open",
+    "resolution_note": null,
+    "created_at": "2026-10-27T00:30:00Z",
+    "resolved_at": null,
+    "resolved_by": null
+  },
+  {
+    "item_id": "inbox-0002",
+    "field_id": "BD-DEMO-01",
+    "farmer_display_name": "Sample farmer 07",
+    "reason_code": "out_of_distribution",
+    "reason": {
+      "en": "The photo looks unlike anything the model was trained on (possibly not a rice leaf).",
+      "bn": "ছবিটি মডেলের শেখা কোনো ছবির মতো নয় (সম্ভবত ধানের পাতা নয়)।"
+    },
+    "diagnosis_id": "dx-0002",
+    "top_labels": [
+      {
+        "label": "sheath_blight",
+        "prob": 0.27
+      },
+      {
+        "label": "leaf_scald",
+        "prob": 0.22
+      },
+      {
+        "label": "healthy",
+        "prob": 0.19
+      }
+    ],
+    "question": null,
+    "photo_attached": false,
+    "status": "open",
+    "resolution_note": null,
+    "created_at": "2026-10-26T16:12:00Z",
+    "resolved_at": null,
+    "resolved_by": null
+  },
+  {
+    "item_id": "inbox-0003",
+    "field_id": "BD-DEMO-01",
+    "farmer_display_name": "Sample farmer 12",
+    "reason_code": "no_matching_rule",
+    "reason": {
+      "en": "No sourced rule covers this question yet.",
+      "bn": "এই প্রশ্নের জন্য উৎসসহ কোনো নিয়ম এখনো নেই।"
+    },
+    "diagnosis_id": null,
+    "top_labels": [],
+    "question": "Can I drain the field a week before harvest?",
+    "photo_attached": false,
+    "status": "open",
+    "resolution_note": null,
+    "created_at": "2026-10-26T09:48:00Z",
+    "resolved_at": null,
+    "resolved_by": null
+  },
+  {
+    "item_id": "inbox-0004",
+    "field_id": "KE-SAMPLE-01",
+    "farmer_display_name": "Demo farmer B",
+    "reason_code": "conflicting_rules",
+    "reason": {
+      "en": "Two rules disagree for this situation; an officer should decide.",
+      "bn": "এই পরিস্থিতিতে দুটি নিয়ম পরস্পরবিরোধী; কর্মকর্তা সিদ্ধান্ত নেবেন।"
+    },
+    "diagnosis_id": null,
+    "top_labels": [],
+    "question": null,
+    "photo_attached": false,
+    "status": "resolved",
+    "resolution_note": "Checked the field with the farmer by phone: no protection used yet, advised to follow the re-check rule.",
+    "created_at": "2026-10-25T13:05:00Z",
+    "resolved_at": "2026-10-25T15:40:00Z",
+    "resolved_by": "Sample officer"
+  },
+  {
+    "item_id": "inbox-0005",
+    "field_id": "BD-DEMO-01",
+    "farmer_display_name": "Sample farmer 03",
+    "reason_code": "data_unavailable",
+    "reason": {
+      "en": "No forecast was available for this field when the plan was built.",
+      "bn": "পরিকল্পনা তৈরির সময় এই মাঠের আবহাওয়ার পূর্বাভাস পাওয়া যায়নি।"
+    },
+    "diagnosis_id": null,
+    "top_labels": [],
+    "question": null,
+    "photo_attached": false,
+    "status": "open",
+    "resolution_note": null,
+    "created_at": "2026-10-25T08:20:00Z",
+    "resolved_at": null,
+    "resolved_by": null
+  }
+]
