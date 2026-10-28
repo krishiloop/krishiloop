@@ -93,6 +93,38 @@ In the few-shot rows, the shots are whole duplicate groups held apart from the t
 
 **Deployment gap:** DINOv2-B (86 M parameters) is too big for a phone browser. Next to test: small frozen backbones (DINOv2-S, MobileNetV4) and teacher→student distillation, or server-side features in sovereign mode (the photo would then leave the phone, so the privacy text must change).
 
+## Earned trust per area (Oct 28, 2026): how photo answers become usable
+**Design:** `D:\AI_congress\plan\EARNED_TRUST_DESIGN.md`. **Code:** `services/vision/` (ledger, probe, service, backbone) and `rules/policy/photo-trust.yaml`.
+
+**How it works:**
+- In each area, the model's suggestion is frozen before the officer answers, so every verdict is an honest test.
+- The gate opens when the Wilson 95% lower bound on the precision of the last 50 "sure" suggestions reaches 0.85 (at least 30 sure answers needed).
+- It closes below 0.80, and the area's trust credential is revoked.
+- **Model:** BioCLIP 2 features, with a linear probe per area anchored to the zero-shot text classifier.
+
+**Evidence:** a simulation on real features, with the public datasets' labels standing in for officers (`analysis/earned_trust_sim*.py`, `artifacts/earned_trust_sim*.json`).
+- **Protocol 1 (pre-registered, training-free cache):** the gate opened in only 1 of 24 runs. The classifier was sure on ~90% of photos at 50–70% precision, so the gate correctly refused.
+- **Protocol 2 (designed after protocol 1, λ = 0.3 declared before running), with near-copy photos collapsed (cosine ≥ 0.95):**
+
+  | Area | Verdicts before the gate opened | Then automatic | Precision |
+  |---|---|---|---|
+  | Savar | 89–109 | 86% | 99.5% |
+  | RiceyLeafDisease | 126–179 | 32–37% | 96.8–99.4% |
+  | Dhan-Shomadhan (258 photos) | 221–234 | 5% | 83–100% |
+  | Gazipur | 328–510 | 30–35% | 94.4–95.9% |
+
+  The non-strict run and λ = 0.03 / 3 give the same picture.
+- **Caveats:**
+  - one backbone, 3 orders, no confidence intervals;
+  - dataset labels stand in for officers;
+  - the policy numbers are team-set (draft);
+  - no real officer has used it yet.
+
+**Exported model:** `ml/vision/export_backbone.py` writes the BioCLIP 2 vision tower (ONNX, 1.2 GB, outside git) + class text embeddings.
+- ONNX = PyTorch (cosine 1.0).
+- Server preprocessing = open_clip (cosine 1.0 on 5 image sizes).
+- The text embeddings equal the study's.
+
 ---
 
 ## v0: rice leaf triage (MobileNetV4-small, "union", Oct 26–27)
