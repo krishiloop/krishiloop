@@ -35,10 +35,10 @@ class Backbone:
         from PIL import Image, ImageOps
         with Image.open(io.BytesIO(image)) as im:
             im = ImageOps.exif_transpose(im).convert("RGB")
-        w, h = im.size
-        s = self.size / min(w, h)
-        im = im.resize((max(self.size, round(w * s)), max(self.size, round(h * s))), Image.BICUBIC)
-        left, top = (im.width - self.size) // 2, (im.height - self.size) // 2
+        w, h = im.size   # same arithmetic as torchvision Resize(size) + CenterCrop(size), which the model was measured with
+        nw, nh = (self.size, int(self.size * h / w)) if w <= h else (int(self.size * w / h), self.size)
+        im = im.resize((nw, nh), Image.BICUBIC)
+        left, top = int(round((nw - self.size) / 2.0)), int(round((nh - self.size) / 2.0))
         a = np.asarray(im.crop((left, top, left + self.size, top + self.size)), dtype=np.float32) / 255.0
         a = ((a - self.mean) / self.std).astype(np.float32).transpose(2, 0, 1)[None]
         out = self.session.run(None, {self.session.get_inputs()[0].name: a})[0][0]
