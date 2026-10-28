@@ -128,3 +128,78 @@ def test_demo_receipts_survive_a_server_restart(client, monkeypatch, tmp_path):
         assert client.get(f"/api/verify/{cid}").json()["status"] == "authentic"
     for bad in ("not-a-hex-id", "..%2F..%2Ftrust", "0123456789abcdef"):   # malformed, traversal, never created
         assert client.get(f"/api/demo/{bad}/stats").status_code == 404
+
+
+class FakeBackbone:
+    """Stands in for services/vision/backbone.py: b'blast:7' is a photo of blast, number 7."""
+    model, sha256 = "leaf@1", "a" * 64
+    labels = ["healthy", "blast", "brown_spot", "tungro", "sheath_blight"]
+
+    def __init__(self):
+        import numpy as np
+        rng = np.random.RandomState(0)
+        self.dirs = rng.randn(5, 16)
+        self.T = self.dirs + 0.6 * rng.randn(5, 16)
+
+    def features(self, image: bytes):
+        import numpy as np
+        try:
+            label, n = image.decode().split(":")
+        except (UnicodeDecodeError, ValueError):
+            raise ValueError("not an image")
+        return self.dirs[self.labels.index(label)] + 0.15 * np.random.RandomState(int(n)).randn(16)
+
+
+def _b64(s: str) -> str:
+    import base64
+    return base64.b64encode(s.encode()).decode()
+
+
+def _photo_session(client, monkeypatch, tmp_path, backbone=True):
+    import services.api.main as m
+    monkeypatch.setenv("KRISHILOOP_ISSUER_SEED", "11" * 32)
+    monkeypatch.setattr(m, "ROOT", tmp_path)
+    monkeypatch.setattr(m.vision_backbone, "load", (lambda: FakeBackbone()) if backbone else (lambda: None))
+    return client.post("/api/demo/session").json()["session_id"]
+
+
+def test_photos_are_refused_without_an_installed_model(client, monkeypatch, tmp_path):
+    sid = _photo_session(client, monkeypatch, tmp_path, backbone=False)
+    r = client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64("blast:1")})
+    assert r.status_code == 503
+
+
+def test_photo_case_flow_over_http(client, monkeypatch, tmp_path):
+    sid = _photo_session(client, monkeypatch, tmp_path)
+    r = client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64("blast:1"), "consent": True})
+    assert r.status_code == 200
+    case = r.json()
+    assert case["route"] == "officer" and case["area"] == "rice@BD" and len(case["suggestion"]) == 2
+    assert "x" not in case and "logits" not in case
+    assert [c["case_id"] for c in client.get(f"/api/demo/{sid}/photo/cases").json()["cases"]] == [case["case_id"]]
+    v = client.post(f"/api/demo/{sid}/photo/{case['case_id']}/verdict", json={"label": "blast"})
+    assert v.status_code == 200 and v.json()["area"]["verdicts"] == 1
+    assert client.post(f"/api/demo/{sid}/photo/{case['case_id']}/verdict", json={"label": "blast"}).status_code == 409
+    assert client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": "%%%"}).status_code == 422
+    assert client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64("garbage")}).status_code == 422
+    plan = client.post(f"/api/demo/{sid}/plan", json={"field_id": "BD-SAMPLE-01", "profile_id": "demo-farmer-d",
+                                                      "photo_case_id": case["case_id"]})
+    assert plan.status_code == 409          # that case went to the officer: there is no automatic reading to use
+    assert client.get(f"/api/demo/{sid}/areas/rice@BD").json()["gate_open"] is False
+    assert client.get(f"/api/demo/{sid}/areas/..%2F..").status_code == 404
+
+
+def test_trust_earned_in_one_demo_session_stays_there(client, monkeypatch, tmp_path):
+    import services.api.main as m
+    sid = _photo_session(client, monkeypatch, tmp_path)
+    monkeypatch.setattr(m, "_rate_limited", lambda who: False)    # 90 photos in a test minute; the real limit is 20
+    for i in range(90):
+        lab = FakeBackbone.labels[i % 5]
+        c = client.post(f"/api/demo/{sid}/photo", json={"field_id": "BD-SAMPLE-01", "image_b64": _b64(f"{lab}:{i}")}).json()
+        if c["route"] == "officer":
+            client.post(f"/api/demo/{sid}/photo/{c['case_id']}/verdict", json={"label": lab})
+    area = client.get(f"/api/demo/{sid}/areas/rice@BD").json()
+    assert area["gate_open"] and area["trust_credential_id"]
+    assert client.get(f"/api/verify/{area['trust_credential_id']}").json()["status"] == "invalid"   # not an advice receipt
+    other = client.post("/api/demo/session").json()["session_id"]
+    assert client.get(f"/api/demo/{other}/areas/rice@BD").json()["gate_open"] is False

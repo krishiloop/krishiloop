@@ -147,6 +147,11 @@ class PhotoService:
                                          np.array([self.labels.index(c["verdict"]) for c in recent]))
         self._save_model_state(area, D, temp)
 
+    def list_cases(self, limit: int = 100) -> list[dict]:
+        d = self.dir / "cases"
+        cases = [json.loads(p.read_text(encoding="utf-8")) for p in d.glob("pc-*.json")] if d.exists() else []
+        return [self.public(c) for c in sorted(cases, key=lambda c: c["created_at"], reverse=True)[:limit]]
+
     def area(self, area: str) -> dict:
         s = self.ledger(area).stats()
         return {**s, "trust_credential_id": self.store.trusted_photo_model(self.model, area)}

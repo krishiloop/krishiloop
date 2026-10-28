@@ -7,6 +7,8 @@ issuer key. A judge's recall changes only that judge's receipts; the official li
 """
 from __future__ import annotations
 
+import base64
+import binascii
 import hmac
 import json
 import os
@@ -29,6 +31,9 @@ from services.engine import snapshot as snap_mod
 from services.engine.planner import DEMO_FIELDS, DEMO_PROFILES, make_plan
 from services.engine.rules import REGISTRY, load_pack, pack_parameters
 from services.trust.store import CRED_ID, ROOT, TrustStore
+from services.vision import backbone as vision_backbone
+from services.vision.ledger import LedgerError
+from services.vision.service import PhotoService
 
 WEB = Path(__file__).resolve().parent / "web"
 VC_MEDIA = "application/vc"
@@ -61,7 +66,18 @@ DIAGNOSIS_VALIDATOR = _schema_validator("diagnosis.schema.json")
 class PlanRequest(BaseModel):
     field_id: str = Field(max_length=64)
     profile_id: str = Field(max_length=64)
-    diagnosis: dict | None = None
+    diagnosis: dict | None = None                   # a client's report: recorded, never trusted
+    photo_case_id: str | None = Field(default=None, pattern=r"^pc-[0-9a-f]{16}$")   # the server's own reading
+
+
+class PhotoRequest(BaseModel):
+    field_id: str = Field(max_length=64)
+    image_b64: str = Field(max_length=4_000_000)    # about 3 MB; the app sends a resized JPEG
+    consent: bool = False                           # may the officer see the photo?
+
+
+class VerdictRequest(BaseModel):
+    label: str = Field(max_length=40)
 
 
 class RecallRequest(BaseModel):
@@ -112,7 +128,7 @@ def _open_sandbox(sid: str, created: float) -> dict:
     base = store()
     st = TrustStore(base.base_url, base.issuer.did, os.environ["KRISHILOOP_ISSUER_SEED"], data_dir=_demo_dir(sid) / "trust",
                     status_id=f"demo-{sid}")
-    sb = {"store": st, "inbox": _demo_dir(sid) / "inbox", "created": created}
+    sb = {"store": st, "inbox": _demo_dir(sid) / "inbox", "dir": _demo_dir(sid), "created": created}
     with _lock:
         _sandboxes[sid] = sb
         while len(_sandboxes) > SANDBOX_MAX:
@@ -160,23 +176,31 @@ def _store_for(cred_id: str) -> TrustStore | None:
     return None
 
 
-def _plan(st: TrustStore, body: PlanRequest, request: Request, inbox_dir: Path | None):
+def _plan(st: TrustStore, body: PlanRequest, request: Request, inbox_dir: Path | None, photos: PhotoService | None = None):
     field, profile = DEMO_FIELDS.get(body.field_id), DEMO_PROFILES.get(body.profile_id)
     if not field or not profile:
         raise HTTPException(404, "unknown demo field or profile")
+    diagnosis, from_server = body.diagnosis, False
     if body.diagnosis is not None:
         errors = [e.message for e in DIAGNOSIS_VALIDATOR.iter_errors(body.diagnosis)]
         if errors:
             raise HTTPException(422, {"diagnosis": errors[:5]})
+    if body.photo_case_id:
+        if photos is None:
+            raise HTTPException(404, "photo cases are available in demo sessions only, for now")
+        try:
+            diagnosis, from_server = photos.diagnosis_for(body.photo_case_id, field), True
+        except LedgerError as e:
+            raise HTTPException(409, str(e))
     key = (st.status_id, body.field_id, body.profile_id, date.today().isoformat())
     with _lock:
         cached = _plan_cache.get(key)
-    if cached and body.diagnosis is None:
+    if cached and diagnosis is None:
         return cached
     if _rate_limited(request.client.host if request.client else "unknown"):
         raise HTTPException(429, "too many plan requests; try again in a minute")
-    result = make_plan(field, profile, st, inbox_dir=inbox_dir, diagnosis=body.diagnosis)
-    if body.diagnosis is None:
+    result = make_plan(field, profile, st, inbox_dir=inbox_dir, diagnosis=diagnosis, diagnosis_from_server=from_server)
+    if diagnosis is None:
         with _lock:
             _plan_cache[key] = result
     return result
@@ -335,10 +359,62 @@ def demo_session():
             "note": "sandbox: recalls here affect only this session's receipts"}
 
 
+def _photo_service(sb: dict) -> PhotoService:
+    bb = vision_backbone.load()
+    if bb is None:
+        raise HTTPException(503, "the photo model is not installed on this server")
+    with _lock:
+        svc = sb.get("photo")
+        if svc is None or svc.model != bb.model:
+            svc = sb["photo"] = PhotoService(sb["store"], sb["dir"] / "photo", bb.model, bb.sha256, bb.labels, bb.T, bb.features)
+    return svc
+
+
+@app.post("/api/demo/{sid}/photo")
+def demo_photo(sid: str, body: PhotoRequest, request: Request):
+    """A farmer's photo in a demo session: suggested, frozen in the area's ledger, routed to the officer or answered."""
+    sb, field = _sandbox(sid), DEMO_FIELDS.get(body.field_id)
+    if not field:
+        raise HTTPException(404, "unknown demo field")
+    if _rate_limited(request.client.host if request.client else "unknown"):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    try:
+        image = base64.b64decode(body.image_b64, validate=True)
+    except (binascii.Error, ValueError):
+        raise HTTPException(422, "image_b64 is not base64")
+    svc = _photo_service(sb)
+    try:
+        return svc.submit(field, image, body.consent)
+    except (OSError, ValueError):
+        raise HTTPException(422, "not a readable image")
+
+
+@app.get("/api/demo/{sid}/photo/cases")
+def demo_photo_cases(sid: str):
+    return {"cases": _photo_service(_sandbox(sid)).list_cases()}
+
+
+@app.post("/api/demo/{sid}/photo/{case_id}/verdict")
+def demo_photo_verdict(sid: str, case_id: str, body: VerdictRequest):
+    """In a demo session the visitor plays the officer. Real verdicts will need the officer's sign-in."""
+    svc = _photo_service(_sandbox(sid))
+    try:
+        return svc.judge(case_id, body.label, by=f"demo-officer:{sid[:6]}")
+    except LedgerError as e:
+        raise HTTPException(409, str(e))
+
+
+@app.get("/api/demo/{sid}/areas/{area}")
+def demo_area(sid: str, area: str):
+    if not re.fullmatch(r"[a-z0-9_]+@[A-Za-z0-9_-]+", area):
+        raise HTTPException(404, "unknown area")
+    return _photo_service(_sandbox(sid)).area(area)
+
+
 @app.post("/api/demo/{sid}/plan")
 def demo_plan(sid: str, body: PlanRequest, request: Request):
     sb = _sandbox(sid)
-    return _plan(sb["store"], body, request, sb["inbox"])
+    return _plan(sb["store"], body, request, sb["inbox"], _photo_service(sb) if body.photo_case_id else None)
 
 
 @app.post("/api/demo/{sid}/recall")
