@@ -1,0 +1,149 @@
+# Ask router: unsafe-intent screen. DATA, not code (services/ask/screen.py applies it).
+# A question that matches any type below never gets a rule's answer: it goes to the officer inbox as `unsafe_intent`,
+# marked urgent, and the farmer sees only the fixed message in rules/ask/router.yaml (no agronomy).
+# Written on 2026-10-29 by the team's coding agent from general pesticide-safety vocabulary (not from any test set's
+# wording). The Bangla and Swahili entries are machine-written and PENDING NATIVE-SPEAKER REVIEW.
+# The list of named products is the team's routing list, NOT a legal statement: Stockholm Convention POPs and active
+# ingredients the team understands to be WHO hazard class Ia/Ib. National registers (DAE, PCPB) were not checked.
+# Over-matching sends a question to the officer (the safe side); it never changes advice.
+#
+# Matching: question words are normalised as in rules/ask/synonyms.yaml (lower case, script digits -> 0-9). A term
+# matches a word when the term is that word or one of its case-ending variants (spraying -> spray, কীটনাশকের ->
+# কীটনাশক); a phrase must match consecutive words. A type fires when ANY of its clauses holds; a clause holds when
+# EVERY item in it is present. An item is a group name ("@NAME"), a list of terms, {near: [a, b], window: n} (a term of
+# each with at most n words between them, in either order), or {classes: [...], min: k} (terms from at least k of the listed groups).
+version: 1
+review: pending native-speaker review (Bangla and Swahili entries)
+
+groups:
+  PESTICIDE: [pesticide, insecticide, fungicide, herbicide, weedicide, chemical, poison, agrochemical, spray chemical,
+              কীটনাশক, ছত্রাকনাশক, বালাইনাশক, আগাছানাশক, বিষ, ওষুধ, রাসায়নিক,
+              dawa, sumu, kemikali, viuatilifu, kiuatilifu, viuadudu, kiuadudu, viuakuvu, kiuakuvu, viuagugu, kiuagugu]
+  SPRAY: [spray, sprayer, dust, fumigate, স্প্রে, ছিটানো, ছিটাব, ছিটিয়ে, ছিটাতে, ওষুধ মারব, ওষুধ মারা, ওষুধ মারলে,
+          ওষুধ দিলে, ওষুধ দেওয়ার, বিষ দিলে, বিষ দেওয়ার, কীটনাশক দিলে, কীটনাশক দেওয়ার,
+          nyunyizia, kunyunyizia, ninyunyizie, nyunyiza, kunyunyiza, ninyunyize, nimenyunyizia, kunyunyuzia, nyunyuzia,
+          piga dawa, kupiga dawa, nimepiga dawa, bomba, pampu]
+  MIX: [mix, mixture, combine, blend, cocktail, মিশিয়ে, মিশাব, মেশাব, মেশাতে, মিশাতে, মেশানো, মিশানো, মিশ্রণ, মিক্স,
+        changanya, kuchanganya, nichanganye, nichanganya, ukichanganya, mchanganyiko, kuchanganywa]
+  TOGETHER: [together, same tank, one tank, single tank, same sprayer, one sprayer, same knapsack, one knapsack,
+             same pump, one pump, same bucket, one bucket, একসাথে, একসঙ্গে, এক সাথে, এক ট্যাংকে, একই ট্যাংকে,
+             এক ট্যাঙ্কে, একই ট্যাঙ্কে, একই স্প্রে, এক স্প্রে মেশিনে, একই মেশিনে, এক মেশিনে, একই বালতিতে,
+             pamoja, kwa pamoja, bomba moja, pampu moja, tangi moja, ndoo moja]
+  COUNT2: [two, three, four, several, multiple, different, many, 2, 3, 4, two kinds of, two types of, three kinds of,
+           দুই, দুইটা, দুটো, দুটি, তিন, তিনটা, তিনটি, চার, কয়েকটা, কয়েকটি, কয়েক রকম, দুই রকম, তিন রকম,
+           দুই ধরনের, তিন ধরনের, বিভিন্ন, mbili, tatu, nne, kadhaa, tofauti, aina mbili za]
+  FUNGICIDE: [fungicide, mancozeb, metalaxyl, copper, chlorothalonil, cymoxanil, carbendazim, tricyclazole,
+              propiconazole, hexaconazole, azoxystrobin, difenoconazole, ছত্রাকনাশক, ম্যানকোজেব, মেটালাক্সিল,
+              কার্বেন্ডাজিম, ট্রাইসাইক্লাজল, কপার, dawa ya ukungu, kiuakuvu, viuakuvu]
+  INSECTICIDE: [insecticide, imidacloprid, thiamethoxam, chlorpyrifos, cypermethrin, lambda cyhalothrin, malathion,
+                profenofos, fipronil, abamectin, emamectin, dimethoate, acephate, diazinon, cartap, কীটনাশক,
+                ইমিডাক্লোপ্রিড, থায়ামেথোক্সাম, ক্লোরপাইরিফস, সাইপারমেথ্রিন, dawa ya wadudu, kiuadudu, viuadudu]
+  HERBICIDE: [herbicide, weedicide, weed killer, glyphosate, আগাছানাশক, dawa ya magugu, kiuagugu, viuagugu]
+  FERTILISER: [fertilizer, fertiliser, urea, dap, npk, potash, সার, ইউরিয়া, mbolea]
+  HARVEST: [harvest, reap, dig up, digging up, lift the potatoes, lift my potatoes, কাটব, কাটবো, কাটা, কাটার, কাটতে,
+            তুলব, তুলবো, তোলার, তুলতে, আলু তোলা, ফসল তোলা, kuvuna, vuna, nitavuna, tutavuna, mavuno, kuchimba,
+            nitachimba, tutachimba, kuchimbua]
+  SOON: [before, days, day, tomorrow, week, soon, next, few, আগে, দিন, দিনের, কাল, আগামীকাল, সপ্তাহ, সপ্তাহে,
+         শিগগির, শীঘ্রই, kabla, siku, kesho, wiki, karibuni]
+  SELL: [sell, market, বিক্রি, বাজারে, kuuza, sokoni]
+  PPE: [glove, gloves, mask, masks, goggles, boots, apron, protective clothing, protective gear, protective equipment,
+        ppe, face cover, গ্লাভস, হাতমোজা, মাস্ক, মুখোশ, চশমা, বুট, অ্যাপ্রন, সুরক্ষা পোশাক, সুরক্ষা সরঞ্জাম,
+        glavu, barakoa, miwani, buti, vifaa vya kujikinga, mavazi ya kujikinga, nguo za kujikinga]
+  WITHOUT: [without, no, not, don, dont, never, skip, ছাড়া, ছাড়াই, না পরে, না পরেই, বিনা, পরব না, পরি না, পরিনি,
+            bila, sina, sitavaa, bila kuvaa]
+  FOOD: [fish, milk, graze, grazing, fodder, safe to eat, ok to eat, okay to eat, can we eat, can i eat,
+         family eat, children eat, cook, drinking water, drink the water, মাছ, দুধ, খাওয়া যাবে, খাওয়া যায়,
+         খেতে পারব, খেতে পারবে, খেতে পারি, খাওয়ানো, খাওয়াতে, রান্না, গরু চরানো, ঘাস কেটে, শাক,
+         hens, chickens, poultry, হাঁস, মুরগি, samaki, maziwa, kuku, tunaweza kula, naweza kula, salama kula, kuliwa,
+         kulisha, malisho, kupika, maji ya kunywa]
+  PEOPLE: [child, children, kid, kids, my baby, our baby, the baby, a baby, infant, pregnant, pregnancy, breastfeeding, nursing mother, শিশু,
+           শিশুরা, শিশুদের, বাচ্চারা, বাচ্চাদের, বাচ্চাকে, ছোট বাচ্চা, ছেলেমেয়ে, ছেলেমেয়েরা, গর্ভবতী, পোয়াতি,
+           mtoto, watoto, mjamzito, wajawazito, mama anayenyonyesha]
+  # a person who is unwell (symptoms people get, not plant disease words like রোগ or blight)
+  UNWELL: [stomach ache, stomachache, tummy ache, vomiting, vomit, vomited, fever, diarrhoea, diarrhea, headache,
+           dizzy, dizziness, rash, itching, fainted, breathing, poisoned, পেট ব্যথা, পেটব্যথা, পেটে ব্যথা, বমি, জ্বর,
+           ডায়রিয়া, পাতলা পায়খানা, মাথা ব্যথা, মাথাব্যথা, মাথা ঘোরা, চুলকানি, শ্বাসকষ্ট, অজ্ঞান, অসুস্থ,
+           maumivu ya tumbo, tumbo linauma, kutapika, anatapika, homa, kuhara, anaharisha, maumivu ya kichwa,
+           kizunguzungu, upele, kuwashwa, amezimia, anaumwa, mgonjwa]
+  RELATIVE: [my son, my daughter, my wife, my husband, my mother, my father, my brother, my sister, my family,
+             আমার ছেলে, আমার মেয়ে, আমার বউ, আমার স্ত্রী, আমার স্বামী, আমার মা, আমার বাবা, বাচ্চার, ছেলের, মেয়ের,
+             mwanangu, mke wangu, mume wangu, mama yangu, baba yangu, familia yangu]
+  WATER_BODY: [pond, river, stream, canal, the well, a well, tubewell, tube well, lake, পুকুর, নদী, খাল, কুয়া, কুয়ো, ডোবা, kisima, bwawa, mto,
+               kijito, ziwa]
+  CONTAINER: [empty bottle, empty container, empty can, container, bottle, drum, jar, packet, খালি বোতল, খালি কৌটা, বোতল, কৌটা, ড্রাম, প্যাকেট,
+              chupa, mkebe, ndoo, dumu, pakiti]
+
+types:
+  banned_or_highly_hazardous:
+    - [[ddt, endosulfan, aldrin, dieldrin, endrin, chlordane, heptachlor, mirex, toxaphene, lindane, gammexane, bhc,
+        hexachlorobenzene, chlordecone, pentachlorophenol, monocrotophos, methyl parathion, parathion, phorate,
+        methamidophos, aldicarb, carbofuran, dichlorvos, ডিডিটি, এন্ডোসালফান, অলড্রিন, অল্ড্রিন, ডায়েলড্রিন,
+        ডাইএলড্রিন, এনড্রিন, এন্ড্রিন, ক্লোরডেন, হেপ্টাক্লোর, হেপ্টাক্লর, লিন্ডেন, গ্যামাক্সিন, মনোক্রোটোফস,
+        প্যারাথিয়ন, ফোরেট, কার্বোফুরান, ডাইক্লোরভস]]
+    - [[banned, prohibited, illegal, smuggled, নিষিদ্ধ, অবৈধ, marufuku, iliyopigwa marufuku, haramu], "@PESTICIDE"]
+  tank_mix:
+    - ["@MIX", "@TOGETHER", ["@PESTICIDE", "@FUNGICIDE", "@INSECTICIDE", "@HERBICIDE"]]
+    - ["@MIX", {near: ["@COUNT2", ["@PESTICIDE", "@FUNGICIDE", "@INSECTICIDE", "@HERBICIDE"]], window: 0}]
+    - ["@MIX", {classes: ["@FUNGICIDE", "@INSECTICIDE", "@HERBICIDE", "@FERTILISER"], min: 2}]
+  pre_harvest_interval:
+    - [["@PESTICIDE", "@SPRAY"], "@HARVEST", "@SOON"]
+    - [["@PESTICIDE", "@SPRAY"], "@SELL", "@SOON"]
+  raising_the_dose:
+    - [[double the dose, double dose, double the amount, twice the dose, twice the amount, triple the dose,
+        more than the label, more than recommended, more than written, higher dose, stronger dose, extra dose,
+        increase the dose, increase the amount, overdose, দ্বিগুণ, ডাবল ডোজ, বেশি মাত্রায়, মাত্রা বাড়িয়ে,
+        লেবেলের চেয়ে বেশি, তিনগুণ, maradufu, zaidi ya kipimo, zaidi ya lebo, kuongeza kipimo, ongeza kipimo,
+        dozi kubwa]]
+    - [[double, triple, দ্বিগুণ, ডাবল, তিনগুণ, maradufu], [dose, amount, quantity, label, "@PESTICIDE", "@SPRAY",
+        মাত্রা, পরিমাণ, kipimo, kiasi]]
+    - [[more, extra, stronger, higher, increase, বেশি, বাড়িয়ে, zaidi, ongeza, kuongeza],
+       [label, recommended, written on, prescribed, normal dose, usual dose, লেবেল, লেবেলে, নির্দেশিত, lebo]]
+    - [["@PESTICIDE", "@SPRAY"], [every day, daily, each day, every other day, every two days, every 2 days,
+        every three days, every 3 days, twice a day, প্রতিদিন, রোজ, দিনে দুবার, প্রতি দুই দিন, প্রতি তিন দিন,
+        একদিন পরপর, দুই দিন পরপর, তিন দিন পরপর, kila siku, mara mbili kwa siku, kila baada ya siku mbili,
+        kila baada ya siku tatu]]
+  no_protective_equipment:
+    - ["@PPE", "@WITHOUT"]
+    - [[bare hands, bare hand, barehanded, with my hands, খালি হাতে, mikono mitupu, kwa mikono]]
+  unlabelled_product:
+    - [[unlabelled, unlabeled, no label, without a label, without label, without its label, label is missing,
+        label came off, unmarked, unknown chemical, unknown powder, unknown liquid, repacked, repackaged,
+        লেবেল ছাড়া, লেবেলহীন, লেবেলবিহীন, লেবেল নেই, কিছু লেখা নেই, নাম লেখা নেই, অচেনা ওষুধ, খোলা ওষুধ,
+        bila lebo, haina lebo, hakuna lebo, bila jina, isiyojulikana, haijulikani]]
+  food_or_animals_after_spraying:
+    - [["@PESTICIDE", "@SPRAY", sprayed, treated], "@FOOD"]
+  children_or_pregnancy:
+    - ["@PEOPLE", ["@PESTICIDE", "@SPRAY"]]
+  # Added 29 Oct 2026 after the held-out v2 run showed a child's stomach-ache question reaching a spray rule (ওষুধ is
+  # also the farmers' word for pesticide). Any question about an unwell person goes to the officer, never to a rule.
+  person_unwell:
+    - ["@PEOPLE", "@UNWELL"]
+    - ["@RELATIVE", "@UNWELL"]
+    - ["@UNWELL", [medicine, what medicine, which medicine, tablet, syrup, ওষুধ, ঔষধ, dawa, vidonge]]
+  other_handling_hazard:
+    - ["@CONTAINER", [reuse, use again, store water, keep water, carry water, drinking, food, cooking oil, পানি রাখা,
+        পানি রাখতে, খাবার, চাল রাখা, চাল রাখতে, তেল রাখা, আবার ব্যবহার, maji ya kunywa, kuhifadhi maji, kubebea maji, chakula,
+        kutumia tena], "@PESTICIDE"]
+    - ["@PESTICIDE", [kitchen, granary, bedroom, under the bed, near food, with food, রান্নাঘর, খাবারের, চালের,
+        শোবার ঘর, jikoni, chakula, ghala, chumbani], [store, keep, রাখা, রাখব, রাখতে, রাখি, kuhifadhi, hifadhi,
+        kuweka, weka]]
+    - [["@PESTICIDE", "@SPRAY"], "@WATER_BODY"]
+    - [[smoke, smoking, cigarette, bidi, tobacco, chew, ধূমপান, বিড়ি, সিগারেট, kuvuta sigara, sigara, tumbaku],
+       ["@SPRAY", "@PESTICIDE"]]
+    - [[eat, drink, chew, খাওয়া, খেতে, খাই, kula, kunywa], [while spray, during spray, while i spray, when spray,
+        স্প্রে করার সময়, স্প্রে করতে করতে, ওষুধ দেওয়ার সময়, wakati wa kunyunyizia, huku nikinyunyizia]]
+    - [[enter, go into, walk into, work in, re enter, reenter, go back into, ঢুকতে, ঢুকব, নামতে, নামব, kuingia,
+        ingia, kurudi], [sprayed, after spraying, right after, just sprayed, পরপরই, স্প্রের পর, স্প্রে করার পর,
+        mara baada ya, baada ya kunyunyizia, iliyonyunyiziwa]]
+    - [[expired, expiry, out of date, মেয়াদোত্তীর্ণ, মেয়াদ শেষ, মেয়াদ পেরিয়ে, পুরনো ওষুধ, iliyopitwa na wakati,
+        imeisha muda, muda wake umeisha], ["@PESTICIDE", "@SPRAY"]]
+    - [[kerosene, kerosine, diesel, petrol, কেরোসিন, ডিজেল, পেট্রোল, mafuta ya taa, dizeli, petroli],
+       ["@PESTICIDE", "@SPRAY"]]
+    - ["@SPRAY", [strong wind, windy, in the wind, near houses, near homes, near the house, near school, near a school,
+        জোরে বাতাস, ঝড়ো বাতাস, বাতাস বইছে, বাতাসের মধ্যে, বাড়ির পাশে, স্কুলের পাশে, upepo, upepo mkali,
+        karibu na nyumba, karibu na shule]]
+    - [[by mouth, with my mouth, suck, siphon, blow the nozzle, মুখ দিয়ে, kwa mdomo], ["@PESTICIDE", "@SPRAY"]]
+    - [[cattle dip, acaricide, tick medicine, tick dip, পশুর ওষুধ, গরুর ওষুধ, গবাদি পশুর ওষুধ, dawa ya kupe,
+        dawa ya kuogesha, josho], ["@SPRAY", "@PESTICIDE"]]
+    - [[burn, burning, bury, পোড়া, পুড়িয়ে, পুড়িয়ে ফেলব, kuchoma, choma, kuzika], "@CONTAINER", "@PESTICIDE"]
+    - [[catch fish, kill fish, poison fish, মাছ ধরা, মাছ ধরতে, মাছ ধরব, kuvua samaki, kukamata samaki, kuua samaki]]

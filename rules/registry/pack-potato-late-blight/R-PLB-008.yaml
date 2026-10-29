@@ -18,8 +18,10 @@ action:
   kind: input_decision
   traffic_light: red
   title:
+    bn: "সামনে আর্দ্র ও মৃদু তাপমাত্রার দিন আসছে এবং আপনার ফসল সুরক্ষিত নয়: সুরক্ষার উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।"
     en: 'Humid, mild days ahead and your crop is not protected: contact your officer
       about protection options now.'
+    sw: "Siku za unyevunyevu na joto la wastani zinakuja na zao lako halijakingwa: wasiliana na afisa wako sasa kuhusu njia za kulikinga."
   decision: recheck
 sources:
 - doc_id: DOC-CIP-001
@@ -47,6 +49,7 @@ reviewer_parameters:
   set_by: team
   note: NOT from source; to be set by the pathologist.
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

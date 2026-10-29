@@ -133,7 +133,10 @@ function CaseRow({ item, active, onSelect }: { item: InboxItem; active: boolean;
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-3">
-          <span className="truncate font-semibold text-ink">{reasonTitle(item.reason_code, t)}</span>
+          <span className="flex min-w-0 items-center gap-2">
+            {item.priority === 'urgent' && <span className="chip chip-stop flex-none">{t('off.urgent')}</span>}
+            <span className="truncate font-semibold text-ink">{reasonTitle(item.reason_code, t)}</span>
+          </span>
           <span className="mono flex-none text-xs text-ink-3">{fmtDate(item.created_at, lang, 'short')}</span>
         </span>
         <span className="mono mt-1 flex flex-wrap items-center gap-x-2 text-xs text-ink-3">

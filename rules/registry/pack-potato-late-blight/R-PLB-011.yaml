@@ -24,9 +24,11 @@ action:
   decision: dont_spray
   traffic_light: green
   title:
+    bn: "এই সপ্তাহে সুরক্ষামূলক স্প্রের দরকার দেখা যাচ্ছে না: আমাদের পূর্বাভাস যাচাইয়ে নাবি ধসা রোগের অনুকূল কোনো সময় পাওয়া যায়নি, অথবা আপনার ফসল সুরক্ষিত এবং ভারী বৃষ্টির পূর্বাভাস নেই। গাছগুলো দেখতে থাকুন।"
     en: 'No protective spray indicated this week: our forecast check found no period
       favourable to late blight, or your crop is protected and no heavy rain is forecast.
       Keep checking your plants.'
+    sw: "Hakuna haja ya kunyunyizia dawa ya kinga wiki hii: ukaguzi wetu wa utabiri haukupata kipindi kinachofaa baa chelewa, au zao lako limekingwa na hakuna mvua kubwa inayotabiriwa. Endelea kukagua mimea yako."
 basis_note: 'Inference, stated openly: the manual ties protection to periods favourable
   to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact
   products away (p. 24). Our forecast check, using the reviewer-set thresholds below,
@@ -53,6 +55,7 @@ reviewer_parameters:
   set_by: team
   note: NOT from source; to be set by the pathologist.
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: 'v2 (Oct 27): stage guard added; the p. 6 preface quote replaced because it

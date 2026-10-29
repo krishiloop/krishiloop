@@ -1,0 +1,162 @@
+{
+ "engine": "langgraph",
+ "langgraph_version": "1.2.14",
+ "router_version": "0.2.0",
+ "mode": "hybrid",
+ "stages": {
+  "bm25": true,
+  "dense": true,
+  "rerank": false
+ },
+ "installed": {
+  "dense": true,
+  "rerank": true
+ },
+ "note": "BM25 + dense (reciprocal-rank fusion) (rerank: installed, but the dev split selected a mode without it (ml/ask/eval_report.json))",
+ "threshold": {
+  "value": 0.55128,
+  "fixed_on": "dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)",
+  "fitted_at": "2026-10-29T10:47:55Z",
+  "synthetic": true,
+  "stale": false,
+  "calibrated_modes": [
+   "bm25",
+   "bm25+rerank",
+   "hybrid",
+   "hybrid+rerank"
+  ]
+ },
+ "models": {
+  "embedder": {
+   "name": "multilingual-e5-small",
+   "repo": "intfloat/multilingual-e5-small",
+   "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+   "licence": "MIT",
+   "bangla_evidence": "model card metadata lists language 'bn'; the card says it 'supports 100 languages from xlm-roberta, but low-resource languages may see performance degradation'",
+   "parameters": "118M",
+   "variant": "fp32",
+   "card": "https://huggingface.co/intfloat/multilingual-e5-small",
+   "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665"
+  },
+  "reranker": {
+   "name": "gte-multilingual-reranker-base",
+   "repo": "onnx-community/gte-multilingual-reranker-base",
+   "revision": "ee64367e35a2db0da46bb6497e13a18f8bd585cb",
+   "base_model": "Alibaba-NLP/gte-multilingual-reranker-base",
+   "licence": "Apache-2.0",
+   "bangla_evidence": "base model card metadata lists language 'bn' among 70+ languages ('Supports over 70 languages')",
+   "parameters": "306M",
+   "variant": "fp32",
+   "card": "https://huggingface.co/Alibaba-NLP/gte-multilingual-reranker-base",
+   "sha256": "4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9"
+  }
+ },
+ "not_loaded": {},
+ "index": {
+  "rule_units": 23,
+  "corpus_chunks": 34,
+  "corpus_docs": [
+   "DOC-CIP-001"
+  ],
+  "chunking": "semantic: embedding similarity between adjacent sentences",
+  "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
+  "registry_sha256": "526612cc55075cef73e08856660208d5c86fdf07bc6e76ab39700f00fc3171e4"
+ },
+ "lexicon": {
+  "sha256": "1ca66f2aaadcfbe3bc8eab44988c32f72db7fa87c10e11d5d826da8099e80cdc",
+  "review": "Bangla and Swahili entries pending native-speaker review"
+ },
+ "screens": {
+  "unsafe_intent": {
+   "types": [
+    "banned_or_highly_hazardous",
+    "children_or_pregnancy",
+    "food_or_animals_after_spraying",
+    "no_protective_equipment",
+    "other_handling_hazard",
+    "pre_harvest_interval",
+    "raising_the_dose",
+    "tank_mix",
+    "unlabelled_product"
+   ],
+   "sha256": "d8748a1c56e5ff9cb9b7bc55c889001bb3198e971aec7b5daa9f7de59193efc8",
+   "abstains_as": "unsafe_intent (urgent)"
+  },
+  "problems": {
+   "sha256": "9d16f590ac157bdc62bc546395a9b87ee9dcc06f12355cb9c08c47c4d2ad8918",
+   "abstains_as": "no_rule_for_problem",
+   "rule_targets": {
+    "R-BDR-001": [
+     "brown_planthopper"
+    ],
+    "R-BDR-002": [
+     "brown_planthopper"
+    ],
+    "R-BDR-003": [
+     "bacterial_leaf_blight",
+     "brown_planthopper"
+    ],
+    "R-BDR-004": [
+     "bacterial_leaf_blight"
+    ],
+    "R-BDR-005": [
+     "brown_planthopper"
+    ],
+    "R-BDR-006": [
+     "brown_planthopper"
+    ],
+    "R-BDR-007": [
+     "blast"
+    ],
+    "R-BDR-008": [
+     "blast"
+    ],
+    "R-BDR-009": [
+     "bacterial_leaf_blight"
+    ],
+    "R-BDR-010": [
+     "bacterial_leaf_blight"
+    ],
+    "R-BDR-011": [],
+    "R-BDR-012": [
+     "blast"
+    ],
+    "R-PLB-001": [
+     "late_blight"
+    ],
+    "R-PLB-002": [
+     "late_blight"
+    ],
+    "R-PLB-003": [
+     "late_blight"
+    ],
+    "R-PLB-004": [
+     "late_blight"
+    ],
+    "R-PLB-005": [
+     "late_blight"
+    ],
+    "R-PLB-006": [
+     "late_blight"
+    ],
+    "R-PLB-007": [
+     "late_blight"
+    ],
+    "R-PLB-008": [
+     "late_blight"
+    ],
+    "R-PLB-009": [
+     "late_blight"
+    ],
+    "R-PLB-010": [
+     "late_blight"
+    ],
+    "R-PLB-011": [
+     "late_blight"
+    ]
+   }
+  },
+  "review": "Bangla and Swahili entries pending native-speaker review"
+ },
+ "answers": "a rule's validated text with a signed receipt, or the officer inbox; no language model writes text"
+}

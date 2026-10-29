@@ -12,7 +12,9 @@ action:
   kind: harvest
   traffic_light: amber
   title:
+    bn: "সময়মতো আলু তুলুন এবং আবহাওয়া আর্দ্র থাকলে জমিতে কাজ করবেন না।"
     en: Harvest on time and avoid working in the field when it is humid.
+    sw: "Vuna kwa wakati na epuka kufanya kazi shambani wakati kuna unyevunyevu."
 sources:
 - doc_id: DOC-CIP-001
   page: 28
@@ -21,6 +23,7 @@ sources:
   quote_sha256: f831ec238743dbfea715ff75de31780682a5825d12136631efaed3835969cfa9
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

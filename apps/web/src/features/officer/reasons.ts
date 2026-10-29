@@ -14,6 +14,8 @@ export const REASONS = [
   'conflicting_rules',
   'farmer_requested',
   'no_matching_rule',
+  'unsafe_intent',
+  'no_rule_for_problem',
 ] as const;
 export type KnownReason = (typeof REASONS)[number];
 

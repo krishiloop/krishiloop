@@ -12,8 +12,10 @@ action:
   kind: practice
   traffic_light: amber
   title:
+    bn: "পাওয়া গেলে নাবি ধসা রোগ প্রতিরোধী জাত বেছে নিন (স্থানীয়ভাবে কোন কোন জাত পাওয়া যায়, তা আপনার কর্মকর্তাকে জিজ্ঞেস করুন)।"
     en: Choose a late-blight-resistant variety if one is available (ask your officer
       which are available locally).
+    sw: "Chagua aina ya viazi inayostahimili baa chelewa ikiwa inapatikana (muulize afisa wako ni aina zipi zinapatikana karibu nawe)."
 sources:
 - doc_id: DOC-CIP-001
   page: 27
@@ -21,6 +23,7 @@ sources:
   quote_sha256: cc7821f3570ec3013a817a5eb70a08ce8e1586fd5e4a019db734dedb3476e69d
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

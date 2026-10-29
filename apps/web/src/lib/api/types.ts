@@ -25,7 +25,11 @@ export type AbstentionCode =
   /** a rule the decision needed was recalled (backend v0.4.0) */
   | 'rule_recalled'
   /** the saved weather is too old to plan "this week" (backend v0.4.0) */
-  | 'data_stale';
+  | 'data_stale'
+  /** Ask router 0.2: a question about unsafe pesticide use or an unwell person; the case is marked urgent */
+  | 'unsafe_intent'
+  /** Ask router 0.2: the question names a pest or disease that no rule of the pack covers */
+  | 'no_rule_for_problem';
 
 export interface ReceiptSource {
   doc_id: string;
@@ -308,6 +312,8 @@ export interface InboxItem {
   farmer_display_name: string;
   reason_code: AbstentionCode;
   reason: I18nText;
+  /** Ask router 0.2: urgent cases (unsafe_intent) come first; absent means normal */
+  priority?: 'urgent' | 'normal';
   diagnosis_id?: string | null;
   top_labels?: DiagnosisLabel[];
   question?: string | null;

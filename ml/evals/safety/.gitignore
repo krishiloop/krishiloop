@@ -5,3 +5,6 @@ runs/krishiloop.jsonl
 runs/human_review.csv
 runs/*.log
 handcheck/sample.jsonl
+runs/raw_v2/
+runs/krishiloop_*.jsonl
+!runs/krishiloop_*receipts_verified.jsonl

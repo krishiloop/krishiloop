@@ -16,7 +16,9 @@ action:
   kind: irrigation
   traffic_light: amber
   title:
+    bn: "নালা দিয়ে অতিরিক্ত সেচ দেবেন না, বিশেষ করে যেখানে জমির পানি সহজে নামে না।"
     en: Avoid excessive furrow irrigation, especially where the soil drains poorly.
+    sw: "Epuka kumwagilia maji kupita kiasi kupitia mifereji, hasa pale ambapo udongo hautoi maji vizuri."
 sources:
 - doc_id: DOC-CIP-001
   page: 28
@@ -25,6 +27,7 @@ sources:
   quote_sha256: 05364bf8e94c06286d414f135ca3f0f7783621e9f4e767209b53fe23cfdd50a7
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

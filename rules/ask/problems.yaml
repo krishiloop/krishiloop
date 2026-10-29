@@ -1,0 +1,79 @@
+# Ask router: pests and diseases per crop. DATA, not code (services/ask/screen.py applies it).
+# Use: find the problem(s) a farmer's question names. A rule may answer only a question about a problem the rule
+# targets; a question naming a problem that no rule in the field's pack targets goes to the officer
+# (`no_rule_for_problem`); a question naming no problem is routed as before.
+# A rule's targets are DERIVED, not typed by hand: the problems named in its own title (any language), source quotes
+# and basis note, plus the pack's `every_rule_targets` (a pack written about one disease). `GET /api/ask/health` lists
+# the result, and tests/test_ask.py pins it for the current registry.
+# Written on 2026-10-29 by the team's coding agent from the rule registry, the source documents' terms and common
+# farm vocabulary (English, Bangla, Swahili); NOT from any test set's wording. The Bangla and Swahili names are
+# machine-written and PENDING NATIVE-SPEAKER REVIEW. Only specific names are listed: generic words (disease, pest,
+# blight, rot, spots, insects) and symptom words (brown spots, wilting) name no problem.
+# Matching as in rules/ask/safety.yaml: whole words or their case-ending variants, longest phrase first.
+version: 1
+review: pending native-speaker review (Bangla and Swahili entries)
+
+packs:
+  pack-potato-late-blight:
+    every_rule_targets: [late_blight]     # the pack's every rule is about late blight (CIP manual, DOC-CIP-001)
+
+crops:
+  rice:
+    brown_planthopper: [brown planthopper, brown plant hopper, planthopper, plant hopper, bph, hopperburn, hopper burn,
+                        বাদামি গাছফড়িং, বাদামি গাছ ফড়িং, বাদামী গাছফড়িং, গাছফড়িং, গাছ ফড়িং, বাদামি ফড়িং,
+                        কারেন্ট পোকা, কারেন্ট পোক, হপার বার্ন]
+    whitebacked_planthopper: [white backed planthopper, whitebacked planthopper, white backed plant hopper, wbph,
+                              সাদা পিঠ গাছফড়িং, সাদাপিঠ গাছফড়িং, সাদা পিঠের গাছফড়িং]
+    green_leafhopper: [green leafhopper, green leaf hopper, leafhopper, leaf hopper, glh, সবুজ পাতাফড়িং,
+                       সবুজ পাতা ফড়িং, পাতাফড়িং]
+    blast: [blast, rice blast, leaf blast, neck blast, panicle blast, node blast, collar blast, ব্লাস্ট, পাতা ব্লাস্ট,
+            শিষ ব্লাস্ট, শীষ ব্লাস্ট, গিঁট ব্লাস্ট, নেক ব্লাস্ট]
+    bacterial_leaf_blight: [bacterial leaf blight, bacterial blight, leaf blight, blb, kresek, পাতাপোড়া, পাতা পোড়া,
+                            পাতাপোড়া রোগ, ব্যাকটেরিয়াজনিত পাতাপোড়া, পাতা ঝলসানো]
+    bacterial_leaf_streak: [bacterial leaf streak, leaf streak, পাতার লালচে রেখা, লালচে রেখা রোগ]
+    sheath_blight: [sheath blight, খোলপোড়া, খোল পোড়া, খোলপোড়া রোগ]
+    sheath_rot: [sheath rot, খোলপচা, খোল পচা]
+    brown_spot: [brown spot disease, brown leaf spot, helminthosporium, বাদামি দাগ রোগ, বাদামী দাগ রোগ]
+    narrow_brown_spot: [narrow brown leaf spot, narrow brown spot, সরু বাদামি দাগ]
+    tungro: [tungro, টুংরো]
+    bakanae: [bakanae, foolish seedling, বাকানি]
+    false_smut: [false smut, লক্ষ্মীর গু, ভুয়া ঝুল, ভুয়া ঝুল রোগ]
+    stem_rot: [stem rot, কাণ্ড পচা, কান্ড পচা]
+    stem_borer: [stem borer, stemborer, yellow stem borer, dead heart, deadheart, white head, whitehead,
+                 মাজরা পোকা, মাজরা, হলুদ মাজরা, কালো মাথা মাজরা, গোলাপি মাজরা, মরা ডিগ, সাদা শিষ, সাদা শীষ]
+    rice_hispa: [rice hispa, hispa, পামরি পোকা, পামরি]
+    leaf_folder: [leaf folder, leaffolder, leaf roller, rice leaf roller, পাতা মোড়ানো পোকা, পাতামোড়ানো পোকা]
+    rice_bug: [rice bug, gundhi bug, gandhi bug, rice earhead bug, গান্ধি পোকা, গান্ধী পোকা]
+    gall_midge: [gall midge, onion leaf gall, নলি মাছি, গল মাছি]
+    caseworm: [caseworm, case worm, চুংগী পোকা, চুঙ্গি পোকা, চুঙ্গী পোকা]
+    armyworm: [armyworm, army worm, swarming caterpillar, ear cutting caterpillar, cutworm, লেদা পোকা,
+               শীষকাটা লেদা পোকা]
+    grasshopper: [grasshopper, ঘাসফড়িং, ঘাস ফড়িং]
+    thrips: [thrips, থ্রিপস]
+    mealybug: [mealybug, mealy bug, ছাতরা পোকা]
+    rats: [rat, rodent, mice, ইঁদুর]
+    snails: [snail, apple snail, শামুক]
+    nematodes: [nematode, root knot, ufra, উফরা, কৃমি রোগ, শিকড় গিঁট]
+  potato:
+    late_blight: [late blight, potato blight, phytophthora, phytophthora infestans, নাবি ধসা, নাবি ধ্বসা, নাবিধসা,
+                  নাবী ধসা, মড়ক, মড়ক রোগ, লেট ব্লাইট, baa chelewa, ugonjwa wa baa chelewa, blight ya viazi]
+    early_blight: [early blight, alternaria, আগাম ধসা, আগাম ধ্বসা, আগাম ধসা রোগ, আর্লি ব্লাইট, baa tangulizi]
+    bacterial_wilt: [bacterial wilt, brown rot, ralstonia, ব্যাকটেরিয়াজনিত ঢলে পড়া, ঢলে পড়া রোগ, ব্যাকটেরিয়াল উইল্ট,
+                     mnyauko bakteria, mnyauko wa bakteria, mnyauko bacteria]
+    blackleg_soft_rot: [blackleg, black leg, soft rot, নরম পচা, ব্ল্যাকলেগ, kuoza laini, mguu mweusi]
+    common_scab: [common scab, scab, দাদ রোগ, স্ক্যাব, upele wa viazi]
+    black_scurf: [black scurf, rhizoctonia, stem canker, ব্ল্যাক স্কার্ফ]
+    dry_rot: [dry rot, fusarium, শুকনা পচা, kuoza kukavu]
+    potato_viruses: [virus, viral, leaf roll, leafroll, plrv, mosaic, pvy, ভাইরাস, পাতা মোড়ানো রোগ, মোজাইক, virusi,
+                     kirusi]
+    aphids: [aphid, greenfly, জাব পোকা, জাবপোকা, vidukari, kidukari, wadudu mafuta]
+    tuber_moth: [potato tuber moth, tuber moth, tuber worm, ptm, আলুর সুতলি পোকা, সুতলি পোকা, nondo wa viazi,
+                 funza wa viazi]
+    cutworm: [cutworm, কাটুই পোকা, sota]
+    nematodes: [nematode, cyst nematode, root knot, eelworm, নেমাটোড, কৃমি রোগ, minyoo fundo, minyoo ya mizizi]
+    whitefly: [whitefly, white fly, সাদা মাছি, inzi weupe]
+    leafminer: [leafminer, leaf miner, পাতা সুড়ঙ্গকারী পোকা, nzi wachimbaji]
+    mites: [mite, red spider mite, মাকড়, utitiri]
+    thrips: [thrips, থ্রিপস, vithiripi]
+    termites_ants: [termite, red ant, উইপোকা, লাল পিঁপড়া, mchwa, siafu]
+    bacterial_ring_rot: [ring rot, রিং রট]

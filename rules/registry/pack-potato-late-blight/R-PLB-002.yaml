@@ -12,7 +12,9 @@ action:
   kind: practice
   traffic_light: amber
   title:
+    bn: "শুধু সুস্থ বীজ আলু লাগান।"
     en: Plant only healthy seed tubers.
+    sw: "Panda mbegu za viazi zenye afya pekee."
 sources:
 - doc_id: DOC-CIP-001
   page: 27
@@ -20,6 +22,7 @@ sources:
   quote_sha256: 70abd95e92a2cb0309d9f09ed8480bb5607d001fc3118be593ebb8fe9befc125
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

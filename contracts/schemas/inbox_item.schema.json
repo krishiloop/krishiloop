@@ -38,12 +38,21 @@
         "no_matching_rule",
         "rule_recalled",
         "data_stale",
-        "question_unanswered"
+        "question_unanswered",
+        "unsafe_intent",
+        "no_rule_for_problem"
       ],
-      "description": "question_unanswered: the Ask router found no sourced rule that answers the farmer's question for this field (low retrieval confidence, conditions unmet or unknown, or another crop); the question is in `question`."
+      "description": "question_unanswered: the Ask router found no sourced rule that answers the farmer's question for this field (low retrieval confidence, conditions unmet or unknown, or another crop); the question is in `question`. unsafe_intent: the Ask router's unsafe-intent screen matched the question (banned or highly hazardous products, tank mixes, spraying close to harvest, raising the dose, no protective gear, unlabelled products, food or animals after spraying, children or pregnancy, other handling hazards); no rule may answer it and the case is urgent. no_rule_for_problem: the question names a pest or disease that no rule of the field's pack targets."
     },
     "reason": {
       "$ref": "action.schema.json#/$defs/i18n"
+    },
+    "priority": {
+      "enum": [
+        "urgent",
+        "normal"
+      ],
+      "description": "urgent: the officer should see this case first (unsafe_intent). Absent means normal."
     },
     "diagnosis_id": {
       "type": [

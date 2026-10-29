@@ -5,8 +5,11 @@
 BD items use BD-SAMPLE-02 / demo-farmer-d (aman rice at tillering); KE items use KE-SAMPLE-01 / demo-farmer-a
 (potato, vegetative). Records the outcome (answer or abstained), the rule id, the receipt credential id, the reason
 code, the text the farmer would see, and retrieval details. Paced under the API's 20 requests/minute limit; resumable.
+After the run, every answer's receipt is checked through the public verify endpoint (GET /api/verify/{id}); the
+results go to <out>_receipts_verified.jsonl (runs/krishiloop_receipts_verified.jsonl for the default v1 run).
 
 Usage:  python ml/evals/safety/run_krishiloop.py [--base http://127.0.0.1:8000]
+        python ml/evals/safety/run_krishiloop.py --questions ml/evals/safety/questions_v2.jsonl             --questions ml/evals/safety/questions_v2_sw.jsonl --out ml/evals/safety/runs/krishiloop_v2.jsonl
 """
 from __future__ import annotations
 
@@ -15,6 +18,7 @@ import datetime as dt
 import json
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -46,6 +50,7 @@ def main() -> int:
     ap.add_argument("--base", default="http://127.0.0.1:8000")
     ap.add_argument("--questions", action="append")
     ap.add_argument("--out", default=str(HERE / "runs" / "krishiloop.jsonl"))
+    ap.add_argument("--no-verify", action="store_true", help="skip the receipt check after the run")
     a = ap.parse_args()
     qfiles = a.questions or [str(HERE / "questions.jsonl"), str(HERE / "questions_sw.jsonl")]
     items = []
@@ -62,7 +67,8 @@ def main() -> int:
                 pass
     todo = [it for it in items if it["id"] not in done]
     health = get(a.base + "/api/ask/health")
-    (out.parent / "krishiloop_health.json").write_text(json.dumps(health, indent=1, ensure_ascii=False), encoding="utf-8")
+    hpath = out.parent / ("krishiloop_health.json" if out.name == "krishiloop.jsonl" else f"{out.stem}_health.json")
+    hpath.write_text(json.dumps(health, indent=1, ensure_ascii=False), encoding="utf-8")
     code, sess = post(a.base + "/api/demo/session", {})
     sid = sess.get("sid") or sess.get("session_id")
     print(f"session {sid} (HTTP {code}); mode={health.get('mode')} threshold={health.get('threshold', {}).get('value')}; "
@@ -103,6 +109,8 @@ def main() -> int:
                 "matched_rule_id": ans.get("matched_rule_id"),
                 "receipt_credential_id": ans.get("receipt_credential_id"),
                 "reason_code": ab.get("reason_code"), "why": ab.get("why"), "inbox_item_id": ab.get("inbox_item_id"),
+                "priority": ab.get("priority"), "lang_notice": ans.get("lang_notice"),
+                "problems_named": ret.get("problems_named"), "unsafe": ret.get("unsafe"),
                 "mode": ret.get("mode"), "threshold": ret.get("threshold"),
                 "top_retrieved": ret.get("top_retrieved"), "candidates": ret.get("candidates"),
                 "crops_named": ret.get("crops_named"), "data_mode": r.get("data_mode"), "data_as_of": r.get("data_as_of"),
@@ -113,7 +121,27 @@ def main() -> int:
             f.flush()
             if n % 10 == 0 or n == len(todo):
                 print(f"  {n}/{len(todo)} last={it['id']} {rec['outcome']} {rec['rule_id'] or rec['reason_code']}", flush=True)
+    if not a.no_verify:
+        verify(a.base, out)
     return 0
+
+
+def verify(base: str, out: Path) -> None:
+    """Check every answer's receipt through GET /api/verify/{credential_id} (resumable)."""
+    vpath = out.parent / ("krishiloop_receipts_verified.jsonl" if out.name == "krishiloop.jsonl"
+                          else f"{out.stem}_receipts_verified.jsonl")
+    done = set()
+    if vpath.exists():
+        done = {json.loads(l)["receipt_credential_id"] for l in vpath.read_text(encoding="utf-8").splitlines() if l.strip()}
+    recs = [json.loads(l) for l in out.read_text(encoding="utf-8").splitlines() if l.strip()]
+    todo = [r for r in recs if r.get("receipt_credential_id") and r["receipt_credential_id"] not in done]
+    with vpath.open("a", encoding="utf-8") as f:
+        for r in todo:
+            cid = r["receipt_credential_id"]
+            v = get(f"{base}/api/verify/{urllib.parse.quote(cid, safe='')}")
+            f.write(json.dumps({"item_id": r["item_id"], "receipt_credential_id": cid, **{k: v.get(k) for k in
+                                ("status", "reason", "expired", "sandbox")}}, ensure_ascii=False) + "\n")
+    print(f"receipts checked: {len(todo)} new -> {vpath.name}", flush=True)
 
 
 if __name__ == "__main__":

@@ -18,8 +18,10 @@ action:
   kind: monitoring
   traffic_light: amber
   title:
+    bn: "কন্টাক্ট (স্পর্শক) ধরনের সুরক্ষার পর ভারী বৃষ্টি: আপনার ফসল এখনো সুরক্ষিত কি না দেখুন; আপনার কর্মকর্তাকে জিজ্ঞেস করুন।"
     en: 'Heavy rain after a contact-type protection: check whether your crop is still
       protected; ask your officer.'
+    sw: "Mvua kubwa baada ya kinga ya aina ya mguso: angalia kama zao lako bado limekingwa; muulize afisa wako."
 sources:
 - doc_id: DOC-CIP-001
   page: 24
@@ -33,6 +35,7 @@ reviewer_parameters:
   set_by: team
   note: NOT from source; to be set by the pathologist.
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

@@ -12,7 +12,9 @@ action:
   kind: practice
   traffic_light: green
   title:
+    bn: "গাছের গোড়ায় মাটি তুলে উঁচু ও সুগঠিত ভেলি তৈরি করুন।"
     en: Make high, well-formed hills.
+    sw: "Tengeneza matuta ya juu yaliyoumbwa vizuri (pandishia udongo)."
 sources:
 - doc_id: DOC-CIP-001
   page: 27
@@ -21,6 +23,7 @@ sources:
   quote_sha256: e137783d6c67ec96e63840d96fc5af182a789bec8438bdbb7e67a4605aaf93b3
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

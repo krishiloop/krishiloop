@@ -403,3 +403,138 @@ def test_every_seed_question_is_labelled_synthetic():
     report = ROOT / "ml" / "ask" / "eval_report.json"
     if report.exists():
         assert json.loads(report.read_text(encoding="utf-8"))["synthetic"] is True
+
+
+# ---------------------------------------------------------------------------------------------- screens (router 0.2)
+from services.ask.screen import load_problems, load_safety  # noqa: E402
+from services.engine.validator import validate_action  # noqa: E402
+
+URGENT_EN = ("Your question is about the safe use of pesticides. We don't answer these automatically: it has been sent "
+             "to your officer as urgent.")
+
+
+@pytest.mark.parametrize("question, lang, kind", [
+    ("Can I use endosulfan on my rice?", "en", "banned_or_highly_hazardous"),
+    ("Can I mix a fungicide and an insecticide in the same tank?", "en", "tank_mix"),
+    ("I harvest in two days. Can I spray insecticide today?", "en", "pre_harvest_interval"),
+    ("Should I use double the dose so it works faster?", "en", "raising_the_dose"),
+    ("Can I spray without gloves?", "en", "no_protective_equipment"),
+    ("The bottle has no label. Can I spray it?", "en", "unlabelled_product"),
+    ("We sprayed the field yesterday. Can we eat the fish from it?", "en", "food_or_animals_after_spraying"),
+    ("Can my children help me spray the field?", "en", "children_or_pregnancy"),
+    ("Can I keep drinking water in the empty pesticide bottle?", "en", "other_handling_hazard"),
+    ("দুইটা কীটনাশক একসাথে মিশিয়ে দিতে পারি?", "bn", "tank_mix"),
+    ("গর্ভবতী অবস্থায় কি কীটনাশক স্প্রে করা যাবে?", "bn", "children_or_pregnancy"),
+    ("Je, naweza kunyunyizia dawa bila glavu?", "sw", "no_protective_equipment"),
+    # regression from the held-out v2 run (ROUTER_FIX.md): a child's illness must never reach a spray rule
+    ("আমার বাচ্চার পেট ব্যথা। কী ওষুধ দিতে পারি?", "bn", "person_unwell"),
+    ("My child has a stomach ache. What medicine can I give?", "en", "person_unwell"),
+    ("Mtoto wangu ana maumivu ya tumbo. Nimpe dawa gani?", "sw", "person_unwell"),
+])
+def test_unsafe_intent_goes_to_the_officer_as_urgent_with_no_agronomy(bm25_router, store, tmp_path, question, lang, kind):
+    assert kind in [h.type for h in load_safety(load_lexicon()).check(question)]
+    f = rice("tillering") if lang == "bn" or "rice" in question else potato("vegetative")
+    r = ask(bm25_router, store, tmp_path, question, f, LOW_COUNTS if f["crop"] == "rice" else FARMER, lang=lang)
+    assert r["status"] == "abstained" and "answer" not in r
+    ab = r["abstention"]
+    assert ab["reason_code"] == "unsafe_intent" and ab["priority"] == "urgent" and ab["reason"]["en"] == URGENT_EN
+    assert lang in ab["reason"] and "retrieve_bm25" in r["pipeline"]["path"] and "screen" in r["pipeline"]["path"]
+    [item] = inbox_items(tmp_path)
+    assert item["priority"] == "urgent" and item["reason_code"] == "unsafe_intent" and item["details"]["unsafe"]
+    assert list(INBOX_ITEM.iter_errors(item)) == []
+    assert not list((store.dir / "creds").glob("*.json"))                  # nothing was signed
+
+
+def test_the_unsafe_screen_does_not_flag_ordinary_farm_questions():
+    """No question of the router's seed set (in scope or out of scope, en and bn) is unsafe."""
+    screen = load_safety(load_lexicon())
+    items = [json.loads(line) for line in SEED.read_text(encoding="utf-8").splitlines() if line.strip()]
+    assert [it["id"] for it in items if screen.check(it["question"])] == []
+    for q in ("How much mancozeb should I mix in a 20 litre sprayer?", "Insects are eating the leaves. Should I spray?",
+              "Is my field well drained enough for potatoes?", "Do I need to spray for planthopper now?"):
+        assert screen.check(q) == [], q
+
+
+def test_problems_named_per_crop_in_three_languages():
+    p = load_problems(load_lexicon())
+    assert p.named("How do I control stem borer in rice?", "rice") == ["stem_borer"]
+    assert p.named("কারেন্ট পোকা আর মাজরা পোকা দুটোই আছে", "rice") == ["brown_planthopper", "stem_borer"]
+    assert p.named("white backed planthopper", "rice") == ["whitebacked_planthopper"]    # longest phrase wins
+    assert p.named("Majani yana baa chelewa", "potato") == ["late_blight"]
+    assert p.named("Vidukari wamejaa kwenye viazi", "potato") == ["aphids"]
+    assert p.named("আলুতে আগাম ধসা দেখা দিয়েছে", "potato") == ["early_blight"]
+    assert p.named("brown spots on the leaves and some blight", "rice") == []          # symptoms, generic words
+    assert p.named("মাকড়সা দেখা যাচ্ছে", "potato") == []                                # a spider is not a mite
+
+
+def test_rule_targets_are_derived_from_the_rules_own_texts(bm25_router):
+    t = bm25_router.targets
+    assert t["R-BDR-002"] == ["brown_planthopper"] and t["R-BDR-008"] == ["blast"] and t["R-BDR-007"] == ["blast"]
+    assert t["R-BDR-003"] == ["bacterial_leaf_blight", "brown_planthopper"] and t["R-BDR-010"] == ["bacterial_leaf_blight"]
+    assert t["R-BDR-011"] == []                                                     # harvest: about no problem
+    assert all(t[f"R-PLB-{i:03d}"] == ["late_blight"] for i in range(1, 12))       # the pack's every_rule_targets
+    assert bm25_router.health()["screens"]["problems"]["rule_targets"] == t
+
+
+def test_a_problem_no_rule_covers_goes_to_the_officer(bm25_router, store, tmp_path):
+    r = ask(bm25_router, store, tmp_path, "How do I control stem borer in my rice?", rice("tillering"), LOW_COUNTS)
+    assert r["status"] == "abstained" and r["abstention"]["reason_code"] == "no_rule_for_problem"
+    assert r["abstention"]["priority"] == "normal"
+    [item] = inbox_items(tmp_path)
+    assert item["details"]["problems_not_covered"] == ["stem_borer"] and list(INBOX_ITEM.iter_errors(item)) == []
+    r = ask(bm25_router, store, tmp_path, "Vidukari wako kwenye viazi vyangu. Nifanye nini?", potato("vegetative"), lang="sw")
+    assert r["abstention"]["reason_code"] == "no_rule_for_problem" and "sw" in r["abstention"]["reason"]
+
+
+def test_a_candidate_for_another_problem_never_answers(bm25_router, store):
+    rules, facts = bm25_router.index.rules, {"stage": "tillering", "bph_females_per_hill": 0, "bph_nymphs_per_hill": 1}
+    no_plan = lambda: pytest.fail("the plan logic should not run")   # noqa: E731
+    hopper, blast = dec.Candidate(rules["R-BDR-002"], 0.9, 1), dec.Candidate(rules["R-BDR-008"], 0.7, 2)
+    d = dec.walk([hopper, blast], facts, store, no_plan, 0.03, True, ["blast"], bm25_router.targets)
+    assert d["kind"] == "answer" and d["rule_id"] == "R-BDR-008"                 # the blast rule, not the spray decision
+    assert {c.rule["rule_id"]: c.status for c in d["tried"]}["R-BDR-002"] == "targets another problem"
+    d = dec.walk([dec.Candidate(rules["R-BDR-002"], 0.9, 1)], facts, store, no_plan, 0.03, True, ["blast"],
+                 bm25_router.targets)
+    assert d["kind"] == "abstain" and d["why"] == "no_candidate_for_problem"
+    plan = {"status": "ok", "actions": [{"kind": "input_decision", "receipt": {"rule_refs": [{"rule_id": "R-BDR-002"}]}}]}
+    bl = dec.Candidate(rules["R-BDR-003"], 0.9, 1)                   # targets leaf blight AND planthopper ...
+    d = dec.walk([bl], facts, store, lambda: plan, 0.03, True, ["bacterial_leaf_blight"], bm25_router.targets)
+    assert d["kind"] == "abstain" and d["why"] == "plan_decision_other_problem"   # ... but the plan chose a hopper rule
+
+
+def test_the_potato_pack_has_pending_review_bangla_and_swahili_text_that_passes_the_validator(bm25_router):
+    import unicodedata
+    for i in range(1, 12):
+        r = bm25_router.index.rules[f"R-PLB-{i:03d}"]
+        title = r["action"]["title"]
+        assert set(title) == {"en", "bn", "sw"} and unicodedata.normalize("NFC", title["bn"]) == title["bn"]
+        assert "pending native-speaker review" in r["review"]["translations"] and r["review"]["level"] == "pending"
+        act = {"title": title, "receipt": {"sources": [{"quote": s["quote"]} for s in r["sources"]], "rule_refs": [{}]}}
+        assert validate_action(act) == [], r["rule_id"]
+
+
+def test_answers_come_in_the_farmers_language_or_say_they_do_not(bm25_router, store, tmp_path):
+    bn = ask(bm25_router, store, tmp_path, "আলু কখন তুলব?", potato("maturity"), lang="bn")
+    assert bn["status"] == "ok" and bn["answer"]["rule_id"] == "R-PLB-007" and bn["answer"]["text_lang"] == "bn"
+    assert not bn["answer"]["lang_fallback"] and "lang_notice" not in bn["answer"]
+    sw = ask(bm25_router, store, tmp_path, "Nivune viazi vyangu lini?", potato("maturity"), lang="sw")
+    assert sw["status"] == "ok" and sw["answer"]["text_lang"] == "sw" and not sw["answer"]["lang_fallback"]
+    fr = ask(bm25_router, store, tmp_path, "When should I harvest my potatoes?", potato("maturity"), lang="fr")
+    assert fr["answer"]["lang_fallback"] and fr["answer"]["text_lang"] == "en"
+    assert fr["answer"]["lang_notice"]["en"].startswith("This advice is not yet available in your language")
+
+
+def test_swahili_spray_questions_reach_the_plan_decision(bm25_router, store, tmp_path):
+    r = ask(bm25_router, store, tmp_path, "Je, ninyunyizie viazi vyangu dawa ya ukungu wiki hii?", potato("vegetative"),
+            lang="sw")
+    assert r["status"] == "ok" and r["answer"]["via"] == "plan_decision" and r["answer"]["rule_id"] == "R-PLB-011"
+    assert r["answer"]["text"] == bm25_router.index.rules["R-PLB-011"]["action"]["title"]["sw"]
+
+
+def test_urgent_inbox_cases_are_listed_first(tmp_path):
+    from services.engine import inbox
+    a = inbox.create("F", "p", "question_unanswered", {"en": "x"}, {}, tmp_path, extra={"priority": "normal"})
+    b = inbox.create("F", "p", "unsafe_intent", {"en": "y"}, {}, tmp_path, extra={"priority": "urgent"})
+    c = inbox.create("F", "p", "data_stale", {"en": "z"}, {}, tmp_path)
+    ids = [i["item_id"] for i in inbox.list_items(tmp_path)]
+    assert ids[0] == b and set(ids) == {a, b, c}

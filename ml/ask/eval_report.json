@@ -1,7 +1,7 @@
 {
  "synthetic": true,
  "caveat": "SYNTHETIC evaluation: all questions were written by the team's coding agent from the rule texts, and the weather is a synthetic forecast. These numbers measure the router against its own authors' questions, not real farmers. Replace or verify the seed set with real farmer questions before quoting any of them.",
- "generated_at": "2026-10-28T13:24:18Z",
+ "generated_at": "2026-10-29T11:02:24Z",
  "seed": {
   "file": "ml/ask/questions.seed.jsonl",
   "sha256": "baef151c32202e3b0d7fe9c1f349878817e16e81ca731b7d4fe6fd3999669622",
@@ -60,7 +60,7 @@
   "outcome_accuracy": "share of questions with the right outcome (expected rule, or abstention when expected)"
  },
  "router": {
-  "build_seconds": 16.9,
+  "build_seconds": 15.8,
   "index": {
    "rule_units": 23,
    "corpus_chunks": 34,
@@ -69,9 +69,9 @@
    ],
    "chunking": "semantic: embedding similarity between adjacent sentences",
    "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
-   "registry_sha256": "a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905"
+   "registry_sha256": "526612cc55075cef73e08856660208d5c86fdf07bc6e76ab39700f00fc3171e4"
   },
-  "lexicon_sha256": "e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a",
+  "lexicon_sha256": "1ca66f2aaadcfbe3bc8eab44988c32f72db7fa87c10e11d5d826da8099e80cdc",
   "decide_top_k": 3,
   "prefer_margin": 0.03,
   "models": {
@@ -106,40 +106,40 @@
    "stages": [
     "bm25"
    ],
-   "threshold": 0.23814,
+   "threshold": 0.270514,
    "threshold_fixed_on": "dev split (32 items): 28 correct outcomes",
    "test": {
     "items": 45,
-    "accuracy@1": 0.861,
+    "accuracy@1": 0.889,
     "accuracy@3": 0.972,
     "retrieval_items": 36,
-    "abstention_precision": 0.765,
-    "abstention_recall": 0.929,
-    "abstained": 17,
+    "abstention_precision": 0.778,
+    "abstention_recall": 1.0,
+    "abstained": 18,
     "should_abstain": 14,
-    "answered": 28,
-    "answered_right_rule": 25,
-    "wrong_answers": 3,
-    "coverage": 0.806,
-    "outcome_accuracy": 0.844
+    "answered": 27,
+    "answered_right_rule": 27,
+    "wrong_answers": 0,
+    "coverage": 0.871,
+    "outcome_accuracy": 0.911
    },
    "dev (threshold fitted here)": {
     "items": 32,
-    "accuracy@1": 0.72,
+    "accuracy@1": 0.76,
     "accuracy@3": 1.0,
     "retrieval_items": 25,
-    "abstention_precision": 0.833,
+    "abstention_precision": 0.769,
     "abstention_recall": 1.0,
-    "abstained": 12,
+    "abstained": 13,
     "should_abstain": 10,
-    "answered": 20,
+    "answered": 19,
     "answered_right_rule": 18,
-    "wrong_answers": 2,
+    "wrong_answers": 1,
     "coverage": 0.818,
     "outcome_accuracy": 0.875
    },
-   "latency_ms_median": 18,
-   "latency_ms_p90": 35,
+   "latency_ms_median": 24,
+   "latency_ms_p90": 40,
    "replay_agrees_with_pipeline": true,
    "items": [
     {
@@ -159,7 +159,7 @@
        0.533
       ],
       [
-       "R-PLB-004",
+       "R-PLB-002",
        0.533
       ]
      ]
@@ -174,15 +174,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.667
+       0.741
       ],
       [
        "R-PLB-011",
-       0.778
+       0.801
       ],
       [
-       "R-PLB-008",
-       0.778
+       "R-PLB-009",
+       0.801
       ]
      ]
     },
@@ -199,12 +199,12 @@
        0.332
       ],
       [
-       "R-PLB-002",
-       0.025
+       "R-PLB-010",
+       0.332
       ],
       [
-       "R-PLB-003",
-       0.025
+       "R-PLB-009",
+       0.332
       ]
      ]
     },
@@ -240,15 +240,15 @@
      "top3": [
       [
        "R-PLB-002",
-       0.772
+       0.757
+      ],
+      [
+       "R-PLB-010",
+       0.243
       ],
       [
        "R-PLB-003",
-       0.386
-      ],
-      [
-       "R-PLB-004",
-       0.386
+       0.451
       ]
      ]
     },
@@ -262,7 +262,7 @@
      "top3": [
       [
        "R-PLB-003",
-       0.328
+       0.454
       ],
       [
        "R-PLB-004",
@@ -284,15 +284,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.238
-      ],
-      [
-       "R-PLB-007",
-       0.183
+       0.552
       ],
       [
        "R-PLB-004",
-       0.183
+       0.15
+      ],
+      [
+       "R-PLB-007",
+       0.15
       ]
      ]
     },
@@ -309,12 +309,12 @@
        0.271
       ],
       [
-       "R-PLB-011",
-       0.225
+       "R-PLB-005",
+       0.189
       ],
       [
-       "R-PLB-005",
-       0.118
+       "R-PLB-011",
+       0.225
       ]
      ]
     },
@@ -372,15 +372,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.599
+       0.51
       ],
       [
        "R-PLB-001",
-       0.401
+       0.324
       ],
       [
-       "R-PLB-002",
-       0.401
+       "R-PLB-007",
+       0.186
       ]
      ]
     },
@@ -394,14 +394,14 @@
      "top3": [
       [
        "R-PLB-005",
-       0.46
-      ],
-      [
-       "R-PLB-001",
-       0.143
+       0.603
       ],
       [
        "R-PLB-002",
+       0.143
+      ],
+      [
+       "R-PLB-001",
        0.143
       ]
      ]
@@ -416,15 +416,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.365
+       1.0
       ],
       [
        "R-PLB-003",
-       0.317
+       0.325
       ],
       [
        "R-PLB-001",
-       0.317
+       0.325
       ]
      ]
     },
@@ -438,14 +438,14 @@
      "top3": [
       [
        "R-PLB-005",
-       0.46
-      ],
-      [
-       "R-PLB-001",
-       0.143
+       0.603
       ],
       [
        "R-PLB-002",
+       0.143
+      ],
+      [
+       "R-PLB-001",
        0.143
       ]
      ]
@@ -460,15 +460,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.416
+       1.0
       ],
       [
-       "R-PLB-008",
-       0.378
+       "R-PLB-004",
+       0.204
       ],
       [
-       "R-PLB-009",
-       0.378
+       "R-PLB-007",
+       0.204
       ]
      ]
     },
@@ -482,15 +482,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.361
+       1.0
       ],
       [
-       "R-PLB-010",
-       0.361
+       "R-PLB-004",
+       0.25
       ],
       [
-       "R-PLB-008",
-       0.361
+       "R-PLB-007",
+       0.25
       ]
      ]
     },
@@ -512,7 +512,7 @@
       ],
       [
        "R-PLB-004",
-       0.0
+       0.285
       ]
      ]
     },
@@ -529,12 +529,12 @@
        1.0
       ],
       [
-       "R-PLB-006",
-       0.0
+       "R-PLB-005",
+       1.0
       ],
       [
-       "R-PLB-001",
-       0.0
+       "R-PLB-003",
+       1.0
       ]
      ]
     },
@@ -551,12 +551,12 @@
        1.0
       ],
       [
-       "R-PLB-001",
-       0.0
+       "R-PLB-005",
+       1.0
       ],
       [
-       "R-PLB-002",
-       0.0
+       "R-PLB-003",
+       1.0
       ]
      ]
     },
@@ -570,7 +570,7 @@
      "top3": [
       [
        "R-PLB-007",
-       0.665
+       1.0
       ],
       [
        "R-PLB-008",
@@ -595,12 +595,12 @@
        1.0
       ],
       [
-       "R-PLB-006",
-       0.0
+       "R-PLB-005",
+       1.0
       ],
       [
-       "R-PLB-001",
-       0.0
+       "R-PLB-003",
+       1.0
       ]
      ]
     },
@@ -635,16 +635,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-010",
-       0.614
-      ],
-      [
        "R-PLB-011",
-       0.614
+       1.0
       ],
       [
-       "R-PLB-004",
-       0.386
+       "R-PLB-001",
+       0.336
+      ],
+      [
+       "R-PLB-010",
+       0.609
       ]
      ]
     },
@@ -741,20 +741,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-009",
-     "got": "answer R-PLB-011",
-     "correct": false,
+     "got": "answer R-PLB-009",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-011",
-       0.505
-      ],
-      [
        "R-PLB-009",
-       0.39
+       0.662
       ],
       [
-       "R-PLB-010",
-       0.31
+       "R-PLB-011",
+       0.602
+      ],
+      [
+       "R-PLB-008",
+       0.292
       ]
      ]
     },
@@ -763,7 +763,7 @@
      "split": "dev",
      "lang": "en",
      "expected": "answer R-PLB-010",
-     "got": "answer R-PLB-011",
+     "got": "abstain question_unanswered",
      "correct": false,
      "top3": [
       [
@@ -785,20 +785,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-010",
-     "got": "answer R-PLB-011",
-     "correct": false,
+     "got": "answer R-PLB-010",
+     "correct": true,
      "top3": [
       [
        "R-PLB-010",
-       0.279
+       0.687
+      ],
+      [
+       "R-PLB-003",
+       0.207
       ],
       [
        "R-PLB-011",
-       0.279
-      ],
-      [
-       "R-PLB-002",
-       0.279
+       0.313
       ]
      ]
     },
@@ -856,15 +856,15 @@
      "top3": [
       [
        "R-BDR-005",
-       0.735
+       0.743
       ],
       [
        "R-BDR-006",
-       0.55
+       0.551
       ],
       [
        "R-BDR-012",
-       0.45
+       0.449
       ]
      ]
     },
@@ -966,15 +966,15 @@
      "top3": [
       [
        "R-BDR-007",
-       0.494
+       0.543
       ],
       [
        "R-BDR-005",
-       0.682
+       0.731
       ],
       [
        "R-BDR-003",
-       0.682
+       0.731
       ]
      ]
     },
@@ -1010,15 +1010,15 @@
      "top3": [
       [
        "R-BDR-004",
-       0.819
+       0.85
       ],
       [
        "R-BDR-010",
-       0.227
+       0.245
       ],
       [
        "R-BDR-009",
-       0.197
+       0.2
       ]
      ]
     },
@@ -1124,11 +1124,11 @@
       ],
       [
        "R-BDR-005",
-       0.5
+       0.465
       ],
       [
        "R-BDR-002",
-       0.5
+       0.465
       ]
      ]
     },
@@ -1164,15 +1164,15 @@
      "top3": [
       [
        "R-BDR-007",
-       0.709
+       0.703
       ],
       [
        "R-BDR-010",
-       0.25
+       0.256
       ],
       [
        "R-BDR-009",
-       0.291
+       0.297
       ]
      ]
     },
@@ -1186,15 +1186,15 @@
      "top3": [
       [
        "R-BDR-007",
-       0.709
+       0.703
       ],
       [
        "R-BDR-010",
-       0.25
+       0.256
       ],
       [
        "R-BDR-009",
-       0.291
+       0.297
       ]
      ]
     },
@@ -1216,7 +1216,7 @@
       ],
       [
        "R-BDR-009",
-       0.277
+       0.275
       ]
      ]
     },
@@ -1230,15 +1230,15 @@
      "top3": [
       [
        "R-BDR-008",
-       0.707
+       0.701
       ],
       [
        "R-BDR-012",
-       0.707
+       0.701
       ],
       [
        "R-BDR-009",
-       0.319
+       0.305
       ]
      ]
     },
@@ -1282,7 +1282,7 @@
       ],
       [
        "R-BDR-009",
-       0.277
+       0.275
       ]
      ]
     },
@@ -1472,15 +1472,15 @@
      "top3": [
       [
        "R-BDR-011",
-       0.183
-      ],
-      [
-       "R-BDR-005",
-       0.183
+       0.187
       ],
       [
        "R-BDR-002",
-       0.16
+       0.166
+      ],
+      [
+       "R-BDR-003",
+       0.166
       ]
      ]
     },
@@ -1511,8 +1511,8 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "answer R-BDR-009",
-     "correct": false,
+     "got": "abstain question_unanswered",
+     "correct": true,
      "top3": [
       [
        "R-BDR-009",
@@ -1599,7 +1599,7 @@
      "split": "dev",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -1643,7 +1643,7 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -1692,15 +1692,15 @@
      "top3": [
       [
        "R-BDR-002",
-       0.252
+       0.255
       ],
       [
        "R-BDR-003",
-       0.252
+       0.255
       ],
       [
        "R-BDR-008",
-       0.252
+       0.255
       ]
      ]
     },
@@ -1758,15 +1758,15 @@
      "top3": [
       [
        "R-BDR-010",
-       0.34
+       0.33
       ],
       [
        "R-BDR-012",
-       0.34
+       0.33
       ],
       [
        "R-BDR-007",
-       0.34
+       0.36
       ]
      ]
     },
@@ -1780,11 +1780,11 @@
      "top3": [
       [
        "R-BDR-004",
-       0.5
+       0.398
       ],
       [
        "R-BDR-003",
-       0.5
+       0.398
       ],
       [
        "R-BDR-001",
@@ -1797,7 +1797,7 @@
      "split": "test",
      "lang": "bn",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -1843,40 +1843,40 @@
    "stages": [
     "dense"
    ],
-   "threshold": 0.835113,
-   "threshold_fixed_on": "dev split (32 items): 26 correct outcomes",
+   "threshold": 0.852111,
+   "threshold_fixed_on": "dev split (32 items): 28 correct outcomes",
    "test": {
     "items": 45,
-    "accuracy@1": 0.778,
-    "accuracy@3": 0.917,
+    "accuracy@1": 0.972,
+    "accuracy@3": 1.0,
     "retrieval_items": 36,
-    "abstention_precision": 0.846,
-    "abstention_recall": 0.786,
-    "abstained": 13,
+    "abstention_precision": 0.875,
+    "abstention_recall": 1.0,
+    "abstained": 16,
     "should_abstain": 14,
-    "answered": 32,
-    "answered_right_rule": 26,
-    "wrong_answers": 6,
-    "coverage": 0.839,
-    "outcome_accuracy": 0.822
+    "answered": 29,
+    "answered_right_rule": 27,
+    "wrong_answers": 2,
+    "coverage": 0.871,
+    "outcome_accuracy": 0.911
    },
    "dev (threshold fitted here)": {
     "items": 32,
-    "accuracy@1": 0.56,
+    "accuracy@1": 0.84,
     "accuracy@3": 1.0,
     "retrieval_items": 25,
-    "abstention_precision": 0.889,
-    "abstention_recall": 0.8,
-    "abstained": 9,
+    "abstention_precision": 0.818,
+    "abstention_recall": 0.9,
+    "abstained": 11,
     "should_abstain": 10,
-    "answered": 23,
-    "answered_right_rule": 18,
-    "wrong_answers": 5,
-    "coverage": 0.818,
-    "outcome_accuracy": 0.812
+    "answered": 21,
+    "answered_right_rule": 19,
+    "wrong_answers": 2,
+    "coverage": 0.864,
+    "outcome_accuracy": 0.875
    },
-   "latency_ms_median": 29,
-   "latency_ms_p90": 37,
+   "latency_ms_median": 38,
+   "latency_ms_p90": 49,
    "replay_agrees_with_pipeline": true,
    "items": [
     {
@@ -1889,15 +1889,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.909
+       0.918
       ],
       [
        "R-PLB-003",
-       0.889
+       0.907
       ],
       [
-       "R-PLB-004",
-       0.887
+       "R-PLB-002",
+       0.896
       ]
      ]
     },
@@ -1906,20 +1906,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-001",
-     "got": "answer R-PLB-003",
-     "correct": false,
+     "got": "answer R-PLB-001",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-010",
-       0.866
+       "R-PLB-001",
+       0.894
       ],
       [
-       "R-PLB-005",
-       0.863
+       "R-PLB-011",
+       0.883
       ],
       [
-       "R-PLB-003",
-       0.862
+       "R-PLB-002",
+       0.882
       ]
      ]
     },
@@ -1933,15 +1933,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.859
+       0.86
       ],
       [
        "R-PLB-010",
        0.836
       ],
       [
-       "R-PLB-005",
-       0.825
+       "R-PLB-011",
+       0.824
       ]
      ]
     },
@@ -1955,15 +1955,15 @@
      "top3": [
       [
        "R-PLB-002",
-       0.877
+       0.901
       ],
       [
-       "R-PLB-005",
-       0.857
+       "R-PLB-007",
+       0.85
       ],
       [
-       "R-PLB-001",
-       0.846
+       "R-PLB-003",
+       0.85
       ]
      ]
     },
@@ -1976,16 +1976,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.862
-      ],
-      [
        "R-PLB-002",
-       0.856
+       0.9
       ],
       [
-       "R-PLB-004",
-       0.848
+       "R-PLB-003",
+       0.871
+      ],
+      [
+       "R-PLB-007",
+       0.864
       ]
      ]
     },
@@ -1994,20 +1994,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "answer R-PLB-003",
-     "got": "answer R-PLB-004",
-     "correct": false,
+     "got": "answer R-PLB-003",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-004",
-       0.874
-      ],
-      [
        "R-PLB-003",
-       0.872
+       0.889
       ],
       [
-       "R-PLB-001",
-       0.868
+       "R-PLB-004",
+       0.876
+      ],
+      [
+       "R-PLB-007",
+       0.875
       ]
      ]
     },
@@ -2020,16 +2020,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.848
-      ],
-      [
        "R-PLB-003",
-       0.847
+       0.867
       ],
       [
-       "R-PLB-004",
-       0.846
+       "R-PLB-007",
+       0.863
+      ],
+      [
+       "R-PLB-011",
+       0.857
       ]
      ]
     },
@@ -2043,15 +2043,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.869
+       0.881
+      ],
+      [
+       "R-PLB-007",
+       0.874
       ],
       [
        "R-PLB-005",
-       0.868
-      ],
-      [
-       "R-PLB-001",
-       0.863
+       0.871
       ]
      ]
     },
@@ -2065,15 +2065,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.874
+       0.878
+      ],
+      [
+       "R-PLB-007",
+       0.866
       ],
       [
        "R-PLB-001",
-       0.867
-      ],
-      [
-       "R-PLB-005",
-       0.852
+       0.865
       ]
      ]
     },
@@ -2087,15 +2087,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.886
+       0.895
       ],
       [
        "R-PLB-009",
-       0.867
+       0.88
       ],
       [
        "R-PLB-011",
-       0.867
+       0.879
       ]
      ]
     },
@@ -2108,16 +2108,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.848
-      ],
-      [
        "R-PLB-004",
-       0.848
+       0.855
       ],
       [
        "R-PLB-001",
-       0.845
+       0.852
+      ],
+      [
+       "R-PLB-005",
+       0.847
       ]
      ]
     },
@@ -2131,15 +2131,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.904
-      ],
-      [
-       "R-PLB-004",
-       0.862
+       0.908
       ],
       [
        "R-PLB-007",
-       0.854
+       0.876
+      ],
+      [
+       "R-PLB-003",
+       0.873
       ]
      ]
     },
@@ -2153,15 +2153,15 @@
      "top3": [
       [
        "R-PLB-005",
+       0.894
+      ],
+      [
+       "R-PLB-003",
        0.883
       ],
       [
        "R-PLB-004",
-       0.865
-      ],
-      [
-       "R-PLB-003",
-       0.852
+       0.871
       ]
      ]
     },
@@ -2175,15 +2175,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.904
-      ],
-      [
-       "R-PLB-004",
-       0.862
+       0.908
       ],
       [
        "R-PLB-007",
-       0.854
+       0.876
+      ],
+      [
+       "R-PLB-003",
+       0.873
       ]
      ]
     },
@@ -2196,16 +2196,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-004",
-       0.871
-      ],
-      [
-       "R-PLB-005",
-       0.86
-      ],
-      [
        "R-PLB-006",
-       0.859
+       0.884
+      ],
+      [
+       "R-PLB-004",
+       0.873
+      ],
+      [
+       "R-PLB-007",
+       0.866
       ]
      ]
     },
@@ -2218,16 +2218,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-004",
-       0.857
-      ],
-      [
-       "R-PLB-005",
-       0.855
-      ],
-      [
        "R-PLB-006",
-       0.847
+       0.868
+      ],
+      [
+       "R-PLB-007",
+       0.86
+      ],
+      [
+       "R-PLB-008",
+       0.859
       ]
      ]
     },
@@ -2241,15 +2241,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.872
+       0.883
       ],
       [
-       "R-PLB-005",
+       "R-PLB-009",
        0.856
       ],
       [
-       "R-PLB-007",
-       0.845
+       "R-PLB-011",
+       0.855
       ]
      ]
     },
@@ -2263,15 +2263,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.883
-      ],
-      [
-       "R-PLB-005",
-       0.866
+       0.894
       ],
       [
        "R-PLB-003",
-       0.863
+       0.87
+      ],
+      [
+       "R-PLB-008",
+       0.868
       ]
      ]
     },
@@ -2285,15 +2285,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.858
+       0.883
       ],
       [
-       "R-PLB-005",
-       0.849
+       "R-PLB-003",
+       0.867
       ],
       [
-       "R-PLB-008",
-       0.844
+       "R-PLB-009",
+       0.864
       ]
      ]
     },
@@ -2307,15 +2307,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.872
+       0.887
       ],
       [
-       "R-PLB-004",
-       0.87
+       "R-PLB-008",
+       0.885
       ],
       [
-       "R-PLB-005",
-       0.869
+       "R-PLB-011",
+       0.883
       ]
      ]
     },
@@ -2329,15 +2329,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.883
-      ],
-      [
-       "R-PLB-005",
-       0.866
+       0.894
       ],
       [
        "R-PLB-003",
-       0.863
+       0.87
+      ],
+      [
+       "R-PLB-008",
+       0.868
       ]
      ]
     },
@@ -2350,16 +2350,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.885
-      ],
-      [
-       "R-PLB-001",
-       0.882
-      ],
-      [
        "R-PLB-011",
-       0.878
+       0.899
+      ],
+      [
+       "R-PLB-008",
+       0.891
+      ],
+      [
+       "R-PLB-007",
+       0.885
       ]
      ]
     },
@@ -2372,16 +2372,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.876
+       "R-PLB-011",
+       0.888
       ],
       [
        "R-PLB-003",
-       0.869
+       0.885
       ],
       [
-       "R-PLB-011",
-       0.868
+       "R-PLB-007",
+       0.878
       ]
      ]
     },
@@ -2394,16 +2394,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.867
+       "R-PLB-011",
+       0.877
       ],
       [
        "R-PLB-010",
-       0.864
+       0.872
       ],
       [
        "R-PLB-008",
-       0.859
+       0.869
       ]
      ]
     },
@@ -2412,20 +2412,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-011",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-011",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.853
+       "R-PLB-011",
+       0.868
       ],
       [
-       "R-PLB-001",
-       0.846
+       "R-PLB-003",
+       0.868
       ],
       [
        "R-PLB-009",
-       0.845
+       0.865
       ]
      ]
     },
@@ -2434,20 +2434,20 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain data_unavailable",
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.863
+       "R-PLB-011",
+       0.879
       ],
       [
-       "R-PLB-003",
-       0.856
+       "R-PLB-008",
+       0.874
       ],
       [
-       "R-PLB-001",
-       0.854
+       "R-PLB-009",
+       0.867
       ]
      ]
     },
@@ -2460,16 +2460,16 @@
      "correct": false,
      "top3": [
       [
-       "R-PLB-011",
-       0.878
+       "R-PLB-009",
+       0.898
       ],
       [
-       "R-PLB-009",
-       0.874
+       "R-PLB-011",
+       0.897
       ],
       [
        "R-PLB-008",
-       0.849
+       0.87
       ]
      ]
     },
@@ -2483,15 +2483,15 @@
      "top3": [
       [
        "R-PLB-009",
-       0.871
+       0.895
       ],
       [
        "R-PLB-011",
-       0.867
+       0.887
       ],
       [
-       "R-PLB-005",
-       0.841
+       "R-PLB-008",
+       0.862
       ]
      ]
     },
@@ -2505,15 +2505,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.838
+       0.852
       ],
       [
-       "R-PLB-005",
-       0.823
+       "R-PLB-011",
+       0.831
       ],
       [
        "R-PLB-008",
-       0.816
+       0.827
       ]
      ]
     },
@@ -2526,16 +2526,16 @@
      "correct": false,
      "top3": [
       [
-       "R-PLB-005",
-       0.811
-      ],
-      [
        "R-PLB-010",
-       0.808
+       0.846
       ],
       [
-       "R-PLB-001",
-       0.804
+       "R-PLB-011",
+       0.833
+      ],
+      [
+       "R-PLB-009",
+       0.824
       ]
      ]
     },
@@ -2698,8 +2698,8 @@
      "split": "dev",
      "lang": "bn",
      "expected": "answer R-BDR-003",
-     "got": "answer R-BDR-003",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
        "R-BDR-007",
@@ -2742,16 +2742,16 @@
      "split": "dev",
      "lang": "bn",
      "expected": "answer R-BDR-004|R-BDR-010|R-BDR-009",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-BDR-009",
+     "correct": true,
      "top3": [
       [
        "R-BDR-004",
-       0.9
+       0.898
       ],
       [
        "R-BDR-009",
-       0.869
+       0.87
       ],
       [
        "R-BDR-003",
@@ -2962,20 +2962,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-BDR-008",
-     "got": "answer R-BDR-008",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
        "R-BDR-008",
-       0.86
+       0.852
       ],
       [
        "R-BDR-009",
-       0.856
+       0.851
       ],
       [
        "R-BDR-012",
-       0.854
+       0.848
       ]
      ]
     },
@@ -3028,7 +3028,7 @@
      "split": "dev",
      "lang": "en",
      "expected": "answer R-BDR-008",
-     "got": "answer R-BDR-010",
+     "got": "abstain question_unanswered",
      "correct": false,
      "top3": [
       [
@@ -3077,15 +3077,15 @@
      "top3": [
       [
        "R-BDR-009",
-       0.901
+       0.902
       ],
       [
        "R-BDR-012",
-       0.853
+       0.856
       ],
       [
        "R-BDR-008",
-       0.851
+       0.852
       ]
      ]
     },
@@ -3209,15 +3209,15 @@
      "top3": [
       [
        "R-BDR-011",
-       0.885
+       0.883
       ],
       [
        "R-BDR-003",
-       0.855
+       0.857
       ],
       [
        "R-BDR-002",
-       0.85
+       0.853
       ]
      ]
     },
@@ -3231,15 +3231,15 @@
      "top3": [
       [
        "R-PLB-008",
-       0.826
+       0.847
       ],
       [
        "R-PLB-007",
-       0.824
+       0.84
       ],
       [
-       "R-PLB-005",
-       0.823
+       "R-PLB-002",
+       0.837
       ]
      ]
     },
@@ -3274,16 +3274,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-011",
-       0.823
+       "R-PLB-009",
+       0.835
       ],
       [
-       "R-PLB-009",
-       0.819
+       "R-PLB-011",
+       0.834
       ],
       [
        "R-PLB-008",
-       0.802
+       0.817
       ]
      ]
     },
@@ -3336,20 +3336,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.862
+       "R-PLB-008",
+       0.863
       ],
       [
        "R-PLB-003",
-       0.849
+       0.861
       ],
       [
-       "R-PLB-004",
-       0.843
+       "R-PLB-007",
+       0.86
       ]
      ]
     },
@@ -3362,16 +3362,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.85
+       "R-PLB-007",
+       0.851
       ],
       [
        "R-PLB-008",
-       0.848
+       0.851
       ],
       [
-       "R-PLB-009",
-       0.845
+       "R-PLB-003",
+       0.851
       ]
      ]
     },
@@ -3380,8 +3380,8 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "answer R-BDR-009",
-     "correct": false,
+     "got": "abstain no_rule_for_problem",
+     "correct": true,
      "top3": [
       [
        "R-BDR-007",
@@ -3424,8 +3424,8 @@
      "split": "dev",
      "lang": "bn",
      "expected": "abstain",
-     "got": "answer R-BDR-011",
-     "correct": false,
+     "got": "abstain question_unanswered",
+     "correct": true,
      "top3": [
       [
        "R-BDR-011",
@@ -3468,8 +3468,8 @@
      "split": "test",
      "lang": "bn",
      "expected": "abstain",
-     "got": "answer R-BDR-010",
-     "correct": false,
+     "got": "abstain question_unanswered",
+     "correct": true,
      "top3": [
       [
        "R-BDR-007",
@@ -3495,15 +3495,15 @@
      "top3": [
       [
        "R-BDR-010",
-       0.844
+       0.843
       ],
       [
        "R-BDR-005",
-       0.838
+       0.839
       ],
       [
        "R-BDR-009",
-       0.833
+       0.83
       ]
      ]
     },
@@ -3517,15 +3517,15 @@
      "top3": [
       [
        "R-BDR-009",
-       0.827
-      ],
-      [
-       "R-BDR-006",
        0.825
       ],
       [
        "R-BDR-004",
        0.824
+      ],
+      [
+       "R-BDR-006",
+       0.823
       ]
      ]
     },
@@ -3534,20 +3534,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "abstain",
-     "got": "answer R-BDR-010",
-     "correct": false,
+     "got": "abstain no_rule_for_problem",
+     "correct": true,
      "top3": [
       [
        "R-BDR-005",
-       0.868
-      ],
-      [
-       "R-BDR-011",
        0.865
       ],
       [
        "R-BDR-010",
-       0.865
+       0.864
+      ],
+      [
+       "R-BDR-011",
+       0.859
       ]
      ]
     },
@@ -3561,15 +3561,15 @@
      "top3": [
       [
        "R-BDR-011",
-       0.849
-      ],
-      [
-       "R-BDR-009",
-       0.843
+       0.847
       ],
       [
        "R-BDR-005",
        0.842
+      ],
+      [
+       "R-BDR-007",
+       0.84
       ]
      ]
     }
@@ -3581,11 +3581,11 @@
     "bm25",
     "dense"
    ],
-   "threshold": 0.540875,
+   "threshold": 0.55128,
    "threshold_fixed_on": "dev split (32 items): 29 correct outcomes",
    "test": {
     "items": 45,
-    "accuracy@1": 0.889,
+    "accuracy@1": 0.944,
     "accuracy@3": 1.0,
     "retrieval_items": 36,
     "abstention_precision": 0.875,
@@ -3593,14 +3593,14 @@
     "abstained": 16,
     "should_abstain": 14,
     "answered": 29,
-    "answered_right_rule": 28,
-    "wrong_answers": 1,
-    "coverage": 0.903,
-    "outcome_accuracy": 0.933
+    "answered_right_rule": 29,
+    "wrong_answers": 0,
+    "coverage": 0.935,
+    "outcome_accuracy": 0.956
    },
    "dev (threshold fitted here)": {
     "items": 32,
-    "accuracy@1": 0.76,
+    "accuracy@1": 0.84,
     "accuracy@3": 1.0,
     "retrieval_items": 25,
     "abstention_precision": 0.833,
@@ -3613,8 +3613,8 @@
     "coverage": 0.864,
     "outcome_accuracy": 0.906
    },
-   "latency_ms_median": 30,
-   "latency_ms_p90": 40,
+   "latency_ms_median": 37,
+   "latency_ms_p90": 50,
    "replay_agrees_with_pipeline": true,
    "items": [
     {
@@ -3627,15 +3627,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.838
+       0.843
       ],
       [
        "R-PLB-003",
-       0.711
+       0.72
       ],
       [
-       "R-PLB-004",
-       0.71
+       "R-PLB-002",
+       0.714
       ]
      ]
     },
@@ -3649,15 +3649,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.764
+       0.818
       ],
       [
-       "R-PLB-005",
-       0.543
+       "R-PLB-011",
+       0.842
       ],
       [
-       "R-PLB-003",
-       0.709
+       "R-PLB-009",
+       0.837
       ]
      ]
     },
@@ -3674,12 +3674,12 @@
        0.596
       ],
       [
-       "R-PLB-005",
-       0.425
+       "R-PLB-010",
+       0.584
       ],
       [
        "R-PLB-002",
-       0.418
+       0.421
       ]
      ]
     },
@@ -3693,15 +3693,15 @@
      "top3": [
       [
        "R-PLB-002",
-       0.938
+       0.951
       ],
       [
        "R-PLB-001",
-       0.728
+       0.729
       ],
       [
-       "R-PLB-005",
-       0.429
+       "R-PLB-003",
+       0.63
       ]
      ]
     },
@@ -3715,15 +3715,15 @@
      "top3": [
       [
        "R-PLB-002",
-       0.814
-      ],
-      [
-       "R-PLB-005",
-       0.431
+       0.829
       ],
       [
        "R-PLB-003",
-       0.617
+       0.661
+      ],
+      [
+       "R-PLB-010",
+       0.551
       ]
      ]
     },
@@ -3737,15 +3737,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.6
+       0.671
       ],
       [
        "R-PLB-004",
-       0.537
+       0.539
       ],
       [
-       "R-PLB-001",
-       0.472
+       "R-PLB-007",
+       0.5
       ]
      ]
     },
@@ -3759,15 +3759,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.542
+       0.709
+      ],
+      [
+       "R-PLB-007",
+       0.506
       ],
       [
        "R-PLB-004",
-       0.515
-      ],
-      [
-       "R-PLB-005",
-       0.424
+       0.498
       ]
      ]
     },
@@ -3781,15 +3781,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.57
+       0.576
       ],
       [
        "R-PLB-005",
-       0.493
+       0.53
       ],
       [
-       "R-PLB-001",
-       0.467
+       "R-PLB-007",
+       0.437
       ]
      ]
     },
@@ -3803,15 +3803,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.937
+       0.939
       ],
       [
        "R-PLB-001",
-       0.768
+       0.767
       ],
       [
        "R-PLB-007",
-       0.591
+       0.598
       ]
      ]
     },
@@ -3825,15 +3825,15 @@
      "top3": [
       [
        "R-PLB-009",
-       0.563
+       0.569
       ],
       [
        "R-PLB-004",
-       0.579
+       0.583
       ],
       [
-       "R-PLB-006",
-       0.597
+       "R-PLB-011",
+       0.569
       ]
      ]
     },
@@ -3847,15 +3847,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.724
+       0.683
       ],
       [
        "R-PLB-001",
-       0.623
+       0.588
       ],
       [
-       "R-PLB-005",
-       0.424
+       "R-PLB-007",
+       0.517
       ]
      ]
     },
@@ -3869,15 +3869,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.682
+       0.755
       ],
       [
-       "R-PLB-004",
-       0.502
+       "R-PLB-003",
+       0.508
       ],
       [
-       "R-PLB-001",
-       0.495
+       "R-PLB-002",
+       0.503
       ]
      ]
     },
@@ -3891,15 +3891,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.624
+       0.947
       ],
       [
        "R-PLB-003",
-       0.585
+       0.604
       ],
       [
        "R-PLB-004",
-       0.591
+       0.598
       ]
      ]
     },
@@ -3913,15 +3913,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.682
+       0.755
       ],
       [
-       "R-PLB-004",
-       0.502
+       "R-PLB-003",
+       0.508
       ],
       [
-       "R-PLB-001",
-       0.495
+       "R-PLB-002",
+       0.503
       ]
      ]
     },
@@ -3935,15 +3935,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.638
+       0.942
       ],
       [
        "R-PLB-004",
-       0.538
+       0.539
       ],
       [
-       "R-PLB-008",
-       0.61
+       "R-PLB-007",
+       0.535
       ]
      ]
     },
@@ -3957,15 +3957,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.604
+       0.934
       ],
       [
-       "R-PLB-008",
-       0.601
+       "R-PLB-007",
+       0.555
       ],
       [
        "R-PLB-004",
-       0.567
+       0.553
       ]
      ]
     },
@@ -3979,15 +3979,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.721
+       0.726
       ],
       [
        "R-PLB-007",
-       0.422
+       0.427
       ],
       [
        "R-PLB-004",
-       0.422
+       0.569
       ]
      ]
     },
@@ -4001,15 +4001,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.941
+       0.947
       ],
       [
-       "R-PLB-005",
-       0.433
+       "R-PLB-003",
+       0.935
       ],
       [
        "R-PLB-006",
-       0.426
+       0.432
       ]
      ]
     },
@@ -4023,15 +4023,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.929
+       0.941
+      ],
+      [
+       "R-PLB-003",
+       0.934
       ],
       [
        "R-PLB-001",
-       0.422
-      ],
-      [
-       "R-PLB-005",
-       0.425
+       0.43
       ]
      ]
     },
@@ -4045,15 +4045,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.769
+       0.944
       ],
       [
        "R-PLB-008",
-       0.71
+       0.719
       ],
       [
        "R-PLB-011",
-       0.709
+       0.718
       ]
      ]
     },
@@ -4067,15 +4067,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.941
+       0.947
       ],
       [
-       "R-PLB-005",
-       0.433
+       "R-PLB-003",
+       0.935
       ],
       [
        "R-PLB-006",
-       0.426
+       0.432
       ]
      ]
     },
@@ -4089,15 +4089,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.774
+       0.785
+      ],
+      [
+       "R-PLB-003",
+       0.453
       ],
       [
        "R-PLB-001",
        0.452
-      ],
-      [
-       "R-PLB-005",
-       0.454
       ]
      ]
     },
@@ -4111,15 +4111,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.741
+       0.944
       ],
       [
-       "R-PLB-004",
-       0.625
+       "R-PLB-003",
+       0.611
       ],
       [
-       "R-PLB-010",
-       0.737
+       "R-PLB-001",
+       0.604
       ]
      ]
     },
@@ -4132,16 +4132,16 @@
      "correct": true,
      "top3": [
       [
+       "R-PLB-011",
+       0.938
+      ],
+      [
        "R-PLB-010",
-       0.932
+       0.936
       ],
       [
        "R-PLB-008",
-       0.93
-      ],
-      [
-       "R-PLB-011",
-       0.93
+       0.935
       ]
      ]
     },
@@ -4154,16 +4154,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-010",
-       0.922
+       "R-PLB-011",
+       0.934
       ],
       [
-       "R-PLB-011",
-       0.921
+       "R-PLB-010",
+       0.931
       ],
       [
        "R-PLB-009",
-       0.923
+       0.933
       ]
      ]
     },
@@ -4177,15 +4177,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.927
-      ],
-      [
-       "R-PLB-004",
-       0.425
+       0.939
       ],
       [
        "R-PLB-008",
-       0.632
+       0.643
+      ],
+      [
+       "R-PLB-010",
+       0.636
       ]
      ]
     },
@@ -4198,16 +4198,16 @@
      "correct": false,
      "top3": [
       [
-       "R-PLB-011",
-       0.775
+       "R-PLB-009",
+       0.785
       ],
       [
-       "R-PLB-009",
-       0.773
+       "R-PLB-011",
+       0.785
       ],
       [
        "R-PLB-008",
-       0.761
+       0.771
       ]
      ]
     },
@@ -4216,20 +4216,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-009",
-     "got": "answer R-PLB-011",
-     "correct": false,
+     "got": "answer R-PLB-009",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-011",
-       0.686
+       "R-PLB-009",
+       0.779
       ],
       [
-       "R-PLB-009",
-       0.631
+       "R-PLB-011",
+       0.745
       ],
       [
        "R-PLB-008",
-       0.575
+       0.577
       ]
      ]
     },
@@ -4243,15 +4243,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.547
+       0.553
       ],
       [
        "R-PLB-011",
-       0.535
+       0.543
       ],
       [
        "R-PLB-008",
-       0.535
+       0.541
       ]
      ]
     },
@@ -4265,15 +4265,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.543
+       0.766
       ],
       [
        "R-PLB-011",
-       0.538
+       0.573
       ],
       [
-       "R-PLB-005",
-       0.405
+       "R-PLB-003",
+       0.513
       ]
      ]
     },
@@ -4335,11 +4335,11 @@
       ],
       [
        "R-BDR-005",
-       0.796
+       0.8
       ],
       [
        "R-BDR-001",
-       0.703
+       0.704
       ]
      ]
     },
@@ -4441,15 +4441,15 @@
      "top3": [
       [
        "R-BDR-007",
-       0.669
+       0.694
       ],
       [
        "R-BDR-003",
-       0.761
+       0.786
       ],
       [
        "R-BDR-005",
-       0.759
+       0.783
       ]
      ]
     },
@@ -4485,15 +4485,15 @@
      "top3": [
       [
        "R-BDR-004",
-       0.859
+       0.874
       ],
       [
        "R-BDR-009",
-       0.533
+       0.535
       ],
       [
        "R-BDR-010",
-       0.547
+       0.556
       ]
      ]
     },
@@ -4599,11 +4599,11 @@
       ],
       [
        "R-BDR-005",
-       0.664
+       0.647
       ],
       [
        "R-BDR-003",
-       0.661
+       0.644
       ]
      ]
     },
@@ -4639,15 +4639,15 @@
      "top3": [
       [
        "R-BDR-007",
-       0.809
+       0.806
       ],
       [
        "R-BDR-010",
-       0.564
+       0.566
       ],
       [
        "R-BDR-009",
-       0.572
+       0.575
       ]
      ]
     },
@@ -4661,15 +4661,15 @@
      "top3": [
       [
        "R-BDR-007",
-       0.809
+       0.806
       ],
       [
        "R-BDR-010",
-       0.564
+       0.566
       ],
       [
        "R-BDR-009",
-       0.572
+       0.575
       ]
      ]
     },
@@ -4683,7 +4683,7 @@
      "top3": [
       [
        "R-BDR-012",
-       0.872
+       0.873
       ],
       [
        "R-BDR-008",
@@ -4691,7 +4691,7 @@
       ],
       [
        "R-BDR-009",
-       0.567
+       0.566
       ]
      ]
     },
@@ -4705,15 +4705,15 @@
      "top3": [
       [
        "R-BDR-008",
-       0.783
+       0.776
       ],
       [
        "R-BDR-012",
-       0.781
+       0.774
       ],
       [
        "R-BDR-009",
-       0.587
+       0.578
       ]
      ]
     },
@@ -4749,7 +4749,7 @@
      "top3": [
       [
        "R-BDR-012",
-       0.872
+       0.873
       ],
       [
        "R-BDR-008",
@@ -4757,7 +4757,7 @@
       ],
       [
        "R-BDR-009",
-       0.567
+       0.566
       ]
      ]
     },
@@ -4819,11 +4819,11 @@
       ],
       [
        "R-BDR-012",
-       0.729
+       0.731
       ],
       [
        "R-BDR-008",
-       0.728
+       0.729
       ]
      ]
     },
@@ -4947,15 +4947,15 @@
      "top3": [
       [
        "R-BDR-011",
-       0.534
+       0.535
       ],
       [
        "R-BDR-003",
-       0.507
+       0.512
       ],
       [
        "R-BDR-002",
-       0.505
+       0.51
       ]
      ]
     },
@@ -4968,16 +4968,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.412
+       "R-PLB-002",
+       0.418
       ],
       [
        "R-PLB-008",
-       0.413
+       0.423
       ],
       [
        "R-PLB-007",
-       0.412
+       0.42
       ]
      ]
     },
@@ -5013,15 +5013,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.762
+       0.768
       ],
       [
        "R-PLB-009",
-       0.547
+       0.555
       ],
       [
        "R-PLB-008",
-       0.538
+       0.546
       ]
      ]
     },
@@ -5074,20 +5074,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
        "R-PLB-007",
-       0.498
+       0.507
+      ],
+      [
+       "R-PLB-008",
+       0.509
       ],
       [
        "R-PLB-001",
-       0.538
-      ],
-      [
-       "R-PLB-005",
-       0.508
+       0.546
       ]
      ]
     },
@@ -5100,16 +5100,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
+       "R-PLB-003",
        0.425
       ],
       [
-       "R-PLB-001",
-       0.42
+       "R-PLB-007",
+       0.426
       ],
       [
        "R-PLB-008",
-       0.424
+       0.426
       ]
      ]
     },
@@ -5118,7 +5118,7 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -5167,11 +5167,11 @@
      "top3": [
       [
        "R-BDR-002",
-       0.541
+       0.542
       ],
       [
        "R-BDR-003",
-       0.54
+       0.541
       ],
       [
        "R-BDR-005",
@@ -5233,15 +5233,15 @@
      "top3": [
       [
        "R-BDR-010",
-       0.592
+       0.587
       ],
       [
        "R-BDR-012",
-       0.585
+       0.58
       ],
       [
        "R-BDR-005",
-       0.519
+       0.51
       ]
      ]
     },
@@ -5255,15 +5255,15 @@
      "top3": [
       [
        "R-BDR-004",
-       0.662
+       0.611
       ],
       [
        "R-BDR-003",
-       0.66
+       0.609
       ],
       [
        "R-BDR-006",
-       0.413
+       0.412
       ]
      ]
     },
@@ -5272,12 +5272,12 @@
      "split": "test",
      "lang": "bn",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
        "R-BDR-005",
-       0.434
+       0.432
       ],
       [
        "R-BDR-002",
@@ -5285,7 +5285,7 @@
       ],
       [
        "R-BDR-003",
-       0.549
+       0.548
       ]
      ]
     },
@@ -5303,11 +5303,11 @@
       ],
       [
        "R-BDR-003",
-       0.418
+       0.419
       ],
       [
-       "R-BDR-009",
-       0.421
+       "R-BDR-002",
+       0.416
       ]
      ]
     }
@@ -5319,40 +5319,40 @@
     "bm25",
     "rerank"
    ],
-   "threshold": 0.355942,
-   "threshold_fixed_on": "dev split (32 items): 27 correct outcomes",
+   "threshold": 0.379094,
+   "threshold_fixed_on": "dev split (32 items): 28 correct outcomes",
    "test": {
     "items": 45,
-    "accuracy@1": 0.806,
-    "accuracy@3": 0.972,
+    "accuracy@1": 0.833,
+    "accuracy@3": 1.0,
     "retrieval_items": 36,
-    "abstention_precision": 0.7,
+    "abstention_precision": 0.667,
     "abstention_recall": 1.0,
-    "abstained": 20,
+    "abstained": 21,
     "should_abstain": 14,
-    "answered": 25,
+    "answered": 24,
     "answered_right_rule": 24,
-    "wrong_answers": 1,
+    "wrong_answers": 0,
     "coverage": 0.774,
     "outcome_accuracy": 0.844
    },
    "dev (threshold fitted here)": {
     "items": 32,
     "accuracy@1": 0.84,
-    "accuracy@3": 0.92,
+    "accuracy@3": 0.96,
     "retrieval_items": 25,
-    "abstention_precision": 0.692,
-    "abstention_recall": 0.9,
-    "abstained": 13,
+    "abstention_precision": 0.714,
+    "abstention_recall": 1.0,
+    "abstained": 14,
     "should_abstain": 10,
-    "answered": 19,
+    "answered": 18,
     "answered_right_rule": 18,
-    "wrong_answers": 1,
+    "wrong_answers": 0,
     "coverage": 0.818,
-    "outcome_accuracy": 0.844
+    "outcome_accuracy": 0.875
    },
-   "latency_ms_median": 1514,
-   "latency_ms_p90": 1864,
+   "latency_ms_median": 2452,
+   "latency_ms_p90": 3573,
    "replay_agrees_with_pipeline": true,
    "items": [
     {
@@ -5365,15 +5365,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.635
+       0.542
       ],
       [
        "R-PLB-003",
-       0.543
+       0.463
       ],
       [
-       "R-PLB-004",
-       0.53
+       "R-PLB-005",
+       0.393
       ]
      ]
     },
@@ -5387,15 +5387,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.485
+       0.686
       ],
       [
        "R-PLB-005",
-       0.434
+       0.481
       ],
       [
        "R-PLB-003",
-       0.335
+       0.453
       ]
      ]
     },
@@ -5409,15 +5409,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.641
+       0.591
       ],
       [
-       "R-PLB-008",
-       0.418
+       "R-PLB-010",
+       0.251
       ],
       [
-       "R-PLB-003",
-       0.384
+       "R-PLB-005",
+       0.216
       ]
      ]
     },
@@ -5431,15 +5431,15 @@
      "top3": [
       [
        "R-PLB-002",
-       0.711
-      ],
-      [
-       "R-PLB-005",
-       0.436
+       0.535
       ],
       [
        "R-PLB-001",
-       0.435
+       0.433
+      ],
+      [
+       "R-PLB-005",
+       0.401
       ]
      ]
     },
@@ -5448,20 +5448,20 @@
      "split": "dev",
      "lang": "bn",
      "expected": "answer R-PLB-002",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-002",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-001",
+       "R-PLB-002",
+       0.46
+      ],
+      [
+       "R-PLB-005",
+       0.404
+      ],
+      [
+       "R-PLB-003",
        0.392
-      ],
-      [
-       "R-PLB-004",
-       0.363
-      ],
-      [
-       "R-PLB-008",
-       0.24
       ]
      ]
     },
@@ -5475,15 +5475,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.648
+       0.54
       ],
       [
-       "R-PLB-004",
-       0.487
+       "R-PLB-006",
+       0.367
       ],
       [
        "R-PLB-005",
-       0.483
+       0.326
       ]
      ]
     },
@@ -5497,15 +5497,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.356
+       0.523
       ],
       [
        "R-PLB-001",
-       0.351
+       0.388
       ],
       [
-       "R-PLB-006",
-       0.329
+       "R-PLB-007",
+       0.379
       ]
      ]
     },
@@ -5519,15 +5519,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.6
-      ],
-      [
-       "R-PLB-005",
-       0.473
+       0.485
       ],
       [
        "R-PLB-006",
-       0.438
+       0.355
+      ],
+      [
+       "R-PLB-005",
+       0.344
       ]
      ]
     },
@@ -5536,20 +5536,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "answer R-PLB-004",
-     "got": "answer R-PLB-004",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
-       "R-PLB-004",
-       0.557
+       "R-PLB-001",
+       0.352
       ],
       [
        "R-PLB-005",
-       0.451
+       0.341
       ],
       [
-       "R-PLB-001",
-       0.42
+       "R-PLB-004",
+       0.337
       ]
      ]
     },
@@ -5558,20 +5558,20 @@
      "split": "test",
      "lang": "en",
      "expected": "answer R-PLB-004",
-     "got": "answer R-PLB-003",
+     "got": "abstain question_unanswered",
      "correct": false,
      "top3": [
       [
-       "R-PLB-003",
-       0.376
-      ],
-      [
-       "R-PLB-004",
-       0.366
+       "R-PLB-006",
+       0.379
       ],
       [
        "R-PLB-009",
-       0.355
+       0.375
+      ],
+      [
+       "R-PLB-004",
+       0.371
       ]
      ]
     },
@@ -5585,15 +5585,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.421
+       0.455
+      ],
+      [
+       "R-PLB-003",
+       0.446
       ],
       [
        "R-PLB-001",
-       0.42
-      ],
-      [
-       "R-PLB-006",
-       0.319
+       0.439
       ]
      ]
     },
@@ -5607,15 +5607,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.587
-      ],
-      [
-       "R-PLB-004",
-       0.366
+       0.508
       ],
       [
        "R-PLB-003",
-       0.359
+       0.362
+      ],
+      [
+       "R-PLB-004",
+       0.237
       ]
      ]
     },
@@ -5624,20 +5624,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-005",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-005",
+     "correct": true,
      "top3": [
       [
        "R-PLB-005",
-       0.307
+       0.573
+      ],
+      [
+       "R-PLB-003",
+       0.465
       ],
       [
        "R-PLB-004",
-       0.282
-      ],
-      [
-       "R-PLB-001",
-       0.223
+       0.423
       ]
      ]
     },
@@ -5651,15 +5651,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.587
-      ],
-      [
-       "R-PLB-004",
-       0.366
+       0.508
       ],
       [
        "R-PLB-003",
-       0.359
+       0.362
+      ],
+      [
+       "R-PLB-004",
+       0.237
       ]
      ]
     },
@@ -5668,20 +5668,20 @@
      "split": "test",
      "lang": "en",
      "expected": "answer R-PLB-006",
-     "got": "answer R-PLB-006",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
        "R-PLB-006",
-       0.401
+       0.364
       ],
       [
        "R-PLB-004",
-       0.391
+       0.333
       ],
       [
        "R-PLB-008",
-       0.342
+       0.311
       ]
      ]
     },
@@ -5694,16 +5694,16 @@
      "correct": false,
      "top3": [
       [
+       "R-PLB-003",
+       0.37
+      ],
+      [
        "R-PLB-008",
-       0.301
+       0.37
       ],
       [
-       "R-PLB-004",
-       0.291
-      ],
-      [
-       "R-PLB-011",
-       0.271
+       "R-PLB-006",
+       0.369
       ]
      ]
     },
@@ -5717,15 +5717,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.56
+       0.476
+      ],
+      [
+       "R-PLB-004",
+       0.304
       ],
       [
        "R-PLB-005",
-       0.37
-      ],
-      [
-       "R-PLB-003",
-       0.339
+       0.302
       ]
      ]
     },
@@ -5734,20 +5734,20 @@
      "split": "test",
      "lang": "en",
      "expected": "answer R-PLB-007",
-     "got": "answer R-PLB-007",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
        "R-PLB-007",
-       0.48
+       0.36
       ],
       [
-       "R-PLB-005",
-       0.436
+       "R-PLB-008",
+       0.355
       ],
       [
        "R-PLB-003",
-       0.399
+       0.343
       ]
      ]
     },
@@ -5756,20 +5756,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-007",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-007",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-001",
-       0.35
-      ],
-      [
-       "R-PLB-005",
-       0.327
-      ],
-      [
        "R-PLB-007",
-       0.301
+       0.506
+      ],
+      [
+       "R-PLB-003",
+       0.417
+      ],
+      [
+       "R-PLB-006",
+       0.352
       ]
      ]
     },
@@ -5783,15 +5783,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.516
+       0.42
       ],
       [
        "R-PLB-008",
-       0.406
+       0.416
       ],
       [
        "R-PLB-006",
-       0.402
+       0.35
       ]
      ]
     },
@@ -5805,15 +5805,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.48
+       0.36
       ],
       [
-       "R-PLB-005",
-       0.436
+       "R-PLB-008",
+       0.355
       ],
       [
        "R-PLB-003",
-       0.399
+       0.343
       ]
      ]
     },
@@ -5827,15 +5827,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.607
+       0.559
       ],
       [
        "R-PLB-001",
-       0.56
+       0.46
       ],
       [
-       "R-PLB-005",
-       0.493
+       "R-PLB-006",
+       0.359
       ]
      ]
     },
@@ -5849,15 +5849,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.485
+       0.587
+      ],
+      [
+       "R-PLB-001",
+       0.436
       ],
       [
        "R-PLB-008",
-       0.365
-      ],
-      [
-       "R-PLB-006",
-       0.35
+       0.383
       ]
      ]
     },
@@ -5871,15 +5871,15 @@
      "top3": [
       [
        "R-PLB-008",
-       0.449
+       0.381
       ],
       [
        "R-PLB-011",
-       0.416
+       0.367
       ],
       [
        "R-PLB-006",
-       0.413
+       0.342
       ]
      ]
     },
@@ -5892,16 +5892,16 @@
      "correct": false,
      "top3": [
       [
-       "R-PLB-004",
-       0.281
+       "R-PLB-006",
+       0.345
       ],
       [
        "R-PLB-008",
-       0.255
+       0.327
       ],
       [
-       "R-PLB-006",
-       0.187
+       "R-PLB-009",
+       0.306
       ]
      ]
     },
@@ -5915,15 +5915,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.524
+       0.504
       ],
       [
        "R-PLB-008",
-       0.46
+       0.445
       ],
       [
-       "R-PLB-006",
-       0.441
+       "R-PLB-009",
+       0.397
       ]
      ]
     },
@@ -5937,15 +5937,15 @@
      "top3": [
       [
        "R-PLB-009",
-       0.695
+       0.634
       ],
       [
        "R-PLB-011",
-       0.593
+       0.498
       ],
       [
        "R-PLB-008",
-       0.551
+       0.44
       ]
      ]
     },
@@ -5959,15 +5959,15 @@
      "top3": [
       [
        "R-PLB-009",
-       0.431
+       0.729
       ],
       [
        "R-PLB-011",
-       0.382
+       0.522
       ],
       [
        "R-PLB-008",
-       0.313
+       0.46
       ]
      ]
     },
@@ -5981,15 +5981,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.653
-      ],
-      [
-       "R-PLB-008",
-       0.399
+       0.471
       ],
       [
        "R-PLB-006",
-       0.368
+       0.28
+      ],
+      [
+       "R-PLB-008",
+       0.196
       ]
      ]
     },
@@ -6003,15 +6003,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.496
+       0.576
       ],
       [
-       "R-PLB-008",
-       0.304
+       "R-PLB-003",
+       0.359
       ],
       [
-       "R-PLB-006",
-       0.274
+       "R-PLB-009",
+       0.344
       ]
      ]
     },
@@ -6706,16 +6706,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-007",
-       0.241
-      ],
-      [
        "R-PLB-003",
-       0.236
+       0.13
       ],
       [
        "R-PLB-008",
-       0.17
+       0.1
+      ],
+      [
+       "R-PLB-007",
+       0.041
       ]
      ]
     },
@@ -6751,15 +6751,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.457
+       0.404
       ],
       [
        "R-PLB-009",
-       0.348
+       0.345
       ],
       [
        "R-PLB-008",
-       0.282
+       0.275
       ]
      ]
     },
@@ -6812,20 +6812,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "abstain",
-     "got": "answer R-PLB-006",
-     "correct": false,
+     "got": "abstain no_rule_for_problem",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-004",
-       0.433
+       "R-PLB-001",
+       0.398
       ],
       [
        "R-PLB-006",
-       0.425
+       0.34
       ],
       [
        "R-PLB-008",
-       0.383
+       0.288
       ]
      ]
     },
@@ -6838,16 +6838,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.349
-      ],
-      [
-       "R-PLB-007",
-       0.325
-      ],
-      [
        "R-PLB-008",
-       0.323
+       0.224
+      ],
+      [
+       "R-PLB-006",
+       0.196
+      ],
+      [
+       "R-PLB-003",
+       0.14
       ]
      ]
     },
@@ -6856,7 +6856,7 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -7010,7 +7010,7 @@
      "split": "test",
      "lang": "bn",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -7058,40 +7058,40 @@
     "dense",
     "rerank"
    ],
-   "threshold": 0.355942,
-   "threshold_fixed_on": "dev split (32 items): 26 correct outcomes",
+   "threshold": 0.379094,
+   "threshold_fixed_on": "dev split (32 items): 27 correct outcomes",
    "test": {
     "items": 45,
-    "accuracy@1": 0.806,
-    "accuracy@3": 0.972,
+    "accuracy@1": 0.861,
+    "accuracy@3": 1.0,
     "retrieval_items": 36,
-    "abstention_precision": 0.684,
-    "abstention_recall": 0.929,
-    "abstained": 19,
+    "abstention_precision": 0.667,
+    "abstention_recall": 1.0,
+    "abstained": 21,
     "should_abstain": 14,
-    "answered": 26,
+    "answered": 24,
     "answered_right_rule": 24,
-    "wrong_answers": 2,
+    "wrong_answers": 0,
     "coverage": 0.774,
-    "outcome_accuracy": 0.822
+    "outcome_accuracy": 0.844
    },
    "dev (threshold fitted here)": {
     "items": 32,
-    "accuracy@1": 0.76,
-    "accuracy@3": 0.92,
+    "accuracy@1": 0.8,
+    "accuracy@3": 0.96,
     "retrieval_items": 25,
-    "abstention_precision": 0.667,
-    "abstention_recall": 0.8,
-    "abstained": 12,
+    "abstention_precision": 0.692,
+    "abstention_recall": 0.9,
+    "abstained": 13,
     "should_abstain": 10,
-    "answered": 20,
+    "answered": 19,
     "answered_right_rule": 18,
-    "wrong_answers": 2,
+    "wrong_answers": 1,
     "coverage": 0.818,
-    "outcome_accuracy": 0.812
+    "outcome_accuracy": 0.844
    },
-   "latency_ms_median": 1565,
-   "latency_ms_p90": 1887,
+   "latency_ms_median": 2038,
+   "latency_ms_p90": 3663,
    "replay_agrees_with_pipeline": true,
    "items": [
     {
@@ -7104,15 +7104,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.635
+       0.542
       ],
       [
        "R-PLB-003",
-       0.543
+       0.463
       ],
       [
-       "R-PLB-004",
-       0.53
+       "R-PLB-006",
+       0.338
       ]
      ]
     },
@@ -7126,15 +7126,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.485
+       0.686
       ],
       [
        "R-PLB-005",
-       0.434
+       0.481
       ],
       [
        "R-PLB-003",
-       0.335
+       0.453
       ]
      ]
     },
@@ -7148,15 +7148,15 @@
      "top3": [
       [
        "R-PLB-001",
-       0.641
+       0.591
       ],
       [
        "R-PLB-011",
-       0.446
+       0.329
       ],
       [
        "R-PLB-010",
-       0.408
+       0.251
       ]
      ]
     },
@@ -7170,15 +7170,15 @@
      "top3": [
       [
        "R-PLB-002",
-       0.711
-      ],
-      [
-       "R-PLB-005",
-       0.436
+       0.535
       ],
       [
        "R-PLB-001",
-       0.435
+       0.433
+      ],
+      [
+       "R-PLB-005",
+       0.401
       ]
      ]
     },
@@ -7187,20 +7187,20 @@
      "split": "dev",
      "lang": "bn",
      "expected": "answer R-PLB-002",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-002",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-001",
+       "R-PLB-002",
+       0.46
+      ],
+      [
+       "R-PLB-005",
+       0.404
+      ],
+      [
+       "R-PLB-003",
        0.392
-      ],
-      [
-       "R-PLB-004",
-       0.363
-      ],
-      [
-       "R-PLB-006",
-       0.315
       ]
      ]
     },
@@ -7214,15 +7214,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.648
+       0.54
       ],
       [
-       "R-PLB-004",
-       0.487
+       "R-PLB-006",
+       0.367
       ],
       [
-       "R-PLB-005",
-       0.483
+       "R-PLB-008",
+       0.348
       ]
      ]
     },
@@ -7236,15 +7236,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.356
+       0.523
       ],
       [
        "R-PLB-001",
-       0.351
+       0.388
       ],
       [
-       "R-PLB-006",
-       0.329
+       "R-PLB-007",
+       0.379
       ]
      ]
     },
@@ -7258,15 +7258,15 @@
      "top3": [
       [
        "R-PLB-003",
-       0.6
-      ],
-      [
-       "R-PLB-005",
-       0.473
+       0.485
       ],
       [
        "R-PLB-006",
-       0.438
+       0.355
+      ],
+      [
+       "R-PLB-005",
+       0.344
       ]
      ]
     },
@@ -7275,20 +7275,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "answer R-PLB-004",
-     "got": "answer R-PLB-004",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
-       "R-PLB-004",
-       0.557
+       "R-PLB-001",
+       0.352
       ],
       [
        "R-PLB-005",
-       0.451
+       0.341
       ],
       [
-       "R-PLB-001",
-       0.42
+       "R-PLB-004",
+       0.337
       ]
      ]
     },
@@ -7297,20 +7297,20 @@
      "split": "test",
      "lang": "en",
      "expected": "answer R-PLB-004",
-     "got": "answer R-PLB-003",
+     "got": "abstain question_unanswered",
      "correct": false,
      "top3": [
       [
-       "R-PLB-003",
-       0.376
-      ],
-      [
-       "R-PLB-004",
-       0.366
+       "R-PLB-006",
+       0.379
       ],
       [
        "R-PLB-009",
-       0.355
+       0.375
+      ],
+      [
+       "R-PLB-004",
+       0.371
       ]
      ]
     },
@@ -7324,15 +7324,15 @@
      "top3": [
       [
        "R-PLB-004",
-       0.421
+       0.455
+      ],
+      [
+       "R-PLB-003",
+       0.446
       ],
       [
        "R-PLB-001",
-       0.42
-      ],
-      [
-       "R-PLB-006",
-       0.319
+       0.439
       ]
      ]
     },
@@ -7346,15 +7346,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.587
-      ],
-      [
-       "R-PLB-004",
-       0.366
+       0.508
       ],
       [
        "R-PLB-003",
-       0.359
+       0.362
+      ],
+      [
+       "R-PLB-004",
+       0.237
       ]
      ]
     },
@@ -7363,20 +7363,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-005",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-005",
+     "correct": true,
      "top3": [
       [
        "R-PLB-005",
-       0.307
+       0.573
       ],
       [
-       "R-PLB-006",
-       0.293
+       "R-PLB-003",
+       0.465
       ],
       [
        "R-PLB-004",
-       0.282
+       0.423
       ]
      ]
     },
@@ -7390,15 +7390,15 @@
      "top3": [
       [
        "R-PLB-005",
-       0.587
-      ],
-      [
-       "R-PLB-004",
-       0.366
+       0.508
       ],
       [
        "R-PLB-003",
-       0.359
+       0.362
+      ],
+      [
+       "R-PLB-004",
+       0.237
       ]
      ]
     },
@@ -7407,20 +7407,20 @@
      "split": "test",
      "lang": "en",
      "expected": "answer R-PLB-006",
-     "got": "answer R-PLB-006",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
        "R-PLB-006",
-       0.401
+       0.364
       ],
       [
        "R-PLB-004",
-       0.391
+       0.333
       ],
       [
-       "R-PLB-005",
-       0.377
+       "R-PLB-008",
+       0.311
       ]
      ]
     },
@@ -7433,16 +7433,16 @@
      "correct": false,
      "top3": [
       [
+       "R-PLB-003",
+       0.37
+      ],
+      [
        "R-PLB-008",
-       0.301
+       0.37
       ],
       [
-       "R-PLB-004",
-       0.291
-      ],
-      [
-       "R-PLB-005",
-       0.288
+       "R-PLB-006",
+       0.369
       ]
      ]
     },
@@ -7456,15 +7456,15 @@
      "top3": [
       [
        "R-PLB-006",
-       0.56
+       0.476
       ],
       [
-       "R-PLB-005",
-       0.37
+       "R-PLB-008",
+       0.319
       ],
       [
        "R-PLB-004",
-       0.325
+       0.304
       ]
      ]
     },
@@ -7473,20 +7473,20 @@
      "split": "test",
      "lang": "en",
      "expected": "answer R-PLB-007",
-     "got": "answer R-PLB-007",
-     "correct": true,
+     "got": "abstain question_unanswered",
+     "correct": false,
      "top3": [
       [
        "R-PLB-007",
-       0.48
+       0.36
       ],
       [
-       "R-PLB-005",
-       0.436
+       "R-PLB-008",
+       0.355
       ],
       [
        "R-PLB-003",
-       0.399
+       0.343
       ]
      ]
     },
@@ -7495,20 +7495,20 @@
      "split": "test",
      "lang": "bn",
      "expected": "answer R-PLB-007",
-     "got": "abstain question_unanswered",
-     "correct": false,
+     "got": "answer R-PLB-007",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-001",
-       0.35
-      ],
-      [
-       "R-PLB-005",
-       0.327
-      ],
-      [
        "R-PLB-007",
-       0.301
+       0.506
+      ],
+      [
+       "R-PLB-003",
+       0.417
+      ],
+      [
+       "R-PLB-006",
+       0.352
       ]
      ]
     },
@@ -7522,15 +7522,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.516
-      ],
-      [
-       "R-PLB-005",
-       0.407
+       0.42
       ],
       [
        "R-PLB-008",
-       0.406
+       0.416
+      ],
+      [
+       "R-PLB-006",
+       0.35
       ]
      ]
     },
@@ -7544,15 +7544,15 @@
      "top3": [
       [
        "R-PLB-007",
-       0.48
+       0.36
       ],
       [
-       "R-PLB-005",
-       0.436
+       "R-PLB-008",
+       0.355
       ],
       [
        "R-PLB-003",
-       0.399
+       0.343
       ]
      ]
     },
@@ -7566,15 +7566,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.607
+       0.559
+      ],
+      [
+       "R-PLB-008",
+       0.47
       ],
       [
        "R-PLB-001",
-       0.56
-      ],
-      [
-       "R-PLB-005",
-       0.493
+       0.46
       ]
      ]
     },
@@ -7588,15 +7588,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.485
+       0.587
+      ],
+      [
+       "R-PLB-001",
+       0.436
       ],
       [
        "R-PLB-008",
-       0.365
-      ],
-      [
-       "R-PLB-003",
-       0.346
+       0.383
       ]
      ]
     },
@@ -7609,16 +7609,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.467
-      ],
-      [
        "R-PLB-008",
-       0.449
+       0.381
       ],
       [
        "R-PLB-011",
-       0.416
+       0.367
+      ],
+      [
+       "R-PLB-006",
+       0.342
       ]
      ]
     },
@@ -7631,16 +7631,16 @@
      "correct": false,
      "top3": [
       [
-       "R-PLB-001",
-       0.289
-      ],
-      [
-       "R-PLB-004",
-       0.281
-      ],
-      [
        "R-PLB-008",
-       0.255
+       0.327
+      ],
+      [
+       "R-PLB-003",
+       0.308
+      ],
+      [
+       "R-PLB-009",
+       0.306
       ]
      ]
     },
@@ -7654,15 +7654,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.524
-      ],
-      [
-       "R-PLB-005",
-       0.473
+       0.504
       ],
       [
        "R-PLB-008",
-       0.46
+       0.445
+      ],
+      [
+       "R-PLB-009",
+       0.397
       ]
      ]
     },
@@ -7676,15 +7676,15 @@
      "top3": [
       [
        "R-PLB-009",
-       0.695
+       0.634
       ],
       [
        "R-PLB-011",
-       0.593
+       0.498
       ],
       [
        "R-PLB-008",
-       0.551
+       0.44
       ]
      ]
     },
@@ -7698,15 +7698,15 @@
      "top3": [
       [
        "R-PLB-009",
-       0.431
+       0.729
       ],
       [
        "R-PLB-011",
-       0.382
+       0.522
       ],
       [
        "R-PLB-008",
-       0.313
+       0.46
       ]
      ]
     },
@@ -7720,15 +7720,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.653
+       0.471
       ],
       [
-       "R-PLB-005",
-       0.412
+       "R-PLB-001",
+       0.318
       ],
       [
-       "R-PLB-008",
-       0.399
+       "R-PLB-006",
+       0.28
       ]
      ]
     },
@@ -7742,15 +7742,15 @@
      "top3": [
       [
        "R-PLB-010",
-       0.496
+       0.576
       ],
       [
-       "R-PLB-001",
-       0.32
+       "R-PLB-003",
+       0.359
       ],
       [
-       "R-PLB-008",
-       0.304
+       "R-PLB-009",
+       0.344
       ]
      ]
     },
@@ -8445,16 +8445,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-007",
-       0.241
-      ],
-      [
        "R-PLB-003",
-       0.236
+       0.13
       ],
       [
        "R-PLB-008",
-       0.17
+       0.1
+      ],
+      [
+       "R-PLB-009",
+       0.047
       ]
      ]
     },
@@ -8490,15 +8490,15 @@
      "top3": [
       [
        "R-PLB-011",
-       0.457
+       0.404
       ],
       [
        "R-PLB-009",
-       0.348
+       0.345
       ],
       [
        "R-PLB-008",
-       0.282
+       0.275
       ]
      ]
     },
@@ -8551,20 +8551,20 @@
      "split": "dev",
      "lang": "en",
      "expected": "abstain",
-     "got": "answer R-PLB-006",
-     "correct": false,
+     "got": "abstain no_rule_for_problem",
+     "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.447
-      ],
-      [
-       "R-PLB-004",
-       0.433
+       "R-PLB-001",
+       0.398
       ],
       [
        "R-PLB-006",
-       0.425
+       0.34
+      ],
+      [
+       "R-PLB-003",
+       0.316
       ]
      ]
     },
@@ -8577,16 +8577,16 @@
      "correct": true,
      "top3": [
       [
-       "R-PLB-005",
-       0.349
-      ],
-      [
        "R-PLB-008",
-       0.323
+       0.224
       ],
       [
        "R-PLB-003",
-       0.268
+       0.14
+      ],
+      [
+       "R-PLB-009",
+       0.137
       ]
      ]
     },
@@ -8595,7 +8595,7 @@
      "split": "test",
      "lang": "en",
      "expected": "abstain",
-     "got": "abstain question_unanswered",
+     "got": "abstain no_rule_for_problem",
      "correct": true,
      "top3": [
       [
@@ -8749,8 +8749,8 @@
      "split": "test",
      "lang": "bn",
      "expected": "abstain",
-     "got": "answer R-BDR-010",
-     "correct": false,
+     "got": "abstain no_rule_for_problem",
+     "correct": true,
      "top3": [
       [
        "R-BDR-003",
@@ -8775,16 +8775,16 @@
      "correct": true,
      "top3": [
       [
+       "R-BDR-004",
+       0.468
+      ],
+      [
        "R-BDR-001",
        0.43
       ],
       [
        "R-BDR-002",
        0.415
-      ],
-      [
-       "R-BDR-003",
-       0.399
       ]
      ]
     }
@@ -8794,6 +8794,6 @@
  "selected_mode": {
   "mode": "hybrid",
   "chosen_on": "dev split (SYNTHETIC): best outcome accuracy, then fewest wrong answers, then lowest latency, among the modes run on this machine",
-  "chosen_at": "2026-10-28T13:24:18Z"
+  "chosen_at": "2026-10-29T11:02:24Z"
  }
 }

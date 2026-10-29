@@ -12,7 +12,9 @@ action:
   kind: practice
   traffic_light: amber
   title:
+    bn: "একই জমিতে আলুর পরে আবার আলু লাগাবেন না; নিজে থেকে গজানো আলুগাছ তুলে ফেলুন।"
     en: Avoid planting potato after potato; remove volunteer potato plants.
+    sw: "Usipande viazi baada ya viazi; ng'oa mimea ya viazi iliyoota yenyewe."
 sources:
 - doc_id: DOC-CIP-001
   page: 27
@@ -21,6 +23,7 @@ sources:
   quote_sha256: 5f489f5c8117d72e1082e6c04773abade62bda636ec68e26e240ba8bb2d68647
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

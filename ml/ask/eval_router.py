@@ -196,12 +196,16 @@ def main() -> int:
             field_, profile = context(it)
             snap = snapshot(it["context"]["weather"], today)
             q = router.lex.analyse(it["question"])
-            if dec.gate(q, field_, tau):
-                return ("abstain", "question_unanswered")
+            sc = router._screen({"question": it["question"], "field": field_})     # the same screens as the pipeline
+            uncovered = sorted(set(sc["named"]) - router.pack_problems(field_["pack_id"]))
+            gate = dec.gate(q, field_, tau, sc["unsafe"], uncovered)
+            if gate:
+                return ("abstain", dec.GATE_CODES.get(gate, "question_unanswered"))
             facts, _ = dec.field_facts(field_, profile, snap, today)
             cands = dec.candidates(hits, router.index.rules, tau, k)
             d = dec.walk(cands, facts, store, lambda: plans.setdefault(
-                it["id"], dec.plan_decision(field_, profile, store, snap, today)), margin, q.input_intent)
+                it["id"], dec.plan_decision(field_, profile, store, snap, today)), margin, q.input_intent,
+                sc["named"], router.targets)
             return ("answer", d["rule_id"]) if d["kind"] == "answer" else ("abstain", d["code"])
 
         report_modes, fitted = {}, {}

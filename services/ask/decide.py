@@ -10,6 +10,10 @@ practices and monitoring go before input decisions (IPM first) unless the questi
   decision, and the same abstentions, as the weekly plan;
 - if the best does not apply (its conditions are unmet or unknown), the case goes to the officer inbox as
   `question_unanswered` with a fixed farmer message; a clearly weaker match is never used instead.
+Before any of this, two screens (services/ask/screen.py) run on the question: unsafe intent goes to the officer as
+`unsafe_intent`, marked urgent; a pest or disease that no rule of the pack targets goes as `no_rule_for_problem`. When
+the question names a problem, only candidates that target it may answer (others are recorded as "targets another
+problem"), and a spray decision chosen by the plan logic must target it too.
 An answer is the rule's validated text, checked by validate_action and signed through the planner's own _receipt and
 the trust store. The receipt carries only a sha256 fingerprint of the question (receipts can be opened by anyone with
 the link); the readable question, minus phone numbers and e-mail addresses, goes only to the officer inbox.
@@ -31,7 +35,7 @@ from services.engine.planner import MAX_SNAPSHOT_AGE_H, PLACEHOLDER_CRED, REASON
 from services.engine.rules import evaluate, pack_parameters
 from services.trust.store import RuleRecalled
 
-ROUTER_VERSION = "0.1.0"
+ROUTER_VERSION = "0.2.0"
 _PHONE = re.compile(r"\+?\d(?:[\s\-.]?\d){6,}")
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 
@@ -122,13 +126,21 @@ def best_group(cands: list[Candidate], margin: float, input_intent: bool = False
     return sorted(group, key=lambda c: (not first(c), c.rank))
 
 
-def gate(query, field_: dict, tau: float | None) -> str | None:
-    """Questions no candidate may answer: about another crop than the field's, or with no threshold fixed."""
+def gate(query, field_: dict, tau: float | None, unsafe: list | None = None, uncovered: list | None = None) -> str | None:
+    """Questions no candidate may answer: unsafe intent (always first), about another crop than the field's, with no
+    threshold fixed, or naming a pest or disease that no rule of the field's pack targets."""
+    if unsafe:
+        return "unsafe_intent"
     if query.crops and field_["crop"] not in query.crops:
         return "other_crop"
     if tau is None:
         return "uncalibrated"
+    if uncovered:
+        return "no_rule_for_problem"
     return None
+
+
+GATE_CODES = {"unsafe_intent": "unsafe_intent", "no_rule_for_problem": "no_rule_for_problem"}   # else question_unanswered
 
 
 def candidates(hits, rules: dict, tau: float, k: int) -> list[Candidate]:
@@ -138,9 +150,21 @@ def candidates(hits, rules: dict, tau: float, k: int) -> list[Candidate]:
 
 
 def walk(cands: list[Candidate], facts: dict, store, decide_input: Callable[[], dict], margin: float,
-         input_intent: bool = False) -> dict:
+         input_intent: bool = False, named: list | tuple = (), targets: dict | None = None) -> dict:
     """Answer with the best candidate that fires, considering only the best group (a near tie). A clearly weaker
-    match is never used instead, because it would answer a different question. If the best does not apply: officer."""
+    match is never used instead, because it would answer a different question. If the best does not apply: officer.
+    When the question names problems (`named`), a candidate may answer only if its rule targets one of them
+    (`targets`: rule_id -> problems); the others are kept for the officer's record."""
+    named, targets = set(named), targets or {}
+    off_topic: list[Candidate] = []
+    if named:
+        off_topic = [c for c in cands if not set(targets.get(c.rule["rule_id"], ())) & named]
+        for c in off_topic:
+            c.status = "targets another problem"
+        cands = [c for c in cands if c not in off_topic]
+        if off_topic and not cands:
+            return {"kind": "abstain", "code": "question_unanswered", "why": "no_candidate_for_problem",
+                    "tried": off_topic}
     group = best_group(cands, margin, input_intent)
     tried: list[Candidate] = []
     for n, c in enumerate(group):
@@ -154,26 +178,33 @@ def walk(cands: list[Candidate], facts: dict, store, decide_input: Callable[[], 
             plan = decide_input()
             if plan["status"] == "ok":
                 act = next(a for a in plan["actions"] if a["kind"] == "input_decision")
-                return {"kind": "answer", "rule_id": act["receipt"]["rule_refs"][0]["rule_id"], "via": "plan_decision",
-                        "matched": r["rule_id"], "conf": c.conf, "tried": tried}
+                decided = act["receipt"]["rule_refs"][0]["rule_id"]
+                if named and not set(targets.get(decided, ())) & named:   # the plan's decision is about another problem
+                    c.status = f"input decision: the plan chose {decided}, which targets another problem"
+                    return {"kind": "abstain", "code": "question_unanswered", "why": "plan_decision_other_problem",
+                            "details": {"plan_rule_id": decided}, "tried": tried + off_topic}
+                return {"kind": "answer", "rule_id": decided, "via": "plan_decision",
+                        "matched": r["rule_id"], "conf": c.conf, "tried": tried + off_topic}
             ab = plan["abstention"]
             return {"kind": "abstain", "code": ab["reason_code"], "why": "plan_abstained", "details": ab.get("details", {}),
-                    "tried": tried}
+                    "tried": tried + off_topic}
         result, missing = evaluate(r, facts)
         if result and store.is_recalled(r["rule_id"], r["version"]):
             c.status = "recalled"
             if n == 0:   # the best answer was withdrawn: say so rather than answer something else
-                return {"kind": "abstain", "code": "rule_recalled", "why": "best_rule_recalled", "tried": tried}
+                return {"kind": "abstain", "code": "rule_recalled", "why": "best_rule_recalled",
+                        "tried": tried + off_topic}
             continue
         if result:
             c.status = "applies"
             return {"kind": "answer", "rule_id": r["rule_id"], "via": "rule", "matched": r["rule_id"], "conf": c.conf,
-                    "tried": tried}
+                    "tried": tried + off_topic}
         c.status, c.missing = ("unknown", sorted(missing)) if result is None else ("does not apply here", [])
     for c in cands:                               # weaker candidates: evaluated for the officer's record only
         if c not in tried:
             c.status = "weaker match, not used"
             tried.append(c)
+    tried += off_topic
     if any(c.status == "recalled" for c in tried):
         return {"kind": "abstain", "code": "rule_recalled", "why": "rule_recalled", "tried": tried}
     why = "no_candidate_above_threshold" if not cands else \
@@ -224,9 +255,14 @@ def issue(act: dict, rule: dict, store, today: date) -> None:
     act["receipt_credential_id"] = store.receipt_credential(act["receipt"], valid_until)["id"]
 
 
+URGENT = {"unsafe_intent"}   # reason codes the officer must see first
+
+
 def abstain(code: str, field_: dict, profile: dict, inbox_dir, question: str, details: dict, messages: dict) -> dict:
-    """An officer-inbox case with the farmer's question; the farmer sees only the fixed message for the code."""
+    """An officer-inbox case with the farmer's question; the farmer sees only the fixed message for the code
+    (no agronomy). Unsafe-intent cases are marked urgent."""
     reason = dict(messages.get(code) or {"en": REASONS[code]})
+    priority = "urgent" if code in URGENT else "normal"
     item_id = inbox.create(field_["field_id"], profile["farmer_profile_id"], code, reason, details, inbox_dir,
-                           extra={"question": question})
-    return {"reason_code": code, "reason": reason, "inbox_item_id": item_id}
+                           extra={"question": question, "priority": priority})
+    return {"reason_code": code, "reason": reason, "inbox_item_id": item_id, "priority": priority}

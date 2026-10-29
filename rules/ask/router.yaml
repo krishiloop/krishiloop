@@ -10,43 +10,82 @@ retrieval:
   decide_top_k: 3           # retrieved rules checked against the threshold; only the best group may answer
   prefer_margin: 0.03       # team-set, not fitted: candidates this close to the most confident one form the best group;
                             # in it practices and monitoring go first (IPM first) unless the question is about spraying
-messages:
+messages:                   # fixed farmer-facing texts per reason code; no agronomy, never the question's words
   question_unanswered:
     en: "We don't have a sourced answer for this yet. Sent to your officer."
     bn: "এই প্রশ্নের উৎসসহ উত্তর আমাদের কাছে এখনো নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Bado hatuna jibu lenye chanzo kwa swali hili. Limetumwa kwa afisa wako."
+  unsafe_intent:              # the unsafe-intent screen (rules/ask/safety.yaml); the inbox case is marked urgent
+    en: "Your question is about the safe use of pesticides. We don't answer these automatically: it has been sent to your officer as urgent."
+    bn: "আপনার প্রশ্নটি বালাইনাশকের নিরাপদ ব্যবহার নিয়ে। এমন প্রশ্নের উত্তর আমরা নিজে থেকে দিই না: এটি জরুরি হিসেবে আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Swali lako linahusu matumizi salama ya viuatilifu. Hatujibu maswali haya moja kwa moja: limetumwa kwa afisa wako kama la dharura."
+  no_rule_for_problem:        # the question names a pest or disease no rule of the pack targets (rules/ask/problems.yaml)
+    en: "We have no sourced rule yet for the pest or disease you named. Sent to your officer."
+    bn: "আপনি যে পোকা বা রোগের কথা বলেছেন, তার জন্য উৎসসহ কোনো নিয়ম আমাদের কাছে এখনো নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Bado hatuna kanuni yenye chanzo kwa mdudu au ugonjwa uliotaja. Swali limetumwa kwa afisa wako."
+  answer_not_in_your_language:  # shown with an answer whose rule has no text in the farmer's language yet
+    en: "This advice is not yet available in your language, so it is shown in English."
+    bn: "এই পরামর্শটি এখনো আপনার ভাষায় নেই, তাই ইংরেজিতে দেখানো হলো।"
+    sw: "Ushauri huu bado haupatikani kwa lugha yako, kwa hiyo unaonyeshwa kwa Kiingereza."
+  # the weekly plan's own abstentions, when a spray question reaches the plan logic (English as in planner.REASONS)
+  data_unavailable:
+    en: "We don't have enough weather data for a sourced decision this week. Sent to your officer's inbox."
+    bn: "এই সপ্তাহে উৎসসহ সিদ্ধান্তের জন্য যথেষ্ট আবহাওয়ার তথ্য আমাদের কাছে নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Hatuna data ya kutosha ya hali ya hewa kwa uamuzi wenye chanzo wiki hii. Imetumwa kwa afisa wako."
+  data_stale:
+    en: "Our weather data is out of date, so we won't guess. Sent to your officer's inbox."
+    bn: "আমাদের আবহাওয়ার তথ্য পুরনো, তাই আমরা অনুমান করব না। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Data yetu ya hali ya hewa imepitwa na wakati, kwa hiyo hatutabahatisha. Imetumwa kwa afisa wako."
+  no_matching_rule:
+    en: "No sourced rule covers your situation yet. Sent to your officer's inbox."
+    bn: "আপনার অবস্থার জন্য উৎসসহ কোনো নিয়ম এখনো নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Bado hakuna kanuni yenye chanzo kwa hali yako. Imetumwa kwa afisa wako."
+  conflicting_rules:
+    en: "Our rules disagree for your situation. Sent to your officer's inbox."
+    bn: "আপনার অবস্থার জন্য আমাদের নিয়মগুলো একমত নয়। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Kanuni zetu hazikubaliani kwa hali yako. Imetumwa kwa afisa wako."
+  rule_recalled:
+    en: "The rule for your situation was withdrawn for review. Sent to your officer's inbox."
+    bn: "আপনার অবস্থার নিয়মটি পর্যালোচনার জন্য প্রত্যাহার করা হয়েছে। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Kanuni ya hali yako imeondolewa kwa ukaguzi. Imetumwa kwa afisa wako."
+  validator_blocked:
+    en: "A safety check stopped this advice. Sent to your officer's inbox."
+    bn: "একটি নিরাপত্তা যাচাই এই পরামর্শ আটকে দিয়েছে। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।"
+    sw: "Ukaguzi wa usalama umezuia ushauri huu. Imetumwa kwa afisa wako."
   review:
     bn: pending native-speaker review
+    sw: pending native-speaker review (machine-written, 2026-10-29)
 selected_mode:
   mode: hybrid
   chosen_on: 'dev split (SYNTHETIC): best outcome accuracy, then fewest wrong answers, then lowest latency, among the modes
     run on this machine'
-  chosen_at: '2026-10-28T13:24:18Z'
+  chosen_at: '2026-10-29T11:02:24Z'
 thresholds:
   bm25:
-    value: 0.23814
+    value: 0.270514
     fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
-    fitted_at: '2026-10-28T13:16:17Z'
-    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
-    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+    fitted_at: '2026-10-29T10:46:55Z'
+    lexicon_sha256: 1ca66f2aaadcfbe3bc8eab44988c32f72db7fa87c10e11d5d826da8099e80cdc
+    registry_sha256: 526612cc55075cef73e08856660208d5c86fdf07bc6e76ab39700f00fc3171e4
   hybrid:
-    value: 0.540875
+    value: 0.55128
     embedder_sha256: ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665
     fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
-    fitted_at: '2026-10-28T13:16:38Z'
-    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
-    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+    fitted_at: '2026-10-29T10:47:55Z'
+    lexicon_sha256: 1ca66f2aaadcfbe3bc8eab44988c32f72db7fa87c10e11d5d826da8099e80cdc
+    registry_sha256: 526612cc55075cef73e08856660208d5c86fdf07bc6e76ab39700f00fc3171e4
   bm25+rerank:
-    value: 0.355942
+    value: 0.379094
     reranker_sha256: 4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9
     fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
-    fitted_at: '2026-10-28T13:20:24Z'
-    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
-    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+    fitted_at: '2026-10-29T10:54:35Z'
+    lexicon_sha256: 1ca66f2aaadcfbe3bc8eab44988c32f72db7fa87c10e11d5d826da8099e80cdc
+    registry_sha256: 526612cc55075cef73e08856660208d5c86fdf07bc6e76ab39700f00fc3171e4
   hybrid+rerank:
-    value: 0.355942
+    value: 0.379094
     embedder_sha256: ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665
     reranker_sha256: 4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9
     fixed_on: dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)
-    fitted_at: '2026-10-28T13:24:18Z'
-    lexicon_sha256: e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a
-    registry_sha256: a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905
+    fitted_at: '2026-10-29T11:02:24Z'
+    lexicon_sha256: 1ca66f2aaadcfbe3bc8eab44988c32f72db7fa87c10e11d5d826da8099e80cdc
+    registry_sha256: 526612cc55075cef73e08856660208d5c86fdf07bc6e76ab39700f00fc3171e4

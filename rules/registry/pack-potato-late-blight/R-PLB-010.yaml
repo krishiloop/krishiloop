@@ -15,8 +15,10 @@ action:
   kind: practice
   traffic_light: amber
   title:
+    bn: "বারবার সুরক্ষা ব্যবহার করলে একই ধরনের পণ্যের ওপর নির্ভর করবেন না; ধরন বদলে বদলে ব্যবহারের বিষয়ে আপনার কর্মকর্তাকে জিজ্ঞেস করুন।"
     en: If protection is used repeatedly, do not rely on one product type; ask your
       officer about alternating types.
+    sw: "Ikiwa unatumia kinga mara kwa mara, usitegemee aina moja ya bidhaa; muulize afisa wako kuhusu kubadilisha aina."
 sources:
 - doc_id: DOC-CIP-001
   page: 26
@@ -25,6 +27,7 @@ sources:
   quote_sha256: 3755885992c8e3728b2900b0ebb4bdb7c37a26702173b316828982e4b5020704
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

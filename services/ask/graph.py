@@ -1,8 +1,11 @@
 """The Ask router, run as a LangGraph graph (this is the only code path; nothing bypasses the graph):
 
-    normalise -> retrieve_bm25 || retrieve_dense -> fuse -> rerank -> match_rules -> decide
+    normalise -> screen -> retrieve_bm25 || retrieve_dense -> fuse -> rerank -> match_rules -> decide
               -> render -> validate -> receipt -> END
        decide / validate / receipt -> abstain -> END
+
+`screen` (services/ask/screen.py) finds unsafe intent and the pests or diseases the question names; match_rules turns
+them into gates (unsafe intent first: an urgent officer case) and a problem filter on the candidates.
 
 Every node is deterministic and no language model writes anything: a farmer gets one rule's validated text with a
 signed receipt, or the case goes to the officer. A stage whose model is not installed, or whose threshold was never
@@ -26,6 +29,7 @@ from langgraph.graph import END, START, StateGraph
 from services.ask import decide as dec
 from services.ask import models as text_models
 from services.ask import retrieve
+from services.ask import screen as scr
 from services.ask.index import Index
 from services.ask.lexical import load_lexicon
 from services.engine import snapshot as snap_mod
@@ -79,6 +83,8 @@ class AskState(TypedDict, total=False):
     ask_id: str
     asked_at: str
     query: Any
+    unsafe: list
+    named: list
     bm25: Any
     dense: Any
     fused: list
@@ -100,9 +106,12 @@ class Router:
         self.retrieval = self.config.get("retrieval") or {}
         self.messages = {k: v for k, v in (self.config.get("messages") or {}).items() if k != "review"}
         self.lex = load_lexicon()
+        self.safety = scr.load_safety(self.lex)
+        self.problems = scr.load_problems(self.lex)
         self.embedder = text_models.load_embedder() if embedder == "auto" else embedder
         self.reranker = text_models.load_reranker() if reranker == "auto" else reranker
         self.index = Index(self.lex, self.embedder)
+        self.targets = {rid: self.problems.rule_targets(r) for rid, r in self.index.rules.items()}
         self.fitted = self.config.get("thresholds") or {}
         self.thresholds = self._usable_thresholds() if thresholds is None else dict(thresholds)
         usable = [m for m, st in MODES.items() if self._available(st) and m in self.thresholds]
@@ -128,14 +137,16 @@ class Router:
 
     def _build(self):
         g = StateGraph(AskState)
-        for name, fn in (("normalise", self._normalise), ("retrieve_bm25", self._bm25), ("retrieve_dense", self._dense),
+        for name, fn in (("normalise", self._normalise), ("screen", self._screen), ("retrieve_bm25", self._bm25),
+                         ("retrieve_dense", self._dense),
                          ("fuse", self._fuse), ("rerank", self._rerank), ("match_rules", self._match),
                          ("decide", self._decide), ("render", self._render), ("validate", self._validate),
                          ("receipt", self._receipt), ("abstain", self._abstain)):
             g.add_node(name, fn)
         g.add_edge(START, "normalise")
-        g.add_edge("normalise", "retrieve_bm25")
-        g.add_edge("normalise", "retrieve_dense")
+        g.add_edge("normalise", "screen")
+        g.add_edge("screen", "retrieve_bm25")
+        g.add_edge("screen", "retrieve_dense")
         g.add_edge(["retrieve_bm25", "retrieve_dense"], "fuse")
         g.add_edge("fuse", "rerank")
         g.add_edge("rerank", "match_rules")
@@ -153,6 +164,14 @@ class Router:
     def _normalise(self, s: AskState) -> dict:
         return {"query": self.lex.analyse(s["question"]), "ask_id": str(uuid.uuid4()), "asked_at": _now(),
                 "path": ["normalise"]}
+
+    def _screen(self, s: AskState) -> dict:
+        """Unsafe intent and the problems named, from the question as written (the field's crop picks the list)."""
+        return {"unsafe": [h.row() for h in self.safety.check(s["question"])],
+                "named": self.problems.named(s["question"], s["field"]["crop"]), "path": ["screen"]}
+
+    def pack_problems(self, pack_id: str) -> set[str]:
+        return {p for rid in self.index.pack_rules(pack_id) for p in self.targets.get(rid, ())}
 
     def _bm25(self, s: AskState) -> dict:
         if "bm25" not in s["stages"]:
@@ -183,17 +202,23 @@ class Router:
         snap = s.get("snap") or self._snapshot(f)
         facts, stale = dec.field_facts(f, s["profile"], snap, s["today"])
         q, tau = s["query"], s.get("tau")
-        gate = dec.gate(q, f, tau)
+        uncovered = sorted(set(s.get("named") or []) - self.pack_problems(f["pack_id"]))
+        gate = dec.gate(q, f, tau, s.get("unsafe"), uncovered)
         cands = [] if gate else dec.candidates(s["ranked"], self.index.rules, tau, self.walk_settings()[0])
         return {"snap": snap, "facts": facts, "stale": stale, "gate": gate, "candidates": cands, "path": ["match_rules"]}
 
     def _decide(self, s: AskState) -> dict:
-        if s.get("gate"):
-            d = {"kind": "abstain", "code": "question_unanswered", "why": s["gate"], "tried": []}
+        gate = s.get("gate")
+        if gate:
+            details = {"unsafe": s.get("unsafe")} if gate == "unsafe_intent" else \
+                {"problems_not_covered": sorted(set(s.get("named") or []) - self.pack_problems(s["field"]["pack_id"]))} \
+                if gate == "no_rule_for_problem" else {}
+            d = {"kind": "abstain", "code": dec.GATE_CODES.get(gate, "question_unanswered"), "why": gate, "tried": [],
+                 "details": details}
         else:
             d = dec.walk(s["candidates"], s["facts"], s["store"],
                          lambda: dec.plan_decision(s["field"], s["profile"], s["store"], s["snap"], s["today"]),
-                         self.walk_settings()[1], s["query"].input_intent)
+                         self.walk_settings()[1], s["query"].input_intent, s.get("named") or (), self.targets)
         return {"decision": d, "path": ["decide"]}
 
     def _render(self, s: AskState) -> dict:
@@ -227,6 +252,9 @@ class Router:
         answer = {"text": title[lang], "text_lang": lang, "lang_fallback": lang != s["lang"], "rule_id": rule["rule_id"],
                   "rule_version": rule["version"], "via": d["via"], "matched_rule_id": d["matched"],
                   "receipt_credential_id": act["receipt_credential_id"], "action": act}
+        if answer["lang_fallback"]:   # say so explicitly: this rule has no text in the farmer's language yet
+            notice = self.messages.get("answer_not_in_your_language") or {}
+            answer["lang_notice"] = {k: notice[k] for k in (s["lang"], "en") if k in notice}
         return {"result": self._result(s, "ok", ["receipt"], answer=answer), "path": ["receipt"]}
 
     def _abstain(self, s: AskState) -> dict:
@@ -235,7 +263,8 @@ class Router:
         details = {"ask_id": s["ask_id"], "why": d["why"], "lang": s["lang"], "pack_id": s["field"]["pack_id"],
                    "snapshot_id": s["snap"].get("snapshot_id"), "data_stale": s.get("stale", False), "mode": s["mode"],
                    "threshold": s.get("tau"),
-                   "crops_named": q.crops, "candidates": [c.row() for c in d.get("tried", [])],
+                   "crops_named": q.crops, "problems_named": s.get("named") or [], "unsafe": s.get("unsafe") or [],
+                   "candidates": [c.row() for c in d.get("tried", [])],
                    "top_retrieved": [h.row() for h in s["ranked"][:3]], **(d.get("details") or {})}
         ab = dec.abstain(d["code"], s["field"], s["profile"], s.get("inbox_dir"), self._question(s), details, self.messages)
         return {"result": self._result(s, "abstained", ["abstain"], abstention={**ab, "why": d["why"]}),
@@ -257,6 +286,7 @@ class Router:
                 "retrieval": {"mode": s["mode"], "threshold": s.get("tau"),
                               "stages": {st: st in s["stages"] for st in ("bm25", "dense", "rerank")},
                               "note": self.note(s["stages"]), "rewritten_query": q.dense_text, "crops_named": q.crops,
+                              "problems_named": s.get("named") or [], "unsafe": s.get("unsafe") or [],
                               "candidates": [c.row() for c in d.get("tried", [])],
                               "top_retrieved": [h.row() for h in s["ranked"][:3]]},
                 "pipeline": {"engine": "langgraph", "path": s["path"] + last},
@@ -304,7 +334,7 @@ class Router:
     def rank(self, question: str, lang: str, field_: dict, stages) -> list[retrieve.Hit]:
         """Retrieval only, through the same node functions as the graph (the evaluation's threshold search uses it)."""
         s: dict = {"question": question, "lang": lang, "field": field_, "stages": tuple(stages), "path": []}
-        for node in (self._normalise, self._bm25, self._dense, self._fuse, self._rerank):
+        for node in (self._normalise, self._screen, self._bm25, self._dense, self._fuse, self._rerank):
             s.update({k: v for k, v in node(s).items() if k != "path"})
         return s["ranked"]
 
@@ -328,7 +358,12 @@ class Router:
             "not_loaded": {k: v for k, v in errors.items()
                            if (k == "embedder" and self.embedder is None) or (k == "reranker" and self.reranker is None)},
             "index": self.index.stats(),
-            "lexicon": {"sha256": self.lex.sha256, "review": "Bangla entries pending native-speaker review"},
+            "lexicon": {"sha256": self.lex.sha256, "review": "Bangla and Swahili entries pending native-speaker review"},
+            "screens": {"unsafe_intent": {"types": sorted(self.safety.types), "sha256": self.safety.sha256,
+                                          "abstains_as": "unsafe_intent (urgent)"},
+                        "problems": {"sha256": self.problems.sha256, "abstains_as": "no_rule_for_problem",
+                                     "rule_targets": self.targets},
+                        "review": "Bangla and Swahili entries pending native-speaker review"},
             "answers": "a rule's validated text with a signed receipt, or the officer inbox; no language model writes text",
         }
 

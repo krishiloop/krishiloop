@@ -16,7 +16,9 @@ action:
   kind: practice
   traffic_light: green
   title:
+    bn: "পানি ভালোভাবে নেমে যায় এবং বাতাস চলাচল করে এমন জমি বেছে নিন।"
     en: Prefer a well-drained, airy field.
+    sw: "Chagua shamba linalotoa maji vizuri na lenye hewa ya kutosha."
 sources:
 - doc_id: DOC-CIP-001
   page: 26
@@ -25,6 +27,7 @@ sources:
   quote_sha256: 9877eb551f630f9892e6e10d4a7174d0d1f2541e943b86f9dd1035d080276653
 reviewer_parameters: []
 review:
+  translations: "bn and sw titles (2026-10-29): machine-drafted by the team's coding agent from the validated English title only (no new facts); pending native-speaker review."
   level: pending
   reviewers: []
   notes: Candidate from research/pack2_late_blight_sources.md; needs PR review.

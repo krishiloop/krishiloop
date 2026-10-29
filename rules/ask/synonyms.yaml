@@ -2,8 +2,10 @@
 # rule a question is matched to. It never changes advice; an answer is always the validated text of a rule.
 # Written on 2026-10-28 by the team's coding agent from the rule texts and common farm words. The Bangla entries
 # are PENDING NATIVE-SPEAKER REVIEW, like the rice pack's Bangla text. Add a language or a pack here, not in code.
+# Swahili (2026-10-29): stopwords, synonyms and crop names added by the team's coding agent from the potato pack's
+# texts and common Kenyan farm words; machine-written, PENDING NATIVE-SPEAKER REVIEW.
 version: 1
-review: pending native-speaker review (Bangla entries)
+review: pending native-speaker review (Bangla and Swahili entries)
 
 # Per-language normalisation, picked by the Unicode block of each word.
 languages:
@@ -39,13 +41,23 @@ languages:
                 most, very, too, also, just, now, today, please, tell, know, need, want, get, got, have, has, had,
                 give, put, kind, problem, problems, issue, good, bad, right, best, time, way, thing, things, ever, still,
                 s, t, d, ll, re, ve, m, don, doesn, isn, aren, ok, okay, hi, hello, thanks, thank]
+  sw:
+    script: [0x0041, 0x024F]          # shares the Latin block with English: a Latin word takes English endings (the
+                                      # first matching language); Swahili adds only its stopwords here
+    min_stem: 3
+    stopwords: [je, na, ya, wa, la, za, cha, vya, kwa, ni, si, hii, hiyo, huu, hizi, haya, hayo, ile, hilo, kama, au,
+                lakini, pia, sana, tu, nini, gani, vipi, wapi, lini, mimi, wewe, yeye, sisi, nyinyi, wao, yangu, wangu,
+                zangu, langu, changu, vyangu, yako, wako, lako, vyako, chako, zako, yetu, wetu, letu, vyetu, zetu, nina,
+                una, ana, tuna, kuna, hakuna, sasa, leo, tena, bado, ndiyo, hapana, nifanye, tufanye, naweza, ninaweza,
+                tunaweza, inawezekana, nahitaji, ninahitaji, tafadhali, ili, kwamba, katika, kwenye, kutoka, hadi, mpaka,
+                baada, kabla, kila, dhidi, huku, hapa, pale, ambapo, ambayo, karibu, zaidi, kidogo, sawa, je]
 
 # Synonym groups. Any member found in a question (whole words, longest phrase first) adds every other member to
 # that part of the query (query rewriting). A phrase counts in a passage only when all its words are there.
 # Keep crop names out of these groups: crops are listed under `crops`.
 synonyms:
   # diseases and pests
-  - [late blight, potato blight, phytophthora, নাবি ধসা, নাবি ধ্বসা, মড়ক, লেট ব্লাইট]
+  - [late blight, potato blight, phytophthora, নাবি ধসা, নাবি ধ্বসা, মড়ক, লেট ব্লাইট, baa chelewa, blight ya viazi]
   - [blast, ব্লাস্ট]
   - [neck blast, panicle neck, neck, শিষের গোড়া, শীষের গোড়া]
   - [bacterial leaf blight, leaf blight, blb, পাতাপোড়া, পাতা পোড়া]
@@ -53,35 +65,35 @@ synonyms:
   - [nymph, nymphs, কীড়া, নিম্ফ, বাচ্চা পোকা]
   - [female, gravid, স্ত্রী, ডিমওয়ালা]
   - [spider, মাকড়সা]
-  - [pest, insect, bug, পোকা, পোকামাকড়]
-  - [disease, infection, রোগ, সংক্রমণ]
+  - [pest, insect, bug, পোকা, পোকামাকড়, wadudu, mdudu]
+  - [disease, infection, রোগ, সংক্রমণ, ugonjwa, magonjwa]
   # inputs
-  - [spray, spraying, sprayer, pesticide, insecticide, fungicide, chemical, স্প্রে, ছিটানো, ছিটাব, কীটনাশক, বালাইনাশক, ছত্রাকনাশক, ওষুধ, বিষ]
-  - [product, products, product type, পণ্য]
+  - [spray, spraying, sprayer, pesticide, insecticide, fungicide, chemical, স্প্রে, ছিটানো, ছিটাব, কীটনাশক, বালাইনাশক, ছত্রাকনাশক, ওষুধ, বিষ, nyunyizia, kunyunyizia, ninyunyizie, nyunyiza, kunyunyiza, ninyunyize, nimenyunyizia, kunyunyuzia, dawa, viuatilifu, kiuatilifu, viuakuvu, kiuakuvu, viuadudu, kiuadudu, bomba]
+  - [product, products, product type, পণ্য, bidhaa]
   - [urea, ইউরিয়া]
-  - [fertilizer, fertiliser, সার]
+  - [fertilizer, fertiliser, সার, mbolea]
   - [top dressing, top dress, উপরি প্রয়োগ]
   - [leaf colour chart, leaf color chart, lcc, এলসিসি, রঙ মেলানোর চার্ট]
-  - [how much, dose, amount, quantity, পরিমাণ, মাত্রা, কতটুকু, কতটা, কতখানি]
+  - [how much, dose, amount, quantity, পরিমাণ, মাত্রা, কতটুকু, কতটা, কতখানি, kiasi gani, kiasi, kipimo]
   - [moderate, moderately, careful, carefully, পরিমিত, সাবধানে, সতর্কতার]
   # water and weather
-  - [standing water, stagnant water, water stand, waterlogged, waterlogging, জমে থাকা পানি, পানি জমে, জলাবদ্ধ, জলাবদ্ধতা]
-  - [drain, drainage, drained, নিষ্কাশন, পানি সরানো, সরিয়ে দেয়া]
-  - [irrigation, irrigate, watering, সেচ]
-  - [water, পানি, জল]
-  - [rain, rainfall, বৃষ্টি]
-  - [heavy rain, storm, thunderstorm, stormy, ঝড়, ঝড়বৃষ্টি, ঝড়োবৃষ্টি, ভারী বৃষ্টি]
-  - [humid, humidity, moist, damp, আর্দ্র, আর্দ্রতা, স্যাঁতসেঁতে]
+  - [standing water, stagnant water, water stand, waterlogged, waterlogging, জমে থাকা পানি, পানি জমে, জলাবদ্ধ, জলাবদ্ধতা, maji yaliyotuama, maji kutuama]
+  - [drain, drainage, drained, নিষ্কাশন, পানি সরানো, সরিয়ে দেয়া, kutoa maji, hautoi maji, kupitisha maji]
+  - [irrigation, irrigate, watering, সেচ, kumwagilia, mwagilia, nimwagilie, umwagiliaji]
+  - [water, পানি, জল, maji]
+  - [rain, rainfall, বৃষ্টি, mvua]
+  - [heavy rain, storm, thunderstorm, stormy, ঝড়, ঝড়বৃষ্টি, ঝড়োবৃষ্টি, ভারী বৃষ্টি, mvua kubwa, mvua nyingi, dhoruba]
+  - [humid, humidity, moist, damp, আর্দ্র, আর্দ্রতা, স্যাঁতসেঁতে, unyevu, unyevunyevu]
   - [wet, ভেজা]
-  - [warm, hot, high temperature, গরম, উষ্ণ, উচ্চ তাপমাত্রা]
-  - [mild, moderate temperature, cool, হালকা ঠান্ডা]
-  - [weather, forecast, আবহাওয়া, পূর্বাভাস]
-  - [airy, aeration, ventilation, বাতাস চলাচল]
+  - [warm, hot, high temperature, গরম, উষ্ণ, উচ্চ তাপমাত্রা, joto]
+  - [mild, moderate temperature, cool, হালকা ঠান্ডা, joto la wastani, baridi kiasi]
+  - [weather, forecast, আবহাওয়া, পূর্বাভাস, hali ya hewa, utabiri]
+  - [airy, aeration, ventilation, বাতাস চলাচল, hewa ya kutosha]
   # plant parts and symptoms
-  - [leaf, leaves, foliage, পাতা]
+  - [leaf, leaves, foliage, পাতা, jani, majani]
   - [leaf tip, tip, tips, ডগা, অগ্রভাগ]
   - [edge, edges, margin, কিনারা]
-  - [spot, spots, lesion, lesions, mark, দাগ]
+  - [spot, spots, lesion, lesions, mark, দাগ, doa, madoa, baka, mabaka]
   - [brown, বাদামি, বাদামী]
   - [bluish, blue, নীলচে, নীলাভ]
   - [water soaked, পানিচোষা, ভেজা ভেজা]
@@ -89,35 +101,35 @@ synonyms:
   - [grain, grains, kernel, দানা]
   - [empty grain, unfilled, chaff, চিটা]
   - [tuber, tubers, কন্দ]
-  - [seed, seeds, বীজ]
-  - [seed tuber, seed potato, বীজ আলু]
-  - [plant, plants, গাছ]
+  - [seed, seeds, বীজ, mbegu]
+  - [seed tuber, seed potato, বীজ আলু, mbegu za viazi]
+  - [plant, plants, গাছ, mmea, mimea]
   - [rice hill, clump, গোছা]
-  - [field, plot, land, জমি, ক্ষেত, খেত, মাঠ]
+  - [field, plot, land, জমি, ক্ষেত, খেত, মাঠ, shamba, shambani]
   # actions and timing
-  - [hilling, hill up, earthing up, ridging, মাটি তোলা, মাটি তুলে]
-  - [harvest, harvesting, reap, dig up, lift, কাটা, কাটব, কাটার, তুলব, তুলতে, আলু তোলা, ফসল তোলা]   # bare তোলা is also hilling (মাটি তোলা)
+  - [hilling, hill up, earthing up, ridging, মাটি তোলা, মাটি তুলে, kupandishia udongo, matuta, tuta, kuinulia udongo]
+  - [harvest, harvesting, reap, dig up, lift, কাটা, কাটব, কাটার, তুলব, তুলতে, আলু তোলা, ফসল তোলা, kuvuna, vuna, nivune, mavuno, kuchimba, nichimbe, kuchimbua]   # bare তোলা is also hilling (মাটি তোলা)
   - [ripe, ripen, ripening, mature, ready, পাকা, পেকেছে, পাকে]
   - [firm, hard, শক্ত]
   - [shatter, shed, fall, ঝরে]
-  - [delay, wait, দেরি, দেরিতে]
-  - [check, look, inspect, monitor, scout, examine, দেখুন, দেখব, দেখা, খুঁজে, পরীক্ষা]
+  - [delay, wait, দেরি, দেরিতে, kuchelewa, subiri]
+  - [check, look, inspect, monitor, scout, examine, দেখুন, দেখব, দেখা, খুঁজে, পরীক্ষা, angalia, kuangalia, kagua, kukagua]
   - [count, counting, how many, number, গুনে, গোনা, গণনা, কয়টি, কতগুলো, সংখ্যা]
   - [threshold, limit, সীমা]
-  - [officer, extension officer, agriculture officer, কর্মকর্তা, কৃষি কর্মকর্তা]
-  - [protect, protection, protected, save, সুরক্ষা, সুরক্ষিত, রক্ষা, বাঁচাতে, বাঁচাব, বাঁচতে]
-  - [control, manage, দমন, নিয়ন্ত্রণ]
-  - [prevent, avoid, এড়াতে, প্রতিরোধ]
-  - [resistant, resistance, tolerant, প্রতিরোধী, সহনশীল]
-  - [variety, varieties, cultivar, জাত]
-  - [healthy, clean, সুস্থ, রোগমুক্ত]
-  - [planting, sow, sowing, রোপণ, লাগানো, লাগাব, বপন]
-  - [monocropping, monoculture, crop rotation, rotation, একই জমিতে, শস্য পরিক্রমা]
-  - [volunteer, self sown, নিজে গজানো]
-  - [last season, previous season, last year, গত মৌসুম, গত বছর]
+  - [officer, extension officer, agriculture officer, কর্মকর্তা, কৃষি কর্মকর্তা, afisa, afisa ugani, afisa wa kilimo, mtaalamu wa kilimo]
+  - [protect, protection, protected, save, সুরক্ষা, সুরক্ষিত, রক্ষা, বাঁচাতে, বাঁচাব, বাঁচতে, kulinda, linda, kinga, kukinga, kulikinga, limekingwa]
+  - [control, manage, দমন, নিয়ন্ত্রণ, kudhibiti, dhibiti]
+  - [prevent, avoid, এড়াতে, প্রতিরোধ, kuzuia, zuia, epuka, kuepuka]
+  - [resistant, resistance, tolerant, প্রতিরোধী, সহনশীল, inayostahimili, kustahimili, sugu]
+  - [variety, varieties, cultivar, জাত, aina]
+  - [healthy, clean, সুস্থ, রোগমুক্ত, yenye afya, safi]
+  - [planting, sow, sowing, রোপণ, লাগানো, লাগাব, বপন, kupanda, panda, nipande]
+  - [monocropping, monoculture, crop rotation, rotation, একই জমিতে, শস্য পরিক্রমা, mzunguko wa mazao, kubadilisha mazao]
+  - [volunteer, self sown, নিজে গজানো, iliyoota yenyewe, vilivyoota vyenyewe]
+  - [last season, previous season, last year, গত মৌসুম, গত বছর, msimu uliopita]
   - [choose, select, selection, prefer, বেছে, বাছাই]
-  - [alternate, alternating, rotate, পালাক্রমে, বদলে]
-  - [photo, picture, image, ছবি]
+  - [alternate, alternating, rotate, পালাক্রমে, বদলে, kubadilisha, badilisha]
+  - [photo, picture, image, ছবি, picha]
 
 # Words that make a question about an input decision (spray or not). Among near-equal candidates the planner's
 # decision then goes first; otherwise practices and monitoring go first (IPM first).
@@ -126,27 +138,31 @@ input_decision_words: [spray, pesticide, fungicide]
 # Crop words. A question that names another crop than the field's (and not the field's own) is not answered from
 # this field's pack: it goes to the officer. Crops with no pack are listed so that they are recognised too.
 crops:
-  potato: [potato, potatoes, আলু]
-  rice: [rice, paddy, aman, boro, aus, ধান, আমন, বোরো, আউশ]
-  wheat: [wheat, গম]
-  maize: [maize, corn, ভুট্টা]
+  potato: [potato, potatoes, আলু, viazi, kiazi, viazi mviringo]
+  rice: [rice, paddy, aman, boro, aus, ধান, আমন, বোরো, আউশ, mpunga, mchele]
+  wheat: [wheat, গম, ngano]
+  maize: [maize, corn, ভুট্টা, mahindi]
   jute: [jute, পাট]
-  tomato: [tomato, tomatoes, টমেটো]
+  tomato: [tomato, tomatoes, টমেটো, nyanya]
   eggplant: [eggplant, brinjal, বেগুন]
-  onion: [onion, onions, পেঁয়াজ]
+  onion: [onion, onions, পেঁয়াজ, kitunguu, vitunguu]
   garlic: [garlic, রসুন]
   mustard: [mustard, সরিষা]
   lentil: [lentil, lentils, মসুর]
-  mango: [mango, mangoes, আম]
-  banana: [banana, bananas, কলা]
+  mango: [mango, mangoes, আম, embe, maembe]
+  banana: [banana, bananas, কলা, ndizi]
   chilli: [chilli, chili, মরিচ]
-  cabbage: [cabbage, বাঁধাকপি]
+  cabbage: [cabbage, বাঁধাকপি, kabichi]
   cauliflower: [cauliflower, ফুলকপি]
   cucumber: [cucumber, শসা]
   pumpkin: [pumpkin, কুমড়া]
-  sugarcane: [sugarcane, আখ]
-  cotton: [cotton, তুলা]
+  sugarcane: [sugarcane, আখ, miwa]
+  cotton: [cotton, তুলা, pamba]
   tea: [tea plant, tea garden, চা বাগান]
+  beans: [beans, bean, শিম, maharagwe]
+  kale: [kale, sukuma wiki]
+  cassava: [cassava, muhogo, mihogo]
+  sorghum: [sorghum, mtama]
 
 # Words for the stage values that rules use, so a rule's stages can be matched in either language.
 stages:

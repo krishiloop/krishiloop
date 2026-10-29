@@ -35,7 +35,8 @@ def list_items(inbox_dir: Path | None = None) -> list[dict]:
     if not d.exists():
         return []
     items = [json.loads(p.read_text(encoding="utf-8")) for p in d.glob("inbox-*.json")]
-    return sorted(items, key=lambda i: i["created_at"], reverse=True)
+    items.sort(key=lambda i: i["created_at"], reverse=True)               # newest first ...
+    return sorted(items, key=lambda i: i.get("priority") != "urgent")      # ... with urgent cases (unsafe intent) on top
 
 
 def get_item(item_id: str, inbox_dir: Path | None = None) -> dict:
