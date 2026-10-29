@@ -250,3 +250,9 @@
     opacity: 1;
   }
 }
+
+/* Bangla and Hindi headlines run wider and taller: a calmer size for the hero (an id beats the utility size) */
+#home-title:is(:lang(bn), :lang(hi)) {
+  font-size: clamp(2.5rem, 1rem + 4.2vw, 5rem);
+  line-height: 1.2;
+}

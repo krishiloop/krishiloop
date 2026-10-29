@@ -202,6 +202,8 @@ const officer = {
   'off.confirm.recorded': 'Simulated in this browser, on the recorded receipts.',
   'off.confirm.cancel': 'Cancel',
   'off.confirm.go': 'Recall',
+  'off.confirm.armed': 'Press again to recall',
+  'off.confirm.hold': 'Hold to recall, or press Enter twice',
 
   /* ---------------------------------------------------------------- area trust */
   'off.area.title': 'Trust, one area at a time',

@@ -51,11 +51,13 @@ const d: Record<keyof typeof about, string> = {
   'about.money.s3': 'বিষয়বস্তুর মালিক',
   'about.money.s3.sub': 'নিজেদের ম্যানুয়াল থেকে পরীক্ষিত, স্বাক্ষরিত প্যাক বানিয়ে নেন',
   'about.money.note': 'এগুলো অংশীদারদের সঙ্গে যাচাই করা অনুমান, প্রমাণিত আয় নয়।',
+  'about.money.hyp': 'অনুমান',
 
   'about.time.eyebrow': 'এ পর্যন্ত পথচলা',
   'about.time.title': 'একটি প্রশ্ন থেকে একটি চালু চক্র।',
   'about.time.done': 'সম্পন্ন',
   'about.time.plan': 'পরিকল্পিত',
+  'about.time.now': 'এখন',
   'about.t1.date': '২৫ অক্টোবর ২০২৬',
   'about.t1': 'চারটি চ্যাটবটকে বাংলায় ধানের একটি প্রশ্ন। তিনটি মাত্রা বানিয়ে দিয়েছে।',
   'about.t2.date': '২৭ অক্টোবর ২০২৬',
@@ -74,9 +76,12 @@ const d: Record<keyof typeof about, string> = {
   'about.team.eyebrow': 'দল',
   'about.team.title': 'বাংলাদেশের পাঁচজন নির্মাতা।',
   'about.team.line': 'International AI Builders Congress 2026, AgriSphere AI ট্র্যাকের জন্য তৈরি।',
+  'about.team.soonChip': 'শিগগির আসছে',
+  'about.team.soon': 'নাম ও ভূমিকা দেবে দল নিজেই। এখানে কিছুই আন্দাজে লেখা নয়।',
 
   'about.cta.title': 'আমাদের সঙ্গে একটি পাইলট চালান।',
   'about.cta.line': 'আমরা এমন কৃষি কর্মসূচি খুঁজছি, যারা চায় তাদের কৃষক ও অর্থদাতারা পরামর্শ যাচাই করতে পারুক।',
+  'about.cta.proof': 'সব প্রমাণ দেখুন',
 };
 
 export default d;

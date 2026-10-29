@@ -204,6 +204,8 @@ const d: Record<keyof typeof officer, string> = {
   'off.confirm.recorded': 'এই ব্রাউজারে, রেকর্ড করা রসিদের ওপর অনুকরণ।',
   'off.confirm.cancel': 'বাতিল',
   'off.confirm.go': 'প্রত্যাহার করুন',
+  'off.confirm.armed': 'প্রত্যাহার করতে আবার চাপুন',
+  'off.confirm.hold': 'চেপে ধরে রাখুন, অথবা দুবার Enter চাপুন',
 
   /* ---------------------------------------------------------------- area trust */
   'off.area.title': 'আস্থা, এক এলাকা করে',

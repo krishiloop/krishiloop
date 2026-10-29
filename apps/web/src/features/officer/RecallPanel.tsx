@@ -1,6 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Inbox, RefreshCw, Smartphone, TriangleAlert } from 'lucide-react';
+import { ArrowRight, Inbox, RefreshCw, Smartphone, TriangleAlert, Undo2 } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, fmtNum, pickText, shortId } from '../../lib/format';
 import { useMotionReduced } from '../../lib/motionPref';
@@ -14,7 +14,8 @@ import { citesRule, recall, resetSandbox, rulesOf, useLedger, type LedgerReceipt
 import { loadInbox } from './inboxStore';
 import { loadStats } from './stats';
 import { reasonTitle } from './reasons';
-import { Roll } from './Roll';
+import { HoldButton } from '../../ui/kit/HoldButton';
+import { CountUp } from '../../ui/kit/CountUp';
 
 const verifyPath = (id: string) => `/verify/${encodeURIComponent(id.replace(/^urn:uuid:/, ''))}`;
 const RIPPLE_MS = 130;
@@ -348,7 +349,7 @@ function RecallResult({ record, receipts }: { record: RecallRecord; receipts: Le
   return (
     <div className="off-result" data-testid="recall-result">
       <p className="off-result-line" data-testid="recall-line">
-        <Roll value={fmtNum(n, lang)} className="off-result-n" />
+        <CountUp value={n} format={(v) => fmtNum(Math.round(v), lang)} when="mount" duration={1100} delay={RIPPLE_MS} className="off-result-n" />
         <span>{withRule(t(n === 1 ? 'off.result.line1' : 'off.result.line', { rule: '\u0000' }), `${record.rule_id} v${record.version}`)}</span>
       </p>
       {record.affected.length > n && <p className="m-0 mt-2 text-sm text-wait">{t('off.result.some', { n: fmtNum(record.affected.length - n, lang) })}</p>}
@@ -484,13 +485,23 @@ function ConfirmRecall({ row, recorded, onCancel, onConfirm }: { row: RuleRow | 
           <p id={`${titleId}-hint`} className={cx('m-0 mt-3 text-xs', touched && !ok ? 'text-stop' : 'text-ink-3')}>
             {touched && !ok ? t('off.confirm.need') : recorded ? t('off.confirm.recorded') : t('off.confirm.sandbox')}
           </p>
-          <div className="mt-6 flex flex-wrap justify-end gap-3">
-            <Button variant="ghost" onClick={onCancel}>
+          <div className="mt-6 flex flex-wrap items-start justify-end gap-3">
+            <Button variant="ghost" onClick={onCancel} className="mt-0.5">
               {t('off.confirm.cancel')}
             </Button>
-            <Button type="submit" variant="danger" data-testid="recall-confirm">
+            <HoldButton
+              testId="recall-confirm"
+              armedLabel={t('off.confirm.armed')}
+              hint={t('off.confirm.hold')}
+              canStart={() => {
+                setTouched(true);
+                return ok;
+              }}
+              onConfirm={() => onConfirm(shown, reason.trim())}
+            >
+              <Undo2 size={16} aria-hidden />
               {t('off.confirm.go')}
-            </Button>
+            </HoldButton>
           </div>
         </form>
       )}

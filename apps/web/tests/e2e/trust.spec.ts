@@ -51,6 +51,14 @@ test.describe('/trust in recorded mode', () => {
     const chart = page.getByTestId('replay-chart');
     await expect(chart).toHaveAttribute('data-area', 'BD-D');
     await expect(chart).toHaveAttribute('data-open-at', '93');
+    // seed 0 is one order: the panel beside it gives the median and 95% range over 200 orders (earned_trust_ci.json)
+    await expect(page.getByTestId('hero-ci')).toContainText('median 102, 95% range 70–126');
+    const ci = page.getByTestId('ci-panel');
+    await expect(ci.getByTestId('ci-BD-D-open')).toContainText('102 70–126');
+    await expect(ci.getByTestId('ci-BD-D-auto')).toContainText('86.5% 84.9%–88.2%');
+    await expect(ci.getByTestId('ci-BD-D-right')).toContainText('99.4% 99.0%–99.7%');
+    await expect(ci.getByTestId('ci-BD-A-open')).toContainText('185–never');
+    await expect(ci.locator('[data-area]')).toHaveCount(4);
 
     await toEnd(page);
     await expect(page.getByTestId('ro-answers')).toHaveText('351');

@@ -617,3 +617,132 @@ html.reveal-ready [data-reveal] .pf-bar i::after {
   }
 }
 
+
+/* ==================================================================
+   Field Night v2 (Oct 29): tiles are spotlight surfaces, numbers count up once (CountText), the architecture's
+   pulses are AnimatedBeam-style sprout lights, and "check it yourself" sits beside a terminal that types once.
+   ================================================================== */
+.pf-tile.surface {
+  border-radius: 18px;
+  padding: 22px;
+}
+.pf-num {
+  font-weight: 560;
+  font-stretch: 100%;
+  letter-spacing: -0.05em;
+  font-size: clamp(2.6rem, 2rem + 1.8vw, 3.6rem);
+}
+.pf-bar[data-strong="true"] i::after {
+  background: var(--color-sprout);
+}
+[data-theme="light"] .pf-bar[data-strong="true"] i::after {
+  background: var(--color-go);
+}
+.pf-bar i {
+  border-radius: 999px;
+}
+
+/* the three results of 29 Oct */
+.pf-new {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 900px) {
+  .pf-new {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.pf-cmp {
+  display: grid;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-cmp li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  align-items: baseline;
+  font-size: 0.8rem;
+  color: var(--color-ink-2);
+}
+.pf-cmp li i {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  position: relative;
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-sunk);
+  overflow: hidden;
+}
+.pf-cmp li i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  min-width: 3px;
+  border-radius: inherit;
+  background: var(--color-ink-3);
+  transform-origin: left;
+  transform: scaleX(max(var(--v), 0.012));
+}
+.pf-cmp li[data-strong] i::after {
+  background: var(--color-sprout);
+}
+[data-theme="light"] .pf-cmp li[data-strong] i::after {
+  background: var(--color-go);
+}
+.pf-cmp li[data-bad] i::after {
+  background: var(--color-stop);
+}
+.pf-cmp b {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+html.reveal-ready [data-reveal]:not(.is-in) .pf-cmp i::after {
+  transform: scaleX(0);
+}
+html.reveal-ready [data-reveal] .pf-cmp i::after {
+  transition: transform 700ms var(--ease-out) 250ms;
+}
+
+/* check it yourself: the in-browser check beside the terminal */
+.pf-check-grid {
+  display: grid;
+  gap: 16px;
+  align-items: start;
+}
+@media (min-width: 1100px) {
+  .pf-check-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  }
+}
+
+/* architecture: nodes as small surfaces, the pulse as a sprout beam (AnimatedBeam look) */
+.pa-node {
+  border-radius: 12px;
+  border-color: color-mix(in oklab, var(--color-ink) 10%, transparent);
+}
+.pa-node[aria-pressed="true"] {
+  border-color: var(--color-sprout);
+  box-shadow: inset 0 0 0 1px var(--color-sprout), 0 0 0 4px color-mix(in oklab, var(--color-sprout) 14%, transparent);
+}
+[data-theme="light"] .pa-node[aria-pressed="true"] {
+  border-color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-ink);
+}
+/* the main lane stays ink (the legend says so); photo trust is sprout, a recall is ember */
+.pa-pulse {
+  stroke-width: 2.5;
+}
+.pa-pulse[data-lane="go"] {
+  stroke: var(--color-sprout);
+}
+[data-theme="light"] .pa-pulse[data-lane="go"] {
+  stroke: var(--color-go);
+}
+.pa-pulse[data-lane="stop"] {
+  stroke: var(--color-ember);
+}

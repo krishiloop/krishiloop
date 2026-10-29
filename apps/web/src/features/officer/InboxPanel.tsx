@@ -12,6 +12,7 @@ import { toast } from '../../ui/Toast';
 import { isLocalCase, isRecordedCase, reopenCase, resolveCase, useInbox, useInboxMeta } from './inboxStore';
 import { parseRuleLabel, reasonHint, reasonTitle } from './reasons';
 import { useMedia, WIDE } from './useMedia';
+import { AnimatedList } from '../../ui/kit/AnimatedList';
 
 type Filter = 'open' | 'resolved' | 'all';
 
@@ -82,13 +83,11 @@ export function InboxPanel({ selectedId, onSelect, onClose }: { selectedId: stri
             </LinkButton>
           </div>
         ) : (
-          <ul className="off-rows mt-4" data-testid="case-list">
-            {shown.map((it, i) => (
-              <li key={it.item_id} className="off-in" style={{ ['--i' as string]: Math.min(i, 8) }}>
-                <CaseRow item={it} active={it.item_id === activeId} onSelect={onSelect} />
-              </li>
+          <AnimatedList key={filter} className="off-rows mt-4" testId="case-list">
+            {shown.map((it) => (
+              <CaseRow key={it.item_id} item={it} active={it.item_id === activeId} onSelect={onSelect} />
             ))}
-          </ul>
+          </AnimatedList>
         )}
       </section>
 

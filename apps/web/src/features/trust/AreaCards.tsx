@@ -3,6 +3,7 @@ import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { REPLAY_DATASETS, replayStats, type ReplayModel } from './replay';
 import type { Policy } from './policy';
+import type { CiFile } from './CiPanel';
 
 const W = 200;
 const H = 38;
@@ -37,12 +38,25 @@ function Spark({ m, policy }: { m: ReplayModel; policy: Policy }) {
   );
 }
 
+/** The same number across all the random orders, so this card's one order is never read as typical. */
+function CiLine({ a, n }: { a: NonNullable<CiFile['areas'][string]>; n: number }) {
+  const { t, lang } = useI18n();
+  const [lo, med, hi] = a.answers_to_open;
+  if (med === null || lo === null) return null;
+  const f = (v: number) => fmtNum(v, lang);
+  return (
+    <span className="tp-card-ci">
+      {hi === null ? t('tp.card.ciOpen', { n: f(n), med: f(med), k: f(a.opened_runs) }) : t('tp.card.ci', { n: f(n), med: f(med), lo: f(lo), hi: f(hi) })}
+    </span>
+  );
+}
+
 /**
  * One card per replayed area: officer answers until the gate opened, then the share of photos answered automatically and
  * how many of those were right. Same model, same policy, very different areas: that is the point. The cards are also the
  * chart's area picker (aria-pressed), so there is one control, not two.
  */
-export function AreaCards({ areas, policy, selected, onSelect }: { areas: ReplayModel[]; policy: Policy; selected: string; onSelect: (key: string) => void }) {
+export function AreaCards({ areas, policy, selected, onSelect, ci }: { areas: ReplayModel[]; policy: Policy; selected: string; onSelect: (key: string) => void; ci?: CiFile | null }) {
   const { t, lang } = useI18n();
   const pct = (v: number, d = 0) => `${fmtNum(v * 100, lang, { minimumFractionDigits: d, maximumFractionDigits: d })}%`;
   return (
@@ -63,6 +77,7 @@ export function AreaCards({ areas, policy, selected, onSelect }: { areas: Replay
               <span className="tp-big tp-big-sm">{st.openedAfter !== null ? fmtNum(st.openedAfter, lang) : '—'}</span>
               <span className="text-[0.8rem] leading-tight text-ink-2">{st.openedAfter !== null ? t('tp.card.toOpen') : t('tp.card.never')}</span>
             </span>
+            {ci?.areas[m.key] ? <CiLine a={ci.areas[m.key]!} n={ci.seeds_per_area} /> : null}
             <span className="mono flex flex-wrap gap-x-3 gap-y-1 border-t border-rule pt-2 text-[0.8rem]">
               <span>
                 <b className="font-semibold">{st.autoShare !== null ? pct(st.autoShare) : '—'}</b> <span className="text-ink-3">{t('tp.card.auto')}</span>

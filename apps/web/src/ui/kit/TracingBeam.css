@@ -1,0 +1,46 @@
+/* TracingBeam (kit/TracingBeam.tsx): a hairline track, a fill that grows to the last step that ran, a light at its head.
+   Transform only; each move takes 160 ms, so steps lit 150 ms apart read as one continuous trace. */
+.tbeam {
+  --tb-color: var(--color-sprout);
+  position: relative;
+}
+.tbeam-track {
+  position: absolute;
+  top: var(--tb-top, 0px);
+  bottom: var(--tb-bottom, 0px);
+  left: calc(var(--tb-x) - 0.5px);
+  width: 1px;
+  background: var(--color-rule-2);
+  pointer-events: none;
+}
+.tbeam-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--tb-color) 30%, transparent), var(--tb-color));
+  transform-origin: top center;
+  transition: transform 160ms var(--ease-out);
+}
+.tbeam-head {
+  position: absolute;
+  top: -4px;
+  left: calc(var(--tb-x) - 4px);
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--tb-color);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--tb-color) 22%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 160ms var(--ease-out),
+    opacity 200ms ease;
+}
+.tbeam-head[data-on] {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tbeam-fill,
+  .tbeam-head {
+    transition-duration: 0ms;
+  }
+}

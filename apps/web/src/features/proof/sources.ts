@@ -2,17 +2,16 @@
  * Every number on /proof, with the file it comes from. Nothing here is computed or rounded beyond what the file says;
  * each value was read from the repository on 29 Oct 2026:
  *   - ml/vision/MODEL_CARD.md and ml/vision/artifacts/{lodo,probe}.json: vision v1 / v2 / k-shot
- *   - ml/vision/MODEL_CARD.md "Earned trust per area" and artifacts/earned_trust_sim_v2_strict.json: protocol 2 (strict)
+ *   - ml/vision/artifacts/earned_trust_ci.json: protocol 2, 200 random orders per area (95% ranges)
+ *   - ml/evals/safety/REPORT.md, ml/voice/REPORT.md, ml/sovereign/REPORT.md: the three results measured on 29 Oct
  *   - ml/ask/eval_report.json: the Ask router (SYNTHETIC test split, 45 questions)
  *   - docs/mcp/README.md: the MCP servers and tools
  *   - .github/workflows/ci.yml and `pytest --collect-only`: 176 backend tests on ubuntu-latest + windows-latest
  * The files are on the `g1/local-journey` branch until it is merged: REPO_REF is the one place to change that.
  */
-export const REPO = 'https://github.com/krishiloop/krishiloop';
-export const REPO_REF = 'g1/local-journey';
+import { REPO, blob, tree } from './repo';
+export { REPO, REPO_REF, blob, tree } from './repo';
 export const ACTIONS_URL = `${REPO}/actions`;
-export const blob = (path: string) => `${REPO}/blob/${REPO_REF}/${path}`;
-export const tree = (path: string) => `${REPO}/tree/${REPO_REF}/${path}`;
 
 export interface Source {
   path: string;
@@ -94,16 +93,16 @@ export const EVALS: EvalTile[] = [
   },
   {
     id: 'trust',
-    value: '89–109',
+    value: '70–126',
     tone: 'replay',
-    // protocol 2, strict near-copy check, BioCLIP 2, 3 orders (MODEL_CARD.md earned-trust table)
+    // protocol 2, BioCLIP 2, 200 random orders per area: 2.5th–97.5th percentile (earned_trust_ci.json, bioclip2:anchored)
     table: [
-      { area: 'Savar (BD-D)', open: '89–109', auto: '86%', right: '99.5%' },
-      { area: 'RiceyLeafDisease (BD-C)', open: '126–179', auto: '32–37%', right: '96.8–99.4%' },
-      { area: 'Dhan-Shomadhan (BD-A)', open: '221–234', auto: '5%', right: '83–100%' },
-      { area: 'Gazipur (BD-E)', open: '328–510', auto: '30–35%', right: '94.4–95.9%' },
+      { area: 'Savar (BD-D)', open: '70–126', auto: '85–88%', right: '99.0–99.7%' },
+      { area: 'RiceyLeafDisease (BD-C)', open: '146–264', auto: '27–40%', right: '95.3–100%' },
+      { area: 'Dhan-Shomadhan (BD-A)', open: '185–never', auto: '0–10%', right: '81.8–100%' },
+      { area: 'Gazipur (BD-E)', open: '315–614', auto: '29–36%', right: '93.5–97.4%' },
     ],
-    sources: [file('ml/vision/MODEL_CARD.md'), file('ml/vision/artifacts/earned_trust_sim_v2_strict.json')],
+    sources: [file('ml/vision/artifacts/earned_trust_ci.json'), file('ml/vision/MODEL_CARD.md')],
     more: '/trust',
   },
   {
@@ -119,6 +118,67 @@ export const EVALS: EvalTile[] = [
     ],
     sources: [file('ml/ask/eval_report.json'), file('ml/ask/questions.seed.jsonl')],
   },
+];
+
+/* ------------------------------------------------------------------ measured this week (29 Oct), each with its report */
+export type NewEvalId = 'safety' | 'speech' | 'sovereign';
+export interface NewEval {
+  id: NewEvalId;
+  value: string;
+  tone: EvalTone;
+  /** a two- or three-row comparison: the bar width (0..1) and the text as the report states it */
+  compare: { key: string; width: number; text: string; strong?: boolean; bad?: boolean }[];
+  source: Source;
+  /** still running, so not final */
+  partial?: boolean;
+}
+export const NEW_EVALS: NewEval[] = [
+  {
+    id: 'safety',
+    value: '0/128',
+    tone: 'synthetic',
+    // REPORT.md headline: gpt-oss:20b en+bn dose questions 27/28 (neutral prompt) and 0/28 (safety prompt); KrishiLoop 0/128
+    compare: [
+      { key: 'raw', width: 27 / 28, text: '27/28', bad: true },
+      { key: 'prompted', width: 0, text: '0/28' },
+      { key: 'ours', width: 0, text: '0/128', strong: true },
+    ],
+    source: file('ml/evals/safety/REPORT.md'),
+    partial: true,
+  },
+  {
+    id: 'speech',
+    value: '6.2%',
+    tone: 'measured',
+    // REPORT.md section 1: FLEURS bn_in test, 920 utterances, corpus-level character error rate
+    compare: [
+      { key: 'omni', width: 0.062, text: '6.2%', strong: true },
+      { key: 'whisper', width: 0.453, text: '45.3%', bad: true },
+    ],
+    source: file('ml/voice/REPORT.md'),
+  },
+  {
+    id: 'sovereign',
+    value: '23.8 ms',
+    tone: 'measured',
+    // REPORT.md latency table: "Photo, server reading" p50, one request at a time, 40 photos
+    compare: [
+      { key: 'gpu', width: 23.8 / 931.9, text: '23.8 ms', strong: true },
+      { key: 'cpu', width: 1, text: '932 ms' },
+    ],
+    source: file('ml/sovereign/REPORT.md'),
+  },
+];
+
+/** the commands behind "check it yourself" (README.md "Run it"; score.py rebuilds the safety report) */
+export const REPRO: { cmd: string; out?: 'clone' | 'contracts' | 'quotes' | 'tests' | 'safety' }[] = [
+  { cmd: 'git clone https://github.com/krishiloop/krishiloop' },
+  { cmd: 'cd krishiloop' },
+  { cmd: 'python -m pip install -r requirements-dev.txt' },
+  { cmd: 'python tools/validate_contracts.py', out: 'contracts' },
+  { cmd: 'python tools/check_quotes.py', out: 'quotes' },
+  { cmd: 'python -m pytest -q', out: 'tests' },
+  { cmd: 'python ml/evals/safety/score.py', out: 'safety' },
 ];
 
 /* ------------------------------------------------------------------ standards */

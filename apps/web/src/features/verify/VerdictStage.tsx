@@ -3,15 +3,21 @@ import { Link } from 'react-router-dom';
 import { CalendarClock, FlaskConical, WifiOff } from 'lucide-react';
 import type { AreaTrustSubject, Receipt } from '../../lib/api/types';
 import type { VerifyOutcome } from '../../lib/api/client';
-import { isMySandboxCredential } from '../../lib/api/client';
+import { currentSessionId, isMySandboxCredential } from '../../lib/api/client';
 import { RECORDED_AT } from '../../data/recorded';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, shortId } from '../../lib/format';
+import { verifyUrl } from '../../lib/qr';
 import { cx } from '../../lib/cx';
 import { Stamp, type StampKind } from '../../ui/Stamp';
 import { DataMark } from '../../ui/DataMark';
 import { Button } from '../../ui/Button';
+import { Qr } from '../../ui/Qr';
+import { BorderBeam } from '../../ui/kit/BorderBeam';
+import { HyperText } from '../../ui/kit/HyperText';
 import { splitRecalled } from '../trust/gate';
+import { recallOf } from '../officer/recallLog';
+import { RunLedger, type RunStep } from './CheckRun';
 
 export type VerdictKind = 'authentic' | 'recalled' | 'invalid' | 'expired' | 'unreachable';
 
@@ -50,11 +56,15 @@ export function useMeaning(kind: VerdictKind, receipt: Receipt | null, area: Are
 }
 
 /**
- * The verdict, full width: the stamp lands (authentic green, recalled vermilion, cannot-verify ink, expired turmeric),
- * then one line of meaning and the notes that qualify it. "Authentic" is said as what it is — issued by KrishiLoop and
- * unaltered — never as "correct". An unreachable server gets no stamp at all: it says nothing about the receipt.
+ * The check and its verdict on one stage. On the left, the receipt being checked (its own QR and id): a light runs
+ * round it while the check runs, then the verdict lands on it as a stamp: Authentic (go), Recalled (ember, with the
+ * reason), Expired (wait), Cannot verify (grey, dashed). An unreachable server gets no stamp: it says nothing about
+ * the receipt. On the right, the steps as they really run, then the meaning in one line and what qualifies it.
+ * "Authentic" is said as what it is (issued by KrishiLoop and unaltered), never as "correct".
  */
 export function VerdictStage({
+  phase,
+  steps,
   kind,
   id,
   receipt,
@@ -66,6 +76,8 @@ export function VerdictStage({
   actions,
   onUseLive,
 }: {
+  phase: 'checking' | 'done';
+  steps: RunStep[];
   kind: VerdictKind;
   id: string;
   receipt: Receipt | null;
@@ -78,95 +90,132 @@ export function VerdictStage({
   onUseLive?: () => void;
 }) {
   const { t, lang } = useI18n();
+  const checking = phase === 'checking';
   const { line, sub } = useMeaning(kind, receipt, area, outcome);
   const split = splitRecalled(outcome?.rules);
   const plan = receipt?.plan;
   const mine = !!outcome?.sandbox && isMySandboxCredential(outcome.status_list);
   const forced = kind === 'unreachable' && /sample mode/i.test(outcome?.reason ?? '');
+  const known = kind === 'recalled' ? (split.rules.map((r) => recallOf(r, recorded ? 'sample' : 'sandbox', currentSessionId())).find(Boolean) ?? null) : null;
+  const stageKind = checking ? 'checking' : kind;
 
   return (
-    <section className="vf-stage" data-kind={kind} data-testid="verdict" data-status={kind} aria-labelledby="vf-verdict-line">
+    <section
+      className="vf-stage"
+      data-kind={stageKind}
+      data-testid={checking ? 'checking' : 'verdict'}
+      data-status={checking ? undefined : kind}
+      aria-busy={checking || undefined}
+      aria-labelledby="vf-verdict-line"
+    >
       <div className="wrap vf-stage-grid">
-        <div className="vf-stamp-slot" aria-hidden={kind === 'unreachable' ? true : undefined}>
-          {kind === 'unreachable' ? (
-            <span className="vf-offline">
-              <WifiOff size={56} strokeWidth={1.4} aria-hidden />
-            </span>
-          ) : (
-            <Stamp
-              key={landKey}
-              kind={STAMP[kind]}
-              land
-              size="xl"
-              sub={`KrishiLoop · ${fmtDate(checkedAt, lang, 'short')}`}
-              className="vf-stamp"
-              style={{ fontSize: kind === 'invalid' ? 'var(--vf-stamp-long)' : 'var(--vf-stamp)' }}
-            />
-          )}
+        <div className="vf-card-col">
+          <div className="vf-check" data-state={stageKind}>
+            {checking && <BorderBeam size={150} duration={2.2} radius={26} />}
+            <div className="vf-check-qr paper-object">
+              <Qr value={verifyUrl(id)} size={132} label={t('vf.checking.qr')} />
+            </div>
+            <p className="vf-check-id">
+              <span className="label">№</span>
+              <HyperText text={`…${shortId(id, 12)}`} duration={760} />
+            </p>
+            {!checking && kind !== 'unreachable' && (
+              <span className="vf-stamp-wrap" key={`s-${landKey}`}>
+                {(kind === 'authentic' || kind === 'recalled') && <span className="vf-ring" data-kind={kind} aria-hidden />}
+                <Stamp kind={STAMP[kind]} land size="inherit" sub={`KrishiLoop · ${fmtDate(checkedAt, lang, 'short')}`} className="vf-stamp" />
+              </span>
+            )}
+            {!checking && kind === 'unreachable' && (
+              <span className="vf-offline" aria-hidden>
+                <WifiOff size={44} strokeWidth={1.4} />
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="vf-stage-copy thud" key={`copy-${landKey}`}>
-          <p className="eyebrow">
-            {t(area ? 'vf.stage.eyebrowArea' : 'vf.stage.eyebrow', { id: shortId(id, 10), time: fmtDate(checkedAt, lang, 'time') })}
-          </p>
-          <h1 id="vf-verdict-line" className="vf-meaning" data-testid="verdict-line">
-            {line}
-          </h1>
-          <p className="vf-sub">{sub}</p>
+        <div className="vf-stage-copy">
+          {checking ? (
+            <>
+              <p className="eyebrow">№ …{shortId(id, 10)}</p>
+              <h1 id="vf-verdict-line" className="vf-meaning">
+                {t('vf.checking.title')}
+              </h1>
+            </>
+          ) : (
+            <div className="thud" key={`copy-${landKey}`}>
+              <p className="eyebrow">{t(area ? 'vf.stage.eyebrowArea' : 'vf.stage.eyebrow', { id: shortId(id, 10), time: fmtDate(checkedAt, lang, 'time') })}</p>
+              <h1 id="vf-verdict-line" className="vf-meaning" data-testid="verdict-line">
+                {line}
+              </h1>
+              <p className="vf-sub">{sub}</p>
 
-          {kind === 'recalled' && (split.rules.length > 0 || split.photoTrust.length > 0) && (
-            <p className="mt-4 flex flex-wrap items-center gap-2" data-testid="withdrawn-rules">
-              <span className="eyebrow">{t('vf.withdrawn')}</span>
-              {split.rules.map((r) => (
-                <span key={r} className="chip chip-stop mono normal-case tracking-normal">
-                  {r}
-                </span>
-              ))}
-              {split.photoTrust.map((p) => (
-                <span key={p.entry} className="chip chip-stop normal-case tracking-normal" data-testid="photo-withdrawn-entry">
-                  {p.entry}
-                </span>
-              ))}
-            </p>
+              {kind === 'recalled' && (split.rules.length > 0 || split.photoTrust.length > 0) && (
+                <div className="vf-why" data-testid="withdrawn-rules">
+                  <p className="m-0 flex flex-wrap items-center gap-2">
+                    <span className="eyebrow">{t('vf.withdrawn')}</span>
+                    {split.rules.map((r) => (
+                      <span key={r} className="chip chip-stop mono normal-case tracking-normal">
+                        {r}
+                      </span>
+                    ))}
+                    {split.photoTrust.map((p) => (
+                      <span key={p.entry} className="chip chip-stop normal-case tracking-normal" data-testid="photo-withdrawn-entry">
+                        {p.entry}
+                      </span>
+                    ))}
+                  </p>
+                  {known ? (
+                    <p className="m-0 mt-2 text-sm text-ink-2">{t('vf.tl.reason', { reason: known.reason })}</p>
+                  ) : outcome?.reason ? (
+                    <p className="mono m-0 mt-2 text-xs text-ink-3">{outcome.reason}</p>
+                  ) : null}
+                </div>
+              )}
+
+              <ul className="vf-notes">
+                {recorded && (
+                  <li>
+                    <DataMark kind="recorded" date={RECORDED_AT} />
+                    <span>{t('vf.note.recorded', { date: fmtDate(RECORDED_AT, lang, 'long') })}</span>
+                  </li>
+                )}
+                {outcome?.sandbox && (
+                  <li data-testid="note-sandbox">
+                    <FlaskConical size={16} aria-hidden className="flex-none text-ink-3" />
+                    <span>
+                      {t('vf.note.sandbox')}
+                      {mine && (
+                        <>
+                          {' '}
+                          <Link className="link" to="/officer?tab=recall">
+                            {t('vf.note.mine')}
+                          </Link>
+                        </>
+                      )}
+                    </span>
+                  </li>
+                )}
+                {kind === 'expired' && plan && (
+                  <li>
+                    <CalendarClock size={16} aria-hidden className="flex-none text-ink-3" />
+                    <span>{t('vf.note.expired', { from: fmtDate(plan.valid_from, lang), to: fmtDate(plan.valid_to, lang) })}</span>
+                  </li>
+                )}
+              </ul>
+
+              {forced && onUseLive && (
+                <Button variant="secondary" className="mt-5" onClick={onUseLive}>
+                  {t('vf.useLive')}
+                </Button>
+              )}
+              <div className={cx('vf-actions no-print')}>{actions}</div>
+            </div>
           )}
 
-          <ul className="vf-notes">
-            {recorded && (
-              <li>
-                <DataMark kind="recorded" date={RECORDED_AT} />
-                <span>{t('vf.note.recorded', { date: fmtDate(RECORDED_AT, lang, 'long') })}</span>
-              </li>
-            )}
-            {outcome?.sandbox && (
-              <li data-testid="note-sandbox">
-                <FlaskConical size={16} aria-hidden className="flex-none text-ink-3" />
-                <span>
-                  {t('vf.note.sandbox')}
-                  {mine && (
-                    <>
-                      {' '}
-                      <Link className="link" to="/officer?tab=recall">
-                        {t('vf.note.mine')}
-                      </Link>
-                    </>
-                  )}
-                </span>
-              </li>
-            )}
-            {kind === 'expired' && plan && (
-              <li>
-                <CalendarClock size={16} aria-hidden className="flex-none text-ink-3" />
-                <span>{t('vf.note.expired', { from: fmtDate(plan.valid_from, lang), to: fmtDate(plan.valid_to, lang) })}</span>
-              </li>
-            )}
-          </ul>
-
-          {forced && onUseLive && (
-            <Button variant="secondary" className="mt-5" onClick={onUseLive}>
-              {t('vf.useLive')}
-            </Button>
-          )}
-          <div className={cx('vf-actions no-print')}>{actions}</div>
+          <div className={cx('vf-run-wrap', !checking && 'is-done')}>
+            <p className="label">{checking ? t('vf.run.live') : t('vf.run.title')}</p>
+            <RunLedger steps={steps} compact={!checking} />
+          </div>
         </div>
       </div>
     </section>

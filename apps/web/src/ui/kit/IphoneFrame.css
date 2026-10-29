@@ -1,0 +1,102 @@
+/* IphoneFrame (kit/IphoneFrame.tsx): a CSS phone. The frame is dark titanium in both themes; the screen follows the theme.
+   Sizes come from the parent: set --iph-w and --iph-h (defaults: 396 x 820). */
+.iph {
+  --iph-r: 60px;
+  --iph-bezel: 10px;
+  position: relative;
+  width: var(--iph-w, 396px);
+  height: var(--iph-h, 820px);
+  padding: var(--iph-bezel);
+  border-radius: var(--iph-r);
+  background: linear-gradient(160deg, #1c1e1a, #0b0c0a 40%, #141512);
+  box-shadow:
+    0 0 0 1.5px #464a41,
+    0 0 0 3px #15171390,
+    inset 0 0 0 1px #000,
+    inset 0 0 0 2px #2a2d27,
+    0 70px 120px -60px rgb(0 0 0 / 0.95),
+    0 30px 60px -40px rgb(0 0 0 / 0.6);
+}
+[data-theme="light"] .iph {
+  box-shadow:
+    0 0 0 1.5px #7e8178,
+    0 0 0 3px #d6d3c8,
+    inset 0 0 0 1px #000,
+    inset 0 0 0 2px #2a2d27,
+    0 60px 100px -56px rgb(18 19 16 / 0.55),
+    0 24px 50px -36px rgb(18 19 16 / 0.35);
+}
+.iph-btn {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #2b2e28, #43473e);
+}
+.iph-btn-action {
+  left: -4px;
+  top: 116px;
+  height: 30px;
+}
+.iph-btn-up {
+  left: -4px;
+  top: 168px;
+  height: 56px;
+}
+.iph-btn-down {
+  left: -4px;
+  top: 236px;
+  height: 56px;
+}
+.iph-btn-power {
+  right: -4px;
+  top: 196px;
+  height: 92px;
+  background: linear-gradient(270deg, #2b2e28, #43473e);
+}
+.iph-screen {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--iph-r) - var(--iph-bezel));
+  background-color: var(--color-paper);
+  background-image: var(--paper-grain);
+  color: var(--color-ink);
+}
+.iph-status {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 4px 0 0 34px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+.iph-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  width: 118px;
+  height: 34px;
+  margin-left: -59px;
+  border-radius: 999px;
+  background: #000;
+}
+.iph-home {
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  z-index: 6;
+  width: 128px;
+  height: 5px;
+  margin-left: -64px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  opacity: 0.8;
+  pointer-events: none;
+}

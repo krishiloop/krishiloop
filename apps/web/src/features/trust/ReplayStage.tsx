@@ -330,6 +330,9 @@ export function ReplayStage({ model, policy, autoPlay }: { model: ReplayModel; p
           {openX !== null ? (
             <g>
               <g className="tp-marker" data-on={opened} data-pop={pop} transform={`translate(${openX} ${g.bar.y})`} data-testid="gate-marker">
+                {/* the gate-opening moment: two sprout rings spread from the marker, once, while the replay plays */}
+                <circle className="wave" r={9} />
+                <circle className="wave w2" r={9} />
                 <circle className="ring" r={9} />
                 <circle className="core" r={4} />
               </g>
@@ -358,7 +361,7 @@ export function ReplayStage({ model, policy, autoPlay }: { model: ReplayModel; p
       </div>
 
       <div className="tp-readout" data-testid="replay-readout">
-        <span className="tp-gate" data-open={gateNow} data-testid="replay-gate">
+        <span className="tp-gate" data-open={gateNow} data-pop={pop && gateNow ? 'true' : undefined} data-testid="replay-gate">
           {gateNow ? <LockOpen size={16} aria-hidden /> : <Lock size={16} aria-hidden />}
           {gateNow ? t('trust.meter.gate.open') : t('trust.meter.gate.closed')}
         </span>

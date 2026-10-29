@@ -120,8 +120,10 @@ motion:
 
 ## Third-party patterns
 Rebuilt in our own code under their licences:
-- Magic UI (MIT): NumberTicker, AnimatedBeam, BorderBeam, Marquee, FlickeringGrid, bento grid.
-- React Bits (MIT + Commons Clause): Magnet.
+- Magic UI (MIT): NumberTicker, AnimatedBeam, BorderBeam, Marquee, FlickeringGrid, bento grid; for the app screens AnimatedList (officer inbox and photo cases), Terminal (/proof) and a Motion-free NumberTicker (`CountUp`, `CountText`); HyperText (ids and hashes resolving on /verify), an iPhone mockup in CSS (`IphoneFrame`, /app) and a one-shot AnimatedBeam (`SignalBeam`, phone to rail on /app).
+- Aceternity (free licence, no resale as a library): Timeline with a scroll-traced line (/about); Tracing Beam, driven by state (`TracingBeam`, "behind the tap" on /app).
+- React Bits (MIT + Commons Clause): Magnet, CountUp, ClickSpark (only on the farmer phone's Ask send and mic buttons).
+- Emil Kowalski's hold-to-confirm (clip-path fill, 200 ms snap back), rebuilt as `HoldButton` (the officer's recall).
 
 Libraries:
 - Motion (MIT);

@@ -1,4 +1,5 @@
-/* About page motion: transform/opacity only; hidden starting states only under html.reveal-ready. */
+/* About page (Field Night): a bento of rules, a traced timeline, calm seats for the team. Transform/opacity only;
+   hidden starting states only under html.reveal-ready. */
 
 /* the seal is stamped once when the page opens: it presses down with a short overshoot and settles with a small turn */
 .seal {
@@ -22,7 +23,148 @@
   }
 }
 
-/* how it pays: the steps and their arrows arrive in order */
+.ab-why-line {
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+
+/* ------------------------------------------------------------------ principles: a 4-column bento */
+.ab-bento {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 640px) {
+  .ab-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .ab-bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ab-rule[data-k="1"],
+  .ab-rule[data-k="6"] {
+    grid-column: span 2;
+  }
+}
+.ab-rule {
+  display: flex;
+  flex-direction: column;
+  min-height: 15rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+.ab-rule-n {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  position: absolute;
+  right: 1.1rem;
+  top: 0.6rem;
+  font-size: clamp(3.4rem, 2.6rem + 2.4vw, 5.4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--color-ink) 16%, transparent);
+  pointer-events: none;
+}
+.ab-rule-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 12px;
+  color: var(--color-ink);
+}
+.ab-rule[data-k="1"] .ab-rule-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-color: transparent;
+  background: var(--color-sprout);
+  color: var(--color-sprout-ink);
+}
+.ab-rule-title {
+  margin: auto 0 0;
+  padding-top: 2rem;
+  font-size: 1.22rem;
+  font-weight: 580;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.ab-rule[data-k="1"] .ab-rule-title {
+  font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.2rem);
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+}
+.ab-rule-sub {
+  margin: 0.5rem 0 0;
+  max-width: 40ch;
+  font-size: 0.97rem;
+  line-height: 1.45;
+  color: var(--color-ink-2);
+}
+.ab-rule-title:is(:lang(bn), :lang(hi)),
+.ab-rule[data-k="1"] .ab-rule-title:is(:lang(bn), :lang(hi)) {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+/* ------------------------------------------------------------------ who it serves: four columns under one hairline */
+.ab-who {
+  display: grid;
+  gap: 2.25rem 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--color-rule);
+}
+@media (min-width: 640px) {
+  .ab-who {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .ab-who {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.ab-who > li {
+  position: relative;
+  padding-top: 1.75rem;
+}
+.ab-who > li::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--color-ink);
+}
+.ab-who-icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule-2);
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------ how it pays */
+.money-step {
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-frame);
+  background: var(--color-card);
+}
+.money-step.is-free {
+  border-color: color-mix(in oklab, var(--color-go) 55%, transparent);
+  background: var(--color-go-wash);
+}
 .money-step,
 .money-arrow {
   transition:
@@ -39,24 +181,44 @@ html.reveal-ready .money:not(.is-in) .money-arrow {
   transform: translateX(-8px);
 }
 
-/* the timeline: the rail draws down to each item as it arrives */
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  left: calc(0.75rem - 1px);
-  top: 1.9rem;
-  bottom: 0.2rem;
-  width: 2px;
-  background: var(--color-rule-2);
-  transform-origin: top;
-  transition: transform 700ms var(--ease-in-out) 150ms;
+/* ------------------------------------------------------------------ team: seats until the team names itself */
+.ab-team {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.timeline-item.is-done::before {
-  background: var(--color-ink);
+@media (min-width: 640px) {
+  .ab-team {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
-.timeline-item:last-child::before {
-  display: none;
+@media (min-width: 1024px) {
+  .ab-team {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
-html.reveal-ready .timeline-item:not(.is-in)::before {
-  transform: scaleY(0);
+.ab-seat {
+  padding: 1.25rem;
+  border: 1px dashed var(--color-rule-2);
+  border-radius: var(--radius-frame);
+}
+.ab-seat-face {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px dashed var(--color-rule-2);
+  border-radius: 999px;
+  color: var(--color-ink-3);
+}
+.ab-seat-line {
+  display: block;
+  height: 0.6rem;
+  margin-top: 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-ink) 7%, transparent);
+}
+.ab-seat-line.is-short {
+  width: 55%;
+  margin-top: 0.45rem;
 }

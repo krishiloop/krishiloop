@@ -82,9 +82,14 @@ test.describe('/proof in recorded mode', () => {
     await expect(page.getByTestId('eval-v1')).toContainText('Bad result, kept');
     await expect(page.getByTestId('eval-ask')).toContainText('0.89');
     await expect(page.getByTestId('eval-ask')).toContainText('Synthetic');
-    await expect(page.getByTestId('eval-trust')).toContainText('89–109');
+    await expect(page.getByTestId('eval-trust')).toContainText('70–126'); // the 95% range over 200 random orders (earned_trust_ci.json), was 89–109 over 3
     await expect(page.getByTestId('eval-trust')).toContainText('Replay');
     await expect(page.getByTestId('eval-ask').getByRole('link', { name: 'ml/ask/eval_report.json' })).toHaveAttribute('href', /eval_report\.json$/);
+    // the three results of 29 Oct, each with its report; the safety eval says it is not final
+    await expect(page.getByTestId('eval-new').locator('article')).toHaveCount(3);
+    await expect(page.getByTestId('new-safety')).toContainText('Not final');
+    await expect(page.getByTestId('new-speech')).toContainText('Not yet wired into the app');
+    await expect(page.getByTestId('new-sovereign').getByRole('link', { name: 'ml/sovereign/REPORT.md' })).toHaveAttribute('href', /ml\/sovereign\/REPORT\.md$/);
   });
 
   test('standards, MCP servers, tests and the register', async ({ page }) => {

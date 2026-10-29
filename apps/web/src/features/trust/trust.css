@@ -439,3 +439,244 @@
   font-size: 2rem;
 }
 
+
+/* ------------------------------------------------------------------ the gate-opening moment (hero motion of the replay)
+   Two sprout rings spread from the marker once, while the replay plays (never on keyboard scrubbing), and the gate pill
+   lands with a short press. Transform and opacity only. */
+.tp-chart .tp-marker .wave {
+  fill: none;
+  stroke: var(--color-sprout);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+[data-theme="light"] .tp-chart .tp-marker .wave {
+  stroke: var(--color-go);
+}
+.tp-chart .tp-marker[data-pop="true"] .wave {
+  animation: tp-wave 1200ms var(--ease-out-quint) 120ms both;
+}
+.tp-chart .tp-marker[data-pop="true"] .wave.w2 {
+  animation-delay: 380ms;
+}
+@keyframes tp-wave {
+  from {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(5.5);
+  }
+}
+.tp-gate[data-pop="true"] {
+  animation: tp-gate-land 420ms var(--ease-stamp) both;
+}
+@keyframes tp-gate-land {
+  from {
+    transform: scale(0.9);
+    opacity: 0.4;
+  }
+}
+
+/* ------------------------------------------------------------------ across 200 orders (a forest plot per area) */
+.tp-ci {
+  padding: clamp(1.1rem, 0.8rem + 1vw, 1.75rem);
+  border: 1px dashed color-mix(in oklab, var(--color-carbon) 45%, var(--color-rule-2));
+  border-radius: var(--radius-frame);
+  background: var(--color-card);
+}
+.tp-ci-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--color-ink-2);
+}
+.tp-ci-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.tp-ci-legend i {
+  display: inline-block;
+}
+.tp-ci-legend .is-range {
+  width: 22px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-ink) 28%, transparent);
+}
+.tp-ci-legend .is-median {
+  width: 2px;
+  height: 12px;
+  background: var(--color-ink);
+}
+.tp-ci-legend .is-seed,
+.tp-ci-seeddot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--color-carbon);
+  box-shadow: 0 0 0 2px var(--color-card);
+}
+.tp-ci-head {
+  display: none;
+}
+.tp-ci-rows {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tp-ci-row {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.8rem 0.75rem;
+  margin-inline: -0.75rem;
+  border-top: 1px solid var(--color-rule);
+  border-radius: 10px;
+  transition: background-color 200ms ease;
+}
+.tp-ci-row.is-sel {
+  background: color-mix(in oklab, var(--color-carbon) 7%, transparent);
+}
+.tp-ci-metrics {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.55rem;
+  margin: 0;
+}
+.tp-ci-metric {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+}
+.tp-ci-metric dt {
+  font-size: 0.78rem;
+  color: var(--color-ink-3);
+}
+.tp-ci-metric dd {
+  margin: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.tp-ci-val {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.tp-ci-val b {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.tp-ci-bar {
+  position: relative;
+  display: block;
+  height: 12px;
+}
+.tp-ci-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--color-rule-2);
+}
+.tp-ci-bar i {
+  position: absolute;
+  top: 50%;
+}
+.tp-ci-bar .r {
+  left: calc(var(--a) * 100%);
+  width: calc((var(--b) - var(--a)) * 100%);
+  min-width: 6px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-ink) 40%, transparent);
+}
+.tp-ci-bar.is-open .r {
+  background: linear-gradient(90deg, color-mix(in oklab, var(--color-ink) 28%, transparent) 60%, transparent);
+  border-radius: 999px 0 0 999px;
+}
+.tp-ci-bar .m {
+  left: calc(var(--m) * 100%);
+  width: 2px;
+  height: 12px;
+  margin: -6px 0 0 -1px;
+  background: var(--color-ink);
+}
+.tp-ci-bar .s {
+  left: calc(var(--s) * 100%);
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 999px;
+  background: var(--color-carbon);
+  box-shadow: 0 0 0 2px var(--color-card);
+}
+.tp-ci-seed {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 1.1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.92rem;
+  color: var(--color-ink);
+}
+.tp-ci-seeddot {
+  flex: none;
+  margin-top: 0.4em;
+}
+@media (min-width: 900px) {
+  .tp-ci-head {
+    display: grid;
+    grid-template-columns: minmax(13rem, 1.1fr) repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+  .tp-ci-head:is(:lang(bn), :lang(hi)) {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .tp-ci-row {
+    grid-template-columns: minmax(13rem, 1.1fr) minmax(0, 3fr);
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .tp-ci-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .tp-ci-metric {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tp-ci-metric dt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+.tp-card-ci {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--color-ink-3);
+}

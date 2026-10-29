@@ -16,7 +16,8 @@ import { PolicyBar } from './PolicyBar';
 import { ReplayStage } from './ReplayStage';
 import { AreaCards } from './AreaCards';
 import { SandboxMeter } from './SandboxMeter';
-import { blob } from '../proof/sources';
+import { CiPanel, useCi, type CiArea } from './CiPanel';
+import { blob } from '../proof/repo';
 import './trust.css';
 
 type View = { state: 'loading' } | { state: 'ready'; replay: ShapedReplay; bundled: boolean } | { state: 'missing' } | { state: 'error'; message: string };
@@ -61,6 +62,7 @@ export default function TrustPage() {
   const model = replay ? (replay.areas.find((a) => a.key === selected) ?? replay.areas[0]!) : null;
   const hero = replay ? (replay.areas.find((a) => a.key === HERO_AREA) ?? replay.areas[0]!) : null;
   const forced = apiStore.use().forced;
+  const ci = useCi();
 
   return (
     <div className="tp-page pb-8">
@@ -77,7 +79,7 @@ export default function TrustPage() {
             </p>
           </div>
           <div className="hero-rise" style={{ ['--i' as string]: 3 }}>
-            {hero ? <HeroMeter m={hero} policy={policy} play={!reduced} /> : view.state === 'loading' ? <div className="skeleton h-[212px] w-full" /> : null}
+            {hero ? <HeroMeter m={hero} policy={policy} play={!reduced} ci={ci?.areas[hero.key] ?? null} n={ci?.seeds_per_area ?? 0} /> : view.state === 'loading' ? <div className="skeleton h-[212px] w-full" /> : null}
           </div>
         </div>
       </section>
@@ -141,11 +143,17 @@ export default function TrustPage() {
           </div>
 
           {replay ? (
-            <div className="mt-10">
+            <div className="mt-6">
+              <CiPanel selected={model?.key ?? selected} />
+            </div>
+          ) : null}
+
+          {replay ? (
+            <div className="mt-14">
               <h3 className="t-head max-w-[24ch]">{t('tp.areas.title')}</h3>
               <p className="mt-2 max-w-[56ch] text-ink-2">{t('tp.areas.lead')}</p>
               <div className="mt-6">
-                <AreaCards areas={replay.areas} policy={policy} selected={model?.key ?? selected} onSelect={setSelected} />
+                <AreaCards areas={replay.areas} policy={policy} selected={model?.key ?? selected} onSelect={setSelected} ci={ci} />
               </div>
               <p className="mt-5 max-w-[80ch] text-[0.82rem] text-ink-3">{t('tp.replay.credit', { backbone: replay.backbone === 'bioclip2' ? 'BioCLIP 2' : replay.backbone })}</p>
             </div>
@@ -195,7 +203,7 @@ export default function TrustPage() {
             </div>
             <p className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-[0.85rem]">
               <span className="text-ink-3">{t('tp.sources')}</span>
-              {['ml/vision/MODEL_CARD.md', 'ml/vision/artifacts/area_trust_replay.json', 'ml/vision/artifacts/earned_trust_sim_v2_strict.json', 'rules/policy/photo-trust.yaml'].map((f) => (
+              {['ml/vision/MODEL_CARD.md', 'ml/vision/artifacts/area_trust_replay.json', 'ml/vision/artifacts/earned_trust_sim_v2_strict.json', 'ml/vision/artifacts/earned_trust_ci.json', 'rules/policy/photo-trust.yaml'].map((f) => (
                 <a key={f} className="link mono text-[0.8rem]" href={blob(f)} target="_blank" rel="noreferrer">
                   {f}
                 </a>
@@ -214,7 +222,7 @@ export default function TrustPage() {
 }
 
 /** The idea as an instrument: the real Savar replay's bound climbing through the bar, and the gate popping open. */
-function HeroMeter({ m, policy, play }: { m: ReplayModel; policy: Policy; play: boolean }) {
+function HeroMeter({ m, policy, play, ci, n }: { m: ReplayModel; policy: Policy; play: boolean; ci: CiArea | null; n: number }) {
   const { t, lang } = useI18n();
   const two = (n: number) => fmtNum(n, lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const end = useMemo(() => [...m.points].reverse().find((p) => p.lb !== null)?.lb ?? null, [m]);
@@ -253,6 +261,14 @@ function HeroMeter({ m, policy, play }: { m: ReplayModel; policy: Policy; play: 
         <span className="absolute right-0">{two(1)}</span>
       </div>
       <p className={`m-0 mt-4 font-semibold ${open ? 'text-go' : 'text-ink-2'}`}>{open ? t('tp.hero.open', { n: fmtNum(m.openAt!, lang) }) : t('tp.hero.never')}</p>
+      {ci && ci.answers_to_open[1] !== null && ci.answers_to_open[0] !== null && ci.answers_to_open[2] !== null ? (
+        <p className="tp-hero-ci m-0 mt-1.5 text-[0.85rem] text-ink-2" data-testid="hero-ci">
+          {t('tp.hero.ci', { n: fmtNum(n, lang), med: fmtNum(ci.answers_to_open[1], lang), lo: fmtNum(ci.answers_to_open[0], lang), hi: fmtNum(ci.answers_to_open[2], lang) })}{' '}
+          <a className="link" href="#tp-ci-h">
+            {t('tp.hero.ciLink')}
+          </a>
+        </p>
+      ) : null}
     </figure>
   );
 }

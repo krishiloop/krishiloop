@@ -1,16 +1,19 @@
 // this page's words (English loads per screen)
 import '../../lib/i18n/strings.proof';
-import type { ReactNode } from 'react';
+import { lazy, Suspense, type ReactNode } from 'react';
 import { CircleCheck, CircleDashed, CircleDot, ExternalLink } from 'lucide-react';
 import { ExternalButton } from '../../ui/Button';
 import { RollNumber } from '../../ui/RollNumber';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { Architecture } from './Architecture';
-import { EvalTiles } from './EvalTiles';
+import { EvalTiles, NewTiles } from './EvalTiles';
 import { CheckYourself } from './CheckYourself';
-import { ACTIONS_URL, MCP_DOC, MCP_SERVERS, MCP_TESTS, PROMPT_LIBRARY, READ_THE_CODE, REGISTER, STANDARDS, TESTS, type StandardState } from './sources';
+import { REPRO, ACTIONS_URL, MCP_DOC, MCP_SERVERS, MCP_TESTS, PROMPT_LIBRARY, READ_THE_CODE, REGISTER, STANDARDS, TESTS, type StandardState } from './sources';
 import './proof.css';
+
+// the terminal sits below the fold: its own chunk, so the first visit does not pay for it
+const Terminal = lazy(() => import('../../ui/kit/Terminal').then((m) => ({ default: m.Terminal })));
 
 const SECTIONS = ['architecture', 'check', 'evaluations', 'standards', 'mcp', 'tests', 'data', 'prompts'] as const;
 type SectionId = (typeof SECTIONS)[number];
@@ -55,13 +58,33 @@ export default function ProofPage() {
       </Section>
 
       <Section id="check" title={t('proof.check.title')} lead={t('proof.check.lead')} tone="sunk">
-        <div className="paper p-5 sm:p-7">
-          <CheckYourself />
+        <div className="pf-check-grid">
+          <div className="paper p-5 sm:p-7">
+            <CheckYourself />
+          </div>
+          <Suspense fallback={<div className="skeleton h-[320px] rounded-[22px]" aria-hidden />}>
+            <Terminal
+            title={t('proof.term.title')}
+            copyLabel={t('proof.term.copy')}
+            copiedLabel={t('proof.term.copied')}
+            lines={REPRO.flatMap((r) => [{ cmd: r.cmd }, ...(r.out ? [{ out: t(`proof.term.${r.out}` as Key) }] : [])])}
+            />
+          </Suspense>
         </div>
       </Section>
 
       <Section id="evaluations" title={t('proof.eval.title')} lead={t('proof.eval.lead')}>
         <EvalTiles />
+        <div className="mt-14">
+          <p className="label m-0 flex items-center gap-2.5">
+            <span className="h-px w-8 bg-ink-3" aria-hidden />
+            {t('proof.new.eyebrow')}
+          </p>
+          <h3 className="t-head m-0 mt-4 max-w-[26ch]">{t('proof.new.title')}</h3>
+          <div className="mt-8">
+            <NewTiles />
+          </div>
+        </div>
       </Section>
 
       <Section id="standards" title={t('proof.std.title')} lead={t('proof.std.lead')} tone="sunk">

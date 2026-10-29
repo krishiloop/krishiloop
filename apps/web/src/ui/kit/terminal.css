@@ -1,0 +1,113 @@
+/* Terminal: a dark window in both themes (it is a terminal), hairline edge, mono type. */
+.term {
+  --term-bg: #0b0c0a;
+  --term-ink: #e6e4dc;
+  --term-dim: #9a998f;
+  --term-go: #b6e57a;
+  border: 1px solid color-mix(in oklab, var(--color-ink) 12%, transparent);
+  border-radius: var(--radius-frame);
+  background: var(--term-bg);
+  color: var(--term-ink);
+  overflow: hidden;
+  box-shadow: 0 30px 70px -44px rgb(0 0 0 / 0.9);
+}
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem 0.6rem 1rem;
+  border-bottom: 1px solid #23261f;
+}
+.term-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+.term-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #383c32;
+}
+.term-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--term-dim);
+}
+.term-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 32px;
+  padding: 0 0.7rem;
+  border: 1px solid #383c32;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--term-ink);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: border-color 160ms ease, transform 160ms var(--ease-out);
+}
+.term-copy:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .term-copy:hover {
+    border-color: var(--term-go);
+  }
+}
+@media (pointer: coarse) {
+  .term-copy {
+    min-height: 44px;
+  }
+}
+.term-body {
+  padding: 1rem 1.1rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.75;
+  overflow-x: auto;
+}
+.term-line {
+  display: flex;
+  gap: 0.6rem;
+  min-height: 1.75em;
+  white-space: pre;
+}
+.term-line.is-out {
+  padding-left: 1.2rem;
+  color: var(--term-dim);
+}
+.term-line.is-go {
+  color: var(--term-go);
+}
+.term-line.is-fresh {
+  animation: term-in 300ms var(--ease-out) both;
+}
+.term-prompt {
+  color: var(--term-go);
+  user-select: none;
+}
+.term-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  margin-top: 0.3em;
+  background: var(--term-go);
+  animation: term-blink 1s steps(1) infinite;
+}
+@keyframes term-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes term-blink {
+  50% {
+    opacity: 0;
+  }
+}

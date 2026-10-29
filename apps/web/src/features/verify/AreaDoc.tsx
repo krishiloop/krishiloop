@@ -7,6 +7,7 @@ import { LogoMark } from '../../ui/Logo';
 import { POLICY_V1 } from '../trust/policy';
 import { DocSection, Signature, Timeline } from './ReceiptDoc';
 import type { VerdictKind } from './VerdictStage';
+import type { LocalCheckState } from './localCheck';
 
 /** A 0..1 track with the bar marked: the lower bound fills it, the bar is a tick with its number. Transform only. */
 export function BoundMeter({ value, bar, className, label }: { value: number; bar: number; className?: string; label: string }) {
@@ -25,7 +26,7 @@ export function BoundMeter({ value, bar, className, label }: { value: number; ba
  * An AreaTrustCredential: what an area earned, signed when its gate opened. Rendered as its own document (a certificate),
  * then the signature and the timeline. The numbers are the signed ones, as they stood when the gate opened.
  */
-export function AreaDoc({ cred, area, kind, outcome, checkedAt }: { cred: Credential; area: AreaTrustSubject; kind: VerdictKind; outcome: VerifyOutcome | null; checkedAt: Date }) {
+export function AreaDoc({ cred, area, kind, outcome, checkedAt, local }: { cred: Credential; area: AreaTrustSubject; kind: VerdictKind; outcome: VerifyOutcome | null; checkedAt: Date; local?: LocalCheckState | null }) {
   const { t, lang } = useI18n();
   const n2 = (x: number | null) => (x == null ? '—' : fmtNum(x, lang, { minimumFractionDigits: 2, maximumFractionDigits: 3 }));
   const bar = POLICY_V1.openLb;
@@ -66,7 +67,7 @@ export function AreaDoc({ cred, area, kind, outcome, checkedAt }: { cred: Creden
       </div>
       <div className="vf-doc-body">
         <DocSection n="01" title={t('vf.sig.title')} testId="doc-signature">
-          <Signature cred={cred} statusList={outcome?.status_list} recorded={false} />
+          <Signature cred={cred} statusList={outcome?.status_list} recorded={false} local={local} />
         </DocSection>
         <DocSection n="02" title={t('vf.tl.title')} testId="doc-timeline">
           <Timeline cred={cred} receipt={null} kind={kind} outcome={outcome} recorded={false} checkedAt={checkedAt} />

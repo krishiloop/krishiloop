@@ -15,12 +15,14 @@ import { DecisionPictogram, KindIcon } from '../../ui/Pictogram';
 import { toneOfLight } from '../../ui/Chip';
 import { TONE_TEXT, TONE_TILE } from '../../ui/Receipt';
 import { useFarmer } from './farmerStore';
-import { logAsk, logError } from './inspector';
+import { logAsk, logError, setWorking } from './inspector';
 import { holdAsk } from './receipts';
 import { tick } from './checklist';
 import { readAloud, stopReading, STT_TAG, type ReadResult } from './voice';
 import { reasonText } from './words';
 import { Pipeline } from './Pipeline';
+import { Handoff } from './Handoff';
+import { ClickSpark } from '../../ui/kit/ClickSpark';
 import type { ReceiptRef } from './ReceiptSheet';
 
 type AskState =
@@ -37,6 +39,7 @@ async function ask(question: string, fieldId: string, profileId: string, lang: s
   const q = question.trim();
   if (!q) return;
   askStore.set({ phase: 'asking', question: q });
+  setWorking('ask');
   try {
     const outcome = await askQuestion(q, fieldId, profileId, lang);
     askStore.set({ phase: 'done', question: q, outcome });
@@ -50,6 +53,8 @@ async function ask(question: string, fieldId: string, profileId: string, lang: s
     const message = e instanceof HttpError ? `HTTP ${e.status}: ${e.message}` : e instanceof Error ? e.message : String(e);
     logError('POST /api/demo/‹sid›/ask', message);
     askStore.set({ phase: 'error', question: q, message });
+  } finally {
+    setWorking(null);
   }
 }
 
@@ -171,10 +176,12 @@ export function AskTab({ onOpenReceipt }: { onOpenReceipt: (r: ReceiptRef) => vo
               </div>
             </div>
           )}
-          <button type="button" className="fa-mic" data-listening={listening} aria-pressed={listening} onClick={() => startListening()} disabled={asking} data-testid="fa-mic">
-            {listening ? <Square size={30} aria-hidden /> : <Mic size={36} aria-hidden />}
-            <span className="sr-only-live">{listening ? t('fa.ask.micStop') : t('fa.ask.mic')}</span>
-          </button>
+          <ClickSpark>
+            <button type="button" className="fa-mic" data-listening={listening} aria-pressed={listening} onClick={() => startListening()} disabled={asking} data-testid="fa-mic">
+              {listening ? <Square size={30} aria-hidden /> : <Mic size={36} aria-hidden />}
+              <span className="sr-only-live">{listening ? t('fa.ask.micStop') : t('fa.ask.mic')}</span>
+            </button>
+          </ClickSpark>
           <p className="text-center text-sm text-ink-2" aria-live="polite">
             {listening ? t('fa.ask.listening') : voiceErr ? t(`fa.ask.err.${voiceErr === 'not-allowed' ? 'blocked' : voiceErr === 'no-speech' ? 'silent' : 'other'}`) : t('fa.ask.micHint', { lang: lang === 'bn' ? 'বাংলা' : lang === 'en' ? 'English' : lang.toUpperCase() })}
           </p>
@@ -202,9 +209,11 @@ export function AskTab({ onOpenReceipt }: { onOpenReceipt: (r: ReceiptRef) => vo
             enterKeyHint="send"
             data-testid="fa-ask-input"
           />
-          <button type="submit" className="btn btn-primary btn-icon fa-hit flex-none" disabled={!q.trim() || asking} aria-label={t('fa.ask.send')} data-testid="fa-ask-send">
-            <ArrowUp size={20} aria-hidden />
-          </button>
+          <ClickSpark className="flex-none">
+            <button type="submit" className="btn btn-primary btn-icon fa-hit" disabled={!q.trim() || asking} aria-label={t('fa.ask.send')} data-testid="fa-ask-send">
+              <ArrowUp size={20} aria-hidden />
+            </button>
+          </ClickSpark>
         </div>
       </form>
 
@@ -267,9 +276,9 @@ function Answer({ r, recorded, onOpenReceipt }: { r: AskResponse; recorded: bool
     const ab = r.abstention;
     return (
       <div className="grid gap-5">
-        <section className="panel overflow-hidden" data-testid="fa-ask-abstained">
+        <section className="fa-wait fa-arrive" data-testid="fa-ask-abstained">
           <div className="flex items-start gap-4 p-5">
-            <span className="grid size-14 flex-none place-items-center rounded-[12px] bg-sunk text-ink-2">
+            <span className="fa-wait-tile">
               <UserRound size={28} strokeWidth={1.7} aria-hidden />
             </span>
             <div className="min-w-0">
@@ -277,6 +286,7 @@ function Answer({ r, recorded, onOpenReceipt }: { r: AskResponse; recorded: bool
               <p className="mt-1.5 leading-snug">{reasonText(ab?.reason_code, t)}</p>
             </div>
           </div>
+          <Handoff />
           <dl className="m-0 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 border-t border-rule px-5 py-4 text-sm">
             {ab?.why && (
               <>
@@ -314,7 +324,7 @@ function Answer({ r, recorded, onOpenReceipt }: { r: AskResponse; recorded: bool
       <p className="text-sm text-ink-3">
         {t('fa.ask.youAsked')} <q lang={r.lang} className="text-ink-2">{r.question}</q>
       </p>
-      <section className="panel overflow-hidden" data-testid="fa-answer">
+      <section className="panel fa-arrive overflow-hidden" data-testid="fa-answer">
         <div className="flex items-start gap-4 p-5">
           <span className={cx('fa-pop grid size-[4.5rem] flex-none place-items-center rounded-[14px]', TONE_TILE[tone])} style={{ ['--pict-bg' as string]: `var(--color-${tone === 'neutral' ? 'sunk' : `${tone}-wash`})` }}>
             {action.decision ? <DecisionPictogram decision={action.decision} size={52} /> : <KindIcon kind={action.kind} size={30} />}

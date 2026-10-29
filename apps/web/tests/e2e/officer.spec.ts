@@ -102,7 +102,8 @@ test.describe('recorded console', () => {
     await dialog.getByRole('button', { name: 'Recall' }).click(); // no reason yet
     await expect(dialog).toContainText('Write a short reason first.');
     await dialog.getByRole('button', { name: 'Threshold under review' }).click();
-    await dialog.getByRole('button', { name: 'Recall' }).click();
+    // a recall is deliberate: press and hold (about 1.7 s) until the fill completes
+    await dialog.getByRole('button', { name: 'Recall' }).click({ delay: 2200 });
     await expect(dialog).toBeHidden();
     const result = page.getByTestId('recall-result');
     await expect(result).toBeVisible();
@@ -159,7 +160,15 @@ test.describe('recorded console', () => {
     await expect(page.getByTestId('receipt-wall')).toBeVisible();
     await axeOk(page);
     await page.getByTestId('recall-R-BDR-001@1').click();
-    await expect(page.getByRole('dialog')).toBeVisible();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    // the keyboard path: a short click does nothing, Enter arms the button, a second Enter would recall
+    await dialog.getByRole('button', { name: 'Source page changed' }).click();
+    const hold = dialog.getByTestId('recall-confirm');
+    await hold.click();
+    await expect(dialog).toBeVisible();
+    await hold.press('Enter');
+    await expect(hold).toHaveAccessibleName('Press again to recall');
     await axeOk(page);
   });
 });
@@ -338,7 +347,7 @@ test('live: plans -> recall -> Recalled -> the farmer plan abstains', async ({ p
   await page.getByTestId('recall-R-BDR-002@1').click();
   const dialog = page.getByRole('dialog', { name: 'Recall R-BDR-002 v1?' });
   await dialog.getByLabel(/Reason/).fill('e2e: threshold under review');
-  await dialog.getByRole('button', { name: 'Recall' }).click();
+  await dialog.getByRole('button', { name: 'Recall' }).click({ delay: 2200 });
   await expect(page.getByTestId('recall-result')).toBeVisible({ timeout: 30_000 });
   await expect(page.getByTestId('recall-line').locator('.sr-only-live')).toHaveText('2');
   await expect(page.locator('[data-testid=receipt-tile][data-state=recalled]')).toHaveCount(2);

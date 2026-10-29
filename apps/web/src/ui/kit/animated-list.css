@@ -1,0 +1,38 @@
+/* AnimatedList: transform + opacity only; the flash is an outline-less inset ring on a pseudo-element (opacity only). */
+.al-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.al-item {
+  position: relative;
+  animation: al-in 420ms var(--ease-out-quint) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+.al-item.is-new {
+  animation-duration: 520ms;
+}
+.al-item.is-new::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 2px 0 0 var(--color-sprout);
+  background: color-mix(in oklab, var(--color-sprout) 8%, transparent);
+  pointer-events: none;
+  animation: al-flash 1.6s var(--ease-out-quint) 200ms both;
+}
+@keyframes al-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+}
+@keyframes al-flash {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

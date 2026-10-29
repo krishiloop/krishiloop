@@ -1,0 +1,39 @@
+/* ClickSpark (kit/ClickSpark.tsx): eight short strokes leave the tap point and fade. Transform + opacity, 380 ms, once. */
+.spark-host {
+  position: relative;
+  display: inline-flex;
+}
+.spark-burst {
+  position: absolute;
+  z-index: 4;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.spark-burst > span {
+  position: absolute;
+  left: -1px;
+  top: -4px;
+  width: 2px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--spark, var(--color-sprout));
+  transform: rotate(var(--a)) translateY(-14px) scaleY(1);
+  opacity: 0;
+  animation: spark-out 380ms var(--ease-out) both;
+}
+@keyframes spark-out {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateY(-12px) scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-26px) scaleY(0.2);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spark-burst {
+    display: none;
+  }
+}

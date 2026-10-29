@@ -19,6 +19,7 @@ import { reasonText, todayISO } from './words';
 import { readAloud, stopReading, type ReadResult } from './voice';
 import type { ReceiptRef } from './ReceiptSheet';
 import type { TabId } from './TabBar';
+import { Handoff } from './Handoff';
 
 /**
  * Today: this week's one decision (pictogram, word, the rule's own sentence, the receipt one tap away), at most two other
@@ -66,7 +67,7 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
       ) : decision ? (
         <div className="grid gap-3">
           <h2 className="sr-only-live">{t('fa.today.title')}</h2>
-          <div key={plan.plan_id} className="fa-pop" data-testid="fa-decision">
+          <div key={plan.plan_id} className="fa-pop fa-arrive" data-testid="fa-decision">
             <DecisionCard action={decision} validTo={plan.valid_to} onOpenReceipt={() => open(decision)} />
           </div>
           <WhyThis action={decision} />
@@ -241,10 +242,10 @@ function Abstained({ plan, onTab }: { plan: Plan; onTab: (t: TabId) => void }) {
   const { t } = useI18n();
   const ab = plan.abstention!;
   return (
-    <section className="panel overflow-hidden" aria-labelledby="fa-abs-title" data-testid="fa-abstained">
+    <section className="fa-wait" aria-labelledby="fa-abs-title" data-testid="fa-abstained">
       <div className="flex items-start gap-4 p-5">
-        <span className="grid size-[4.5rem] flex-none place-items-center rounded-[14px] bg-sunk text-ink-2">
-          <UserRound size={34} strokeWidth={1.6} aria-hidden />
+        <span className="fa-wait-tile">
+          <UserRound size={32} strokeWidth={1.6} aria-hidden />
         </span>
         <div className="min-w-0">
           <h2 id="fa-abs-title" className="t-head">
@@ -253,6 +254,7 @@ function Abstained({ plan, onTab }: { plan: Plan; onTab: (t: TabId) => void }) {
           <p className="mt-1.5 text-[1.06rem] leading-snug">{t('fa.abs.sub')}</p>
         </div>
       </div>
+      <Handoff />
       <dl className="m-0 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 border-t border-rule px-5 py-4 text-sm">
         <dt className="eyebrow pt-[3px]">{t('fa.abs.why')}</dt>
         <dd className="m-0" data-testid="fa-abs-reason">

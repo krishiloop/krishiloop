@@ -46,11 +46,13 @@ const about = {
   'about.money.s3': 'Content owners',
   'about.money.s3.sub': 'commission a tested, signed pack of their own manuals',
   'about.money.note': 'Hypotheses we are testing with partners, not proven revenue.',
+  'about.money.hyp': 'Hypothesis',
 
   'about.time.eyebrow': 'The road so far',
   'about.time.title': 'From one question to a working loop.',
   'about.time.done': 'Done',
   'about.time.plan': 'Planned',
+  'about.time.now': 'Now',
   'about.t1.date': '25 Oct 2026',
   'about.t1': 'We asked four chatbots one rice question in Bangla. Three invented doses.',
   'about.t2.date': '27 Oct 2026',
@@ -69,9 +71,12 @@ const about = {
   'about.team.eyebrow': 'The team',
   'about.team.title': 'Five builders from Bangladesh.',
   'about.team.line': 'Built for the International AI Builders Congress 2026, AgriSphere AI track.',
+  'about.team.soonChip': 'Coming soon',
+  'about.team.soon': 'Names and roles come from the team itself. Nothing here is guessed.',
 
   'about.cta.title': 'Run a pilot with us.',
   'about.cta.line': 'We are looking for agriculture programmes that want advice their farmers, and their funders, can check.',
+  'about.cta.proof': 'See all the proof',
 } as const satisfies Record<string, string>;
 
 export default about;

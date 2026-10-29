@@ -14,6 +14,7 @@ import { POLICY_V1 } from '../trust/policy';
 import { judge, usePhotoCases } from './photoCases';
 import { AreaGauge } from './AreaGauge';
 import { useMedia, WIDE } from './useMedia';
+import { AnimatedList } from '../../ui/kit/AnimatedList';
 
 /** The labels the server's photo model chooses between (its `core` list). A label not here is shown humanised. */
 const LABELS = ['healthy', 'blast', 'brown_spot', 'tungro', 'sheath_blight'] as const;
@@ -79,13 +80,11 @@ export function PhotoPanel({ selectedId, onSelect, onClose }: { selectedId: stri
           {t('off.tab.photos')}
         </h2>
         <p className="m-0 text-sm text-ink-3">{t('off.photo.lead')}</p>
-        <ul className="off-grid mt-4" data-testid="photo-grid">
-          {cases.map((c, i) => (
-            <li key={c.case_id} className="off-in" style={{ ['--i' as string]: Math.min(i, 8) }}>
-              <PhotoCard c={c} active={c.case_id === activeId} onSelect={onSelect} />
-            </li>
+        <AnimatedList className="off-grid mt-4" testId="photo-grid">
+          {cases.map((c) => (
+            <PhotoCard key={c.case_id} c={c} active={c.case_id === activeId} onSelect={onSelect} />
           ))}
-        </ul>
+        </AnimatedList>
       </section>
       {wide ? (
         <section className="off-detail" aria-label={t('off.photo.detail')}>

@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Chip, type Tone } from '../../ui/Chip';
-import { RollNumber } from '../../ui/RollNumber';
+import { CountText } from '../../ui/kit/CountText';
+import { spotlight } from '../../ui/kit/hooks';
 import { useI18n, type Key, type Lang } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
-import { EVALS, type EvalTile, type EvalTone } from './sources';
+import { EVALS, NEW_EVALS, type EvalTile, type EvalTone } from './sources';
 
 const TONE: Record<EvalTone, Tone> = { bad: 'wait', synthetic: 'carbon', replay: 'carbon', measured: 'neutral' };
 
@@ -109,13 +110,13 @@ export function EvalTiles() {
   return (
     <div className="pf-tiles" data-testid="eval-tiles">
       {EVALS.map((tile, i) => (
-        <article key={tile.id} className="pf-tile" data-reveal style={{ ['--i' as string]: i }} data-testid={`eval-${tile.id}`}>
+        <article key={tile.id} className="pf-tile surface" data-reveal style={{ ['--i' as string]: i % 3 }} data-testid={`eval-${tile.id}`} {...spotlight()}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="eyebrow m-0">{t(`proof.eval.${tile.id}.kicker` as Key)}</h3>
             <Chip tone={TONE[tile.tone]}>{t(`proof.tone.${tile.tone}` as Key)}</Chip>
           </div>
           <div className="pf-num">
-            <RollNumber value={localDigits(tile.value, lang)} />
+            <CountText text={tile.value} localize={(v) => localDigits(v, lang)} />
           </div>
           <p className="m-0 font-semibold leading-snug">{t(`proof.eval.${tile.id}.what` as Key)}</p>
           {tile.bars ? <Bars tile={tile} /> : null}
@@ -134,6 +135,48 @@ export function EvalTiles() {
                 {t('proof.eval.more')} <ArrowRight size={13} aria-hidden />
               </Link>
             ) : null}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * The three results measured on 29 Oct (safety eval v1, Bangla speech, sovereign mode): the headline number, a two- or
+ * three-row comparison exactly as the report states it, the caveat, and the report. "Not final" where runs continue.
+ */
+export function NewTiles() {
+  const { t, lang } = useI18n();
+  return (
+    <div className="pf-new" data-testid="eval-new">
+      {NEW_EVALS.map((e, i) => (
+        <article key={e.id} className="pf-tile surface" data-reveal style={{ ['--i' as string]: i }} data-testid={`new-${e.id}`} {...spotlight()}>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="eyebrow m-0">{t(`proof.new.${e.id}.kicker` as Key)}</h3>
+            <span className="flex flex-wrap gap-1.5">
+              {e.partial ? <Chip tone="wait">{t('proof.new.partial')}</Chip> : null}
+              <Chip tone={TONE[e.tone]}>{t(`proof.tone.${e.tone}` as Key)}</Chip>
+            </span>
+          </div>
+          <div className="pf-num">
+            <CountText text={e.value} localize={(v) => localDigits(v, lang)} />
+          </div>
+          <p className="m-0 font-semibold leading-snug">{t(`proof.new.${e.id}.what` as Key)}</p>
+          <ul className="pf-cmp">
+            {e.compare.map((c) => (
+              <li key={c.key} data-strong={c.strong || undefined} data-bad={c.bad || undefined}>
+                <span>{t(`proof.new.${e.id}.${c.key}` as Key)}</span>
+                <i style={{ ['--v' as string]: c.width }} aria-hidden />
+                <b>{localDigits(c.text, lang)}</b>
+              </li>
+            ))}
+          </ul>
+          <p className="m-0 text-[0.9rem] text-ink-2">{t(`proof.new.${e.id}.caveat` as Key)}</p>
+          <div className="pf-src">
+            <a className="link" href={e.source.href} target="_blank" rel="noreferrer">
+              {e.source.path}
+            </a>
           </div>
         </article>
       ))}

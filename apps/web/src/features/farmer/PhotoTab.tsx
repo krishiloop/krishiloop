@@ -12,7 +12,7 @@ import type { PhotoCase } from '../../lib/api/types';
 import { meterView } from '../trust/gate';
 import { prepareJpeg } from './photo/downscale';
 import { currentField, loadPlan, useFarmer } from './farmerStore';
-import { logError, logPhoto } from './inspector';
+import { logError, logPhoto, setWorking } from './inspector';
 import { tick } from './checklist';
 import { areaOf, cropName, countryName, photoLabelName } from './words';
 import type { TabId } from './TabBar';
@@ -46,6 +46,7 @@ async function send(file: File, fieldId: string, consent: boolean) {
     return;
   }
   photoStore.set({ phase: 'reading', preview });
+  setWorking('photo');
   try {
     const c = await sendPhoto(fieldId, b64, consent);
     const area = await loadAreaStats(c.area).catch(() => null);
@@ -57,6 +58,8 @@ async function send(file: File, fieldId: string, consent: boolean) {
     const message = e instanceof Error ? e.message : String(e);
     logError('POST /api/demo/‹sid›/photo', message);
     photoStore.set({ phase: 'error', preview, kind, message });
+  } finally {
+    setWorking(null);
   }
 }
 

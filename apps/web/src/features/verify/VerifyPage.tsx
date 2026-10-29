@@ -3,26 +3,25 @@ import '../../lib/i18n/strings.verify';
 import '../../lib/i18n/strings.trust';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Check, FileJson, Link2, Printer, RotateCcw, ScanLine, X } from 'lucide-react';
-import { setForcedSample, verifyReceipt, type VerifyOutcome } from '../../lib/api/client';
+import { Check, ClipboardPaste, FileCheck2, FileJson, Link2, Printer, RotateCcw, ScanLine, X } from 'lucide-react';
+import { setForcedSample, type VerifyOutcome } from '../../lib/api/client';
 import { isSampleId } from '../../lib/api/mocks';
 import { RECORDED_AT } from '../../data/recorded';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, pickText, shortId } from '../../lib/format';
-import { useMotionReduced } from '../../lib/motionPref';
 import { verifyUrl } from '../../lib/qr';
 import { cx } from '../../lib/cx';
 import { Button, LinkButton } from '../../ui/Button';
 import { DataMark } from '../../ui/DataMark';
-import { Qr } from '../../ui/Qr';
 import { Stamp, type StampKind } from '../../ui/Stamp';
+import { spotlight } from '../../ui/kit/hooks';
 import { toast } from '../../ui/Toast';
-import { STORY } from '../story/storyData';
 import { ScannerSheet, scanSupport } from './Scanner';
 import { VerdictStage, useMeaning, verdictOf, type VerdictKind } from './VerdictStage';
+import { useCheckRun } from './CheckRun';
 import { ReceiptDoc } from './ReceiptDoc';
 import { AreaDoc } from './AreaDoc';
-import { clearChecks, downloadCredential, isAreaTrust, isReceipt, looksLikeReceipt, normalizeId, recentChecks, rememberCheck, verifyPath, type RecentStatus } from './verifyUtil';
+import { clearChecks, downloadCredential, isAreaTrust, isReceipt, looksLikeReceipt, normalizeId, recentChecks, verifyPath, type RecentStatus } from './verifyUtil';
 import './verify.css';
 
 /** /verify (paste, scan or try a recorded receipt) and /verify/:id (the verdict, then the receipt as a document). */
@@ -33,7 +32,26 @@ export default function VerifyPage() {
 }
 
 /* ================================================================== entry */
-const HERO_RECEIPT = STORY.calm.action.receipt_credential_id ?? '';
+/**
+ * The story's recorded "no spray needed" receipt, for "Try a recorded receipt". Loaded after the first paint: the story
+ * data is about 4.7 KB gzipped, too much to pull into this page's first visit for one id.
+ */
+let heroId = '';
+function useHeroReceipt() {
+  const [id, setId] = useState(heroId);
+  useEffect(() => {
+    if (heroId) return;
+    let alive = true;
+    void import('../story/storyData').then((m) => {
+      heroId = m.STORY.calm.action.receipt_credential_id ?? '';
+      if (alive) setId(heroId);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return id;
+}
 
 const LEGEND: { kind: StampKind; key: 'vf.legend.authentic' | 'vf.legend.recalled' | 'vf.legend.expired' | 'vf.legend.invalid' }[] = [
   { kind: 'authentic', key: 'vf.legend.authentic' },
@@ -44,11 +62,14 @@ const LEGEND: { kind: StampKind; key: 'vf.legend.authentic' | 'vf.legend.recalle
 
 function VerifyEntry() {
   const { t } = useI18n();
+  const HERO_RECEIPT = useHeroReceipt();
   const nav = useNavigate();
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
+  const [clipNote, setClipNote] = useState(false);
   const [canScan, setCanScan] = useState<boolean | null>(null);
   const [scanning, setScanning] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
   const closeScan = useCallback(() => setScanning(false), []);
 
   useEffect(() => {
@@ -59,6 +80,34 @@ function VerifyEntry() {
     };
   }, []);
 
+  const open = useCallback(
+    (text: string) => {
+      setValue(text);
+      setClipNote(false);
+      if (!looksLikeReceipt(text)) {
+        setError(true);
+        return false;
+      }
+      nav(verifyPath(normalizeId(text)));
+      return true;
+    },
+    [nav],
+  );
+
+  // a receipt link pasted anywhere on the page (not into a field) is checked at once
+  useEffect(() => {
+    const onPaste = (e: ClipboardEvent) => {
+      const el = document.activeElement;
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || (el instanceof HTMLElement && el.isContentEditable)) return;
+      const text = e.clipboardData?.getData('text') ?? '';
+      if (!text.trim()) return;
+      e.preventDefault();
+      if (!open(text)) input.current?.focus();
+    };
+    document.addEventListener('paste', onPaste);
+    return () => document.removeEventListener('paste', onPaste);
+  }, [open]);
+
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!looksLikeReceipt(value)) {
@@ -68,30 +117,55 @@ function VerifyEntry() {
     nav(verifyPath(normalizeId(value)));
   };
 
-  return (
-    <div className="wrap pb-20 pt-10 sm:pt-16">
-      <div className="grid gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-20">
-        <div>
-          <p className="eyebrow hero-rise">{t('vf.entry.eyebrow')}</p>
-          <h1 className="t-title hero-rise mt-4 max-w-[13ch]" style={{ ['--i' as string]: 1 }}>
-            {t('vf.entry.title')}
-          </h1>
-          <p className="t-lead hero-rise mt-5 max-w-[44ch]" style={{ ['--i' as string]: 2 }}>
-            {t('vf.entry.lead')}
-          </p>
+  // "Paste a link": read the clipboard when the browser allows it; otherwise put the cursor in the box
+  const paste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text.trim()) {
+        if (!open(text)) input.current?.focus();
+        return;
+      }
+    } catch {
+      /* permission refused or no clipboard API: fall through */
+    }
+    setClipNote(true);
+    input.current?.focus();
+  };
 
-          <form className="hero-rise mt-9" style={{ ['--i' as string]: 3 }} onSubmit={submit} noValidate>
-            <label htmlFor="vf-id" className="eyebrow">
+  return (
+    <div className="wrap pb-20 pt-10 sm:pt-14">
+      <header className="max-w-3xl">
+        <p className="label hero-rise flex items-center gap-2.5">
+          <span className="h-px w-8 bg-ink-3" aria-hidden />
+          {t('vf.entry.eyebrow')}
+        </p>
+        <h1 className="t-title hero-rise mt-5" style={{ ['--i' as string]: 1 }}>
+          {t('vf.entry.title')}
+        </h1>
+        <p className="t-lead hero-rise mt-4 max-w-[46ch]" style={{ ['--i' as string]: 2 }}>
+          {t('vf.entry.lead')}
+        </p>
+      </header>
+
+      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.65fr)] lg:items-start lg:gap-14">
+        <section className="vf-zone surface hero-rise" style={{ ['--i' as string]: 3 }} aria-labelledby="vf-zone-h" {...spotlight()}>
+          <h2 id="vf-zone-h" className="sr-only">
+            {t('vf.zone.title')}
+          </h2>
+          <form onSubmit={submit} noValidate>
+            <label htmlFor="vf-id" className="label">
               {t('vf.entry.label')}
             </label>
-            <div className="mt-2.5 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
               <input
+                ref={input}
                 id="vf-id"
                 className="vf-input"
                 value={value}
                 onChange={(e) => {
                   setValue(e.target.value);
                   setError(false);
+                  setClipNote(false);
                 }}
                 placeholder={t('vf.entry.placeholder')}
                 autoComplete="off"
@@ -99,7 +173,7 @@ function VerifyEntry() {
                 spellCheck={false}
                 inputMode="url"
                 aria-invalid={error || undefined}
-                aria-describedby={error ? 'vf-id-err' : undefined}
+                aria-describedby={error ? 'vf-id-err' : clipNote ? 'vf-id-clip' : undefined}
                 data-testid="vf-input"
               />
               <Button type="submit" variant="primary" size="lg" className="sm:min-w-[9.5rem]" data-testid="vf-check" arrow>
@@ -111,33 +185,73 @@ function VerifyEntry() {
                 {t('vf.entry.bad')}
               </p>
             )}
+            {clipNote && !error && (
+              <p id="vf-id-clip" className="mt-2.5 text-sm text-ink-2">
+                {t('vf.zone.noClip')}
+              </p>
+            )}
           </form>
 
-          <div className="hero-rise mt-6 flex min-h-11 flex-wrap items-center gap-x-4 gap-y-3" style={{ ['--i' as string]: 4 }}>
-            {canScan === true && (
-              <Button variant="secondary" onClick={() => setScanning(true)} data-testid="vf-scan">
-                <ScanLine size={18} aria-hidden />
-                {t('vf.entry.scan')}
-              </Button>
+          <div className="vf-ways">
+            {canScan === true ? (
+              <button type="button" className="vf-way press" onClick={() => setScanning(true)} data-testid="vf-scan">
+                <ScanLine size={22} aria-hidden />
+                <span>
+                  <span className="vf-way-t">{t('vf.entry.scan')}</span>
+                  <span className="vf-way-s">{t('vf.zone.scanSub')}</span>
+                </span>
+              </button>
+            ) : canScan === false ? (
+              <div className="vf-way" data-off="">
+                <ScanLine size={22} aria-hidden />
+                <span>
+                  <span className="vf-way-t">{t('vf.zone.scanOff')}</span>
+                  <span className="vf-way-s" data-testid="vf-noscan">
+                    {t('vf.entry.noScan')}
+                  </span>
+                </span>
+              </div>
+            ) : (
+              <div className="vf-way skeleton" aria-hidden />
             )}
-            {HERO_RECEIPT && (
-              <span className="inline-flex flex-wrap items-center gap-2">
-                <LinkButton to={verifyPath(HERO_RECEIPT)} variant="ghost" className="-ml-3 sm:ml-0" data-testid="vf-try" arrow>
-                  {t('vf.entry.try')}
-                </LinkButton>
-                <DataMark kind="recorded" date={RECORDED_AT} />
+            <button type="button" className="vf-way press" onClick={() => void paste()} data-testid="vf-paste">
+              <ClipboardPaste size={22} aria-hidden />
+              <span>
+                <span className="vf-way-t">{t('vf.zone.paste')}</span>
+                <span className="vf-way-s">{t('vf.zone.pasteSub')}</span>
               </span>
+            </button>
+            {!HERO_RECEIPT ? (
+              <div className="vf-way skeleton" aria-hidden />
+            ) : (
+              <Link to={verifyPath(HERO_RECEIPT)} className="vf-way press" data-testid="vf-try">
+                <FileCheck2 size={22} aria-hidden />
+                <span>
+                  <span className="vf-way-t">{t('vf.entry.try')}</span>
+                  <span className="vf-way-s">
+                    <DataMark kind="recorded" date={RECORDED_AT} />
+                  </span>
+                </span>
+              </Link>
             )}
           </div>
-          {canScan === false && (
-            <p className="mt-3 max-w-[52ch] text-sm text-ink-3" data-testid="vf-noscan">
-              {t('vf.entry.noScan')}
-            </p>
-          )}
-        </div>
 
-        <aside aria-labelledby="vf-legend-h" data-testid="vf-legend">
-          <h2 id="vf-legend-h" className="eyebrow">
+          <div className="vf-what">
+            <p className="label" id="vf-chain-h">
+              {t('vf.zone.steps')}
+            </p>
+            <ol className="vf-chain" aria-labelledby="vf-chain-h">
+              {CHAIN.map((k, i) => (
+                <li key={k} style={{ ['--i' as string]: i }}>
+                  {t(k)}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <aside aria-labelledby="vf-legend-h" data-testid="vf-legend" className="hero-rise" style={{ ['--i' as string]: 4 }}>
+          <h2 id="vf-legend-h" className="label">
             {t('vf.legend.title')}
           </h2>
           <ul className="vf-legend">
@@ -156,6 +270,9 @@ function VerifyEntry() {
     </div>
   );
 }
+
+/** What a check does, in the order it runs (CheckRun.tsx): the chain, shown before anything is checked. */
+const CHAIN = ['vf.run.fetch', 'vf.run.issuer', 'vf.run.canon', 'vf.run.hash', 'vf.run.sig', 'vf.run.status'] as const;
 
 const RECENT_STAMP: Record<RecentStatus, StampKind> = { authentic: 'authentic', recalled: 'recalled', invalid: 'invalid', expired: 'expired' };
 
@@ -202,62 +319,11 @@ function Recent() {
 }
 
 /* ================================================================== result */
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const STEPS = ['vf.step.fetch', 'vf.step.sig', 'vf.step.status'] as const;
-
 function VerifyResult({ id }: { id: string }) {
   const { t } = useI18n();
-  const reduced = useMotionReduced();
-  const reducedRef = useRef(reduced);
-  reducedRef.current = reduced;
   const [nonce, setNonce] = useState(0);
-  const [phase, setPhase] = useState<'checking' | 'done'>('checking');
-  const [outcome, setOutcome] = useState<VerifyOutcome | null>(null);
-  const [failed, setFailed] = useState(false);
-  const [step, setStep] = useState(0);
-  const [checkedAt, setCheckedAt] = useState(() => new Date());
-
-  useEffect(() => {
-    let alive = true;
-    setPhase('checking');
-    setStep(0);
-    // one beam sweep (760 ms), so the verdict still lands within about a second of the scan
-    const minMs = reducedRef.current ? 0 : nonce ? 520 : 760;
-    const t0 = performance.now();
-    const timers = reducedRef.current ? [] : [1, 2].map((i) => window.setTimeout(() => alive && setStep(i), (i * minMs) / 3));
-    void (async () => {
-      let o: VerifyOutcome | null = null;
-      let bad = false;
-      try {
-        o = await verifyReceipt(id); // one call: GET /api/verify/{id}; only its `credential` is rendered
-      } catch {
-        bad = true;
-      }
-      await sleep(Math.max(0, minMs - (performance.now() - t0)));
-      if (!alive) return;
-      const at = new Date();
-      setOutcome(o);
-      setFailed(bad);
-      setCheckedAt(at);
-      setStep(3);
-      setPhase('done');
-      if (o && o.status !== 'unreachable') {
-        const cred = o.credential;
-        rememberCheck({
-          id,
-          status: o.status === 'authentic' && o.expired ? 'expired' : o.status,
-          title: isReceipt(cred) ? (cred.credentialSubject.advice?.title ?? null) : null,
-          kind: isReceipt(cred) ? 'receipt' : isAreaTrust(cred) ? 'area' : 'other',
-          at: at.toISOString(),
-          recorded: o.source === 'sample',
-        });
-      }
-    })();
-    return () => {
-      alive = false;
-      timers.forEach((x) => window.clearTimeout(x));
-    };
-  }, [id, nonce]);
+  const { steps, result } = useCheckRun(id, nonce);
+  const { phase, outcome, failed, checkedAt, local } = result;
 
   const kind: VerdictKind = verdictOf(outcome, failed);
   const cred = outcome?.credential ?? null;
@@ -265,85 +331,48 @@ function VerifyResult({ id }: { id: string }) {
   const area = isAreaTrust(cred) ? cred.credentialSubject : null;
   const recorded = outcome?.source === 'sample' || (isSampleId(id) && kind !== 'unreachable');
   const meaning = useMeaning(kind, receipt, area, outcome);
+  const done = phase === 'done';
 
   return (
     <>
       <p className="sr-only-live" role="status" aria-live="polite">
-        {phase === 'done' ? `${kind === 'unreachable' ? '' : `${t(`ui.stamp.${kind}`)}. `}${meaning.line}` : t('vf.checking.title')}
+        {done ? `${kind === 'unreachable' ? '' : `${t(`ui.stamp.${kind}`)}. `}${meaning.line}` : t('vf.checking.title')}
       </p>
-      {phase === 'checking' ? (
-        <Checking id={id} step={step} />
+      <VerdictStage
+        phase={phase}
+        steps={steps}
+        kind={kind}
+        id={id}
+        receipt={receipt}
+        area={area}
+        outcome={outcome}
+        recorded={recorded}
+        checkedAt={checkedAt}
+        landKey={nonce}
+        onUseLive={() => {
+          setForcedSample(false);
+          setNonce((n) => n + 1);
+        }}
+        actions={<Actions id={id} cred={cred} onAgain={() => setNonce((n) => n + 1)} />}
+      />
+      {!done ? (
+        // the document's place, held while the verdict comes (no jump when it arrives)
+        <div className="wrap vf-doc" aria-hidden>
+          <div className="skeleton h-[min(560px,70vh)]" />
+          <div className="grid content-start gap-4">
+            <div className="skeleton h-8 w-40" />
+            <div className="skeleton h-28" />
+            <div className="skeleton h-8 w-32" />
+            <div className="skeleton h-40" />
+          </div>
+        </div>
+      ) : cred && receipt ? (
+        <ReceiptDoc cred={cred} receipt={receipt} kind={kind} outcome={outcome} recorded={recorded} checkedAt={checkedAt} local={local} />
+      ) : cred && area ? (
+        <AreaDoc cred={cred} area={area} kind={kind} outcome={outcome} checkedAt={checkedAt} local={local} />
       ) : (
-        <>
-          <VerdictStage
-            kind={kind}
-            id={id}
-            receipt={receipt}
-            area={area}
-            outcome={outcome}
-            recorded={recorded}
-            checkedAt={checkedAt}
-            landKey={nonce}
-            onUseLive={() => {
-              setForcedSample(false);
-              setNonce((n) => n + 1);
-            }}
-            actions={<Actions id={id} cred={cred} onAgain={() => setNonce((n) => n + 1)} />}
-          />
-          {cred && receipt ? (
-            <ReceiptDoc cred={cred} receipt={receipt} kind={kind} outcome={outcome} recorded={recorded} checkedAt={checkedAt} />
-          ) : cred && area ? (
-            <AreaDoc cred={cred} area={area} kind={kind} outcome={outcome} checkedAt={checkedAt} />
-          ) : (
-            <NoDocument id={id} outcome={outcome} />
-          )}
-        </>
+        <NoDocument id={id} outcome={outcome} />
       )}
-    </>
-  );
-}
-
-/** The short check: this receipt's own QR under a scan beam, and the three things the verifier really does. */
-function Checking({ id, step }: { id: string; step: number }) {
-  const { t } = useI18n();
-  return (
-    <>
-      <section className="vf-stage" data-kind="checking" aria-busy="true" data-testid="checking" aria-labelledby="vf-checking-h">
-        <div className="wrap vf-stage-grid">
-          <div className="vf-stamp-slot">
-            <div className="vf-scan">
-              <Qr value={verifyUrl(id)} size={136} label={t('vf.checking.qr')} />
-              <span className="vf-beam" aria-hidden />
-            </div>
-          </div>
-          <div className="vf-stage-copy">
-            <p className="eyebrow">№ …{shortId(id, 10)}</p>
-            <h1 id="vf-checking-h" className="vf-meaning">
-              {t('vf.checking.title')}
-            </h1>
-            <ol className="vf-steps">
-              {STEPS.map((s, i) => (
-                <li key={s} data-state={step > i ? 'done' : step === i ? 'active' : 'idle'}>
-                  <span className="vf-step-tick" aria-hidden>
-                    {step > i && <Check size={13} strokeWidth={3} />}
-                  </span>
-                  {t(s)}
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </section>
-      {/* the document's place, held while the verdict comes (no jump when it arrives) */}
-      <div className="wrap vf-doc" aria-hidden>
-        <div className="skeleton h-[min(560px,70vh)]" />
-        <div className="grid content-start gap-4">
-          <div className="skeleton h-8 w-40" />
-          <div className="skeleton h-28" />
-          <div className="skeleton h-8 w-32" />
-          <div className="skeleton h-40" />
-        </div>
-      </div>
     </>
   );
 }
@@ -388,6 +417,7 @@ function Actions({ id, cred, onAgain }: { id: string; cred: VerifyOutcome['crede
 /** Cannot verify, or the verifier was not reachable: what was checked and what to do next. */
 function NoDocument({ id, outcome }: { id: string; outcome: VerifyOutcome | null }) {
   const { t } = useI18n();
+  const HERO_RECEIPT = useHeroReceipt();
   const reason = outcome?.reason ?? '';
   return (
     <div className="wrap grid gap-6 py-12 sm:py-16 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-14" data-testid="no-doc">

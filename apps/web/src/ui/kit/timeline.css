@@ -1,0 +1,176 @@
+/* Timeline: date | rail | body. The solid rail and the sprout trace stop at "now"; below it the rail is dashed. */
+.tl {
+  --rail-x: 0.95rem;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .tl {
+    --rail-x: 10.75rem;
+  }
+}
+.tl-rail,
+.tl-solid {
+  position: absolute;
+  top: 0.4rem;
+  left: calc(var(--rail-x) - 1px);
+  width: 2px;
+  pointer-events: none;
+}
+.tl-rail {
+  bottom: 0.4rem;
+  background: repeating-linear-gradient(to bottom, var(--color-rule-2) 0 5px, transparent 5px 10px);
+}
+.tl-solid {
+  background: var(--color-rule-2);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.tl-trace {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--color-sprout) 18%, var(--color-sprout));
+  transform-origin: top;
+  transform: scaleY(0);
+}
+[data-theme="light"] .tl-trace {
+  background: linear-gradient(to bottom, transparent, var(--color-go) 18%, var(--color-go));
+}
+.tl-list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tl-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(var(--rail-x) * 2) minmax(0, 1fr);
+  grid-template-areas: "dot date" "dot body";
+  column-gap: 0.75rem;
+  padding-bottom: 2.6rem;
+}
+.tl-item:last-child {
+  padding-bottom: 0;
+}
+@media (min-width: 768px) {
+  .tl-item {
+    grid-template-columns: calc(var(--rail-x) - 1.4rem) 2.8rem minmax(0, 1fr);
+    grid-template-areas: "date dot body";
+    column-gap: 0;
+    padding-bottom: 3.4rem;
+  }
+}
+.tl-dot {
+  grid-area: dot;
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.15rem;
+  border-radius: 999px;
+  background: var(--color-paper);
+}
+@media (min-width: 768px) {
+  .tl-dot {
+    justify-self: start;
+    margin-left: 0.7rem;
+  }
+}
+.tl-item.is-done .tl-dot {
+  border: 2px solid var(--color-sprout);
+}
+[data-theme="light"] .tl-item.is-done .tl-dot {
+  border-color: var(--color-go);
+}
+.tl-item.is-done .tl-dot > span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--color-sprout);
+}
+[data-theme="light"] .tl-item.is-done .tl-dot > span {
+  background: var(--color-go);
+}
+.tl-item.is-planned .tl-dot {
+  color: var(--color-ink-3);
+}
+.tl-date {
+  grid-area: date;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-3);
+}
+@media (min-width: 768px) {
+  .tl-date {
+    position: sticky;
+    top: calc(var(--header-h, 72px) + 28px);
+    align-self: start;
+    padding-top: 0.05rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1.15rem, 0.9rem + 0.7vw, 1.6rem);
+    font-weight: 560;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--color-ink-2);
+  }
+  .tl-item.is-done .tl-date {
+    color: var(--color-ink);
+  }
+}
+.tl-body {
+  grid-area: body;
+  margin-top: 0.5rem;
+}
+@media (min-width: 768px) {
+  .tl-body {
+    margin-top: 0;
+  }
+}
+.tl-text {
+  margin-top: 0.7rem;
+  max-width: 46ch;
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+.tl-item.is-planned .tl-text {
+  color: var(--color-ink-2);
+}
+.tl-chip-plan {
+  border-style: dashed;
+}
+.tl-now {
+  position: absolute;
+  top: -1.75rem;
+  left: calc(var(--rail-x) + 0.9rem);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+.tl-now::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.35rem);
+  width: 0.7rem;
+  height: 1px;
+  background: var(--color-ink-3);
+}
+@media (min-width: 768px) {
+  .tl-now {
+    left: calc(var(--rail-x) + 1.1rem);
+  }
+}
+.tl-now:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+}

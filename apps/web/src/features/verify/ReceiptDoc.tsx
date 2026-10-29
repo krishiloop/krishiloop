@@ -168,10 +168,13 @@ function Confidence({ receipt }: { receipt: Receipt }) {
 }
 
 /* ------------------------------------------------------------------ the signature, and the check in this browser */
-export function Signature({ cred, statusList, recorded }: { cred: Credential; statusList?: string; recorded: boolean }) {
+/** `local`: the in-browser check the verdict stage already ran (src/features/verify/CheckRun.tsx); without it, it runs here. */
+export function Signature({ cred, statusList, recorded, local }: { cred: Credential; statusList?: string; recorded: boolean; local?: LocalCheckState | null }) {
   const { t, lang } = useI18n();
-  const [check, setCheck] = useState<LocalCheckState>({ state: 'checking' });
+  const [own, setCheck] = useState<LocalCheckState>({ state: 'checking' });
+  const check = local ?? own;
   useEffect(() => {
+    if (local) return;
     let alive = true;
     setCheck({ state: 'checking' });
     void (async () => {
@@ -182,7 +185,7 @@ export function Signature({ cred, statusList, recorded }: { cred: Credential; st
     return () => {
       alive = false;
     };
-  }, [cred, recorded]);
+  }, [cred, recorded, local]);
 
   // "unsupported": this browser has no WebCrypto Ed25519 here. That says nothing about the signature, so it is not shown as invalid.
   const cannot = check.state === 'done' && !check.result.ok && /^(unsupported|no-did-document)$/.test(check.result.reason);
@@ -292,7 +295,23 @@ export function Timeline({ cred, receipt, kind, outcome, recorded, checkedAt }: 
 }
 
 /* ------------------------------------------------------------------ the whole document */
-export function ReceiptDoc({ cred, receipt, kind, outcome, recorded, checkedAt }: { cred: Credential; receipt: Receipt; kind: VerdictKind; outcome: VerifyOutcome | null; recorded: boolean; checkedAt: Date }) {
+export function ReceiptDoc({
+  cred,
+  receipt,
+  kind,
+  outcome,
+  recorded,
+  checkedAt,
+  local,
+}: {
+  cred: Credential;
+  receipt: Receipt;
+  kind: VerdictKind;
+  outcome: VerifyOutcome | null;
+  recorded: boolean;
+  checkedAt: Date;
+  local?: LocalCheckState | null;
+}) {
   const { t } = useI18n();
   const ref = receipt.area_trust_ref;
   return (
@@ -325,7 +344,7 @@ export function ReceiptDoc({ cred, receipt, kind, outcome, recorded, checkedAt }
           <Confidence receipt={receipt} />
         </DocSection>
         <DocSection n="05" title={t('vf.sig.title')} testId="doc-signature">
-          <Signature cred={cred} statusList={outcome?.status_list} recorded={recorded} />
+          <Signature cred={cred} statusList={outcome?.status_list} recorded={recorded} local={local} />
         </DocSection>
         <DocSection n="06" title={t('vf.tl.title')} testId="doc-timeline">
           <Timeline cred={cred} receipt={receipt} kind={kind} outcome={outcome} recorded={recorded} checkedAt={checkedAt} />

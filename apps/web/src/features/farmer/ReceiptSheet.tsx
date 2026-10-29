@@ -14,7 +14,7 @@ import { DataMark } from '../../ui/DataMark';
 import type { StampKind } from '../../ui/Stamp';
 import { toast } from '../../ui/Toast';
 import { RECORDED_AT } from '../../data/recorded';
-import { logVerify } from './inspector';
+import { logVerify, setWorking } from './inspector';
 import { setStatus, statusOf } from './receipts';
 import { tick } from './checklist';
 import { readAloud, stopReading, type ReadResult } from './voice';
@@ -79,9 +79,11 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
     tick('receipt');
     if (!credentialId) return;
     let alive = true;
+    setWorking('verify');
     verifyReceipt(credentialId)
       .catch((e: unknown): VerifyOutcome => ({ status: 'unreachable', reason: e instanceof Error ? e.message : String(e), source: 'none' }))
       .then((r) => {
+        setWorking(null);
         if (!alive) return;
         setDelay(Math.max(0, PRINT_MS - (performance.now() - opened.current)));
         setVerdict(r);
@@ -90,6 +92,7 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
       });
     return () => {
       alive = false;
+      setWorking(null);
       stopReading();
     };
   }, [credentialId]);
@@ -179,6 +182,10 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
             stampDelay={delay}
             mark={mark}
           />
+          {/* the press: one ring of ink spreads from under the stamp as it lands (sprout for Authentic, ember for Recalled) */}
+          {(status === 'authentic' || status === 'recalled') && credentialId && (
+            <span key={status} className="fa-press" data-kind={status} style={{ animationDelay: `${delay + 240}ms` }} aria-hidden />
+          )}
         </div>
       </div>
 

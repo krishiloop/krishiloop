@@ -1,7 +1,6 @@
-/* The farmer app (/app). Tokens only (src/styles/index.css); motion is transform and opacity only (DESIGN.md).
-   Every animation here has a stated purpose next to it. Reduced motion keeps short fades and drops all travel.
-   Class names are prefixed fa- so nothing leaks. (The base element rules now sit in @layer base, so the .btn-*
-   primitives style buttons correctly and no button overrides are needed here.) */
+/* The farmer app (/app), "Field Night". Tokens only (src/styles/index.css); motion is transform and opacity only
+   (DESIGN.md), each animation with its purpose next to it. Reduced motion keeps short fades and drops all travel.
+   Class names are prefixed fa- so nothing leaks. This file is unlayered, so it wins over ui.css (components layer). */
 
 /* farmer app: every control is at least 48 px tall (DESIGN.md farmer-control-min) */
 .fa-stage .btn {
@@ -9,18 +8,19 @@
 }
 
 /* ================================================================ frame
-   Phones: one column (440 px at most), the page scrolls, the tabs stay at the bottom (thumb reach).
-   1024 px and up: a glass-box demo in three columns; the app sits in a quiet device frame and scrolls inside it. */
+   Phones: the app is the screen (480 px at most): its own header, the page scrolls, glass tabs stay at the bottom.
+   1024 px and up: the showpiece. Demo rail | the app inside a phone | behind the tap + inspector. */
 .fa-device {
+  position: relative;
   background-color: var(--color-paper);
   background-image: var(--paper-grain);
 }
 .fa-panel {
-  padding: 20px 16px 32px;
+  padding: 18px 16px 32px;
 }
 @media (max-width: 1023.98px) {
   .fa-device {
-    max-width: 440px;
+    max-width: 480px;
     min-height: 100dvh;
     margin-inline: auto;
   }
@@ -28,51 +28,158 @@
     position: fixed;
     inset: auto 0 0 0;
     z-index: 40;
-    max-width: 440px;
+    max-width: 480px;
     margin-inline: auto;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+    background: color-mix(in oklab, var(--color-paper) 82%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
   }
   .fa-scroll {
-    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 }
 @media (min-width: 1024px) {
   .fa-stage {
+    --phone-h: clamp(640px, calc(100dvh - var(--header-h) - 44px), 860px);
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(250px, 320px) minmax(380px, 420px) minmax(280px, 1fr);
-    gap: clamp(20px, 2.4vw, 40px);
-    align-items: stretch;
+    grid-template-columns: minmax(210px, 300px) auto minmax(250px, 380px);
+    justify-content: center;
+    align-items: start;
+    gap: clamp(20px, 3.2vw, 64px);
     max-width: 1480px;
-    height: calc(100dvh - var(--header-h));
-    min-height: 640px;
     margin-inline: auto;
-    padding: 18px clamp(16px, 3vw, 40px) 22px;
+    padding: 18px clamp(12px, 2vw, 40px) 30px;
   }
-  .fa-device {
+  .fa-phone-col {
+    position: relative;
+    z-index: 1;
+  }
+  .fa-iph {
+    --iph-w: 396px;
+    --iph-h: var(--phone-h);
+  }
+  .fa-stage[data-wide] .fa-device {
     display: flex;
+    flex: 1;
     flex-direction: column;
     min-height: 0;
-    overflow: hidden;
-    border: 1px solid var(--color-rule);
-    border-radius: var(--radius-frame);
-    box-shadow: var(--shadow-pop);
+    background: transparent;
   }
-  .fa-tabbar {
-    position: relative;
-  }
-  .fa-scroll {
+  .fa-stage[data-wide] .fa-scroll {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    scrollbar-width: thin;
+    scrollbar-width: none;
+  }
+  .fa-stage[data-wide] .fa-tabbar {
+    position: relative;
+    padding-bottom: 18px; /* the home bar */
+    border-top: 1px solid var(--color-rule);
+    background: var(--color-paper);
+  }
+  /* the screen dims while the receipt sheet is up inside it */
+  .fa-stage[data-wide] .fa-device::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: rgb(0 0 0 / 0.42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+  .fa-stage[data-wide] .fa-device[data-sheet]::after {
+    opacity: 1;
   }
   .fa-rail {
+    position: relative;
+    z-index: 1;
+    height: var(--phone-h);
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 6px 6px 24px 2px;
+    padding: 6px 6px 28px 2px;
     scrollbar-width: thin;
+  }
+  .fa-rail-r {
+    display: grid;
+    align-content: start;
+    gap: 22px;
+  }
+
+  /* the receipt sheet slides up INSIDE the phone's screen (it is a top-layer dialog: --scr-* place it on the screen) */
+  dialog.sheet.fa-sheet {
+    position: absolute;
+    inset: auto;
+    left: var(--scr-x, 50%);
+    top: calc(var(--scr-y, 0px) + 52px);
+    width: var(--scr-w, 376px);
+    max-width: none;
+    height: calc(var(--scr-h, 800px) - 52px);
+    max-height: none;
+    border: 0;
+    border-radius: 22px 22px 50px 50px;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    transform: none;
+  }
+  @starting-style {
+    dialog.sheet.fa-sheet[open] {
+      transform: none;
+    }
+  }
+  dialog.sheet.fa-sheet[open]::backdrop {
+    background: rgb(8 9 7 / 0.22);
+  }
+  dialog.sheet.fa-sheet > * {
+    background-color: var(--color-paper);
+    transform: translateY(var(--scr-h, 800px));
+    transition: transform 320ms var(--ease-drawer);
+  }
+  dialog.sheet.fa-sheet[open] > * {
+    transform: none;
+  }
+  @starting-style {
+    dialog.sheet.fa-sheet[open] > * {
+      transform: translateY(var(--scr-h, 800px));
+    }
+  }
+  dialog.sheet.fa-sheet > .sheet-grip {
+    display: none;
+  }
+  dialog.sheet.fa-sheet > header {
+    padding-top: 18px;
+    border-radius: 22px 22px 0 0;
+  }
+  /* the receipt inside the phone keeps its phone layout (its sm: classes follow the page, not the phone) */
+  dialog.sheet.fa-sheet .paper-object .paper {
+    padding-inline: 1.25rem;
+  }
+  dialog.sheet.fa-sheet .paper-object footer {
+    grid-template-columns: auto minmax(0, 1fr) 5.5rem;
+    gap: 0.75rem;
+  }
+  dialog.sheet.fa-sheet > div:last-child {
+    padding-inline: 12px;
+  }
+  dialog.sheet.fa-sheet [role="group"].grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  dialog.sheet.fa-sheet .paper-object > .stamp {
+    right: 0.75rem;
+    bottom: 3.1rem;
+    font-size: 1.05rem;
+  }
+  dialog.sheet.fa-sheet .fa-press {
+    right: 0.5rem;
+    bottom: 2.9rem;
+    width: 7.6rem;
+    height: 3.7rem;
   }
 }
 
@@ -81,6 +188,10 @@
   padding: 10px 16px 6px;
   background-color: var(--color-paper);
   border-bottom: 1px solid var(--color-rule);
+}
+.fa-stage[data-wide] .fa-head {
+  padding: 2px 14px 4px;
+  background: transparent;
 }
 .fa-hit {
   min-height: 48px;
@@ -94,17 +205,17 @@
   display: inline-flex;
   flex: none;
   gap: 2px;
-  padding: 1px;
+  padding: 2px;
   border: 1px solid var(--color-rule);
-  border-radius: 12px;
+  border-radius: 999px;
   background: var(--color-sunk);
 }
 .fa-langq button {
   min-height: 46px;
   min-width: 46px;
-  padding: 0 10px;
+  padding: 0 11px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 999px;
   background: transparent;
   color: var(--color-ink-2);
   font-weight: 600;
@@ -115,18 +226,17 @@
     color 160ms ease;
 }
 .fa-langq button[aria-pressed="true"] {
-  background: var(--color-card);
-  color: var(--color-ink);
-  box-shadow:
-    0 1px 0 rgb(27 26 22 / 0.06),
-    0 1px 3px rgb(27 26 22 / 0.12);
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 /* ================================================================ tabs
-   The indicator slides to the chosen tab: it tells where you went (260 ms, --ease-in-out: on-screen movement). */
+   A soft pill slides under the chosen tab: it says where you went (260 ms, --ease-in-out: on-screen movement).
+   A keyboard choice moves it without animation (DESIGN.md: nothing animates on keyboard actions). */
+/* (position and bottom padding: see the frame rules above, per layout) */
 .fa-tabbar {
-  background-color: var(--color-paper);
-  border-top: 1px solid var(--color-rule);
+  padding-top: 6px;
+  padding-inline: 8px;
 }
 .fa-tabs {
   position: relative;
@@ -134,13 +244,15 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .fa-tab {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  min-height: 64px;
-  padding: 6px 2px;
+  gap: 4px;
+  min-height: 62px;
+  padding: 4px 2px 6px;
   border: 0;
   background: transparent;
   color: var(--color-ink-3);
@@ -153,27 +265,32 @@
 }
 .fa-tab:lang(bn),
 .fa-tab:lang(hi) {
-  font-size: 0.86rem;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 .fa-tab[aria-selected="true"] {
   color: var(--color-ink);
   font-weight: 650;
 }
 .fa-tab > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 32px;
   transition: transform 140ms var(--ease-out);
 }
 .fa-tab:active > span:first-child {
   transform: scale(0.9);
 }
 .fa-tab:focus-visible {
-  outline-offset: -5px;
+  outline-offset: -4px;
 }
 .fa-tab-ind {
   position: absolute;
-  top: -1px;
-  left: 0;
-  width: 25%;
-  height: 3px;
+  top: 10px;
+  left: 8px;
+  width: calc((100% - 16px) / 4);
+  height: 32px;
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -181,29 +298,34 @@
 }
 .fa-tab-ind::before {
   content: "";
-  width: 40px;
-  height: 3px;
-  border-radius: 0 0 3px 3px;
-  background: var(--color-ink);
+  width: 58px;
+  height: 32px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-ink) 11%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent);
 }
 .fa-tabbar[data-input="key"] .fa-tab-ind {
   transition: none;
 }
 .fa-tab-badge {
   position: absolute;
-  top: -6px;
-  right: -11px;
+  top: -2px;
+  right: 2px;
   display: grid;
   place-items: center;
   min-width: 18px;
   height: 18px;
   padding: 0 4px;
   border-radius: 999px;
-  background: var(--color-stop);
-  color: var(--color-paper);
+  background: var(--color-ember);
+  color: #14130f;
   font-size: 0.68rem;
   font-weight: 700;
   line-height: 1;
+}
+[data-theme="light"] .fa-tab-badge {
+  background: var(--color-stop);
+  color: #fff;
 }
 
 /* ================================================================ shared bits */
@@ -651,7 +773,8 @@
   transition: border-color 160ms ease;
 }
 .fa-rc-row.is-recalled {
-  border-color: color-mix(in oklab, var(--color-stop) 45%, var(--color-rule));
+  border-color: color-mix(in oklab, var(--color-ember) 55%, var(--color-rule));
+  background: linear-gradient(90deg, var(--color-stop-wash), var(--color-card) 70%);
 }
 .fa-rc-open {
   display: flex;
@@ -667,7 +790,9 @@
   cursor: pointer;
 }
 .fa-rc-stamp {
-  font-size: 0.82rem !important;
+  margin-left: 2px;
+  font-size: 0.8rem !important;
+  transform-origin: left center;
 }
 .fa-rc-now {
   margin: 0;
@@ -679,6 +804,29 @@
 }
 
 /* ---- left rail */
+.fa-card {
+  padding: 16px 18px 12px;
+}
+.fa-card.surface {
+  border-radius: var(--radius-frame);
+}
+.fa-progress {
+  position: relative;
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-rule);
+}
+/* how much of "what to try" is done: the bar grows when a step is done (transform) */
+.fa-progress > span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-sprout);
+  transform-origin: left center;
+  transition: transform 500ms var(--ease-out);
+}
 .fa-pick {
   position: relative;
   display: flex;
@@ -689,7 +837,7 @@
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-ui);
   background: var(--color-card);
-  font-size: 0.94rem;
+  font-size: 0.92rem;
   cursor: pointer;
   transition: border-color 160ms ease;
 }
@@ -707,13 +855,18 @@
   transition: border-width 120ms ease;
 }
 .fa-pick[data-checked="true"] {
-  border-color: var(--color-ink);
+  border-color: color-mix(in oklab, var(--color-ink) 55%, transparent);
 }
 .fa-pick[data-checked="true"]::before {
   border: 5px solid var(--color-ink);
 }
+@media (hover: hover) and (pointer: fine) {
+  .fa-pick:hover {
+    border-color: var(--color-rule-2);
+  }
+}
 .fa-pick:has(.fa-pick-input:focus-visible) {
-  outline: 2px solid var(--color-ink);
+  outline: 2px solid var(--color-sprout);
   outline-offset: 2px;
 }
 .fa-pick-input {
@@ -728,20 +881,24 @@
   align-items: center;
   gap: 10px;
   min-height: 44px;
+  border-bottom: 1px solid var(--color-rule);
+}
+.fa-try:last-child {
+  border-bottom: 0;
 }
 .fa-try-tick {
   display: grid;
   flex: none;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border: 1.5px solid var(--color-rule-2);
   border-radius: 999px;
-  color: var(--color-paper);
+  color: var(--color-sprout-ink);
 }
 .fa-try[data-done="true"] .fa-try-tick {
-  border-color: var(--color-ink);
-  background: var(--color-ink);
+  border-color: var(--color-sprout);
+  background: var(--color-sprout);
 }
 /* a tick pops when the visitor has just done the thing (not when the rail first draws) */
 .fa-try[data-just="true"] .fa-try-tick {
@@ -756,22 +913,133 @@
   border: 0;
   background: none;
   color: var(--color-ink);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   text-align: left;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--color-ink) 30%, transparent);
-  text-underline-offset: 0.22em;
+  text-decoration: none;
   cursor: pointer;
+}
+.fa-try[data-done="true"] .fa-try-go {
+  color: var(--color-ink-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .fa-try-go:not([data-off]):hover {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-ink) 40%, transparent);
+    text-underline-offset: 0.22em;
+  }
 }
 .fa-try-go[data-off="true"] {
   color: var(--color-ink-3);
-  text-decoration: none;
   cursor: default;
 }
 
+/* ---- right rail: behind the tap */
+.fa-trace {
+  padding: 18px 18px 16px;
+}
+.fa-trace-list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: opacity 200ms ease;
+}
+.fa-trace[data-busy] .fa-trace-list {
+  opacity: 0.45;
+}
+.fa-trace-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 46px;
+  padding: 6px 0;
+}
+.fa-trace-dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px dashed var(--color-rule-2);
+  border-radius: 999px;
+  background: var(--color-card);
+  color: var(--color-ink-3);
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+.fa-trace-step[data-state="ok"] .fa-trace-dot {
+  border: 1px solid var(--color-sprout);
+  background: var(--color-sprout);
+  color: var(--color-sprout-ink);
+}
+.fa-trace-step[data-state="wait"] .fa-trace-dot {
+  border: 1px solid var(--color-wait);
+  background: var(--color-wait-wash);
+  color: var(--color-wait);
+}
+.fa-trace-step[data-state="stop"] .fa-trace-dot {
+  border: 1px solid var(--color-ember);
+  background: var(--color-stop-wash);
+  color: var(--color-stop);
+}
+.fa-trace-step[data-state="skip"] .fa-trace-dot {
+  border-style: dashed;
+  color: var(--color-ink-3);
+}
+/* a step lights: its dot settles in (the trace itself is the TracingBeam fill reaching it) */
+.fa-trace-step:not([data-state="idle"]) .fa-trace-dot {
+  animation: fa-dot 220ms var(--ease-out) both;
+}
+.fa-trace-k {
+  padding-top: 6px;
+  color: var(--color-ink);
+  font-size: 0.92rem;
+  font-weight: 560;
+  line-height: 1.2;
+}
+.fa-trace-step[data-state="idle"] .fa-trace-k {
+  color: var(--color-ink-3);
+}
+.fa-trace-s {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+.fa-trace-s:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.fa-trace-step[data-state="wait"] .fa-trace-s {
+  color: var(--color-wait);
+}
+.fa-trace-step[data-state="stop"] .fa-trace-s {
+  color: var(--color-stop);
+}
+.fa-trace-v {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  line-height: 1.4;
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+
 /* ---- right rail: the inspector */
+.fa-ins {
+  padding: 0 4px;
+}
 .fa-ins-entry {
-  padding-top: 10px;
+  padding: 10px 0;
   border-top: 1px solid var(--color-rule);
 }
 /* a new entry slides in at the top: it shows what just happened, newest first */
@@ -815,16 +1083,141 @@
 }
 
 /* ================================================================ signature moments */
-/* the decision pictogram pops in: this week's decision has arrived (stamp curve, once per plan) */
+/* an answer (or this week's decision) arrives: the card rises into place once (280 ms) */
+.fa-arrive {
+  animation: fa-rise 280ms var(--ease-out) both;
+}
+/* the decision pictogram pops in after it: this week's decision has arrived (stamp curve, once per plan) */
 .fa-pop svg[viewBox="0 0 64 64"] {
   transform-origin: 50% 60%;
-  animation: fa-pop 520ms var(--ease-stamp) 120ms both;
+  animation: fa-pop 520ms var(--ease-stamp) 140ms both;
 }
 /* lists arrive in order, 60 ms apart (DESIGN.md stagger) */
 .fa-stagger > * {
   animation: fa-rise 420ms var(--ease-out) both;
   animation-delay: calc(var(--i, 0) * 60ms);
 }
+
+/* "not sure" goes to the officer: a calm wait colour, never an error red */
+.fa-wait {
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--color-wait) 38%, var(--color-rule));
+  border-radius: var(--radius-frame);
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--color-wait-wash) 85%, transparent), transparent 70%),
+    var(--color-card);
+}
+.fa-wait-tile {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  border: 1.5px dashed color-mix(in oklab, var(--color-wait) 70%, transparent);
+  border-radius: 999px;
+  background: var(--color-wait-wash);
+  color: var(--color-wait);
+}
+.fa-handoff {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 20px 16px;
+  font-size: 0.8rem;
+  font-weight: 560;
+  color: var(--color-ink-2);
+}
+.fa-handoff-end {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+}
+.fa-handoff-ic {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-rule-2);
+  border-radius: 999px;
+  background: var(--color-card);
+  color: var(--color-ink-2);
+}
+.fa-handoff-end[data-officer] {
+  color: var(--color-wait);
+}
+.fa-handoff-end[data-officer] .fa-handoff-ic {
+  border-color: var(--color-wait);
+  background: var(--color-wait-wash);
+  color: var(--color-wait);
+  animation: fa-arrived 360ms var(--ease-stamp) 820ms both;
+}
+.fa-handoff-line {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: repeating-linear-gradient(90deg, var(--color-rule-2) 0 4px, transparent 4px 8px);
+}
+/* the case travels once from the farmer to the officer (a 100 % wide runner moves its right end across) */
+.fa-handoff-run {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  animation: fa-handoff 900ms var(--ease-in-out) 120ms both;
+}
+.fa-handoff-run::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-wait) 70%, transparent));
+}
+.fa-handoff-dot {
+  position: absolute;
+  top: -3px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-wait);
+}
+
+/* the stamp lands: one ring of ink spreads from under it (sprout for Authentic, ember for Recalled), once */
+.fa-press {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 2.9rem;
+  z-index: 3;
+  width: 7.6rem;
+  height: 3.7rem;
+  border: 2px solid var(--color-sprout);
+  border-radius: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(-7deg) scale(0.9);
+  animation: fa-press 560ms var(--ease-out) both;
+}
+@media (min-width: 640px) {
+  .fa-press {
+    right: 1rem;
+    bottom: 3rem;
+    width: 9.8rem;
+    height: 4.8rem;
+  }
+}
+.fa-press[data-kind="recalled"] {
+  border-color: var(--color-ember);
+}
+
+/* a held receipt is recalled while you look: the row flips over and comes back ember (2D: scaleY through the edge) */
+.fa-rc-row[data-flip] {
+  animation: fa-flip 560ms var(--ease-in-out) both;
+}
+.fa-rc-row[data-flip] .fa-rc-stamp {
+  animation-delay: 300ms;
+}
+
 /* rain bars grow from the ground once the strip is on screen: how much rain, day by day */
 .fa-wx:not(.is-in) li > span > span[style] {
   transform: scaleY(0) !important;
@@ -851,7 +1244,6 @@
   animation-delay: 360ms;
 }
 
-
 @keyframes fa-fade {
   from {
     opacity: 0;
@@ -860,7 +1252,7 @@
 @keyframes fa-rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
 }
 @keyframes fa-slide {
@@ -911,6 +1303,46 @@
     transform: scale(0.6);
   }
 }
+@keyframes fa-dot {
+  from {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+@keyframes fa-handoff {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes fa-arrived {
+  from {
+    transform: scale(0.86);
+  }
+}
+@keyframes fa-press {
+  0% {
+    opacity: 0.85;
+    transform: rotate(-7deg) scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-7deg) scale(1.35);
+  }
+}
+@keyframes fa-flip {
+  0% {
+    transform: scaleY(1);
+  }
+  45% {
+    transform: scaleY(0.04);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
 
 /* Reduced motion: no travel, no scale; short fades only (DESIGN.md). */
 @media (prefers-reduced-motion: reduce) {
@@ -918,7 +1350,11 @@
   .fa-pipe > li,
   .fa-ins-entry.is-new,
   .fa-sms,
+  .fa-arrive,
   .fa-pop svg[viewBox="0 0 64 64"],
+  .fa-trace-step .fa-trace-dot,
+  .fa-rc-row[data-flip],
+  .fa-handoff-end[data-officer] .fa-handoff-ic,
   .fa-wx.is-in li > span > span[style] {
     animation-name: fa-fade;
   }
@@ -929,8 +1365,13 @@
   }
   .fa-mic[data-listening="true"]::after,
   .fa-scan::before,
+  .fa-press,
   .fa-try[data-just="true"] .fa-try-tick {
     animation: none;
+  }
+  .fa-handoff-run {
+    animation: none;
+    transform: none;
   }
   .fa-scan::before {
     transform: none;
@@ -938,9 +1379,17 @@
   }
   .fa-tab-ind,
   .fa-meter-fill,
+  .fa-progress > span,
   .fa-switch-knob {
     transition-duration: 0ms;
   }
+}
+html.reduce-motion :is(.fa-handoff-run) {
+  animation: none;
+  transform: none;
+}
+html.reduce-motion :is(.fa-press, .spark-burst) {
+  display: none;
 }
 
 /* Print / Save as PDF: only the receipt (a clean copy rendered outside the dialog while printing). */

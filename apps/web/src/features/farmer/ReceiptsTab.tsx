@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, pickText, shortId } from '../../lib/format';
@@ -60,8 +60,19 @@ function Row({ item, info, onOpen }: { item: HeldReceipt; info: StatusInfo | und
   const rule = item.receipt.rule_refs[0];
   const s = info?.s ?? 'checking';
   const recalled = s === 'recalled';
+  // a receipt this visitor holds turns Recalled while they look: the row flips over to ember once (not on first draw)
+  const was = useRef(s);
+  const [flip, setFlip] = useState(false);
+  useEffect(() => {
+    const before = was.current;
+    was.current = s;
+    if (s !== 'recalled' || before === 'recalled') return;
+    setFlip(true);
+    const id = window.setTimeout(() => setFlip(false), 900);
+    return () => window.clearTimeout(id);
+  }, [s]);
   return (
-    <div className={cx('fa-rc-row', recalled && 'is-recalled')} data-testid="fa-receipt-row" data-status={s}>
+    <div className={cx('fa-rc-row', recalled && 'is-recalled')} data-flip={flip || undefined} data-testid="fa-receipt-row" data-status={s}>
       <button type="button" className="fa-rc-open" onClick={onOpen}>
         <span className={cx('grid size-12 flex-none place-items-center rounded-[10px]', TONE_TILE[tone])} style={{ ['--pict-bg' as string]: `var(--color-${tone === 'neutral' ? 'sunk' : `${tone}-wash`})` }}>
           {advice?.decision ? <DecisionPictogram decision={advice.decision} size={34} /> : <KindIcon kind={advice?.kind ?? 'other'} size={22} />}
@@ -73,15 +84,15 @@ function Row({ item, info, onOpen }: { item: HeldReceipt; info: StatusInfo | und
           <span className="mono mt-1 block text-[0.72rem] text-ink-3">
             {rule ? `${rule.rule_id} v${rule.version}` : ''} · {item.via === 'ask' ? t('fa.rcs.viaAsk') : t('fa.rcs.viaPlan')} · {fmtDate(new Date(item.at), lang, 'time')} · №…{shortId(item.id, 6)}
           </span>
+          <span className="mt-2 flex min-h-7 items-center">
+            {s === 'authentic' || s === 'recalled' ? (
+              <Stamp key={s} kind={s} size="sm" land={recalled} className="fa-rc-stamp" />
+            ) : (
+              <span className="text-xs text-ink-3">{s === 'checking' ? t('ui.stamp.checking') : s === 'invalid' ? t('ui.stamp.invalid') : t('fa.rcs.unreachable')}</span>
+            )}
+          </span>
         </span>
-        <span className="flex flex-none items-center gap-1">
-          {s === 'authentic' || s === 'recalled' ? (
-            <Stamp kind={s} size="sm" land={recalled} className="fa-rc-stamp" />
-          ) : (
-            <span className="text-xs text-ink-3">{s === 'checking' ? t('ui.stamp.checking') : s === 'invalid' ? t('ui.stamp.invalid') : t('fa.rcs.unreachable')}</span>
-          )}
-          <ChevronRight size={18} aria-hidden className="text-ink-3" />
-        </span>
+        <ChevronRight size={18} aria-hidden className="flex-none text-ink-3" />
       </button>
       {recalled && (
         <p className="fa-rc-now" data-testid="fa-receipt-now">
