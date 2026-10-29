@@ -13,6 +13,8 @@ The GeForce licence excludes data-centre deployment, so this is a benchmark and 
 | `kljob.ps1` | Runs one KrishiLoop job as a **one-shot scheduled task that deletes itself when the job ends** (`-Name`, `-Script`; also `-Status`, `-Stop`, `-List`). Standard rights, no stored password (S4U); only scripts inside `F:\krishiloop-5090`. Approved by the owner on 29 Oct 2026 for exactly this scope. |
 | `ollama_serve.ps1` | The local language-model server (Ollama), `127.0.0.1:11434` only, models kept in `F:\krishiloop-5090\models\ollama`. Runs as the job `kl-ollama`. |
 | `pull_models.ps1` | Downloads the open-weight models used in the evaluations, once each (job `kl-pull`). |
+| `pull_phased.ps1` | The same downloads in phases, so the lab's ~10 MB/s link is shared: the first model, then 75 minutes for datasets and speech models, then the rest. Skips models already present; retries resume partial files. |
+| `jobs_tail.ps1` | Read-only: the last lines of every job log, plus free space on `F:`. |
 | `gpu_probe.ps1` | A 10-second check that background jobs can use CUDA. |
 | `inventory.ps1` | A read-only inventory: Python environments, CUDA, Ollama, WSL2, disk. |
 
