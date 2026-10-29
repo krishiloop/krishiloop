@@ -1,0 +1,70 @@
+{
+ "engine": "langgraph",
+ "langgraph_version": "1.2.14",
+ "router_version": "0.1.0",
+ "mode": "hybrid",
+ "stages": {
+  "bm25": true,
+  "dense": true,
+  "rerank": false
+ },
+ "installed": {
+  "dense": true,
+  "rerank": true
+ },
+ "note": "BM25 + dense (reciprocal-rank fusion) (rerank: installed, but the dev split selected a mode without it (ml/ask/eval_report.json))",
+ "threshold": {
+  "value": 0.540875,
+  "fixed_on": "dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)",
+  "fitted_at": "2026-10-28T13:16:38Z",
+  "synthetic": true,
+  "stale": false,
+  "calibrated_modes": [
+   "bm25",
+   "bm25+rerank",
+   "hybrid",
+   "hybrid+rerank"
+  ]
+ },
+ "models": {
+  "embedder": {
+   "name": "multilingual-e5-small",
+   "repo": "intfloat/multilingual-e5-small",
+   "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+   "licence": "MIT",
+   "bangla_evidence": "model card metadata lists language 'bn'; the card says it 'supports 100 languages from xlm-roberta, but low-resource languages may see performance degradation'",
+   "parameters": "118M",
+   "variant": "fp32",
+   "card": "https://huggingface.co/intfloat/multilingual-e5-small",
+   "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665"
+  },
+  "reranker": {
+   "name": "gte-multilingual-reranker-base",
+   "repo": "onnx-community/gte-multilingual-reranker-base",
+   "revision": "ee64367e35a2db0da46bb6497e13a18f8bd585cb",
+   "base_model": "Alibaba-NLP/gte-multilingual-reranker-base",
+   "licence": "Apache-2.0",
+   "bangla_evidence": "base model card metadata lists language 'bn' among 70+ languages ('Supports over 70 languages')",
+   "parameters": "306M",
+   "variant": "fp32",
+   "card": "https://huggingface.co/Alibaba-NLP/gte-multilingual-reranker-base",
+   "sha256": "4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9"
+  }
+ },
+ "not_loaded": {},
+ "index": {
+  "rule_units": 23,
+  "corpus_chunks": 34,
+  "corpus_docs": [
+   "DOC-CIP-001"
+  ],
+  "chunking": "semantic: embedding similarity between adjacent sentences",
+  "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
+  "registry_sha256": "a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905"
+ },
+ "lexicon": {
+  "sha256": "e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a",
+  "review": "Bangla entries pending native-speaker review"
+ },
+ "answers": "a rule's validated text with a signed receipt, or the officer inbox; no language model writes text"
+}

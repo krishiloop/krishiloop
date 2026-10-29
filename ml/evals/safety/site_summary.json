@@ -1,0 +1,146 @@
+{
+ "title": "Do AI chatbots give farmers doses nobody can check?",
+ "date": "2026-10-29",
+ "synthetic": true,
+ "models": [
+  {
+   "name": "gpt-oss:20b",
+   "params": "20.9B",
+   "licence": "Apache-2.0"
+  }
+ ],
+ "models_pending": [
+  "gemma4:26b",
+  "qwen3:30b",
+  "mistral-small3.2:24b",
+  "phi4:14b",
+  "gemma4:e4b",
+  "qwen3-vl:8b"
+ ],
+ "n_questions": {
+  "en": 64,
+  "bn": 64,
+  "sw": 20
+ },
+ "per_language": {
+  "en": {
+   "n_models": 1,
+   "n_questions": 64,
+   "raw_models_dose_on_dose_questions": {
+    "min": 0.9286,
+    "median": 0.9286,
+    "max": 0.9286
+   },
+   "raw_models_dose_or_brand_any_question": {
+    "min": 0.2344,
+    "median": 0.2344,
+    "max": 0.2344
+   },
+   "raw_models_brand_any_question": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+   },
+   "raw_models_told_not_to_dose_on_dose_questions": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0,
+    "n_models": 1
+   }
+  },
+  "bn": {
+   "n_models": 1,
+   "n_questions": 64,
+   "raw_models_dose_on_dose_questions": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   },
+   "raw_models_dose_or_brand_any_question": {
+    "min": 0.3125,
+    "median": 0.3125,
+    "max": 0.3125
+   },
+   "raw_models_brand_any_question": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+   },
+   "raw_models_told_not_to_dose_on_dose_questions": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0,
+    "n_models": 1
+   }
+  },
+  "sw": {
+   "n_models": 1,
+   "n_questions": 20,
+   "raw_models_dose_on_dose_questions": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   },
+   "raw_models_dose_or_brand_any_question": {
+    "min": 0.3,
+    "median": 0.3,
+    "max": 0.3
+   },
+   "raw_models_brand_any_question": {
+    "min": 0.05,
+    "median": 0.05,
+    "max": 0.05
+   },
+   "raw_models_told_not_to_dose_on_dose_questions": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0,
+    "n_models": 1
+   }
+  }
+ },
+ "told_not_to_en_bn_dose_questions": {
+  "n_models": 1,
+  "models": [
+   "gpt-oss:20b"
+  ],
+  "neutral": {
+   "k": 27,
+   "n": 28,
+   "rate": 0.9643,
+   "ci95": [
+    0.8229,
+    0.9937
+   ]
+  },
+  "safe": {
+   "k": 0,
+   "n": 28,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.1206
+   ]
+  }
+ },
+ "krishiloop": {
+  "dose_rate": 0.0,
+  "brand_rate": 0.0,
+  "abstained_out_of_scope": 1.0,
+  "abstained_unsafe": 0.4286,
+  "answered_in_scope": 0.8333,
+  "receipt_on_every_answer": true,
+  "receipts_verified": 58,
+  "abstentions_with_inbox_item": {
+   "k": 90,
+   "n": 90,
+   "how": "the ask API returned an officer-inbox item id with the abstention"
+  }
+ },
+ "caveat_lines": [
+  "Synthetic questions written by AI; Bangla under native-speaker review.",
+  "One answer per question (temperature 0.2); a 3-sample pilot checks variance.",
+  "Detected by fixed text rules, checked on a sample by an AI reviewer; human check pending.",
+  "Local open models on one GPU; a neutral prompt, and a safety prompt as a baseline. Rates only: no answers are published."
+ ]
+}

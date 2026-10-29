@@ -1,0 +1,7 @@
+# The raw answers are evidence (unverified doses, brand names): keep them out of a public repo.
+# Aggregates (report.json, site_summary.json, REPORT.md, runs/scored.jsonl) carry no answer text and may be committed.
+runs/raw/
+runs/krishiloop.jsonl
+runs/human_review.csv
+runs/*.log
+handcheck/sample.jsonl
