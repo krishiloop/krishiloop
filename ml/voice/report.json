@@ -1,0 +1,830 @@
+{
+  "track": "voice (P1 #13, W3)",
+  "machine": "NBTC RTX 5090 32 GB, Windows 11, torch 2.14.1+cu130",
+  "asr_fleurs_bn_in_test": {
+    "omni-ctc-1b-v2": {
+      "tag": "omni-ctc-1b-v2",
+      "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+      "settings": {
+        "dtype": "bfloat16",
+        "decoding": "greedy CTC",
+        "arch": "1b_v2",
+        "runtime": "native PyTorch port (omni_ctc.py), official checkpoint, strict load"
+      },
+      "manifest": "manifest_test.jsonl",
+      "n_utts": 920,
+      "wer_pct": 25.44,
+      "cer_pct": 6.2,
+      "ref_words": 17766,
+      "ref_chars": 114952,
+      "audio_hours": 3.433,
+      "rtf": 0.0028,
+      "rtf_timing": "batch 1, every utterance",
+      "batched_throughput_rtf": null,
+      "median_utt_latency_ms": 38.1,
+      "latency_5s_clip": {
+        "median_ms": 40.3,
+        "p90_ms": 43.6,
+        "runs": 10
+      },
+      "load_s": 29.2,
+      "vram_weights_gb": 1.95,
+      "vram_peak_gb": 2.44,
+      "failures": 0,
+      "runaway_outputs": 0,
+      "empty_outputs": 0,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "torch": "2.14.1+cu130",
+      "when": "2026-10-29 15:18",
+      "extra": {
+        "median_utterance_cer_pct": 5.7,
+        "p90_utterance_cer_pct": 11.4,
+        "outputs_with_devanagari": 0,
+        "outputs_looping_over_2x_ref_length": 0,
+        "outputs_with_digit_glued_to_bangla": 93,
+        "refs_with_digits": {
+          "n_utts": 187,
+          "wer_pct": 30.01,
+          "cer_pct": 7.88,
+          "ref_words": 3942,
+          "ref_chars": 24575
+        },
+        "refs_without_digits": {
+          "n_utts": 733,
+          "wer_pct": 24.14,
+          "cer_pct": 5.75,
+          "ref_words": 13824,
+          "ref_chars": 90377
+        },
+        "without_looping_outputs": {
+          "n_utts": 920,
+          "wer_pct": 25.44,
+          "cer_pct": 6.2,
+          "ref_words": 17766,
+          "ref_chars": 114952
+        }
+      }
+    },
+    "whisper-large-v3-turbo": {
+      "tag": "whisper-large-v3-turbo",
+      "model": "whisper-large-v3-turbo",
+      "settings": {
+        "dtype": "float16",
+        "decoding": "greedy",
+        "language": "bn",
+        "task": "transcribe",
+        "max_new_tokens": 440
+      },
+      "manifest": "manifest_test.jsonl",
+      "n_utts": 920,
+      "wer_pct": 91.62,
+      "cer_pct": 45.31,
+      "ref_words": 17766,
+      "ref_chars": 114952,
+      "audio_hours": 3.433,
+      "rtf": 0.2044,
+      "rtf_timing": "batch 1 on 40 evenly spread utterances (accuracy pass used batch 16)",
+      "batched_throughput_rtf": 0.0271,
+      "median_utt_latency_ms": 2729.2,
+      "latency_5s_clip": {
+        "median_ms": 1264.3,
+        "p90_ms": 1402.8,
+        "runs": 10
+      },
+      "load_s": 15.5,
+      "vram_weights_gb": 1.62,
+      "vram_peak_gb": 2.41,
+      "failures": 0,
+      "runaway_outputs": 14,
+      "empty_outputs": 0,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "torch": "2.14.1+cu130",
+      "when": "2026-10-29 15:03",
+      "note": "failures corrected by hand on 29 Oct: all 920 utterances have a hypothesis; 880 was a counting bug (fixed in asr_eval.py) caused by the batched pass",
+      "extra": {
+        "median_utterance_cer_pct": 32.2,
+        "p90_utterance_cer_pct": 92.9,
+        "outputs_with_devanagari": 779,
+        "outputs_looping_over_2x_ref_length": 14,
+        "outputs_with_digit_glued_to_bangla": 0,
+        "refs_with_digits": {
+          "n_utts": 187,
+          "wer_pct": 92.09,
+          "cer_pct": 48.52,
+          "ref_words": 3942,
+          "ref_chars": 24575
+        },
+        "refs_without_digits": {
+          "n_utts": 733,
+          "wer_pct": 91.49,
+          "cer_pct": 44.43,
+          "ref_words": 13824,
+          "ref_chars": 90377
+        },
+        "without_looping_outputs": {
+          "n_utts": 906,
+          "wer_pct": 89.43,
+          "cer_pct": 43.55,
+          "ref_words": 17570,
+          "ref_chars": 113659
+        }
+      }
+    }
+  },
+  "tts": {
+    "mms": {
+      "backend": "mms",
+      "model": "facebook/mms-tts-ben (VITS, fp32) [CC BY-NC 4.0: comparison only]",
+      "n_clips": 51,
+      "audio_s_total": 262.7,
+      "synth_s_total": 9.7,
+      "rtf_overall": 0.037,
+      "rtf_median": 0.042,
+      "synth_s_median": 0.17,
+      "opus_kb_median": 12.8,
+      "empty_or_failed": 0,
+      "hit_token_limit": 0,
+      "load_s": 17.6,
+      "vram_weights_gb": 0.15,
+      "vram_peak_gb": 0.44,
+      "short_answer_latency": null,
+      "sample_rate": 16000,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "torch": "2.14.1+cu130",
+      "when": "2026-10-29 15:09"
+    },
+    "svara": {
+      "backend": "svara",
+      "model": "svara-tts-v1 (Q8_0 GGUF dequantised to bf16) + SNAC 24 kHz",
+      "n_clips": 102,
+      "audio_s_total": 505.9,
+      "synth_s_total": 1191.7,
+      "rtf_overall": 2.355,
+      "rtf_median": 1.53,
+      "synth_s_median": 5.81,
+      "opus_kb_median": 15.7,
+      "empty_or_failed": 0,
+      "hit_token_limit": 0,
+      "load_s": 35.5,
+      "vram_weights_gb": 6.68,
+      "vram_peak_gb": 6.92,
+      "short_answer_latency": {
+        "text_id": "R-BDR-007",
+        "runs": [
+          {
+            "synth_s": 15.27,
+            "audio_s": 5.72
+          },
+          {
+            "synth_s": 16.69,
+            "audio_s": 6.49
+          },
+          {
+            "synth_s": 13.89,
+            "audio_s": 6.23
+          }
+        ]
+      },
+      "sample_rate": 24000,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "torch": "2.14.1+cu130",
+      "when": "2026-10-29 15:40",
+      "generation": {
+        "transformers_generate_clips": 6,
+        "lean_loop_clips": 96,
+        "rtf_generate": 4.74,
+        "rtf_lean": 2.11,
+        "rtf_lean_min_max": [
+          1.017,
+          7.686
+        ],
+        "note": "First 6 clips used transformers generate(); then the lean sampling loop (same sampling settings). Speed varied with CPU load from other jobs on the shared host."
+      },
+      "short_answer_latency_runs_earlier": {
+        "text_id": "R-BDR-007",
+        "when": "15:32 (quieter host)",
+        "runs": [
+          {
+            "synth_s": 6.43,
+            "audio_s": 5.72
+          },
+          {
+            "synth_s": 6.76,
+            "audio_s": 6.49
+          },
+          {
+            "synth_s": 6.53,
+            "audio_s": 6.23
+          }
+        ]
+      },
+      "note_corrected": "generation fields and the earlier latency runs added on the laptop (the second TTS run, male questions, overwrote summary.json)"
+    }
+  },
+  "roundtrip_synthetic": {
+    "mms__omni-ctc-1b-v2": {
+      "all": {
+        "n_utts": 51,
+        "wer_pct": 36.76,
+        "cer_pct": 12.23,
+        "ref_words": 487,
+        "ref_chars": 2633
+      },
+      "farmer_question": {
+        "n_utts": 40,
+        "wer_pct": 39.72,
+        "cer_pct": 13.78,
+        "ref_words": 282,
+        "ref_chars": 1451
+      },
+      "rule_title": {
+        "n_utts": 11,
+        "wer_pct": 32.68,
+        "cer_pct": 10.32,
+        "ref_words": 205,
+        "ref_chars": 1182
+      },
+      "domain_terms": {
+        "বাদামি গাছফড়িং": {
+          "utterances": 3,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "ব্লাস্ট": {
+          "utterances": 4,
+          "recognised": 0,
+          "recognised_lenient": 2
+        },
+        "স্প্রে": {
+          "utterances": 8,
+          "recognised": 4,
+          "recognised_lenient": 4
+        },
+        "কুশি": {
+          "utterances": 3,
+          "recognised": 3,
+          "recognised_lenient": 3
+        },
+        "ইউরিয়া": {
+          "utterances": 7,
+          "recognised": 3,
+          "recognised_lenient": 3
+        },
+        "বিঘা": {
+          "utterances": 3,
+          "recognised": 1,
+          "recognised_lenient": 1
+        }
+      },
+      "domain_term_recall_pct": 39.3,
+      "domain_term_recall_lenient_pct": 46.4,
+      "examples": [
+        {
+          "id": "R-BDR-001__default",
+          "ref": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+          "hyp": "সীমার উপরে নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন"
+        },
+        {
+          "id": "R-BDR-002__default",
+          "ref": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+          "hyp": "এখন স্প্রে দরকার নেই পোকার সংখ্যার ীমার নীচে কয়েক দিন পর আবার গুণে দেখুন"
+        },
+        {
+          "id": "R-BDR-004__default",
+          "ref": "উষ্ণ ও ভেজা আবহাওয়ার পূর্বাভাস আছে, যা পাতাপোড়া রোগের জন্য অনুকূল: পাতা দেখুন এবং সুরক্ষার উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+          "hyp": "অষ্ন ও ভেজা আবাওয়ার পূর্বাবাস আছে যা পাতাপোড়া রোগের জন্য অনুকুল পাতা দেখুন এবং সুরক্ষার উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন"
+        }
+      ],
+      "asr_rtf": 0.0034
+    },
+    "mms__whisper-large-v3-turbo": {
+      "all": {
+        "n_utts": 51,
+        "wer_pct": 82.34,
+        "cer_pct": 59.21,
+        "ref_words": 487,
+        "ref_chars": 2633
+      },
+      "farmer_question": {
+        "n_utts": 40,
+        "wer_pct": 88.3,
+        "cer_pct": 74.5,
+        "ref_words": 282,
+        "ref_chars": 1451
+      },
+      "rule_title": {
+        "n_utts": 11,
+        "wer_pct": 74.15,
+        "cer_pct": 40.44,
+        "ref_words": 205,
+        "ref_chars": 1182
+      },
+      "domain_terms": {
+        "বাদামি গাছফড়িং": {
+          "utterances": 3,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "ব্লাস্ট": {
+          "utterances": 4,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "স্প্রে": {
+          "utterances": 8,
+          "recognised": 2,
+          "recognised_lenient": 2
+        },
+        "কুশি": {
+          "utterances": 3,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "ইউরিয়া": {
+          "utterances": 7,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "বিঘা": {
+          "utterances": 3,
+          "recognised": 0,
+          "recognised_lenient": 0
+        }
+      },
+      "domain_term_recall_pct": 7.1,
+      "domain_term_recall_lenient_pct": 7.1,
+      "examples": [
+        {
+          "id": "q-p19__default",
+          "ref": "আলু কখন তুলব?",
+          "hyp": "Allo cohun tonu"
+        },
+        {
+          "id": "q-o11__default",
+          "ref": "কৃষি ঋণ কীভাবে পাব?",
+          "hyp": "किशी दिन की भावे पावो।"
+        },
+        {
+          "id": "q-o16__default",
+          "ref": "পাটের বীজ কখন বুনব?",
+          "hyp": "पाटेर भीज कहुन भुन्नू।"
+        }
+      ],
+      "asr_rtf": 0.1299
+    },
+    "svara__omni-ctc-1b-v2": {
+      "all": {
+        "n_utts": 102,
+        "wer_pct": 42.51,
+        "cer_pct": 22.31,
+        "ref_words": 974,
+        "ref_chars": 5266
+      },
+      "farmer_question": {
+        "n_utts": 80,
+        "wer_pct": 51.42,
+        "cer_pct": 31.36,
+        "ref_words": 564,
+        "ref_chars": 2902
+      },
+      "rule_title": {
+        "n_utts": 22,
+        "wer_pct": 30.24,
+        "cer_pct": 11.21,
+        "ref_words": 410,
+        "ref_chars": 2364
+      },
+      "domain_terms": {
+        "বাদামি গাছফড়িং": {
+          "utterances": 6,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "ব্লাস্ট": {
+          "utterances": 8,
+          "recognised": 4,
+          "recognised_lenient": 4
+        },
+        "স্প্রে": {
+          "utterances": 16,
+          "recognised": 6,
+          "recognised_lenient": 6
+        },
+        "কুশি": {
+          "utterances": 6,
+          "recognised": 4,
+          "recognised_lenient": 4
+        },
+        "ইউরিয়া": {
+          "utterances": 14,
+          "recognised": 6,
+          "recognised_lenient": 6
+        },
+        "বিঘা": {
+          "utterances": 6,
+          "recognised": 6,
+          "recognised_lenient": 6
+        }
+      },
+      "domain_term_recall_pct": 46.4,
+      "domain_term_recall_lenient_pct": 46.4,
+      "examples": [
+        {
+          "id": "R-BDR-001__female",
+          "ref": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+          "hyp": "সীমার উপরে নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন"
+        },
+        {
+          "id": "R-BDR-001__male",
+          "ref": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+          "hyp": "শীমার উপরে নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন"
+        },
+        {
+          "id": "R-BDR-002__female",
+          "ref": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+          "hyp": "এখন স্প্রে দরকার নেই কোকার সংখ্যাসীমার নীচে কয়েক দিন পর আবার বুলে দেখুন"
+        }
+      ],
+      "by_voice": {
+        "male/rule_title": {
+          "n_utts": 11,
+          "wer_pct": 26.83,
+          "cer_pct": 8.63,
+          "ref_words": 205,
+          "ref_chars": 1182,
+          "devanagari_or_other_script": 0,
+          "term_hits": "3/7",
+          "term_hits_lenient": "3/7"
+        },
+        "male/farmer_question": {
+          "n_utts": 40,
+          "wer_pct": 43.62,
+          "cer_pct": 25.78,
+          "ref_words": 282,
+          "ref_chars": 1451,
+          "devanagari_or_other_script": 3,
+          "term_hits": "10/21",
+          "term_hits_lenient": "10/21"
+        },
+        "female/rule_title": {
+          "n_utts": 11,
+          "wer_pct": 33.66,
+          "cer_pct": 13.79,
+          "ref_words": 205,
+          "ref_chars": 1182,
+          "devanagari_or_other_script": 3,
+          "term_hits": "5/7",
+          "term_hits_lenient": "5/7"
+        },
+        "female/farmer_question": {
+          "n_utts": 40,
+          "wer_pct": 59.22,
+          "cer_pct": 36.94,
+          "ref_words": 282,
+          "ref_chars": 1451,
+          "devanagari_or_other_script": 16,
+          "term_hits": "8/21",
+          "term_hits_lenient": "8/21"
+        },
+        "male/all": {
+          "n_utts": 51,
+          "wer_pct": 36.55,
+          "cer_pct": 18.08,
+          "ref_words": 487,
+          "ref_chars": 2633,
+          "devanagari_or_other_script": 3,
+          "term_hits": "13/28",
+          "term_hits_lenient": "13/28"
+        },
+        "female/all": {
+          "n_utts": 51,
+          "wer_pct": 48.46,
+          "cer_pct": 26.55,
+          "ref_words": 487,
+          "ref_chars": 2633,
+          "devanagari_or_other_script": 19,
+          "term_hits": "13/28",
+          "term_hits_lenient": "13/28"
+        }
+      },
+      "asr_rtf": 0.0029
+    },
+    "svara__whisper-large-v3-turbo": {
+      "all": {
+        "n_utts": 102,
+        "wer_pct": 88.81,
+        "cer_pct": 61.89,
+        "ref_words": 974,
+        "ref_chars": 5266
+      },
+      "farmer_question": {
+        "n_utts": 80,
+        "wer_pct": 90.96,
+        "cer_pct": 66.61,
+        "ref_words": 564,
+        "ref_chars": 2902
+      },
+      "rule_title": {
+        "n_utts": 22,
+        "wer_pct": 85.85,
+        "cer_pct": 56.09,
+        "ref_words": 410,
+        "ref_chars": 2364
+      },
+      "domain_terms": {
+        "বাদামি গাছফড়িং": {
+          "utterances": 6,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "ব্লাস্ট": {
+          "utterances": 8,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "স্প্রে": {
+          "utterances": 16,
+          "recognised": 1,
+          "recognised_lenient": 1
+        },
+        "কুশি": {
+          "utterances": 6,
+          "recognised": 3,
+          "recognised_lenient": 3
+        },
+        "ইউরিয়া": {
+          "utterances": 14,
+          "recognised": 0,
+          "recognised_lenient": 0
+        },
+        "বিঘা": {
+          "utterances": 6,
+          "recognised": 1,
+          "recognised_lenient": 1
+        }
+      },
+      "domain_term_recall_pct": 8.9,
+      "domain_term_recall_lenient_pct": 8.9,
+      "examples": [
+        {
+          "id": "q-p19__female",
+          "ref": "আলু কখন তুলব?",
+          "hyp": "Bangaloo, ককমন তুর্টুর্লো?"
+        },
+        {
+          "id": "q-o16__female",
+          "ref": "পাটের বীজ কখন বুনব?",
+          "hyp": "बামবলিস ককনো বুন্বো?"
+        },
+        {
+          "id": "q-o11__female",
+          "ref": "কৃষি ঋণ কীভাবে পাব?",
+          "hyp": "Krishy Haring, কিভানে পাবো?"
+        }
+      ],
+      "asr_rtf": 0.1324
+    }
+  },
+  "service": {
+    "asr": "omni-ctc-1b",
+    "tts": "svara",
+    "checks": {
+      "loopback_only": true,
+      "tts_ok": true,
+      "asr_ogg_ok": true,
+      "asr_wav_ok": true,
+      "asr_webm_ok": true,
+      "tts_rejects_long_text": true,
+      "asr_rejects_garbage": true,
+      "stopped": true
+    },
+    "health": {
+      "status": "ok",
+      "asr": "omni-ctc-1b",
+      "tts": "svara",
+      "loaded": [],
+      "bind": "127.0.0.1 only",
+      "note": "prototype; audio and text stay on this machine"
+    },
+    "listening_on": [
+      "127.0.0.1:8765"
+    ],
+    "tts_first_call_s": 85.9,
+    "tts_headers": {
+      "x-model": "svara-tts-v1 (Q8_0 GGUF dequantised to bf16) + SNAC 24 kHz",
+      "x-audio-seconds": "5.72",
+      "x-processing-ms": "37419"
+    },
+    "tts_bytes": 23929,
+    "tts_warm_s": [
+      6.07,
+      6.26
+    ],
+    "asr_first_call_s": 5.08,
+    "roundtrip_service": {
+      "source": "শিষের গোড়ায় বাদামি দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।",
+      "asr": {
+        "text": "শিষের গোড়ায় বাদামী দাগ আছে কী না দেখুন তেইলে আপনার কর্মকর্তাকে জানান",
+        "language": "bn",
+        "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+        "audio_s": 5.72,
+        "processing_ms": 96.3
+      },
+      "cer_pct": 5.8
+    },
+    "fleurs_wav": {
+      "id": "fleurs-bn-1923-14984351819814218721",
+      "dur_s": 21.6,
+      "asr": {
+        "text": "গুরুত্বপূর্ণ সামরিক এবং অসামরিক যোগান বিচ্ছিন্ন করার কৌশলটি সফল হয়েছে যদিও গত দুই সতকে বিভিন্ন আন্তর্জাতিক চুক্তির মাধ্যমে আরোপিত হওয়া সাধারণভাবে গ্রহণযোগ্য আন্তর্জাতিক নিয়মকে এই অবরততি লঙ্ঘন করেছে",
+        "language": "bn",
+        "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+        "audio_s": 21.6,
+        "processing_ms": 26.1
+      },
+      "cer_pct": 2.5
+    },
+    "webm_made_with": "ffmpeg",
+    "fleurs_webm_opus": {
+      "bytes": 93339,
+      "asr": {
+        "text": "গুরুত্বপূর্ণ সামরিক এবং অসামরিক যোগান বিচ্ছিহ্ন করার কৌশলটি সফল হয়েছে যদিও গত দুই সতকে বিভিন্ন আন্তর্জাতিক চুক্তির মাধ্যমে আরোপিত হওয়া সাধারণভাবে গ্রহণযোগ্য আন্তর্জাতিক নিয়মকে এই অবরত্তি লঙ্ঘন করেছে",
+        "language": "bn",
+        "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+        "audio_s": 21.6,
+        "processing_ms": 24.1
+      },
+      "cer_pct": 3.0
+    },
+    "asr_5s_clip_end_to_end_ms": {
+      "median": 45.6,
+      "all": [
+        46,
+        46,
+        32,
+        46,
+        46
+      ]
+    },
+    "after_stop_listening_on": []
+  },
+  "licences": [
+    {
+      "name": "Google FLEURS (bn_in test)",
+      "role": "ASR test data",
+      "licence": "CC BY 4.0",
+      "url": "https://huggingface.co/datasets/google/fleurs",
+      "use": "evaluation",
+      "status": "used"
+    },
+    {
+      "name": "Meta Omnilingual ASR omniASR_CTC_1B_v2",
+      "role": "ASR",
+      "licence": "Apache-2.0 (code and weights)",
+      "url": "https://github.com/facebookresearch/omnilingual-asr",
+      "use": "candidate to ship",
+      "status": "used"
+    },
+    {
+      "name": "Meta Omnilingual ASR omniASR_CTC_3B_v2",
+      "role": "ASR",
+      "licence": "Apache-2.0",
+      "url": "https://dl.fbaipublicfiles.com/mms/omniASR-CTC-3B-v2.pt",
+      "use": "candidate",
+      "status": "not run yet (bandwidth); overnight download"
+    },
+    {
+      "name": "OpenAI whisper-large-v3-turbo",
+      "role": "ASR baseline",
+      "licence": "MIT",
+      "url": "https://huggingface.co/openai/whisper-large-v3-turbo",
+      "use": "baseline",
+      "status": "used"
+    },
+    {
+      "name": "OpenAI whisper-large-v3",
+      "role": "ASR baseline",
+      "licence": "Apache-2.0 on the HF card (OpenAI's Whisper code and weights are MIT on GitHub)",
+      "url": "https://huggingface.co/openai/whisper-large-v3",
+      "use": "baseline",
+      "status": "not run (bandwidth); overnight download"
+    },
+    {
+      "name": "kenpath/svara-tts-v1",
+      "role": "TTS",
+      "licence": "Llama 3.2 Community License (fine-tune of meta-llama/Llama-3.2-3B via canopylabs/3b-hi-ft-research_release; the card's 'Apache-2.0' does not override the base licence). Commercial use allowed with conditions: 'Built with Llama' attribution, Meta's acceptable-use policy, under 700M monthly active users. Training data listed: SYSPIN, RASA, IndicTTS, SPICOR; check IndicTTS terms before shipping.",
+      "url": "https://huggingface.co/kenpath/svara-tts-v1",
+      "use": "candidate to ship (with conditions)",
+      "status": "used"
+    },
+    {
+      "name": "mradermacher/svara-tts-v1-GGUF (Q8_0)",
+      "role": "TTS weights (quantised copy)",
+      "licence": "same as svara-tts-v1",
+      "url": "https://huggingface.co/mradermacher/svara-tts-v1-GGUF",
+      "use": "used because the link was slow; ship the original weights",
+      "status": "used"
+    },
+    {
+      "name": "hubertsiuzdak/snac_24khz",
+      "role": "audio codec for svara",
+      "licence": "MIT",
+      "url": "https://huggingface.co/hubertsiuzdak/snac_24khz",
+      "use": "part of the TTS path",
+      "status": "used"
+    },
+    {
+      "name": "facebook/mms-tts-ben",
+      "role": "TTS comparison",
+      "licence": "CC BY-NC 4.0 (non-commercial)",
+      "url": "https://huggingface.co/facebook/mms-tts-ben",
+      "use": "COMPARISON ONLY, NEVER SHIPPED",
+      "status": "used"
+    },
+    {
+      "name": "ai4bharat/indic-parler-tts",
+      "role": "TTS",
+      "licence": "Apache-2.0",
+      "url": "https://huggingface.co/ai4bharat/indic-parler-tts",
+      "use": "the plan's first choice",
+      "status": "NOT TESTED: gated on Hugging Face (terms + token); skipped per brief"
+    },
+    {
+      "name": "ai4bharat/IndicF5",
+      "role": "TTS",
+      "licence": "MIT",
+      "url": "https://huggingface.co/ai4bharat/IndicF5",
+      "use": "-",
+      "status": "not tested: gated"
+    },
+    {
+      "name": "ai4bharat/indic-conformer-600m-multilingual",
+      "role": "ASR (Bangla-capable)",
+      "licence": "MIT",
+      "url": "https://huggingface.co/ai4bharat/indic-conformer-600m-multilingual",
+      "use": "-",
+      "status": "not tested: gated"
+    },
+    {
+      "name": "k2-fsa/OmniVoice",
+      "role": "TTS",
+      "licence": "code Apache-2.0, weights CC BY-NC",
+      "url": "https://huggingface.co/k2-fsa/OmniVoice",
+      "use": "-",
+      "status": "not tested (non-commercial weights)"
+    },
+    {
+      "name": "bangla-speech-processing/BanglaASR",
+      "role": "ASR (Bangla-tuned Whisper small)",
+      "licence": "MIT (card)",
+      "url": "https://huggingface.co/bangla-speech-processing/BanglaASR",
+      "use": "optional",
+      "status": "not run (bandwidth)"
+    }
+  ],
+  "caveats": [
+    "FLEURS is read speech (Wikipedia sentences, 16 kHz, quiet): real farmers on phones in fields will score worse.",
+    "Omnilingual ASR was run with our own native PyTorch port of the official CTC checkpoints (strict weight loading), not with fairseq2, because fairseq2 has no Windows support and the link was too slow for a second CUDA stack in WSL.",
+    "Round-trip numbers are SYNTHETIC: TTS speech transcribed by ASR. They test intelligibility of the TTS and domain-word handling of the ASR together; they are a proxy, not real farmer speech.",
+    "Rule titles used for TTS are real rule texts, but their Bangla wording is still 'review: pending' in the registry.",
+    "Number words vs digits are not unified by the normaliser; this inflates WER/CER slightly for every model.",
+    "svara-tts ran from a Q8_0 GGUF copy dequantised to bf16 (bandwidth); the original bf16 weights may sound marginally different."
+  ],
+  "deployment_one_gpu": {
+    "asr_vram_peak_gb": 2.44,
+    "tts_vram_peak_gb": 6.92,
+    "cuda_context_gb_approx": 0.5,
+    "voice_stack_total_gb_approx": 9.9,
+    "asr_latency_5s_clip_ms": 40.3,
+    "tts_rtf_overall": 2.355,
+    "note": "Rule readbacks are a fixed, versioned set: synthesise them ahead of time and cache the audio per rule version (regenerate on recall/change), so the farmer never waits for TTS. Live TTS speed needs a faster runtime than transformers generate (vLLM on Linux or llama.cpp with the GGUF): not measured here."
+  },
+  "recommendation": {
+    "asr": "Ship Meta Omnilingual ASR omniASR_CTC_1B_v2 (Apache-2.0): FLEURS Bangla CER 6.2 %, WER 25.4 %, 40 ms for a 5-second clip, ~2.4 GB VRAM. Whisper large-v3-turbo is not usable for Bangla (CER 45.3 %, WER 91.6 %, Devanagari mixed into 85 % of outputs). Try omniASR_CTC_3B_v2 overnight; switch only if it is clearly better.",
+    "tts": "Use the 'Bengali (Male)' svara voice (round trip on rule titles: CER 8.6 %; the female voice was transcribed in Devanagari/Gujarati script for 19 of 51 clips and sometimes speaks the speaker label). Ship kenpath/svara-tts-v1 only after the lead accepts the Llama 3.2 Community License conditions ('Built with Llama', acceptable-use policy, < 700M MAU) and checks the IndicTTS data terms; otherwise get the gated (Apache-2.0) Indic Parler-TTS approved and measure it with the same harness. Never ship MMS-TTS (CC BY-NC).",
+    "architecture": "Pre-synthesise and cache every rule readback per rule version (recall regenerates it); use live TTS only for text that is not a rule. ASR runs live on the same GPU."
+  },
+  "commands": [
+    "ssh -o BatchMode=yes nbtc5090 \"powershell -NoProfile -ExecutionPolicy Bypass -File F:\\krishiloop-5090\\scripts\\kljob.ps1 -Name <job> -Script F:\\krishiloop-5090\\scripts\\voice\\<script>.ps1\"",
+    "voice-dl2: nbtc/dl_window_now.ps1 -> download_assets.py --stage window --no-wait (4 range connections per file, in the lead's link window)",
+    "voice-prep: nbtc/run_prep.ps1 -> prepare_fleurs.py (920 wav files + manifest)",
+    "voice-asr-turbo: nbtc/run_asr_turbo.ps1 -> asr_eval.py --backend whisper --batch 16 (accuracy) + batch-1 timing on 40 utterances",
+    "voice-pipe4: nbtc/run_pipeline.ps1 -> asr_eval.py --backend omni (1b_v2) ; tts_eval.py --backend svara --lean ; tts_eval.py --backend mms ; run_roundtrip.ps1 ; run_service_test.ps1 (service.py on 127.0.0.1:8765, stopped after the test)",
+    "one-off over SSH: nbtc/make_venv.ps1 (venv F:\\krishiloop-5090\\venvs\\voice with --system-site-packages; pip install soundfile jiwer av fastapi uvicorn python-multipart gguf snac)",
+    "laptop: python ml/voice/build_texts.py ; python ml/voice/make_report.py ; python ml/voice/pick_samples.py --asr-tag omni-ctc-1b-v2 --opus-dir <copied opus>"
+  ],
+  "not_done": [
+    "omniASR_CTC_3B_v2 and whisper-large-v3 on FLEURS (bandwidth): queued as the one-shot job kl-voice-overnight, which waits for the Ollama pulls to finish",
+    "Cross-check of the native Omnilingual port against the official fairseq2 pipeline (needs the WSL venv: nbtc/wsl_setup.sh)",
+    "Indic Parler-TTS (gated), IndicF5 (gated), a Bangla-tuned third ASR (bandwidth)",
+    "Real farmer recordings (none available; synthetic round trips are only a proxy)",
+    "Listening test by native speakers (MOS) of the svara clips",
+    "Integration into services/ and apps/web (out of scope; the lead decides)"
+  ],
+  "needs_from_lead": [
+    "Decide on svara-tts-v1's Llama 3.2 licence conditions, or accept the Hugging Face gate for ai4bharat/indic-parler-tts with a team account so it can be measured",
+    "A native Bangla speaker to listen to ml/voice/samples and to review the rule titles' Bangla (review: pending)",
+    "A few consented real farmer voice notes (remote, WhatsApp) to measure field accuracy",
+    "Integration call: services/api proxies /voice/asr and /voice/tts to 127.0.0.1:8765; apps/web records webm/opus with MediaRecorder"
+  ]
+}

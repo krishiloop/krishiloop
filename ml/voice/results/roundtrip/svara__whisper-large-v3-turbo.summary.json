@@ -1,0 +1,32 @@
+{
+  "tag": "svara__whisper-large-v3-turbo",
+  "model": "whisper-large-v3-turbo",
+  "settings": {
+    "dtype": "float16",
+    "decoding": "greedy",
+    "language": "bn",
+    "task": "transcribe",
+    "max_new_tokens": 440
+  },
+  "manifest": "manifest_roundtrip.jsonl",
+  "n_utts": 102,
+  "wer_pct": 88.81,
+  "cer_pct": 61.89,
+  "ref_words": 974,
+  "ref_chars": 5266,
+  "audio_hours": 0.141,
+  "rtf": 0.1324,
+  "rtf_timing": "batch 1 on 20 evenly spread utterances (accuracy pass used batch 16)",
+  "batched_throughput_rtf": 0.0074,
+  "median_utt_latency_ms": 500.7,
+  "latency_5s_clip": null,
+  "load_s": 7.2,
+  "vram_weights_gb": 1.62,
+  "vram_peak_gb": 2.41,
+  "failures": 0,
+  "runaway_outputs": 3,
+  "empty_outputs": 0,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch": "2.14.1+cu130",
+  "when": "2026-10-29 15:40"
+}

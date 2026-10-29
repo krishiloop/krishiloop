@@ -1,0 +1,32 @@
+{
+  "tag": "mms__whisper-large-v3-turbo",
+  "model": "whisper-large-v3-turbo",
+  "settings": {
+    "dtype": "float16",
+    "decoding": "greedy",
+    "language": "bn",
+    "task": "transcribe",
+    "max_new_tokens": 440
+  },
+  "manifest": "manifest_roundtrip.jsonl",
+  "n_utts": 51,
+  "wer_pct": 82.34,
+  "cer_pct": 59.21,
+  "ref_words": 487,
+  "ref_chars": 2633,
+  "audio_hours": 0.073,
+  "rtf": 0.1299,
+  "rtf_timing": "batch 1 on 20 evenly spread utterances (accuracy pass used batch 16)",
+  "batched_throughput_rtf": 0.032,
+  "median_utt_latency_ms": 532.5,
+  "latency_5s_clip": null,
+  "load_s": 4.6,
+  "vram_weights_gb": 1.62,
+  "vram_peak_gb": 2.41,
+  "failures": 0,
+  "runaway_outputs": 2,
+  "empty_outputs": 0,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch": "2.14.1+cu130",
+  "when": "2026-10-29 15:34"
+}

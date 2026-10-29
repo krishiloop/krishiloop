@@ -1,0 +1,83 @@
+{
+  "asr": "omni-ctc-1b",
+  "tts": "svara",
+  "checks": {
+    "loopback_only": true,
+    "tts_ok": true,
+    "asr_ogg_ok": true,
+    "asr_wav_ok": true,
+    "asr_webm_ok": true,
+    "tts_rejects_long_text": true,
+    "asr_rejects_garbage": true,
+    "stopped": true
+  },
+  "health": {
+    "status": "ok",
+    "asr": "omni-ctc-1b",
+    "tts": "svara",
+    "loaded": [],
+    "bind": "127.0.0.1 only",
+    "note": "prototype; audio and text stay on this machine"
+  },
+  "listening_on": [
+    "127.0.0.1:8765"
+  ],
+  "tts_first_call_s": 85.9,
+  "tts_headers": {
+    "x-model": "svara-tts-v1 (Q8_0 GGUF dequantised to bf16) + SNAC 24 kHz",
+    "x-audio-seconds": "5.72",
+    "x-processing-ms": "37419"
+  },
+  "tts_bytes": 23929,
+  "tts_warm_s": [
+    6.07,
+    6.26
+  ],
+  "asr_first_call_s": 5.08,
+  "roundtrip_service": {
+    "source": "শিষের গোড়ায় বাদামি দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।",
+    "asr": {
+      "text": "শিষের গোড়ায় বাদামী দাগ আছে কী না দেখুন তেইলে আপনার কর্মকর্তাকে জানান",
+      "language": "bn",
+      "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+      "audio_s": 5.72,
+      "processing_ms": 96.3
+    },
+    "cer_pct": 5.8
+  },
+  "fleurs_wav": {
+    "id": "fleurs-bn-1923-14984351819814218721",
+    "dur_s": 21.6,
+    "asr": {
+      "text": "গুরুত্বপূর্ণ সামরিক এবং অসামরিক যোগান বিচ্ছিন্ন করার কৌশলটি সফল হয়েছে যদিও গত দুই সতকে বিভিন্ন আন্তর্জাতিক চুক্তির মাধ্যমে আরোপিত হওয়া সাধারণভাবে গ্রহণযোগ্য আন্তর্জাতিক নিয়মকে এই অবরততি লঙ্ঘন করেছে",
+      "language": "bn",
+      "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+      "audio_s": 21.6,
+      "processing_ms": 26.1
+    },
+    "cer_pct": 2.5
+  },
+  "webm_made_with": "ffmpeg",
+  "fleurs_webm_opus": {
+    "bytes": 93339,
+    "asr": {
+      "text": "গুরুত্বপূর্ণ সামরিক এবং অসামরিক যোগান বিচ্ছিহ্ন করার কৌশলটি সফল হয়েছে যদিও গত দুই সতকে বিভিন্ন আন্তর্জাতিক চুক্তির মাধ্যমে আরোপিত হওয়া সাধারণভাবে গ্রহণযোগ্য আন্তর্জাতিক নিয়মকে এই অবরত্তি লঙ্ঘন করেছে",
+      "language": "bn",
+      "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+      "audio_s": 21.6,
+      "processing_ms": 24.1
+    },
+    "cer_pct": 3.0
+  },
+  "asr_5s_clip_end_to_end_ms": {
+    "median": 45.6,
+    "all": [
+      46,
+      46,
+      32,
+      46,
+      46
+    ]
+  },
+  "after_stop_listening_on": []
+}

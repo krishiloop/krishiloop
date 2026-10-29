@@ -1,0 +1,21 @@
+{
+  "backend": "mms",
+  "model": "facebook/mms-tts-ben (VITS, fp32) [CC BY-NC 4.0: comparison only]",
+  "n_clips": 51,
+  "audio_s_total": 262.7,
+  "synth_s_total": 9.7,
+  "rtf_overall": 0.037,
+  "rtf_median": 0.042,
+  "synth_s_median": 0.17,
+  "opus_kb_median": 12.8,
+  "empty_or_failed": 0,
+  "hit_token_limit": 0,
+  "load_s": 17.6,
+  "vram_weights_gb": 0.15,
+  "vram_peak_gb": 0.44,
+  "short_answer_latency": null,
+  "sample_rate": 16000,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch": "2.14.1+cu130",
+  "when": "2026-10-29 15:09"
+}

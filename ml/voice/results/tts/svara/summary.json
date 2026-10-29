@@ -1,0 +1,67 @@
+{
+  "backend": "svara",
+  "model": "svara-tts-v1 (Q8_0 GGUF dequantised to bf16) + SNAC 24 kHz",
+  "n_clips": 102,
+  "audio_s_total": 505.9,
+  "synth_s_total": 1191.7,
+  "rtf_overall": 2.355,
+  "rtf_median": 1.53,
+  "synth_s_median": 5.81,
+  "opus_kb_median": 15.7,
+  "empty_or_failed": 0,
+  "hit_token_limit": 0,
+  "load_s": 35.5,
+  "vram_weights_gb": 6.68,
+  "vram_peak_gb": 6.92,
+  "short_answer_latency": {
+    "text_id": "R-BDR-007",
+    "runs": [
+      {
+        "synth_s": 15.27,
+        "audio_s": 5.72
+      },
+      {
+        "synth_s": 16.69,
+        "audio_s": 6.49
+      },
+      {
+        "synth_s": 13.89,
+        "audio_s": 6.23
+      }
+    ]
+  },
+  "sample_rate": 24000,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch": "2.14.1+cu130",
+  "when": "2026-10-29 15:40",
+  "generation": {
+    "transformers_generate_clips": 6,
+    "lean_loop_clips": 96,
+    "rtf_generate": 4.74,
+    "rtf_lean": 2.11,
+    "rtf_lean_min_max": [
+      1.017,
+      7.686
+    ],
+    "note": "First 6 clips used transformers generate(); then the lean sampling loop (same sampling settings). Speed varied with CPU load from other jobs on the shared host."
+  },
+  "short_answer_latency_runs_earlier": {
+    "text_id": "R-BDR-007",
+    "when": "15:32 (quieter host)",
+    "runs": [
+      {
+        "synth_s": 6.43,
+        "audio_s": 5.72
+      },
+      {
+        "synth_s": 6.76,
+        "audio_s": 6.49
+      },
+      {
+        "synth_s": 6.53,
+        "audio_s": 6.23
+      }
+    ]
+  },
+  "note_corrected": "generation fields and the earlier latency runs added on the laptop (the second TTS run, male questions, overwrote summary.json)"
+}

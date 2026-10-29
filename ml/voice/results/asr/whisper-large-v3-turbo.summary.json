@@ -1,0 +1,37 @@
+{
+  "tag": "whisper-large-v3-turbo",
+  "model": "whisper-large-v3-turbo",
+  "settings": {
+    "dtype": "float16",
+    "decoding": "greedy",
+    "language": "bn",
+    "task": "transcribe",
+    "max_new_tokens": 440
+  },
+  "manifest": "manifest_test.jsonl",
+  "n_utts": 920,
+  "wer_pct": 91.62,
+  "cer_pct": 45.31,
+  "ref_words": 17766,
+  "ref_chars": 114952,
+  "audio_hours": 3.433,
+  "rtf": 0.2044,
+  "rtf_timing": "batch 1 on 40 evenly spread utterances (accuracy pass used batch 16)",
+  "batched_throughput_rtf": 0.0271,
+  "median_utt_latency_ms": 2729.2,
+  "latency_5s_clip": {
+    "median_ms": 1264.3,
+    "p90_ms": 1402.8,
+    "runs": 10
+  },
+  "load_s": 15.5,
+  "vram_weights_gb": 1.62,
+  "vram_peak_gb": 2.41,
+  "failures": 0,
+  "runaway_outputs": 14,
+  "empty_outputs": 0,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch": "2.14.1+cu130",
+  "when": "2026-10-29 15:03",
+  "note": "failures corrected by hand on 29 Oct: all 920 utterances have a hypothesis; 880 was a counting bug (fixed in asr_eval.py) caused by the batched pass"
+}

@@ -1,0 +1,86 @@
+{
+  "generated": "2026-10-29 on the NBTC RTX 5090 by ml/voice/tts_eval.py",
+  "voice_model": "kenpath/svara-tts-v1 (Q8_0 GGUF copy) + SNAC 24 kHz; Ogg/Opus",
+  "licence": "Llama 3.2 Community License (svara-tts-v1 is a Llama-3.2-3B fine-tune): commercial use allowed with conditions, including 'Built with Llama' attribution; SNAC codec MIT",
+  "roundtrip_cer": "our best ASR transcribing the clip vs the source text: an intelligibility proxy",
+  "total_bytes": 242656,
+  "clips": [
+    {
+      "file": "R-BDR-001__female.ogg",
+      "kind": "rule title (real rule text, Bangla wording review pending)",
+      "source_id": "R-BDR-001",
+      "voice": "Bengali (Female)",
+      "audio_s": 6.229,
+      "roundtrip_cer_pct": 1.3,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+      "asr_heard": "সীমার উপরে নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন"
+    },
+    {
+      "file": "R-BDR-004__male.ogg",
+      "kind": "rule title (real rule text, Bangla wording review pending)",
+      "source_id": "R-BDR-004",
+      "voice": "Bengali (Male)",
+      "audio_s": 11.179,
+      "roundtrip_cer_pct": 1.4,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "উষ্ণ ও ভেজা আবহাওয়ার পূর্বাভাস আছে, যা পাতাপোড়া রোগের জন্য অনুকূল: পাতা দেখুন এবং সুরক্ষার উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+      "asr_heard": "উষ্ন ও ভেজা আবহাওয়ার পূর্বাভাস আছে যা পাতাপোড়া রোগের জন্য অনুকুল পাতা দেখুন এবং সুরক্ষার উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন"
+    },
+    {
+      "file": "R-BDR-008__female.ogg",
+      "kind": "rule title (real rule text, Bangla wording review pending)",
+      "source_id": "R-BDR-008",
+      "voice": "Bengali (Female)",
+      "audio_s": 10.667,
+      "roundtrip_cer_pct": 3.0,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "ব্লাস্ট রোগের ঝুঁকি কমাতে পরিমিত ইউরিয়া ব্যবহার করুন; কতটুকু দেবেন তা ঠিক করতে এলসিসি (পাতার রঙ মেলানোর চার্ট) দিয়ে পাতার রঙ মিলিয়ে নিন।",
+      "asr_heard": "ব্লাস্ট রোগের ঝুঁকি কমাতে পরিমিত উরিয়া ব্যবহার করুন কত টুকু দেবেন তা ঠিক করতে এলসিসি পাতার রং মেলানোর চার্ট দিয়ে পাতার রং মিলিয়ে নিন"
+    },
+    {
+      "file": "R-BDR-012__male.ogg",
+      "kind": "rule title (real rule text, Bangla wording review pending)",
+      "source_id": "R-BDR-012",
+      "voice": "Bengali (Male)",
+      "audio_s": 15.872,
+      "roundtrip_cer_pct": 4.3,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "ছবিতে ব্লাস্ট রোগের মতো দেখা যাচ্ছে। ইউরিয়া সাবধানে ও পরিমিত পরিমাণে দিন; কতটুকু দেবেন তা ঠিক করতে এলসিসি (পাতার রঙ মেলানোর চার্ট) দিয়ে পাতার রঙ মিলিয়ে নিন, এবং ছবিটি আপনার কর্মকর্তাকে দেখান।",
+      "asr_heard": "ছবিতে ব্লাস্ট রোগের মতো দেখা যাচ্ছে ইউরিয়া সাব্ধানের ওপরিমিত পরিমাণে দিন কতটুকু দেবেন তা ঠিক করতে এলসিসি পাতার রং নেলানোর চাট দিয়ে পাতার রং মিলিয়ে নিন এবং ছবিটি আপনার কর্মকর্তাকে দেখান"
+    },
+    {
+      "file": "R-BDR-007__male.ogg",
+      "kind": "rule title (real rule text, Bangla wording review pending)",
+      "source_id": "R-BDR-007",
+      "voice": "Bengali (Male)",
+      "audio_s": 5.461,
+      "roundtrip_cer_pct": 4.3,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "শিষের গোড়ায় বাদামি দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।",
+      "asr_heard": "শিষের গোড়ায় বাদামী দাগ আছে কী না দেখুন ফেলে আপনার কর্মকর্তাকে জানান"
+    },
+    {
+      "file": "q-r17__female.ogg",
+      "kind": "farmer question (SYNTHETIC)",
+      "source_id": "q-r17",
+      "voice": "Bengali (Female)",
+      "audio_s": 3.84,
+      "roundtrip_cer_pct": 0.0,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "শিষের গোড়ায় বাদামি দাগ দেখলে কী করব?",
+      "asr_heard": "শিষের গোড়ায় বাদামি দাগ দেখলে কী করব"
+    },
+    {
+      "file": "q-p05__male.ogg",
+      "kind": "farmer question (SYNTHETIC)",
+      "source_id": "q-p05",
+      "voice": "Bengali (Male)",
+      "audio_s": 3.499,
+      "roundtrip_cer_pct": 2.7,
+      "roundtrip_asr": "omni-ctc-1b-v2",
+      "text": "লাগানোর জন্য কেমন বীজ আলু ব্যবহার করব?",
+      "asr_heard": "লাজানোর জন্য কেমন বীজ আলু ব্যবহার করব"
+    }
+  ]
+}

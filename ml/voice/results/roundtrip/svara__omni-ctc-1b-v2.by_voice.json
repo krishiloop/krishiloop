@@ -1,0 +1,62 @@
+{
+  "male/rule_title": {
+    "n_utts": 11,
+    "wer_pct": 26.83,
+    "cer_pct": 8.63,
+    "ref_words": 205,
+    "ref_chars": 1182,
+    "devanagari_or_other_script": 0,
+    "term_hits": "3/7",
+    "term_hits_lenient": "3/7"
+  },
+  "male/farmer_question": {
+    "n_utts": 40,
+    "wer_pct": 43.62,
+    "cer_pct": 25.78,
+    "ref_words": 282,
+    "ref_chars": 1451,
+    "devanagari_or_other_script": 3,
+    "term_hits": "10/21",
+    "term_hits_lenient": "10/21"
+  },
+  "female/rule_title": {
+    "n_utts": 11,
+    "wer_pct": 33.66,
+    "cer_pct": 13.79,
+    "ref_words": 205,
+    "ref_chars": 1182,
+    "devanagari_or_other_script": 3,
+    "term_hits": "5/7",
+    "term_hits_lenient": "5/7"
+  },
+  "female/farmer_question": {
+    "n_utts": 40,
+    "wer_pct": 59.22,
+    "cer_pct": 36.94,
+    "ref_words": 282,
+    "ref_chars": 1451,
+    "devanagari_or_other_script": 16,
+    "term_hits": "8/21",
+    "term_hits_lenient": "8/21"
+  },
+  "male/all": {
+    "n_utts": 51,
+    "wer_pct": 36.55,
+    "cer_pct": 18.08,
+    "ref_words": 487,
+    "ref_chars": 2633,
+    "devanagari_or_other_script": 3,
+    "term_hits": "13/28",
+    "term_hits_lenient": "13/28"
+  },
+  "female/all": {
+    "n_utts": 51,
+    "wer_pct": 48.46,
+    "cer_pct": 26.55,
+    "ref_words": 487,
+    "ref_chars": 2633,
+    "devanagari_or_other_script": 19,
+    "term_hits": "13/28",
+    "term_hits_lenient": "13/28"
+  }
+}

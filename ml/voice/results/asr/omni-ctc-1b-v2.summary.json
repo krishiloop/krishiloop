@@ -1,0 +1,35 @@
+{
+  "tag": "omni-ctc-1b-v2",
+  "model": "omniASR_CTC_1B_v2 (native PyTorch port)",
+  "settings": {
+    "dtype": "bfloat16",
+    "decoding": "greedy CTC",
+    "arch": "1b_v2",
+    "runtime": "native PyTorch port (omni_ctc.py), official checkpoint, strict load"
+  },
+  "manifest": "manifest_test.jsonl",
+  "n_utts": 920,
+  "wer_pct": 25.44,
+  "cer_pct": 6.2,
+  "ref_words": 17766,
+  "ref_chars": 114952,
+  "audio_hours": 3.433,
+  "rtf": 0.0028,
+  "rtf_timing": "batch 1, every utterance",
+  "batched_throughput_rtf": null,
+  "median_utt_latency_ms": 38.1,
+  "latency_5s_clip": {
+    "median_ms": 40.3,
+    "p90_ms": 43.6,
+    "runs": 10
+  },
+  "load_s": 29.2,
+  "vram_weights_gb": 1.95,
+  "vram_peak_gb": 2.44,
+  "failures": 0,
+  "runaway_outputs": 0,
+  "empty_outputs": 0,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "torch": "2.14.1+cu130",
+  "when": "2026-10-29 15:18"
+}
