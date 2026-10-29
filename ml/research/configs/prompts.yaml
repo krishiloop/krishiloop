@@ -1,0 +1,16 @@
+# Prompt templates for the text embeddings of the canonical labels (text-anchored probe H1 and zero-shot).
+# Fixed on 29 Oct 2026 before any benchmark result existed; never tuned on test domains. The class text embedding is
+# the L2-normalised mean of the normalised embeddings of its prompts. Fields come from configs/label_map.csv:
+# {crop} common name, {crop_sci} scientific name, {condition} condition name, {agent} causal agent or pest.
+healthy:
+  - "a photo of a healthy {crop} leaf."
+  - "a close-up photo of a healthy green {crop} leaf with no disease symptoms."
+  - "a healthy leaf of {crop_sci}."
+condition:
+  - "a photo of a {crop} leaf with {condition}."
+  - "a close-up photo of a {crop} plant showing symptoms of {condition}."
+  - "a leaf of {crop_sci} with {condition}."
+condition_with_agent:
+  - "a photo of a {crop} leaf with {condition}."
+  - "a close-up photo of a {crop} plant showing symptoms of {condition}."
+  - "a leaf of {crop_sci} affected by {agent}."

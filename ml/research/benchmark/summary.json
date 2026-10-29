@@ -1,0 +1,43 @@
+{
+ "generated": "2026-10-29T16:42:19",
+ "fetched_datasets": [
+  "bd_bean_bldbd",
+  "bd_maize_mld",
+  "bd_potato_ctg",
+  "bd_rice_bd5",
+  "bd_rice_daffodil",
+  "bd_rice_dhanshomadhan",
+  "bd_rice_netrokona",
+  "bd_rice_riceleafbd_rimi",
+  "bd_rice_riceleafdiseasebd",
+  "bd_rice_riceyleafdisease",
+  "bd_tomato_jttr",
+  "in_rice_sethy",
+  "lk_rice_paddypulse",
+  "tz_potato",
+  "ug_bean_ibean"
+ ],
+ "images_kept": 22852,
+ "images_rows": 31431,
+ "domains": 24,
+ "crops": [
+  "bean",
+  "maize",
+  "potato",
+  "rice",
+  "tomato"
+ ],
+ "countries": [
+  "BD",
+  "IN",
+  "LK",
+  "TZ",
+  "UG"
+ ],
+ "labels": 34,
+ "dropped": {
+  "unmapped_or_dropped_label": 2366,
+  "duplicates": 6217,
+  "unreadable": 1
+ }
+}

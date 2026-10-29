@@ -1,0 +1,116 @@
+# Candidate datasets for the KrishiLoop multi-domain benchmark (PROTOCOL_v1 section D).
+# Every entry is licence-screened at its source by `python -m kl_research.sources screen ...`; the verbatim result is in
+# benchmark/licence_screen.json and the decision with reasons in benchmark/DATASETS.md.
+# status: candidate -> include | reject (reason). priority 1 = rice core and cross-country pairs (downloaded first).
+# fetch rules (used by kl_research.fetch on the 5090):
+#   files:        fnmatch globs on the repository path of each file to download (default: all)
+#   skip_files:   globs to skip
+#   zip_members:  for archives, globs of members to extract (partial HTTP-Range extraction when `remote_zip: true`)
+#   skip_members: globs of members to drop (augmented copies, overlays, annotations)
+#   cap_per_class: seeded random cap on images per class folder (bandwidth), recorded in DEVIATIONS.md
+datasets:
+  # ---------------------------------------------------------------- rice, Bangladesh
+  - {key: bd_rice_dhanshomadhan, place: "Bangladesh (paper: Dhaka Division; sample EXIF GPS near Jamalpur); vivo Y15 (paper)", source: mendeley, id: znsxdctwtt, version: 1, crop: rice, country: BD, priority: 1,
+     creators_note: "Hossain MF et al. (Dhan-Shomadhan, arXiv 2309.07515)",
+     fetch: {files: ["*"], skip_files: ["*.csv", "*.pdf", "*.txt", "*.docx"], cap_per_class: 30}}
+  - {key: bd_rice_riceyleafdisease, place: "Sirajganj and Pabna, Jul-Oct 2023", source: mendeley, id: t46kkgh2yw, version: 1, crop: rice, country: BD, priority: 1,
+     fetch: {remote_zip: true, skip_files: ["*ugment*"], skip_members: ["*ugment*"], cap_per_class: 60}}   # one 1.66 GB zip of originals
+  - {key: bd_rice_bd5, place: "Savar, Dhaka; 29 Oct-3 Nov 2024 (file names)", source: mendeley, id: sjkptpgv79, version: 2, crop: rice, country: BD, priority: 1, fetch: {}}
+  - {key: bd_rice_riceleafdiseasebd, place: "Gazipur, Dhaka; summer 2025; CMF Phone 2 Pro and Google Pixel 5 (record)", source: mendeley, id: 86s4jzj2m4, version: 3, crop: rice, country: BD, priority: 1,
+     fetch: {remote_zip: true, skip_files: ["*.xlsx", "*.md"], zip_members: ["*/Original images/*"], cap_per_class: 150}}
+  - {key: bd_rice_daffodil, place: "not stated", source: mendeley, id: vwv3nry3wr, version: 1, crop: rice, country: BD, priority: 2,
+     fetch: {remote_zip: true, zip_members: ["*/Original Dataset/*"], cap_per_class: 100}}
+  - {key: bd_rice_netrokona, place: "not stated (\"collected from actual fields\")", source: mendeley, id: jw7hp6r5gj, version: 1, crop: rice, country: BD, priority: 2,
+     fetch: {remote_zip: true, skip_files: ["*ugment*", "*.csv", "*.pdf"]}}
+  - {key: bd_rice_riceleafbd_rimi, place: "Sylhet and Dhaka; Amon season (record)", source: mendeley, id: kx9rx8p2mz, version: 1, crop: rice, country: BD, priority: 3,
+     note: "68% of files carry Facebook-CDN names (provenance conflict); only camera-named files are eligible",
+     fetch: {remote_zip: true, member_regex: "^(IMG|PXL|DSC|VID)?[_-]?20[12][0-9]{5}[_-]?[0-9]{6}", cap_per_class: 100}}
+  - {key: bd_rice_diu_compilation, source: mendeley, id: n8jpkpfz5p, version: 1, crop: rice, country: BD, priority: 9,
+     status: reject, reason: "re-compilation of other public sets (file names match the Kaggle compilation); leaks across domains"}
+  # ---------------------------------------------------------------- rice, other countries
+  - {key: in_rice_sethy, place: "Odisha, India (as listed in the Paddy Doctor paper; not on the record)", source: mendeley, id: fwcj7stb8r, version: 2, crop: rice, country: IN, priority: 1, fetch: {}}   # one 179 MB 7z
+  - {key: in_rice_sru_paddy, place: "not stated (SR University, India)", source: mendeley, id: 7fcbxmssvv, version: 3, crop: rice, country: IN, priority: 3,
+     note: "SR University (Warangal, India) per the institution field; place and device not stated in the record",
+     fetch: {remote_zip: true, files: ["Paddy Viral Diseases*"], cap_per_class: 250}}
+  - {key: in_rice_paddydoctor, source: manual, crop: rice, country: IN, priority: 9, status: reject,
+     licence_label: "Kaggle competition rules (7.B no redistribution) / IEEE DataPort login",
+     reason: "competition-only terms conflict (rules 7.A vs 7.B) and the original (IEEE DataPort) needs a login"}
+  - {key: ph_rice_zambales, source: manual, crop: rice, country: PH, priority: 9, status: reject,
+     licence_label: "Apache 2.0 (Kaggle listing)", reason: "Kaggle-only; downloads need a Kaggle account (no credentials rule)"}
+  - {key: tw_rice_raingel, source: manual, crop: rice, country: TW, priority: 9, status: reject,
+     licence_label: "CC BY 4.0 (Kaggle listing)", reason: "Kaggle-only; downloads need a Kaggle account (no credentials rule)"}
+  - {key: ph_rice_omdena, source: manual, crop: rice, country: PH, priority: 9, status: reject,
+     licence_label: "AGPL-3.0 (Kaggle listing)", reason: "Kaggle-only; AGPL is not in the protocol's allowed list; compiled from other sources"}
+  - {key: id_rice_sulawesi, source: manual, crop: rice, country: ID, priority: 9, status: reject,
+     licence_label: "Data files (c) Original Authors (Kaggle)", reason: "unclear licence; Kaggle-only; white-paper background"}
+  - {key: kaggle_rice_compilation, source: manual, crop: rice, country: mixed, priority: 9, status: reject,
+     licence_label: "MIT (uploader label)", reason: "aggregator with no sources; broken licence chain; 1,839 exact duplicates"}
+  - {key: lk_rice_nplankapaddy, source: zenodo, id: "18334503", crop: rice, country: LK, priority: 9, status: reject,
+     reason: "GPL-3.0-or-later: not in the protocol's allowed licence list"}
+  - {key: rice_zenodo_15817084, source: zenodo, id: "15817084", crop: rice, country: unknown, priority: 9, status: reject,
+     reason: "augmented re-release of a Kaggle set (Augmentor); originals cannot be separated"}
+  - {key: lk_rice_paddypulse, place: "Mannar, Jaffna, Mullaitivu, Kilinochchi (Northern Province); Canon EOS 60D, Canon R6, Nikon D750, iPhone 14", source: zenodo, id: "19381958", crop: rice, country: LK, priority: 2,
+     note: "PaddyPulse-SLNR, Northern Province of Sri Lanka; white background (lab domain); Canon EOS 60D, Canon R6, Nikon D750, iPhone 14",
+     fetch: {remote_zip: true, cap_per_class: 120}}
+  # ---------------------------------------------------------------- other crops, outside Bangladesh
+  - {key: tz_potato, place: "Mbeya, Southern Highlands; 22 Nov 2022-8 Apr 2023; Samsung Galaxy A03 Core", source: zenodo, id: "8286529", crop: potato, country: TZ, priority: 1,
+     fetch: {cap_per_class: 2500, mirror_zip: {url: "https://huggingface.co/datasets/Project-AgML/potato_leaf_blight_classification/resolve/main/potato_leaf_blight.zip",
+             note: "AgML re-zip of the Zenodo deposit on the Hugging Face CDN; members used only if name, size and CRC32 equal the Zenodo zips"}}}
+  - {key: ug_bean_ibean, place: "Uganda, field/garden; \"a basic smartphone\" (README)", title: "iBean bean leaf images (Makerere AI Lab and NaCRRI), released Jan 2020; HF copy AI-Lab-Makerere/beans", creators_note: "Makerere AI Lab (AIR Lab), National Crops Resources Research Institute (NaCRRI)", source: github, repo: AI-Lab-Makerere/ibean, licence_path: LICENSE, licence_label_from_file: MIT,
+     readme_licence_grep: "licen", crop: bean, country: UG, priority: 1,
+     note: "original storage.googleapis.com/ibeans zips answer 403 (29 Oct 2026); the creators' own HF copy AI-Lab-Makerere/beans (MIT, not gated) is used",
+     fetch: {urls: ["https://huggingface.co/datasets/AI-Lab-Makerere/beans/resolve/main/data/train.zip",
+                    "https://huggingface.co/datasets/AI-Lab-Makerere/beans/resolve/main/data/validation.zip",
+                    "https://huggingface.co/datasets/AI-Lab-Makerere/beans/resolve/main/data/test.zip"]}}
+  - {key: gh_ccmt, place: "local farms, Ghana; \"high-resolution camera device\"", source: mendeley, id: bwh3zbpkpv, version: 1, crop: multi, country: GH, priority: 1,
+     note: "raw images only (augmented folders skipped); seeded cap of 400 per class folder for bandwidth",
+     fetch: {skip_files: ["*ugment*"], cap_per_class: 150}}
+  - {key: ec_coffee_rocole, place: "one robusta coffee field, Ecuador (paper); smartphone", source: mendeley, id: c5yvn32dzg, version: 2, crop: coffee, country: EC, priority: 3, fetch: {}}
+  - {key: br_coffee_bracol, place: "Espirito Santo, Brazil; ASUS Zenfone 2, Xiaomi Redmi 5A, Xiaomi S2, Galaxy S8, iPhone 6S", source: mendeley, id: yy2k5y8mxg, version: 1, crop: coffee, country: BR, priority: 3, fetch: {}}
+  - {key: in_potato_wb, place: "Paikarapur village, Paschim Medinipur, West Bengal, India", source: mendeley, id: mwbwbdzz7z, version: 1, crop: potato, country: IN, priority: 2,
+     fetch: {cap_per_class: 400}}
+  - {key: web_plantdoc, place: "internet-scraped (worldwide)", title: "PlantDoc (classification set)", creators_note: "Singh D, Jain N, Jain P, Kayal P, Kumawat S, Batra N (CoDS-COMAD 2020)", source: github, repo: pratikkayal/PlantDoc-Dataset, licence_path: LICENSE.txt,
+     licence_label_from_file: "CC BY 4.0", readme_licence_grep: "licen", crop: multi, country: web, priority: 3,
+     note: "internet-scraped images; third-party copyright not cleared by the README licence",
+     fetch: {urls: ["https://github.com/pratikkayal/PlantDoc-Dataset/archive/refs/heads/master.zip"]}}
+  - {key: web_plantseg_v3, source: zenodo, id: "14935094", crop: multi, country: web, priority: 9, status: reject,
+     reason: "v3 record is CC BY 4.0 (v1, v2 CC BY-NC-ND; latest CC BY-NC), but the images are web-collected and their third-party copyright is not cleared by the tag; segmentation set; not used"}
+  - {key: web_plantwild, source: hf_dataset, id: uqtwei2/PlantWild, crop: multi, country: web, priority: 9, status: reject,
+     reason: "CC BY-NC-ND 4.0 (non-commercial, no derivatives)"}
+  - {key: us_plantvillage, source: hf_dataset, id: mohanty/PlantVillage, crop: multi, country: US, priority: 9, status: reject,
+     reason: "licence claims conflict across hosts (HF card CC BY-SA 3.0; Kaggle mirror CC BY-NC-SA 4.0; no LICENSE in the GitHub original) and the images are lab shots on plain backgrounds"}
+  # ---------------------------------------------------------------- other crops, Bangladesh
+  - {key: bd_potato_ctg, place: "Chattogram (record); iPhone 15 named in the record", source: mendeley, id: d5b3fzpw3g, version: 1, crop: potato, country: BD, priority: 1,
+     fetch: {remote_zip: true, skip_members: ["*ugment*"]}}
+  - {key: bd_maize_mld, place: "Jhenaidah (record); Samsung Galaxy S21, iPhone 13", source: mendeley, id: 3myfctrgk3, version: 1, crop: maize, country: BD, priority: 1, fetch: {remote_zip: true}}
+  - {key: bd_maize_seasonal, source: mendeley, id: vy629dngm8, version: 1, crop: maize, country: BD, priority: 4,
+     fetch: {remote_zip: true, cap_per_class: 250}}
+  - {key: bd_bean_bldbd, place: "Kulchara village, Jhenaidah", source: mendeley, id: 3k46s46x3s, version: 1, crop: bean, country: BD, priority: 1,
+     fetch: {remote_zip: true, skip_files: ["*ugment*"]}}
+  - {key: bd_bean_rangpur, source: mendeley, id: 89c9r5m2gx, version: 1, crop: bean, country: BD, priority: 3, status: deferred,
+     reason: "licence passes (CC BY 4.0); 9.2 GB, not queued in this run (bandwidth)",
+     fetch: {remote_zip: true, cap_per_class: 400}}
+  - {key: bd_tomato_jttr, place: "several regions of Bangladesh, 10-20 Mar 2025", source: mendeley, id: jttrv2w27r, version: 2, crop: tomato, country: BD, priority: 3, fetch: {cap_per_class: 150}}
+  - {key: bd_wheat, source: mendeley, id: 5gc7hwydwg, version: 1, crop: wheat, country: BD, priority: 2,
+     fetch: {remote_zip: true, zip_members: ["*/Original Dataset/*"]}}
+  - {key: bd_tea_tldbd, source: mendeley, id: d2xybhfw59, version: 2, crop: tea, country: BD, priority: 2,
+     fetch: {remote_zip: true, zip_members: ["*/Tea Compressed Data/*"]}}
+  - {key: bd_banana_wfz, source: mendeley, id: wfzpdmc5vx, version: 1, crop: banana, country: BD, priority: 2, fetch: {}}
+  - {key: bd_banana_6yy, source: mendeley, id: 6yy9522rdy, version: 1, crop: banana, country: BD, priority: 2, fetch: {}}
+  - {key: bd_banana_cm8, source: mendeley, id: cm8zf62kzh, version: 2, crop: banana, country: BD, priority: 9, status: reject,
+     reason: "same content as 6yy9522rdy (identical zip member count 6,013 and identical per-class counts); kept once"}
+  - {key: bd_mango_mld24, source: mendeley, id: 6dvpywm2m2, version: 1, crop: mango, country: BD, priority: 2, fetch: {}}
+  - {key: bd_mango_mangoleafbd, source: mendeley, id: hxsnvwty3r, version: 1, crop: mango, country: BD, priority: 9, status: reject,
+     reason: "CC BY-NC 3.0 (non-commercial)"}
+  - {key: bd_guava_idgldd, source: mendeley, id: 46spm4z4d3, version: 3, crop: guava, country: BD, priority: 3, fetch: {}}
+  - {key: bd_lemon_bdlemonleaf, source: mendeley, id: 643f5bbc2t, version: 6, crop: lemon, country: BD, priority: 4,
+     fetch: {remote_zip: true, zip_members: ["Raw Image/*"]}}
+  - {key: bd_jute, source: mendeley, id: z87b9hnkh7, version: 1, crop: jute, country: BD, priority: 9, status: reject,
+     reason: "72 images in one folder: no class labels (fails >= 2 classes, >= 100 images)"}
+  - {key: bd_sugarcane, source: mendeley, id: n8mpzb7p4k, version: 1, crop: sugarcane, country: BD, priority: 3, fetch: {}}
+  - {key: bd_eggplant_pwv, source: mendeley, id: pwvpb658rm, version: 2, crop: eggplant, country: BD, priority: 3,
+     fetch: {remote_zip: true, cap_per_class: 300}}
+  - {key: bd_multicrop_olid1, source: zenodo, id: "8105154", crop: multi, country: BD, priority: 3, status: deferred,
+     reason: "licence passes (CC BY 4.0); not queued in this run (bandwidth); candidate for the next run"}
+  - {key: bd_eggplant_zenodo, source: zenodo, id: "22735221", crop: eggplant, country: BD, priority: 3, status: deferred,
+     reason: "licence passes (CC BY 4.0); not queued in this run (bandwidth); candidate for the next run"}

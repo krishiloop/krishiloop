@@ -1,0 +1,19 @@
+# Frozen backbones for PROTOCOL_v1 section M. Licences are checked at the Hugging Face API before any download
+# (benchmark/licence_screen.json) and recorded in benchmark/FEATURES.md.
+# kind: open_clip (image + text towers) | timm (image only)
+# res: input resolution actually used; preprocessing is the model's own (open_clip transform or timm data config).
+# DINOv2 runs at 224 (resize 256 / centre-crop 224 = the official DINOv2 linear-evaluation transform), not the 518
+# of the last high-resolution training phase: the near-copy threshold (DINOv2-B cosine >= 0.95) was set at 224 in
+# ml/vision and must keep its meaning. This is the documented choice for every DINOv2 size.
+# flagged: true -> comparison only, never used to pick the shipped model (PROTOCOL_v1 section M).
+backbones:
+  - {key: bioclip2, kind: open_clip, arch: "hf-hub:imageomics/bioclip-2", pretrained: null, hf_id: imageomics/bioclip-2, text: true}
+  - {key: siglip2_b16, kind: open_clip, arch: ViT-B-16-SigLIP2, pretrained: webli, hf_id: timm/ViT-B-16-SigLIP2, upstream: google/siglip2-base-patch16-224, text: true}
+  - {key: siglip2_so400m, kind: open_clip, arch: ViT-SO400M-16-SigLIP2-384, pretrained: webli, hf_id: timm/ViT-SO400M-16-SigLIP2-384, upstream: google/siglip2-so400m-patch16-384, text: true}
+  - {key: dinov2_b, kind: timm, arch: vit_base_patch14_dinov2.lvd142m, hf_id: timm/vit_base_patch14_dinov2.lvd142m, upstream: facebook/dinov2-base, res: 224}
+  - {key: dinov2_l, kind: timm, arch: vit_large_patch14_dinov2.lvd142m, hf_id: timm/vit_large_patch14_dinov2.lvd142m, upstream: facebook/dinov2-large, res: 224}
+  - {key: dinov2_g, kind: timm, arch: vit_giant_patch14_dinov2.lvd142m, hf_id: timm/vit_giant_patch14_dinov2.lvd142m, upstream: facebook/dinov2-giant, res: 224}
+  - {key: eva02_l, kind: open_clip, arch: EVA02-L-14, pretrained: merged2b_s4b_b131k, hf_id: timm/eva02_large_patch14_clip_224.merged2b_s4b_b131k, text: true}
+  - {key: pe_core_l, kind: open_clip, arch: PE-Core-L-14-336, pretrained: meta, hf_id: timm/PE-Core-L-14-336, upstream: facebook/PE-Core-L14-336, text: true}
+  - {key: dinov3_b, kind: timm, arch: vit_base_patch16_dinov3.lvd1689m, hf_id: timm/vit_base_patch16_dinov3.lvd1689m, upstream: facebook/dinov3-vitb16-pretrain-lvd1689m, res: 224, flagged: true}
+  - {key: dinov3_l, kind: timm, arch: vit_large_patch16_dinov3.lvd1689m, hf_id: timm/vit_large_patch16_dinov3.lvd1689m, upstream: facebook/dinov3-vitl16-pretrain-lvd1689m, res: 224, flagged: true}

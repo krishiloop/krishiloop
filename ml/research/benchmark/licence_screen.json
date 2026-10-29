@@ -1,0 +1,1532 @@
+{
+ "datasets": [
+  {
+   "key": "bd_rice_dhanshomadhan",
+   "source": "mendeley",
+   "id": "znsxdctwtt",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:08Z",
+   "title": "Dhan-Shomadhan: A Dataset of Rice Leaf Disease Classification for Bangladeshi Local Rice",
+   "doi": "10.17632/znsxdctwtt.1",
+   "publish_date": "2021-04-06T07:16:13.099Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md Fahad Hossain",
+    "Sheikh  Abujar ",
+    "Sheak Rashed Haider  Noori",
+    "Syed Akhter  Hossain"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/znsxdctwtt?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_riceyleafdisease",
+   "source": "mendeley",
+   "id": "t46kkgh2yw",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:08Z",
+   "title": "RiceyLeafDisease: An Extensive Image Dataset of Diverse Rice Leaf Diseases from Different Regions of Bangladesh.",
+   "doi": "10.17632/t46kkgh2yw.1",
+   "publish_date": "2023-12-27T06:58:23.632Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Mehedi Hasan",
+    "Sonia Khatun",
+    "Md. Abu Raihan",
+    "Abdul Hasib Uddin"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/t46kkgh2yw?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_bd5",
+   "source": "mendeley",
+   "id": "sjkptpgv79",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:09Z",
+   "title": "RiceLeafDisease-BD5: A Field-Collected Five-Class Image Dataset from Bangladesh",
+   "doi": "10.17632/sjkptpgv79.2",
+   "publish_date": "2026-07-28T09:22:24.44Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md Nafijul islam",
+    "Md Nayeem Hasan Habib",
+    "Sojib hasan",
+    "Mayen Uddin  Mojumdar"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/sjkptpgv79?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_riceleafdiseasebd",
+   "source": "mendeley",
+   "id": "86s4jzj2m4",
+   "version": 3,
+   "checked_at": "2026-10-29T08:24:09Z",
+   "title": "RiceLeafDiseaseBD: A Field-Based Annotated Smartphone Image Dataset of Healthy and Diseased Rice Leaves from Bangladesh",
+   "doi": "10.17632/86s4jzj2m4.3",
+   "publish_date": "2026-09-01T13:47:42.725Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Mohammad Mehedi Hasan Munna",
+    "Toriqul  Islam",
+    "Smita Saha",
+    "Iqbal Hossain Safy",
+    "Saiful  Bari",
+    "Jasmin Akter",
+    "Md Momtajur Rahman",
+    "Riya Akter",
+    "Nahid Hossain Antu",
+    "Acramul Haque Kabir",
+    "Reefka Fabliha Tulona",
+    "Ashraful Islam",
+    "M Ashraful Amin"
+   ],
+   "versions": [
+    3,
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/86s4jzj2m4?version=3",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_daffodil",
+   "source": "mendeley",
+   "id": "vwv3nry3wr",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:09Z",
+   "title": "Rice Leaf Disease and Pest Dataset Overview",
+   "doi": "10.17632/vwv3nry3wr.1",
+   "publish_date": "2024-11-11T23:27:40.35Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Shakhawath Hossain Rifat",
+    "Tanvir Almas Layes",
+    "Afif Hasan",
+    "Mayen Uddin  Mojumdar"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/vwv3nry3wr?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_netrokona",
+   "source": "mendeley",
+   "id": "jw7hp6r5gj",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:09Z",
+   "title": "Rice Disease Image Dataset",
+   "doi": "10.17632/jw7hp6r5gj.1",
+   "publish_date": "2026-02-23T20:00:37.387Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Nishat Sultana Raki",
+    "Md. Abdul Bakki",
+    "Foysal Sheikh",
+    "Mosa. Nadia Sultana Pria",
+    "Shahnaj Parvin",
+    "Mafiul Hasan Matin"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/jw7hp6r5gj?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_riceleafbd_rimi",
+   "source": "mendeley",
+   "id": "kx9rx8p2mz",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:10Z",
+   "title": "RiceLeafBD: A Real-Field Image Dataset for Rice Leaf Disease Detection and Classification in Bangladesh",
+   "doi": "10.17632/kx9rx8p2mz.1",
+   "publish_date": "2025-11-07T10:49:18.151Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Sadia Afrin Rimi",
+    "Md Jalal Uddin Chowdhury"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/kx9rx8p2mz?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_rice_diu_compilation",
+   "source": "mendeley",
+   "id": "n8jpkpfz5p",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:10Z",
+   "title": "A Rice Leaf Disease Image Dataset for Multi-Class Disease Classification",
+   "doi": "10.17632/n8jpkpfz5p.1",
+   "publish_date": "2026-09-29T11:32:05.168Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md Mahamudul Hasan",
+    "Md Shakib Hossain",
+    "Jahanur  Biswas"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/n8jpkpfz5p?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "in_rice_sethy",
+   "source": "mendeley",
+   "id": "fwcj7stb8r",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:10Z",
+   "title": "Rice Leaf Disease Image Samples",
+   "doi": "10.17632/fwcj7stb8r.2",
+   "publish_date": "2024-07-18T16:02:23.086Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "prabira Kumar sethy"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/fwcj7stb8r?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "in_rice_sru_paddy",
+   "source": "mendeley",
+   "id": "7fcbxmssvv",
+   "version": 3,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "title": "A Benchmark Dataset for Paddy Bacterial, viral Disease and healthy Classification",
+   "doi": "10.17632/7fcbxmssvv.3",
+   "publish_date": "2026-04-23T20:33:18.463Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Shivaprasad Namala"
+   ],
+   "versions": [
+    3,
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/7fcbxmssvv?version=3",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "in_rice_paddydoctor",
+   "source": "manual",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "licence_label": "Kaggle competition rules (7.B no redistribution) / IEEE DataPort login",
+   "note": "manual source; licence recorded from config",
+   "licence_class": "unclear"
+  },
+  {
+   "key": "ph_rice_zambales",
+   "source": "manual",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "licence_label": "Apache 2.0 (Kaggle listing)",
+   "note": "manual source; licence recorded from config",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "tw_rice_raingel",
+   "source": "manual",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "licence_label": "CC BY 4.0 (Kaggle listing)",
+   "note": "manual source; licence recorded from config",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "ph_rice_omdena",
+   "source": "manual",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "licence_label": "AGPL-3.0 (Kaggle listing)",
+   "note": "manual source; licence recorded from config",
+   "licence_class": "blocked"
+  },
+  {
+   "key": "id_rice_sulawesi",
+   "source": "manual",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "licence_label": "Data files (c) Original Authors (Kaggle)",
+   "note": "manual source; licence recorded from config",
+   "licence_class": "unclear"
+  },
+  {
+   "key": "kaggle_rice_compilation",
+   "source": "manual",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "licence_label": "MIT (uploader label)",
+   "note": "manual source; licence recorded from config",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "lk_rice_nplankapaddy",
+   "source": "zenodo",
+   "id": "18334503",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:11Z",
+   "title": "NP-LankaPaddy",
+   "doi": "10.5281/zenodo.18334503",
+   "publish_date": "2026-01-28",
+   "version_label": "V1.0",
+   "licence_id": "gpl-3.0-or-later",
+   "access_right": "open",
+   "creators": [
+    "Tharmini, Kiriharan",
+    "Ramanan, Amirthalingam",
+    "Suvanthini, Terensan",
+    "Kokul, Thanikasalam",
+    "Fernando, Subha"
+   ],
+   "files": [
+    {
+     "key": "LankaPaddy_V1.0.zip",
+     "size": 501665931
+    }
+   ],
+   "api": "https://zenodo.org/api/records/18334503",
+   "licence_label": "gpl-3.0-or-later",
+   "licence_class": "blocked"
+  },
+  {
+   "key": "rice_zenodo_15817084",
+   "source": "zenodo",
+   "id": "15817084",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:12Z",
+   "title": "Rice Leaf Disease",
+   "doi": "10.5281/zenodo.15817084",
+   "publish_date": "2025-07-06",
+   "version_label": null,
+   "licence_id": "cc-by-4.0",
+   "access_right": "open",
+   "creators": [
+    "Shakeel, Ummer"
+   ],
+   "files": [
+    {
+     "key": "Rice Leaf Disease Dataset.zip",
+     "size": 464720430
+    }
+   ],
+   "api": "https://zenodo.org/api/records/15817084",
+   "licence_label": "cc-by-4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "tz_potato",
+   "source": "zenodo",
+   "id": "8286529",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:14Z",
+   "title": "Irish Potato Imagery Dataset for Early Detection of Crop Diseases",
+   "doi": "10.5281/zenodo.8286529",
+   "publish_date": "2023-08-26",
+   "version_label": "01",
+   "licence_id": "cc-by-4.0",
+   "access_right": "open",
+   "creators": [
+    "Laizer, Hudson",
+    "Mduma, Neema",
+    "Machuve, Dina",
+    "Lyimo, Tumaini",
+    "Babirye, Claire",
+    "Swai, Jenifa",
+    "Siwingwa, Adam"
+   ],
+   "files": [
+    {
+     "key": "earlyblt.zip",
+     "size": 2002133904
+    },
+    {
+     "key": "lateblt.zip",
+     "size": 2439344884
+    },
+    {
+     "key": "healthy.zip",
+     "size": 2725288552
+    }
+   ],
+   "api": "https://zenodo.org/api/records/8286529",
+   "licence_label": "cc-by-4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "ug_bean_ibean",
+   "source": "github",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:15Z",
+   "repo": "AI-Lab-Makerere/ibean",
+   "branch": "master",
+   "licence_file": "LICENSE",
+   "licence_text_head": "MIT License\n\nCopyright (c) 2020 AIR Lab Makerere University\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to pe",
+   "licence_label": "MIT",
+   "readme_licence_lines": [
+    "License | MIT|"
+   ],
+   "licence_class": "allowed"
+  },
+  {
+   "key": "gh_ccmt",
+   "source": "mendeley",
+   "id": "bwh3zbpkpv",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:15Z",
+   "title": "Dataset for Crop Pest and Disease Detection",
+   "doi": "10.17632/bwh3zbpkpv.1",
+   "publish_date": "2023-04-26T22:53:21.99Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Patrick Mensah Kwabena",
+    "Vivian Akoto-Adjepong",
+    "Kwabena Adu",
+    "Mighty Abra Ayidzoe",
+    "Elvis Asare Bediako",
+    "Owusu Nyarko-Boateng",
+    "Samuel Boateng",
+    "Esther Fobi Donkor",
+    "Faiza Umar Bawah",
+    "Nicodemus Songose Awarayi",
+    "Peter Nimbe",
+    "Isaac Kofi Nti",
+    "Muntala Abdulai",
+    "Remember Roger Adjei",
+    "Michael Opoku"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/bwh3zbpkpv?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "ec_coffee_rocole",
+   "source": "mendeley",
+   "id": "c5yvn32dzg",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:16Z",
+   "title": "RoCoLe: A robusta coffee leaf images dataset ",
+   "doi": "10.17632/c5yvn32dzg.2",
+   "publish_date": "2019-05-17T14:11:57.746Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Jorge Parraga-Alava",
+    "Kevin Cusme",
+    "Angélica Loor",
+    "Esneider Santander"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/c5yvn32dzg?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "br_coffee_bracol",
+   "source": "mendeley",
+   "id": "yy2k5y8mxg",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:16Z",
+   "title": "BRACOL - A Brazilian Arabica Coffee Leaf images dataset to identification and quantification of coffee diseases and pests",
+   "doi": "10.17632/yy2k5y8mxg.1",
+   "publish_date": "2019-11-06T17:24:35.454Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Renato A. Krohling",
+    "Guilherme J. M. Esgario ",
+    "José A. Ventura"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/yy2k5y8mxg?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "in_potato_wb",
+   "source": "mendeley",
+   "id": "mwbwbdzz7z",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:16Z",
+   "title": "A novel potato leaf dataset for detection and classification of potato leaf diseases",
+   "doi": "10.17632/mwbwbdzz7z.1",
+   "publish_date": "2026-03-30T15:24:50.649Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Buddhadev  Sasmal",
+    "Suparna Biswas",
+    "Ramesh Saha",
+    "Krishna Gopal Dhal",
+    "Ruba Abu Khurma",
+    "Akash Das",
+    "Anuvab Sahu",
+    "Raja Das",
+    "Bubun Pal",
+    "Kaushik Mazumdar"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/mwbwbdzz7z?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "web_plantdoc",
+   "source": "github",
+   "id": "",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:17Z",
+   "repo": "pratikkayal/PlantDoc-Dataset",
+   "branch": "master",
+   "licence_file": "LICENSE.txt",
+   "licence_text_head": "Attribution 4.0 International\n\n=======================================================================\n\nCreative Commons Corporation (\"Creative Commons\") is not a law firm and\ndoes not provide legal services or legal advice. Distribution of\nCreative Commons public licenses does not create a lawyer-client or\nother relationship. Creative Commons makes its licenses and related\ninformation available o",
+   "licence_label": "CC BY 4.0",
+   "readme_licence_lines": [
+    "## License",
+    "Creative Commons Attribution 4.0 International [Link](https://github.com/pratikkayal/PlantDoc-Dataset/blob/master/LICENSE.txt)"
+   ],
+   "licence_class": "allowed"
+  },
+  {
+   "key": "web_plantseg_v3",
+   "source": "zenodo",
+   "id": "14935094",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:17Z",
+   "title": "PlantSeg: A Large-Scale In-the-wild Dataset for Plant Disease Segmentation",
+   "doi": "10.5281/zenodo.14935094",
+   "publish_date": "2025-02-27",
+   "version_label": null,
+   "licence_id": "cc-by-4.0",
+   "access_right": "open",
+   "creators": [
+    "Wei, Tianqi",
+    "Chen, Zhi",
+    "Yu, Xin",
+    "Chapman, Scott",
+    "Melloy, Paul",
+    "HUANG, ZI"
+   ],
+   "files": [
+    {
+     "key": "plantsegv3.zip",
+     "size": 1691902086
+    }
+   ],
+   "api": "https://zenodo.org/api/records/14935094",
+   "licence_label": "cc-by-4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "web_plantwild",
+   "source": "hf_dataset",
+   "id": "uqtwei2/PlantWild",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:18Z",
+   "licence_label": "cc-by-nc-nd-4.0",
+   "gated": false,
+   "api": "https://huggingface.co/api/datasets/uqtwei2/PlantWild",
+   "licence_class": "blocked"
+  },
+  {
+   "key": "us_plantvillage",
+   "source": "hf_dataset",
+   "id": "mohanty/PlantVillage",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:18Z",
+   "licence_label": "cc-by-sa-3.0",
+   "gated": false,
+   "api": "https://huggingface.co/api/datasets/mohanty/PlantVillage",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_potato_ctg",
+   "source": "mendeley",
+   "id": "d5b3fzpw3g",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:19Z",
+   "title": "Potato Leaf Disease Dataset",
+   "doi": "10.17632/d5b3fzpw3g.1",
+   "publish_date": "2026-05-26T07:17:16.15Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Ayesha Banu",
+    "Kaushik Deb"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/d5b3fzpw3g?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_maize_mld",
+   "source": "mendeley",
+   "id": "3myfctrgk3",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:19Z",
+   "title": "MLD: A Multi-Class Maize Leaf Disease Image Dataset from Bangladesh (2025)",
+   "doi": "10.17632/3myfctrgk3.1",
+   "publish_date": "2026-02-26T14:12:08.021Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Faruk Ahmed"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/3myfctrgk3?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_maize_seasonal",
+   "source": "mendeley",
+   "id": "vy629dngm8",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:19Z",
+   "title": "Seasonal Corn Leaf Disease Dataset: A Multi-Year Collection for Robust Analysis",
+   "doi": "10.17632/vy629dngm8.1",
+   "publish_date": "2025-03-10T22:22:27.979Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "MD Hasan Ahmad"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/vy629dngm8?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_bean_bldbd",
+   "source": "mendeley",
+   "id": "3k46s46x3s",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:20Z",
+   "title": "BLD-BD: A Field-Based Image Dataset of Bean Leaf Diseases for Deep Learning & Computer Vision Research",
+   "doi": "10.17632/3k46s46x3s.1",
+   "publish_date": "2026-09-06T21:54:34.525Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md Rasheduzzaman Elite",
+    "Md. Sefatullah"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/3k46s46x3s?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_bean_rangpur",
+   "source": "mendeley",
+   "id": "89c9r5m2gx",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:20Z",
+   "title": "High-Resolution Dataset of Common Bean Leaf Diseases in Bangladesh",
+   "doi": "10.17632/89c9r5m2gx.1",
+   "publish_date": "2026-02-26T08:26:56.025Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Jahanur  Biswas",
+    "Md Mahamudul Hasan",
+    "Md Shakib Hossain"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/89c9r5m2gx?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_tomato_jttr",
+   "source": "mendeley",
+   "id": "jttrv2w27r",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:20Z",
+   "title": "Tomato Leaf Disease Classification Dataset",
+   "doi": "10.17632/jttrv2w27r.2",
+   "publish_date": "2025-06-03T15:26:30.073Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Nure Alam Siddiki Rachin",
+    "Nasim Mahmud Likhon"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/jttrv2w27r?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_wheat",
+   "source": "mendeley",
+   "id": "5gc7hwydwg",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:20Z",
+   "title": "Disease Dataset of Wheat: Original, Augmented, and Balanced for Deep Learning",
+   "doi": "10.17632/5gc7hwydwg.1",
+   "publish_date": "2025-03-05T17:55:35.473Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md Istiak Rahman Radowan",
+    "Rokonozzaman Ayon Ayon"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/5gc7hwydwg?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_tea_tldbd",
+   "source": "mendeley",
+   "id": "d2xybhfw59",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:21Z",
+   "title": "TLD-BD: A Comprehensive Tea Leaf Image Dataset for Leaf Condition Analysis",
+   "doi": "10.17632/d2xybhfw59.2",
+   "publish_date": "2025-07-28T15:34:22.313Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Faruk Ahmed",
+    "Ferdous Ahmed"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/d2xybhfw59?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_banana_wfz",
+   "source": "mendeley",
+   "id": "wfzpdmc5vx",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:21Z",
+   "title": "Banana_Leaf_Disease_Dataset_Bangladesh",
+   "doi": "10.17632/wfzpdmc5vx.1",
+   "publish_date": "2024-12-27T10:09:47.924Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Shahrin Shahrin",
+    "Anup kumar Modak"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/wfzpdmc5vx?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_banana_6yy",
+   "source": "mendeley",
+   "id": "6yy9522rdy",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:21Z",
+   "title": "\"Multi-Class Banana Leaf Disease Image Dataset\"",
+   "doi": "10.17632/6yy9522rdy.1",
+   "publish_date": "2026-10-08T10:22:22.865Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Raziya Sultana"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/6yy9522rdy?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_banana_cm8",
+   "source": "mendeley",
+   "id": "cm8zf62kzh",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:22Z",
+   "title": "Banana Leaf Disease Image Dataset 2026 ",
+   "doi": "10.17632/cm8zf62kzh.2",
+   "publish_date": "2026-10-06T14:27:24.298Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Raziya Sultana"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/cm8zf62kzh?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_mango_mld24",
+   "source": "mendeley",
+   "id": "6dvpywm2m2",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:22Z",
+   "title": "MLD24: An image dataset for mango leaf disease detection ",
+   "doi": "10.17632/6dvpywm2m2.1",
+   "publish_date": "2024-08-05T08:48:07.669Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md. Mahir Hasan  Shakib",
+    "Sumaya Mustofa",
+    "Md Taimur Ahad"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/6dvpywm2m2?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_mango_mangoleafbd",
+   "source": "mendeley",
+   "id": "hxsnvwty3r",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:22Z",
+   "title": "MangoLeafBD Dataset",
+   "doi": "10.17632/hxsnvwty3r.1",
+   "publish_date": "2022-08-30T18:45:12.578Z",
+   "licence_short": "CC BY NC 3.0",
+   "licence_full": "Attribution-NonCommercial 3.0 Unported",
+   "licence_url": "https://creativecommons.org/licenses/by-nc/3.0",
+   "licence_text": "You are free to adapt, copy or redistribute the material, providing you attribute appropriately and do not use the material for commercial purposes.",
+   "creators": [
+    "Sawkat Ali",
+    "Muhammad  Ibrahim",
+    "Sarder Iftekhar  Ahmed",
+    "Md.  Nadim",
+    "Mizanur Rahman Mizanur",
+    "Maria Mehjabin  Shejunti",
+    "Taskeed  Jabid"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/hxsnvwty3r?version=1",
+   "licence_label": "CC BY NC 3.0",
+   "licence_class": "blocked"
+  },
+  {
+   "key": "bd_guava_idgldd",
+   "source": "mendeley",
+   "id": "46spm4z4d3",
+   "version": 3,
+   "checked_at": "2026-10-29T08:24:22Z",
+   "title": "IDGLDD: An Image Dataset of Guava Leaf Diseases and Pest Damage for Five-Class Classification",
+   "doi": "10.17632/46spm4z4d3.3",
+   "publish_date": "2026-10-25T23:39:00.238Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Md Naimul Hasan",
+    "Md Fahimur Rahman"
+   ],
+   "versions": [
+    3,
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/46spm4z4d3?version=3",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_lemon_bdlemonleaf",
+   "source": "mendeley",
+   "id": "643f5bbc2t",
+   "version": 6,
+   "checked_at": "2026-10-29T08:24:23Z",
+   "title": "BDLemonLeaf: Image Dataset of Healthy and Disease Lemon (Citrus limon) Leaves",
+   "doi": "10.17632/643f5bbc2t.6",
+   "publish_date": "2025-05-29T14:41:29.405Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Aritra  Das",
+    "Md. Sajjad Hossain",
+    "Tuly Rahman",
+    "Ayasha Naima Chowdhury",
+    "Arpita Biswas Deepa",
+    "Tasmim Shajahan Mim",
+    "Md. Rakibul Hasan",
+    "Ahmed Abdal Shafi Rasel",
+    "Mohammad Manzurul Islam"
+   ],
+   "versions": [
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/643f5bbc2t?version=6",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_jute",
+   "source": "mendeley",
+   "id": "z87b9hnkh7",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:23Z",
+   "title": "Jute Plant Leaves",
+   "doi": "10.17632/z87b9hnkh7.1",
+   "publish_date": "2024-05-03T20:11:26.68Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Mehedi Hasan Mridha"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/z87b9hnkh7?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_sugarcane",
+   "source": "mendeley",
+   "id": "n8mpzb7p4k",
+   "version": 1,
+   "checked_at": "2026-10-29T08:24:23Z",
+   "title": "SugarcaneLD-BD: A Sugarcane Leaf Diseases Dataset for Classification of Sugarcane Leaf Diseases Using Machine Learning",
+   "doi": "10.17632/n8mpzb7p4k.1",
+   "publish_date": "2025-08-05T12:48:54.004Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Shifat E Arman",
+    "Hasan Muhammad Abdullah",
+    "RM Saiem",
+    "Shamima Nasrin Asha",
+    "Syed Nazmus Sakib"
+   ],
+   "versions": [
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/n8mpzb7p4k?version=1",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_eggplant_pwv",
+   "source": "mendeley",
+   "id": "pwvpb658rm",
+   "version": 2,
+   "checked_at": "2026-10-29T08:24:24Z",
+   "title": "A Multi-Class Real-Field Eggplant Leaf Disease Dataset for Computer Vision and Deep Learning Research",
+   "doi": "10.17632/pwvpb658rm.2",
+   "publish_date": "2026-09-24T22:53:35.878Z",
+   "licence_short": "CC BY 4.0",
+   "licence_full": "Creative Commons Attribution 4.0 International",
+   "licence_url": "http://creativecommons.org/licenses/by/4.0",
+   "licence_text": "You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party.",
+   "creators": [
+    "Masud Rana Nayeem",
+    "Md Ashfikur Rahaman Adib",
+    "Sanjida Mahamud Sinty"
+   ],
+   "versions": [
+    2,
+    1
+   ],
+   "api": "https://data.mendeley.com/public-api/datasets/pwvpb658rm?version=2",
+   "licence_label": "CC BY 4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_multicrop_olid1",
+   "source": "zenodo",
+   "id": "8105154",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:24Z",
+   "title": "OLID I: An Open Leaf Image Dataset of Bangladesh's Major Crops",
+   "doi": "10.5281/zenodo.8105154",
+   "publish_date": "2023-06-30",
+   "version_label": "1.1.0",
+   "licence_id": "cc-by-4.0",
+   "access_right": "open",
+   "creators": [
+    "Nabil Anan Orka",
+    "M Nazim Uddin",
+    "Fardeen Md. Toushique",
+    "M Shahadath Hossain"
+   ],
+   "files": [
+    {
+     "key": "ash_gourd__part_1.zip",
+     "size": 1326325265
+    },
+    {
+     "key": "bitter_gourd__part_2.zip",
+     "size": 768904473
+    },
+    {
+     "key": "bottle_gourd__part_2.zip",
+     "size": 197858267
+    },
+    {
+     "key": "bottle_gourd__part_3.zip",
+     "size": 429707250
+    },
+    {
+     "key": "bottle_gourd__part_1.zip",
+     "size": 186872275
+    },
+    {
+     "key": "class_distribution.xlsx",
+     "size": 10530
+    },
+    {
+     "key": "bitter_gourd__part_3.zip",
+     "size": 886476855
+    },
+    {
+     "key": "cucumber.zip",
+     "size": 731075531
+    },
+    {
+     "key": "eggplant__part_1.zip",
+     "size": 719071823
+    },
+    {
+     "key": "eggplant__part_2.zip",
+     "size": 682902828
+    },
+    {
+     "key": "eggplant__part_3.zip",
+     "size": 984104106
+    },
+    {
+     "key": "ridge_gourd__part_1.zip",
+     "size": 684191022
+    },
+    {
+     "key": "ridge_gourd__part_2.zip",
+     "size": 489792460
+    },
+    {
+     "key": "snake_gourd__part_1.zip",
+     "size": 580849248
+    },
+    {
+     "key": "snake_gourd__part_2.zip",
+     "size": 655053636
+    },
+    {
+     "key": "tomato__part_1.zip",
+     "size": 1393633291
+    },
+    {
+     "key": "tomato__part_2.zip",
+     "size": 1500708392
+    },
+    {
+     "key": "ash_gourd__part_2.zip",
+     "size": 1391775671
+    },
+    {
+     "key": "bitter_gourd__part_1.zip",
+     "size": 858338538
+    }
+   ],
+   "api": "https://zenodo.org/api/records/8105154",
+   "licence_label": "cc-by-4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "bd_eggplant_zenodo",
+   "source": "zenodo",
+   "id": "22735221",
+   "version": null,
+   "checked_at": "2026-10-29T08:24:25Z",
+   "title": "BDEggplantDisease: A multi-class smartphone image dataset of eggplant leaf diseases from Bangladesh",
+   "doi": "10.5281/zenodo.22735222",
+   "publish_date": "2026-09-20",
+   "version_label": "V 1.0",
+   "licence_id": "cc-by-4.0",
+   "access_right": "restricted",
+   "creators": [
+    "Biswas, Jahanur",
+    "MD, Sozon",
+    "Ahmed, Md. Parvez",
+    "Sarder, Md Al Alif",
+    "Suvo, Shazidul Islam",
+    "Fuad, Fahid Hasan"
+   ],
+   "files": [],
+   "api": "https://zenodo.org/api/records/22735221",
+   "licence_label": "cc-by-4.0",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "lk_rice_paddypulse",
+   "source": "zenodo",
+   "id": "19381958",
+   "version": null,
+   "checked_at": "2026-10-29T10:19:18Z",
+   "title": "PaddyPulse-SLNR",
+   "doi": "10.5281/zenodo.19381958",
+   "publish_date": "2026-04-02",
+   "version_label": null,
+   "licence_id": "cc-by-4.0",
+   "access_right": "open",
+   "creators": [
+    "Tharmini, Kiriharan",
+    "Ramanan, Amirthalingam",
+    "Suvanthini, Terensan",
+    "Kokul, Thanikasalam"
+   ],
+   "files": [
+    {
+     "key": "paddy_leaf_diseases.zip",
+     "size": 600169729
+    }
+   ],
+   "api": "https://zenodo.org/api/records/19381958",
+   "licence_label": "cc-by-4.0",
+   "licence_class": "allowed"
+  }
+ ],
+ "backbones": [
+  {
+   "key": "bioclip2",
+   "hf_id": "imageomics/bioclip-2",
+   "checked_at": "2026-10-29T08:24:27Z",
+   "licence_label": [
+    "mit"
+   ],
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:mit"
+   ],
+   "gated": false,
+   "sha": "2957b322090f9cb17ae72c71981c7218a28d81e0",
+   "last_modified": "2026-05-20T22:06:51.000Z",
+   "api": "https://huggingface.co/api/models/imageomics/bioclip-2",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "siglip2_b16",
+   "hf_id": "timm/ViT-B-16-SigLIP2",
+   "checked_at": "2026-10-29T08:24:27Z",
+   "licence_label": "apache-2.0",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:apache-2.0"
+   ],
+   "gated": false,
+   "sha": "eee10eff6dd8cabae2d7f379d4e8cfcd352030aa",
+   "last_modified": "2025-02-21T23:12:52.000Z",
+   "api": "https://huggingface.co/api/models/timm/ViT-B-16-SigLIP2",
+   "licence_class": "allowed",
+   "upstream": {
+    "key": "siglip2_b16@upstream",
+    "hf_id": "google/siglip2-base-patch16-224",
+    "checked_at": "2026-10-29T08:24:27Z",
+    "licence_label": "apache-2.0",
+    "licence_name": null,
+    "licence_link": null,
+    "licence_tags": [
+     "license:apache-2.0"
+    ],
+    "gated": false,
+    "sha": "75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2",
+    "last_modified": "2025-02-21T04:03:35.000Z",
+    "api": "https://huggingface.co/api/models/google/siglip2-base-patch16-224",
+    "licence_class": "allowed"
+   }
+  },
+  {
+   "key": "siglip2_so400m",
+   "hf_id": "timm/ViT-SO400M-16-SigLIP2-384",
+   "checked_at": "2026-10-29T08:24:28Z",
+   "licence_label": "apache-2.0",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:apache-2.0"
+   ],
+   "gated": false,
+   "sha": "fec784dabb3081a5f101fc74eefaf9d1ed08237b",
+   "last_modified": "2025-02-21T23:31:16.000Z",
+   "api": "https://huggingface.co/api/models/timm/ViT-SO400M-16-SigLIP2-384",
+   "licence_class": "allowed",
+   "upstream": {
+    "key": "siglip2_so400m@upstream",
+    "hf_id": "google/siglip2-so400m-patch16-384",
+    "checked_at": "2026-10-29T08:24:28Z",
+    "licence_label": "apache-2.0",
+    "licence_name": null,
+    "licence_link": null,
+    "licence_tags": [
+     "license:apache-2.0"
+    ],
+    "gated": false,
+    "sha": "dd658faac399427308559e2c3ac1e99cbe43845d",
+    "last_modified": "2025-02-21T04:04:04.000Z",
+    "api": "https://huggingface.co/api/models/google/siglip2-so400m-patch16-384",
+    "licence_class": "allowed"
+   }
+  },
+  {
+   "key": "dinov2_b",
+   "hf_id": "timm/vit_base_patch14_dinov2.lvd142m",
+   "checked_at": "2026-10-29T08:24:28Z",
+   "licence_label": "apache-2.0",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:apache-2.0"
+   ],
+   "gated": false,
+   "sha": "4685c99dabffe5affac90bd99dbffd25801ae58d",
+   "last_modified": "2025-01-21T21:13:27.000Z",
+   "api": "https://huggingface.co/api/models/timm/vit_base_patch14_dinov2.lvd142m",
+   "licence_class": "allowed",
+   "upstream": {
+    "key": "dinov2_b@upstream",
+    "hf_id": "facebook/dinov2-base",
+    "checked_at": "2026-10-29T08:24:28Z",
+    "licence_label": "apache-2.0",
+    "licence_name": null,
+    "licence_link": null,
+    "licence_tags": [
+     "license:apache-2.0"
+    ],
+    "gated": false,
+    "sha": "f9e44c814b77203eaa57a6bdbbd535f21ede1415",
+    "last_modified": "2024-01-17T08:27:01.000Z",
+    "api": "https://huggingface.co/api/models/facebook/dinov2-base",
+    "licence_class": "allowed"
+   }
+  },
+  {
+   "key": "dinov2_l",
+   "hf_id": "timm/vit_large_patch14_dinov2.lvd142m",
+   "checked_at": "2026-10-29T08:24:29Z",
+   "licence_label": "apache-2.0",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:apache-2.0"
+   ],
+   "gated": false,
+   "sha": "4741e1cafbf45415e77074bb0cb42dba76c8684a",
+   "last_modified": "2025-01-20T18:05:48.000Z",
+   "api": "https://huggingface.co/api/models/timm/vit_large_patch14_dinov2.lvd142m",
+   "licence_class": "allowed",
+   "upstream": {
+    "key": "dinov2_l@upstream",
+    "hf_id": "facebook/dinov2-large",
+    "checked_at": "2026-10-29T08:24:29Z",
+    "licence_label": "apache-2.0",
+    "licence_name": null,
+    "licence_link": null,
+    "licence_tags": [
+     "license:apache-2.0"
+    ],
+    "gated": false,
+    "sha": "47b73eefe95e8d44ec3623f8890bd894b6ea2d6c",
+    "last_modified": "2023-09-06T11:23:50.000Z",
+    "api": "https://huggingface.co/api/models/facebook/dinov2-large",
+    "licence_class": "allowed"
+   }
+  },
+  {
+   "key": "dinov2_g",
+   "hf_id": "timm/vit_giant_patch14_dinov2.lvd142m",
+   "checked_at": "2026-10-29T08:24:29Z",
+   "licence_label": "apache-2.0",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:apache-2.0"
+   ],
+   "gated": false,
+   "sha": "dd22bb6485eeb29d67273f76d983061298bdc7f0",
+   "last_modified": "2025-01-21T21:13:25.000Z",
+   "api": "https://huggingface.co/api/models/timm/vit_giant_patch14_dinov2.lvd142m",
+   "licence_class": "allowed",
+   "upstream": {
+    "key": "dinov2_g@upstream",
+    "hf_id": "facebook/dinov2-giant",
+    "checked_at": "2026-10-29T08:24:30Z",
+    "licence_label": "apache-2.0",
+    "licence_name": null,
+    "licence_link": null,
+    "licence_tags": [
+     "license:apache-2.0"
+    ],
+    "gated": false,
+    "sha": "611a9d42f2335e0f921f1e313ad3c1b7178d206d",
+    "last_modified": "2023-09-06T11:23:25.000Z",
+    "api": "https://huggingface.co/api/models/facebook/dinov2-giant",
+    "licence_class": "allowed"
+   }
+  },
+  {
+   "key": "eva02_l",
+   "hf_id": "timm/eva02_large_patch14_clip_224.merged2b_s4b_b131k",
+   "checked_at": "2026-10-29T08:24:30Z",
+   "licence_label": "mit",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:mit"
+   ],
+   "gated": false,
+   "sha": "bf4190eb65dd5204ffb03e980108beb1200e0873",
+   "last_modified": "2024-02-10T23:42:17.000Z",
+   "api": "https://huggingface.co/api/models/timm/eva02_large_patch14_clip_224.merged2b_s4b_b131k",
+   "licence_class": "allowed"
+  },
+  {
+   "key": "pe_core_l",
+   "hf_id": "timm/PE-Core-L-14-336",
+   "checked_at": "2026-10-29T08:24:30Z",
+   "licence_label": "apache-2.0",
+   "licence_name": null,
+   "licence_link": null,
+   "licence_tags": [
+    "license:apache-2.0"
+   ],
+   "gated": false,
+   "sha": "8eff41b3f687e50a323662c2dda5eb3588c6dd35",
+   "last_modified": "2025-07-24T16:44:23.000Z",
+   "api": "https://huggingface.co/api/models/timm/PE-Core-L-14-336",
+   "licence_class": "allowed",
+   "upstream": {
+    "key": "pe_core_l@upstream",
+    "hf_id": "facebook/PE-Core-L14-336",
+    "checked_at": "2026-10-29T08:24:30Z",
+    "licence_label": "apache-2.0",
+    "licence_name": null,
+    "licence_link": null,
+    "licence_tags": [
+     "license:apache-2.0"
+    ],
+    "gated": false,
+    "sha": "bafb0f76541d399057e980a25947f67acec76575",
+    "last_modified": "2025-04-30T17:01:35.000Z",
+    "api": "https://huggingface.co/api/models/facebook/PE-Core-L14-336",
+    "licence_class": "allowed"
+   }
+  },
+  {
+   "key": "dinov3_b",
+   "hf_id": "timm/vit_base_patch16_dinov3.lvd1689m",
+   "checked_at": "2026-10-29T08:24:31Z",
+   "licence_label": "other",
+   "licence_name": "dinov3-license",
+   "licence_link": "https://ai.meta.com/resources/models-and-libraries/dinov3-license",
+   "licence_tags": [
+    "license:other"
+   ],
+   "gated": false,
+   "sha": "c6a5fb7d12bbd3cf3b0079253141c3332aaed7da",
+   "last_modified": "2025-09-24T22:41:56.000Z",
+   "api": "https://huggingface.co/api/models/timm/vit_base_patch16_dinov3.lvd1689m",
+   "licence_class": "unclear",
+   "upstream": {
+    "key": "dinov3_b@upstream",
+    "hf_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "checked_at": "2026-10-29T08:24:31Z",
+    "licence_label": "other",
+    "licence_name": "dinov3-license",
+    "licence_link": "https://ai.meta.com/resources/models-and-libraries/dinov3-license",
+    "licence_tags": [
+     "license:other"
+    ],
+    "gated": "manual",
+    "sha": "5931719e67bbdb9737e363e781fb0c67687896bc",
+    "last_modified": "2025-08-19T09:00:44.000Z",
+    "api": "https://huggingface.co/api/models/facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "licence_class": "gated"
+   }
+  },
+  {
+   "key": "dinov3_l",
+   "hf_id": "timm/vit_large_patch16_dinov3.lvd1689m",
+   "checked_at": "2026-10-29T08:24:31Z",
+   "licence_label": "other",
+   "licence_name": "dinov3-license",
+   "licence_link": "https://ai.meta.com/resources/models-and-libraries/dinov3-license",
+   "licence_tags": [
+    "license:other"
+   ],
+   "gated": false,
+   "sha": "30c1109559f65dea34316b0d4842d35c5771fe11",
+   "last_modified": "2025-09-24T22:44:00.000Z",
+   "api": "https://huggingface.co/api/models/timm/vit_large_patch16_dinov3.lvd1689m",
+   "licence_class": "unclear",
+   "upstream": {
+    "key": "dinov3_l@upstream",
+    "hf_id": "facebook/dinov3-vitl16-pretrain-lvd1689m",
+    "checked_at": "2026-10-29T08:24:32Z",
+    "licence_label": "other",
+    "licence_name": "dinov3-license",
+    "licence_link": "https://ai.meta.com/resources/models-and-libraries/dinov3-license",
+    "licence_tags": [
+     "license:other"
+    ],
+    "gated": "manual",
+    "sha": "ea8dc2863c51be0a264bab82070e3e8836b02d51",
+    "last_modified": "2025-08-19T09:00:52.000Z",
+    "api": "https://huggingface.co/api/models/facebook/dinov3-vitl16-pretrain-lvd1689m",
+    "licence_class": "gated"
+   }
+  }
+ ]
+}

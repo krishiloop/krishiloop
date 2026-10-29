@@ -1,0 +1,134 @@
+{
+ "ALTESO": {
+  "expected": "Alternaria solani",
+  "page_title": "Alternaria solani (ALTESO)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/ALTESO"
+ },
+ "CAHSI": {
+  "expected": "Camellia sinensis",
+  "page_title": "Camellia sinensis (CAHSI)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/CAHSI"
+ },
+ "CIDLI": {
+  "expected": "Citrus limon",
+  "page_title": "Citrus x limon (CIDLI)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/CIDLI"
+ },
+ "CNAPME": {
+  "expected": "Cnaphalocrocis medinalis",
+  "page_title": "Cnaphalocrocis medinalis (CNAPME)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/CNAPME"
+ },
+ "COCHMI": {
+  "expected": "Bipolaris oryzae",
+  "page_title": "Bipolaris oryzae (COCHMI)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/COCHMI"
+ },
+ "ENTYOR": {
+  "expected": "Entyloma oryzae",
+  "page_title": "Eballistra oryzae (ENTYOR)[Overview]| EPPO Global Database",
+  "match": false,
+  "url": "https://gd.eppo.int/taxon/ENTYOR"
+ },
+ "LAPHFR": {
+  "expected": "Spodoptera frugiperda",
+  "page_title": "Spodoptera frugiperda (LAPHFR)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/LAPHFR"
+ },
+ "LYPES": {
+  "expected": "Solanum lycopersicum",
+  "page_title": "Solanum lycopersicum (LYPES)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/LYPES"
+ },
+ "MANES": {
+  "expected": "Manihot esculenta",
+  "page_title": "Manihot esculenta (MANES)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/MANES"
+ },
+ "MNGIN": {
+  "expected": "Mangifera indica",
+  "page_title": "Mangifera indica (MNGIN)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/MNGIN"
+ },
+ "ORYSA": {
+  "expected": "Oryza sativa",
+  "page_title": "Oryza sativa (ORYSA)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/ORYSA"
+ },
+ "PHSVX": {
+  "expected": "Phaseolus vulgaris",
+  "page_title": "Phaseolus vulgaris (PHSVX)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/PHSVX"
+ },
+ "PHYTIN": {
+  "expected": "Phytophthora infestans",
+  "page_title": "Phytophthora infestans (PHYTIN)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/PHYTIN"
+ },
+ "PUCCSO": {
+  "expected": "Puccinia sorghi",
+  "page_title": "Puccinia sorghi (PUCCSO)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/PUCCSO"
+ },
+ "PYRIOR": {
+  "expected": "Pyricularia oryzae",
+  "page_title": "Pyricularia oryzae (PYRIOR)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/PYRIOR"
+ },
+ "RHIZSO": {
+  "expected": "Rhizoctonia solani",
+  "page_title": "Rhizoctonia solani (RHIZSO)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/RHIZSO"
+ },
+ "SEPTLY": {
+  "expected": "Septoria lycopersici",
+  "page_title": "Septoria lycopersici (SEPTLY)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/SEPTLY"
+ },
+ "SOLTU": {
+  "expected": "Solanum tuberosum",
+  "page_title": "Solanum tuberosum (SOLTU)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/SOLTU"
+ },
+ "TRZAX": {
+  "expected": "Triticum aestivum",
+  "page_title": "Triticum aestivum subsp. aestivum (TRZAX)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/TRZAX"
+ },
+ "XANTOR": {
+  "expected": "Xanthomonas oryzae pv. oryzae",
+  "page_title": "Xanthomonas oryzae pv. oryzae (XANTOR)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/XANTOR"
+ },
+ "XANTTO": {
+  "expected": "Xanthomonas oryzae pv. oryzicola",
+  "page_title": "Xanthomonas oryzae pv. oryzicola (XANTTO)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/XANTTO"
+ },
+ "ZEAMX": {
+  "expected": "Zea mays",
+  "page_title": "Zea mays (ZEAMX)[Overview]| EPPO Global Database",
+  "match": true,
+  "url": "https://gd.eppo.int/taxon/ZEAMX"
+ }
+}

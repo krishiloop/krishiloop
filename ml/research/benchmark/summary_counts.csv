@@ -1,0 +1,93 @@
+dataset,domain,country,crop,label,images
+bd_bean_bldbd,bd_bean_bldbd|field|unknown,BD,bean,bean/angular_leaf_spot,222
+bd_bean_bldbd,bd_bean_bldbd|field|unknown,BD,bean,bean/common_mosaic,222
+bd_bean_bldbd,bd_bean_bldbd|field|unknown,BD,bean,bean/healthy,224
+bd_maize_mld,bd_maize_mld|field|Apple iPhone 13,BD,maize,maize/fall_armyworm,523
+bd_maize_mld,bd_maize_mld|field|Apple iPhone 13,BD,maize,maize/gray_leaf_spot,554
+bd_maize_mld,bd_maize_mld|field|Apple iPhone 13,BD,maize,maize/healthy,2
+bd_maize_mld,bd_maize_mld|field|Apple iPhone 13,BD,maize,maize/leaf_blight,488
+bd_maize_mld,bd_maize_mld|field|samsung SM-G991U,BD,maize,maize/healthy,354
+bd_potato_ctg,bd_potato_ctg|field|unknown,BD,potato,potato/bacterial_soft_rot,397
+bd_potato_ctg,bd_potato_ctg|field|unknown,BD,potato,potato/healthy,380
+bd_potato_ctg,bd_potato_ctg|field|unknown,BD,potato,potato/late_blight,392
+bd_potato_ctg,bd_potato_ctg|field|unknown,BD,potato,potato/leafroll_virus,394
+bd_potato_ctg,bd_potato_ctg|field|unknown,BD,potato,potato/virus_x,387
+bd_potato_ctg,bd_potato_ctg|field|unknown,BD,potato,potato/virus_y,389
+bd_rice_bd5,bd_rice_bd5|field|unknown,BD,rice,rice/blast,512
+bd_rice_bd5,bd_rice_bd5|field|unknown,BD,rice,rice/healthy,602
+bd_rice_bd5,bd_rice_bd5|field|unknown,BD,rice,rice/narrow_brown_spot,370
+bd_rice_bd5,bd_rice_bd5|field|unknown,BD,rice,rice/sheath_blight,508
+bd_rice_bd5,bd_rice_bd5|field|unknown,BD,rice,rice/tungro,379
+bd_rice_daffodil,bd_rice_daffodil|field|other,BD,rice,rice/blast,13
+bd_rice_daffodil,bd_rice_daffodil|field|other,BD,rice,rice/healthy,10
+bd_rice_daffodil,bd_rice_daffodil|field|other,BD,rice,rice/leaf_scald,4
+bd_rice_daffodil,bd_rice_daffodil|field|unknown,BD,rice,rice/blast,86
+bd_rice_daffodil,bd_rice_daffodil|field|unknown,BD,rice,rice/healthy,90
+bd_rice_daffodil,bd_rice_daffodil|field|unknown,BD,rice,rice/leaf_folder,100
+bd_rice_daffodil,bd_rice_daffodil|field|unknown,BD,rice,rice/leaf_scald,96
+bd_rice_daffodil,bd_rice_daffodil|field|unknown,BD,rice,rice/tungro,99
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|field|vivo 1901_19,BD,rice,rice/blast,29
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|field|vivo 1901_19,BD,rice,rice/brown_spot,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|field|vivo 1901_19,BD,rice,rice/leaf_scald,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|field|vivo 1901_19,BD,rice,rice/sheath_blight,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|field|vivo 1901_19,BD,rice,rice/tungro,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|lab|vivo 1901_19,BD,rice,rice/blast,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|lab|vivo 1901_19,BD,rice,rice/brown_spot,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|lab|vivo 1901_19,BD,rice,rice/leaf_scald,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|lab|vivo 1901_19,BD,rice,rice/sheath_blight,30
+bd_rice_dhanshomadhan,bd_rice_dhanshomadhan|lab|vivo 1901_19,BD,rice,rice/tungro,30
+bd_rice_netrokona,bd_rice_netrokona|field|unknown,BD,rice,rice/bacterial_leaf_blight,499
+bd_rice_netrokona,bd_rice_netrokona|field|unknown,BD,rice,rice/healthy,500
+bd_rice_netrokona,bd_rice_netrokona|field|unknown,BD,rice,rice/leaf_folder,463
+bd_rice_netrokona,bd_rice_netrokona|field|unknown,BD,rice,rice/stem_rot,499
+bd_rice_riceleafbd_rimi,bd_rice_riceleafbd_rimi|field|realme C21,BD,rice,rice/healthy,100
+bd_rice_riceleafbd_rimi,bd_rice_riceleafbd_rimi|field|samsung SM-A125F,BD,rice,rice/tungro,100
+bd_rice_riceleafdiseasebd,bd_rice_riceleafdiseasebd|field|unknown,BD,rice,rice/blast,144
+bd_rice_riceleafdiseasebd,bd_rice_riceleafdiseasebd|field|unknown,BD,rice,rice/brown_spot,145
+bd_rice_riceleafdiseasebd,bd_rice_riceleafdiseasebd|field|unknown,BD,rice,rice/healthy,149
+bd_rice_riceleafdiseasebd,bd_rice_riceleafdiseasebd|field|unknown,BD,rice,rice/leaf_smut,138
+bd_rice_riceleafdiseasebd,bd_rice_riceleafdiseasebd|field|unknown,BD,rice,rice/sheath_blight,149
+bd_rice_riceleafdiseasebd,bd_rice_riceleafdiseasebd|field|unknown,BD,rice,rice/tungro,146
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/bacterial_leaf_blight,58
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/blast,50
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/brown_spot,34
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/healthy,46
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/hispa,43
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/leaf_scald,51
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/narrow_brown_spot,59
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|Xiaomi M2101K7AG,BD,rice,rice/sheath_blight,58
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|other,BD,rice,rice/blast,5
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|other,BD,rice,rice/brown_spot,23
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|other,BD,rice,rice/healthy,11
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|other,BD,rice,rice/hispa,13
+bd_rice_riceyleafdisease,bd_rice_riceyleafdisease|mixed|other,BD,rice,rice/leaf_scald,4
+bd_tomato_jttr,bd_tomato_jttr|field|unknown,BD,tomato,tomato/bacterial_spot,111
+bd_tomato_jttr,bd_tomato_jttr|field|unknown,BD,tomato,tomato/early_blight,149
+bd_tomato_jttr,bd_tomato_jttr|field|unknown,BD,tomato,tomato/healthy,148
+bd_tomato_jttr,bd_tomato_jttr|field|unknown,BD,tomato,tomato/late_blight,105
+bd_tomato_jttr,bd_tomato_jttr|field|unknown,BD,tomato,tomato/leaf_curl,147
+bd_tomato_jttr,bd_tomato_jttr|field|unknown,BD,tomato,tomato/leaf_miner,150
+in_rice_sethy,in_rice_sethy|field|unknown,IN,rice,rice/bacterial_leaf_blight,521
+in_rice_sethy,in_rice_sethy|field|unknown,IN,rice,rice/blast,482
+in_rice_sethy,in_rice_sethy|field|unknown,IN,rice,rice/brown_spot,624
+in_rice_sethy,in_rice_sethy|field|unknown,IN,rice,rice/tungro,494
+lk_rice_paddypulse,lk_rice_paddypulse|lab|Canon EOS 60D,LK,rice,rice/bacterial_leaf_streak,17
+lk_rice_paddypulse,lk_rice_paddypulse|lab|Canon EOS 60D,LK,rice,rice/blast,2
+lk_rice_paddypulse,lk_rice_paddypulse|lab|Canon EOS 60D,LK,rice,rice/brown_spot,211
+lk_rice_paddypulse,lk_rice_paddypulse|lab|Canon EOS 60D,LK,rice,rice/sheath_blight,78
+lk_rice_paddypulse,lk_rice_paddypulse|lab|NIKON CORPORATION NIKON D750,LK,rice,rice/bacterial_leaf_streak,9
+lk_rice_paddypulse,lk_rice_paddypulse|lab|NIKON CORPORATION NIKON D750,LK,rice,rice/blast,220
+lk_rice_paddypulse,lk_rice_paddypulse|lab|NIKON CORPORATION NIKON D750,LK,rice,rice/brown_spot,7
+lk_rice_paddypulse,lk_rice_paddypulse|lab|NIKON CORPORATION NIKON D750,LK,rice,rice/sheath_blight,5
+lk_rice_paddypulse,lk_rice_paddypulse|lab|other,LK,rice,rice/sheath_blight,1
+lk_rice_paddypulse,lk_rice_paddypulse|lab|unknown,LK,rice,rice/bacterial_leaf_streak,213
+lk_rice_paddypulse,lk_rice_paddypulse|lab|unknown,LK,rice,rice/blast,13
+lk_rice_paddypulse,lk_rice_paddypulse|lab|unknown,LK,rice,rice/brown_spot,21
+lk_rice_paddypulse,lk_rice_paddypulse|lab|unknown,LK,rice,rice/sheath_blight,154
+tz_potato,tz_potato|field|other,TZ,potato,potato/early_blight,1
+tz_potato,tz_potato|field|samsung SM-A032F,TZ,potato,potato/early_blight,1435
+tz_potato,tz_potato|field|samsung SM-A032F,TZ,potato,potato/healthy,2445
+tz_potato,tz_potato|field|samsung SM-A032F,TZ,potato,potato/late_blight,2211
+ug_bean_ibean,ug_bean_ibean|field|unknown,UG,bean,bean/angular_leaf_spot,432
+ug_bean_ibean,ug_bean_ibean|field|unknown,UG,bean,bean/healthy,427
+ug_bean_ibean,ug_bean_ibean|field|unknown,UG,bean,bean/rust,436

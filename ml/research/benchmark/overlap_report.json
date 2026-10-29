@@ -1,0 +1,6976 @@
+{
+ "cross_dataset_phash_pairs": 591,
+ "pairs_by_dataset": {
+  "bd_maize_mld + bd_rice_bd5": 2,
+  "bd_maize_mld + bd_rice_netrokona": 7,
+  "bd_rice_bd5 + bd_rice_netrokona": 33,
+  "bd_maize_mld + in_rice_sethy": 4,
+  "bd_rice_bd5 + lk_rice_paddypulse": 48,
+  "bd_rice_bd5 + bd_tomato_jttr": 50,
+  "bd_rice_netrokona + bd_tomato_jttr": 37,
+  "bd_rice_bd5 + bd_rice_daffodil": 64,
+  "bd_rice_bd5 + bd_rice_dhanshomadhan": 7,
+  "bd_rice_daffodil + bd_rice_dhanshomadhan": 2,
+  "bd_rice_daffodil + lk_rice_paddypulse": 53,
+  "bd_rice_daffodil + bd_rice_netrokona": 225,
+  "bd_rice_netrokona + lk_rice_paddypulse": 59
+ },
+ "pairs_with_dinov2_cos_ge_0.95": 0,
+ "pairs_with_dinov2_cos_ge_0.95_by_dataset": {},
+ "cross_crop_pairs": 100,
+ "cos_quantiles": [
+  0.07,
+  0.344,
+  0.486,
+  0.646,
+  0.856
+ ],
+ "label_pairs_of_same_photo_copies": {},
+ "pairs": [
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Gray_Spot/Gray_Spot_80.JPG",
+   "b": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_131344_1.jpg",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Gray_Spot",
+   "label_b": "Narrow_Brown_Spot",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    300,
+    300
+   ],
+   "dinov2_b_cos": 0.36423754692077637
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Gray_Spot/Gray_Spot_80.JPG",
+   "b": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_131346.jpg",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Gray_Spot",
+   "label_b": "Narrow_Brown_Spot",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    300,
+    300
+   ],
+   "dinov2_b_cos": 0.3825016915798187
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Gray_Spot/Gray_Spot_80.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0319.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Gray_Spot",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.11397549510002136
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_131344_1.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0319.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5575369596481323
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_131346.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0319.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.51410973072052
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_164.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0296.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5855127573013306
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_164.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0340.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6634859442710876
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_164.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0368.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7496000528335571
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_164.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0293.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6768795251846313
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_164.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0398.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5966477394104004
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_164.JPG",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0399.png",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5966477394104004
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_197.JPG",
+   "b": "in_rice_sethy/x/Rice Leaf Disease Images/Rice Leaf Disease Images/Blast/BLAST8_032.jpg",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Blast",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    300,
+    300
+   ],
+   "dinov2_b_cos": 0.36992591619491577
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_197.JPG",
+   "b": "in_rice_sethy/x/Rice Leaf Disease Images/Rice Leaf Disease Images/Blast/BLAST9_112.jpg",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Blast",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    300,
+    300
+   ],
+   "dinov2_b_cos": 0.37111881375312805
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_206.JPG",
+   "b": "in_rice_sethy/x/Rice Leaf Disease Images/Rice Leaf Disease Images/Blast/BLAST8_032.jpg",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Blast",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    300,
+    300
+   ],
+   "dinov2_b_cos": 0.36992591619491577
+  },
+  {
+   "a": "bd_maize_mld/x/Maize dataset/Maize dataset/Healthy/Healthy_206.JPG",
+   "b": "in_rice_sethy/x/Rice Leaf Disease Images/Rice Leaf Disease Images/Blast/BLAST9_112.jpg",
+   "crop_a": "maize",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Blast",
+   "size_a": [
+    256,
+    192
+   ],
+   "size_b": [
+    300,
+    300
+   ],
+   "dinov2_b_cos": 0.37111881375312805
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0193.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.44183841347694397
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0213.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.44303348660469055
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0278.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.41083741188049316
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0351.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.3407435417175293
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0363.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.38405275344848633
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0421.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.36619946360588074
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0423.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.37630119919776917
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0427.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.41972407698631287
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0533.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.33852365612983704
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0078.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.39360344409942627
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0144.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.3901028633117676
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0151.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4196467995643616
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0361.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.3505318760871887
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0376.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4190477132797241
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0557.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.5233023166656494
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0591.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.39540284872055054
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0057.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4081634283065796
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0075.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.40091028809547424
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/SheathBlight/sb_0258.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "SheathBlight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.47086161375045776
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122434.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/SheathBlight/sb_0451.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "SheathBlight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.3802344501018524
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0193.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.45068860054016113
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0213.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4628302752971649
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0278.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.42716071009635925
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0351.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.37060853838920593
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0363.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4143878221511841
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0421.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.398335725069046
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0423.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.40909603238105774
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0427.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.43511849641799927
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/BrownSpot/bs_0533.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.36953985691070557
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0078.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4164074659347534
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0144.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4136117398738861
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0151.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4501293897628784
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0361.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.3800971508026123
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0376.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.44848111271858215
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0557.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.5387334227561951
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0591.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4173301160335541
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0057.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.43029895424842834
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0075.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4424269199371338
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/SheathBlight/sb_0258.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "SheathBlight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.48563677072525024
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG20241103122435.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/SheathBlight/sb_0451.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "SheathBlight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.39484521746635437
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39522480964660645
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_384.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Early Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2567357122898102
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Healthy/Healthy_368.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.11863456666469574
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_635.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15273118019104004
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_639.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.21412351727485657
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_649.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2441016435623169
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15556535124778748
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_206.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.24775764346122742
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3997783660888672
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_384.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Early Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.24439150094985962
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Healthy/Healthy_368.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.10705717653036118
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_635.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.14518098533153534
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_639.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.20396526157855988
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_649.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.22780176997184753
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1496979147195816
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121218_1_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_206.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.23395973443984985
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3938557207584381
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_384.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Early Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2478117048740387
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Healthy/Healthy_368.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1082778200507164
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_635.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.14340022206306458
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_639.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1989809274673462
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_649.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.22124069929122925
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15231087803840637
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121219_1.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_206.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.23423749208450317
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_384.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Early Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1971014440059662
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Healthy/Healthy_368.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Healthy",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.10485775768756866
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_635.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.18429122865200043
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_639.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.26218950748443604
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_649.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.24351845681667328
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1885451078414917
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0290.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_206.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.29617634415626526
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121742.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_246.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5441487431526184
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121742.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_1.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5651381015777588
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121742.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Shath Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.6274539232254028
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121743_1.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_246.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6007232069969177
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121743_1.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_1.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5937062501907349
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121743_1.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Shath Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.6354188919067383
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121744_1.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_246.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6048776507377625
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121744_1.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_1.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6181049346923828
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_121744_1.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Shath Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.6605427861213684
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG20241103131311.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_246.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5181650519371033
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG20241103131311.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_1.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5595842003822327
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG20241103131311.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Shath Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.7556360960006714
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG20241103131311_01.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_246.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5081242322921753
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG20241103131311_01.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_1.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5479766130447388
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG20241103131311_01.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Shath Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.7478269934654236
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_246.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Insect",
+   "label_b": "Shath Blight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.5766129493713379
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_1.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Shath Blight/sb_wb_160.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Tungro",
+   "label_b": "Shath Blight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.7183535695075989
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_122937.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_216.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5598798990249634
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_122938.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_216.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5371124148368835
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_122939.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_216.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Insect",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5030916333198547
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123047.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_10.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5724067091941833
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123047.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_82.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6982318162918091
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123047.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_173.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7076828479766846
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123047.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_189.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.5683646202087402
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123047.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0064.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7979686856269836
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Sheath_Blight/IMG_20241029_120003 - Copy.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_10.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Sheath_Blight",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.47262778878211975
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Sheath_Blight/IMG_20241029_120003 - Copy.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_82.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Sheath_Blight",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5312421321868896
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Sheath_Blight/IMG_20241029_120003 - Copy.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_173.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Sheath_Blight",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5603089928627014
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Sheath_Blight/IMG_20241029_120003 - Copy.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_189.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Sheath_Blight",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.44732847809791565
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Sheath_Blight/IMG_20241029_120003 - Copy.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0064.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Sheath_Blight",
+   "label_b": "LeafStreak",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6480057835578918
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_10.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0064.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6326220631599426
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_82.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0064.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7230306267738342
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_173.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0064.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7819197773933411
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_189.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0064.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "LeafStreak",
+   "size_a": [
+    3472,
+    3472
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6089757680892944
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123226.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_188.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5199180841445923
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123226.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0069.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5790407657623291
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123525.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_188.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.47257623076438904
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123525.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0069.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.48687413334846497
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123526_1.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_188.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Tungro",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.3946981132030487
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123526_1.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0069.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.44237220287323
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_188.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0069.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Tungro",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5830410122871399
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_445.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6015310287475586
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_77.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice Leaffolder",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    500,
+    500
+   ],
+   "dinov2_b_cos": 0.44596680998802185
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0202.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6656146049499512
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6443720459938049
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0074.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5105181932449341
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0312.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6496084928512573
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123231.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6368204355239868
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_445.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0202.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6460108757019043
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_445.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5942370295524597
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_445.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0074.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4326135516166687
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_445.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0312.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5063530802726746
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_445.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.632472813129425
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_77.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0202.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    500,
+    500
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4158328175544739
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_77.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    500,
+    500
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.32877886295318604
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_77.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0074.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    500,
+    500
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2705933451652527
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_77.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0312.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    500,
+    500
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3195796608924866
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_77.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    500,
+    500
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3361091911792755
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Blast",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6498091220855713
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Bacteiral Spot/Bacteiral Spot_2.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Bacteiral Spot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.11187592148780823
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Bacteiral Spot/Bacteiral Spot_59.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Bacteiral Spot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.11877486854791641
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_206.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Early Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.10857327282428741
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_210.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Early Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.06985937803983688
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_267.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Early Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.09262881428003311
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Healthy/Healthy_239.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.11450708657503128
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_33.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Late Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2504684031009674
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_58.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Late Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2212487906217575
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_62.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Late Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.13451573252677917
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_90.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Late Blight",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.22056902945041656
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_452.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.12060640752315521
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_458.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.17158286273479462
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_465.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.14874158799648285
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_638.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15182548761367798
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_590.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.12499861419200897
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_694.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.17815478146076202
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_103.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1360602229833603
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_106.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15348461270332336
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_107.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.13307613134384155
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_108.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1838415265083313
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_109.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.10091939568519592
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_151.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2418762445449829
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_222.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.149244487285614
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_223.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.16847282648086548
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_64.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.13892701268196106
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_75.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.13396066427230835
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_77.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.11913437396287918
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_83.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15299108624458313
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Blast/IMG_20241103_123255.jpg",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_89.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Blast",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.13566963374614716
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Bacteiral Spot/Bacteiral Spot_2.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Bacteiral Spot",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.14200632274150848
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Bacteiral Spot/Bacteiral Spot_59.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Bacteiral Spot",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1423305720090866
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_206.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Early Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.13597099483013153
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_210.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Early Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.10775928199291229
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Early Blight/Early Blight_267.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Early Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1450006663799286
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Healthy/Healthy_239.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Healthy",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1673014611005783
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_33.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Late Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.27615824341773987
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_58.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Late Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.22971758246421814
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_62.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Late Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.12348638474941254
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Late Blight/Late Blight_90.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Late Blight",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.23552390933036804
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_452.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.1487693190574646
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_458.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.21214383840560913
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_465.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.18456481397151947
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Leaf Miner Flies/Leaf Miner Flies_638.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Leaf Miner Flies",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.18886950612068176
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_590.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.19282016158103943
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Magnesium Deficiency/Magnesium Deficiency_694.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Magnesium Deficiency",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.23177722096443176
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_103.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2149558812379837
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_106.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.16772060096263885
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_107.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2048836499452591
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_108.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.2153918594121933
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_109.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.21906092762947083
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_151.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.24507369101047516
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_222.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.21678641438484192
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_223.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.19249877333641052
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_64.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.22226306796073914
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_75.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.18352945148944855
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_77.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.17126217484474182
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_83.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.19100289046764374
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0316.png",
+   "b": "bd_tomato_jttr/files/Tomato Dataset/Yellow Leaf Curl Virus/Curl_89.jpg",
+   "crop_a": "rice",
+   "crop_b": "tomato",
+   "label_a": "Rice_Ear_Borer",
+   "label_b": "Yellow Leaf Curl Virus",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    640,
+    640
+   ],
+   "dinov2_b_cos": 0.15564864873886108
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130112.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_148.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Leaffolder",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6725021004676819
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130112.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    534,
+    467
+   ],
+   "dinov2_b_cos": 0.598442792892456
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7253760695457458
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1783,
+    1802
+   ],
+   "dinov2_b_cos": 0.7650540471076965
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.6577814817428589
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2944,
+    2944
+   ],
+   "dinov2_b_cos": 0.7289271950721741
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6609167456626892
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7710914611816406
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6357883214950562
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130217.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6728930473327637
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7046321034431458
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1783,
+    1802
+   ],
+   "dinov2_b_cos": 0.7613534927368164
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.6405177116394043
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2944,
+    2944
+   ],
+   "dinov2_b_cos": 0.7086395025253296
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6399707198143005
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7720801830291748
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6727163195610046
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130218.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6934614181518555
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7359065413475037
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1783,
+    1802
+   ],
+   "dinov2_b_cos": 0.7368205785751343
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.7177250385284424
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2944,
+    2944
+   ],
+   "dinov2_b_cos": 0.7747206687927246
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7570556998252869
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7412649989128113
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.508702278137207
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132755.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.769740104675293
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6998894810676575
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1783,
+    1802
+   ],
+   "dinov2_b_cos": 0.7222061157226562
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.6814883351325989
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2944,
+    2944
+   ],
+   "dinov2_b_cos": 0.7392904758453369
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.730898916721344
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7364153861999512
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5026251077651978
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_132756.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7408419847488403
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7423714995384216
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1783,
+    1802
+   ],
+   "dinov2_b_cos": 0.7417827248573303
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.644486129283905
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2944,
+    2944
+   ],
+   "dinov2_b_cos": 0.7345266938209534
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6742765307426453
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7976715564727783
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5454752445220947
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133050.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7792937755584717
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Healthy",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.7344051003456116
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Blast",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1783,
+    1802
+   ],
+   "dinov2_b_cos": 0.7438714504241943
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    3472,
+    3472
+   ],
+   "dinov2_b_cos": 0.6286766529083252
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2944,
+    2944
+   ],
+   "dinov2_b_cos": 0.7112177610397339
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice Stripes",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.6574393510818481
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.8069338798522949
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.564370334148407
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_133051.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "BrownSpot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7869731783866882
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7483142614364624
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3954715132713318
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_149.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "BrownSpot",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7601383924484253
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1783,
+    1802
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.8155879974365234
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1783,
+    1802
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4292061924934387
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_266.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "BrownSpot",
+   "size_a": [
+    1783,
+    1802
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7874079346656799
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    3472,
+    3472
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6837573051452637
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    3472,
+    3472
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.46691077947616577
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_168.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "BrownSpot",
+   "size_a": [
+    3472,
+    3472
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6414657235145569
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7469660639762878
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.46411874890327454
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_197.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "BrownSpot",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7640812397003174
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7466471791267395
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3991282284259796
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_80.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "BrownSpot",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6761505007743835
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0107.png",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice_Leafroller",
+   "label_b": "BrownSpot",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.8037863969802856
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0281.png",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/BrownSpot/bs_0321.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "BrownSpot",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.549502432346344
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130621.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_129.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Leaf Scald",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5965604782104492
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130621.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_170.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Leaffolder",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5438200235366821
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130621.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0219.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6806504726409912
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130621.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0115.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6388896107673645
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130622.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_129.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Leaf Scald",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5656168460845947
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130622.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_170.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Leaffolder",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5169382095336914
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130622.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0219.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6652228832244873
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130622.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0115.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6060227751731873
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130623.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_129.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Leaf Scald",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.580824613571167
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130623.jpg",
+   "b": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_170.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice Leaffolder",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    1944,
+    1944
+   ],
+   "dinov2_b_cos": 0.5360112190246582
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130623.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0219.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6453990936279297
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_130623.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0115.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6080736517906189
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_129.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0219.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7525476813316345
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_129.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0115.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7922468185424805
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_170.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0219.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7231712341308594
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Leaffolder/RLF_170.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0115.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Leaffolder",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7436003088951111
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Narrow_Brown_Spot/IMG_20241031_134850.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Leaf/image_0214.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Narrow_Brown_Spot",
+   "label_b": "Healthy_Leaf",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6625340580940247
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_135421.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Brown Spot/bs_wb_62.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Brown Spot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.6293401122093201
+  },
+  {
+   "a": "bd_rice_bd5/x/RiceLeafDisease-BD5/RiceLeafBD/Normal_Leaf/IMG_20241031_135422.jpg",
+   "b": "bd_rice_dhanshomadhan/files/Dhan-Shomadhan/White Background/Brown Spot/bs_wb_62.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Normal_Leaf",
+   "label_b": "Brown Spot",
+   "size_a": [
+    300,
+    300
+   ],
+   "size_b": [
+    4160,
+    1952
+   ],
+   "dinov2_b_cos": 0.65030437707901
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_121.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0671.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.49239012598991394
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_151.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/SheathBlight/sb_0186.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "SheathBlight",
+   "size_a": [
+    3472,
+    3472
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4564497470855713
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_151.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0014.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    3472,
+    3472
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.5443736910820007
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_531.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/SheathBlight/sb_0186.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "SheathBlight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6225239038467407
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_531.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0014.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.612507164478302
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_112.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/SheathBlight/sb_0186.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "SheathBlight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.604066789150238
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_112.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0014.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6089250445365906
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_165.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/SheathBlight/sb_0186.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Tungro",
+   "label_b": "SheathBlight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4585227370262146
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_165.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0014.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Tungro",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4548117220401764
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_331.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0673.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6519367098808289
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_331.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0309.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6358024477958679
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_331.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0595.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7334975600242615
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_331.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0668.JPG",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6288074851036072
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_42.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0144.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6711294651031494
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_109.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0144.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Insect",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.5281415581703186
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_193.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Train/LeafStreak/ls_0144.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7359479069709778
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_527.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0056.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39054635167121887
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Healthy/HL_527.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0175.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Healthy",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7091394662857056
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_260.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0056.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3458162248134613
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_260.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0175.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.6530095338821411
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_299.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0056.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3282240629196167
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_299.jpg",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0175.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "LeafStreak",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.7535622119903564
+  },
+  {
+   "a": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0056.png",
+   "b": "lk_rice_paddypulse/x/paddy_leaf_diseases/paddy_leaf_diseases/Test/LeafStreak/ls_0175.jpg",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice_Stem_Rot_Disease",
+   "label_b": "LeafStreak",
+   "size_a": [
+    224,
+    224
+   ],
+   "size_b": [
+    2592,
+    3456
+   ],
+   "dinov2_b_cos": 0.4245091676712036
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Insect/I_95.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Ear_Borer/image_0154.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Insect",
+   "label_b": "Rice_Ear_Borer",
+   "size_a": [
+    443,
+    564
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5277789235115051
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_118.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0156.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    477,
+    523
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4378862679004669
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_118.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0151.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    477,
+    523
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5796704888343811
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_690.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0156.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3902498781681061
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_690.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Potassium_Fertilizer_Deficiency/image_0151.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Potassium_Fertilizer_Deficiency",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6081748604774475
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_143.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0178.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1169,
+    1195
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5108212828636169
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_242.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0295.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.32639890909194946
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Bacterial_Blight/image_0142.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Bacterial_Blight",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.16947950422763824
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2082308530807495
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0105.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2770248353481293
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0126.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2545454204082489
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0137.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.31964409351348877
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0141.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5734943151473999
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.32642725110054016
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0169.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2558821141719818
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0189.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.31195855140686035
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0260.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.43181318044662476
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0294.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.28300294280052185
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0394.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.23157913982868195
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0436.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.27690213918685913
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0456.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.291264146566391
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0153.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5726327300071716
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Leaf Scald/LS_252.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0499.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Leaf Scald",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    433,
+    576
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3876132369041443
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Bacterial_Blight/image_0142.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Bacterial_Blight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.13434579968452454
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2661589980125427
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0105.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.30427035689353943
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0126.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.29683393239974976
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0137.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.36236631870269775
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0141.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6349769234657288
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3379058837890625
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0169.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.31155821681022644
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0189.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.35858461260795593
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0260.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4711543023586273
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0294.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.32838159799575806
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0394.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2629094123840332
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0436.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3216414153575897
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0456.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3416212201118469
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0153.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6585432291030884
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_222.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0499.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4266311824321747
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Bacterial_Blight/image_0142.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Bacterial_Blight",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.255692720413208
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3291577994823456
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0105.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4158896207809448
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0126.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3989967405796051
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0137.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.45722755789756775
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0141.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5858694911003113
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.497628778219223
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0169.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4007461667060852
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0189.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.38876721262931824
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0260.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5419590473175049
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0294.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3709965646266937
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0394.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3793025314807892
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0436.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4286491572856903
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0456.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39911121129989624
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0153.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6078391075134277
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Blast/RB_382.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0499.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Blast",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    2944,
+    2944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5259996056556702
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Bacterial_Blight/image_0142.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Bacterial_Blight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.16409681737422943
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3322029411792755
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0105.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.35337021946907043
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0126.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3511095345020294
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0137.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4369637370109558
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0141.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6289553046226501
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39310336112976074
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0169.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.37525784969329834
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0189.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3629227876663208
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0260.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5128581523895264
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0294.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3785950839519501
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0394.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3094542622566223
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0436.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39046216011047363
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0456.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4224821627140045
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0153.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6589570045471191
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_162.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0499.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.49209898710250854
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Bacterial_Blight/image_0142.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Bacterial_Blight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.2008620798587799
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0057.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39300742745399475
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0105.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.39909929037094116
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0126.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4141092300415039
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0137.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4757784605026245
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0141.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.6837643384933472
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0155.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4644792377948761
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0169.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.42315739393234253
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0189.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4728204905986786
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0260.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5456323027610779
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0294.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3824091851711273
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0394.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.3225248456001282
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0436.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.4217197895050049
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Healthy_Stem/image_0456.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Healthy_Stem",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.43351978063583374
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Leafroller/image_0153.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Leafroller",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.7363908886909485
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Stripes/RS_59.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Rice_Stem_Rot_Disease/image_0499.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Stripes",
+   "label_b": "Rice_Stem_Rot_Disease",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.5665714144706726
+  },
+  {
+   "a": "bd_rice_daffodil/x/Rice Dataset/Rice Dataset/Original Dataset/Rice Tungro/RT_117.jpg",
+   "b": "bd_rice_netrokona/x/Orginal_Data/Orginal_Data/Bacterial_Blight/image_0142.png",
+   "crop_a": "rice",
+   "crop_b": "rice",
+   "label_a": "Rice Tungro",
+   "label_b": "Bacterial_Blight",
+   "size_a": [
+    1944,
+    1944
+   ],
+   "size_b": [
+    224,
+    224
+   ],
+   "dinov2_b_cos": 0.08944572508335114
+  }
+ ],
+ "within_dataset_phash_pairs": {
+  "bd_bean_bldbd": {
+   "pairs": 17,
+   "share_cos_ge_0.95": 0.235,
+   "cos_quantiles": [
+    0.722,
+    0.775,
+    0.893,
+    0.982,
+    0.986
+   ]
+  },
+  "bd_maize_mld": {
+   "pairs": 84,
+   "share_cos_ge_0.95": 0.976,
+   "cos_quantiles": [
+    0.832,
+    0.989,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "bd_potato_ctg": {
+   "pairs": 30,
+   "share_cos_ge_0.95": 0.8,
+   "cos_quantiles": [
+    0.803,
+    0.924,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "bd_rice_bd5": {
+   "pairs": 1233,
+   "share_cos_ge_0.95": 0.871,
+   "cos_quantiles": [
+    0.574,
+    0.943,
+    0.978,
+    0.989,
+    1.0
+   ]
+  },
+  "bd_rice_daffodil": {
+   "pairs": 146,
+   "share_cos_ge_0.95": 0.014,
+   "cos_quantiles": [
+    0.116,
+    0.548,
+    0.785,
+    0.889,
+    1.0
+   ]
+  },
+  "bd_rice_dhanshomadhan": {
+   "pairs": 3,
+   "share_cos_ge_0.95": 0.333,
+   "cos_quantiles": [
+    0.669,
+    0.72,
+    0.924,
+    0.968,
+    0.98
+   ]
+  },
+  "bd_rice_netrokona": {
+   "pairs": 357,
+   "share_cos_ge_0.95": 0.123,
+   "cos_quantiles": [
+    0.131,
+    0.498,
+    0.764,
+    1.0,
+    1.0
+   ]
+  },
+  "bd_rice_riceleafdiseasebd": {
+   "pairs": 35,
+   "share_cos_ge_0.95": 0.857,
+   "cos_quantiles": [
+    0.916,
+    0.942,
+    0.977,
+    0.99,
+    1.0
+   ]
+  },
+  "bd_rice_riceyleafdisease": {
+   "pairs": 34,
+   "share_cos_ge_0.95": 0.882,
+   "cos_quantiles": [
+    0.874,
+    0.942,
+    0.984,
+    0.996,
+    1.0
+   ]
+  },
+  "bd_tomato_jttr": {
+   "pairs": 665,
+   "share_cos_ge_0.95": 0.029,
+   "cos_quantiles": [
+    0.394,
+    0.508,
+    0.642,
+    0.775,
+    1.0
+   ]
+  },
+  "in_rice_sethy": {
+   "pairs": 8116,
+   "share_cos_ge_0.95": 0.972,
+   "cos_quantiles": [
+    0.782,
+    0.966,
+    0.988,
+    1.0,
+    1.0
+   ]
+  },
+  "lk_rice_paddypulse": {
+   "pairs": 1069,
+   "share_cos_ge_0.95": 0.009,
+   "cos_quantiles": [
+    0.513,
+    0.684,
+    0.821,
+    0.902,
+    1.0
+   ]
+  },
+  "tz_potato": {
+   "pairs": 11715,
+   "share_cos_ge_0.95": 0.835,
+   "cos_quantiles": [
+    0.797,
+    0.936,
+    0.975,
+    1.0,
+    1.0
+   ]
+  }
+ }
+}

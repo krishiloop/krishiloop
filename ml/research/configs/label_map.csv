@@ -1,0 +1,179 @@
+dataset,orig_label,crop_scope,canonical,crop_name,crop_sci,condition_name,agent,eppo_crop,eppo_condition,note
+bd_rice_dhanshomadhan,Browon Spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,source folder typo
+bd_rice_dhanshomadhan,Brown Spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+bd_rice_dhanshomadhan,Leaf Scaled,,rice/leaf_scald,rice,Oryza sativa,leaf scald disease,Microdochium oryzae,ORYSA,,source folder typo
+bd_rice_dhanshomadhan,Rice Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+bd_rice_dhanshomadhan,Rice Turgro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,source folder typo
+bd_rice_dhanshomadhan,Rice Tungro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+bd_rice_dhanshomadhan,Sheath Blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+bd_rice_dhanshomadhan,Shath Blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,source folder typo
+bd_rice_riceyleafdisease,Bacterial Leaf Blight,,rice/bacterial_leaf_blight,rice,Oryza sativa,bacterial leaf blight,Xanthomonas oryzae pv. oryzae,ORYSA,XANTOR,
+bd_rice_riceyleafdisease,Brown Spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+bd_rice_riceyleafdisease,Healthy Rice Leaf,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+bd_rice_riceyleafdisease,Leaf Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+bd_rice_riceyleafdisease,Leaf scald,,rice/leaf_scald,rice,Oryza sativa,leaf scald disease,Microdochium oryzae,ORYSA,,
+bd_rice_riceyleafdisease,Narrow Brown Leaf Spot,,rice/narrow_brown_spot,rice,Oryza sativa,narrow brown leaf spot,Cercospora janseana,ORYSA,,kept apart from brown spot (different pathogen)
+bd_rice_riceyleafdisease,Rice Hispa,,rice/hispa,rice,Oryza sativa,rice hispa damage,Dicladispa armigera,ORYSA,,
+bd_rice_riceyleafdisease,Sheath Blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+bd_rice_bd5,Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+bd_rice_bd5,Narrow_Brown_Spot,,rice/narrow_brown_spot,rice,Oryza sativa,narrow brown leaf spot,Cercospora janseana,ORYSA,,
+bd_rice_bd5,Normal_Leaf,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+bd_rice_bd5,Sheath_Blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+bd_rice_bd5,Tungro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+bd_rice_riceleafdiseasebd,Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+bd_rice_riceleafdiseasebd,Brown spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+bd_rice_riceleafdiseasebd,Healthy,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+bd_rice_riceleafdiseasebd,Leaf smut,,rice/leaf_smut,rice,Oryza sativa,leaf smut disease,Entyloma oryzae,ORYSA,ENTYOR,EPPO preferred name Eballistra oryzae (syn. Entyloma oryzae)
+bd_rice_riceleafdiseasebd,Rice Tungro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+bd_rice_riceleafdiseasebd,Sheath blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+bd_rice_daffodil,Healthy,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+bd_rice_daffodil,Insect,,,,,,,,,dropped: non-specific pest class (not hispa-only)
+bd_rice_daffodil,Leaf Scald,,rice/leaf_scald,rice,Oryza sativa,leaf scald disease,Microdochium oryzae,ORYSA,,
+bd_rice_daffodil,Leaf scald,,rice/leaf_scald,rice,Oryza sativa,leaf scald disease,Microdochium oryzae,ORYSA,,
+bd_rice_daffodil,Rice,,,,,,,,,dropped: 16 'general rice leaf' images without a condition
+bd_rice_daffodil,rice,,,,,,,,,dropped: 'general rice leaf' images without a condition
+bd_rice_daffodil,Rice Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+bd_rice_daffodil,Rice Leaffolder,,rice/leaf_folder,rice,Oryza sativa,rice leaf folder damage,Cnaphalocrocis medinalis,ORYSA,CNAPME,
+bd_rice_daffodil,Rice Stripes,,,,,,,,,dropped: 'rice stripes' is unclear (virus or nutrient disorder)
+bd_rice_daffodil,Rice Tungro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+bd_rice_netrokona,Bacterial_Blight,,rice/bacterial_leaf_blight,rice,Oryza sativa,bacterial leaf blight,Xanthomonas oryzae pv. oryzae,ORYSA,XANTOR,
+bd_rice_netrokona,Healthy_Leaf,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+bd_rice_netrokona,Healthy_Rice,,,,,,,,,dropped: whole plant or grain view (not leaf-level healthy)
+bd_rice_netrokona,Healthy_Stem,,,,,,,,,dropped: stem view (not leaf-level healthy)
+bd_rice_netrokona,Potassium_Fertilizer_Deficiency,,,,,,,,,dropped: abiotic disorder (outside the healthy/disease/pest ontology)
+bd_rice_netrokona,Rice_Ear_Borer,,,,,,,,,dropped: ambiguous pest name
+bd_rice_netrokona,Rice_Leafroller,,rice/leaf_folder,rice,Oryza sativa,rice leaf folder damage,Cnaphalocrocis medinalis,ORYSA,CNAPME,leaf roller folded into leaf folder (common-name synonym; not visually audited)
+bd_rice_netrokona,Rice_Stem_Rot_Disease,,rice/stem_rot,rice,Oryza sativa,stem rot disease,Sclerotium oryzae,ORYSA,,
+bd_rice_riceleafbd_rimi,Bacterial Leaf Blight,,rice/bacterial_leaf_blight,rice,Oryza sativa,bacterial leaf blight,Xanthomonas oryzae pv. oryzae,ORYSA,XANTOR,
+bd_rice_riceleafbd_rimi,Brown Spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+bd_rice_riceleafbd_rimi,Healthy Leaf,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+bd_rice_riceleafbd_rimi,Tungro Virus,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+in_rice_sethy,Bacterialblight,,rice/bacterial_leaf_blight,rice,Oryza sativa,bacterial leaf blight,Xanthomonas oryzae pv. oryzae,ORYSA,XANTOR,
+in_rice_sethy,Bacterial blight,,rice/bacterial_leaf_blight,rice,Oryza sativa,bacterial leaf blight,Xanthomonas oryzae pv. oryzae,ORYSA,XANTOR,
+in_rice_sethy,Bacterial Blight,,rice/bacterial_leaf_blight,rice,Oryza sativa,bacterial leaf blight,Xanthomonas oryzae pv. oryzae,ORYSA,XANTOR,
+in_rice_sethy,Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+in_rice_sethy,Brownspot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+in_rice_sethy,Brown Spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+in_rice_sethy,Tungro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+in_rice_sru_paddy,Grassy Stunt,,rice/grassy_stunt,rice,Oryza sativa,grassy stunt disease,rice grassy stunt virus,ORYSA,,
+in_rice_sru_paddy,Healthy,,rice/healthy,rice,Oryza sativa,healthy,,ORYSA,,
+in_rice_sru_paddy,Ragged stunt,,rice/ragged_stunt,rice,Oryza sativa,ragged stunt disease,rice ragged stunt virus,ORYSA,,
+in_rice_sru_paddy,Tungro,,rice/tungro,rice,Oryza sativa,rice tungro disease,rice tungro viruses,ORYSA,,
+in_rice_sru_paddy,Yellow Mottle,,rice/yellow_mottle,rice,Oryza sativa,yellow mottle disease,rice yellow mottle virus,ORYSA,,
+tz_potato,earlyblt,,potato/early_blight,potato,Solanum tuberosum,early blight,Alternaria solani,SOLTU,ALTESO,
+tz_potato,lateblt,,potato/late_blight,potato,Solanum tuberosum,late blight,Phytophthora infestans,SOLTU,PHYTIN,
+tz_potato,healthy,,potato/healthy,potato,Solanum tuberosum,healthy,,SOLTU,,
+bd_potato_ctg,Bacterial Soft Rot,,potato/bacterial_soft_rot,potato,Solanum tuberosum,bacterial soft rot,Pectobacterium spp.,SOLTU,,
+bd_potato_ctg,Fungal Late Blight,,potato/late_blight,potato,Solanum tuberosum,late blight,Phytophthora infestans,SOLTU,PHYTIN,'fungal' in the source label; P. infestans is an oomycete
+bd_potato_ctg,Healthy,,potato/healthy,potato,Solanum tuberosum,healthy,,SOLTU,,
+bd_potato_ctg,Viral Leaf Roll,,potato/leafroll_virus,potato,Solanum tuberosum,potato leafroll disease,potato leafroll virus,SOLTU,,
+bd_potato_ctg,Viral PVX,,potato/virus_x,potato,Solanum tuberosum,potato virus X disease,potato virus X,SOLTU,,
+bd_potato_ctg,Viral PVY,,potato/virus_y,potato,Solanum tuberosum,potato virus Y disease,potato virus Y,SOLTU,,
+in_potato_wb,EARLY LEAF SPOT,,potato/early_blight,potato,Solanum tuberosum,early blight,Alternaria solani,SOLTU,ALTESO,ASSUMED: source label 'early leaf spot' read as early blight (flagged)
+in_potato_wb,LATE LEAF SPOT,,potato/late_blight,potato,Solanum tuberosum,late blight,Phytophthora infestans,SOLTU,PHYTIN,ASSUMED: source label 'late leaf spot' read as late blight (flagged)
+in_potato_wb,HEALTHY,,potato/healthy,potato,Solanum tuberosum,healthy,,SOLTU,,
+ug_bean_ibean,angular_leaf_spot,,bean/angular_leaf_spot,common bean,Phaseolus vulgaris,angular leaf spot,Pseudocercospora griseola,PHSVX,,
+ug_bean_ibean,bean_rust,,bean/rust,common bean,Phaseolus vulgaris,bean rust,Uromyces appendiculatus,PHSVX,,
+ug_bean_ibean,healthy,,bean/healthy,common bean,Phaseolus vulgaris,healthy,,PHSVX,,
+bd_bean_bldbd,Angular_Leaf_Spot,,bean/angular_leaf_spot,common bean,Phaseolus vulgaris,angular leaf spot,Pseudocercospora griseola,PHSVX,,
+bd_bean_bldbd,Bean_Common_Mosaic_Virus,,bean/common_mosaic,common bean,Phaseolus vulgaris,bean common mosaic disease,bean common mosaic virus,PHSVX,,
+bd_bean_bldbd,Healthy,,bean/healthy,common bean,Phaseolus vulgaris,healthy,,PHSVX,,
+gh_ccmt,healthy,cashew,cashew/healthy,cashew,Anacardium occidentale,healthy,,,,
+gh_ccmt,anthracnose,cashew,cashew/anthracnose,cashew,Anacardium occidentale,anthracnose,Colletotrichum gloeosporioides,,,
+gh_ccmt,gumosis,cashew,cashew/gummosis,cashew,Anacardium occidentale,gummosis,,,,source spelling 'gumosis'
+gh_ccmt,leaf miner,cashew,cashew/leaf_miner,cashew,Anacardium occidentale,leaf miner damage,,,,
+gh_ccmt,red rust,cashew,cashew/red_rust,cashew,Anacardium occidentale,red rust,Cephaleuros virescens,,,
+gh_ccmt,healthy,cassava,cassava/healthy,cassava,Manihot esculenta,healthy,,MANES,,
+gh_ccmt,bacterial blight,cassava,cassava/bacterial_blight,cassava,Manihot esculenta,cassava bacterial blight,Xanthomonas phaseoli pv. manihotis,MANES,,
+gh_ccmt,brown spot,cassava,cassava/brown_leaf_spot,cassava,Manihot esculenta,cassava brown leaf spot,,MANES,,
+gh_ccmt,green mite,cassava,cassava/green_mite,cassava,Manihot esculenta,cassava green mite damage,Mononychellus tanajoa,MANES,,
+gh_ccmt,mosaic,cassava,cassava/mosaic,cassava,Manihot esculenta,cassava mosaic disease,cassava mosaic begomoviruses,MANES,,
+gh_ccmt,healthy,maize,maize/healthy,maize,Zea mays,healthy,,ZEAMX,,
+gh_ccmt,fall armyworm,maize,maize/fall_armyworm,maize,Zea mays,fall armyworm damage,Spodoptera frugiperda,ZEAMX,LAPHFR,
+gh_ccmt,grasshoper,maize,maize/grasshopper,maize,Zea mays,grasshopper damage,,ZEAMX,,source spelling 'grasshoper'
+gh_ccmt,grasshopper,maize,maize/grasshopper,maize,Zea mays,grasshopper damage,,ZEAMX,,
+gh_ccmt,leaf beetle,maize,maize/leaf_beetle,maize,Zea mays,leaf beetle damage,,ZEAMX,,
+gh_ccmt,leaf blight,maize,maize/leaf_blight,maize,Zea mays,leaf blight,,ZEAMX,,pathogen not stated (northern or southern leaf blight)
+gh_ccmt,leaf spot,maize,maize/leaf_spot,maize,Zea mays,leaf spot,,ZEAMX,,pathogen not stated
+gh_ccmt,streak virus,maize,maize/streak_virus,maize,Zea mays,maize streak disease,maize streak virus,ZEAMX,,
+gh_ccmt,healthy,tomato,tomato/healthy,tomato,Solanum lycopersicum,healthy,,LYPES,,
+gh_ccmt,leaf blight,tomato,,,,,,,,dropped: ambiguous (early or late blight)
+gh_ccmt,leaf curl,tomato,tomato/leaf_curl,tomato,Solanum lycopersicum,tomato leaf curl disease,begomoviruses,LYPES,,
+gh_ccmt,septoria leaf spot,tomato,tomato/septoria_leaf_spot,tomato,Solanum lycopersicum,septoria leaf spot,Septoria lycopersici,LYPES,SEPTLY,
+gh_ccmt,verticulium wilt,tomato,tomato/verticillium_wilt,tomato,Solanum lycopersicum,verticillium wilt,Verticillium spp.,LYPES,,source spelling 'verticulium'
+gh_ccmt,verticillium wilt,tomato,tomato/verticillium_wilt,tomato,Solanum lycopersicum,verticillium wilt,Verticillium spp.,LYPES,,
+bd_maize_mld,Fall_Armyworm,,maize/fall_armyworm,maize,Zea mays,fall armyworm damage,Spodoptera frugiperda,ZEAMX,LAPHFR,
+bd_maize_mld,Gray_Spot,,maize/gray_leaf_spot,maize,Zea mays,gray leaf spot,Cercospora zeae-maydis,ZEAMX,,
+bd_maize_mld,Healthy,,maize/healthy,maize,Zea mays,healthy,,ZEAMX,,
+bd_maize_mld,Leaf_Blight,,maize/leaf_blight,maize,Zea mays,leaf blight,,ZEAMX,,pathogen not stated
+bd_maize_seasonal,Bacterial Leaf Streak,,maize/bacterial_leaf_streak,maize,Zea mays,bacterial leaf streak,Xanthomonas vasicola pv. vasculorum,ZEAMX,,
+bd_maize_seasonal,Common_rust,,maize/common_rust,maize,Zea mays,common rust,Puccinia sorghi,ZEAMX,PUCCSO,
+bd_maize_seasonal,Gray_leaf_spot,,maize/gray_leaf_spot,maize,Zea mays,gray leaf spot,Cercospora zeae-maydis,ZEAMX,,
+bd_maize_seasonal,Healthy,,maize/healthy,maize,Zea mays,healthy,,ZEAMX,,
+bd_maize_seasonal,Maize Chlorotic Mottle Virus,,maize/chlorotic_mottle_virus,maize,Zea mays,maize chlorotic mottle disease,maize chlorotic mottle virus,ZEAMX,,
+bd_tomato_jttr,Bacteiral Spot,,tomato/bacterial_spot,tomato,Solanum lycopersicum,bacterial spot,Xanthomonas spp.,LYPES,,source spelling 'Bacteiral'
+bd_tomato_jttr,Early Blight,,tomato/early_blight,tomato,Solanum lycopersicum,early blight,Alternaria solani,LYPES,ALTESO,
+bd_tomato_jttr,Healthy,,tomato/healthy,tomato,Solanum lycopersicum,healthy,,LYPES,,
+bd_tomato_jttr,Late Blight,,tomato/late_blight,tomato,Solanum lycopersicum,late blight,Phytophthora infestans,LYPES,PHYTIN,
+bd_tomato_jttr,Leaf Miner Flies,,tomato/leaf_miner,tomato,Solanum lycopersicum,leaf miner damage,Liriomyza spp.,LYPES,,
+bd_tomato_jttr,Magnesium Deficiency,,,,,,,,,dropped: abiotic disorder
+bd_tomato_jttr,Yellow Leaf Curl Virus,,tomato/leaf_curl,tomato,Solanum lycopersicum,tomato yellow leaf curl disease,tomato yellow leaf curl virus,LYPES,,
+bd_wheat,BlackPoint,,wheat/black_point,wheat,Triticum aestivum,black point,,TRZAX,,
+bd_wheat,FusariumFootRot,,wheat/fusarium_foot_rot,wheat,Triticum aestivum,fusarium foot rot,Fusarium spp.,TRZAX,,
+bd_wheat,HealthyLeaf,,wheat/healthy,wheat,Triticum aestivum,healthy,,TRZAX,,
+bd_wheat,LeafBlight,,wheat/leaf_blight,wheat,Triticum aestivum,leaf blight,,TRZAX,,
+bd_wheat,WheatBlast,,wheat/blast,wheat,Triticum aestivum,wheat blast,Pyricularia oryzae (Triticum lineage),TRZAX,PYRIOR,
+bd_tea_tldbd,algal_leaf,,tea/algal_leaf_spot,tea,Camellia sinensis,algal leaf spot,Cephaleuros virescens,CAHSI,,
+bd_tea_tldbd,gray_blight,,tea/gray_blight,tea,Camellia sinensis,gray blight,Pestalotiopsis spp.,CAHSI,,
+bd_tea_tldbd,healthy,,tea/healthy,tea,Camellia sinensis,healthy,,CAHSI,,
+bd_tea_tldbd,helopeltis,,tea/helopeltis,tea,Camellia sinensis,tea mosquito bug damage,Helopeltis theivora,CAHSI,,
+bd_tea_tldbd,looper_infested,,tea/looper,tea,Camellia sinensis,tea looper damage,,CAHSI,,
+bd_tea_tldbd,red_spider,,tea/red_spider_mite,tea,Camellia sinensis,red spider mite damage,Oligonychus coffeae,CAHSI,,
+bd_banana_6yy,Banana Black Sigatoka Disease,,banana/black_sigatoka,banana,Musa spp.,black sigatoka,Pseudocercospora fijiensis,,,
+bd_banana_6yy,Banana Insect Pest Disease,,,,,,,,,dropped: non-specific pest class
+bd_banana_6yy,Banana Moko Disease or dead,,,,,,,,,dropped: mixed class ('moko disease or dead')
+bd_banana_6yy,Banana Yellow Sigatoka Disease,,banana/yellow_sigatoka,banana,Musa spp.,yellow sigatoka,Pseudocercospora musae,,,
+bd_banana_6yy,Banana healthy leaf,,banana/healthy,banana,Musa spp.,healthy,,,,
+bd_banana_6yy,Fusarium wilt panama Disease,,banana/fusarium_wilt,banana,Musa spp.,fusarium wilt (Panama disease),Fusarium oxysporum f. sp. cubense,,,
+bd_banana_wfz,cordana,,banana/cordana_leaf_spot,banana,Musa spp.,cordana leaf spot,Neocordana musae,,,
+bd_banana_wfz,fresh,,banana/healthy,banana,Musa spp.,healthy,,,,
+bd_banana_wfz,pestalotiopsis,,banana/pestalotiopsis_leaf_spot,banana,Musa spp.,pestalotiopsis leaf spot,Pestalotiopsis spp.,,,
+bd_banana_wfz,sigatoka,,banana/sigatoka,banana,Musa spp.,sigatoka leaf spot,Pseudocercospora spp.,,,yellow vs black not stated
+bd_lemon_bdlemonleaf,Anthracnose,,lemon/anthracnose,lemon,Citrus limon,anthracnose,Colletotrichum spp.,CIDLI,,
+bd_lemon_bdlemonleaf,Bacterial Blight,,lemon/bacterial_blight,lemon,Citrus limon,bacterial blight,,CIDLI,,
+bd_lemon_bdlemonleaf,Black Spot,,lemon/black_spot,lemon,Citrus limon,citrus black spot,Phyllosticta citricarpa,CIDLI,,
+bd_lemon_bdlemonleaf,Citrus Canker,,lemon/canker,lemon,Citrus limon,citrus canker,Xanthomonas citri subsp. citri,CIDLI,,
+bd_lemon_bdlemonleaf,Citrus Hindu Mite,,lemon/hindu_mite,lemon,Citrus limon,citrus hindu mite damage,Schizotetranychus hindustanicus,CIDLI,,
+bd_lemon_bdlemonleaf,Citrus Leafminer,,lemon/leaf_miner,lemon,Citrus limon,citrus leaf miner damage,Phyllocnistis citrella,CIDLI,,
+bd_lemon_bdlemonleaf,Curl Leaf,,lemon/leaf_curl,lemon,Citrus limon,leaf curl,,CIDLI,,
+bd_lemon_bdlemonleaf,Deficiency,,,,,,,,,dropped: abiotic disorder
+bd_lemon_bdlemonleaf,Dry leaf,,,,,,,,,dropped: not a disease or pest
+bd_lemon_bdlemonleaf,Dry Leaf,,,,,,,,,dropped: not a disease or pest
+bd_lemon_bdlemonleaf,Greening,,lemon/greening,lemon,Citrus limon,citrus greening (huanglongbing),Candidatus Liberibacter spp.,CIDLI,,
+bd_lemon_bdlemonleaf,Melanose,,lemon/melanose,lemon,Citrus limon,melanose,Diaporthe citri,CIDLI,,
+bd_lemon_bdlemonleaf,Spider Mites,,lemon/spider_mite,lemon,Citrus limon,spider mite damage,,CIDLI,,
+bd_lemon_bdlemonleaf,Healthy,,lemon/healthy,lemon,Citrus limon,healthy,,CIDLI,,
+bd_mango_mld24,Anthracnose,,mango/anthracnose,mango,Mangifera indica,anthracnose,Colletotrichum gloeosporioides,MNGIN,,
+bd_mango_mld24,Bacterial_Canker,,mango/bacterial_canker,mango,Mangifera indica,bacterial canker,Xanthomonas citri pv. mangiferaeindicae,MNGIN,,
+bd_mango_mld24,Cutting_Weevil,,mango/cutting_weevil,mango,Mangifera indica,leaf cutting weevil damage,,MNGIN,,
+bd_mango_mld24,Die_Back,,mango/die_back,mango,Mangifera indica,die back,,MNGIN,,
+bd_mango_mld24,Gall_Midge,,mango/gall_midge,mango,Mangifera indica,gall midge damage,,MNGIN,,
+bd_mango_mld24,Healthy,,mango/healthy,mango,Mangifera indica,healthy,,MNGIN,,
+bd_mango_mld24,Powdery_Mildew,,mango/powdery_mildew,mango,Mangifera indica,powdery mildew,,MNGIN,,
+bd_mango_mld24,Sooty_Mould,,mango/sooty_mould,mango,Mangifera indica,sooty mould,,MNGIN,,
+lk_rice_paddypulse,Brown Spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+lk_rice_paddypulse,Brown spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+lk_rice_paddypulse,brown_spot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+lk_rice_paddypulse,Rice Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+lk_rice_paddypulse,Blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+lk_rice_paddypulse,rice_blast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+lk_rice_paddypulse,Bacterial Leaf Streak,,rice/bacterial_leaf_streak,rice,Oryza sativa,bacterial leaf streak,Xanthomonas oryzae pv. oryzicola,ORYSA,XANTTO,
+lk_rice_paddypulse,Bacterial leaf streak,,rice/bacterial_leaf_streak,rice,Oryza sativa,bacterial leaf streak,Xanthomonas oryzae pv. oryzicola,ORYSA,XANTTO,
+lk_rice_paddypulse,bacterial_leaf_streak,,rice/bacterial_leaf_streak,rice,Oryza sativa,bacterial leaf streak,Xanthomonas oryzae pv. oryzicola,ORYSA,XANTTO,
+lk_rice_paddypulse,Sheath Blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+lk_rice_paddypulse,Sheath blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+lk_rice_paddypulse,sheath_blight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,
+lk_rice_paddypulse,BrownSpot,,rice/brown_spot,rice,Oryza sativa,brown spot disease,Bipolaris oryzae,ORYSA,COCHMI,
+lk_rice_paddypulse,LeafStreak,,rice/bacterial_leaf_streak,rice,Oryza sativa,bacterial leaf streak,Xanthomonas oryzae pv. oryzicola,ORYSA,XANTTO,record names the class 'Bacterial leaf streak'
+lk_rice_paddypulse,RiceBlast,,rice/blast,rice,Oryza sativa,rice blast disease,Pyricularia oryzae,ORYSA,PYRIOR,
+lk_rice_paddypulse,SheathBlight,,rice/sheath_blight,rice,Oryza sativa,sheath blight disease,Rhizoctonia solani,ORYSA,RHIZSO,

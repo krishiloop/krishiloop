@@ -1,0 +1,167 @@
+{
+ "images": 31430,
+ "phash_max": 6,
+ "cos_min": 0.95,
+ "images_without_dinov2_b": 0,
+ "per_dataset": {
+  "bd_bean_bldbd": {
+   "readable": 672,
+   "exact_dup_dropped": 0,
+   "phash_dup_dropped": 4,
+   "label_conflict_dropped": 0,
+   "kept": 668,
+   "near_copy_clusters_size_gt1": 32,
+   "images_in_near_copy_clusters": 606,
+   "clusters_spanning_datasets": 0
+  },
+  "bd_maize_mld": {
+   "readable": 1996,
+   "exact_dup_dropped": 62,
+   "phash_dup_dropped": 13,
+   "label_conflict_dropped": 0,
+   "kept": 1921,
+   "near_copy_clusters_size_gt1": 153,
+   "images_in_near_copy_clusters": 394,
+   "clusters_spanning_datasets": 3
+  },
+  "bd_potato_ctg": {
+   "readable": 2351,
+   "exact_dup_dropped": 12,
+   "phash_dup_dropped": 0,
+   "label_conflict_dropped": 0,
+   "kept": 2339,
+   "near_copy_clusters_size_gt1": 19,
+   "images_in_near_copy_clusters": 39,
+   "clusters_spanning_datasets": 0
+  },
+  "bd_rice_bd5": {
+   "readable": 3150,
+   "exact_dup_dropped": 3,
+   "phash_dup_dropped": 766,
+   "label_conflict_dropped": 10,
+   "kept": 2371,
+   "near_copy_clusters_size_gt1": 385,
+   "images_in_near_copy_clusters": 948,
+   "clusters_spanning_datasets": 14
+  },
+  "bd_rice_daffodil": {
+   "readable": 716,
+   "exact_dup_dropped": 1,
+   "phash_dup_dropped": 1,
+   "label_conflict_dropped": 0,
+   "kept": 714,
+   "near_copy_clusters_size_gt1": 42,
+   "images_in_near_copy_clusters": 116,
+   "clusters_spanning_datasets": 44
+  },
+  "bd_rice_dhanshomadhan": {
+   "readable": 300,
+   "exact_dup_dropped": 0,
+   "phash_dup_dropped": 1,
+   "label_conflict_dropped": 0,
+   "kept": 299,
+   "near_copy_clusters_size_gt1": 8,
+   "images_in_near_copy_clusters": 17,
+   "clusters_spanning_datasets": 2
+  },
+  "bd_rice_netrokona": {
+   "readable": 4000,
+   "exact_dup_dropped": 37,
+   "phash_dup_dropped": 6,
+   "label_conflict_dropped": 0,
+   "kept": 3957,
+   "near_copy_clusters_size_gt1": 244,
+   "images_in_near_copy_clusters": 746,
+   "clusters_spanning_datasets": 48
+  },
+  "bd_rice_riceleafbd_rimi": {
+   "readable": 200,
+   "exact_dup_dropped": 0,
+   "phash_dup_dropped": 0,
+   "label_conflict_dropped": 0,
+   "kept": 200,
+   "near_copy_clusters_size_gt1": 6,
+   "images_in_near_copy_clusters": 23,
+   "clusters_spanning_datasets": 0
+  },
+  "bd_rice_riceleafdiseasebd": {
+   "readable": 900,
+   "exact_dup_dropped": 1,
+   "phash_dup_dropped": 28,
+   "label_conflict_dropped": 0,
+   "kept": 871,
+   "near_copy_clusters_size_gt1": 54,
+   "images_in_near_copy_clusters": 176,
+   "clusters_spanning_datasets": 0
+  },
+  "bd_rice_riceyleafdisease": {
+   "readable": 480,
+   "exact_dup_dropped": 1,
+   "phash_dup_dropped": 24,
+   "label_conflict_dropped": 0,
+   "kept": 455,
+   "near_copy_clusters_size_gt1": 30,
+   "images_in_near_copy_clusters": 77,
+   "clusters_spanning_datasets": 0
+  },
+  "bd_tomato_jttr": {
+   "readable": 979,
+   "exact_dup_dropped": 0,
+   "phash_dup_dropped": 18,
+   "label_conflict_dropped": 2,
+   "kept": 959,
+   "near_copy_clusters_size_gt1": 39,
+   "images_in_near_copy_clusters": 143,
+   "clusters_spanning_datasets": 3
+  },
+  "in_rice_sethy": {
+   "readable": 5932,
+   "exact_dup_dropped": 485,
+   "phash_dup_dropped": 3326,
+   "label_conflict_dropped": 0,
+   "kept": 2121,
+   "near_copy_clusters_size_gt1": 643,
+   "images_in_near_copy_clusters": 1566,
+   "clusters_spanning_datasets": 1
+  },
+  "lk_rice_paddypulse": {
+   "readable": 960,
+   "exact_dup_dropped": 3,
+   "phash_dup_dropped": 6,
+   "label_conflict_dropped": 0,
+   "kept": 951,
+   "near_copy_clusters_size_gt1": 57,
+   "images_in_near_copy_clusters": 271,
+   "clusters_spanning_datasets": 25
+  },
+  "tz_potato": {
+   "readable": 7499,
+   "exact_dup_dropped": 661,
+   "phash_dup_dropped": 733,
+   "label_conflict_dropped": 13,
+   "kept": 6092,
+   "near_copy_clusters_size_gt1": 469,
+   "images_in_near_copy_clusters": 1254,
+   "clusters_spanning_datasets": 0
+  },
+  "ug_bean_ibean": {
+   "readable": 1295,
+   "exact_dup_dropped": 0,
+   "phash_dup_dropped": 0,
+   "label_conflict_dropped": 0,
+   "kept": 1295,
+   "near_copy_clusters_size_gt1": 6,
+   "images_in_near_copy_clusters": 41,
+   "clusters_spanning_datasets": 0
+  }
+ },
+ "rule": "copies = exact SHA-256 matches + pHash matches confirmed by DINOv2-B cosine >= 0.95; pHash-only matches are kept and clustered",
+ "phash_edges": 17744,
+ "phash_edges_confirmed": 16047,
+ "cross_dataset_duplicate_groups": {},
+ "label_conflict_images": {
+  "tz_potato": 13,
+  "bd_rice_bd5": 10,
+  "bd_tomato_jttr": 2
+ }
+}
