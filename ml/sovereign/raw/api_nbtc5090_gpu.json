@@ -1,0 +1,947 @@
+{
+ "label": "nbtc5090-gpu",
+ "started": "2026-10-29T09:33:16Z",
+ "base": "http://127.0.0.1:8100",
+ "machine": {
+  "hostname": "NBTC-PC-01",
+  "os": "Windows-11-10.0.26300-SP0",
+  "python": "3.12.16",
+  "logical_cpus": 16,
+  "cpu": "AMD Ryzen 7 9700X 8-Core Processor",
+  "ram_gb": 31.1,
+  "ram_load_pct_at_start": 74,
+  "onnxruntime_version": "1.31.1",
+  "numpy_version": "2.5.2",
+  "PIL_version": "12.3.0",
+  "gpu": {
+   "name": "NVIDIA GeForce RTX 5090",
+   "driver": "621.01",
+   "memory_total_mib": 32607.0,
+   "power_limit_w": 600.0
+  }
+ },
+ "gpu_apps_at_start": [
+  "1844, C:\\Windows\\System32\\dwm.exe, [N/A]",
+  "11680, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe, [N/A]",
+  "12656, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "11304, C:\\Windows\\explorer.exe, [N/A]",
+  "11600, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "13524, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe, [N/A]",
+  "13500, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe, [N/A]",
+  "15692, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\156.0.4314.50\\msedgewebview2.exe, [N/A]",
+  "15960, C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe, [N/A]",
+  "18020, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe, [N/A]",
+  "4340, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe, [N/A]",
+  "12828, C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe, [N/A]",
+  "1956, C:\\Program Files\\WindowsApps\\65d483df-b37e-4fcf-94de-8b795233db63_25.1.23.0_x64__1mmjbktjj1mkp\\GBT_DL_LIB.exe, [N/A]",
+  "6500, C:\\Program Files\\GIGABYTE\\Control Center\\GCC.exe, [N/A]",
+  "5280, C:\\Program Files\\AMD\\CNext\\CNext\\AMDRSSrcExt.exe, [N/A]",
+  "10644, C:\\Program Files\\AMD\\CNext\\CNext\\RadeonSoftware.exe, [N/A]",
+  "22128, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "6544, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "21724, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "13064, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "21752, C:\\Windows\\System32\\Taskmgr.exe, [N/A]",
+  "24944, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe, [N/A]",
+  "22852, C:\\Windows\\System32\\ShellHost.exe, [N/A]",
+  "28028, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "28968, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "29044, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]"
+ ],
+ "settings": {
+  "n": 40,
+  "concurrency": [
+   1,
+   4,
+   8,
+   16
+  ],
+  "tp_seconds": 15,
+  "mix_seconds": 45,
+  "mix_concurrency": [
+   8,
+   16
+  ],
+  "images": 40,
+  "questions": 77,
+  "questions_note": "ml/ask/questions.seed.jsonl: SYNTHETIC questions written by the team's coding agent"
+ },
+ "server": {
+  "health": {
+   "ok": true,
+   "issuer": "did:web:127.0.0.1%3A8100"
+  },
+  "ask_health": {
+   "engine": "langgraph",
+   "langgraph_version": "1.2.14",
+   "router_version": "0.1.0",
+   "mode": "hybrid",
+   "stages": {
+    "bm25": true,
+    "dense": true,
+    "rerank": false
+   },
+   "installed": {
+    "dense": true,
+    "rerank": false
+   },
+   "note": "BM25 + dense (reciprocal-rank fusion) (rerank: model not installed)",
+   "threshold": {
+    "value": 0.540875,
+    "fixed_on": "dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)",
+    "fitted_at": "2026-10-28T13:16:38Z",
+    "synthetic": true,
+    "stale": false,
+    "calibrated_modes": [
+     "bm25",
+     "hybrid"
+    ]
+   },
+   "models": {
+    "embedder": {
+     "name": "multilingual-e5-small",
+     "repo": "intfloat/multilingual-e5-small",
+     "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+     "licence": "MIT",
+     "bangla_evidence": "model card metadata lists language 'bn'; the card says it 'supports 100 languages from xlm-roberta, but low-resource languages may see performance degradation'",
+     "parameters": "118M",
+     "variant": "fp32",
+     "card": "https://huggingface.co/intfloat/multilingual-e5-small",
+     "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665"
+    },
+    "reranker": null
+   },
+   "not_loaded": {
+    "reranker": "not installed (run ml/ask/export_text_models.py)"
+   },
+   "index": {
+    "rule_units": 23,
+    "corpus_chunks": 34,
+    "corpus_docs": [
+     "DOC-CIP-001"
+    ],
+    "chunking": "semantic: embedding similarity between adjacent sentences",
+    "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
+    "registry_sha256": "a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905"
+   },
+   "lexicon": {
+    "sha256": "e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a",
+    "review": "Bangla entries pending native-speaker review"
+   },
+   "answers": "a rule's validated text with a signed receipt, or the officer inbox; no language model writes text"
+  }
+ },
+ "gpu_idle": {
+  "samples": 73,
+  "seconds": 14.78,
+  "power_mean_w": 187.5,
+  "power_max_w": 339.8,
+  "util_mean_pct": 37.1,
+  "util_max_pct": 100.0,
+  "mem_max_mib": 9367,
+  "energy_j": 2770.9
+ },
+ "latency_sequential": {
+  "plan_fresh_store": {
+   "n": 40,
+   "p50_ms": 8.9,
+   "p95_ms": 30.0,
+   "mean_ms": 13.6,
+   "min_ms": 7.3,
+   "max_ms": 32.6,
+   "note": "first plan in a new store: also issues the rule credentials"
+  },
+  "plan_warm_store": {
+   "n": 40,
+   "p50_ms": 8.7,
+   "p95_ms": 29.5,
+   "mean_ms": 12.3,
+   "min_ms": 7.0,
+   "max_ms": 33.1,
+   "note": "rule credentials already issued in this store (production-like)"
+  },
+  "plan_statuses": {
+   "ok": 80
+  },
+  "verify": {
+   "n": 40,
+   "p50_ms": 1.7,
+   "p95_ms": 2.5,
+   "mean_ms": 1.8,
+   "min_ms": 1.5,
+   "max_ms": 3.5,
+   "not_authentic": 0,
+   "note": "demo-session receipts: the API looks the credential up across the demo stores"
+  },
+  "verify_official": {
+   "n": 40,
+   "p50_ms": 1.5,
+   "p95_ms": 2.2,
+   "mean_ms": 1.6,
+   "min_ms": 1.4,
+   "max_ms": 2.5,
+   "not_authentic": 0,
+   "receipts": 17,
+   "note": "receipts from the official store (/api/plan): the production lookup path"
+  },
+  "recall": {
+   "n": 40,
+   "p50_ms": 1.3,
+   "p95_ms": 1.5,
+   "mean_ms": 1.3,
+   "min_ms": 1.1,
+   "max_ms": 2.0,
+   "verify_after_recall": [
+    "recalled",
+    "recalled",
+    "recalled",
+    "recalled",
+    "recalled"
+   ]
+  },
+  "ask": {
+   "n": 40,
+   "p50_ms": 16.8,
+   "p95_ms": 25.0,
+   "mean_ms": 17.9,
+   "min_ms": 1.8,
+   "max_ms": 38.2,
+   "outcomes": {
+    "abstained": 20,
+    "ok": 20
+   }
+  },
+  "photo": {
+   "n": 40,
+   "p50_ms": 23.8,
+   "p95_ms": 36.4,
+   "mean_ms": 25.0,
+   "min_ms": 10.5,
+   "max_ms": 39.3,
+   "routes": {
+    "officer": 40
+   },
+   "gpu": {
+    "samples": 5,
+    "seconds": 0.82,
+    "power_mean_w": 90.4,
+    "power_max_w": 121.1,
+    "util_mean_pct": 35.2,
+    "util_max_pct": 71.0,
+    "mem_max_mib": 8243,
+    "energy_j": 73.9
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.00064,
+    "gross_j_per_item": 2.305,
+    "net_wh_per_item": 0.0,
+    "net_j_per_item": 0.0
+   }
+  }
+ },
+ "throughput": {
+  "photo": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 654,
+    "per_s": 43.6,
+    "p50_ms": 19.8,
+    "p95_ms": 34.9,
+    "mean_ms": 22.7,
+    "min_ms": 10.8,
+    "max_ms": 113.8,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 72,
+     "seconds": 14.7,
+     "power_mean_w": 228.7,
+     "power_max_w": 345.3,
+     "util_mean_pct": 47.6,
+     "util_max_pct": 98.0,
+     "mem_max_mib": 9423,
+     "energy_j": 3363.5
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.001457,
+     "gross_j_per_item": 5.245,
+     "net_wh_per_item": 0.000262,
+     "net_j_per_item": 0.945
+    },
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 1158,
+    "per_s": 77.2,
+    "p50_ms": 47.0,
+    "p95_ms": 75.3,
+    "mean_ms": 51.4,
+    "min_ms": 21.0,
+    "max_ms": 254.5,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.76,
+     "power_mean_w": 307.7,
+     "power_max_w": 442.9,
+     "util_mean_pct": 75.6,
+     "util_max_pct": 98.0,
+     "mem_max_mib": 10841,
+     "energy_j": 4541.2
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.001107,
+     "gross_j_per_item": 3.986,
+     "net_wh_per_item": 0.000432,
+     "net_j_per_item": 1.557
+    },
+    "drain_s": 0.01
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 1242,
+    "per_s": 82.8,
+    "p50_ms": 98.7,
+    "p95_ms": 142.3,
+    "mean_ms": 96.1,
+    "min_ms": 30.1,
+    "max_ms": 227.8,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.86,
+     "power_mean_w": 260.2,
+     "power_max_w": 337.1,
+     "util_mean_pct": 49.7,
+     "util_max_pct": 86.0,
+     "mem_max_mib": 10254,
+     "energy_j": 3866.6
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000873,
+     "gross_j_per_item": 3.143,
+     "net_wh_per_item": 0.000244,
+     "net_j_per_item": 0.878
+    },
+    "drain_s": 0.08
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 1232,
+    "per_s": 82.13,
+    "p50_ms": 206.9,
+    "p95_ms": 270.8,
+    "mean_ms": 192.7,
+    "min_ms": 51.8,
+    "max_ms": 318.1,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.74,
+     "power_mean_w": 243.9,
+     "power_max_w": 294.3,
+     "util_mean_pct": 31.9,
+     "util_max_pct": 56.0,
+     "mem_max_mib": 7660,
+     "energy_j": 3594.8
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000825,
+     "gross_j_per_item": 2.97,
+     "net_wh_per_item": 0.000191,
+     "net_j_per_item": 0.687
+    },
+    "drain_s": 0.11
+   }
+  ],
+  "ask": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 924,
+    "per_s": 61.6,
+    "p50_ms": 14.6,
+    "p95_ms": 29.9,
+    "mean_ms": 16.1,
+    "min_ms": 0.9,
+    "max_ms": 111.2,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 72,
+     "seconds": 14.82,
+     "power_mean_w": 54.6,
+     "power_max_w": 251.6,
+     "util_mean_pct": 0.9,
+     "util_max_pct": 48.0,
+     "mem_max_mib": 6329,
+     "energy_j": 808.7
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000246,
+     "gross_j_per_item": 0.886,
+     "net_wh_per_item": 0.0,
+     "net_j_per_item": 0.0
+    },
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 1770,
+    "per_s": 118.0,
+    "p50_ms": 34.6,
+    "p95_ms": 62.1,
+    "mean_ms": 33.6,
+    "min_ms": 1.3,
+    "max_ms": 203.9,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 72,
+     "seconds": 14.77,
+     "power_mean_w": 46.1,
+     "power_max_w": 80.4,
+     "util_mean_pct": 2.0,
+     "util_max_pct": 40.0,
+     "mem_max_mib": 13355,
+     "energy_j": 681.0
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000109,
+     "gross_j_per_item": 0.391,
+     "net_wh_per_item": 0.0,
+     "net_j_per_item": 0.0
+    },
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 2084,
+    "per_s": 138.93,
+    "p50_ms": 58.0,
+    "p95_ms": 109.9,
+    "mean_ms": 57.0,
+    "min_ms": 1.2,
+    "max_ms": 549.8,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 72,
+     "seconds": 14.7,
+     "power_mean_w": 82.3,
+     "power_max_w": 200.6,
+     "util_mean_pct": 7.8,
+     "util_max_pct": 45.0,
+     "mem_max_mib": 13385,
+     "energy_j": 1209.8
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000165,
+     "gross_j_per_item": 0.592,
+     "net_wh_per_item": 0.0,
+     "net_j_per_item": 0.0
+    },
+    "drain_s": 0.04
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 1934,
+    "per_s": 128.93,
+    "p50_ms": 115.0,
+    "p95_ms": 232.1,
+    "mean_ms": 122.2,
+    "min_ms": 7.5,
+    "max_ms": 792.8,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 72,
+     "seconds": 14.78,
+     "power_mean_w": 173.0,
+     "power_max_w": 205.7,
+     "util_mean_pct": 31.2,
+     "util_max_pct": 57.0,
+     "mem_max_mib": 13655,
+     "energy_j": 2556.3
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000373,
+     "gross_j_per_item": 1.342,
+     "net_wh_per_item": 0.0,
+     "net_j_per_item": 0.0
+    },
+    "drain_s": 0.06
+   }
+  ],
+  "plan": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 1196,
+    "per_s": 79.73,
+    "p50_ms": 8.1,
+    "p95_ms": 31.1,
+    "mean_ms": 12.1,
+    "min_ms": 5.7,
+    "max_ms": 108.5,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.82,
+     "power_mean_w": 234.2,
+     "power_max_w": 246.1,
+     "util_mean_pct": 53.2,
+     "util_max_pct": 62.0,
+     "mem_max_mib": 13862,
+     "energy_j": 3470.5
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000816,
+     "gross_j_per_item": 2.937,
+     "net_wh_per_item": 0.000163,
+     "net_j_per_item": 0.586
+    },
+    "drain_s": 0.01
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 1977,
+    "per_s": 131.8,
+    "p50_ms": 27.8,
+    "p95_ms": 41.4,
+    "mean_ms": 29.2,
+    "min_ms": 5.8,
+    "max_ms": 191.7,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.7,
+     "power_mean_w": 212.8,
+     "power_max_w": 303.4,
+     "util_mean_pct": 44.0,
+     "util_max_pct": 97.0,
+     "mem_max_mib": 15334,
+     "energy_j": 3129.1
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000448,
+     "gross_j_per_item": 1.615,
+     "net_wh_per_item": 5.3e-05,
+     "net_j_per_item": 0.192
+    },
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 1939,
+    "per_s": 129.27,
+    "p50_ms": 57.3,
+    "p95_ms": 76.3,
+    "mean_ms": 59.4,
+    "min_ms": 28.7,
+    "max_ms": 573.3,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.74,
+     "power_mean_w": 214.0,
+     "power_max_w": 344.0,
+     "util_mean_pct": 43.2,
+     "util_max_pct": 84.0,
+     "mem_max_mib": 15334,
+     "energy_j": 3154.8
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.00046,
+     "gross_j_per_item": 1.655,
+     "net_wh_per_item": 5.7e-05,
+     "net_j_per_item": 0.205
+    },
+    "drain_s": 0.03
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 1928,
+    "per_s": 128.53,
+    "p50_ms": 96.3,
+    "p95_ms": 275.4,
+    "mean_ms": 119.8,
+    "min_ms": 43.0,
+    "max_ms": 1140.4,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 72,
+     "seconds": 14.61,
+     "power_mean_w": 256.6,
+     "power_max_w": 539.9,
+     "util_mean_pct": 50.6,
+     "util_max_pct": 99.0,
+     "mem_max_mib": 15533,
+     "energy_j": 3748.3
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000555,
+     "gross_j_per_item": 1.996,
+     "net_wh_per_item": 0.000149,
+     "net_j_per_item": 0.538
+    },
+    "drain_s": 0.31
+   }
+  ],
+  "verify": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 2002,
+    "per_s": 133.47,
+    "p50_ms": 5.5,
+    "p95_ms": 11.4,
+    "mean_ms": 7.4,
+    "min_ms": 3.5,
+    "max_ms": 163.7,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.72,
+     "power_mean_w": 231.1,
+     "power_max_w": 312.1,
+     "util_mean_pct": 47.2,
+     "util_max_pct": 97.0,
+     "mem_max_mib": 16422,
+     "energy_j": 3401.6
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000481,
+     "gross_j_per_item": 1.732,
+     "net_wh_per_item": 9.1e-05,
+     "net_j_per_item": 0.327
+    },
+    "drain_s": 0.0
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 1810,
+    "per_s": 120.67,
+    "p50_ms": 32.1,
+    "p95_ms": 45.0,
+    "mean_ms": 33.0,
+    "min_ms": 9.4,
+    "max_ms": 64.5,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.89,
+     "power_mean_w": 352.3,
+     "power_max_w": 554.4,
+     "util_mean_pct": 70.1,
+     "util_max_pct": 98.0,
+     "mem_max_mib": 14788,
+     "energy_j": 5246.3
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000811,
+     "gross_j_per_item": 2.92,
+     "net_wh_per_item": 0.000379,
+     "net_j_per_item": 1.366
+    },
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 1878,
+    "per_s": 125.2,
+    "p50_ms": 61.8,
+    "p95_ms": 81.6,
+    "mean_ms": 63.6,
+    "min_ms": 34.0,
+    "max_ms": 117.7,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.85,
+     "power_mean_w": 542.8,
+     "power_max_w": 552.2,
+     "util_mean_pct": 97.5,
+     "util_max_pct": 99.0,
+     "mem_max_mib": 14798,
+     "energy_j": 8062.7
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.001204,
+     "gross_j_per_item": 4.335,
+     "net_wh_per_item": 0.000788,
+     "net_j_per_item": 2.838
+    },
+    "drain_s": 0.03
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 2010,
+    "per_s": 134.0,
+    "p50_ms": 117.1,
+    "p95_ms": 146.2,
+    "mean_ms": 118.7,
+    "min_ms": 44.4,
+    "max_ms": 195.8,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.84,
+     "power_mean_w": 447.4,
+     "power_max_w": 575.0,
+     "util_mean_pct": 81.4,
+     "util_max_pct": 100.0,
+     "mem_max_mib": 14796,
+     "energy_j": 6639.3
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000927,
+     "gross_j_per_item": 3.339,
+     "net_wh_per_item": 0.000539,
+     "net_j_per_item": 1.94
+    },
+    "drain_s": 0.05
+   }
+  ],
+  "verify_official": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 9691,
+    "per_s": 646.07,
+    "p50_ms": 1.4,
+    "p95_ms": 2.2,
+    "mean_ms": 1.5,
+    "min_ms": 1.0,
+    "max_ms": 6.1,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.72,
+     "power_mean_w": 263.4,
+     "power_max_w": 270.2,
+     "util_mean_pct": 57.6,
+     "util_max_pct": 62.0,
+     "mem_max_mib": 14056,
+     "energy_j": 3877.4
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 0.000113,
+     "gross_j_per_item": 0.408,
+     "net_wh_per_item": 3.3e-05,
+     "net_j_per_item": 0.117
+    },
+    "drain_s": 0.0
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 11148,
+    "per_s": 743.2,
+    "p50_ms": 5.1,
+    "p95_ms": 7.5,
+    "mean_ms": 5.3,
+    "min_ms": 2.0,
+    "max_ms": 24.2,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.81,
+     "power_mean_w": 253.6,
+     "power_max_w": 263.1,
+     "util_mean_pct": 54.6,
+     "util_max_pct": 63.0,
+     "mem_max_mib": 14057,
+     "energy_j": 3754.9
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 9.5e-05,
+     "gross_j_per_item": 0.341,
+     "net_wh_per_item": 2.5e-05,
+     "net_j_per_item": 0.089
+    },
+    "drain_s": 0.0
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 11053,
+    "per_s": 736.87,
+    "p50_ms": 10.5,
+    "p95_ms": 14.1,
+    "mean_ms": 10.8,
+    "min_ms": 4.1,
+    "max_ms": 205.3,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.78,
+     "power_mean_w": 249.9,
+     "power_max_w": 257.5,
+     "util_mean_pct": 54.2,
+     "util_max_pct": 60.0,
+     "mem_max_mib": 14005,
+     "energy_j": 3695.0
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 9.4e-05,
+     "gross_j_per_item": 0.339,
+     "net_wh_per_item": 2.4e-05,
+     "net_j_per_item": 0.085
+    },
+    "drain_s": 0.01
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 11275,
+    "per_s": 751.67,
+    "p50_ms": 20.8,
+    "p95_ms": 26.1,
+    "mean_ms": 21.2,
+    "min_ms": 8.5,
+    "max_ms": 214.9,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": {
+     "samples": 73,
+     "seconds": 14.82,
+     "power_mean_w": 250.2,
+     "power_max_w": 255.4,
+     "util_mean_pct": 56.6,
+     "util_max_pct": 62.0,
+     "mem_max_mib": 14004,
+     "energy_j": 3707.6
+    },
+    "gpu_energy": {
+     "gross_wh_per_item": 9.2e-05,
+     "gross_j_per_item": 0.333,
+     "net_wh_per_item": 2.3e-05,
+     "net_j_per_item": 0.083
+    },
+    "drain_s": 0.01
+   }
+  ]
+ },
+ "mixed_farmer_week": [
+  {
+   "concurrency": 8,
+   "seconds": 45,
+   "completed": 807,
+   "per_s": 17.93,
+   "p50_ms": 413.1,
+   "p95_ms": 665.7,
+   "mean_ms": 443.7,
+   "min_ms": 234.0,
+   "max_ms": 936.8,
+   "errors": 0,
+   "error_kinds": [],
+   "gpu": {
+    "samples": 219,
+    "seconds": 44.95,
+    "power_mean_w": 224.2,
+    "power_max_w": 282.5,
+    "util_mean_pct": 48.5,
+    "util_max_pct": 88.0,
+    "mem_max_mib": 16027,
+    "energy_j": 10076.2
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.003473,
+    "gross_j_per_item": 12.502,
+    "net_wh_per_item": 0.000568,
+    "net_j_per_item": 2.046
+   },
+   "drain_s": 0.28,
+   "unit": "farmer-week bundles (session + plan + 2 asks + 1 photo + 1 verify)"
+  },
+  {
+   "concurrency": 16,
+   "seconds": 45,
+   "completed": 555,
+   "per_s": 12.33,
+   "p50_ms": 1272.2,
+   "p95_ms": 1725.6,
+   "mean_ms": 1276.0,
+   "min_ms": 672.4,
+   "max_ms": 2258.8,
+   "errors": 0,
+   "error_kinds": [],
+   "gpu": {
+    "samples": 217,
+    "seconds": 44.88,
+    "power_mean_w": 191.6,
+    "power_max_w": 228.6,
+    "util_mean_pct": 35.6,
+    "util_max_pct": 84.0,
+    "mem_max_mib": 14082,
+    "energy_j": 8599.4
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.004315,
+    "gross_j_per_item": 15.535,
+    "net_wh_per_item": 9.2e-05,
+    "net_j_per_item": 0.332
+   },
+   "drain_s": 0.66,
+   "unit": "farmer-week bundles (session + plan + 2 asks + 1 photo + 1 verify)"
+  }
+ ],
+ "gpu_apps_at_end": [
+  "1844, C:\\Windows\\System32\\dwm.exe, [N/A]",
+  "11680, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe, [N/A]",
+  "12656, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "11304, C:\\Windows\\explorer.exe, [N/A]",
+  "11600, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "13524, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe, [N/A]",
+  "13500, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe, [N/A]",
+  "15692, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\156.0.4314.50\\msedgewebview2.exe, [N/A]",
+  "15960, C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe, [N/A]",
+  "18020, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe, [N/A]",
+  "4340, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe, [N/A]",
+  "12828, C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe, [N/A]",
+  "1956, C:\\Program Files\\WindowsApps\\65d483df-b37e-4fcf-94de-8b795233db63_25.1.23.0_x64__1mmjbktjj1mkp\\GBT_DL_LIB.exe, [N/A]",
+  "6500, C:\\Program Files\\GIGABYTE\\Control Center\\GCC.exe, [N/A]",
+  "5280, C:\\Program Files\\AMD\\CNext\\CNext\\AMDRSSrcExt.exe, [N/A]",
+  "10644, C:\\Program Files\\AMD\\CNext\\CNext\\RadeonSoftware.exe, [N/A]",
+  "22128, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "6544, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "21724, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "13064, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "21752, C:\\Windows\\System32\\Taskmgr.exe, [N/A]",
+  "24944, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe, [N/A]",
+  "28028, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "29044, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "22880, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "29908, C:\\Windows\\System32\\ShellHost.exe, [N/A]"
+ ],
+ "finished": "2026-10-29T09:40:08Z"
+}

@@ -1,0 +1,772 @@
+{
+ "what": "KrishiLoop sovereign mode: the whole API (deterministic planner, signed receipts, recall, Ask router, BioCLIP 2 photo reading) on one in-country PC with an RTX 5090, no cloud calls; the laptop's CPU-only API as the baseline. Same script, same code, same inputs on both machines.",
+ "licence_note": "The RTX 5090 is a GeForce card: NVIDIA's GeForce driver licence does not allow data-centre deployment. This is a benchmark and proof of concept; production in-country deployments would use data-centre GPUs.",
+ "no_cloud_evidence": {
+  "nbtc5090": {
+   "api.open-meteo.com": 16540
+  },
+  "laptop": {
+   "api.open-meteo.com": 6192
+  }
+ },
+ "machines": {
+  "nbtc5090": {
+   "hostname": "NBTC-PC-01",
+   "os": "Windows-11-10.0.26300-SP0",
+   "python": "3.12.16",
+   "logical_cpus": 16,
+   "cpu": "AMD Ryzen 7 9700X 8-Core Processor",
+   "ram_gb": 31.1,
+   "ram_load_pct_at_start": 74,
+   "onnxruntime_version": "1.31.1",
+   "numpy_version": "2.5.2",
+   "PIL_version": "12.3.0",
+   "gpu": {
+    "name": "NVIDIA GeForce RTX 5090",
+    "driver": "621.01",
+    "memory_total_mib": 32607.0,
+    "power_limit_w": 600.0
+   }
+  },
+  "laptop": {
+   "hostname": "000IQ",
+   "os": "Windows-11-10.0.26300-SP0",
+   "python": "3.13.2",
+   "logical_cpus": 12,
+   "cpu": "AMD Ryzen 5 5600H with Radeon Graphics",
+   "ram_gb": 15.3,
+   "ram_load_pct_at_start": 72,
+   "onnxruntime_version": "1.31.1",
+   "numpy_version": "2.5.4",
+   "PIL_version": "13.0.0",
+   "gpu": null
+  }
+ },
+ "latency_sequential_ms": {
+  "nbtc5090_gpu": {
+   "plan_fresh_store": {
+    "n": 40,
+    "p50_ms": 8.9,
+    "p95_ms": 30.0,
+    "mean_ms": 13.6
+   },
+   "plan_warm_store": {
+    "n": 40,
+    "p50_ms": 8.7,
+    "p95_ms": 29.5,
+    "mean_ms": 12.3
+   },
+   "verify": {
+    "n": 40,
+    "p50_ms": 1.7,
+    "p95_ms": 2.5,
+    "mean_ms": 1.8
+   },
+   "verify_official": {
+    "n": 40,
+    "p50_ms": 1.5,
+    "p95_ms": 2.2,
+    "mean_ms": 1.6
+   },
+   "recall": {
+    "n": 40,
+    "p50_ms": 1.3,
+    "p95_ms": 1.5,
+    "mean_ms": 1.3
+   },
+   "ask": {
+    "n": 40,
+    "p50_ms": 16.8,
+    "p95_ms": 25.0,
+    "mean_ms": 17.9
+   },
+   "photo": {
+    "n": 40,
+    "p50_ms": 23.8,
+    "p95_ms": 36.4,
+    "mean_ms": 25.0
+   }
+  },
+  "laptop_cpu": {
+   "plan_fresh_store": {
+    "n": 40,
+    "p50_ms": 24.3,
+    "p95_ms": 28.7,
+    "mean_ms": 24.5
+   },
+   "plan_warm_store": {
+    "n": 40,
+    "p50_ms": 23.8,
+    "p95_ms": 43.9,
+    "mean_ms": 25.6
+   },
+   "verify": {
+    "n": 40,
+    "p50_ms": 40.3,
+    "p95_ms": 45.0,
+    "mean_ms": 40.2
+   },
+   "verify_official": {
+    "n": 40,
+    "p50_ms": 5.6,
+    "p95_ms": 26.3,
+    "mean_ms": 12.3
+   },
+   "recall": {
+    "n": 40,
+    "p50_ms": 18.8,
+    "p95_ms": 24.3,
+    "mean_ms": 17.2
+   },
+   "ask": {
+    "n": 40,
+    "p50_ms": 48.6,
+    "p95_ms": 71.9,
+    "mean_ms": 56.3
+   },
+   "photo": {
+    "n": 40,
+    "p50_ms": 931.9,
+    "p95_ms": 1025.5,
+    "mean_ms": 938.0
+   }
+  }
+ },
+ "throughput_per_s": {
+  "nbtc5090_gpu": {
+   "photo": [
+    {
+     "concurrency": 1,
+     "per_s": 43.6,
+     "p50_ms": 19.8,
+     "p95_ms": 34.9,
+     "errors": 0,
+     "gpu_w": 228.7,
+     "gpu_util_pct": 47.6
+    },
+    {
+     "concurrency": 4,
+     "per_s": 77.2,
+     "p50_ms": 47.0,
+     "p95_ms": 75.3,
+     "errors": 0,
+     "gpu_w": 307.7,
+     "gpu_util_pct": 75.6
+    },
+    {
+     "concurrency": 8,
+     "per_s": 82.8,
+     "p50_ms": 98.7,
+     "p95_ms": 142.3,
+     "errors": 0,
+     "gpu_w": 260.2,
+     "gpu_util_pct": 49.7
+    },
+    {
+     "concurrency": 16,
+     "per_s": 82.13,
+     "p50_ms": 206.9,
+     "p95_ms": 270.8,
+     "errors": 0,
+     "gpu_w": 243.9,
+     "gpu_util_pct": 31.9
+    }
+   ],
+   "ask": [
+    {
+     "concurrency": 1,
+     "per_s": 61.6,
+     "p50_ms": 14.6,
+     "p95_ms": 29.9,
+     "errors": 0,
+     "gpu_w": 54.6,
+     "gpu_util_pct": 0.9
+    },
+    {
+     "concurrency": 4,
+     "per_s": 118.0,
+     "p50_ms": 34.6,
+     "p95_ms": 62.1,
+     "errors": 0,
+     "gpu_w": 46.1,
+     "gpu_util_pct": 2.0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 138.93,
+     "p50_ms": 58.0,
+     "p95_ms": 109.9,
+     "errors": 0,
+     "gpu_w": 82.3,
+     "gpu_util_pct": 7.8
+    },
+    {
+     "concurrency": 16,
+     "per_s": 128.93,
+     "p50_ms": 115.0,
+     "p95_ms": 232.1,
+     "errors": 0,
+     "gpu_w": 173.0,
+     "gpu_util_pct": 31.2
+    }
+   ],
+   "plan": [
+    {
+     "concurrency": 1,
+     "per_s": 79.73,
+     "p50_ms": 8.1,
+     "p95_ms": 31.1,
+     "errors": 0,
+     "gpu_w": 234.2,
+     "gpu_util_pct": 53.2
+    },
+    {
+     "concurrency": 4,
+     "per_s": 131.8,
+     "p50_ms": 27.8,
+     "p95_ms": 41.4,
+     "errors": 0,
+     "gpu_w": 212.8,
+     "gpu_util_pct": 44.0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 129.27,
+     "p50_ms": 57.3,
+     "p95_ms": 76.3,
+     "errors": 0,
+     "gpu_w": 214.0,
+     "gpu_util_pct": 43.2
+    },
+    {
+     "concurrency": 16,
+     "per_s": 128.53,
+     "p50_ms": 96.3,
+     "p95_ms": 275.4,
+     "errors": 0,
+     "gpu_w": 256.6,
+     "gpu_util_pct": 50.6
+    }
+   ],
+   "verify": [
+    {
+     "concurrency": 1,
+     "per_s": 133.47,
+     "p50_ms": 5.5,
+     "p95_ms": 11.4,
+     "errors": 0,
+     "gpu_w": 231.1,
+     "gpu_util_pct": 47.2
+    },
+    {
+     "concurrency": 4,
+     "per_s": 120.67,
+     "p50_ms": 32.1,
+     "p95_ms": 45.0,
+     "errors": 0,
+     "gpu_w": 352.3,
+     "gpu_util_pct": 70.1
+    },
+    {
+     "concurrency": 8,
+     "per_s": 125.2,
+     "p50_ms": 61.8,
+     "p95_ms": 81.6,
+     "errors": 0,
+     "gpu_w": 542.8,
+     "gpu_util_pct": 97.5
+    },
+    {
+     "concurrency": 16,
+     "per_s": 134.0,
+     "p50_ms": 117.1,
+     "p95_ms": 146.2,
+     "errors": 0,
+     "gpu_w": 447.4,
+     "gpu_util_pct": 81.4
+    }
+   ],
+   "verify_official": [
+    {
+     "concurrency": 1,
+     "per_s": 646.07,
+     "p50_ms": 1.4,
+     "p95_ms": 2.2,
+     "errors": 0,
+     "gpu_w": 263.4,
+     "gpu_util_pct": 57.6
+    },
+    {
+     "concurrency": 4,
+     "per_s": 743.2,
+     "p50_ms": 5.1,
+     "p95_ms": 7.5,
+     "errors": 0,
+     "gpu_w": 253.6,
+     "gpu_util_pct": 54.6
+    },
+    {
+     "concurrency": 8,
+     "per_s": 736.87,
+     "p50_ms": 10.5,
+     "p95_ms": 14.1,
+     "errors": 0,
+     "gpu_w": 249.9,
+     "gpu_util_pct": 54.2
+    },
+    {
+     "concurrency": 16,
+     "per_s": 751.67,
+     "p50_ms": 20.8,
+     "p95_ms": 26.1,
+     "errors": 0,
+     "gpu_w": 250.2,
+     "gpu_util_pct": 56.6
+    }
+   ]
+  },
+  "laptop_cpu": {
+   "photo": [
+    {
+     "concurrency": 1,
+     "per_s": 1.0,
+     "p50_ms": 953.6,
+     "p95_ms": 1016.8,
+     "errors": 0
+    },
+    {
+     "concurrency": 4,
+     "per_s": 1.33,
+     "p50_ms": 2692.8,
+     "p95_ms": 2777.3,
+     "errors": 0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 1.27,
+     "p50_ms": 4993.7,
+     "p95_ms": 5310.5,
+     "errors": 0
+    },
+    {
+     "concurrency": 16,
+     "per_s": 1.07,
+     "p50_ms": 10379.5,
+     "p95_ms": 11339.5,
+     "errors": 0
+    }
+   ],
+   "ask": [
+    {
+     "concurrency": 1,
+     "per_s": 22.07,
+     "p50_ms": 43.4,
+     "p95_ms": 72.5,
+     "errors": 0
+    },
+    {
+     "concurrency": 4,
+     "per_s": 52.73,
+     "p50_ms": 78.3,
+     "p95_ms": 137.3,
+     "errors": 0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 67.8,
+     "p50_ms": 125.4,
+     "p95_ms": 213.9,
+     "errors": 0
+    },
+    {
+     "concurrency": 16,
+     "per_s": 68.67,
+     "p50_ms": 242.9,
+     "p95_ms": 428.4,
+     "errors": 0
+    }
+   ],
+   "plan": [
+    {
+     "concurrency": 1,
+     "per_s": 21.2,
+     "p50_ms": 47.0,
+     "p95_ms": 76.7,
+     "errors": 0
+    },
+    {
+     "concurrency": 4,
+     "per_s": 59.27,
+     "p50_ms": 65.7,
+     "p95_ms": 98.1,
+     "errors": 0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 64.33,
+     "p50_ms": 116.9,
+     "p95_ms": 152.3,
+     "errors": 0
+    },
+    {
+     "concurrency": 16,
+     "per_s": 63.0,
+     "p50_ms": 235.1,
+     "p95_ms": 312.7,
+     "errors": 0
+    }
+   ],
+   "verify": [
+    {
+     "concurrency": 1,
+     "per_s": 33.47,
+     "p50_ms": 17.1,
+     "p95_ms": 74.1,
+     "errors": 0
+    },
+    {
+     "concurrency": 4,
+     "per_s": 59.07,
+     "p50_ms": 66.8,
+     "p95_ms": 78.9,
+     "errors": 0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 59.53,
+     "p50_ms": 133.2,
+     "p95_ms": 151.4,
+     "errors": 0
+    },
+    {
+     "concurrency": 16,
+     "per_s": 54.4,
+     "p50_ms": 289.3,
+     "p95_ms": 332.6,
+     "errors": 0
+    }
+   ],
+   "verify_official": [
+    {
+     "concurrency": 1,
+     "per_s": 200.0,
+     "p50_ms": 4.6,
+     "p95_ms": 6.8,
+     "errors": 0
+    },
+    {
+     "concurrency": 4,
+     "per_s": 306.93,
+     "p50_ms": 12.6,
+     "p95_ms": 16.3,
+     "errors": 0
+    },
+    {
+     "concurrency": 8,
+     "per_s": 311.73,
+     "p50_ms": 25.3,
+     "p95_ms": 32.5,
+     "errors": 0
+    },
+    {
+     "concurrency": 16,
+     "per_s": 286.8,
+     "p50_ms": 56.2,
+     "p95_ms": 68.7,
+     "errors": 0
+    }
+   ]
+  }
+ },
+ "gpu_idle_with_api_loaded": {
+  "samples": 73,
+  "seconds": 14.78,
+  "power_mean_w": 187.5,
+  "power_max_w": 339.8,
+  "util_mean_pct": 37.1,
+  "util_max_pct": 100.0,
+  "mem_max_mib": 9367,
+  "energy_j": 2770.9
+ },
+ "gpu_apps": {
+  "start": [
+   "1844, C:\\Windows\\System32\\dwm.exe, [N/A]",
+   "11680, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe, [N/A]",
+   "12656, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+   "11304, C:\\Windows\\explorer.exe, [N/A]",
+   "11600, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+   "13524, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe, [N/A]",
+   "13500, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe, [N/A]",
+   "15692, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\156.0.4314.50\\msedgewebview2.exe, [N/A]",
+   "15960, C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe, [N/A]",
+   "18020, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe, [N/A]",
+   "4340, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe, [N/A]",
+   "12828, C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe, [N/A]",
+   "1956, C:\\Program Files\\WindowsApps\\65d483df-b37e-4fcf-94de-8b795233db63_25.1.23.0_x64__1mmjbktjj1mkp\\GBT_DL_LIB.exe, [N/A]",
+   "6500, C:\\Program Files\\GIGABYTE\\Control Center\\GCC.exe, [N/A]",
+   "5280, C:\\Program Files\\AMD\\CNext\\CNext\\AMDRSSrcExt.exe, [N/A]",
+   "10644, C:\\Program Files\\AMD\\CNext\\CNext\\RadeonSoftware.exe, [N/A]",
+   "22128, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+   "6544, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+   "21724, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+   "13064, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+   "21752, C:\\Windows\\System32\\Taskmgr.exe, [N/A]",
+   "24944, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe, [N/A]",
+   "22852, C:\\Windows\\System32\\ShellHost.exe, [N/A]",
+   "28028, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+   "28968, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+   "29044, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]"
+  ],
+  "end": [
+   "1844, C:\\Windows\\System32\\dwm.exe, [N/A]",
+   "11680, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe, [N/A]",
+   "12656, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+   "11304, C:\\Windows\\explorer.exe, [N/A]",
+   "11600, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+   "13524, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe, [N/A]",
+   "13500, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe, [N/A]",
+   "15692, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\156.0.4314.50\\msedgewebview2.exe, [N/A]",
+   "15960, C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe, [N/A]",
+   "18020, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe, [N/A]",
+   "4340, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe, [N/A]",
+   "12828, C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe, [N/A]",
+   "1956, C:\\Program Files\\WindowsApps\\65d483df-b37e-4fcf-94de-8b795233db63_25.1.23.0_x64__1mmjbktjj1mkp\\GBT_DL_LIB.exe, [N/A]",
+   "6500, C:\\Program Files\\GIGABYTE\\Control Center\\GCC.exe, [N/A]",
+   "5280, C:\\Program Files\\AMD\\CNext\\CNext\\AMDRSSrcExt.exe, [N/A]",
+   "10644, C:\\Program Files\\AMD\\CNext\\CNext\\RadeonSoftware.exe, [N/A]",
+   "22128, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+   "6544, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+   "21724, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+   "13064, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+   "21752, C:\\Windows\\System32\\Taskmgr.exe, [N/A]",
+   "24944, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe, [N/A]",
+   "28028, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+   "29044, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+   "22880, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+   "29908, C:\\Windows\\System32\\ShellHost.exe, [N/A]"
+  ]
+ },
+ "photo_model_gpu": {
+  "parity": {
+   "reference": "CPUExecutionProvider (same model file, same server preprocessing)",
+   "device": "CUDAExecutionProvider",
+   "n": 20,
+   "cosine_min": 0.9999919,
+   "cosine_mean": 0.9999981,
+   "max_abs_diff": 0.019764244556427002,
+   "top1_agreement": 20,
+   "pass_cosine_0.999": true
+  },
+  "providers_active": [
+   "CUDAExecutionProvider",
+   "CPUExecutionProvider"
+  ],
+  "model": {
+   "name": "krishilens-bioclip2@1",
+   "sha256": "e3b845764431238baf85e49f6fb70f22cdc9af6d0402ec856c07fab0953efc61"
+  },
+  "batched": [
+   {
+    "batch": 1,
+    "photos_per_s": 99.9,
+    "ms_per_batch": 10.01,
+    "vram_above_idle_mib": 2547,
+    "gpu_w": 242.1,
+    "j_per_photo_gross": 2.424,
+    "j_per_photo_net": 2.086
+   },
+   {
+    "batch": 8,
+    "photos_per_s": 336.0,
+    "ms_per_batch": 23.81,
+    "vram_above_idle_mib": 9566,
+    "gpu_w": 460.1,
+    "j_per_photo_gross": 1.369,
+    "j_per_photo_net": 1.269
+   },
+   {
+    "batch": 16,
+    "photos_per_s": 310.6,
+    "ms_per_batch": 51.52,
+    "vram_above_idle_mib": 9578,
+    "gpu_w": 460.9,
+    "j_per_photo_gross": 1.484,
+    "j_per_photo_net": 1.375
+   },
+   {
+    "batch": 32,
+    "photos_per_s": 304.0,
+    "ms_per_batch": 105.27,
+    "vram_above_idle_mib": 9586,
+    "gpu_w": 486.8,
+    "j_per_photo_gross": 1.601,
+    "j_per_photo_net": 1.49
+   },
+   {
+    "batch": 64,
+    "photos_per_s": 283.9,
+    "ms_per_batch": 225.43,
+    "vram_above_idle_mib": 12666,
+    "gpu_w": 479.0,
+    "j_per_photo_gross": 1.687,
+    "j_per_photo_net": 1.568
+   }
+  ],
+  "pipeline": {
+   "batch": 32,
+   "preprocess_threads": 8,
+   "photos": 1696,
+   "seconds": 8.05,
+   "photos_per_s": 210.7,
+   "gpu": {
+    "samples": 39,
+    "seconds": 7.78,
+    "power_mean_w": 412.9,
+    "power_max_w": 478.6,
+    "util_mean_pct": 78.6,
+    "util_max_pct": 97.0,
+    "mem_max_mib": 16408,
+    "energy_j": 3214.4
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.000544,
+    "gross_j_per_item": 1.96,
+    "net_wh_per_item": 0.0005,
+    "net_j_per_item": 1.799
+   },
+   "note": "decode + resize run on CPU threads one batch at a time (no overlap with the GPU)"
+  },
+  "gpu_idle_before_load": {
+   "samples": 49,
+   "seconds": 9.88,
+   "power_mean_w": 33.8,
+   "power_max_w": 34.9,
+   "util_mean_pct": 0.2,
+   "util_max_pct": 1.0,
+   "mem_max_mib": 3724,
+   "energy_j": 334.5
+  }
+ },
+ "photo_model_gpu_shared_run": {
+  "note": "first run, while another track's job kept the GPU about 60% busy (baseline 259 W)",
+  "batched": [
+   {
+    "batch": 1,
+    "photos_per_s": 65.5,
+    "ms_per_batch": 15.26,
+    "vram_above_idle_mib": 2727
+   },
+   {
+    "batch": 8,
+    "photos_per_s": 302.2,
+    "ms_per_batch": 26.47,
+    "vram_above_idle_mib": 2740
+   },
+   {
+    "batch": 16,
+    "photos_per_s": 313.3,
+    "ms_per_batch": 51.07,
+    "vram_above_idle_mib": 2587
+   },
+   {
+    "batch": 32,
+    "photos_per_s": 305.5,
+    "ms_per_batch": 104.74,
+    "vram_above_idle_mib": 2616
+   },
+   {
+    "batch": 64,
+    "photos_per_s": 286.0,
+    "ms_per_batch": 223.8,
+    "vram_above_idle_mib": 5550
+   }
+  ],
+  "pipeline_photos_per_s": 216.2
+ },
+ "photo_model_laptop_cpu": {
+  "batched": [
+   {
+    "batch": 1,
+    "photos_per_s": 1.1,
+    "ms_per_batch": 909.16
+   },
+   {
+    "batch": 8,
+    "photos_per_s": 1.0,
+    "ms_per_batch": 8133.76
+   }
+  ],
+  "pipeline": {
+   "batch": 8,
+   "preprocess_threads": 4,
+   "photos": 16,
+   "seconds": 16.62,
+   "photos_per_s": 1.0,
+   "gpu": null,
+   "gpu_energy": null,
+   "note": "decode + resize run on CPU threads one batch at a time (no overlap with the GPU)"
+  }
+ },
+ "assumptions": {
+  "farmer_week_bundle": {
+   "session": 1,
+   "plan": 1,
+   "ask": 2,
+   "photo": 1,
+   "verify": 1
+  },
+  "farmer_week_note": "ASSUMED weekly use per farmer: one session, one weekly plan, two questions, one photo, one receipt check. Recalls are officer actions per rule version, not per farmer, so they are left out. Not measured from farmers.",
+  "active_hours_per_day": 12.0,
+  "target_utilisation": 0.5,
+  "season_weeks": 17.0,
+  "season_note": "ASSUMED season length (about 120 days); a parameter, not a fact-register value.",
+  "electricity_price_per_kwh": null,
+  "price_note": "No price is assumed: multiply kWh by your tariff."
+ },
+ "capacity_and_energy": {
+  "nbtc5090_gpu": {
+   "measured_bundles_per_s": 17.93,
+   "at_concurrency": 8,
+   "bundle_p50_ms": 413.1,
+   "bundle_p95_ms": 665.7,
+   "errors": 0,
+   "farmer_weeks_per_day_planning": 387288,
+   "farmer_weeks_per_day_ceiling_24h_full_load": 1549152,
+   "farmers_served_weekly_planning": 2711016,
+   "formula": "bundles/s x 3600 x active_hours x utilisation; farmers = farmer-weeks/day x 7",
+   "gpu_power_mean_w_under_mix": 224.2,
+   "gpu_util_mean_pct_under_mix": 48.5,
+   "gpu_wh_per_farmer_week_gross": 0.003473,
+   "gpu_kwh_per_1000_farmers_per_season_while_serving": 0.059,
+   "gpu_baseline_w_measured_before_load": 187.5,
+   "gpu_baseline_note": "measured just before the load with the API idle; on this shared PC it includes other tracks' GPU work, so 'net' is this workload's marginal energy and 'gross' over-counts",
+   "gpu_wh_per_farmer_week_net_of_baseline": 0.000569,
+   "gpu_board_idle_w_quiet": 33.8,
+   "gpu_wh_per_farmer_week_upper_bound": 0.00295,
+   "upper_bound_note": "all board power above the quiet idle floor during the load, other tracks included",
+   "always_on_gpu": {
+    "season_kwh_idle_floor": 96.5,
+    "kwh_per_1000_farmers_per_season_at_capacity": 0.0453,
+    "kwh_per_1000_farmers_per_season_at_10000_farmers": 9.663,
+    "note": "GPU board power only, idle floor for the whole season plus the measured load energy"
+   }
+  },
+  "laptop_cpu": {
+   "measured_bundles_per_s": 1.33,
+   "at_concurrency": 8,
+   "bundle_p50_ms": 5672.4,
+   "bundle_p95_ms": 6457.3,
+   "errors": 0,
+   "farmer_weeks_per_day_planning": 28728,
+   "farmer_weeks_per_day_ceiling_24h_full_load": 114912,
+   "farmers_served_weekly_planning": 201096,
+   "formula": "bundles/s x 3600 x active_hours x utilisation; farmers = farmer-weeks/day x 7"
+  }
+ },
+ "not_measured": [
+  "CPU, RAM, disk and power-supply energy (no wall-power meter; nvidia-smi reports the GPU board only)",
+  "real farmers' usage (the bundle is an assumption)",
+  "network and phone-side time",
+  "more than one API process (the file-based stores take in-process locks, so one process is the tested configuration)"
+ ]
+}

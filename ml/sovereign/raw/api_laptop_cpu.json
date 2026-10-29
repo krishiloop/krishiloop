@@ -1,0 +1,567 @@
+{
+ "label": "laptop-cpu",
+ "started": "2026-10-29T08:50:55Z",
+ "base": "http://127.0.0.1:8101",
+ "machine": {
+  "hostname": "000IQ",
+  "os": "Windows-11-10.0.26300-SP0",
+  "python": "3.13.2",
+  "logical_cpus": 12,
+  "cpu": "AMD Ryzen 5 5600H with Radeon Graphics",
+  "ram_gb": 15.3,
+  "ram_load_pct_at_start": 72,
+  "onnxruntime_version": "1.31.1",
+  "numpy_version": "2.5.4",
+  "PIL_version": "13.0.0",
+  "gpu": null
+ },
+ "gpu_apps_at_start": null,
+ "settings": {
+  "n": 40,
+  "concurrency": [
+   1,
+   4,
+   8,
+   16
+  ],
+  "tp_seconds": 15,
+  "mix_seconds": 45,
+  "mix_concurrency": [
+   8,
+   16
+  ],
+  "images": 40,
+  "questions": 77,
+  "questions_note": "ml/ask/questions.seed.jsonl: SYNTHETIC questions written by the team's coding agent"
+ },
+ "server": {
+  "health": {
+   "ok": true,
+   "issuer": "did:web:127.0.0.1%3A8101"
+  },
+  "ask_health": {
+   "engine": "langgraph",
+   "langgraph_version": "1.2.14",
+   "router_version": "0.1.0",
+   "mode": "hybrid",
+   "stages": {
+    "bm25": true,
+    "dense": true,
+    "rerank": false
+   },
+   "installed": {
+    "dense": true,
+    "rerank": true
+   },
+   "note": "BM25 + dense (reciprocal-rank fusion) (rerank: installed, but the dev split selected a mode without it (ml/ask/eval_report.json))",
+   "threshold": {
+    "value": 0.540875,
+    "fixed_on": "dev split (32 items) of ml/ask/questions.seed.jsonl (SYNTHETIC)",
+    "fitted_at": "2026-10-28T13:16:38Z",
+    "synthetic": true,
+    "stale": false,
+    "calibrated_modes": [
+     "bm25",
+     "bm25+rerank",
+     "hybrid",
+     "hybrid+rerank"
+    ]
+   },
+   "models": {
+    "embedder": {
+     "name": "multilingual-e5-small",
+     "repo": "intfloat/multilingual-e5-small",
+     "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+     "licence": "MIT",
+     "bangla_evidence": "model card metadata lists language 'bn'; the card says it 'supports 100 languages from xlm-roberta, but low-resource languages may see performance degradation'",
+     "parameters": "118M",
+     "variant": "fp32",
+     "card": "https://huggingface.co/intfloat/multilingual-e5-small",
+     "sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665"
+    },
+    "reranker": {
+     "name": "gte-multilingual-reranker-base",
+     "repo": "onnx-community/gte-multilingual-reranker-base",
+     "revision": "ee64367e35a2db0da46bb6497e13a18f8bd585cb",
+     "base_model": "Alibaba-NLP/gte-multilingual-reranker-base",
+     "licence": "Apache-2.0",
+     "bangla_evidence": "base model card metadata lists language 'bn' among 70+ languages ('Supports over 70 languages')",
+     "parameters": "306M",
+     "variant": "fp32",
+     "card": "https://huggingface.co/Alibaba-NLP/gte-multilingual-reranker-base",
+     "sha256": "4712afa6eed2ba8c3f00bf5b90f37fa2c58e60f4f22cf37763d4a48f523ffcc9"
+    }
+   },
+   "not_loaded": {},
+   "index": {
+    "rule_units": 23,
+    "corpus_chunks": 34,
+    "corpus_docs": [
+     "DOC-CIP-001"
+    ],
+    "chunking": "semantic: embedding similarity between adjacent sentences",
+    "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
+    "registry_sha256": "a2e6876ad6d1dd5700900ad7f60a24d7b8a3138f151dfb98a3bf72b53b49c905"
+   },
+   "lexicon": {
+    "sha256": "e24cecba5c23bb12fc5acf2aeaa46409089ce7e7286abc05ab98a93726d52a8a",
+    "review": "Bangla entries pending native-speaker review"
+   },
+   "answers": "a rule's validated text with a signed receipt, or the officer inbox; no language model writes text"
+  }
+ },
+ "latency_sequential": {
+  "plan_fresh_store": {
+   "n": 40,
+   "p50_ms": 24.3,
+   "p95_ms": 28.7,
+   "mean_ms": 24.5,
+   "min_ms": 18.5,
+   "max_ms": 42.9,
+   "note": "first plan in a new store: also issues the rule credentials"
+  },
+  "plan_warm_store": {
+   "n": 40,
+   "p50_ms": 23.8,
+   "p95_ms": 43.9,
+   "mean_ms": 25.6,
+   "min_ms": 18.4,
+   "max_ms": 49.7,
+   "note": "rule credentials already issued in this store (production-like)"
+  },
+  "plan_statuses": {
+   "ok": 80
+  },
+  "verify": {
+   "n": 40,
+   "p50_ms": 40.3,
+   "p95_ms": 45.0,
+   "mean_ms": 40.2,
+   "min_ms": 34.9,
+   "max_ms": 45.2,
+   "not_authentic": 0,
+   "note": "demo-session receipts: the API looks the credential up across the demo stores"
+  },
+  "verify_official": {
+   "n": 40,
+   "p50_ms": 5.6,
+   "p95_ms": 26.3,
+   "mean_ms": 12.3,
+   "min_ms": 3.9,
+   "max_ms": 37.2,
+   "not_authentic": 0,
+   "receipts": 17,
+   "note": "receipts from the official store (/api/plan): the production lookup path"
+  },
+  "recall": {
+   "n": 40,
+   "p50_ms": 18.8,
+   "p95_ms": 24.3,
+   "mean_ms": 17.2,
+   "min_ms": 3.3,
+   "max_ms": 27.2,
+   "verify_after_recall": [
+    "recalled",
+    "recalled",
+    "recalled",
+    "recalled",
+    "recalled"
+   ]
+  },
+  "ask": {
+   "n": 40,
+   "p50_ms": 48.6,
+   "p95_ms": 71.9,
+   "mean_ms": 56.3,
+   "min_ms": 2.0,
+   "max_ms": 339.5,
+   "outcomes": {
+    "abstained": 20,
+    "ok": 20
+   }
+  },
+  "photo": {
+   "n": 40,
+   "p50_ms": 931.9,
+   "p95_ms": 1025.5,
+   "mean_ms": 938.0,
+   "min_ms": 834.4,
+   "max_ms": 1093.2,
+   "routes": {
+    "officer": 40
+   },
+   "gpu": null,
+   "gpu_energy": null
+  }
+ },
+ "throughput": {
+  "photo": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 15,
+    "per_s": 1.0,
+    "p50_ms": 953.6,
+    "p95_ms": 1016.8,
+    "mean_ms": 954.9,
+    "min_ms": 887.0,
+    "max_ms": 1113.6,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.29
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 20,
+    "per_s": 1.33,
+    "p50_ms": 2692.8,
+    "p95_ms": 2777.3,
+    "mean_ms": 2685.3,
+    "min_ms": 2446.3,
+    "max_ms": 2787.7,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 1.25
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 19,
+    "per_s": 1.27,
+    "p50_ms": 4993.7,
+    "p95_ms": 5310.5,
+    "mean_ms": 4758.6,
+    "min_ms": 2283.5,
+    "max_ms": 5368.7,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 2.24
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 16,
+    "per_s": 1.07,
+    "p50_ms": 10379.5,
+    "p95_ms": 11339.5,
+    "mean_ms": 10400.0,
+    "min_ms": 9204.8,
+    "max_ms": 12339.2,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 6.77
+   }
+  ],
+  "ask": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 331,
+    "per_s": 22.07,
+    "p50_ms": 43.4,
+    "p95_ms": 72.5,
+    "mean_ms": 45.0,
+    "min_ms": 2.0,
+    "max_ms": 98.4,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 791,
+    "per_s": 52.73,
+    "p50_ms": 78.3,
+    "p95_ms": 137.3,
+    "mean_ms": 75.2,
+    "min_ms": 2.0,
+    "max_ms": 217.3,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.04
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 1017,
+    "per_s": 67.8,
+    "p50_ms": 125.4,
+    "p95_ms": 213.9,
+    "mean_ms": 117.0,
+    "min_ms": 2.5,
+    "max_ms": 475.0,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.13
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 1030,
+    "per_s": 68.67,
+    "p50_ms": 242.9,
+    "p95_ms": 428.4,
+    "mean_ms": 229.5,
+    "min_ms": 2.2,
+    "max_ms": 1236.9,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.51
+   }
+  ],
+  "plan": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 318,
+    "per_s": 21.2,
+    "p50_ms": 47.0,
+    "p95_ms": 76.7,
+    "mean_ms": 46.0,
+    "min_ms": 18.2,
+    "max_ms": 91.6,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.0
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 889,
+    "per_s": 59.27,
+    "p50_ms": 65.7,
+    "p95_ms": 98.1,
+    "mean_ms": 65.6,
+    "min_ms": 22.4,
+    "max_ms": 116.6,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.05
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 965,
+    "per_s": 64.33,
+    "p50_ms": 116.9,
+    "p95_ms": 152.3,
+    "mean_ms": 120.0,
+    "min_ms": 41.2,
+    "max_ms": 595.1,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.1
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 945,
+    "per_s": 63.0,
+    "p50_ms": 235.1,
+    "p95_ms": 312.7,
+    "mean_ms": 242.4,
+    "min_ms": 62.0,
+    "max_ms": 777.3,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.29
+   }
+  ],
+  "verify": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 502,
+    "per_s": 33.47,
+    "p50_ms": 17.1,
+    "p95_ms": 74.1,
+    "mean_ms": 29.7,
+    "min_ms": 11.5,
+    "max_ms": 116.9,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.01
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 886,
+    "per_s": 59.07,
+    "p50_ms": 66.8,
+    "p95_ms": 78.9,
+    "mean_ms": 67.4,
+    "min_ms": 36.0,
+    "max_ms": 114.7,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.04
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 893,
+    "per_s": 59.53,
+    "p50_ms": 133.2,
+    "p95_ms": 151.4,
+    "mean_ms": 133.4,
+    "min_ms": 69.5,
+    "max_ms": 176.0,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.07
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 816,
+    "per_s": 54.4,
+    "p50_ms": 289.3,
+    "p95_ms": 332.6,
+    "mean_ms": 290.8,
+    "min_ms": 187.2,
+    "max_ms": 378.1,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.19
+   }
+  ],
+  "verify_official": [
+   {
+    "concurrency": 1,
+    "seconds": 15,
+    "completed": 3000,
+    "per_s": 200.0,
+    "p50_ms": 4.6,
+    "p95_ms": 6.8,
+    "mean_ms": 4.9,
+    "min_ms": 3.3,
+    "max_ms": 13.2,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.01
+   },
+   {
+    "concurrency": 4,
+    "seconds": 15,
+    "completed": 4604,
+    "per_s": 306.93,
+    "p50_ms": 12.6,
+    "p95_ms": 16.3,
+    "mean_ms": 12.9,
+    "min_ms": 8.3,
+    "max_ms": 25.6,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.0
+   },
+   {
+    "concurrency": 8,
+    "seconds": 15,
+    "completed": 4676,
+    "per_s": 311.73,
+    "p50_ms": 25.3,
+    "p95_ms": 32.5,
+    "mean_ms": 25.5,
+    "min_ms": 14.0,
+    "max_ms": 46.1,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.02
+   },
+   {
+    "concurrency": 16,
+    "seconds": 15,
+    "completed": 4302,
+    "per_s": 286.8,
+    "p50_ms": 56.2,
+    "p95_ms": 68.7,
+    "mean_ms": 55.6,
+    "min_ms": 27.7,
+    "max_ms": 99.1,
+    "errors": 0,
+    "error_kinds": [],
+    "gpu": null,
+    "gpu_energy": null,
+    "drain_s": 0.04
+   }
+  ]
+ },
+ "mixed_farmer_week": [
+  {
+   "concurrency": 8,
+   "seconds": 45,
+   "completed": 60,
+   "per_s": 1.33,
+   "p50_ms": 5672.4,
+   "p95_ms": 6457.3,
+   "mean_ms": 5704.5,
+   "min_ms": 4325.5,
+   "max_ms": 7317.5,
+   "errors": 0,
+   "error_kinds": [],
+   "gpu": null,
+   "gpu_energy": null,
+   "drain_s": 4.16,
+   "unit": "farmer-week bundles (session + plan + 2 asks + 1 photo + 1 verify)"
+  },
+  {
+   "concurrency": 16,
+   "seconds": 45,
+   "completed": 55,
+   "per_s": 1.22,
+   "p50_ms": 11560.7,
+   "p95_ms": 13845.5,
+   "mean_ms": 11164.6,
+   "min_ms": 6994.2,
+   "max_ms": 14368.2,
+   "errors": 0,
+   "error_kinds": [],
+   "gpu": null,
+   "gpu_energy": null,
+   "drain_s": 6.13,
+   "unit": "farmer-week bundles (session + plan + 2 asks + 1 photo + 1 verify)"
+  }
+ ],
+ "gpu_apps_at_end": null,
+ "finished": "2026-10-29T08:58:59Z"
+}

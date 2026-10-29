@@ -1,0 +1,62 @@
+{
+ "label": "laptop-cpu",
+ "started": "2026-10-29T08:59:13Z",
+ "machine": {
+  "hostname": "000IQ",
+  "os": "Windows-11-10.0.26300-SP0",
+  "python": "3.13.2",
+  "logical_cpus": 12,
+  "cpu": "AMD Ryzen 5 5600H with Radeon Graphics",
+  "ram_gb": 15.3,
+  "ram_load_pct_at_start": 81,
+  "onnxruntime_version": "1.31.1",
+  "numpy_version": "2.5.4",
+  "PIL_version": "13.0.0",
+  "gpu": null
+ },
+ "providers_requested": "CPUExecutionProvider",
+ "gpu_apps_at_start": null,
+ "images": 40,
+ "load_s": 12.0,
+ "providers_active": [
+  "CPUExecutionProvider"
+ ],
+ "model": {
+  "name": "krishilens-bioclip2@1",
+  "sha256": "e3b845764431238baf85e49f6fb70f22cdc9af6d0402ec856c07fab0953efc61"
+ },
+ "model_throughput": [
+  {
+   "batch": 1,
+   "runs": 12,
+   "photos": 12,
+   "seconds": 10.91,
+   "photos_per_s": 1.1,
+   "ms_per_batch": 909.16,
+   "gpu": null,
+   "gpu_energy": null
+  },
+  {
+   "batch": 8,
+   "runs": 3,
+   "photos": 24,
+   "seconds": 24.4,
+   "photos_per_s": 1.0,
+   "ms_per_batch": 8133.76,
+   "gpu": null,
+   "gpu_energy": null
+  }
+ ],
+ "pipeline_throughput": {
+  "batch": 8,
+  "preprocess_threads": 4,
+  "photos": 16,
+  "seconds": 16.62,
+  "photos_per_s": 1.0,
+  "gpu": null,
+  "gpu_energy": null,
+  "note": "decode + resize run on CPU threads one batch at a time (no overlap with the GPU)"
+ },
+ "gpu_apps_at_end": null,
+ "finished": "2026-10-29T09:00:46Z"
+}

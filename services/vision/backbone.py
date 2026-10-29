@@ -13,6 +13,11 @@ hash lazily, or ahead of time with warm(), so area statistics never wait for the
 Remote mode (Azure: a small API container plus a photo worker container, services/vision/worker.py): $KRISHILENS_DIR
 holds only meta.json, text.npz and export_report.json, and $KRISHILENS_REMOTE_URL names the worker. The worker must
 serve the exact model file named in export_report.json (its sha256 is checked before the first photo).
+
+GPU (sovereign mode): $KRISHILENS_PROVIDERS lists onnxruntime execution providers in order of preference, e.g.
+"CUDAExecutionProvider,CPUExecutionProvider" with onnxruntime-gpu. Unset, every provider the installed onnxruntime
+offers is passed (the behaviour before this variable existed). If the first listed provider does not start (a missing
+CUDA or cuDNN library, say), the model is reported unavailable instead of running silently on another device.
 """
 from __future__ import annotations
 
@@ -26,6 +31,19 @@ import urllib.request
 from pathlib import Path
 
 import numpy as np
+
+PROVIDERS_ENV = "KRISHILENS_PROVIDERS"
+
+
+def session_providers(available: list[str]) -> list[str]:
+    """The execution providers to ask onnxruntime for: $KRISHILENS_PROVIDERS if set, else all available ones."""
+    wanted = [p.strip() for p in os.environ.get(PROVIDERS_ENV, "").split(",") if p.strip()]
+    if not wanted:
+        return list(available)
+    missing = [p for p in wanted if p not in available]
+    if missing:
+        raise PhotoModelUnavailable(f"{PROVIDERS_ENV} asks for {missing}; this onnxruntime offers {available}")
+    return wanted
 
 
 class Backbone:
@@ -47,7 +65,16 @@ class Backbone:
                     for block in iter(lambda: f.read(1 << 24), b""):
                         digest.update(block)
                 self._sha256 = digest.hexdigest()
-                self._session = ort.InferenceSession(str(self.onnx_path), providers=ort.get_available_providers())
+                providers = session_providers(ort.get_available_providers())
+                session = ort.InferenceSession(str(self.onnx_path), providers=providers)
+                if os.environ.get(PROVIDERS_ENV):   # the device must really run the model (e.g. cuDNN found), not just load
+                    if session.get_providers()[0] != providers[0]:
+                        raise PhotoModelUnavailable(f"{providers[0]} did not start; active: {session.get_providers()}")
+                    try:
+                        session.run(None, {session.get_inputs()[0].name: np.zeros((1, 3, self.size, self.size), np.float32)})
+                    except Exception as e:
+                        raise PhotoModelUnavailable(f"{providers[0]} failed a test run: {str(e)[:300]}") from e
+                self._session = session
             return self._session
 
     @property

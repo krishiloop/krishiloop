@@ -82,6 +82,17 @@ def test_an_unreachable_worker_is_reported_as_unavailable(tmp_path):
         remote.features(b"leaf")
 
 
+def test_providers_default_to_all_available_and_follow_the_env_list(monkeypatch):
+    avail = ["TensorrtExecutionProvider", "CUDAExecutionProvider", "CPUExecutionProvider"]
+    monkeypatch.delenv(bb_mod.PROVIDERS_ENV, raising=False)
+    assert bb_mod.session_providers(avail) == avail                       # unset: the behaviour before the variable
+    monkeypatch.setenv(bb_mod.PROVIDERS_ENV, " CUDAExecutionProvider , CPUExecutionProvider ")
+    assert bb_mod.session_providers(avail) == ["CUDAExecutionProvider", "CPUExecutionProvider"]
+    monkeypatch.setenv(bb_mod.PROVIDERS_ENV, "CUDAExecutionProvider")
+    with pytest.raises(PhotoModelUnavailable):                            # never a silent fall-back to another device
+        bb_mod.session_providers(["CPUExecutionProvider"])
+
+
 def test_load_picks_local_remote_or_none(tmp_path, monkeypatch):
     monkeypatch.setattr(bb_mod, "_loaded", {})
     monkeypatch.delenv("KRISHILENS_REMOTE_URL", raising=False)

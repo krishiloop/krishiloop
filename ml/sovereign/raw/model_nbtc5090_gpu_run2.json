@@ -1,0 +1,421 @@
+{
+ "label": "nbtc5090-gpu",
+ "started": "2026-10-29T09:41:05Z",
+ "machine": {
+  "hostname": "NBTC-PC-01",
+  "os": "Windows-11-10.0.26300-SP0",
+  "python": "3.12.16",
+  "logical_cpus": 16,
+  "cpu": "AMD Ryzen 7 9700X 8-Core Processor",
+  "ram_gb": 31.1,
+  "ram_load_pct_at_start": 65,
+  "onnxruntime_version": "1.31.1",
+  "numpy_version": "2.5.2",
+  "PIL_version": "12.3.0",
+  "gpu": {
+   "name": "NVIDIA GeForce RTX 5090",
+   "driver": "621.01",
+   "memory_total_mib": 32607.0,
+   "power_limit_w": 600.0
+  }
+ },
+ "providers_requested": "CUDAExecutionProvider,CPUExecutionProvider",
+ "gpu_apps_at_start": [
+  "1844, C:\\Windows\\System32\\dwm.exe, [N/A]",
+  "11680, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe, [N/A]",
+  "12656, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "11304, C:\\Windows\\explorer.exe, [N/A]",
+  "11600, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "13524, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe, [N/A]",
+  "13500, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe, [N/A]",
+  "15692, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\156.0.4314.50\\msedgewebview2.exe, [N/A]",
+  "15960, C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe, [N/A]",
+  "18020, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe, [N/A]",
+  "4340, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe, [N/A]",
+  "12828, C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe, [N/A]",
+  "1956, C:\\Program Files\\WindowsApps\\65d483df-b37e-4fcf-94de-8b795233db63_25.1.23.0_x64__1mmjbktjj1mkp\\GBT_DL_LIB.exe, [N/A]",
+  "6500, C:\\Program Files\\GIGABYTE\\Control Center\\GCC.exe, [N/A]",
+  "5280, C:\\Program Files\\AMD\\CNext\\CNext\\AMDRSSrcExt.exe, [N/A]",
+  "10644, C:\\Program Files\\AMD\\CNext\\CNext\\RadeonSoftware.exe, [N/A]",
+  "22128, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "6544, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "21724, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "13064, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "21752, C:\\Windows\\System32\\Taskmgr.exe, [N/A]",
+  "24944, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe, [N/A]",
+  "28028, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "29908, C:\\Windows\\System32\\ShellHost.exe, [N/A]"
+ ],
+ "images": 40,
+ "gpu_idle_before_load": {
+  "samples": 49,
+  "seconds": 9.88,
+  "power_mean_w": 33.8,
+  "power_max_w": 34.9,
+  "util_mean_pct": 0.2,
+  "util_max_pct": 1.0,
+  "mem_max_mib": 3724,
+  "energy_j": 334.5
+ },
+ "load_s": 4.4,
+ "providers_active": [
+  "CUDAExecutionProvider",
+  "CPUExecutionProvider"
+ ],
+ "model": {
+  "name": "krishilens-bioclip2@1",
+  "sha256": "e3b845764431238baf85e49f6fb70f22cdc9af6d0402ec856c07fab0953efc61"
+ },
+ "parity": {
+  "reference": "CPUExecutionProvider (same model file, same server preprocessing)",
+  "device": "CUDAExecutionProvider",
+  "n": 20,
+  "cosine_min": 0.9999919,
+  "cosine_mean": 0.9999981,
+  "max_abs_diff": 0.019764244556427002,
+  "top1_agreement": 20,
+  "pass_cosine_0.999": true,
+  "rows": [
+   {
+    "image": 0,
+    "cosine_vs_cpu": 0.9999919,
+    "max_abs_diff": 0.019764244556427002,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 43.5
+   },
+   {
+    "image": 1,
+    "cosine_vs_cpu": 0.9999993,
+    "max_abs_diff": 0.006615892052650452,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 38.9
+   },
+   {
+    "image": 2,
+    "cosine_vs_cpu": 0.9999953,
+    "max_abs_diff": 0.01660013198852539,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 60.3
+   },
+   {
+    "image": 3,
+    "cosine_vs_cpu": 0.9999976,
+    "max_abs_diff": 0.012097299098968506,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 36.1
+   },
+   {
+    "image": 4,
+    "cosine_vs_cpu": 0.9999997,
+    "max_abs_diff": 0.004454851150512695,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 51.6
+   },
+   {
+    "image": 5,
+    "cosine_vs_cpu": 0.9999998,
+    "max_abs_diff": 0.0037097930908203125,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 16.0
+   },
+   {
+    "image": 6,
+    "cosine_vs_cpu": 0.9999989,
+    "max_abs_diff": 0.00906255841255188,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 18.7
+   },
+   {
+    "image": 7,
+    "cosine_vs_cpu": 0.9999985,
+    "max_abs_diff": 0.008142352104187012,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 11.8
+   },
+   {
+    "image": 8,
+    "cosine_vs_cpu": 0.9999975,
+    "max_abs_diff": 0.012618375942111015,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 11.7
+   },
+   {
+    "image": 9,
+    "cosine_vs_cpu": 0.9999996,
+    "max_abs_diff": 0.0057065486907958984,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 29.2
+   },
+   {
+    "image": 10,
+    "cosine_vs_cpu": 0.9999978,
+    "max_abs_diff": 0.01134270429611206,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 35.8
+   },
+   {
+    "image": 11,
+    "cosine_vs_cpu": 0.9999946,
+    "max_abs_diff": 0.018352776765823364,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 45.9
+   },
+   {
+    "image": 12,
+    "cosine_vs_cpu": 0.9999998,
+    "max_abs_diff": 0.0031337738037109375,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 35.7
+   },
+   {
+    "image": 13,
+    "cosine_vs_cpu": 0.9999995,
+    "max_abs_diff": 0.00564265251159668,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 37.2
+   },
+   {
+    "image": 14,
+    "cosine_vs_cpu": 0.9999982,
+    "max_abs_diff": 0.010023117065429688,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 38.6
+   },
+   {
+    "image": 15,
+    "cosine_vs_cpu": 0.9999993,
+    "max_abs_diff": 0.005860090255737305,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 36.2
+   },
+   {
+    "image": 16,
+    "cosine_vs_cpu": 0.9999998,
+    "max_abs_diff": 0.003131866455078125,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 30.2
+   },
+   {
+    "image": 17,
+    "cosine_vs_cpu": 0.999998,
+    "max_abs_diff": 0.009597182273864746,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 55.1
+   },
+   {
+    "image": 18,
+    "cosine_vs_cpu": 0.9999996,
+    "max_abs_diff": 0.005196332931518555,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 55.0
+   },
+   {
+    "image": 19,
+    "cosine_vs_cpu": 0.9999977,
+    "max_abs_diff": 0.012217283248901367,
+    "top1_same": true,
+    "bench_preprocess_cosine": 1.0,
+    "ms": 35.0
+   }
+  ]
+ },
+ "model_throughput": [
+  {
+   "batch": 1,
+   "runs": 799,
+   "photos": 799,
+   "seconds": 8.0,
+   "photos_per_s": 99.9,
+   "ms_per_batch": 10.01,
+   "gpu": {
+    "samples": 39,
+    "seconds": 7.79,
+    "power_mean_w": 242.1,
+    "power_max_w": 263.7,
+    "util_mean_pct": 50.5,
+    "util_max_pct": 57.0,
+    "mem_max_mib": 6271,
+    "energy_j": 1885.2
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.000673,
+    "gross_j_per_item": 2.424,
+    "net_wh_per_item": 0.000579,
+    "net_j_per_item": 2.086
+   },
+   "vram_above_idle_mib": 2547
+  },
+  {
+   "batch": 8,
+   "runs": 337,
+   "photos": 2696,
+   "seconds": 8.02,
+   "photos_per_s": 336.0,
+   "ms_per_batch": 23.81,
+   "gpu": {
+    "samples": 40,
+    "seconds": 7.97,
+    "power_mean_w": 460.1,
+    "power_max_w": 493.4,
+    "util_mean_pct": 87.0,
+    "util_max_pct": 94.0,
+    "mem_max_mib": 13290,
+    "energy_j": 3666.2
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.00038,
+    "gross_j_per_item": 1.369,
+    "net_wh_per_item": 0.000352,
+    "net_j_per_item": 1.269
+   },
+   "vram_above_idle_mib": 9566
+  },
+  {
+   "batch": 16,
+   "runs": 156,
+   "photos": 2496,
+   "seconds": 8.04,
+   "photos_per_s": 310.6,
+   "ms_per_batch": 51.52,
+   "gpu": {
+    "samples": 40,
+    "seconds": 7.97,
+    "power_mean_w": 460.9,
+    "power_max_w": 476.3,
+    "util_mean_pct": 95.0,
+    "util_max_pct": 96.0,
+    "mem_max_mib": 13302,
+    "energy_j": 3674.8
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.000412,
+    "gross_j_per_item": 1.484,
+    "net_wh_per_item": 0.000382,
+    "net_j_per_item": 1.375
+   },
+   "vram_above_idle_mib": 9578
+  },
+  {
+   "batch": 32,
+   "runs": 76,
+   "photos": 2432,
+   "seconds": 8.0,
+   "photos_per_s": 304.0,
+   "ms_per_batch": 105.27,
+   "gpu": {
+    "samples": 39,
+    "seconds": 7.87,
+    "power_mean_w": 486.8,
+    "power_max_w": 492.4,
+    "util_mean_pct": 95.8,
+    "util_max_pct": 97.0,
+    "mem_max_mib": 13310,
+    "energy_j": 3829.3
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.000445,
+    "gross_j_per_item": 1.601,
+    "net_wh_per_item": 0.000414,
+    "net_j_per_item": 1.49
+   },
+   "vram_above_idle_mib": 9586
+  },
+  {
+   "batch": 64,
+   "runs": 36,
+   "photos": 2304,
+   "seconds": 8.12,
+   "photos_per_s": 283.9,
+   "ms_per_batch": 225.43,
+   "gpu": {
+    "samples": 40,
+    "seconds": 8.01,
+    "power_mean_w": 479.0,
+    "power_max_w": 489.4,
+    "util_mean_pct": 95.7,
+    "util_max_pct": 97.0,
+    "mem_max_mib": 16390,
+    "energy_j": 3834.1
+   },
+   "gpu_energy": {
+    "gross_wh_per_item": 0.000469,
+    "gross_j_per_item": 1.687,
+    "net_wh_per_item": 0.000436,
+    "net_j_per_item": 1.568
+   },
+   "vram_above_idle_mib": 12666
+  }
+ ],
+ "pipeline_throughput": {
+  "batch": 32,
+  "preprocess_threads": 8,
+  "photos": 1696,
+  "seconds": 8.05,
+  "photos_per_s": 210.7,
+  "gpu": {
+   "samples": 39,
+   "seconds": 7.78,
+   "power_mean_w": 412.9,
+   "power_max_w": 478.6,
+   "util_mean_pct": 78.6,
+   "util_max_pct": 97.0,
+   "mem_max_mib": 16408,
+   "energy_j": 3214.4
+  },
+  "gpu_energy": {
+   "gross_wh_per_item": 0.000544,
+   "gross_j_per_item": 1.96,
+   "net_wh_per_item": 0.0005,
+   "net_j_per_item": 1.799
+  },
+  "note": "decode + resize run on CPU threads one batch at a time (no overlap with the GPU)"
+ },
+ "gpu_apps_at_end": [
+  "1844, C:\\Windows\\System32\\dwm.exe, [N/A]",
+  "11680, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe, [N/A]",
+  "12656, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "11304, C:\\Windows\\explorer.exe, [N/A]",
+  "11600, C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe, [N/A]",
+  "13524, C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe, [N/A]",
+  "13500, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe, [N/A]",
+  "15692, C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\156.0.4314.50\\msedgewebview2.exe, [N/A]",
+  "15960, C:\\Windows\\SystemApps\\Microsoft.LockApp_cw5n1h2txyewy\\LockApp.exe, [N/A]",
+  "18020, C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe, [N/A]",
+  "4340, C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe, [N/A]",
+  "12828, C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe, [N/A]",
+  "1956, C:\\Program Files\\WindowsApps\\65d483df-b37e-4fcf-94de-8b795233db63_25.1.23.0_x64__1mmjbktjj1mkp\\GBT_DL_LIB.exe, [N/A]",
+  "6500, C:\\Program Files\\GIGABYTE\\Control Center\\GCC.exe, [N/A]",
+  "5280, C:\\Program Files\\AMD\\CNext\\CNext\\AMDRSSrcExt.exe, [N/A]",
+  "10644, C:\\Program Files\\AMD\\CNext\\CNext\\RadeonSoftware.exe, [N/A]",
+  "22128, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "6544, C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe, [N/A]",
+  "21724, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "13064, C:\\Program Files\\WindowsApps\\Claude_4.29.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe, [N/A]",
+  "21752, C:\\Windows\\System32\\Taskmgr.exe, [N/A]",
+  "24944, C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe, [N/A]",
+  "28028, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "29908, C:\\Windows\\System32\\ShellHost.exe, [N/A]",
+  "24296, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]",
+  "22268, C:\\Users\\User\\miniforge3\\envs\\dl\\python.exe, [N/A]"
+ ],
+ "finished": "2026-10-29T09:42:24Z"
+}

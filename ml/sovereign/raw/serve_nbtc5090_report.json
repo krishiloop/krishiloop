@@ -1,0 +1,7 @@
+{
+ "outbound_requests_refused": {
+  "api.open-meteo.com": 16540
+ },
+ "uptime_s": 462.7,
+ "signing_key": "fresh random seed generated in memory at start; never stored or printed"
+}
