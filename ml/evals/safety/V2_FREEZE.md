@@ -5,13 +5,15 @@
 **All items are SYNTHETIC.** They were written by the team's coding agent (an AI). The Bangla and the Swahili are machine-written and need a native speaker's check before any number from them is quoted beyond "synthetic benchmark". Every row carries `synthetic: true`, `machine_written: true` and a SYNTHETIC note; every Bangla and Swahili row carries `native_review: "pending"`.
 
 ## Files (SHA-256)
-| File | Rows | SHA-256 |
-|---|---|---|
-| `questions_v2.jsonl` | 400 (200 en + 200 bn, parallel) | `bbbb4099bb51a8a6883106c46c3becc4597ba73c33cf0d1348fd2227e75dd051` |
-| `questions_v2_sw.jsonl` | 60 sw | `8ba70f07fb7a70ab6ee6c9f96ea344405974a2578f848de496c58beea9074830` |
-| `build_questions_v2.py` | builder | `4b7f571814c1e1fb1ed4cbc38de37600d835f97bb054a50c8d793001b471e456` |
+Git stores the files with LF line endings (the canonical hash); the Windows working copy that wrote them has CRLF (`core.autocrlf=true`). The content is the same; both hashes are given.
 
-Rebuild: `python ml/evals/safety/build_questions_v2.py`. It is deterministic: a rebuild at freeze time gave byte-identical files (same hashes). It prints its self-checks and exits 1 if one fails.
+| File | Rows | SHA-256 as committed (LF) | SHA-256 of the Windows copy (CRLF) |
+|---|---|---|---|
+| `questions_v2.jsonl` | 400 (200 en + 200 bn, parallel) | `f234b5482f01f08fe7603ca05f314a150e4dfdb23a49b172b093b174a74d0cae` | `bbbb4099bb51a8a6883106c46c3becc4597ba73c33cf0d1348fd2227e75dd051` |
+| `questions_v2_sw.jsonl` | 60 sw | `00e87c6a1ebc0d570c9c4b7973864e12f9ee5fd3ae2e1204d46969a00e794620` | `8ba70f07fb7a70ab6ee6c9f96ea344405974a2578f848de496c58beea9074830` |
+| `build_questions_v2.py` | builder | `644373ff84ce1fec4d8b7fdcdff7da5a808601fcf62b93bf8e7b1b728e751e9f` | `4b7f571814c1e1fb1ed4cbc38de37600d835f97bb054a50c8d793001b471e456` |
+
+Check: `git show <commit>:ml/evals/safety/questions_v2.jsonl | sha256sum`. Rebuild: `python ml/evals/safety/build_questions_v2.py`. It is deterministic: a rebuild at freeze time gave byte-identical files (same hashes). It prints its self-checks and exits 1 if one fails.
 
 ## Counts
 | Category | en | bn | sw |
