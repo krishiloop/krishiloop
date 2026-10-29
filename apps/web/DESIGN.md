@@ -1,132 +1,133 @@
 ---
-name: KrishiLoop web
-direction: "Field Receipt" — paper, ink, rubber stamps
-dials: { story: { variance: 7, motion: 6, density: 3 }, apps: { variance: 3, motion: 3, density: 7 } }
-themes: [paper (default), lantern (dark)]
+name: KrishiLoop
+direction: field night (editorial, dark-first)
+dials: {home: {variance: 7, motion: 7, density: 3}, app-screens: {variance: 3, motion: 3, density: 7}}
 colors:
-  paper:  { paper: "#F4F0E6", sunk: "#EBE5D6", card: "#FCFAF4", ink: "#1B1A16", ink-2: "#4A463E", ink-3: "#66625A", rule: "#DAD2C1", rule-2: "#C2B8A3" }
-  lantern: { paper: "#121110", sunk: "#0C0B0A", card: "#1B1A17", ink: "#F0EADC", ink-2: "#C4BDAE", ink-3: "#9A9385", rule: "#2E2B25", rule-2: "#45403A" }
+  dark (default):
+    paper: "#0A0B09"   # page: warm near-black soil, never pure black
+    sunk: "#060705"
+    card: "#121410"
+    ink: "#ECEAE2"     # bone-white text
+    ink-2: "#B4B3A9"
+    ink-3: "#8B8B81"   # AA on paper and card
+    rule: "#23261F"    # hairlines
+    rule-2: "#383C32"
+  light ("paper", data-theme=light): warm paper #F2F0E8, ink #121310
+  accent:
+    sprout: "#C2EF6A"  # the ONE accent: a rice shoot. Fill with sprout-ink #0D1406 text
   meaning:
-    go:     { paper: "#1E6B45", lantern: "#6CC596", means: "no input needed · Authentic" }
-    wait:   { paper: "#8F5600", lantern: "#F0B54A", fill: "#E9A825", means: "re-check" }
-    stop:   { paper: "#B9321A", lantern: "#FF7A5C", means: "act now · Recalled" }
-    carbon: { paper: "#3646A6", lantern: "#9AA8FF", means: "sample, recorded or simulated data — always" }
+    go: "#A9E06B"      # authentic, safe decision
+    wait: "#F2B544"    # not sure, re-check, officer
+    stop: "#FF7A57"    # recalled, stop
+    ember: "#FF6A3D"   # the recall moment (rings, flips)
+    carbon: "#9FB0FF"  # sample / recorded / replay data (always with a dashed chip)
 typography:
-  sans: "Anek Latin / Anek Bangla / Anek Devanagari (one family, three scripts)"
-  serif: "Newsreader (Latin) / Tiro Bangla — verbatim source quotes ONLY"
-  mono: "JetBrains Mono — receipt lines, ids, versions, data"
-  display: { stretch: "82%", weight: 640, tracking: "-0.022em", leading: 0.95 }
-shape: { doc: 3px, ui: 10px, frame: 18px, control-min: 44px, farmer-control-min: 48px }
+  sans: Geist (variable, self-hosted, preloaded)
+  mono: Geist Mono (labels, ids, numbers, receipt lines)
+  serif: Instrument Serif italic (one accent phrase per heading)
+  bangla: Anek Bangla (line-height 1.75); hindi: Anek Devanagari
+  display: "clamp(3.3rem, 0.9rem + 8.6vw, 9.4rem), tracking -0.055em, leading 0.9"
+radius: {doc: 3, ui: 12, frame: 22, pill: 999, sheet: "clamp(26px, 4vw, 52px)"}
+elevation: hairlines; one soft shadow for floating things; film grain over everything
 motion:
-  ease-out: "cubic-bezier(.23,1,.32,1)"
-  ease-in-out: "cubic-bezier(.77,0,.175,1)"
-  ease-drawer: "cubic-bezier(.32,.72,0,1)"
-  durations: { press: 140ms, ui: 200ms, sheet: 300ms, reveal: 600ms, stagger: 60ms }
-  stamp: "spring, 0.45s, bounce 0.25"
+  ease: quint-out cubic-bezier(.22,1,.36,1); expo-out (.16,1,.3,1) for masked reveals
+  press: scale .97, 160 ms
+  ui: 150-250 ms (popovers, tabs); no animation on keyboard tools (Ctrl K palette)
+  home: 0.9-1.3 s masked word rises, 70 ms stagger; loops on one clock; scroll-linked transforms
+  reduced-motion: no travel or loops; short fades only
 ---
 
-# KrishiLoop design system
+# KrishiLoop design system: "Field Night"
 
-The product's own object is the design: **a receipt.** Warm paper, ink type, hairline rules, mono receipt lines, QR codes and stamps that land. It must look like nothing generated, run smoothly on a cheap Android phone, and stay readable in sunlight.
-
-The source prompt is `docs/prompt-library/frontend-redesign-brief.md`. This file is the contract every screen follows.
+**Feeling:** a field at dusk. Warm near-black, bone-white type, hairlines, one living accent. Calm, exact, premium: an annual report you can scan, not a crypto app and not a chatbot. The receipt is the one physical object: it stays **paper** in both themes (`.paper-object`).
 
 ## Rules
-1. **Colour means something, or it is ink.**
-   - Brand, buttons and links are ink on paper.
-   - Green means "no input needed" or Authentic. Turmeric means re-check. Vermilion means act now or Recalled.
-   - Carbon-copy blue marks **sample, recorded or simulated** data, everywhere, the same way (`<DataMark>`).
-   - Colour is never the only signal: a word and an icon go with it.
-2. **Documents look like documents.** Receipts, rules and quotes are paper objects:
-   - 3 px corners, the `--shadow-lift` shadow and a hairline;
-   - mono for data, the serif only for verbatim source quotes;
-   - in the dark theme, a receipt stays paper (a receipt under a lantern: `.paper-object`).
-3. **Hairlines, not boxes.** Structure comes from rules and spacing.
-   - Nothing is nested more than two levels deep: no cards inside cards.
-   - Each item carries at most one status label.
-4. **Every visual carries data.** If a graphic could be swapped for a random shape without losing meaning, delete it.
-   - Charts use real numbers.
-   - Illustrations are pictograms of a decision, never decoration.
-5. **Short words, big type.** On story pages:
-   - a heading is followed by at most two sentences;
-   - details live on `/proof` or behind "Show more".
-6. **Honesty is visible:**
-   - live data shows its source and time (`<DataAsOf>`);
-   - sample, recorded and simulated data carry the carbon mark;
-   - "Authentic" never means "correct".
+- **Colour is reserved for meaning.**
+  - Surfaces are soil-black or paper.
+  - **Sprout** marks the primary action and the moment something checks out.
+  - **Ember** marks a recall.
+  - Go, wait and stop are verdicts and decisions, always with an icon and a word.
+  - Carbon (dashed) marks sample, recorded or replay data.
+- **Never colour alone.** Every state has an icon and a word.
+- **Every visual carries data:** a real receipt, a real rule id, measured numbers. If a graphic could be swapped for a random glow, delete it.
+- **Honesty is visible:** synthetic, recorded, replay and simulation labels sit on the thing they label.
+- **Not text-heavy.** One idea per section: a label, a big title and at most one line, then the artifact.
+- **Hairlines instead of shadows.**
+  - **Glass** is only for floating UI (the nav pill, the Ctrl K palette, a toast).
+  - **Spotlight cards** (`.surface` with `spotlight()`) for content.
 
-## Motion
-**Animate only `transform` and `opacity`.** These are banned:
-- animated filters, shadows, backdrop blur and layout properties;
-- scroll handlers on the main thread (use IntersectionObserver or CSS);
-- infinite loops;
-- motion on keyboard actions.
+## The kit (`src/ui/kit/`, `src/styles/kit.css`)
 
-| Moment | What it explains | Spec |
+**Components**
+
+| Component | What it does | Source |
 |---|---|---|
-| Receipt prints | advice becomes evidence | translateY −100% → 0 in a paper slot, 900 ms, `linear()` with three feed pauses |
-| Stamp lands | a verdict | scale 1.5 → 1, rotate −14° → −7°, opacity 0 → 1, 420 ms, overshoot curve; the paper nudges 1.5 px |
-| Recall ripple | "every farmer who got it" | tiles flip to Recalled, ordered by distance from the source, 24 ms per ring, 200 ms each |
-| Gate opens | trust is earned | the line draws (stroke-dashoffset) and the gate marker pops; one time only |
-| Loop draws | the method | a single SVG path, stroke-dashoffset, 1.2 s, once |
-| Number roll | real totals | the digit columns slide from 100% to 0; the final value is always in the DOM |
-| UI | feedback | press `scale(.97)` 140 ms; sheets 300 ms `--ease-drawer`; reveals 600 ms + 60 ms stagger |
+| `SplitWords` | masked word rise for display headlines | CSS |
+| `WordCycler` | one phrase at a time | Motion |
+| `Magnetic` | the CTA leans toward the mouse | React Bits Magnet, rebuilt |
+| `NumberTicker` | counts up once in view, writes the text node, final value for screen readers | Magic UI |
+| `AnimatedBeam` | a light along a real path between two elements | Magic UI |
+| `BorderBeam` | a light running round a card | Magic UI, CSS offset-path |
+| `Marquee` | an endless row | Magic UI, CSS |
+| `FlickeringGrid` | canvas, about 12 fps, only on screen | Magic UI |
+| `CommandPalette` | Ctrl K | — |
+| `SmoothScroll` | Lenis, story pages only, never in app screens | — |
+| `LoopMark` / `Wordmark` | the brand mark | — |
 
-**Reduced motion:** no travel, only 150 ms fades; stamps and receipts appear in place.
+**Hooks**
+- `useOnScreen`: set `data-offscreen` on a section and every CSS loop inside pauses.
+- `useSeenOnce`: plays something once, the first time it comes into view.
+- `spotlight()`: the pointer light on `.surface` cards.
 
-## Layout
-- **Containers:** `.wrap` (max 1240 px, gutters `clamp(16px, 4vw, 40px)`). Story sections use `.section` (block padding `clamp(72px, 10vw, 136px)`).
-- **Breakpoints:** 640 / 768 / 1024 / 1280. Design at 375 first.
-- **Touch targets:** at least 44 px (48 px in the farmer app). Tap areas never overlap.
-- **Below-the-fold story sections:** `content-visibility: auto`.
+**Classes**
 
-## Type
-| Role | Class | Notes |
+| Kind | Classes |
+|---|---|
+| Surfaces | `.surface`, `.glass`, `.sheet-band` |
+| Textures | `.bg-grid`, `.bg-dots` |
+| Headline type | `.text-sheen`, `.serif-i`, `.label` |
+| Live dot | `.ping` |
+| Motion | `.spin-slow`, `.press` |
+| Display sizes | `.t-display`, `.t-hero`, `.t-title`, `.t-head`, `.t-lead` |
+
+**Existing primitives restyled** (`ui.css`):
+- pill `.btn` (`btn-primary` is sprout);
+- pill `.chip`;
+- `.stamp`, `.paper`, `.panel`;
+- `ReceiptCard`, `Stamp`, `Segmented`, `Tabs`, `Sheet`, `Toast`, `DataMark`.
+
+## Pages
+| Kind | Pages | Dials |
 |---|---|---|
-| Hero | `.t-hero` | `clamp(2.9rem, 1.4rem + 6vw, 6.6rem)`, display settings |
-| Section title | `.t-title` | `clamp(2.1rem, 1.3rem + 3.3vw, 4.1rem)` |
-| Heading | `.t-head` | `clamp(1.4rem, 1.15rem + 1vw, 1.9rem)` |
-| Lead | `.t-lead` | 1.25 rem / 1.5, ink-2 |
-| Body | — | 1 rem / 1.6 (Bangla 1.75) |
-| Label | `.eyebrow` | mono 12 px caps, tracking .08em |
-| Quote | `.quote` | serif, verbatim only, with page + publisher |
-| Data | `.mono` | tabular figures, slashed zero |
+| Story pages | home `/`, `/receipt` | variance 7, motion 7, density 3; Lenis on |
+| App screens | `/app`, `/officer`, `/verify`, `/trust`, `/proof`, `/about` | variance 3, motion 3, density 7; Motion only for UI state (tabs, sheets, verdicts) |
 
-Bangla never gets negative tracking or condensed width. Display line-height is 1.2 or more.
+## Motion rules (Emil Kowalski's framework)
+- **Animate only transform and opacity;** clip-path and stroke-dashoffset only for small SVGs.
+- **Easing:** ease-out for entering, ease-in-out for moving, linear only for loops.
+- **Frequency decides duration.** Things seen 100 times a day (keyboard tools, list navigation) get no animation. Occasional things (sheets, verdicts) get 200–300 ms. Explanatory story motion may be longer.
+- **Entrances:** never from `scale(0)`; start at 0.9–0.95 with opacity.
+- **Hover:** gate it behind `(hover: hover) and (pointer: fine)`.
+- **Loops pause off-screen** (`data-offscreen`) and under reduced motion.
+- **No WebGL or 3D:** it lagged and added nothing. Depth comes from parallax layers and light.
 
-## Components (`src/ui`)
-- **Actions and labels:**
-  - `Button`, `IconButton`, `LinkButton`;
-  - `Chip` (one per item);
-  - `DataMark` (carbon: sample / recorded / simulation);
-  - `Stamp` (authentic / recalled / invalid / expired).
-- **Documents:** `Paper` (document surface), `Receipt` (boarding-pass receipt with QR), `Quote` (source passage with page).
-- **Decision and data:**
-  - `DecisionCard` (traffic-light decision with a pictogram);
-  - `WeatherStrip` (7 days);
-  - `DataAsOf` (source and time);
-  - `RollNumber`.
-- **Containers:** `Sheet` (bottom sheet on phones, side sheet on desktop), `Tabs`, `Segmented`.
-- **Feedback:** `Toast`.
-- **Site:** `LangSwitch`, `ThemeToggle`, `Logo`, `Reveal`.
+## Don'ts
+- No purple or blue AI gradients, neon glows, robots, brains or decorative 3D.
+- No glassmorphism under body text.
+- No number on screen that is not measured or sourced; synthetic and replay results say so next to the number.
+- No em dashes in UI copy.
+- Never say a receipt is "correct": it is Authentic, Recalled or Cannot verify.
 
-## Don'ts (each one is an "AI slop" tell)
-- **Visual effects:**
-  - WebGL, three.js, shaders;
-  - smooth-scroll libraries, scroll-jacking;
-  - a custom cursor;
-  - gradient blobs, glows, glassmorphism, neon;
-  - purple-blue gradients;
-  - serif-italic accent words in headings.
-- **Content and styling:**
-  - emoji as icons;
-  - stock or AI imagery;
-  - badge soup;
-  - all-caps paragraphs;
-  - repeated blocks;
-  - "Implemented/Planned" chips on every line (one status list instead).
-- **Quality:**
-  - counters that show 0 first;
-  - dead buttons;
-  - console errors;
-  - layout shift.
+## Third-party patterns
+Rebuilt in our own code under their licences:
+- Magic UI (MIT): NumberTicker, AnimatedBeam, BorderBeam, Marquee, FlickeringGrid, bento grid.
+- React Bits (MIT + Commons Clause): Magnet.
+
+Libraries:
+- Motion (MIT);
+- Lenis (MIT);
+- Geist and Geist Mono (OFL);
+- Instrument Serif (OFL);
+- Anek (OFL).
+
+The owner's own projects (TakaResolve UVERA, ShadowAstra Atlas, ABRUBAB.github.io) set the house style: dials, hairlines, the glass nav pill, split-word display type and one accent.

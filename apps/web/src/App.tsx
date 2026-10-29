@@ -5,7 +5,8 @@ import { useI18n } from './lib/i18n';
 import { LinkButton } from './ui/Button';
 
 // every page is its own chunk: the farmer app never downloads the story page, and vice versa
-const StoryPage = lazy(() => import('./features/story/StoryPage'));
+const HomePage = lazy(() => import('./features/home/HomePage'));
+const ReceiptPage = lazy(() => import('./features/receipt/ReceiptPage'));
 const FarmerApp = lazy(() => import('./features/farmer/FarmerApp'));
 const VerifyPage = lazy(() => import('./features/verify/VerifyPage'));
 const OfficerPage = lazy(() => import('./features/officer/OfficerPage'));
@@ -34,7 +35,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<SiteLayout />}>
-          <Route index element={<StoryPage />} />
+          <Route index element={<HomePage />} />
+          <Route path="receipt" element={<ReceiptPage />} />
           <Route path="app" element={<FarmerApp />} />
           <Route path="verify" element={<VerifyPage />} />
           <Route path="verify/:id" element={<VerifyPage />} />

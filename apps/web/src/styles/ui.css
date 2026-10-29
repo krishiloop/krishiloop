@@ -2,29 +2,31 @@
 
 /* ------------------------------------------------------------------ buttons */
 .btn {
-  --btn-h: 44px;
+  --btn-h: 46px;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   min-height: var(--btn-h);
-  padding: 0 1.1rem;
+  padding: 0 1.25rem;
   border: 1px solid transparent;
-  border-radius: var(--radius-ui);
-  font-weight: 580;
-  font-size: 0.97rem;
+  border-radius: 999px;
+  font-weight: 540;
+  font-size: 0.96rem;
   line-height: 1.1;
+  letter-spacing: -0.005em;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition:
-    transform 140ms var(--ease-out),
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
+    transform 160ms var(--ease-out),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    box-shadow 300ms var(--ease-out-quint);
 }
 .btn:active:not(:disabled) {
   transform: scale(0.97);
@@ -35,12 +37,13 @@
   cursor: not-allowed;
 }
 .btn-primary {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-sprout);
+  color: var(--color-sprout-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), 0 10px 30px -14px color-mix(in oklab, var(--color-sprout) 70%, transparent);
 }
 .btn-secondary {
-  border-color: var(--color-rule-2);
-  background: transparent;
+  border-color: color-mix(in oklab, var(--color-ink) 18%, transparent);
+  background: color-mix(in oklab, var(--color-ink) 3%, transparent);
   color: var(--color-ink);
 }
 .btn-ghost {
@@ -56,7 +59,7 @@
   color: #fff;
 }
 /* on dark surfaces the meaning colours are light, so their buttons take dark ink (AA: npm run contrast) */
-[data-theme="dark"] :is(.btn-danger, .btn-go),
+:root:not([data-theme="light"]) :is(.btn-danger, .btn-go),
 .band-night :is(.btn-danger, .btn-go) {
   color: #14130f;
 }
@@ -65,10 +68,12 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background: color-mix(in oklab, var(--color-ink) 86%, var(--color-paper));
+    background: color-mix(in oklab, var(--color-sprout) 88%, #fff);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5), 0 14px 40px -12px color-mix(in oklab, var(--color-sprout) 80%, transparent);
   }
   .btn-secondary:hover {
-    border-color: var(--color-ink);
+    border-color: color-mix(in oklab, var(--color-ink) 40%, transparent);
+    background: color-mix(in oklab, var(--color-ink) 6%, transparent);
   }
   .btn-ghost:hover {
     color: var(--color-ink);
@@ -124,9 +129,9 @@
   min-height: 24px;
   padding: 0.18rem 0.5rem;
   border: 1px solid var(--color-rule-2);
-  border-radius: 6px;
+  border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: 0.06em;
@@ -179,7 +184,7 @@
 .panel {
   background: var(--color-card);
   border: 1px solid var(--color-rule);
-  border-radius: var(--radius-ui);
+  border-radius: var(--radius-frame);
 }
 /* the torn, serrated foot of a receipt */
 .serrated-b {

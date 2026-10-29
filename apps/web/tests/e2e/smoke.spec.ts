@@ -2,9 +2,9 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 /**
- * Smoke tests for the shared shell, the story page (/) and the About page (/about). The farmer app, the officer console,
- * the verifier, /trust and /proof have their own specs. The story page shows only bundled recorded data and simulations,
- * so it must never call the API.
+ * Smoke tests for the shared shell, the home page (/), the receipt page (/receipt) and the About page (/about). The
+ * farmer app, the officer console, the verifier, /trust and /proof have their own specs. Home and /receipt show only
+ * bundled recorded data and simulations, so they must never call the API.
  */
 const noOverflow = async (page: Page) => {
   const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
@@ -16,13 +16,27 @@ const seriousA11y = async (page: Page) => {
   return r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.id}: ${v.nodes.length}`);
 };
 
-test('story: the sentence, a real receipt that prints, and no API calls', async ({ page }) => {
+test('home: the headline, the loop, the receipt tiles, and no API calls', async ({ page }) => {
   const api: string[] = [];
   page.on('request', (r) => {
     const u = new URL(r.url());
     if (u.pathname.startsWith('/api/')) api.push(u.pathname);
   });
   await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('with a receipt');
+  await expect(page.getByRole('img', { name: /The loop: see, decide, speak, prove, learn/ })).toBeVisible();
+  await page.mouse.wheel(0, 4000);
+  await page.waitForTimeout(400);
+  expect(api, 'the home page never calls the API').toEqual([]);
+});
+
+test('receipt: the sentence, a real receipt that prints, and no API calls', async ({ page }) => {
+  const api: string[] = [];
+  page.on('request', (r) => {
+    const u = new URL(r.url());
+    if (u.pathname.startsWith('/api/')) api.push(u.pathname);
+  });
+  await page.goto('/receipt');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('receipt anyone can check');
   const receipt = page.getByRole('article', { name: /Advice receipt/ }).first();
   await expect(receipt).toBeVisible();
@@ -30,11 +44,11 @@ test('story: the sentence, a real receipt that prints, and no API calls', async 
   await expect(receipt.getByRole('img', { name: 'Verify this receipt' })).toBeVisible();
   await expect(page.getByText('Recorded 28 Oct').first()).toBeVisible();
   await page.waitForTimeout(400);
-  expect(api, 'the story page never calls the API').toEqual([]);
+  expect(api, 'the receipt page never calls the API').toEqual([]);
 });
 
-test('story: one tap recalls the hero receipt’s rule, and undoing restores it', async ({ page }) => {
-  await page.goto('/');
+test('receipt: one tap recalls the receipt’s rule, and undoing restores it', async ({ page }) => {
+  await page.goto('/receipt');
   const hero = page.locator('section').first();
   await hero.getByRole('radio', { name: 'Recall its rule' }).click();
   await expect(hero.getByText('Recalled', { exact: true })).toBeVisible();
@@ -43,8 +57,8 @@ test('story: one tap recalls the hero receipt’s rule, and undoing restores it'
   await expect(hero.getByText('Authentic', { exact: true })).toBeVisible();
 });
 
-test('story: the recall ripple counts exactly the receipts that cite the rule', async ({ page }) => {
-  await page.goto('/');
+test('receipt: the recall ripple counts exactly the receipts that cite the rule', async ({ page }) => {
+  await page.goto('/receipt');
   const section = page.locator('section', { has: page.getByRole('heading', { name: /Recall a rule/ }) });
   await section.scrollIntoViewIfNeeded();
   const rule = section.getByRole('button', { name: /R-BDR-002 v1/ });
@@ -58,16 +72,16 @@ test('story: the recall ripple counts exactly the receipts that cite the rule', 
   await expect(rule).toHaveAttribute('aria-pressed', 'false');
 });
 
-test('story: every feature tile leads somewhere real', async ({ page }) => {
+test('home: the linked feature tiles lead somewhere real', async ({ page }) => {
   await page.goto('/');
   const tiles = page.locator('section', { has: page.getByRole('heading', { name: 'Everything here works today.' }) }).getByRole('link');
-  await expect(tiles).toHaveCount(12);
-  for (const href of await tiles.evaluateAll((els) => els.map((e) => e.getAttribute('href') ?? ''))) {
-    expect(href, 'a feature tile has a target').toMatch(/^(\/|#)/);
-  }
+  await expect(tiles).toHaveCount(2);
+  const hrefs = await tiles.evaluateAll((els) => els.map((e) => e.getAttribute('href') ?? ''));
+  expect(hrefs[0]).toBe('/receipt');
+  expect(hrefs[1]).toMatch(/^\/verify\//);
 });
 
-test('story: Bangla, dark theme, phone width, and no serious accessibility problems', async ({ page }) => {
+test('home: Bangla, dark theme, phone width, and no serious accessibility problems', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/?lang=bn&theme=dark');
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
@@ -77,8 +91,8 @@ test('story: Bangla, dark theme, phone width, and no serious accessibility probl
   expect(await seriousA11y(page)).toEqual([]);
 });
 
-test('story: light theme on a laptop has no serious accessibility problems', async ({ page }) => {
-  await page.goto('/');
+test('home: light theme on a laptop has no serious accessibility problems', async ({ page }) => {
+  await page.goto('/?theme=light');
   expect(await seriousA11y(page)).toEqual([]);
 });
 
@@ -117,6 +131,6 @@ test('about: principles, a timeline that never blurs done and planned, and no se
 test('404: an unknown page says so and offers the way back', async ({ page }) => {
   await page.goto('/no-such-page');
   await expect(page.getByRole('heading', { name: 'This page does not exist.' })).toBeVisible();
-  await page.getByRole('link', { name: 'Go to the story' }).click();
+  await page.getByRole('link', { name: 'Go to the home page' }).click();
   await expect(page).toHaveURL(/\/$/);
 });

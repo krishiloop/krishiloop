@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import { useI18n } from '../lib/i18n';
-import { Logo } from '../ui/Logo';
+import { Wordmark } from '../ui/kit/LoopMark';
+import { FlickeringGrid } from '../ui/kit/FlickeringGrid';
 import { NAV_ALL } from './SiteHeader';
 
 const REPO = 'https://github.com/krishiloop/krishiloop';
 
-/** The end of every page: the sentence, where to go, where the evidence lives, and the honest footnote. */
+/**
+ * The end of every page: one big sentence, where to go, where the evidence lives, the standards, and the honest
+ * footnote, over a field of flickering squares (a crop seen from above at night).
+ */
 export function SiteFooter() {
   const { t } = useI18n();
   const evidence = [
@@ -15,42 +20,50 @@ export function SiteFooter() {
     { href: `${REPO}/tree/main/contracts/schemas`, label: t('ui.footer.api') },
   ];
   return (
-    <footer className="border-t border-rule bg-sunk/50">
-      <div className="wrap grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr] md:py-20">
-        <div>
-          <Logo />
-          <p className="mt-5 max-w-[34ch] text-[1.05rem] leading-relaxed text-ink-2">{t('ui.footer.tag')}</p>
+    <footer className="relative mt-10 overflow-hidden border-t border-rule">
+      <div className="wrap relative z-10 pt-20 md:pt-28">
+        <p className="t-display max-w-[14ch] text-ink" data-reveal>
+          {t('ui.footer.big')}
+        </p>
+        <div className="mt-16 grid gap-12 border-t border-rule pt-12 md:grid-cols-[1.5fr_1fr_1fr]">
+          <div>
+            <Wordmark />
+            <p className="mt-5 max-w-[40ch] text-[1rem] leading-relaxed text-ink-2">{t('ui.footer.tag')}</p>
+            <p className="label mt-6">{t('ui.footer.standards')}</p>
+          </div>
+          <nav aria-label={t('ui.footer.product')}>
+            <p className="label">{t('ui.footer.product')}</p>
+            <ul className="m-0 mt-5 list-none space-y-3 p-0">
+              {NAV_ALL.map((n) => (
+                <li key={n.to}>
+                  <Link to={n.to} className="text-ink-2 transition-colors duration-200 hover:text-ink">
+                    {t(n.key)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label={t('ui.footer.evidence')}>
+            <p className="label">{t('ui.footer.evidence')}</p>
+            <ul className="m-0 mt-5 list-none space-y-3 p-0">
+              {evidence.map((e) => (
+                <li key={e.href}>
+                  <a href={e.href} className="group inline-flex items-center gap-1 text-ink-2 transition-colors duration-200 hover:text-ink" target="_blank" rel="noreferrer">
+                    {e.label}
+                    <ArrowUpRight size={14} className="opacity-50 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-        <nav aria-label={t('ui.footer.product')}>
-          <p className="eyebrow">{t('ui.footer.product')}</p>
-          <ul className="m-0 mt-4 list-none space-y-2.5 p-0">
-            {NAV_ALL.map((n) => (
-              <li key={n.to}>
-                <Link to={n.to} className="link no-underline hover:underline">
-                  {t(n.key)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <nav aria-label={t('ui.footer.evidence')}>
-          <p className="eyebrow">{t('ui.footer.evidence')}</p>
-          <ul className="m-0 mt-4 list-none space-y-2.5 p-0">
-            {evidence.map((e) => (
-              <li key={e.href}>
-                <a href={e.href} className="link no-underline hover:underline" target={e.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
-                  {e.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-      <div className="border-t border-rule">
-        <div className="wrap flex flex-col gap-2 py-6 text-sm text-ink-3 md:flex-row md:justify-between">
+        <div className="mt-14 flex flex-col gap-2 border-t border-rule py-7 text-[0.85rem] text-ink-3 md:flex-row md:justify-between">
           <p className="m-0">{t('ui.footer.credit')}</p>
           <p className="m-0">{t('ui.footer.noPii')}</p>
         </div>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%] [mask-image:linear-gradient(to_top,#000_10%,transparent)]" aria-hidden>
+        <FlickeringGrid square={3} gap={7} chance={0.05} maxOpacity={0.22} />
       </div>
     </footer>
   );

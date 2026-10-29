@@ -6,6 +6,8 @@ import { cx } from '../lib/cx';
 import { Toaster } from '../ui/Toast';
 import { SiteHeader } from './SiteHeader';
 import { SiteFooter } from './SiteFooter';
+import { CommandPalette } from '../ui/kit/CommandPalette';
+import { NAV_ALL } from './SiteHeader';
 
 const TITLES: [RegExp, Key][] = [
   [/^\/app/, 'ui.nav.app'],
@@ -14,6 +16,7 @@ const TITLES: [RegExp, Key][] = [
   [/^\/trust/, 'ui.nav.trust'],
   [/^\/proof/, 'ui.nav.proof'],
   [/^\/about/, 'ui.nav.about'],
+  [/^\/receipt/, 'ui.nav.receipt'],
 ];
 
 function PageSkeleton() {
@@ -69,6 +72,7 @@ export function SiteLayout() {
       </main>
       {!inApp && <SiteFooter />}
       <Toaster />
+      <CommandPalette routes={NAV_ALL} />
     </>
   );
 }

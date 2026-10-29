@@ -6,7 +6,7 @@
 import type ui from './en.ui';
 
 const d: Record<keyof typeof ui, string> = {
-  'ui.nav.story': 'গল্প',
+  'ui.nav.story': 'হোম',
   'ui.nav.app': 'কৃষক অ্যাপ',
   'ui.nav.officer': 'অফিসার',
   'ui.nav.verify': 'যাচাই',
@@ -106,8 +106,15 @@ const d: Record<keyof typeof ui, string> = {
   'ui.loading': 'লোড হচ্ছে',
   'ui.notFound': 'এই পাতাটি নেই।',
   'ui.notFoundBody': 'লিংকটি পুরোনো হতে পারে। গল্প থেকে শুরু করুন, অথবা কৃষক অ্যাপ খুলুন।',
-  'ui.goHome': 'গল্পে যান',
+  'ui.goHome': 'হোম পাতায় যান',
 
+  'ui.nav.receipt': 'রসিদ কীভাবে কাজ করে',
+  'ui.palette.title': 'যেকোনো জায়গায় যান',
+  'ui.palette.placeholder': 'পাতা, ভাষা, থিম খুঁজুন…',
+  'ui.palette.empty': 'কিছু মেলেনি।',
+  'ui.palette.open': 'খুঁজুন ও যান',
+  'ui.footer.big': 'যে পরামর্শ যাচাই করা যায়।',
+  'ui.footer.standards': 'W3C Verifiable Credentials 2.0 · eddsa-jcs-2022 · Bitstring Status List',
   'ui.footer.tag': 'এআই-এর প্রতিটি কৃষি পরামর্শের সঙ্গে থাকে একটি রসিদ, যা যে কেউ যাচাই করতে পারেন — আর কোনো নিয়ম ভুল প্রমাণিত হলে, যাঁরা সেটি পেয়েছেন তাঁদের সবার কাছ থেকে আমরা তা ফিরিয়ে নিই।',
   'ui.footer.product': 'পণ্য',
   'ui.footer.evidence': 'প্রমাণ',

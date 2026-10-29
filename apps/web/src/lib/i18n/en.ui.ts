@@ -5,7 +5,7 @@
  */
 const ui = {
   /* ---------------------------------------------------------------- shell */
-  'ui.nav.story': 'Story',
+  'ui.nav.story': 'Home',
   'ui.nav.app': 'Farmer app',
   'ui.nav.officer': 'Officer',
   'ui.nav.verify': 'Verify',
@@ -111,9 +111,16 @@ const ui = {
   'ui.loading': 'Loading',
   'ui.notFound': 'This page does not exist.',
   'ui.notFoundBody': 'The link may be old. Start from the story, or open the farmer app.',
-  'ui.goHome': 'Go to the story',
+  'ui.goHome': 'Go to the home page',
 
   /* ---------------------------------------------------------------- footer */
+  'ui.nav.receipt': 'How a receipt works',
+  'ui.palette.title': 'Go anywhere',
+  'ui.palette.placeholder': 'Search pages, languages, theme…',
+  'ui.palette.empty': 'Nothing matches.',
+  'ui.palette.open': 'Search and jump',
+  'ui.footer.big': 'Advice you can check.',
+  'ui.footer.standards': 'W3C Verifiable Credentials 2.0 · eddsa-jcs-2022 · Bitstring Status List',
   'ui.footer.tag': 'Every piece of AI farm advice comes with a receipt anyone can check — and if a rule turns out wrong, we recall it from every farmer who got it.',
   'ui.footer.product': 'Product',
   'ui.footer.evidence': 'Evidence',

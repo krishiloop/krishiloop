@@ -1,22 +1,22 @@
 import { createStore } from './store';
 import { queryParam, readStore, writeStore } from './storage';
 
-/** Paper (light) is the default: it is the product's own material and reads best in sunlight. Lantern is the dark theme. */
+/** Field Night (dark) is the default; Paper (light) reads best in sunlight and is one tap away. Receipts stay paper in both. */
 export type Theme = 'dark' | 'light';
 
 function initial(): Theme {
   const forced = queryParam('theme');
   if (forced === 'light' || forced === 'dark') return forced;
   const stored = readStore('kl.theme');
-  return stored === 'dark' ? 'dark' : 'light';
+  return stored === 'light' ? 'light' : 'dark';
 }
 
-export const themeStore = createStore<Theme>(typeof window === 'undefined' ? 'light' : initial());
+export const themeStore = createStore<Theme>(typeof window === 'undefined' ? 'dark' : initial());
 
 function apply(t: Theme) {
   if (typeof document === 'undefined') return;
   document.documentElement.dataset.theme = t;
-  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', t === 'dark' ? '#121110' : '#f4f0e6'));
+  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', t === 'dark' ? '#0a0b09' : '#f2f0e8'));
 }
 apply(themeStore.get());
 themeStore.subscribe(() => apply(themeStore.get()));

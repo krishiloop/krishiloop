@@ -26,7 +26,7 @@ describe('Bangla dictionary', () => {
   it('is Bangla text (not a copy of the English)', () => {
     const copied = keys.filter((k) => bn[k] && bn[k] === en[k] && /[a-z]{4,}/i.test(en[k]) && !/^[A-Za-z0-9 .·:{}/%+_-]*$/.test('') );
     // identical strings are allowed only for product names, ids and units (no Bangla letters needed)
-    const allowed = new Set(['field.s2', 'receipt.version', 'receipt.header', 'verify.idPlaceholder', 'photo.receipt.size', 'photo.receipt.ms', 'l.hero.eyebrow']);
+    const allowed = new Set(['field.s2', 'receipt.version', 'receipt.header', 'verify.idPlaceholder', 'photo.receipt.size', 'photo.receipt.ms', 'l.hero.eyebrow', 'ui.footer.standards']);
     expect(copied.filter((k) => !allowed.has(k))).toEqual([]);
   });
 
