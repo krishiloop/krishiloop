@@ -2,9 +2,9 @@
 import '../../lib/i18n/strings.verify';
 import '../../lib/i18n/strings.trust';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Check, ClipboardPaste, FileCheck2, FileJson, Link2, Printer, RotateCcw, ScanLine, X } from 'lucide-react';
-import { setForcedSample, type VerifyOutcome } from '../../lib/api/client';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Check, ClipboardPaste, FileCheck2, FileJson, Link2, MessageSquareText, Printer, RotateCcw, ScanLine, X } from 'lucide-react';
+import { apiStore, setForcedSample, type VerifyOutcome } from '../../lib/api/client';
 import { isSampleId } from '../../lib/api/mocks';
 import { RECORDED_AT } from '../../data/recorded';
 import { useI18n } from '../../lib/i18n';
@@ -22,13 +22,146 @@ import { useCheckRun } from './CheckRun';
 import { ReceiptDoc } from './ReceiptDoc';
 import { AreaDoc } from './AreaDoc';
 import { clearChecks, downloadCredential, isAreaTrust, isReceipt, looksLikeReceipt, normalizeId, recentChecks, verifyPath, type RecentStatus } from './verifyUtil';
+import { codePath, displayCode, lookupCode, normalizeCode, type CodeLookup } from './code';
 import './verify.css';
 
-/** /verify (paste, scan or try a recorded receipt) and /verify/:id (the verdict, then the receipt as a document). */
+/**
+ * /verify (paste, scan, type an SMS code or try a recorded receipt), /verify/:id (the verdict, then the receipt as a
+ * document) and /v/:code (a short code from an SMS: looked up, then the same check as /verify/:id).
+ */
 export default function VerifyPage() {
-  const { id: raw } = useParams();
+  const { id: raw, code } = useParams();
   const id = raw ? normalizeId(raw) : '';
-  return <div className="vf-page">{id ? <VerifyResult key={id} id={id} /> : <VerifyEntry />}</div>;
+  return <div className="vf-page">{code !== undefined ? <CodeOpen key={code} typed={code} /> : id ? <VerifyResult key={id} id={id} /> : <VerifyEntry />}</div>;
+}
+
+/* ================================================================== /v/:code */
+/**
+ * A short code is a lookup handle, not a proof: it finds the receipt's id (GET /api/code/{code}), then the verifier runs
+ * as for any receipt, signature checked in this browser. The page it lands on says which code opened it.
+ */
+function CodeOpen({ typed }: { typed: string }) {
+  const { t } = useI18n();
+  const nav = useNavigate();
+  const code = normalizeCode(typed);
+  const [state, setState] = useState<CodeLookup | { kind: 'looking' } | { kind: 'sample' }>({ kind: 'looking' });
+  const [nonce, setNonce] = useState(0);
+
+  useEffect(() => {
+    if (!code) return;
+    if (apiStore.get().forced) {
+      setState({ kind: 'sample' });
+      return;
+    }
+    let alive = true;
+    setState({ kind: 'looking' });
+    void lookupCode(code).then((r) => {
+      if (!alive) return;
+      if (r.kind === 'found') nav(verifyPath(r.credentialId), { replace: true, state: { code } });
+      else setState(r);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [code, nav, nonce]);
+
+  const shown = code ? displayCode(code) : typed.slice(0, 24);
+  const kind = !code ? 'unknown' : state.kind;
+  return (
+    <div className="wrap grid min-h-[50dvh] place-items-center py-16 text-center" data-testid="vf-code-open" data-state={kind}>
+      <div className="max-w-md">
+        <h1 className="label">{t('vf.code.label')}</h1>
+        <p className="vf-code-big mono mt-4" translate="no">
+          {shown}
+        </p>
+        <div className="mt-5" role="status" aria-live="polite">
+          {kind === 'looking' || kind === 'found' ? (
+            <p className="text-ink-2">{t('vf.code.looking', { code: shown })}</p>
+          ) : kind === 'unknown' ? (
+            <>
+              <p className="t-head">{t('vf.code.unknown', { code: shown })}</p>
+              <p className="mt-3 text-ink-2">{t('vf.code.unknownSub')}</p>
+            </>
+          ) : kind === 'sample' ? (
+            <p className="text-ink-2">{t('vf.code.sample')}</p>
+          ) : kind === 'busy' ? (
+            <p className="text-ink-2">{t('vf.code.busy')}</p>
+          ) : (
+            <p className="text-ink-2">{t('vf.code.unreachable')}</p>
+          )}
+        </div>
+        {kind !== 'looking' && kind !== 'found' && (
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {(kind === 'unreachable' || kind === 'busy') && (
+              <Button variant="primary" onClick={() => setNonce((n) => n + 1)}>
+                <RotateCcw size={17} aria-hidden />
+                {t('vf.code.again')}
+              </Button>
+            )}
+            <LinkButton to="/verify" variant={kind === 'unreachable' || kind === 'busy' ? 'ghost' : 'primary'} arrow={kind !== 'unreachable' && kind !== 'busy'}>
+              {t('vf.act.other')}
+            </LinkButton>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** The SMS code box on /verify: 8 letters and digits, any case, with or without the dash. */
+function CodeEntry() {
+  const { t } = useI18n();
+  const nav = useNavigate();
+  const [value, setValue] = useState('');
+  const [error, setError] = useState(false);
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    const code = normalizeCode(value);
+    if (!code) {
+      setError(true);
+      return;
+    }
+    nav(codePath(code));
+  };
+  return (
+    <form onSubmit={submit} noValidate className="vf-code" data-testid="vf-code-form">
+      <label htmlFor="vf-code" className="vf-code-label">
+        <MessageSquareText size={18} aria-hidden />
+        {t('vf.code.label')}
+      </label>
+      <div className="vf-code-row">
+        <input
+          id="vf-code"
+          className="vf-input vf-code-input"
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setError(false);
+          }}
+          placeholder="7KQ2-MX4P"
+          autoComplete="off"
+          autoCapitalize="characters"
+          spellCheck={false}
+          maxLength={16}
+          aria-invalid={error || undefined}
+          aria-describedby={error ? 'vf-code-err' : 'vf-code-hint'}
+          data-testid="vf-code-input"
+        />
+        <Button type="submit" variant="secondary" size="lg" data-testid="vf-code-open-btn">
+          {t('vf.code.open')}
+        </Button>
+      </div>
+      {error ? (
+        <p id="vf-code-err" role="alert" className="mt-2 text-sm text-stop">
+          {t('vf.code.bad')}
+        </p>
+      ) : (
+        <p id="vf-code-hint" className="mt-2 text-sm text-ink-3">
+          {t('vf.code.hint')}
+        </p>
+      )}
+    </form>
+  );
 }
 
 /* ================================================================== entry */
@@ -192,6 +325,8 @@ function VerifyEntry() {
             )}
           </form>
 
+          <CodeEntry />
+
           <div className="vf-ways">
             {canScan === true ? (
               <button type="button" className="vf-way press" onClick={() => setScanning(true)} data-testid="vf-scan">
@@ -332,6 +467,9 @@ function VerifyResult({ id }: { id: string }) {
   const recorded = outcome?.source === 'sample' || (isSampleId(id) && kind !== 'unreachable');
   const meaning = useMeaning(kind, receipt, area, outcome);
   const done = phase === 'done';
+  // opened from /v/:code: say which code found it, and that the code is not the proof
+  const fromCode = (useLocation().state as { code?: unknown } | null)?.code;
+  const code = typeof fromCode === 'string' ? normalizeCode(fromCode) : '';
 
   return (
     <>
@@ -355,6 +493,12 @@ function VerifyResult({ id }: { id: string }) {
         }}
         actions={<Actions id={id} cred={cred} onAgain={() => setNonce((n) => n + 1)} />}
       />
+      {code && (
+        <p className="wrap vf-from-code" data-testid="vf-from-code">
+          <MessageSquareText size={15} aria-hidden />
+          <span>{t('vf.code.found', { code: displayCode(code) })}</span>
+        </p>
+      )}
       {!done ? (
         // the document's place, held while the verdict comes (no jump when it arrives)
         <div className="wrap vf-doc" aria-hidden>

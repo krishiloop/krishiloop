@@ -1,0 +1,192 @@
+{
+ "generated_at": "2026-11-02T16:07:02+00:00",
+ "dev": {
+  "logs": "Claude Code session logs of this project (usage fields only)",
+  "period": {
+   "first": "2026-10-25T11:03:16.859Z",
+   "last": "2026-11-02T16:06:58.895Z"
+  },
+  "lead_sessions": 4,
+  "subagent_runs": 102,
+  "compactions": 18,
+  "rows": [
+   {
+    "role": "lead",
+    "model": "claude-opus-5-5",
+    "requests": 1614,
+    "input_tokens": 3380,
+    "cache_creation_input_tokens": 9626498,
+    "cache_read_input_tokens": 798458246,
+    "output_tokens": 2430187
+   },
+   {
+    "role": "lead",
+    "model": "claude-sonnet-5-5",
+    "requests": 53,
+    "input_tokens": 108,
+    "cache_creation_input_tokens": 238677,
+    "cache_read_input_tokens": 9227820,
+    "output_tokens": 85662
+   },
+   {
+    "role": "subagent",
+    "model": "claude-opus-5-5",
+    "requests": 2219,
+    "input_tokens": 4532,
+    "cache_creation_input_tokens": 18103522,
+    "cache_read_input_tokens": 728755898,
+    "output_tokens": 3943645
+   },
+   {
+    "role": "subagent",
+    "model": "claude-sonnet-5-5",
+    "requests": 1927,
+    "input_tokens": 3878,
+    "cache_creation_input_tokens": 11030898,
+    "cache_read_input_tokens": 552547993,
+    "output_tokens": 4325159
+   },
+   {
+    "role": "subagent",
+    "model": "claude-haiku-5-5",
+    "requests": 451,
+    "input_tokens": 910,
+    "cache_creation_input_tokens": 8931601,
+    "cache_read_input_tokens": 55393169,
+    "output_tokens": 3434916
+   }
+  ],
+  "total": {
+   "requests": 6264,
+   "input_tokens": 12808,
+   "cache_creation_input_tokens": 47931196,
+   "cache_read_input_tokens": 2144383126,
+   "output_tokens": 14219569,
+   "all_input_tokens": 2192327130,
+   "cache_read_share_of_input": 0.9781
+  },
+  "lead": {
+   "requests": 1667,
+   "input_tokens": 3488,
+   "cache_creation_input_tokens": 9865175,
+   "cache_read_input_tokens": 807686066,
+   "output_tokens": 2515849,
+   "all_input_tokens": 817554729,
+   "cache_read_share_of_input": 0.9879
+  },
+  "subagents": {
+   "requests": 4597,
+   "input_tokens": 9320,
+   "cache_creation_input_tokens": 38066021,
+   "cache_read_input_tokens": 1336697060,
+   "output_tokens": 11703720,
+   "all_input_tokens": 1374772401,
+   "cache_read_share_of_input": 0.9723
+  },
+  "by_model": {
+   "claude-opus-5-5": {
+    "requests": 3833,
+    "input_tokens": 7912,
+    "cache_creation_input_tokens": 27730020,
+    "cache_read_input_tokens": 1527214144,
+    "output_tokens": 6373832,
+    "all_input_tokens": 1554952076,
+    "cache_read_share_of_input": 0.9822
+   },
+   "claude-sonnet-5-5": {
+    "requests": 1980,
+    "input_tokens": 3986,
+    "cache_creation_input_tokens": 11269575,
+    "cache_read_input_tokens": 561775813,
+    "output_tokens": 4410821,
+    "all_input_tokens": 573049374,
+    "cache_read_share_of_input": 0.9803
+   },
+   "claude-haiku-5-5": {
+    "requests": 451,
+    "input_tokens": 910,
+    "cache_creation_input_tokens": 8931601,
+    "cache_read_input_tokens": 55393169,
+    "output_tokens": 3434916,
+    "all_input_tokens": 64325680,
+    "cache_read_share_of_input": 0.8611
+   }
+  }
+ },
+ "product": {
+  "source": "ml/evals/safety/runs/raw/main (Ollama eval_count / prompt_eval_count, 148 questions per model)",
+  "raw_models": {
+   "gemma4:26b": {
+    "answers": 148,
+    "valid_run": true,
+    "output_tokens_median": 199.5,
+    "output_tokens_sum": 29478,
+    "prompt_tokens_median": 62.0,
+    "answer_chars_median": 760.5,
+    "wall_s_median_under_8_way_concurrency": 8.87,
+    "think": false,
+    "num_predict": 400
+   },
+   "gemma4:e4b": {
+    "answers": 148,
+    "valid_run": true,
+    "output_tokens_median": 29.0,
+    "output_tokens_sum": 4774,
+    "prompt_tokens_median": 58.0,
+    "answer_chars_median": 119.0,
+    "wall_s_median_under_8_way_concurrency": 5.89,
+    "think": false,
+    "num_predict": 400
+   },
+   "gpt-oss:20b": {
+    "answers": 148,
+    "valid_run": true,
+    "output_tokens_median": 178.0,
+    "output_tokens_sum": 34123,
+    "prompt_tokens_median": 120.5,
+    "answer_chars_median": 430.0,
+    "wall_s_median_under_8_way_concurrency": 4.62,
+    "think": "low",
+    "num_predict": 1400
+   },
+   "mistral-small3.2:24b": {
+    "answers": 148,
+    "valid_run": true,
+    "output_tokens_median": 102.5,
+    "output_tokens_sum": 19854,
+    "prompt_tokens_median": 54.5,
+    "answer_chars_median": 302.0,
+    "wall_s_median_under_8_way_concurrency": 6.24,
+    "think": null,
+    "num_predict": 400
+   },
+   "qwen3-vl:8b": {
+    "answers": 148,
+    "valid_run": false,
+    "output_tokens_median": 400.0,
+    "output_tokens_sum": 59199,
+    "prompt_tokens_median": 65.5,
+    "answer_chars_median": 0.0,
+    "wall_s_median_under_8_way_concurrency": 29.54,
+    "think": false,
+    "num_predict": 400
+   },
+   "qwen3:30b": {
+    "answers": 148,
+    "valid_run": false,
+    "output_tokens_median": 400.0,
+    "output_tokens_sum": 58800,
+    "prompt_tokens_median": 67.5,
+    "answer_chars_median": 1706.0,
+    "wall_s_median_under_8_way_concurrency": 8.08,
+    "think": false,
+    "num_predict": 400
+   }
+  },
+  "krishiloop": {
+   "generated_tokens_per_answer": 0,
+   "why": "plans come from the deterministic planner (services/engine/planner.py, ADR-1) and Ask answers are the validated text of a sourced rule picked by BM25 + a small multilingual encoder (multilingual-e5-small); no generative model runs in the product today",
+   "encoder_passes_per_question": 1
+  }
+ }
+}

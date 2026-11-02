@@ -157,3 +157,31 @@ All long jobs went through `ssh -o BatchMode=yes nbtc5090 "powershell -NoProfile
 - The venv `F:\krishiloop-5090\venvs\voice` was created over SSH with `make_venv.ps1`, using `--system-site-packages` from `dl`.
 - On the laptop: `build_texts.py`, `make_report.py`, `pick_samples.py --asr-tag omni-ctc-1b-v2`.
 - **After the overnight job:** `scp "nbtc5090:F:/krishiloop-5090/work/voice/asr/*" ml/voice/results/asr/`, the same for `roundtrip/*`, then `python ml/voice/make_report.py`.
+
+## 9. Wired into the app (2 Nov 2026)
+
+**Readbacks (our own voice, Bangla).**
+- `readbacks.py build` copies only the clips that pass three checks into `apps/web/public/audio/bn/` and writes `apps/web/public/audio/manifest.json`:
+  - male voice only;
+  - the clip's text is exactly today's `action.title.bn` of an active rule (sha256 of the normalised text, keyed with rule id and version);
+  - round-trip CER of at most 10 %.
+- Shipped: 8 files (289.8 KB) covering 9 rule versions: R-BDR-001, 002, 003 (same text as 002), 004, 005, 007, 009, 010 and 012, all v1.
+- Held back: R-BDR-006, 008 and 011, whose round trips were 19.2 %, 23.7 % and 14.5 %. Their transcripts hint that the audio does not say the text: a garbled first word, a repeated phrase, and a probable number error in "৮০টির". All potato rules (R-PLB-001 to 011) have Bangla text but no clip yet.
+- The app plays a clip only for that exact rule version and text. Otherwise it uses the device's Bangla voice, or says there is none.
+- A receipt that is Recalled (or cannot be verified) never plays its advice: it reads or shows the recall notice instead.
+- Where our voice plays, the app says: our own machine voice (svara-tts-v1), Built with Llama, not yet checked by a native speaker. /proof lists it under "Data and licences".
+
+**Speech input.**
+- Web Speech stays the default, labelled as the browser's service, which may send the audio to the browser's maker.
+- The sovereign path is off by default. With `KRISHILOOP_VOICE_URL=http://127.0.0.1:8765` (loopback only) on the API host:
+  - `GET /api/voice/health` reports the service;
+  - the Ask tab records with MediaRecorder (Bangla only);
+  - `POST /api/voice/asr` passes the audio to `service.py` and returns the text into the normal Ask flow.
+  - Code: `services/voice_proxy/`; tests: `tests/test_voice_proxy.py` (fake service, no network).
+
+**Not run yet: regeneration on the 5090.** It is lent to another project.
+1. `python ml/voice/readbacks.py todo` lists 15 texts, 2 takes each: the 3 held-back rules, the 11 potato rules and the recall notice.
+2. `ml/voice/nbtc/run_readbacks.ps1` synthesises them (male voice) and transcribes them back.
+3. `readbacks.py build` with both results files keeps the best take of each text that passes.
+
+The steps are in the script's header.

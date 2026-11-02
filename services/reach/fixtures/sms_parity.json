@@ -1,0 +1,344 @@
+{
+  "note": "Shared by tests/test_reach.py (services/reach/sms.py) and apps/web/src/features/verify/reachParity.test.ts (apps/web/src/features/farmer/sms.ts and the web dictionaries). Both must produce `expected` exactly.",
+  "templates": {
+    "en": "KrishiLoop: {decision}. Rule {rule}. Check receipt {code}: {url}",
+    "bn": "কৃষিলুপ: {decision}। নিয়ম {rule}। রসিদ যাচাই {code}: {url}"
+  },
+  "decision_words": {
+    "en": {
+      "dont_spray": "No spray needed",
+      "recheck": "Re-check",
+      "spray": "Act now"
+    },
+    "bn": {
+      "dont_spray": "স্প্রে দরকার নেই",
+      "recheck": "আবার দেখুন",
+      "spray": "এখনই ব্যবস্থা নিন"
+    }
+  },
+  "kind_words": {
+    "en": {
+      "input_decision": "Spray decision",
+      "monitoring": "Check",
+      "irrigation": "Water",
+      "harvest": "Harvest",
+      "nutrient": "Fertiliser",
+      "officer_contact": "Officer",
+      "practice": "Good practice",
+      "other": "Advice"
+    },
+    "bn": {
+      "input_decision": "স্প্রের সিদ্ধান্ত",
+      "monitoring": "নজর রাখুন",
+      "irrigation": "সেচ",
+      "harvest": "ফসল তোলা",
+      "nutrient": "সার",
+      "officer_contact": "অফিসার",
+      "practice": "ভালো চর্চা",
+      "other": "পরামর্শ"
+    }
+  },
+  "receipts": [
+    {
+      "lang": "en",
+      "advice": {
+        "kind": "input_decision",
+        "decision": "dont_spray"
+      },
+      "rule": {
+        "rule_id": "R-PLB-002",
+        "version": 1
+      },
+      "code": "7KQ2MX4P",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "KrishiLoop: No spray needed. Rule R-PLB-002 v1. Check receipt 7KQ2-MX4P: https://krishiloop.example/v/7KQ2-MX4P",
+        "units": 111,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    },
+    {
+      "lang": "bn",
+      "advice": {
+        "kind": "input_decision",
+        "decision": "dont_spray"
+      },
+      "rule": {
+        "rule_id": "R-PLB-002",
+        "version": 1
+      },
+      "code": "7KQ2MX4P",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "কৃষিলুপ: স্প্রে দরকার নেই। নিয়ম R-PLB-002 v1। রসিদ যাচাই 7KQ2-MX4P: https://krishiloop.example/v/7KQ2-MX4P",
+        "units": 107,
+        "unicode": true,
+        "limit": 70,
+        "segments": 2
+      }
+    },
+    {
+      "lang": "en",
+      "advice": {
+        "kind": "input_decision",
+        "decision": "spray"
+      },
+      "rule": {
+        "rule_id": "R-ABC-002",
+        "version": 1
+      },
+      "code": "A1B2C3D4",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "KrishiLoop: Act now. Rule R-ABC-002 v1. Check receipt A1B2-C3D4: https://krishiloop.example/v/A1B2-C3D4",
+        "units": 103,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    },
+    {
+      "lang": "bn",
+      "advice": {
+        "kind": "input_decision",
+        "decision": "recheck"
+      },
+      "rule": {
+        "rule_id": "R-ABC-002",
+        "version": 2
+      },
+      "code": "ZZZZ0000",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "কৃষিলুপ: আবার দেখুন। নিয়ম R-ABC-002 v2। রসিদ যাচাই ZZZZ-0000: https://krishiloop.example/v/ZZZZ-0000",
+        "units": 101,
+        "unicode": true,
+        "limit": 70,
+        "segments": 2
+      }
+    },
+    {
+      "lang": "en",
+      "advice": {
+        "kind": "monitoring"
+      },
+      "rule": {
+        "rule_id": "R-PLB-008",
+        "version": 1
+      },
+      "code": "M4N5P6Q7",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "KrishiLoop: Check. Rule R-PLB-008 v1. Check receipt M4N5-P6Q7: https://krishiloop.example/v/M4N5-P6Q7",
+        "units": 101,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    },
+    {
+      "lang": "bn",
+      "advice": {
+        "kind": "practice"
+      },
+      "rule": {
+        "rule_id": "R-ABC-006",
+        "version": 1
+      },
+      "code": "HJKM9WXY",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "কৃষিলুপ: ভালো চর্চা। নিয়ম R-ABC-006 v1। রসিদ যাচাই HJKM-9WXY: https://krishiloop.example/v/HJKM-9WXY",
+        "units": 101,
+        "unicode": true,
+        "limit": 70,
+        "segments": 2
+      }
+    },
+    {
+      "lang": "en",
+      "advice": {
+        "kind": "harvest"
+      },
+      "rule": {
+        "rule_id": "R-PLB-011",
+        "version": 3
+      },
+      "code": "0123ABCD",
+      "public_base": "https://krishiloop.example",
+      "expected": {
+        "text": "KrishiLoop: Harvest. Rule R-PLB-011 v3. Check receipt 0123-ABCD: https://krishiloop.example/v/0123-ABCD",
+        "units": 103,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    }
+  ],
+  "raw": [
+    {
+      "template": "  Hello {decision}\n\n{rule}  {code}:\t{url}  ",
+      "parts": {
+        "decision": "a  b",
+        "rule": "R-X-001 v1",
+        "code": "ABCD-EFGH",
+        "url": "https://x/v/ABCD-EFGH"
+      },
+      "expected": {
+        "text": "Hello a b R-X-001 v1 ABCD-EFGH: https://x/v/ABCD-EFGH",
+        "units": 53,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    },
+    {
+      "template": "{decision} {decision} {unknown} {rule}",
+      "parts": {
+        "decision": "x{rule}",
+        "rule": "y",
+        "code": "",
+        "url": ""
+      },
+      "expected": {
+        "text": "x{rule} x{rule} {unknown} y",
+        "units": 33,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    },
+    {
+      "template": "{decision}",
+      "parts": {
+        "decision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule": "",
+        "code": "",
+        "url": ""
+      },
+      "expected": {
+        "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "units": 161,
+        "unicode": false,
+        "limit": 160,
+        "segments": 2
+      }
+    },
+    {
+      "template": "{decision}",
+      "parts": {
+        "decision": "{x}[y]~|^\\€bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rule": "",
+        "code": "",
+        "url": ""
+      },
+      "expected": {
+        "text": "{x}[y]~|^\\€bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "units": 160,
+        "unicode": false,
+        "limit": 160,
+        "segments": 1
+      }
+    },
+    {
+      "template": "{decision}",
+      "parts": {
+        "decision": "ককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককক",
+        "rule": "",
+        "code": "",
+        "url": ""
+      },
+      "expected": {
+        "text": "ককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককককক",
+        "units": 135,
+        "unicode": true,
+        "limit": 70,
+        "segments": 3
+      }
+    },
+    {
+      "template": "{decision}",
+      "parts": {
+        "decision": "Plant 🥔 now",
+        "rule": "",
+        "code": "",
+        "url": ""
+      },
+      "expected": {
+        "text": "Plant 🥔 now",
+        "units": 12,
+        "unicode": true,
+        "limit": 70,
+        "segments": 1
+      }
+    }
+  ],
+  "codes": [
+    {
+      "typed": "7KQ2-MX4P",
+      "code": "7KQ2MX4P"
+    },
+    {
+      "typed": "7kq2mx4p",
+      "code": "7KQ2MX4P"
+    },
+    {
+      "typed": " 7kq2 mx4p ",
+      "code": "7KQ2MX4P"
+    },
+    {
+      "typed": "7KQ2–MX4P",
+      "code": "7KQ2MX4P"
+    },
+    {
+      "typed": "7kq2_mx4p",
+      "code": "7KQ2MX4P"
+    },
+    {
+      "typed": "7KQ2.MX4P",
+      "code": "7KQ2MX4P"
+    },
+    {
+      "typed": "OOOO-IIII",
+      "code": "00001111"
+    },
+    {
+      "typed": "ol1i-0000",
+      "code": "01110000"
+    },
+    {
+      "typed": "",
+      "code": ""
+    },
+    {
+      "typed": "7KQ2-MX4",
+      "code": ""
+    },
+    {
+      "typed": "7KQ2-MX4PP",
+      "code": ""
+    },
+    {
+      "typed": "7KQ2-MX4U",
+      "code": ""
+    },
+    {
+      "typed": "7KQ2/MX4P",
+      "code": ""
+    },
+    {
+      "typed": "urn:uuid:7KQ2MX4P",
+      "code": ""
+    },
+    {
+      "typed": "7777777777777777777777777777777777777777",
+      "code": ""
+    },
+    {
+      "typed": "৭KQ2MX4P",
+      "code": ""
+    }
+  ]
+}

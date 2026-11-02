@@ -1,0 +1,18 @@
+{
+ "@context": [
+  "https://www.w3.org/ns/did/v1",
+  "https://w3id.org/security/multikey/v1"
+ ],
+ "id": "did:web:127.0.0.1%3A5173",
+ "verificationMethod": [
+  {
+   "id": "did:web:127.0.0.1%3A5173#key-1",
+   "type": "Multikey",
+   "controller": "did:web:127.0.0.1%3A5173",
+   "publicKeyMultibase": "z6MkfeKjvi32udvUi1DGxcbDEtUsB2SYntJPXL35BzNG4MJX"
+  }
+ ],
+ "assertionMethod": [
+  "did:web:127.0.0.1%3A5173#key-1"
+ ]
+}

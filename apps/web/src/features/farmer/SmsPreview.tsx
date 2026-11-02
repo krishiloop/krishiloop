@@ -1,16 +1,30 @@
+import { useEffect, useState } from 'react';
 import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { cx } from '../../lib/cx';
-import { buildSms, smsInfo, verifyCode } from './sms';
+import { receiptCode } from '../../lib/api/client';
+import { buildSms, smsInfo } from './sms';
 
 /**
- * What this receipt would look like as an SMS on a basic phone: the decision, the rule, the receipt's short code and the
- * verify link, with a live counter (160 characters in the GSM alphabet, 70 once the text is Bangla). A PREVIEW: sending
- * SMS is planned, and the label says so.
+ * What this receipt looks like as an SMS on a basic phone: the decision, the rule, the receipt's short code and the
+ * /v/CODE link, with a live counter (160 characters in the GSM alphabet, 70 once the text is Bangla). The code is the
+ * server's (services/reach), or the recorded one for a recorded receipt; the server's SMS is a sandbox (written to an
+ * outbox, not sent), and the label says so. Loaded with the receipt sheet, only when it opens.
  */
 export function SmsPreview({ decision, rule, credentialId, url }: { decision: string; rule: string; credentialId: string; url: string }) {
   const { t, lang } = useI18n();
-  const text = buildSms(t('fa.sms.template'), { decision, rule, code: verifyCode(credentialId), url });
+  const [code, setCode] = useState<string | null>(null);
+  useEffect(() => {
+    let live = true;
+    setCode(null);
+    void receiptCode(credentialId).then((c) => live && setCode(c));
+    return () => {
+      live = false;
+    };
+  }, [credentialId]);
+  // the short link once there is a code; until then (or with no code at all) the full verify link
+  const link = code ? `${window.location.origin}/v/${code}` : url;
+  const text = buildSms(t('fa.sms.template'), { decision, rule, code: code ?? '…', url: link });
   const info = smsInfo(text);
   const over = info.segments > 1;
   return (

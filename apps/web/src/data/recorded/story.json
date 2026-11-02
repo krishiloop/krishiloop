@@ -1,0 +1,914 @@
+{
+ "calm": {
+  "action": {
+   "action_id": "A-r-bdr-002-6b9387",
+   "kind": "input_decision",
+   "title": {
+    "bn": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+    "en": "No spray needed now: count is below the threshold; count again in a few days."
+   },
+   "decision": "dont_spray",
+   "traffic_light": "green",
+   "receipt": {
+    "receipt_id": "a99463ed-68ce-4c6b-9500-94c7af78812c",
+    "claim": "A-r-bdr-002-6b9387",
+    "advice": {
+     "action_id": "A-r-bdr-002-6b9387",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+      "en": "No spray needed now: count is below the threshold; count again in a few days."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "101ff167-454d-4dfd-808f-e0e848eb0a4d",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:14Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-002",
+      "version": 1,
+      "credential_id": "urn:uuid:f79ee548-774d-4b73-85df-8a847e12d835",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:14Z"
+   },
+   "receipt_credential_id": "urn:uuid:84942e4a-2ce9-4497-92ca-11f478f9e259"
+  },
+  "plan": {
+   "plan_id": "101ff167-454d-4dfd-808f-e0e848eb0a4d",
+   "pack_id": "pack-bd-rice",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "valid_from": "2026-11-02",
+   "valid_to": "2026-11-08",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:14Z"
+  }
+ },
+ "pests": {
+  "action": {
+   "action_id": "A-r-bdr-001-36e76f",
+   "kind": "input_decision",
+   "title": {
+    "bn": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+    "en": "Above the threshold: contact your officer about control options now."
+   },
+   "decision": "recheck",
+   "traffic_light": "red",
+   "receipt": {
+    "receipt_id": "8b1129d6-8da9-4ff0-b157-c5402d382b08",
+    "claim": "A-r-bdr-001-36e76f",
+    "advice": {
+     "action_id": "A-r-bdr-001-36e76f",
+     "kind": "input_decision",
+     "title": {
+      "bn": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+      "en": "Above the threshold: contact your officer about control options now."
+     },
+     "decision": "recheck",
+     "traffic_light": "red",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "f75baa8b-1d1a-4ae3-94ae-836c2bb50a61",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:15Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-001",
+      "version": 1,
+      "credential_id": "urn:uuid:b2abf63e-8781-46fc-81c6-700f559fe52b",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:15Z"
+   },
+   "receipt_credential_id": "urn:uuid:85c16208-89c2-4b54-b894-8e312d0f5872"
+  },
+  "plan": {
+   "plan_id": "f75baa8b-1d1a-4ae3-94ae-836c2bb50a61",
+   "pack_id": "pack-bd-rice",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "valid_from": "2026-11-02",
+   "valid_to": "2026-11-08",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:15Z"
+  }
+ },
+ "potato": {
+  "action": {
+   "action_id": "A-r-plb-011-30ad8e",
+   "kind": "input_decision",
+   "title": {
+    "bn": "এই সপ্তাহে সুরক্ষামূলক স্প্রের দরকার দেখা যাচ্ছে না: আমাদের পূর্বাভাস যাচাইয়ে নাবি ধসা রোগের অনুকূল কোনো সময় পাওয়া যায়নি, অথবা আপনার ফসল সুরক্ষিত এবং ভারী বৃষ্টির পূর্বাভাস নেই। গাছগুলো দেখতে থাকুন।",
+    "en": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants.",
+    "sw": "Hakuna haja ya kunyunyizia dawa ya kinga wiki hii: ukaguzi wetu wa utabiri haukupata kipindi kinachofaa baa chelewa, au zao lako limekingwa na hakuna mvua kubwa inayotabiriwa. Endelea kukagua mimea yako."
+   },
+   "decision": "dont_spray",
+   "traffic_light": "green",
+   "receipt": {
+    "receipt_id": "8179ab35-6f82-40d9-b61a-d39db724f38f",
+    "claim": "A-r-plb-011-30ad8e",
+    "advice": {
+     "action_id": "A-r-plb-011-30ad8e",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এই সপ্তাহে সুরক্ষামূলক স্প্রের দরকার দেখা যাচ্ছে না: আমাদের পূর্বাভাস যাচাইয়ে নাবি ধসা রোগের অনুকূল কোনো সময় পাওয়া যায়নি, অথবা আপনার ফসল সুরক্ষিত এবং ভারী বৃষ্টির পূর্বাভাস নেই। গাছগুলো দেখতে থাকুন।",
+      "en": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants.",
+      "sw": "Hakuna haja ya kunyunyizia dawa ya kinga wiki hii: ukaguzi wetu wa utabiri haukupata kipindi kinachofaa baa chelewa, au zao lako limekingwa na hakuna mvua kubwa inayotabiriwa. Endelea kukagua mimea yako."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "44c41605-c994-4bbb-bbc6-aad2728bceb3",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:18Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "If a farmer thinks his crop is not well protected during the period favorable to infection, he should consider using a systemic or translaminar product.",
+      "quote_sha256": "4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 19,
+      "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+      "quote_sha256": "8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+      "quote_sha256": "95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-02]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-02]",
+      "value": 6.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-02]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-03]",
+      "value": 85,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-03]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-03]",
+      "value": 19.2,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-04]",
+      "value": 77,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-04]",
+      "value": 5.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-04]",
+      "value": 20.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-05]",
+      "value": 86,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-05]",
+      "value": 9.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-05]",
+      "value": 17.7,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-06]",
+      "value": 88,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-06]",
+      "value": 8.8,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-06]",
+      "value": 17.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-07]",
+      "value": 80,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-07]",
+      "value": 8.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-07]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-08]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-08]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-08]",
+      "value": 19.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_humid_mild_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-02]",
+      "value": 3.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-03]",
+      "value": 2.7,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-04]",
+      "value": 1.3,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-05]",
+      "value": 5.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-06]",
+      "value": 7.2,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-07]",
+      "value": 2.1,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-08]",
+      "value": 1.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_heavy_rain_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     }
+    ],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "credential_id": "urn:uuid:a2a15280-5947-455e-8f7c-2702745ca46a",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "humid_mild_days_min",
+      "value": 2,
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "humid_rh_pct_min",
+      "value": 90,
+      "unit": "%",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "mild_temp_c_range",
+      "value": "10-25",
+      "unit": "C",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "heavy_rain_mm",
+      "value": 10,
+      "unit": "mm/day",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     }
+    ],
+    "confidence": {
+     "level": "medium",
+     "basis": "Inference, stated openly: the manual ties protection to periods favourable to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact products away (p. 24). Our forecast check, using the reviewer-set thresholds below, found no such period, or the crop is protected and no heavy rain is forecast. Forecasts can be wrong."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:18Z"
+   },
+   "receipt_credential_id": "urn:uuid:13ecf11f-3cdf-4a3f-b671-517197cdb2ed"
+  },
+  "plan": {
+   "plan_id": "44c41605-c994-4bbb-bbc6-aad2728bceb3",
+   "pack_id": "pack-potato-late-blight",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "valid_from": "2026-11-02",
+   "valid_to": "2026-11-08",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:18Z"
+  }
+ },
+ "recalled_verdict": {
+  "status": "recalled",
+  "reason": "rule(s) withdrawn: R-BDR-002 v1",
+  "rules": [
+   "R-BDR-002 v1"
+  ],
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "snapshot": {
+  "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+  "field_id": "BD-SAMPLE-02",
+  "mode": "live",
+  "location": {
+   "lat": 24.75,
+   "lon": 90.4,
+   "precision": "sample_location",
+   "country": "BD",
+   "label": "Sample Bangladesh aman rice location at tillering (no farmer)"
+  },
+  "crop": "rice",
+  "stage": "tillering",
+  "forecast": {
+   "source": "open-meteo:forecast",
+   "issued_at": "2026-11-02T16:44:15Z",
+   "days": [
+    {
+     "date": "2026-11-02",
+     "tmax_c": 30.7,
+     "tmin_c": 24.4,
+     "precip_mm": 0.2,
+     "rh_mean_pct": 78,
+     "risk": "high"
+    },
+    {
+     "date": "2026-11-03",
+     "tmax_c": 30.3,
+     "tmin_c": 23.3,
+     "precip_mm": 0.0,
+     "rh_mean_pct": 77,
+     "risk": "high"
+    },
+    {
+     "date": "2026-11-04",
+     "tmax_c": 29.6,
+     "tmin_c": 21.6,
+     "precip_mm": 0.0,
+     "rh_mean_pct": 75,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-05",
+     "tmax_c": 29.9,
+     "tmin_c": 22.1,
+     "precip_mm": 0.0,
+     "rh_mean_pct": 71,
+     "risk": "high"
+    },
+    {
+     "date": "2026-11-06",
+     "tmax_c": 30.1,
+     "tmin_c": 21.4,
+     "precip_mm": 0.0,
+     "rh_mean_pct": 75,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-07",
+     "tmax_c": 29.6,
+     "tmin_c": 20.4,
+     "precip_mm": 0.0,
+     "rh_mean_pct": 74,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-08",
+     "tmax_c": 30.7,
+     "tmin_c": 20.2,
+     "precip_mm": 0.0,
+     "rh_mean_pct": 76,
+     "risk": "low"
+    }
+   ]
+  },
+  "s2": null,
+  "flood": null,
+  "created_at": "2026-11-02T16:44:15Z",
+  "risk_basis": "humid and mild day by team-set thresholds (not from a source; pathologist review pending)"
+ },
+ "potato_snapshot": {
+  "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644",
+  "field_id": "KE-SAMPLE-01",
+  "mode": "live",
+  "location": {
+   "lat": -0.75,
+   "lon": 36.6,
+   "precision": "sample_location",
+   "country": "KE",
+   "label": "Sample Kenyan highland location (no farmer)"
+  },
+  "crop": "potato",
+  "stage": "vegetative",
+  "forecast": {
+   "source": "open-meteo:forecast",
+   "issued_at": "2026-11-02T16:44:19Z",
+   "days": [
+    {
+     "date": "2026-11-02",
+     "tmax_c": 18.6,
+     "tmin_c": 6.1,
+     "precip_mm": 3.8,
+     "rh_mean_pct": 84,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-03",
+     "tmax_c": 19.2,
+     "tmin_c": 8.6,
+     "precip_mm": 2.7,
+     "rh_mean_pct": 85,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-04",
+     "tmax_c": 20.0,
+     "tmin_c": 5.9,
+     "precip_mm": 1.3,
+     "rh_mean_pct": 77,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-05",
+     "tmax_c": 17.7,
+     "tmin_c": 9.1,
+     "precip_mm": 5.8,
+     "rh_mean_pct": 86,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-06",
+     "tmax_c": 17.9,
+     "tmin_c": 8.8,
+     "precip_mm": 7.2,
+     "rh_mean_pct": 88,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-07",
+     "tmax_c": 18.6,
+     "tmin_c": 8.0,
+     "precip_mm": 2.1,
+     "rh_mean_pct": 80,
+     "risk": "low"
+    },
+    {
+     "date": "2026-11-08",
+     "tmax_c": 19.6,
+     "tmin_c": 8.6,
+     "precip_mm": 1.8,
+     "rh_mean_pct": 84,
+     "risk": "low"
+    }
+   ]
+  },
+  "s2": null,
+  "flood": null,
+  "created_at": "2026-11-02T16:44:19Z",
+  "risk_basis": "humid and mild day by team-set thresholds (not from a source; pathologist review pending)"
+ },
+ "asks": [
+  {
+   "lang": "en",
+   "question": "Should I spray my rice for brown planthopper? I counted one per hill.",
+   "status": "ok",
+   "rule_id": "R-BDR-002",
+   "text": "No spray needed now: count is below the threshold; count again in a few days.",
+   "reason": null,
+   "path": [
+    "normalise",
+    "screen",
+    "retrieve_bm25",
+    "retrieve_dense",
+    "fuse",
+    "rerank:skipped",
+    "match_rules",
+    "decide",
+    "render",
+    "validate",
+    "receipt"
+   ],
+   "stages": {
+    "bm25": true,
+    "dense": true,
+    "rerank": false
+   }
+  },
+  {
+   "lang": "bn",
+   "question": "ধানে বাদামি গাছফড়িং দেখছি, এখন কি স্প্রে করব?",
+   "status": "ok",
+   "rule_id": "R-BDR-002",
+   "text": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+   "reason": null,
+   "path": [
+    "normalise",
+    "screen",
+    "retrieve_bm25",
+    "retrieve_dense",
+    "fuse",
+    "rerank:skipped",
+    "match_rules",
+    "decide",
+    "render",
+    "validate",
+    "receipt"
+   ],
+   "stages": {
+    "bm25": true,
+    "dense": true,
+    "rerank": false
+   }
+  },
+  {
+   "lang": "en",
+   "question": "Do I need to spray my potatoes against late blight this week?",
+   "status": "ok",
+   "rule_id": "R-PLB-011",
+   "text": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants.",
+   "reason": null,
+   "path": [
+    "normalise",
+    "screen",
+    "retrieve_bm25",
+    "retrieve_dense",
+    "fuse",
+    "rerank:skipped",
+    "match_rules",
+    "decide",
+    "render",
+    "validate",
+    "receipt"
+   ],
+   "stages": {
+    "bm25": true,
+    "dense": true,
+    "rerank": false
+   }
+  },
+  {
+   "lang": "en",
+   "question": "Can I get a loan to buy fertiliser?",
+   "status": "abstained",
+   "rule_id": null,
+   "text": null,
+   "reason": {
+    "en": "We don't have a sourced answer for this yet. Sent to your officer.",
+    "bn": "এই প্রশ্নের উৎসসহ উত্তর আমাদের কাছে এখনো নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।",
+    "sw": "Bado hatuna jibu lenye chanzo kwa swali hili. Limetumwa kwa afisa wako."
+   },
+   "path": [
+    "normalise",
+    "screen",
+    "retrieve_bm25",
+    "retrieve_dense",
+    "fuse",
+    "rerank:skipped",
+    "match_rules",
+    "decide",
+    "abstain"
+   ],
+   "stages": {
+    "bm25": true,
+    "dense": true,
+    "rerank": false
+   }
+  }
+ ]
+}

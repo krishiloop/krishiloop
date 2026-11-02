@@ -1,0 +1,73 @@
+{
+ "items": [
+  {
+   "item_id": "inbox-3686bb9e791b",
+   "field_id": "BD-SAMPLE-02",
+   "farmer_display_name": "demo-farmer-d",
+   "reason_code": "rule_recalled",
+   "reason": {
+    "en": "The rule for your situation was withdrawn for review. Sent to your officer's inbox."
+   },
+   "photo_attached": false,
+   "status": "open",
+   "created_at": "2026-11-02T16:44:25Z",
+   "details": {
+    "recalled": [
+     "R-BDR-002 v1"
+    ],
+    "pack_id": "pack-bd-rice",
+    "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644"
+   }
+  },
+  {
+   "item_id": "inbox-11894d644055",
+   "field_id": "BD-SAMPLE-02",
+   "farmer_display_name": "demo-farmer-d",
+   "reason_code": "question_unanswered",
+   "reason": {
+    "en": "We don't have a sourced answer for this yet. Sent to your officer.",
+    "bn": "এই প্রশ্নের উৎসসহ উত্তর আমাদের কাছে এখনো নেই। আপনার কর্মকর্তার কাছে পাঠানো হয়েছে।",
+    "sw": "Bado hatuna jibu lenye chanzo kwa swali hili. Limetumwa kwa afisa wako."
+   },
+   "photo_attached": false,
+   "status": "open",
+   "created_at": "2026-11-02T16:44:24Z",
+   "details": {
+    "ask_id": "d22dea86-67cd-46e6-9b61-cb22bf099f5e",
+    "why": "no_candidate_above_threshold",
+    "lang": "en",
+    "pack_id": "pack-bd-rice",
+    "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+    "data_stale": false,
+    "mode": "hybrid",
+    "threshold": 0.55128,
+    "crops_named": [],
+    "problems_named": [],
+    "unsafe": [],
+    "candidates": [],
+    "top_retrieved": [
+     {
+      "rule_id": "R-BDR-003",
+      "score": 0.0315,
+      "confidence": 0.3995,
+      "unit": ""
+     },
+     {
+      "rule_id": "R-BDR-002",
+      "score": 0.0315,
+      "confidence": 0.3994,
+      "unit": ""
+     },
+     {
+      "rule_id": "R-BDR-001",
+      "score": 0.0315,
+      "confidence": 0.3972,
+      "unit": ""
+     }
+    ]
+   },
+   "question": "Can I get a loan to buy fertiliser?",
+   "priority": "normal"
+  }
+ ]
+}

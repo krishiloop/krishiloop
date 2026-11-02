@@ -1,0 +1,142 @@
+{
+ "source": "ml/vision/artifacts/earned_trust_ci.json",
+ "copied": "2026-10-29",
+ "note": "Trimmed copy (BioCLIP 2, protocol 2 as pre-specified). Each triple is [2.5th percentile, median, 97.5th percentile] over random stream orders and audit draws; null = beyond the stream (the gate never opened in that share of runs). Dataset labels stand in for officers: not real officers, not real farms.",
+ "backbone": "bioclip2",
+ "protocol": "protocol 2 as pre-specified",
+ "seeds_per_area": 200,
+ "areas": {
+  "BD-A": {
+   "name": "Dhan-Shomadhan (field)",
+   "runs": 200,
+   "photos": 258,
+   "opened_runs": 164,
+   "answers_to_open": [
+    185.0,
+    234.0,
+    null
+   ],
+   "auto_share": [
+    0.0,
+    0.0426,
+    0.1008
+   ],
+   "auto_precision": [
+    0.8182,
+    0.9545,
+    1.0
+   ],
+   "runs_with_auto": 163,
+   "closing_runs": 0,
+   "seed0": {
+    "answers_to_open": 229,
+    "auto_share": 0.0504,
+    "auto_precision": 0.9231,
+    "percentile": {
+     "confirmations_until_open": 0.403,
+     "auto_share_of_all_photos": 0.625,
+     "auto_precision": 0.328
+    }
+   }
+  },
+  "BD-C": {
+   "name": "RiceyLeafDisease",
+   "runs": 200,
+   "photos": 510,
+   "opened_runs": 200,
+   "answers_to_open": [
+    146.0,
+    194.0,
+    264.0
+   ],
+   "auto_share": [
+    0.2706,
+    0.3431,
+    0.4
+   ],
+   "auto_precision": [
+    0.9529,
+    0.981,
+    1.0
+   ],
+   "runs_with_auto": 200,
+   "closing_runs": 0,
+   "seed0": {
+    "answers_to_open": 126,
+    "auto_share": 0.3667,
+    "auto_precision": 0.9679,
+    "percentile": {
+     "confirmations_until_open": 0.007,
+     "auto_share_of_all_photos": 0.772,
+     "auto_precision": 0.122
+    }
+   }
+  },
+  "BD-D": {
+   "name": "RiceLeafDisease-BD5 (Savar)",
+   "runs": 200,
+   "photos": 1633,
+   "opened_runs": 200,
+   "answers_to_open": [
+    70.0,
+    102.0,
+    126.0
+   ],
+   "auto_share": [
+    0.8487,
+    0.8653,
+    0.8818
+   ],
+   "auto_precision": [
+    0.9901,
+    0.9943,
+    0.9972
+   ],
+   "runs_with_auto": 200,
+   "closing_runs": 0,
+   "seed0": {
+    "answers_to_open": 93,
+    "auto_share": 0.8592,
+    "auto_precision": 0.9957,
+    "percentile": {
+     "confirmations_until_open": 0.212,
+     "auto_share_of_all_photos": 0.263,
+     "auto_precision": 0.828
+    }
+   }
+  },
+  "BD-E": {
+   "name": "RiceLeafDiseaseBD (Gazipur)",
+   "runs": 200,
+   "photos": 2000,
+   "opened_runs": 200,
+   "answers_to_open": [
+    315.0,
+    406.0,
+    614.0
+   ],
+   "auto_share": [
+    0.2855,
+    0.3285,
+    0.3585
+   ],
+   "auto_precision": [
+    0.9354,
+    0.9565,
+    0.9741
+   ],
+   "runs_with_auto": 200,
+   "closing_runs": 28,
+   "seed0": {
+    "answers_to_open": 328,
+    "auto_share": 0.351,
+    "auto_precision": 0.9444,
+    "percentile": {
+     "confirmations_until_open": 0.037,
+     "auto_share_of_all_photos": 0.915,
+     "auto_precision": 0.117
+    }
+   }
+  }
+ }
+}

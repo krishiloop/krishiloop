@@ -232,6 +232,7 @@ def _plan(st: TrustStore, body: PlanRequest, request: Request, inbox_dir: Path |
     if _rate_limited(request.client.host if request.client else "unknown"):
         raise HTTPException(429, "too many plan requests; try again in a minute")
     result = make_plan(field, profile, st, inbox_dir=inbox_dir, diagnosis=diagnosis, diagnosis_from_server=from_server)
+    reach.issue_codes(st, result)   # Reach: a short verify code per receipt (see the Reach block)
     if diagnosis is None:
         with _lock:
             _plan_cache[key] = result
@@ -248,7 +249,8 @@ def _recall(st: TrustStore, body: RecallRequest, actor: str) -> dict:
         for k in [k for k in _ask_cache if k[0] == st.status_id]:
             _ask_cache.pop(k)   # and so may cached answers
     return {"recalled_rule_credentials": hits,
-            "note": "receipts that used this rule version now verify as 'recalled'; the planner no longer serves it"}
+            "note": "receipts that used this rule version now verify as 'recalled'; the planner no longer serves it",
+            "notified": reach.on_recall(st, body.rule_id, body.version)}   # Reach: notices to the receipts' holders
 
 
 @app.middleware("http")
@@ -508,21 +510,27 @@ def _ask_router():
 def demo_ask(sid: str, body: AskRequest, request: Request):
     """A farmer's question: one sourced rule's validated text with a signed receipt, or a case in the officer's inbox."""
     sb = _sandbox(sid)
+    return _ask(sb["store"], sb["inbox"], body, request.client.host if request.client else "unknown")
+
+
+def _ask(st: TrustStore, inbox_dir: Path | None, body: AskRequest, client: str) -> dict:
+    """The Ask pipeline behind every channel: the demo route above and the Telegram bot (services/reach/)."""
     field, profile = DEMO_FIELDS.get(body.field_id), DEMO_PROFILES.get(body.profile_id)
     if not field or not profile:
         raise HTTPException(404, "unknown demo field or profile")
     question = body.question.strip()
     if not question:
         raise HTTPException(422, "the question is empty")
-    key = (sb["store"].status_id, body.field_id, body.profile_id, body.lang,
+    key = (st.status_id, body.field_id, body.profile_id, body.lang,
            hashlib.sha256(question.encode("utf-8")).hexdigest(), date.today().isoformat())
     with _lock:
         cached = _ask_cache.get(key)
     if cached:
         return cached
-    if _rate_limited(request.client.host if request.client else "unknown"):
+    if _rate_limited(client):
         raise HTTPException(429, "too many requests; try again in a minute")
-    result = _ask_router().ask(question, body.lang, field, profile, sb["store"], inbox_dir=sb["inbox"])
+    result = _ask_router().ask(question, body.lang, field, profile, st, inbox_dir=inbox_dir)
+    reach.issue_codes(st, result)   # Reach: a short verify code per receipt (see the Reach block)
     with _lock:
         _ask_cache[key] = result
         while len(_ask_cache) > ASK_CACHE_MAX:
@@ -534,6 +542,38 @@ def demo_ask(sid: str, body: AskRequest, request: Request):
 def ask_health():
     """Which Ask retrieval stages are active here (bm25 / dense / rerank), the models and licences, and why a stage is off."""
     return _ask_router().health()
+
+
+# ---------------------------------------------------------------- BEGIN voice block (P1 #13; code in services/voice_proxy/)
+# GET /api/voice/health and POST /api/voice/asr: speech to text on our own voice service (KRISHILOOP_VOICE_URL, loopback
+# only). Off (503) when the variable is not set.
+from services.voice_proxy import router as voice_router  # noqa: E402
+
+app.include_router(voice_router)
+# ---------------------------------------------------------------- END voice block
+
+
+# ---------------------------------------------------------------- BEGIN Reach block (P1 #14; code in services/reach/)
+# Short verify codes (GET /api/code/{code}, GET /api/credentials/{id}/code), sandbox SMS (POST /api/demo/{sid}/reach/sms;
+# written to an outbox, never sent), recall notices to receipt holders (the "notified" summary of a recall) and the
+# Telegram bot (long polling; starts only when TELEGRAM_BOT_TOKEN is set). Hooks above: _plan, _ask and _recall.
+import sys as _sys  # noqa: E402
+
+from services.reach.service import Reach  # noqa: E402
+
+reach = Reach(_sys.modules[__name__])
+app.include_router(reach.router)
+
+
+@app.on_event("startup")
+def _start_reach_bot() -> None:
+    reach.start_telegram()
+
+
+@app.on_event("shutdown")
+def _stop_reach_bot() -> None:
+    reach.stop_telegram()
+# ---------------------------------------------------------------- END Reach block
 
 
 # ---------------------------------------------------------------- simple pages

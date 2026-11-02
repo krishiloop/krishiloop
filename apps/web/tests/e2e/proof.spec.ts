@@ -6,7 +6,7 @@ import { expect, test, type Page } from '@playwright/test';
  * receipt, then changes one letter and checks that the same check fails. `?sample=1` keeps it deterministic; recorded
  * receipts are always checked against the recorded issuer key, so the live smoke can check the same receipt.
  */
-const HERO = 'urn:uuid:9cece385-0039-4350-91a6-1bf84ade5d81';
+const HERO = 'urn:uuid:84942e4a-2ce9-4497-92ca-11f478f9e259';
 
 const errors = (page: Page) => {
   const list: string[] = [];
@@ -38,7 +38,7 @@ test.describe('/proof in recorded mode', () => {
     for (const step of ['key', 'canonical', 'hash', 'signature']) await expect(box.getByTestId(`step-${step}`)).toHaveAttribute('data-state', 'done');
     await expect(box.getByTestId('step-key')).toContainText('did:web:127.0.0.1%3A5173#key-1');
     // the same bytes the server hashes (services/trust/vc.py _hash_data of this receipt)
-    await expect(box.getByTestId('step-hash')).toContainText('8af961621b5f7406');
+    await expect(box.getByTestId('step-hash')).toContainText('f107e8f99bbff496');
     await expect(verdict).toContainText('Signature valid in your browser: issued by did:web:127.0.0.1%3A5173#key-1 and not altered.');
     await expect(verdict).toContainText('Authentic');
 

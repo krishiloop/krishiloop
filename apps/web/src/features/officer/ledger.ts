@@ -1,6 +1,6 @@
 import { createStore } from '../../lib/store';
 import { readJSON, writeJSON } from '../../lib/storage';
-import { apiStore, currentSessionId, fetchDemo, fetchPlan, forgetSession, recallRule, verifyReceipt } from '../../lib/api/client';
+import { apiStore, currentSessionId, fetchDemo, fetchPlan, forgetSession, recallRule, verifyReceipt, type RecallNotified } from '../../lib/api/client';
 import { resetSampleRecalls } from '../../lib/api/mocks';
 import type { Action, ActionKind, Decision, DemoField, DemoPayload, DemoProfile, I18nText, Plan, ReviewLevel, TrafficLight } from '../../lib/api/types';
 import { forgetRecalls, logRecall } from './recallLog';
@@ -53,6 +53,8 @@ export interface RecallRecord {
   /** the farmer plans that used it, built again */
   replans: PlanOutcome[];
   mode: 'sandbox' | 'sample';
+  /** the server's recall notices to the receipts' holders (Telegram, sandbox SMS); absent for a simulated recall */
+  notified?: RecallNotified;
 }
 export interface LedgerState {
   status: 'idle' | 'loading' | 'ready' | 'error';
@@ -240,6 +242,7 @@ export async function recall(ruleId: string, version: number, reason: string): P
     recalledNow: answers.filter(([, s]) => s === 'recalled').map(([id]) => id),
     replans,
     mode: sample ? 'sample' : 'sandbox',
+    ...(res.notified ? { notified: res.notified } : {}),
   };
   ledger.set((s) => {
     const states = { ...s.states };

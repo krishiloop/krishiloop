@@ -1,21 +1,44 @@
 {
  "title": "Do AI chatbots give farmers doses nobody can check?",
- "date": "2026-10-29",
+ "date": "2026-11-02",
  "synthetic": true,
  "models": [
   {
    "name": "gpt-oss:20b",
    "params": "20.9B",
    "licence": "Apache-2.0"
+  },
+  {
+   "name": "gemma4:26b",
+   "params": "25.2B",
+   "licence": "Gemma Terms of Use (check the Gemma 4 card)"
+  },
+  {
+   "name": "mistral-small3.2:24b",
+   "params": "24.0B",
+   "licence": "Apache-2.0"
+  },
+  {
+   "name": "gemma4:e4b",
+   "params": "7.5B",
+   "licence": "Gemma Terms of Use (check the Gemma 4 card)"
   }
  ],
- "models_pending": [
-  "gemma4:26b",
-  "qwen3:30b",
-  "mistral-small3.2:24b",
-  "phi4:14b",
-  "gemma4:e4b",
-  "qwen3-vl:8b"
+ "models_invalid": [
+  {
+   "name": "qwen3:30b",
+   "why": "the answers are the model's own reasoning, cut off at the token cap (thinking was not switched off by think=false)"
+  },
+  {
+   "name": "qwen3-vl:8b",
+   "why": "the answers are empty: the model's reasoning used the whole token cap"
+  }
+ ],
+ "models_failed": [
+  {
+   "name": "phi4:14b",
+   "why": "every request failed on the 5090 (806 gave up; HTTP Error 500: Internal Server Error)"
+  }
  ],
  "n_questions": {
   "en": 64,
@@ -24,102 +47,105 @@
  },
  "per_language": {
   "en": {
-   "n_models": 1,
+   "n_models": 4,
    "n_questions": 64,
    "raw_models_dose_on_dose_questions": {
-    "min": 0.9286,
-    "median": 0.9286,
+    "min": 0.5,
+    "median": 0.75,
     "max": 0.9286
    },
    "raw_models_dose_or_brand_any_question": {
-    "min": 0.2344,
-    "median": 0.2344,
+    "min": 0.1094,
+    "median": 0.1797,
     "max": 0.2344
    },
    "raw_models_brand_any_question": {
     "min": 0.0,
     "median": 0.0,
-    "max": 0.0
+    "max": 0.0156
    },
    "raw_models_told_not_to_dose_on_dose_questions": {
     "min": 0.0,
     "median": 0.0,
     "max": 0.0,
-    "n_models": 1
+    "n_models": 4
    }
   },
   "bn": {
-   "n_models": 1,
+   "n_models": 4,
    "n_questions": 64,
    "raw_models_dose_on_dose_questions": {
-    "min": 1.0,
-    "median": 1.0,
+    "min": 0.3571,
+    "median": 0.8928,
     "max": 1.0
    },
    "raw_models_dose_or_brand_any_question": {
-    "min": 0.3125,
-    "median": 0.3125,
+    "min": 0.0781,
+    "median": 0.2579,
     "max": 0.3125
    },
    "raw_models_brand_any_question": {
     "min": 0.0,
     "median": 0.0,
-    "max": 0.0
+    "max": 0.125
    },
    "raw_models_told_not_to_dose_on_dose_questions": {
     "min": 0.0,
     "median": 0.0,
     "max": 0.0,
-    "n_models": 1
+    "n_models": 4
    }
   },
   "sw": {
-   "n_models": 1,
+   "n_models": 4,
    "n_questions": 20,
    "raw_models_dose_on_dose_questions": {
-    "min": 1.0,
-    "median": 1.0,
+    "min": 0.0,
+    "median": 0.25,
     "max": 1.0
    },
    "raw_models_dose_or_brand_any_question": {
-    "min": 0.3,
-    "median": 0.3,
+    "min": 0.05,
+    "median": 0.05,
     "max": 0.3
    },
    "raw_models_brand_any_question": {
-    "min": 0.05,
-    "median": 0.05,
+    "min": 0.0,
+    "median": 0.025,
     "max": 0.05
    },
    "raw_models_told_not_to_dose_on_dose_questions": {
     "min": 0.0,
     "median": 0.0,
     "max": 0.0,
-    "n_models": 1
+    "n_models": 4
    }
   }
  },
  "told_not_to_en_bn_dose_questions": {
-  "n_models": 1,
+  "n_models": 4,
   "models": [
-   "gpt-oss:20b"
+   "gemma4:26b",
+   "gemma4:e4b",
+   "gpt-oss:20b",
+   "mistral-small3.2:24b"
   ],
   "neutral": {
-   "k": 27,
-   "n": 28,
-   "rate": 0.9643,
+   "k": 85,
+   "n": 112,
+   "rate": 0.7589,
    "ci95": [
-    0.8229,
-    0.9937
+    0.672,
+    0.8287
    ]
   },
   "safe": {
    "k": 0,
-   "n": 28,
+   "n": 112,
    "rate": 0.0,
    "ci95": [
     0.0,
-    0.1206
+    0.0332
    ]
   }
  },

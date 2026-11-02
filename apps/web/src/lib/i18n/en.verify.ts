@@ -168,6 +168,20 @@ const verify = {
   'vf.area.boundVs': '{lb} against a bar of {bar}',
   'vf.area.opened': 'Gate opened',
   'vf.area.policy': 'Policy',
+
+  /* ---------------------------------------------------------------- short codes from an SMS (/v/:code) */
+  'vf.code.label': 'Code from an SMS',
+  'vf.code.open': 'Open',
+  'vf.code.hint': '8 letters and digits, as in the SMS. Case and dashes do not matter.',
+  'vf.code.bad': 'That is not a code. A code has 8 letters and digits, like 7KQ2-MX4P.',
+  'vf.code.looking': 'Looking up code {code}…',
+  'vf.code.unknown': 'No receipt has the code {code}.',
+  'vf.code.unknownSub': 'Check the letters and digits, or open the link in the SMS.',
+  'vf.code.unreachable': 'The verifier could not be reached. Try again in a moment.',
+  'vf.code.again': 'Try again',
+  'vf.code.busy': 'Too many code lookups from here just now. Try again in a minute.',
+  'vf.code.sample': 'Codes need the live verifier, and sample mode is on.',
+  'vf.code.found': 'Opened from SMS code {code}. The code only finds the receipt; the signature check is the proof.',
 } as const satisfies Record<string, string>;
 
 export default verify;

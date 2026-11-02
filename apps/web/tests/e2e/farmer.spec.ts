@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 /**
  * The farmer app (/app), rebuilt: Today, the receipt sheet, Ask, Photo, Receipts, the glass-box rails and the phone frame.
  *
- * Most tests run in RECORDED mode (`?sample=1`): real answers of our own API recorded on 28 Oct 2026, so they are
+ * Most tests run in RECORDED mode (`?sample=1`): real answers of our own API recorded on 2 Nov 2026, so they are
  * deterministic and need no backend. The last block is a LIVE smoke against the real API behind the dev server (skipped
  * when it is not running): a sandbox plan, a live verdict on its receipt, a live Ask and a live photo case.
  * Accessibility: axe (WCAG 2.2 A + AA rules) on every state, both themes, with 0 serious or critical violations.
@@ -44,7 +44,7 @@ test.describe('recorded mode (deterministic)', () => {
   test('Today: the decision, why, other actions, the forecast, and the inspector logging the plan', async ({ page }) => {
     await page.goto(REC);
     await expect(decision(page)).toContainText('No spray needed');
-    await expect(page.getByTestId('farmer-app')).toContainText('Recorded 28 Oct');
+    await expect(page.getByTestId('farmer-app')).toContainText('Recorded 2 Nov');
     // why this? the rule, its quote and the numbers people set
     await page.getByRole('button', { name: 'Why this?' }).click();
     const why = page.getByTestId('fa-why');
@@ -99,7 +99,9 @@ test.describe('recorded mode (deterministic)', () => {
 
     // SMS preview: the exact text, a live counter, labelled planned
     await sheet.getByTestId('fa-rc-sms').click();
-    await expect(sheet.getByTestId('fa-sms')).toContainText('Preview: SMS sending is planned');
+    await expect(sheet.getByTestId('fa-sms')).toContainText('Preview. SMS is sandbox: not sent');
+    // the recorded receipt's own short code (issued by the server when it was recorded) and its /v/ link
+    await expect(sheet.getByTestId('fa-sms-text')).toContainText(/Check receipt [0-9A-Z]{4}-[0-9A-Z]{4}: \S+\/v\/[0-9A-Z]{4}-[0-9A-Z]{4}/);
     await expect(sheet.getByTestId('fa-sms-text')).toContainText('KrishiLoop: No spray needed. Rule R-BDR-002 v1. Check receipt');
     await expect(sheet.getByTestId('fa-sms-count')).toHaveText(/^\d+ \/ 160$/);
 
@@ -118,7 +120,9 @@ test.describe('recorded mode (deterministic)', () => {
   });
 
   test('read aloud never uses a wrong voice', async ({ page }) => {
-    // a browser with an English voice only: Bangla advice must not be read with it
+    // a browser with an English voice only: Bangla advice must not be read with it. Our own Bangla clips are switched
+    // off here (no manifest), so this is the "no voice at all" path; tests/e2e/voice.spec.ts covers our clips.
+    await page.route('**/audio/manifest.json', (r) => r.fulfill({ status: 404, body: '' }));
     await page.addInitScript(() => {
       const en = { lang: 'en-GB', name: 'Test English', default: true, localService: true, voiceURI: 'en' };
       Object.defineProperty(window.speechSynthesis, 'getVoices', { value: () => [en] });
@@ -286,7 +290,7 @@ test.describe('live API smoke', () => {
     test.setTimeout(120_000);
     await page.goto('/app?lang=en&field=BD-SAMPLE-02&profile=demo-farmer-c');
     await expect(decision(page)).toContainText('Re-check', { timeout: 30_000 });
-    await expect(page.getByTestId('farmer-app')).not.toContainText('Recorded 28 Oct');
+    await expect(page.getByTestId('farmer-app')).not.toContainText('Recorded 2 Nov');
     await expect(page.getByTestId('fa-mode')).toContainText('Live');
     await expect(page.getByTestId('fa-inspector')).toContainText('POST /api/demo/‹sid›/plan');
     expect(await page.evaluate(() => sessionStorage.getItem('kl.demo.sid'))).toMatch(/^[0-9a-f]+$/);

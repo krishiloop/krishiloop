@@ -1,0 +1,42 @@
+{
+ "rule_id": "R-BDR-002",
+ "version": 1,
+ "response": {
+  "recalled_rule_credentials": [
+   "urn:uuid:f79ee548-774d-4b73-85df-8a847e12d835"
+  ],
+  "note": "receipts that used this rule version now verify as 'recalled'; the planner no longer serves it",
+  "notified": {
+   "total": 0,
+   "telegram": 0,
+   "sms_sandbox": 0,
+   "sms_sent": 0,
+   "failed": 0,
+   "receipts": 0,
+   "note": "SMS is sandbox: written to an outbox, not sent. Telegram notices are sent only when the bot token is set."
+  }
+ },
+ "receipt_credential_id": "urn:uuid:84942e4a-2ce9-4497-92ca-11f478f9e259",
+ "plan_after": {
+  "plan_id": "e9091c90-96a9-40c1-a817-8f5d7d1ac3ee",
+  "pack_id": "pack-bd-rice",
+  "field_id": "BD-SAMPLE-02",
+  "farmer_profile_id": "demo-farmer-d",
+  "crop": "rice",
+  "stage": "tillering",
+  "valid_from": "2026-11-02",
+  "valid_to": "2026-11-08",
+  "generated_at": "2026-11-02T16:44:25Z",
+  "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+  "data_mode": "live",
+  "data_as_of": "2026-11-02T16:44:25Z",
+  "status": "abstained",
+  "abstention": {
+   "reason_code": "rule_recalled",
+   "reason": {
+    "en": "The rule for your situation was withdrawn for review. Sent to your officer's inbox."
+   },
+   "inbox_item_id": "inbox-3686bb9e791b"
+  }
+ }
+}

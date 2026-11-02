@@ -38,9 +38,6 @@ export function smsInfo(text: string): SmsInfo {
   return { units, unicode, limit: 160, segments: units <= 160 ? 1 : Math.ceil(units / 153) };
 }
 
-/** The short code printed on the receipt (its № line): the last 8 characters of the credential id, upper case. */
-export const verifyCode = (credentialId: string) => credentialId.replace(/^urn:uuid:/, '').slice(-8).toUpperCase();
-
 /**
  * One SMS from a receipt: the decision in words, the rule it rests on, the short code and the verify link.
  * `template` comes from the dictionary of the chosen language, with {decision} {rule} {code} {url}.

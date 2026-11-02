@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSms, smsInfo, verifyCode } from './sms';
+import { buildSms, smsInfo } from './sms';
 
 describe('the SMS preview counter', () => {
   it('counts plain English as GSM 7-bit: 160 per message, 153 per part', () => {
@@ -26,15 +26,13 @@ describe('the SMS preview counter', () => {
   });
 
   it('builds the text from the receipt: decision, rule, short code, link', () => {
-    const id = 'urn:uuid:9cece385-0039-4350-91a6-1bf84ade5d81';
-    expect(verifyCode(id)).toBe('4ADE5D81');
     const text = buildSms('KrishiLoop: {decision}. Rule {rule}. Check receipt {code}: {url}', {
       decision: 'No spray needed',
       rule: 'R-BDR-002 v1',
-      code: verifyCode(id),
-      url: 'https://example.org/verify/9cece385-0039-4350-91a6-1bf84ade5d81',
+      code: '7KQ2-MX4P', // the server's short code (services/reach), never made up in the browser
+      url: 'https://example.org/v/7KQ2-MX4P',
     });
-    expect(text).toBe('KrishiLoop: No spray needed. Rule R-BDR-002 v1. Check receipt 4ADE5D81: https://example.org/verify/9cece385-0039-4350-91a6-1bf84ade5d81');
+    expect(text).toBe('KrishiLoop: No spray needed. Rule R-BDR-002 v1. Check receipt 7KQ2-MX4P: https://example.org/v/7KQ2-MX4P');
     expect(smsInfo(text)).toMatchObject({ unicode: false, segments: 1 });
   });
 });

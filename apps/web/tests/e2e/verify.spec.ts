@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 
 /**
  * The receipt verifier (/verify, /verify/:id).
- *  - recorded mode (?sample=1, or any recorded receipt id): deterministic, the real answers our server gave on 28 Oct;
+ *  - recorded mode (?sample=1, or any recorded receipt id): deterministic, the real answers our server gave on 2 Nov;
  *  - mocked live answers (page.route on /api/verify) for the verdicts a recording cannot show: recalled, expired,
  *    cannot verify, unreachable, area trust credentials and advice whose photo trust was withdrawn;
  *  - one live smoke against the local API (skipped when it is not running).
@@ -14,7 +14,7 @@ import { readFileSync } from 'node:fs';
 // The dev server is shared with other builders: a Vite full reload (HMR) mid-test is environmental, so one retry.
 test.describe.configure({ retries: 1 });
 
-const HERO = '9cece385-0039-4350-91a6-1bf84ade5d81'; // the story's "no spray needed" receipt (recorded)
+const HERO = '84942e4a-2ce9-4497-92ca-11f478f9e259'; // the story's "no spray needed" receipt (recorded)
 const recorded = JSON.parse(readFileSync(new URL('../../src/data/recorded/verify-before.json', import.meta.url), 'utf8')) as Record<string, { credential: Record<string, unknown> }>;
 const did = JSON.parse(readFileSync(new URL('../../src/data/recorded/did.json', import.meta.url), 'utf8'));
 
@@ -99,7 +99,7 @@ test.describe('recorded receipt', () => {
     await expect(verdict.locator('.stamp')).toContainText('Authentic');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Issued by KrishiLoop and unaltered.');
     await expect(verdict).toContainText('Authentic does not mean the advice suits every field');
-    await expect(verdict).toContainText('Recorded 28 Oct');
+    await expect(verdict).toContainText('Recorded 2 Nov');
     await expect(page.getByTestId('note-sandbox')).toContainText('demo sandbox');
     // the document: sources with quotes, readings, numbers people set, confidence, signature, timeline
     await expect(page.getByTestId('doc-sources')).toContainText('Bangladesh Rice Research Institute');
@@ -127,7 +127,7 @@ test.describe('recorded receipt', () => {
     await expect(page.getByRole('status').filter({ hasText: 'Copied' })).toBeVisible();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(new RegExp(`/verify/${HERO}$`));
     const [dl] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Download signed JSON' }).click()]);
-    expect(dl.suggestedFilename()).toBe('krishiloop-9cece385.json');
+    expect(dl.suggestedFilename()).toBe('krishiloop-84942e4a.json');
     const saved = JSON.parse(readFileSync((await dl.path())!, 'utf8')) as { id: string; proof: { cryptosuite: string } };
     expect(saved.id).toBe(`urn:uuid:${HERO}`);
     expect(saved.proof.cryptosuite).toBe('eddsa-jcs-2022');

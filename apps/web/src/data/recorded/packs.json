@@ -1,0 +1,26 @@
+{
+ "packs": [
+  {
+   "pack_id": "pack-bd-rice",
+   "crops": [
+    "rice"
+   ],
+   "rules": 12,
+   "review_levels": {
+    "pending": 12
+   },
+   "signatures": "planned (Knowledge Compiler not built yet)"
+  },
+  {
+   "pack_id": "pack-potato-late-blight",
+   "crops": [
+    "potato"
+   ],
+   "rules": 11,
+   "review_levels": {
+    "pending": 11
+   },
+   "signatures": "planned (Knowledge Compiler not built yet)"
+  }
+ ]
+}

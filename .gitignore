@@ -13,7 +13,8 @@ corpus_private/
 corpus/private/
 
 # --- data & model artifacts (go to HF Hub / Kaggle, not git) ---
-data/
+# the server's runtime data at the repo root only: apps/web/src/data/recorded (the app's recorded API answers) is source
+/data/
 outputs/
 *.onnx
 *.pt

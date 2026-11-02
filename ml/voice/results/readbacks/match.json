@@ -1,0 +1,502 @@
+{
+ "voice": "Bengali (Male)",
+ "rules": [
+  {
+   "rule_id": "R-BDR-001",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-001__male",
+   "shared": false,
+   "roundtrip_cer_pct": 2.6,
+   "sha256": "b996550200bc4696365c4dadeddf87f43eb27b48c24676b5a7f8061e3de43679"
+  },
+  {
+   "rule_id": "R-BDR-002",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-002__male",
+   "shared": false,
+   "roundtrip_cer_pct": 5.5,
+   "sha256": "cd8e51c6c42c4a3a0d923898f3e0654558d35bec86cea934f38d6c353937f885"
+  },
+  {
+   "rule_id": "R-BDR-003",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-002__male",
+   "shared": true,
+   "roundtrip_cer_pct": 5.5,
+   "sha256": "cd8e51c6c42c4a3a0d923898f3e0654558d35bec86cea934f38d6c353937f885"
+  },
+  {
+   "rule_id": "R-BDR-004",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-004__male",
+   "shared": false,
+   "roundtrip_cer_pct": 1.4,
+   "sha256": "a7a681a52346b3521db0ca6f26560db44415141ff663b3aac4fad12dfad91880"
+  },
+  {
+   "rule_id": "R-BDR-005",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-005__male",
+   "shared": false,
+   "roundtrip_cer_pct": 8.4,
+   "sha256": "d0d9559e6a6e9e08f161afa46afa683a1df61e838223595aea476819edacbf8a"
+  },
+  {
+   "rule_id": "R-BDR-006",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "held back: round-trip CER 19.2 % > 10 %",
+   "clip": "R-BDR-006__male",
+   "roundtrip_cer_pct": 19.2,
+   "sha256": "ac85e053b5e0ef5975997c0bd93cbf118d1b88d938221cf137224caca51500ed"
+  },
+  {
+   "rule_id": "R-BDR-007",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-007__male",
+   "shared": false,
+   "roundtrip_cer_pct": 4.3,
+   "sha256": "51516c17918457f8e9da8ba736b68ff45cb74940faebb17100fa6de8bd3ec0fa"
+  },
+  {
+   "rule_id": "R-BDR-008",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "held back: round-trip CER 23.7 % > 10 %",
+   "clip": "R-BDR-008__male",
+   "roundtrip_cer_pct": 23.7,
+   "sha256": "c520ce0402b2e7941d4a8ed55414fb69a1da2178e22034516e0aa1a509da735e"
+  },
+  {
+   "rule_id": "R-BDR-009",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-009__male",
+   "shared": false,
+   "roundtrip_cer_pct": 4.7,
+   "sha256": "a495058eafc145c5e8f4ccbdc050f5ff9206c491ae63ea6aca48e8d12e6c50eb"
+  },
+  {
+   "rule_id": "R-BDR-010",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-010__male",
+   "shared": false,
+   "roundtrip_cer_pct": 4.7,
+   "sha256": "66e9be9b16d48aff1afb853e46225231d950facae4dbfb539703b77f987a3b6a"
+  },
+  {
+   "rule_id": "R-BDR-011",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "held back: round-trip CER 14.5 % > 10 %",
+   "clip": "R-BDR-011__male",
+   "roundtrip_cer_pct": 14.5,
+   "sha256": "4e7d08508456ccb1ccaaca924aae9f915975c7fe9aeb0285e0311ecaaba54abd"
+  },
+  {
+   "rule_id": "R-BDR-012",
+   "version": 1,
+   "pack": "pack-bd-rice",
+   "status": "active",
+   "result": "match",
+   "clip": "R-BDR-012__male",
+   "shared": false,
+   "roundtrip_cer_pct": 4.3,
+   "sha256": "5ba2403e1b6e1e593de8add61b3acdf4e457db15ef5a27651159cb422b78483f"
+  },
+  {
+   "rule_id": "R-PLB-001",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "36297b54c6791a2aa717a5f0bce8e4ada9324b5e898ee341af73b5b51c0a606e"
+  },
+  {
+   "rule_id": "R-PLB-002",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "61918096ff64ca7db26edb95dec76177de0423fa56892cc02ab2fb94795ee4c6"
+  },
+  {
+   "rule_id": "R-PLB-003",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "b63dbe9aba9f54caf96e07a227b1cef593190fd0e05624df790a24cb4316acde"
+  },
+  {
+   "rule_id": "R-PLB-004",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "9dda016efa2c2acd601b74ec6114bbd8bd41f79a5d2a5e2bb87a50591c762a30"
+  },
+  {
+   "rule_id": "R-PLB-005",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "030cebabc6b246d6c65c2084e130261d5a8c2e53b998d7714234b6f916906d1c"
+  },
+  {
+   "rule_id": "R-PLB-006",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "25ca1754644807a416755c7833d82acee9fcdb2e671f3daef9556f2dbfe3d551"
+  },
+  {
+   "rule_id": "R-PLB-007",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "b41a6420056910d2ed446da3ae6561ce4524691a7753c39069bff6d8622c30da"
+  },
+  {
+   "rule_id": "R-PLB-008",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "165c57d3283edee8354554996460d449bf408c1054a0ff29e5cfeb190242749f"
+  },
+  {
+   "rule_id": "R-PLB-009",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "870c5d52bd5373859427e5c02a2e2d7d4be0b3bb0cdbd7644db1a577b0b26d6b"
+  },
+  {
+   "rule_id": "R-PLB-010",
+   "version": 1,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "a310996fc62dec5d6672dacbc7d85e0e4e1036ec5ba7a764b8f88a2a34f81dd7"
+  },
+  {
+   "rule_id": "R-PLB-011",
+   "version": 2,
+   "pack": "pack-potato-late-blight",
+   "status": "active",
+   "result": "no clip yet",
+   "clip": null,
+   "sha256": "d42e4d75d762f5f4f85958b3104f059d59af84b4dece9e124596fd7a40e0792d"
+  }
+ ],
+ "app_reads": [
+  {
+   "where": "plans.json BD-SAMPLE-02",
+   "rule_id": "R-BDR-002",
+   "version": 1,
+   "text": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+   "result": "match"
+  },
+  {
+   "where": "plans.json BD-SAMPLE-02",
+   "rule_id": "R-BDR-009",
+   "version": 1,
+   "text": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+   "result": "match"
+  },
+  {
+   "where": "plans.json BD-SAMPLE-02",
+   "rule_id": "R-BDR-010",
+   "version": 1,
+   "text": "পাতার ডগা ও কিনারায় নীলচে, ভেজা ভেজা দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।",
+   "result": "match"
+  },
+  {
+   "where": "plans.json BD-SAMPLE-02",
+   "rule_id": "R-BDR-001",
+   "version": 1,
+   "text": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+   "result": "match"
+  },
+  {
+   "where": "plans.json BD-SAMPLE-01",
+   "rule_id": "R-BDR-005",
+   "version": 1,
+   "text": "গাছে মাকড়সা খুঁজে দেখুন: বেশির ভাগ গাছে অন্তত একটি থাকলে মাকড়সা গাছফড়িং খাচ্ছে, তাই স্প্রে করার আগে আপনার কর্মকর্তাকে জিজ্ঞেস করুন।",
+   "result": "match"
+  },
+  {
+   "where": "plans.json BD-SAMPLE-01",
+   "rule_id": "R-BDR-006",
+   "version": 1,
+   "text": "জমিতে পানি জমে থাকতে দেবেন না: পানি জমে থাকলে গাছফড়িংয়ের আক্রমণ বেশি হয়।",
+   "result": "no clip"
+  },
+  {
+   "where": "asks.json",
+   "rule_id": "R-BDR-002",
+   "version": 1,
+   "text": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+   "result": "match"
+  }
+ ],
+ "male_not_shipped": [
+  {
+   "clip": "R-BDR-006__male",
+   "group": "rule_title",
+   "why": "its text matches no rule text today"
+  },
+  {
+   "clip": "R-BDR-008__male",
+   "group": "rule_title",
+   "why": "its text matches no rule text today"
+  },
+  {
+   "clip": "R-BDR-011__male",
+   "group": "rule_title",
+   "why": "its text matches no rule text today"
+  },
+  {
+   "clip": "q-p02__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p05__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p07__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p11__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p13__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p16__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p19__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p23__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p25__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p28__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-p30__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r02__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r03__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r05__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r06__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r08__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r10__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r13__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r15__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r17__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r20__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r25__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r27__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r29__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-r31__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o10__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o11__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o12__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o13__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o14__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o15__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "q-o16__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-01__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-02__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-03__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-04__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-05__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-06__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-07__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  },
+  {
+   "clip": "qv-08__male",
+   "group": "farmer_question",
+   "why": "a farmer question: the app never reads questions aloud"
+  }
+ ],
+ "female_not_shipped": 51
+}

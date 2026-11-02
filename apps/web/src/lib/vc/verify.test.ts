@@ -48,8 +48,8 @@ describe('the 20 recorded receipts verify in the browser, as on the server', () 
 
   it('hashes exactly what the server hashes (vc.py _hash_data of the first receipt, proof hash first)', async () => {
     // produced by services/trust/vc.py _hash_data() over the same credential, with the server's own rfc8785
-    const server = '8af961621b5f740657c051d259d073aaeb41d542d61570c9f5d6842f2b0c5ae46467e529720efb0d413e473971335493990994166ebbb8a2d2f51e54abf39431';
-    expect(first.id).toBe('urn:uuid:9cece385-0039-4350-91a6-1bf84ade5d81');
+    const server = 'f107e8f99bbff49695da8767ee46991e47f0e44be4a11002c5b495d339c468a92ea489a5784e430ee07ce6abcfbcc0ae1deccd871672d94f44f53609ed78b7f3';
+    expect(first.id).toBe('urn:uuid:84942e4a-2ce9-4497-92ca-11f478f9e259');
     const steps: ProofStep[] = [];
     await checkProof(first, did, { onStep: (s) => steps.push(s) });
     const hash = steps.find((s) => s.step === 'hash');

@@ -40,6 +40,7 @@ export default function App() {
           <Route path="app" element={<FarmerApp />} />
           <Route path="verify" element={<VerifyPage />} />
           <Route path="verify/:id" element={<VerifyPage />} />
+          <Route path="v/:code" element={<VerifyPage />} />
           <Route path="officer" element={<OfficerPage />} />
           <Route path="officer/:id" element={<OfficerPage />} />
           <Route path="trust" element={<TrustPage />} />

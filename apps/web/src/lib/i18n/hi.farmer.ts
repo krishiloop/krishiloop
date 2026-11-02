@@ -52,7 +52,7 @@ const d: Partial<Record<keyof typeof farmer, string>> = {
   'fa.rc.json': 'हस्ताक्षरित JSON',
   'fa.rc.verify': 'जाँच पेज',
   'fa.rc.sms': 'SMS के रूप में',
-  'fa.sms.planned': 'पूर्वावलोकन: SMS भेजना योजना में है',
+  'fa.sms.planned': 'पूर्वावलोकन। SMS सैंडबॉक्स में: भेजा नहीं जाता',
   'fa.ask.title': 'अपने खेत के बारे में पूछें',
   'fa.ask.mic': 'दबाएँ और बोलें',
   'fa.ask.listening': 'सुन रहे हैं… रोकने के लिए दबाएँ।',

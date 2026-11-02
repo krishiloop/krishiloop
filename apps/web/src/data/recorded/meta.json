@@ -1,0 +1,9 @@
+{
+ "recorded_at": "2026-11-02T16:44:26+00:00",
+ "base": "http://127.0.0.1:8000",
+ "health": {
+  "ok": true,
+  "issuer": "did:web:127.0.0.1%3A5173"
+ },
+ "note": "Real responses of the KrishiLoop API running on our development machine, in a demo sandbox at labelled sample locations (no farmer). Receipts are signed by the development key; they verify only against that server, so the web app shows them as recorded, never as live."
+}

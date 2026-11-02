@@ -341,6 +341,25 @@
   line-height: 1.45;
   color: var(--color-ink-2);
 }
+/* under a "Hear" button: our own machine voice (labelled), or the recall notice read instead of the advice */
+.fa-voice-ours,
+.fa-voice-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-ink-2);
+}
+.fa-voice-notice {
+  padding: 8px 12px;
+  border: 1px solid color-mix(in oklab, var(--color-stop) 40%, var(--color-rule));
+  border-radius: var(--radius-ui);
+  background: var(--color-stop-wash);
+  font-size: 0.9rem;
+  color: var(--color-ink);
+}
 .fa-row,
 .fa-qchip,
 .fa-rc-open {

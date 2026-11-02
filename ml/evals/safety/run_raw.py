@@ -9,6 +9,7 @@ ONLY message.content as the answer and store just the length of the reasoning, n
   - models whose thinking can be switched off (capability 'thinking', not gpt-oss): think=false, cap 400 tokens;
   - gpt-oss (its reasoning cannot be switched off): think='low', and the cap is raised to 1400 because the reasoning
     tokens share it; answer lengths are recorded so the report can compare them.
+  - qwen3 models (since 2 Nov 2026): think=true and the 1400 cap, because think=false failed for them in v1.
 
 Passes (pre-registered v1 = 'main'; the others were added on 29 Oct, see REPORT.md, "design log"):
   main     system prompt, T 0.2, seed 7, 1 sample, all items (en, bn, sw)          concurrency 8
@@ -133,6 +134,11 @@ def think_setting(info: dict) -> tuple[object, int]:
     if "thinking" in info["capabilities"]:
         if info["model"].startswith("gpt-oss"):
             return "low", GPT_OSS_NUM_PREDICT
+        # Changed 2 Nov 2026, after the v1 runs: with think=false (Ollama 0.40.11) qwen3:30b wrote its reasoning into
+        # message.content and qwen3-vl:8b returned empty answers, both cut off at 400 tokens (REPORT.md, "invalid
+        # runs"). Qwen3 models now think, with the reasoning kept apart and the gpt-oss cap; only the answer is scored.
+        if info["model"].startswith("qwen3"):
+            return True, GPT_OSS_NUM_PREDICT
         return False, BASE_OPTIONS["num_predict"]
     return None, BASE_OPTIONS["num_predict"]
 

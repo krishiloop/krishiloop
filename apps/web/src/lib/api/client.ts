@@ -22,6 +22,7 @@
 import { createStore } from '../store';
 import { queryParam, readStore, removePrefix, writeStore } from '../storage';
 import { MOCK_DEMO, MOCK_INBOX, isSampleId, mockPlan, mockSnapshot, mockVerify, simulateRecall } from './mocks';
+import { recordedCodeFor } from '../../data/recorded';
 import type { DataSource, DemoPayload, DidDocument, Diagnosis, FieldSnapshot, InboxItem, PackInfo, Plan, Sourced, Stats, VerifyResponse } from './types';
 
 export class HttpError extends Error {
@@ -233,6 +234,20 @@ export async function verifyReceipt(id: string): Promise<VerifyOutcome> {
   }
 }
 
+/**
+ * A receipt's short verify code ("7KQ2-MX4P", services/reach): GET /api/credentials/{id}/code on the live server, the
+ * recorded code for a recorded receipt. null when neither has one (it is never made up in the browser).
+ */
+export async function receiptCode(id: string): Promise<string | null> {
+  if (isSampleId(id)) return recordedCodeFor(id);
+  if (apiStore.get().forced) return null;
+  try {
+    return (await request<{ code: string }>(`/api/credentials/${encodeURIComponent(id)}/code`)).code ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchDid(): Promise<DidDocument | null> {
   if (apiStore.get().forced) return null;
   try {
@@ -242,12 +257,25 @@ export async function fetchDid(): Promise<DidDocument | null> {
   }
 }
 
+/** Who the server told about a recall (services/reach): Telegram messages sent, SMS written to the sandbox outbox (not sent). */
+export interface RecallNotified {
+  total: number;
+  telegram: number;
+  sms_sandbox: number;
+  sms_sent: number;
+  failed: number;
+  receipts: number;
+  error?: string;
+}
+
 export interface RecallResult {
   ok: boolean;
   /** `sample`: simulated in this browser; `sandbox`: recalled inside this tab's demo session */
   mode: 'sample' | 'sandbox' | 'unavailable';
   hits?: string[];
   message?: string;
+  /** the server's recall notices (absent for a simulated recall) */
+  notified?: RecallNotified;
 }
 
 /**
@@ -261,10 +289,10 @@ export async function recallRule(ruleId: string, version: number, opts: { reason
   }
   try {
     const body = JSON.stringify({ rule_id: ruleId, version, reason: (opts.reason ?? '').slice(0, 500) });
-    const r = await sandbox<{ recalled_rule_credentials?: string[] }>('/recall', { method: 'POST', body });
+    const r = await sandbox<{ recalled_rule_credentials?: string[]; notified?: RecallNotified }>('/recall', { method: 'POST', body });
     clearSavedPlans(); // the server dropped its cached plans too: the next plan is built without the recalled rule
     recallEpoch.set((n) => n + 1);
-    return { ok: true, mode: 'sandbox', hits: r.recalled_rule_credentials };
+    return { ok: true, mode: 'sandbox', hits: r.recalled_rule_credentials, notified: r.notified };
   } catch (e) {
     if (e instanceof HttpError && e.status < 500) return { ok: false, mode: 'unavailable', message: e.message };
     return { ok: false, mode: 'unavailable', message: 'The API is not reachable.' };

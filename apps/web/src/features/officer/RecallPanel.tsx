@@ -353,6 +353,18 @@ function RecallResult({ record, receipts }: { record: RecallRecord; receipts: Le
         <span>{withRule(t(n === 1 ? 'off.result.line1' : 'off.result.line', { rule: '\u0000' }), `${record.rule_id} v${record.version}`)}</span>
       </p>
       {record.affected.length > n && <p className="m-0 mt-2 text-sm text-wait">{t('off.result.some', { n: fmtNum(record.affected.length - n, lang) })}</p>}
+      {record.notified && (
+        <p className="m-0 mt-2 text-sm text-ink-2" data-testid="recall-notified">
+          {record.notified.total === 0 && !record.notified.failed
+            ? t('off.result.notifiedNone')
+            : t('off.result.notified', {
+                n: fmtNum(record.notified.total, lang),
+                tg: fmtNum(record.notified.telegram, lang),
+                sms: fmtNum(record.notified.sms_sandbox + record.notified.sms_sent, lang),
+              })}
+          {record.notified.failed > 0 && <span className="text-wait"> {t('off.result.notifyFailed', { n: fmtNum(record.notified.failed, lang) })}</span>}
+        </p>
+      )}
       <p className="m-0 mt-2 text-sm text-ink-3">
         {fmtDate(record.at, lang, 'datetime')} · <q>{record.reason}</q>
         {record.mode === 'sample' && <> · {t('off.recall.simulatedShort')}</>}

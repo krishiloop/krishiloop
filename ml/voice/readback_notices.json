@@ -1,0 +1,11 @@
+{
+  "about": "Fixed Bangla notices the farmer app may read instead of advice. Each text must equal its i18n string (apps/web/src/lib/i18n/bn.farmer.ts, key in `key`); vitest checks it. No clip exists yet: readbacks.py todo lists them for the next GPU run.",
+  "notices": [
+    {
+      "id": "recalled",
+      "key": "fa.voice.recalledSay",
+      "lang": "bn",
+      "text": "এই পরামর্শ বাতিল হয়েছে। এটি মেনে কাজ করবেন না। এই সপ্তাহের উত্তরের জন্য \"আজ\" খুলুন, বা কর্মকর্তাকে জিজ্ঞেস করুন।"
+    }
+  ]
+}

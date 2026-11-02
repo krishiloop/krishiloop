@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Download, MessageSquareText, Printer, Share2, ShieldCheck, Square, Volume2 } from 'lucide-react';
@@ -17,8 +17,10 @@ import { RECORDED_AT } from '../../data/recorded';
 import { logVerify, setWorking } from './inspector';
 import { setStatus, statusOf } from './receipts';
 import { tick } from './checklist';
-import { readAloud, stopReading, type ReadResult } from './voice';
-import { SmsPreview } from './SmsPreview';
+import { adviceRequest, receiptStatus, stopReading, useReader } from './voice';
+import { VoiceLine } from './VoiceLine';
+// below the receipt and only when the sheet is open: its own chunk keeps the farmer app's first visit small
+const SmsPreview = lazy(() => import('./SmsPreview').then((m) => ({ default: m.SmsPreview })));
 
 export interface ReceiptRef {
   receipt: Receipt;
@@ -64,7 +66,8 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
   const { receipt, credentialId, recorded } = value;
   const [verdict, setVerdict] = useState<VerifyOutcome | null>(null);
   const [delay, setDelay] = useState(PRINT_MS);
-  const [reading, setReading] = useState<ReadResult | 'idle'>('idle');
+  const reader = useReader();
+  const checked = useRef<Promise<VerifyOutcome> | null>(null);
   const [sms, setSms] = useState(false);
   const [printing, setPrinting] = useState(false);
   const opened = useRef(performance.now());
@@ -80,16 +83,16 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
     if (!credentialId) return;
     let alive = true;
     setWorking('verify');
-    verifyReceipt(credentialId)
-      .catch((e: unknown): VerifyOutcome => ({ status: 'unreachable', reason: e instanceof Error ? e.message : String(e), source: 'none' }))
-      .then((r) => {
-        setWorking(null);
-        if (!alive) return;
-        setDelay(Math.max(0, PRINT_MS - (performance.now() - opened.current)));
-        setVerdict(r);
-        logVerify(credentialId, r);
-        setStatus(credentialId, statusOf(r));
-      });
+    const check = verifyReceipt(credentialId).catch((e: unknown): VerifyOutcome => ({ status: 'unreachable', reason: e instanceof Error ? e.message : String(e), source: 'none' }));
+    checked.current = check;
+    void check.then((r) => {
+      setWorking(null);
+      if (!alive) return;
+      setDelay(Math.max(0, PRINT_MS - (performance.now() - opened.current)));
+      setVerdict(r);
+      logVerify(credentialId, r);
+      setStatus(credentialId, statusOf(r));
+    });
     return () => {
       alive = false;
       setWorking(null);
@@ -122,15 +125,15 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
   const url = credentialId ? verifyUrl(credentialId) : '';
   const mark = recorded ? <DataMark kind="recorded" date={RECORDED_AT} /> : undefined;
 
-  const read = async () => {
-    if (reading === 'speaking') {
-      stopReading();
-      setReading('idle');
-      return;
-    }
-    const r = await readAloud(`${decisionWord}. ${title.text}`, title.lang, () => setReading('idle'));
-    setReading(r);
-  };
+  // Hear: never the advice of a recalled receipt. The sheet's own verdict (awaited if it is still coming) and a fresh check
+  // both count; Recalled reads or shows the recall notice instead.
+  const read = () =>
+    reader.toggle(async () => {
+      const v = credentialId ? await checked.current : null;
+      const seen = v && v.status !== 'unreachable' ? v.status : undefined;
+      const status = await receiptStatus(credentialId, seen);
+      return adviceRequest({ title, lead: decisionWord, rule, status, t, uiLang: lang });
+    });
 
   const share = async () => {
     if (!url) return;
@@ -217,9 +220,9 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
       </div>
 
       <div className="mx-auto mt-5 grid max-w-[460px] grid-cols-2 gap-2 sm:grid-cols-3" role="group" aria-label={t('fa.rc.actions')}>
-        <button type="button" className="btn btn-secondary fa-act" onClick={() => void read()} aria-pressed={reading === 'speaking'} data-testid="fa-rc-read">
-          {reading === 'speaking' ? <Square size={17} aria-hidden /> : <Volume2 size={18} aria-hidden />}
-          {reading === 'speaking' ? t('fa.rc.stop') : t('fa.rc.read')}
+        <button type="button" className="btn btn-secondary fa-act" onClick={() => void read()} aria-pressed={reader.playing} data-testid="fa-rc-read">
+          {reader.playing ? <Square size={17} aria-hidden /> : <Volume2 size={18} aria-hidden />}
+          {reader.playing ? t('fa.rc.stop') : t('fa.rc.read')}
         </button>
         <button type="button" className="btn btn-secondary fa-act" onClick={() => void share()} disabled={!url}>
           <Share2 size={18} aria-hidden />
@@ -247,12 +250,16 @@ function ReceiptBody({ value, onToday }: { value: ReceiptRef; onToday: () => voi
         </button>
       </div>
 
-      <p className="mx-auto mt-3 max-w-[460px] text-sm text-ink-2" aria-live="polite" data-testid="fa-rc-voice">
-        {reading === 'no-voice' ? t('fa.voice.noVoice', { lang: title.lang === 'bn' ? 'বাংলা' : title.lang.toUpperCase() }) : reading === 'unsupported' ? t('fa.voice.noTts') : ''}
-      </p>
+      <div className="mx-auto mt-3 max-w-[460px]" aria-live="polite" data-testid="fa-rc-voice">
+        <VoiceLine out={reader.out} />
+      </div>
 
       <div id="fa-sms-panel" className="mx-auto max-w-[460px]">
-        {sms && credentialId && <SmsPreview decision={decisionWord} rule={ruleLabel} credentialId={credentialId} url={url} />}
+        {sms && credentialId && (
+          <Suspense fallback={null}>
+            <SmsPreview decision={decisionWord} rule={ruleLabel} credentialId={credentialId} url={url} />
+          </Suspense>
+        )}
       </div>
 
       {sandboxMine && <p className="mx-auto mt-5 max-w-[460px] text-xs text-ink-3">{t('fa.rc.sandbox')}</p>}

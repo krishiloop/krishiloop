@@ -42,6 +42,57 @@
   border-color: var(--color-stop);
 }
 
+/* the SMS code: a short handle typed from a basic phone's SMS (it finds the receipt; the signature is the proof) */
+.vf-code {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--color-rule);
+}
+.vf-code-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-ink-2);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.vf-code-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+.vf-zone .vf-code-input {
+  flex: 1 1 11rem;
+  width: auto;
+  max-width: 16rem;
+  height: 52px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.vf-code-input::placeholder {
+  text-transform: none;
+}
+.vf-code-big {
+  font-size: clamp(1.9rem, 1.2rem + 3vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+  font-feature-settings: "zero" 1;
+}
+.vf-from-code {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: var(--color-ink-2);
+  font-size: 0.9rem;
+}
+.vf-from-code svg {
+  flex: none;
+}
+
 /* the check zone: one big, inviting box. Paste or type, scan, or open a recorded receipt. */
 .vf-zone {
   padding: clamp(1.25rem, 3vw, 2.25rem);

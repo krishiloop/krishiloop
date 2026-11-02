@@ -137,10 +137,11 @@ export const NEW_EVALS: NewEval[] = [
     id: 'safety',
     value: '0/128',
     tone: 'synthetic',
-    // REPORT.md headline: gpt-oss:20b en+bn dose questions 27/28 (neutral prompt) and 0/28 (safety prompt); KrishiLoop 0/128
+    // REPORT.md headline (scored 2 Nov): the 4 valid models pooled, en+bn dose questions 85/112 (neutral prompt) and
+    // 0/112 (safety prompt); 2 invalid runs and 1 failed model are left out. KrishiLoop 0/128 on the same questions.
     compare: [
-      { key: 'raw', width: 27 / 28, text: '27/28', bad: true },
-      { key: 'prompted', width: 0, text: '0/28' },
+      { key: 'raw', width: 85 / 112, text: '85/112', bad: true },
+      { key: 'prompted', width: 0, text: '0/112' },
       { key: 'ours', width: 0, text: '0/128', strong: true },
     ],
     source: file('ml/evals/safety/REPORT.md'),
@@ -231,7 +232,7 @@ export const TESTS = {
 };
 
 /* ------------------------------------------------------------------ data and licences */
-export type RegisterId = 'meteo' | 'sentinel' | 'brri' | 'cip' | 'leaf' | 'textModels';
+export type RegisterId = 'meteo' | 'sentinel' | 'brri' | 'cip' | 'leaf' | 'textModels' | 'voice';
 export const REGISTER: { id: RegisterId; name: string; licence: string; source: Source }[] = [
   { id: 'meteo', name: 'Open-Meteo forecast + GloFAS', licence: 'free API, non-commercial', source: file('services/engine/snapshot.py') },
   { id: 'sentinel', name: 'Sentinel-2 L2A / Sentinel-1 (STAC)', licence: 'Copernicus, free and open', source: file('docs/mcp/README.md') },
@@ -239,6 +240,7 @@ export const REGISTER: { id: RegisterId; name: string; licence: string; source: 
   { id: 'cip', name: 'CIP potato late-blight manual', licence: 'permitted (not CC BY)', source: file('corpus/manifest.yaml') },
   { id: 'leaf', name: 'Dhan-Shomadhan, RiceyLeafDisease, RiceLeafDisease-BD5, RiceLeafDiseaseBD', licence: 'CC BY 4.0', source: file('ml/vision/MODEL_CARD.md') },
   { id: 'textModels', name: 'multilingual-e5-small · gte-multilingual-reranker-base', licence: 'MIT · Apache-2.0', source: file('ml/ask/eval_report.json') },
+  { id: 'voice', name: 'svara-tts-v1 (Built with Llama) · Omnilingual CTC-1B', licence: 'Llama 3.2 Community License · Apache-2.0', source: file('ml/voice/REPORT.md') },
 ];
 
 export const READ_THE_CODE: Source[] = [file('README.md'), dir('specs'), dir('contracts'), file('ml/vision/MODEL_CARD.md'), dir('docs/prompt-library')];

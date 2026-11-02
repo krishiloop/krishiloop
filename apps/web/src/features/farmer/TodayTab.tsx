@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { Camera, ChevronDown, CircleHelp, Mic, ReceiptText, RefreshCw, RotateCcw, Square, UserRound, Volume2 } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
 import { pickText } from '../../lib/format';
@@ -16,7 +16,8 @@ import { readingLines, sourceLabel } from '../../ui/receiptView';
 import { toast } from '../../ui/Toast';
 import { init, loadPlan, useFarmer } from './farmerStore';
 import { reasonText, todayISO } from './words';
-import { readAloud, stopReading, type ReadResult } from './voice';
+import { adviceRequest, receiptStatus, useReader } from './voice';
+import { VoiceLine } from './VoiceLine';
 import type { ReceiptRef } from './ReceiptSheet';
 import type { TabId } from './TabBar';
 import { Handoff } from './Handoff';
@@ -114,27 +115,21 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
 
 /* ------------------------------------------------------------------ hear it: the decision read aloud, in its own language */
 
-function HearIt({ action }: { action: Action }) {
+function HearIt({ action, reader }: { action: Action; reader: ReturnType<typeof useReader> }) {
   const { t, lang } = useI18n();
-  const [state, setState] = useState<ReadResult | 'idle'>('idle');
-  useEffect(() => () => stopReading(), []);
   const title = pickText(action.title, lang);
   const word = action.decision ? t(`ui.decision.${action.decision}`) : t(`ui.kind.${action.kind}`);
   const go = async () => {
-    if (state === 'speaking') {
-      stopReading();
-      setState('idle');
-      return;
-    }
-    const r = await readAloud(`${word}. ${title.text}`, title.lang, () => setState('idle'));
-    setState(r);
-    if (r === 'no-voice') toast(t('fa.voice.noVoice', { lang: title.lang === 'bn' ? 'বাংলা' : title.lang.toUpperCase() }), { tone: 'info', ms: 4500 });
-    if (r === 'unsupported') toast(t('fa.voice.noTts'), { tone: 'info', ms: 4500 });
+    const r = await reader.toggle(async () =>
+      adviceRequest({ title, lead: word, rule: action.receipt.rule_refs[0], status: await receiptStatus(action.receipt_credential_id), t, uiLang: lang }),
+    );
+    if (r?.state === 'no-voice') toast(t('fa.voice.noVoice', { lang: r.lang === 'bn' ? 'বাংলা' : r.lang.toUpperCase() }), { tone: 'info', ms: 4500 });
+    if (r?.state === 'unsupported') toast(t('fa.voice.noTts'), { tone: 'info', ms: 4500 });
   };
   return (
-    <button type="button" className="fa-why-btn fa-hear flex-none" onClick={() => void go()} aria-pressed={state === 'speaking'} title={t('fa.today.hear')} data-testid="fa-hear">
-      {state === 'speaking' ? <Square size={18} aria-hidden /> : <Volume2 size={20} aria-hidden />}
-      {state === 'speaking' ? t('fa.rc.stop') : t('fa.today.hearShort')}
+    <button type="button" className="fa-why-btn fa-hear flex-none" onClick={() => void go()} aria-pressed={reader.playing} title={t('fa.today.hear')} data-testid="fa-hear">
+      {reader.playing ? <Square size={18} aria-hidden /> : <Volume2 size={20} aria-hidden />}
+      {reader.playing ? t('fa.rc.stop') : t('fa.today.hearShort')}
     </button>
   );
 }
@@ -151,6 +146,7 @@ function WhyThis({ action }: { action: Action }) {
   const id = useId();
   const [open, setOpen] = useState(false);
   const [more, setMore] = useState(false);
+  const reader = useReader();
   const r = action.receipt;
   const rule = r.rule_refs[0];
   const source = r.sources[0];
@@ -168,8 +164,9 @@ function WhyThis({ action }: { action: Action }) {
           <ChevronDown size={18} aria-hidden className={cx('transition-transform duration-200', open && 'rotate-180')} />
         </button>
         <span className="my-2.5 w-px flex-none bg-rule" aria-hidden />
-        <HearIt action={action} />
+        <HearIt action={action} reader={reader} />
       </div>
+      <VoiceLine out={reader.out} toastNoVoice className="px-3.5 pb-3.5" />
       {open && (
         <div id={id} className="fa-why-body">
           {rule && (

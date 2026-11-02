@@ -1,0 +1,62 @@
+{
+ "fields": [
+  {
+   "field_id": "KE-SAMPLE-01",
+   "lat": -0.75,
+   "lon": 36.6,
+   "country": "KE",
+   "precision": "sample_location",
+   "label": "Sample Kenyan highland location (no farmer)",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight"
+  },
+  {
+   "field_id": "BD-SAMPLE-01",
+   "lat": 24.75,
+   "lon": 90.4,
+   "country": "BD",
+   "precision": "sample_location",
+   "label": "Sample Bangladesh aman rice location (no farmer)",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice"
+  },
+  {
+   "field_id": "BD-SAMPLE-02",
+   "lat": 24.75,
+   "lon": 90.4,
+   "country": "BD",
+   "precision": "sample_location",
+   "label": "Sample Bangladesh aman rice location at tillering (no farmer)",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice"
+  }
+ ],
+ "profiles": [
+  {
+   "farmer_profile_id": "demo-farmer-a",
+   "crop_protected": false,
+   "soil_drainage": "poor"
+  },
+  {
+   "farmer_profile_id": "demo-farmer-b",
+   "crop_protected": true,
+   "soil_drainage": "good"
+  },
+  {
+   "farmer_profile_id": "demo-farmer-c",
+   "bph_females_per_hill": 4,
+   "bph_nymphs_per_hill": 12,
+   "soil_drainage": "poor"
+  },
+  {
+   "farmer_profile_id": "demo-farmer-d",
+   "bph_females_per_hill": 0,
+   "bph_nymphs_per_hill": 1,
+   "soil_drainage": "good"
+  }
+ ],
+ "public_base_url": "http://127.0.0.1:5173"
+}

@@ -31,7 +31,7 @@ test.describe('recorded console', () => {
     await page.goto('/officer?sample=1');
     await expect(page.getByRole('heading', { level: 1, name: 'Demo officer · your sandbox' })).toBeVisible();
     await expect(page.getByText('Your recall changes only your own demo receipts')).toBeVisible();
-    await expect(page.getByTestId('data-mode')).toContainText('Recorded 28 Oct');
+    await expect(page.getByTestId('data-mode')).toContainText('Recorded 2 Nov');
     await expect(count(page, 'receipts')).toHaveText('20');
     await expect(count(page, 'recalled')).toHaveText('0');
     await expect(count(page, 'open')).toHaveText('2');
@@ -43,7 +43,7 @@ test.describe('recorded console', () => {
     await expect(page.getByTestId('case-detail')).toBeVisible();
     // reasons in plain words, the farmer's question, and the details as key/values
     await rows.filter({ hasText: 'A question with no sourced answer' }).click();
-    await expect(page).toHaveURL(/\/officer\/inbox-e504bf9b18b8#case$/);
+    await expect(page).toHaveURL(/\/officer\/inbox-11894d644055#case$/);
     await expect(page.getByTestId('case-question')).toHaveText('Can I get a loan to buy fertiliser?');
     await expect(page.getByTestId('case-retrieved')).toContainText('R-BDR-003');
     await expect(page.getByTestId('case-retrieved')).toContainText('None reached the bar');
@@ -53,7 +53,7 @@ test.describe('recorded console', () => {
   });
 
   test('resolve with a note (in this browser), then reopen', async ({ page }) => {
-    await page.goto('/officer/inbox-e504bf9b18b8?sample=1');
+    await page.goto('/officer/inbox-11894d644055?sample=1');
     const detail = page.getByTestId('case-detail');
     await expect(detail).toContainText(/saved in this browser only/i);
     await expect(page.getByText('the official resolve needs an officer’s admin token')).toBeVisible();
@@ -113,7 +113,7 @@ test.describe('recorded console', () => {
     await expect(count(page, 'recalled')).toHaveText('1');
     // the farmer plans that used it now abstain, each with an inbox case
     await expect(page.getByTestId('replans')).toContainText('plan now abstains');
-    await expect(page.getByTestId('notification-preview')).toContainText('Preview: SMS/app notices are planned');
+    await expect(page.getByTestId('notification-preview')).toContainText('Preview. SMS is sandbox: not sent');
     await expect(page.getByTestId('notification-preview')).toContainText('R-BDR-002 v1');
     await expect(page.locator('[data-rule="R-BDR-002@1"]')).toHaveAttribute('data-state', 'recalled');
     // re-check one: the verifier now says Recalled, and its timeline carries the officer's reason
@@ -190,7 +190,8 @@ async function mockSandbox(page: Page, opts: { area: keyof typeof PRESETS; sure?
   const demo = JSON.parse(readFileSync(new URL('../../src/data/recorded/demo.json', import.meta.url), 'utf8'));
   const plans = JSON.parse(readFileSync(new URL('../../src/data/recorded/plans.json', import.meta.url), 'utf8')) as Record<string, unknown>;
   const p = PRESETS[opts.area];
-  const st = { ...p, events: [] as Record<string, unknown>[], verdictBodies: [] as string[] };
+  // the presets are `as const`; the mocked area's state changes, so widen `open` back to boolean
+  const st = { ...p, open: p.open as boolean, events: [] as Record<string, unknown>[], verdictBodies: [] as string[] };
   const now = Date.now();
   const sure = opts.sure ?? true;
   const cases = Array.from({ length: opts.cases ?? 1 }, (_, i) => ({

@@ -1,6 +1,6 @@
 /**
  * What the app shows when the live API cannot be reached: RECORDED real answers of our own server (src/data/recorded,
- * 28 Oct 2026, a demo sandbox at labelled sample locations), never invented ones. Every screen labels them
+ * 2 Nov 2026, a demo sandbox at labelled sample locations), never invented ones. Every screen labels them
  * "Recorded <date>" (<DataMark kind="recorded">).
  *
  * A recall with no server is simulated in this browser on the recorded receipts, with the server's own rule: a receipt

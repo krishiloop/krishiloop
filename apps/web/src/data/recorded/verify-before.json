@@ -1,0 +1,3121 @@
+{
+ "urn:uuid:84942e4a-2ce9-4497-92ca-11f478f9e259": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:84942e4a-2ce9-4497-92ca-11f478f9e259",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:14Z",
+   "credentialSubject": {
+    "receipt_id": "a99463ed-68ce-4c6b-9500-94c7af78812c",
+    "claim": "A-r-bdr-002-6b9387",
+    "advice": {
+     "action_id": "A-r-bdr-002-6b9387",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+      "en": "No spray needed now: count is below the threshold; count again in a few days."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "101ff167-454d-4dfd-808f-e0e848eb0a4d",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:14Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-002",
+      "version": 1,
+      "credential_id": "urn:uuid:f79ee548-774d-4b73-85df-8a847e12d835",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:14Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:14Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zkHPqosoxfPn87r5deQ2rJeUHZcZhh7N5SW8WCfSdXVLPbrxHegj2uC5LkB5fsRRYEJJ786DWsKjqPPqxVXq1xJt"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:30f55cde-e973-4ec8-8910-6143f8225d86": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:30f55cde-e973-4ec8-8910-6143f8225d86",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:14Z",
+   "credentialSubject": {
+    "receipt_id": "42171511-2cbc-4b54-997f-f2385bad464a",
+    "claim": "A-r-bdr-009-1e70d0",
+    "advice": {
+     "action_id": "A-r-bdr-009-1e70d0",
+     "kind": "practice",
+     "title": {
+      "bn": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+      "en": "Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "101ff167-454d-4dfd-808f-e0e848eb0a4d",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:14Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 2,
+      "quote": "ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না",
+      "quote_sha256": "c3d209f42251c7aadd18bf849fdbf5fcfad20d2eb5792ae202819f1c832682a4",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     },
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 2,
+      "quote": "রোগ দেখার পর ইউরিয়া উপরি প্রয়োগ বন্ধ করতে হবে",
+      "quote_sha256": "6248671c7d996806599fdd5ed6005d26ab5acb4a5ebaf837d514c420b28cc7be",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-009",
+      "version": 1,
+      "credential_id": "urn:uuid:9709158e-fcc5-4a80-8d2b-186317a4a921",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:14Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:14Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z4HkZBcaU6T3nekhr2JmtUnBZYFAcXysvNoELG3VKCXahdTKZZzq9GB9k8pLL7QqCJAZb6NDhfNuw2jJnMqKNehPQ"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:247fd07d-bbb1-45ba-a331-c1f322cb7f81": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:247fd07d-bbb1-45ba-a331-c1f322cb7f81",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:14Z",
+   "credentialSubject": {
+    "receipt_id": "8c9ab34a-9adb-4d30-899d-ef79be263918",
+    "claim": "A-r-bdr-010-3a9558",
+    "advice": {
+     "action_id": "A-r-bdr-010-3a9558",
+     "kind": "monitoring",
+     "title": {
+      "bn": "পাতার ডগা ও কিনারায় নীলচে, ভেজা ভেজা দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।",
+      "en": "Check leaf tips and edges for bluish, water-soaked spots. If you find them, tell your officer."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "101ff167-454d-4dfd-808f-e0e848eb0a4d",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:14Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 1,
+      "quote": "প্রথমে পাতার অগ্রভাগ বা কিনারায় নীলাভ পানিচোষা দাগ দেখা যায়।",
+      "quote_sha256": "a9614d7baace1e6149318a76ff0f250c4197975f97a78b64a7e725467429dd3f",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     },
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 1,
+      "quote": "ধান গাছের কুশি বা তার পরবর্তী যেকোন সময় পাতাপোড়া লক্ষণ দেখা যায়।",
+      "quote_sha256": "566015d3aa33c46ef06c7f272b1530b85ddc91c07b9a05a6a3b8bab367bce790",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-010",
+      "version": 1,
+      "credential_id": "urn:uuid:8399fc8c-dd2f-415e-b407-4a116cc9cd9c",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:14Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:14Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z44Wfp6gw1k1BDJaM7crVs2PZ25kXs2Ny4uuCCm9s28KxqUyTkvWigiTCzXFoqz4aaNJXtNJ5ZqsV5Q6L3auL3wYd"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:85c16208-89c2-4b54-b894-8e312d0f5872": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:85c16208-89c2-4b54-b894-8e312d0f5872",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:15Z",
+   "credentialSubject": {
+    "receipt_id": "8b1129d6-8da9-4ff0-b157-c5402d382b08",
+    "claim": "A-r-bdr-001-36e76f",
+    "advice": {
+     "action_id": "A-r-bdr-001-36e76f",
+     "kind": "input_decision",
+     "title": {
+      "bn": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+      "en": "Above the threshold: contact your officer about control options now."
+     },
+     "decision": "recheck",
+     "traffic_light": "red",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "f75baa8b-1d1a-4ae3-94ae-836c2bb50a61",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:15Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-001",
+      "version": 1,
+      "credential_id": "urn:uuid:b2abf63e-8781-46fc-81c6-700f559fe52b",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:15Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:15Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zv9dyhaFYsVN2RFzHyC4ZyvoG5KEaneEKHaYmocRxM7bj1MVzT4x4CrJRBrKeWPJWTeJVhE9oxrVt2s6k8CkKZXT"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:6bfd892b-6a18-407a-bfa3-41c676025112": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:6bfd892b-6a18-407a-bfa3-41c676025112",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:15Z",
+   "credentialSubject": {
+    "receipt_id": "8888fd71-154c-44d7-9b09-3983351bf29c",
+    "claim": "A-r-bdr-009-a7bcfe",
+    "advice": {
+     "action_id": "A-r-bdr-009-a7bcfe",
+     "kind": "practice",
+     "title": {
+      "bn": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+      "en": "Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "f75baa8b-1d1a-4ae3-94ae-836c2bb50a61",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:15Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 2,
+      "quote": "ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না",
+      "quote_sha256": "c3d209f42251c7aadd18bf849fdbf5fcfad20d2eb5792ae202819f1c832682a4",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     },
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 2,
+      "quote": "রোগ দেখার পর ইউরিয়া উপরি প্রয়োগ বন্ধ করতে হবে",
+      "quote_sha256": "6248671c7d996806599fdd5ed6005d26ab5acb4a5ebaf837d514c420b28cc7be",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-009",
+      "version": 1,
+      "credential_id": "urn:uuid:9709158e-fcc5-4a80-8d2b-186317a4a921",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:15Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:15Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z4Y8aVWkKUzeVNwgB721RURUdfBnCzm21hPFtW9MQd29HtYBZXJLvQ8vLWw8KDMLPFv7GiCr2rU7DEC6VQ21R4vXM"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:ebdd3e1e-59e5-464d-8186-f0eb781e1b1a": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:ebdd3e1e-59e5-464d-8186-f0eb781e1b1a",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:15Z",
+   "credentialSubject": {
+    "receipt_id": "8a08c443-539d-431e-bb16-efb26ed7f8db",
+    "claim": "A-r-bdr-010-20d7a9",
+    "advice": {
+     "action_id": "A-r-bdr-010-20d7a9",
+     "kind": "monitoring",
+     "title": {
+      "bn": "পাতার ডগা ও কিনারায় নীলচে, ভেজা ভেজা দাগ আছে কি না দেখুন। পেলে আপনার কর্মকর্তাকে জানান।",
+      "en": "Check leaf tips and edges for bluish, water-soaked spots. If you find them, tell your officer."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "f75baa8b-1d1a-4ae3-94ae-836c2bb50a61",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:15Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 1,
+      "quote": "প্রথমে পাতার অগ্রভাগ বা কিনারায় নীলাভ পানিচোষা দাগ দেখা যায়।",
+      "quote_sha256": "a9614d7baace1e6149318a76ff0f250c4197975f97a78b64a7e725467429dd3f",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     },
+     {
+      "doc_id": "DOC-BRRIKB-003",
+      "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+      "page": 1,
+      "quote": "ধান গাছের কুশি বা তার পরবর্তী যেকোন সময় পাতাপোড়া লক্ষণ দেখা যায়।",
+      "quote_sha256": "566015d3aa33c46ef06c7f272b1530b85ddc91c07b9a05a6a3b8bab367bce790",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 10, Fact Sheet 2 (bacterial leaf blight).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-010",
+      "version": 1,
+      "credential_id": "urn:uuid:8399fc8c-dd2f-415e-b407-4a116cc9cd9c",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:15Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:15Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zZ7T3Rnzx1sz3LjibnVG2TzeSrsNxut5RmcRLqrSdQSsZ7Gy3QAxQVUkFkAez5ver14tsVx3aofKZB7dEvJtgWi6"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:33caf7ce-9335-473d-af9d-13ec856fbc24": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:33caf7ce-9335-473d-af9d-13ec856fbc24",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:16Z",
+   "credentialSubject": {
+    "receipt_id": "74e0ab92-1a53-4c09-9286-c244efca45be",
+    "claim": "A-r-bdr-002-6835bd",
+    "advice": {
+     "action_id": "A-r-bdr-002-6835bd",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+      "en": "No spray needed now: count is below the threshold; count again in a few days."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9aa8d381-fca1-419e-a28a-e8479ee394bc",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "grain_fill",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "2f17c9a0cf309972",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:16Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-002",
+      "version": 1,
+      "credential_id": "urn:uuid:f79ee548-774d-4b73-85df-8a847e12d835",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:16Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:16Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z5HdX1Dp4kELJTG9Wd2sLvCC4QTaxsDGpj1S7RMfpbwvswyZ4MLt2FYje9azxJ3Usx2SfarcbyZamCBwZuPaME2sg"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:118a5d7b-5443-41d5-9f25-b2a5ab845847": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:118a5d7b-5443-41d5-9f25-b2a5ab845847",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:16Z",
+   "credentialSubject": {
+    "receipt_id": "ef1249c1-ac1c-4cce-ad72-453eb9cae243",
+    "claim": "A-r-bdr-005-37857e",
+    "advice": {
+     "action_id": "A-r-bdr-005-37857e",
+     "kind": "monitoring",
+     "title": {
+      "bn": "গাছে মাকড়সা খুঁজে দেখুন: বেশির ভাগ গাছে অন্তত একটি থাকলে মাকড়সা গাছফড়িং খাচ্ছে, তাই স্প্রে করার আগে আপনার কর্মকর্তাকে জিজ্ঞেস করুন।",
+      "en": "Look for spiders on your plants: if most plants have at least one, the spiders are eating the planthoppers, so ask your officer before any spray."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9aa8d381-fca1-419e-a28a-e8479ee394bc",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "grain_fill",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "2f17c9a0cf309972",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:16Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে অন্তত একটি মাকড়সা দেখা গেলে কীটনাশক ব্যবহার করা উচিত নয়। কারণ মাকড়সা বাদামি গাছফড়িং খেয়ে ধ্বংস করে।",
+      "quote_sha256": "915b6756df4cc98de7f21457707e25c6cdd76009cb0b50b585b6358534ef3ea7",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-005",
+      "version": 1,
+      "credential_id": "urn:uuid:6c193863-05fe-40a8-8750-0c7f24010147",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:16Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:16Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z38Rk6vpMAM4eZRYUBWNZjcYfEsasMbQHgfmQZ6RthrnCBNQPKAKvTmo9ZU5qT5azKBpnbbznbHNjzgErwLGp6Hz6"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:9dc5d317-8dca-40da-a0a6-f58888f5eb15": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:9dc5d317-8dca-40da-a0a6-f58888f5eb15",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:16Z",
+   "credentialSubject": {
+    "receipt_id": "2b22ecae-2083-45b5-b78f-205a060b8cf3",
+    "claim": "A-r-bdr-006-aa2864",
+    "advice": {
+     "action_id": "A-r-bdr-006-aa2864",
+     "kind": "practice",
+     "title": {
+      "bn": "জমিতে পানি জমে থাকতে দেবেন না: পানি জমে থাকলে গাছফড়িংয়ের আক্রমণ বেশি হয়।",
+      "en": "Do not let water stand in the field: planthopper attack is worse where water stands."
+     },
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9aa8d381-fca1-419e-a28a-e8479ee394bc",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "grain_fill",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "2f17c9a0cf309972",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:16Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "আর্দ্র ও ছায়াযুক্ত স্থান এবং জমিতে পানি জমে থাকলে আক্রমণ বেশি হয়।",
+      "quote_sha256": "bd7b55ed4f90b002d1fb32ec14723d69460eb2d3f7bfef21686f4ed609f7b79e",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     },
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমে থাকা পানি সরিয়ে দেয়া।",
+      "quote_sha256": "c3a29e3dfe54f7665dd297ae7977dda64610694cfb4af157bec4c14349295d50",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-006",
+      "version": 1,
+      "credential_id": "urn:uuid:8f4f1f5a-a12a-4077-ad35-2e23b9e8eb00",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:16Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:16Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zQRRYhMWqetrpp7dYHi3himMpHfMX5WEprRTC42nq17RzaGEi7Y1WEnHK9DHWwxNh7RgPcKP4RUaZ3P8Ku4AC94N"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:8b53395d-4905-4891-9e90-f5d15bcb14ee": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:8b53395d-4905-4891-9e90-f5d15bcb14ee",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:17Z",
+   "credentialSubject": {
+    "receipt_id": "80ef7d94-bcaf-48d8-bf2f-cdc59d82cdef",
+    "claim": "A-r-bdr-001-786a73",
+    "advice": {
+     "action_id": "A-r-bdr-001-786a73",
+     "kind": "input_decision",
+     "title": {
+      "bn": "সীমার ওপরে: নিয়ন্ত্রণের উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+      "en": "Above the threshold: contact your officer about control options now."
+     },
+     "decision": "recheck",
+     "traffic_light": "red",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9cd73afb-8fa8-48e8-ab1e-769649f52c80",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "grain_fill",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "2f17c9a0cf309972",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:17Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-001",
+      "version": 1,
+      "credential_id": "urn:uuid:b2abf63e-8781-46fc-81c6-700f559fe52b",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:17Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:17Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z3bD7SMPkXf8DDgfyZYmSKKhAsnDJy6gQVmYX94eCPozMZTE6TDns6uSMyNVttabY1S1Q3B6vabWXXbaFmgfjyBtq"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:e14595d6-5505-4bee-9111-a48465d7ad87": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:e14595d6-5505-4bee-9111-a48465d7ad87",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:17Z",
+   "credentialSubject": {
+    "receipt_id": "a9323d38-7c31-4d00-bce8-9f8820404091",
+    "claim": "A-r-bdr-006-204c01",
+    "advice": {
+     "action_id": "A-r-bdr-006-204c01",
+     "kind": "practice",
+     "title": {
+      "bn": "জমিতে পানি জমে থাকতে দেবেন না: পানি জমে থাকলে গাছফড়িংয়ের আক্রমণ বেশি হয়।",
+      "en": "Do not let water stand in the field: planthopper attack is worse where water stands."
+     },
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9cd73afb-8fa8-48e8-ab1e-769649f52c80",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "grain_fill",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "2f17c9a0cf309972",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:17Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "আর্দ্র ও ছায়াযুক্ত স্থান এবং জমিতে পানি জমে থাকলে আক্রমণ বেশি হয়।",
+      "quote_sha256": "bd7b55ed4f90b002d1fb32ec14723d69460eb2d3f7bfef21686f4ed609f7b79e",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     },
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমে থাকা পানি সরিয়ে দেয়া।",
+      "quote_sha256": "c3a29e3dfe54f7665dd297ae7977dda64610694cfb4af157bec4c14349295d50",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-006",
+      "version": 1,
+      "credential_id": "urn:uuid:8f4f1f5a-a12a-4077-ad35-2e23b9e8eb00",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:17Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:17Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z3FCciFwGvqBgFN7jsQcAwGnAbeWru6LyYpLgJsocMZYajiWwBrBTCcaAdTnWSyx9GNkF77j2ytsTYSR9BdUPUJvo"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:1926cfa7-ab11-4f9f-b4f4-59d892b35eac": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:1926cfa7-ab11-4f9f-b4f4-59d892b35eac",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:17Z",
+   "credentialSubject": {
+    "receipt_id": "a60c83cb-bb89-4c1c-a20c-51e1486d80f7",
+    "claim": "A-r-bdr-005-f06b38",
+    "advice": {
+     "action_id": "A-r-bdr-005-f06b38",
+     "kind": "monitoring",
+     "title": {
+      "bn": "গাছে মাকড়সা খুঁজে দেখুন: বেশির ভাগ গাছে অন্তত একটি থাকলে মাকড়সা গাছফড়িং খাচ্ছে, তাই স্প্রে করার আগে আপনার কর্মকর্তাকে জিজ্ঞেস করুন।",
+      "en": "Look for spiders on your plants: if most plants have at least one, the spiders are eating the planthoppers, so ask your officer before any spray."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9cd73afb-8fa8-48e8-ab1e-769649f52c80",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "grain_fill",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "2f17c9a0cf309972",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:17Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে অন্তত একটি মাকড়সা দেখা গেলে কীটনাশক ব্যবহার করা উচিত নয়। কারণ মাকড়সা বাদামি গাছফড়িং খেয়ে ধ্বংস করে।",
+      "quote_sha256": "915b6756df4cc98de7f21457707e25c6cdd76009cb0b50b585b6358534ef3ea7",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-005",
+      "version": 1,
+      "credential_id": "urn:uuid:6c193863-05fe-40a8-8750-0c7f24010147",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:17Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:17Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z4aYWdut9fgsdqr8xTdbubbYYicTXsFZjLLLPuvpxM4idsVwpMc6g8sfFUbXiCWUKbExEpiBp2eUoZGRnQK2snvuC"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:13ecf11f-3cdf-4a3f-b671-517197cdb2ed": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:13ecf11f-3cdf-4a3f-b671-517197cdb2ed",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:18Z",
+   "credentialSubject": {
+    "receipt_id": "8179ab35-6f82-40d9-b61a-d39db724f38f",
+    "claim": "A-r-plb-011-30ad8e",
+    "advice": {
+     "action_id": "A-r-plb-011-30ad8e",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এই সপ্তাহে সুরক্ষামূলক স্প্রের দরকার দেখা যাচ্ছে না: আমাদের পূর্বাভাস যাচাইয়ে নাবি ধসা রোগের অনুকূল কোনো সময় পাওয়া যায়নি, অথবা আপনার ফসল সুরক্ষিত এবং ভারী বৃষ্টির পূর্বাভাস নেই। গাছগুলো দেখতে থাকুন।",
+      "en": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants.",
+      "sw": "Hakuna haja ya kunyunyizia dawa ya kinga wiki hii: ukaguzi wetu wa utabiri haukupata kipindi kinachofaa baa chelewa, au zao lako limekingwa na hakuna mvua kubwa inayotabiriwa. Endelea kukagua mimea yako."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "44c41605-c994-4bbb-bbc6-aad2728bceb3",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:18Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "If a farmer thinks his crop is not well protected during the period favorable to infection, he should consider using a systemic or translaminar product.",
+      "quote_sha256": "4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 19,
+      "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+      "quote_sha256": "8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+      "quote_sha256": "95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-02]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-02]",
+      "value": 6.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-02]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-03]",
+      "value": 85,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-03]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-03]",
+      "value": 19.2,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-04]",
+      "value": 77,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-04]",
+      "value": 5.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-04]",
+      "value": 20.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-05]",
+      "value": 86,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-05]",
+      "value": 9.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-05]",
+      "value": 17.7,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-06]",
+      "value": 88,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-06]",
+      "value": 8.8,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-06]",
+      "value": 17.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-07]",
+      "value": 80,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-07]",
+      "value": 8.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-07]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-08]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-08]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-08]",
+      "value": 19.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_humid_mild_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-02]",
+      "value": 3.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-03]",
+      "value": 2.7,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-04]",
+      "value": 1.3,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-05]",
+      "value": 5.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-06]",
+      "value": 7.2,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-07]",
+      "value": 2.1,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-08]",
+      "value": 1.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_heavy_rain_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:18Z",
+      "retrieved_at": "2026-11-02T16:44:18Z",
+      "location_precision": "sample_location"
+     }
+    ],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "credential_id": "urn:uuid:a2a15280-5947-455e-8f7c-2702745ca46a",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "humid_mild_days_min",
+      "value": 2,
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "humid_rh_pct_min",
+      "value": 90,
+      "unit": "%",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "mild_temp_c_range",
+      "value": "10-25",
+      "unit": "C",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "heavy_rain_mm",
+      "value": 10,
+      "unit": "mm/day",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     }
+    ],
+    "confidence": {
+     "level": "medium",
+     "basis": "Inference, stated openly: the manual ties protection to periods favourable to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact products away (p. 24). Our forecast check, using the reviewer-set thresholds below, found no such period, or the crop is protected and no heavy rain is forecast. Forecasts can be wrong."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:18Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:18Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zu5QDRApwmEbzb3xUK29tpACL4LZLyU9hLkp75aCvm6qrBpvQmzVGj7tyvU4aRGoLzjyvBr4Quqmxei3BVKEnN9q"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:117581d9-156e-4ca8-a2f3-d5dcacc4652a": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:117581d9-156e-4ca8-a2f3-d5dcacc4652a",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:18Z",
+   "credentialSubject": {
+    "receipt_id": "8b557ca1-18bb-43af-89ec-f0e14c3ad011",
+    "claim": "A-r-plb-006-868bc6",
+    "advice": {
+     "action_id": "A-r-plb-006-868bc6",
+     "kind": "irrigation",
+     "title": {
+      "bn": "নালা দিয়ে অতিরিক্ত সেচ দেবেন না, বিশেষ করে যেখানে জমির পানি সহজে নামে না।",
+      "en": "Avoid excessive furrow irrigation, especially where the soil drains poorly.",
+      "sw": "Epuka kumwagilia maji kupita kiasi kupitia mifereji, hasa pale ambapo udongo hautoi maji vizuri."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "44c41605-c994-4bbb-bbc6-aad2728bceb3",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:18Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 28,
+      "quote": "Avoid excessive furrow irrigation, especially in soils with deficient drainage, because it may create micro- climates that favor disease or tuber rot.",
+      "quote_sha256": "05364bf8e94c06286d414f135ca3f0f7783621e9f4e767209b53fe23cfdd50a7",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-006",
+      "version": 1,
+      "credential_id": "urn:uuid:7a38a20b-a85b-4059-bf7f-c73562c5a0b7",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:18Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:18Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "zsqTo5UrebbebeqNFmWdqjgqBzkRJwJPzsRa41f2c9qZsVutWCQgSz4AahDYyeG2E5GYZ2Qu9htcthJDigaLarNp"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:6447f5b9-ecf2-4bc5-97c4-3ca24ed7496d": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:6447f5b9-ecf2-4bc5-97c4-3ca24ed7496d",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:19Z",
+   "credentialSubject": {
+    "receipt_id": "689b3c41-c75d-4023-8580-a45d90314e1b",
+    "claim": "A-r-plb-011-d65aee",
+    "advice": {
+     "action_id": "A-r-plb-011-d65aee",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এই সপ্তাহে সুরক্ষামূলক স্প্রের দরকার দেখা যাচ্ছে না: আমাদের পূর্বাভাস যাচাইয়ে নাবি ধসা রোগের অনুকূল কোনো সময় পাওয়া যায়নি, অথবা আপনার ফসল সুরক্ষিত এবং ভারী বৃষ্টির পূর্বাভাস নেই। গাছগুলো দেখতে থাকুন।",
+      "en": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants.",
+      "sw": "Hakuna haja ya kunyunyizia dawa ya kinga wiki hii: ukaguzi wetu wa utabiri haukupata kipindi kinachofaa baa chelewa, au zao lako limekingwa na hakuna mvua kubwa inayotabiriwa. Endelea kukagua mimea yako."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "c39130bc-cac5-4bb0-a37e-fd58b61dcfae",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:19Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "If a farmer thinks his crop is not well protected during the period favorable to infection, he should consider using a systemic or translaminar product.",
+      "quote_sha256": "4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 19,
+      "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+      "quote_sha256": "8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+      "quote_sha256": "95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-02]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-02]",
+      "value": 6.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-02]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-03]",
+      "value": 85,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-03]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-03]",
+      "value": 19.2,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-04]",
+      "value": 77,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-04]",
+      "value": 5.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-04]",
+      "value": 20.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-05]",
+      "value": 86,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-05]",
+      "value": 9.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-05]",
+      "value": 17.7,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-06]",
+      "value": 88,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-06]",
+      "value": 8.8,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-06]",
+      "value": 17.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-07]",
+      "value": 80,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-07]",
+      "value": 8.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-07]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-08]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-08]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-08]",
+      "value": 19.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_humid_mild_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-02]",
+      "value": 3.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-03]",
+      "value": 2.7,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-04]",
+      "value": 1.3,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-05]",
+      "value": 5.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-06]",
+      "value": 7.2,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-07]",
+      "value": 2.1,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-08]",
+      "value": 1.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_heavy_rain_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:19Z",
+      "retrieved_at": "2026-11-02T16:44:19Z",
+      "location_precision": "sample_location"
+     }
+    ],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "credential_id": "urn:uuid:a2a15280-5947-455e-8f7c-2702745ca46a",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "humid_mild_days_min",
+      "value": 2,
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "humid_rh_pct_min",
+      "value": 90,
+      "unit": "%",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "mild_temp_c_range",
+      "value": "10-25",
+      "unit": "C",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "heavy_rain_mm",
+      "value": 10,
+      "unit": "mm/day",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     }
+    ],
+    "confidence": {
+     "level": "medium",
+     "basis": "Inference, stated openly: the manual ties protection to periods favourable to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact products away (p. 24). Our forecast check, using the reviewer-set thresholds below, found no such period, or the crop is protected and no heavy rain is forecast. Forecasts can be wrong."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:19Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:19Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z2xaDYV9QeW8ZQQQ1AVkNbdGPfBKaBkK1i9oTaXQYALB17SiApTvciYeU2vpbVN4E25Y3rjNRbmtKQv7N4GB5ZEeH"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:e015d935-c49f-4c5f-8d7d-2ca217bc0745": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:e015d935-c49f-4c5f-8d7d-2ca217bc0745",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:19Z",
+   "credentialSubject": {
+    "receipt_id": "6b332f1c-52d3-4e4d-8079-fae19e2477e4",
+    "claim": "A-r-plb-006-b2dd1a",
+    "advice": {
+     "action_id": "A-r-plb-006-b2dd1a",
+     "kind": "irrigation",
+     "title": {
+      "bn": "নালা দিয়ে অতিরিক্ত সেচ দেবেন না, বিশেষ করে যেখানে জমির পানি সহজে নামে না।",
+      "en": "Avoid excessive furrow irrigation, especially where the soil drains poorly.",
+      "sw": "Epuka kumwagilia maji kupita kiasi kupitia mifereji, hasa pale ambapo udongo hautoi maji vizuri."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "c39130bc-cac5-4bb0-a37e-fd58b61dcfae",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:19Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 28,
+      "quote": "Avoid excessive furrow irrigation, especially in soils with deficient drainage, because it may create micro- climates that favor disease or tuber rot.",
+      "quote_sha256": "05364bf8e94c06286d414f135ca3f0f7783621e9f4e767209b53fe23cfdd50a7",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-006",
+      "version": 1,
+      "credential_id": "urn:uuid:7a38a20b-a85b-4059-bf7f-c73562c5a0b7",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:19Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:19Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z3JtnSfpw77M4nbCZZo1o22WG3nEnH7k95pZNuMn7bKnQzXkA2ERWvogBHGB2zGMbHV1rTJGjV1s2GLN6VY6UCUcC"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:24fc1534-229a-4a4a-ae49-638fcd089af2": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:24fc1534-229a-4a4a-ae49-638fcd089af2",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:19Z",
+   "credentialSubject": {
+    "receipt_id": "bbea97d6-f089-41d6-be5e-b1ac1ad28587",
+    "claim": "A-r-plb-010-918d7c",
+    "advice": {
+     "action_id": "A-r-plb-010-918d7c",
+     "kind": "practice",
+     "title": {
+      "bn": "বারবার সুরক্ষা ব্যবহার করলে একই ধরনের পণ্যের ওপর নির্ভর করবেন না; ধরন বদলে বদলে ব্যবহারের বিষয়ে আপনার কর্মকর্তাকে জিজ্ঞেস করুন।",
+      "en": "If protection is used repeatedly, do not rely on one product type; ask your officer about alternating types.",
+      "sw": "Ikiwa unatumia kinga mara kwa mara, usitegemee aina moja ya bidhaa; muulize afisa wako kuhusu kubadilisha aina."
+     },
+     "traffic_light": "amber",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "c39130bc-cac5-4bb0-a37e-fd58b61dcfae",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:19Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 26,
+      "quote": "Alternate applications of high-risk fungicides with low-risk fungicides, including the use of fungicides with different modes of action.",
+      "quote_sha256": "3755885992c8e3728b2900b0ebb4bdb7c37a26702173b316828982e4b5020704",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-010",
+      "version": 1,
+      "credential_id": "urn:uuid:fa4a1ae4-6693-499f-bd4b-093c6acbc2d9",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [],
+    "confidence": {
+     "level": "high",
+     "basis": "Direct practice statement from the cited source."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:19Z"
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:19Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z3SnCYqZzaTXyRhMo5oXNkbTLtPqANcrour2zEA5WsMzFqp6obG48gk7Kr65kCxPpcePCdjnxWTEXUkrgjT6mdK37"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:17c321d3-adda-4c86-a8fe-6b319a09ff71": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:17c321d3-adda-4c86-a8fe-6b319a09ff71",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:21Z",
+   "credentialSubject": {
+    "receipt_id": "1507ed3a-cad3-465f-b273-9eedadf9acea",
+    "claim": "A-r-bdr-002-0e20a9",
+    "advice": {
+     "action_id": "A-r-bdr-002-0e20a9",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+      "en": "No spray needed now: count is below the threshold; count again in a few days."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "84b9e40a-31be-4941-89cb-5bb48019f3fb",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:21Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [
+     {
+      "source": "farmer:question",
+      "variable": "question_sha256",
+      "unit": "sha256 of the question as written",
+      "value": "faaa82791ab8a100d26cca21cf44f8908b42af4bc1f46d333f51ce4ab6bc8c3d",
+      "observed_at": "2026-11-02T16:44:20Z",
+      "retrieved_at": "2026-11-02T16:44:20Z"
+     },
+     {
+      "source": "krishiloop:ask-router@0.2.0",
+      "variable": "question_match_confidence",
+      "value": 0.8791,
+      "unit": "hybrid (threshold 0.55128)",
+      "observed_at": "2026-11-02T16:44:20Z",
+      "retrieved_at": "2026-11-02T16:44:20Z"
+     }
+    ],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-002",
+      "version": 1,
+      "credential_id": "urn:uuid:f79ee548-774d-4b73-85df-8a847e12d835",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports. Answer to the farmer's question about an input decision: the weekly plan's own logic chose this decision for this field (the question matched R-BDR-002)."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:21Z",
+    "graph_path": [
+     "normalise",
+     "screen",
+     "retrieve_bm25",
+     "retrieve_dense",
+     "fuse",
+     "rerank:skipped",
+     "match_rules",
+     "decide",
+     "render",
+     "validate",
+     "receipt"
+    ]
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:21Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z3e9zavUzy2CTyxyiQYc9dixgvLo1JheadZBMEorwM2Ujekspcd4Lr46qQQAHFPpbjRKukpry38dr97fv7ZQpwTWD"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:e9820a07-ad7c-4301-8645-97ee4eb08e3f": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:e9820a07-ad7c-4301-8645-97ee4eb08e3f",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:22Z",
+   "credentialSubject": {
+    "receipt_id": "f12a193b-dac0-47a1-a829-1bdf42151831",
+    "claim": "A-r-bdr-002-6e1fef",
+    "advice": {
+     "action_id": "A-r-bdr-002-6e1fef",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।",
+      "en": "No spray needed now: count is below the threshold; count again in a few days."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "c58fc9f5-9d16-4a7e-89a5-9679c897c4c6",
+     "pack_id": "pack-bd-rice",
+     "crop": "rice",
+     "stage": "tillering",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "f1e22868a51e3b48",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:22Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-BRRIKB-001",
+      "title": "Brown planthopper (বাদামি গাছফড়িং), Fact Sheet 12, Rice Production Training Manual, Module 9",
+      "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+      "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_9/Factsheet12%20-%20Brown%20hopper.pdf",
+      "page": 1,
+      "quote": "জমির অধিকাংশ গাছে যদি ২-৪টি পেট মোটা ডিমওয়ালা পূর্ণবয়স্ক স্ত্রী বাদামি গাছ ফড়িং বা ৮-১০টি কীড়া উভয়ই দেখতে পাওয়া যায়",
+      "quote_sha256": "57f05638f07ca996c29c2614e9f16d2bcbb7ebd9f7122649dd584fb834f0163c",
+      "licence_status": "cited_permission_requested",
+      "acknowledgement": "Bangladesh Rice Research Institute (BRRI), Rice Knowledge Bank, Rice Production Training Manual, Module 9, Fact Sheet 12 (brown planthopper).",
+      "language": "bn"
+     }
+    ],
+    "data": [
+     {
+      "source": "farmer:question",
+      "variable": "question_sha256",
+      "unit": "sha256 of the question as written",
+      "value": "cbd096e2158f9ff987efddac84f2558d3a6e8b8f1597371a21891db3818c33cc",
+      "observed_at": "2026-11-02T16:44:21Z",
+      "retrieved_at": "2026-11-02T16:44:21Z"
+     },
+     {
+      "source": "krishiloop:ask-router@0.2.0",
+      "variable": "question_match_confidence",
+      "value": 0.9386,
+      "unit": "hybrid (threshold 0.55128)",
+      "observed_at": "2026-11-02T16:44:21Z",
+      "retrieved_at": "2026-11-02T16:44:21Z"
+     }
+    ],
+    "rule_refs": [
+     {
+      "rule_id": "R-BDR-002",
+      "version": 1,
+      "credential_id": "urn:uuid:f79ee548-774d-4b73-85df-8a847e12d835",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "bph_females_min",
+      "value": 2,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (2-4 gravid adult females per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     },
+     {
+      "name": "bph_nymphs_min",
+      "value": 8,
+      "unit": "per hill",
+      "set_by": "team",
+      "note": "Source gives a range (8-10 nymphs per plant, DOC-BRRIKB-001 p.1); the team uses the LOWER end (cautious side). Pathologist to confirm which end to use."
+     }
+    ],
+    "confidence": {
+     "level": "high",
+     "basis": "Inference, stated openly: the BRRI brown planthopper fact sheet gives a range (2-4 gravid adult females or 8-10 nymphs per plant, on most plants) above which control may be used (p.1). We use the lower end of that range as the count limit; the fact sheet's own next step is a chemical control, which we replace with 'contact your officer'. Counts are what the farmer reports. Answer to the farmer's question about an input decision: the weekly plan's own logic chose this decision for this field (the question matched R-BDR-003)."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:22Z",
+    "graph_path": [
+     "normalise",
+     "screen",
+     "retrieve_bm25",
+     "retrieve_dense",
+     "fuse",
+     "rerank:skipped",
+     "match_rules",
+     "decide",
+     "render",
+     "validate",
+     "receipt"
+    ]
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:22Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z4Um1JzR75krW9qBn8YiiH6hH3oSuoH45c8bTSdro537uZUE2L38KRWFGgswcGN1on6iM4EfiAZVsbFv5ktSdCEBP"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ },
+ "urn:uuid:c5b45261-939f-4be0-a3af-7575749ad325": {
+  "status": "authentic",
+  "reason": "issued by KrishiLoop and unaltered (this is not a guarantee of correctness)",
+  "expired": false,
+  "credential": {
+   "@context": [
+    "https://www.w3.org/ns/credentials/v2"
+   ],
+   "id": "urn:uuid:c5b45261-939f-4be0-a3af-7575749ad325",
+   "type": [
+    "VerifiableCredential",
+    "AdviceReceiptCredential"
+   ],
+   "issuer": "did:web:127.0.0.1%3A5173",
+   "validFrom": "2026-11-02T16:44:22Z",
+   "credentialSubject": {
+    "receipt_id": "2bb5173f-bedc-4a43-bed5-6bc97d78cace",
+    "claim": "A-r-plb-011-bf5777",
+    "advice": {
+     "action_id": "A-r-plb-011-bf5777",
+     "kind": "input_decision",
+     "title": {
+      "bn": "এই সপ্তাহে সুরক্ষামূলক স্প্রের দরকার দেখা যাচ্ছে না: আমাদের পূর্বাভাস যাচাইয়ে নাবি ধসা রোগের অনুকূল কোনো সময় পাওয়া যায়নি, অথবা আপনার ফসল সুরক্ষিত এবং ভারী বৃষ্টির পূর্বাভাস নেই। গাছগুলো দেখতে থাকুন।",
+      "en": "No protective spray indicated this week: our forecast check found no period favourable to late blight, or your crop is protected and no heavy rain is forecast. Keep checking your plants.",
+      "sw": "Hakuna haja ya kunyunyizia dawa ya kinga wiki hii: ukaguzi wetu wa utabiri haukupata kipindi kinachofaa baa chelewa, au zao lako limekingwa na hakuna mvua kubwa inayotabiriwa. Endelea kukagua mimea yako."
+     },
+     "decision": "dont_spray",
+     "traffic_light": "green",
+     "phrasing_model": null
+    },
+    "plan": {
+     "plan_id": "9ee505ca-9958-454d-ad54-fec5c5964796",
+     "pack_id": "pack-potato-late-blight",
+     "crop": "potato",
+     "stage": "vegetative",
+     "valid_from": "2026-11-02",
+     "valid_to": "2026-11-08",
+     "field_ref": "9ad5d60debc230c0",
+     "data_mode": "live",
+     "data_as_of": "2026-11-02T16:44:22Z"
+    },
+    "sources": [
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "If a farmer thinks his crop is not well protected during the period favorable to infection, he should consider using a systemic or translaminar product.",
+      "quote_sha256": "4bac019be72ea04669c7cee25754d5ef23deefeb519f702c81ca55f420ceb45c",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 19,
+      "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+      "quote_sha256": "8aed0660599dcc8865c75ab78d9c1911355da7072688277ee803a92d24bdb99a",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     },
+     {
+      "doc_id": "DOC-CIP-001",
+      "title": "Potato late blight: Technical manual",
+      "publisher": "International Potato Center (CIP)",
+      "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+      "page": 24,
+      "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+      "quote_sha256": "95342243b745964008289fdf8b5dcded5b50ef1b0ddd44f17970218f49680e5b",
+      "licence_status": "permitted",
+      "acknowledgement": "Pérez, W. & Forbes, G. (2010). Potato late blight: Technical manual. CIP, Lima. ISBN 978-92-9060-391-7.",
+      "language": "en"
+     }
+    ],
+    "data": [
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-02]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-02]",
+      "value": 6.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-02]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-03]",
+      "value": 85,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-03]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-03]",
+      "value": 19.2,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-04]",
+      "value": 77,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-04]",
+      "value": 5.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-04]",
+      "value": 20.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-05]",
+      "value": 86,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-05]",
+      "value": 9.1,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-05]",
+      "value": 17.7,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-06]",
+      "value": 88,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-06]",
+      "value": 8.8,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-06]",
+      "value": 17.9,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-07]",
+      "value": 80,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-07]",
+      "value": 8.0,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-07]",
+      "value": 18.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "rh_mean_pct[2026-11-08]",
+      "value": 84,
+      "unit": "%",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmin_c[2026-11-08]",
+      "value": 8.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "tmax_c[2026-11-08]",
+      "value": 19.6,
+      "unit": "C",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_humid_mild_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-02]",
+      "value": 3.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-02",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-03]",
+      "value": 2.7,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-03",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-04]",
+      "value": 1.3,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-04",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-05]",
+      "value": 5.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-05",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-06]",
+      "value": 7.2,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-06",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-07]",
+      "value": 2.1,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-07",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "open-meteo:forecast",
+      "variable": "precip_mm[2026-11-08]",
+      "value": 1.8,
+      "unit": "mm",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "forecast_for": "2026-11-08",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "krishiloop:derived",
+      "variable": "forecast_heavy_rain_days",
+      "value": 0,
+      "unit": "days",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "retrieved_at": "2026-11-02T16:44:22Z",
+      "location_precision": "sample_location"
+     },
+     {
+      "source": "farmer:question",
+      "variable": "question_sha256",
+      "unit": "sha256 of the question as written",
+      "value": "c3544d70d9ff023ac43cd61d5e40d6b12e3a99ba8f64113748b89b67ed5ed550",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "retrieved_at": "2026-11-02T16:44:22Z"
+     },
+     {
+      "source": "krishiloop:ask-router@0.2.0",
+      "variable": "question_match_confidence",
+      "value": 0.7838,
+      "unit": "hybrid (threshold 0.55128)",
+      "observed_at": "2026-11-02T16:44:22Z",
+      "retrieved_at": "2026-11-02T16:44:22Z"
+     }
+    ],
+    "rule_refs": [
+     {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "credential_id": "urn:uuid:a2a15280-5947-455e-8f7c-2702745ca46a",
+      "review_level": "pending"
+     }
+    ],
+    "reviewer_parameters": [
+     {
+      "name": "humid_mild_days_min",
+      "value": 2,
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "humid_rh_pct_min",
+      "value": 90,
+      "unit": "%",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "mild_temp_c_range",
+      "value": "10-25",
+      "unit": "C",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     },
+     {
+      "name": "heavy_rain_mm",
+      "value": 10,
+      "unit": "mm/day",
+      "set_by": "team",
+      "note": "NOT from source; to be set by the pathologist."
+     }
+    ],
+    "confidence": {
+     "level": "medium",
+     "basis": "Inference, stated openly: the manual ties protection to periods favourable to infection (p. 24), names those conditions (p. 19) and notes that rain washes contact products away (p. 24). Our forecast check, using the reviewer-set thresholds below, found no such period, or the crop is protected and no heavy rain is forecast. Forecasts can be wrong. Answer to the farmer's question about an input decision: the weekly plan's own logic chose this decision for this field (the question matched R-PLB-011)."
+    },
+    "generated_by": {
+     "planner_version": "0.3.0",
+     "validator_version": "0.3.0",
+     "phrasing_model": null
+    },
+    "created_at": "2026-11-02T16:44:22Z",
+    "graph_path": [
+     "normalise",
+     "screen",
+     "retrieve_bm25",
+     "retrieve_dense",
+     "fuse",
+     "rerank:skipped",
+     "match_rules",
+     "decide",
+     "render",
+     "validate",
+     "receipt"
+    ]
+   },
+   "validUntil": "2026-11-09T23:59:59Z",
+   "proof": {
+    "type": "DataIntegrityProof",
+    "cryptosuite": "eddsa-jcs-2022",
+    "created": "2026-11-02T16:44:22Z",
+    "verificationMethod": "did:web:127.0.0.1%3A5173#key-1",
+    "proofPurpose": "assertionMethod",
+    "@context": [
+     "https://www.w3.org/ns/credentials/v2"
+    ],
+    "proofValue": "z59ahPaudafVE8LMcjUd7mVRMeKv4DmwcWun6V6Nqkr8ANjvvkCMWprTDSj9Bmeq2eeegP5K6oH4s1YhdkfUAjz9r"
+   }
+  },
+  "sandbox": true,
+  "status_list": "http://127.0.0.1:5173/status/demo-9475fea065bb4324"
+ }
+}
