@@ -210,7 +210,7 @@ const story = {
   'story.end.line': 'Point a phone camera at this code. It opens the public verifier. No app, no login.',
 
   /* ---------------------------------------------------------------- home (the new front page) */
-  'home.kicker': 'Live demo · Rice in Bangladesh · Potato in Kenya',
+  'home.kicker': 'Demo · Rice in Bangladesh · Potato in Kenya',
   'home.title.a': 'Farm advice',
   'home.title.b': 'with a receipt.',
   'home.sub': 'Every answer is sourced, signed and',

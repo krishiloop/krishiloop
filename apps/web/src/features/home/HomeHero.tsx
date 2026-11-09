@@ -37,7 +37,6 @@ export function HomeHero() {
       <div className="wrap relative grid min-h-[calc(100svh-var(--header-h))] items-center gap-12 pb-28 pt-10 lg:grid-cols-[1.12fr_1fr] lg:gap-6 lg:pb-24">
         <motion.div style={{ opacity: copyOpacity }} className="relative z-10">
           <p className="hero-rise flex items-center gap-2.5 font-mono text-[0.75rem] tracking-[0.04em] text-ink-2" style={{ '--i': 0 } as CSSProperties}>
-            <span className="ping" aria-hidden />
             {t('home.kicker')}
           </p>
           <h1 id="home-title" className="t-display mt-7 text-ink [font-size:clamp(3.2rem,0.8rem+6.4vw,7.4rem)]">
