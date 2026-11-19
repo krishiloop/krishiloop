@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SiteLayout } from './shell/SiteLayout';
 import { useI18n } from './lib/i18n';
@@ -15,6 +15,7 @@ const ProofPage = lazy(() => import('./features/proof/ProofPage'));
 const AboutPage = lazy(() => import('./features/about/AboutPage'));
 const TryPage = lazy(() => import('./features/try/TryPage')); // builder I: /try
 const MapPage = lazy(() => import('./features/map/MapPage')); // builder M: the Disease map
+const MobileApp = lazy(() => import('./features/mobile/MobileApp')); // builder Mo: the phone app at /m (no site header or footer)
 
 function NotFound() {
   const { t } = useI18n();
@@ -36,6 +37,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="m" element={<Suspense fallback={null}><MobileApp /></Suspense>} />
         <Route element={<SiteLayout />}>
           <Route index element={<HomePage />} />
           <Route path="receipt" element={<ReceiptPage />} />

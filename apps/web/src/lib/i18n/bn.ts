@@ -22,7 +22,9 @@ import diseaseMap from './bn.map'; // builder M: the Disease map
 import tryPage from './bn.try'; // builder I: the /try tools
 import tryStrip from './bn.trystrip'; // builder I: the "Try it" strip
 import homestory from './bn.homestory'; // builder H: the home hero story
+import mobile from './bn.mobile'; // builder Mo: the phone app (/m) and Open on your phone
 
+import receipt from './bn.receipt'; // builder Pg: the /receipt walk-through
 const d: Record<Key, string> = {
   ...ui,
   ...story,
@@ -39,6 +41,8 @@ const d: Record<Key, string> = {
   ...tryPage,
   ...tryStrip,
   ...homestory,
+  ...mobile,
+  ...receipt,
 };
 
 export default d;

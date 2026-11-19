@@ -66,18 +66,25 @@ export default function OfficerPage() {
   const stats = useConsoleStats();
 
   const openCases = inbox.filter((i) => i.status === 'open').length;
+  // today's urgent cases and visit requests: a count of the open cases on screen (recorded or this sandbox's)
+  const urgentCases = inbox.filter((i) => i.status === 'open' && (i.priority === 'urgent' || i.reason_code === 'unsafe_intent')).length;
+  const visitCases = inbox.filter((i) => i.status === 'open' && i.reason_code === 'visit_request').length;
   const openPhotos = photo.cases.filter((c) => caseStatus(c) === 'open').length;
   const counters: Counters = useMemo(() => {
     const listReady = inboxMeta.load === 'ready' || inboxMeta.load === 'error';
-    if (st.source === 'recorded') return { open: listReady ? openCases : null, receipts: st.receipts.length, recalled: st.recalls.length, source: 'recorded' };
-    if (st.source === 'live' && stats.load === 'none') return { open: listReady ? openCases : null, receipts: st.receipts.length, recalled: st.recalls.length, source: 'live' };
+    const urgent = listReady ? urgentCases : null;
+    const visits = listReady ? visitCases : null;
+    if (st.source === 'recorded') return { open: listReady ? openCases : null, urgent, visits, receipts: st.receipts.length, recalled: st.recalls.length, source: 'recorded' };
+    if (st.source === 'live' && stats.load === 'none') return { open: listReady ? openCases : null, urgent, visits, receipts: st.receipts.length, recalled: st.recalls.length, source: 'live' };
     return {
       open: listReady ? openCases : stats.stats ? stats.stats.inbox_open : null,
+      urgent,
+      visits,
       receipts: stats.stats ? receiptsSigned(stats.stats) : null,
       recalled: stats.stats ? stats.stats.rule_versions_recalled : null,
       source: st.source === 'live' ? 'live' : null,
     };
-  }, [st.source, st.receipts.length, st.recalls.length, stats, inboxMeta.load, openCases]);
+  }, [st.source, st.receipts.length, st.recalls.length, stats, inboxMeta.load, openCases, urgentCases, visitCases]);
 
   const setTab = useCallback((v: Tab) => nav(`/officer?tab=${v}`, { replace: true }), [nav]);
   const select = useCallback((caseKey: string) => nav(`/officer/${encodeURIComponent(caseKey)}#case`), [nav]);
@@ -99,7 +106,7 @@ export default function OfficerPage() {
   ];
 
   return (
-    <div className="off-root">
+    <div className="off-root botanic-bg">
       <div className="wrap pt-8 sm:pt-12">
         <TopStrip counters={counters} />
         <ConsoleTabs tabs={tabs} value={tab} onChange={setTab} label={t('off.tabs')} />

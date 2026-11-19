@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarClock, FlaskConical, WifiOff } from 'lucide-react';
+import { CalendarClock, ChevronDown, FlaskConical, WifiOff } from 'lucide-react';
 import type { AreaTrustSubject, Receipt } from '../../lib/api/types';
 import type { VerifyOutcome } from '../../lib/api/client';
 import { currentSessionId, isMySandboxCredential } from '../../lib/api/client';
@@ -44,10 +44,13 @@ export function useMeaning(kind: VerdictKind, receipt: Receipt | null, area: Are
       return { line: t('vf.meaning.authentic'), sub: t('vf.sub.authentic') };
     case 'expired':
       return { line: t('vf.meaning.expired'), sub: t('vf.sub.expired', week) };
-    case 'recalled':
-      return photo.length && !splitRecalled(outcome?.rules).rules.length
-        ? { line: t('vf.meaning.photoWithdrawn'), sub: t('vf.sub.photoWithdrawn', { area: photo[0]!.area }) }
-        : { line: t('vf.meaning.recalled'), sub: t('vf.sub.recalled') };
+    case 'recalled': {
+      if (photo.length && !splitRecalled(outcome?.rules).rules.length) return { line: t('vf.meaning.photoWithdrawn'), sub: t('vf.sub.photoWithdrawn', { area: photo[0]!.area }) };
+      // when this browser made the recall (the officer desk), the day it was taken back is known
+      const sample = outcome?.source === 'sample';
+      const at = splitRecalled(outcome?.rules).rules.map((r) => recallOf(r, sample ? 'sample' : 'sandbox', currentSessionId())).find(Boolean)?.at;
+      return { line: at ? t('vf.meaning.recalledOn', { date: fmtDate(at, lang, 'long') }) : t('vf.meaning.recalled'), sub: t('vf.sub.recalled') };
+    }
     case 'invalid':
       return { line: t('vf.meaning.invalid'), sub: /unknown/i.test(outcome?.reason ?? '') ? t('vf.sub.invalid.unknown') : t('vf.sub.invalid.altered') };
     default:
@@ -101,36 +104,36 @@ export function VerdictStage({
 
   return (
     <section
-      className="vf-stage"
+      className="vf-stage vf-v5"
       data-kind={stageKind}
       data-testid={checking ? 'checking' : 'verdict'}
       data-status={checking ? undefined : kind}
       aria-busy={checking || undefined}
       aria-labelledby="vf-verdict-line"
     >
-      <div className="wrap vf-stage-grid">
-        <div className="vf-card-col">
-          <div className="vf-check" data-state={stageKind}>
-            {checking && <BorderBeam size={150} duration={2.2} radius={26} />}
-            <div className="vf-check-qr paper-object">
-              <Qr value={verifyUrl(id)} size={132} label={t('vf.checking.qr')} />
+      <div className="wrap vf-v5-grid">
+        <div className="vf-v5-mark">
+          {checking ? (
+            <div className="vf-check" data-state={stageKind}>
+              <BorderBeam size={150} duration={2.2} radius={26} />
+              <div className="vf-check-qr paper-object">
+                <Qr value={verifyUrl(id)} size={132} label={t('vf.checking.qr')} />
+              </div>
+              <p className="vf-check-id">
+                <span className="label">№</span>
+                <HyperText text={`…${shortId(id, 12)}`} duration={760} />
+              </p>
             </div>
-            <p className="vf-check-id">
-              <span className="label">№</span>
-              <HyperText text={`…${shortId(id, 12)}`} duration={760} />
-            </p>
-            {!checking && kind !== 'unreachable' && (
-              <span className="vf-stamp-wrap" key={`s-${landKey}`}>
-                {(kind === 'authentic' || kind === 'recalled') && <span className="vf-ring" data-kind={kind} aria-hidden />}
-                <Stamp kind={STAMP[kind]} land size="inherit" sub={`KrishiLoop · ${fmtDate(checkedAt, lang, 'short')}`} className="vf-stamp" />
-              </span>
-            )}
-            {!checking && kind === 'unreachable' && (
-              <span className="vf-offline" aria-hidden>
-                <WifiOff size={44} strokeWidth={1.4} />
-              </span>
-            )}
-          </div>
+          ) : kind !== 'unreachable' ? (
+            <span className="vf-bigstamp" key={`s-${landKey}`}>
+              {(kind === 'authentic' || kind === 'recalled') && <span className="vf-ring" data-kind={kind} aria-hidden />}
+              <Stamp kind={STAMP[kind]} land size="inherit" sub={`KrishiLoop · ${fmtDate(checkedAt, lang, 'short')}`} className="vf-stamp" />
+            </span>
+          ) : (
+            <span className="vf-bigstamp vf-offline" aria-hidden>
+              <WifiOff size={56} strokeWidth={1.4} />
+            </span>
+          )}
         </div>
 
         <div className="vf-stage-copy">
@@ -140,6 +143,10 @@ export function VerdictStage({
               <h1 id="vf-verdict-line" className="vf-meaning">
                 {t('vf.checking.title')}
               </h1>
+              <div className="vf-run-wrap">
+                <p className="label">{t('vf.run.live')}</p>
+                <RunLedger steps={steps} />
+              </div>
             </>
           ) : (
             <div className="thud" key={`copy-${landKey}`}>
@@ -211,13 +218,36 @@ export function VerdictStage({
               <div className={cx('vf-actions no-print')}>{actions}</div>
             </div>
           )}
-
-          <div className={cx('vf-run-wrap', !checking && 'is-done')}>
-            <p className="label">{checking ? t('vf.run.live') : t('vf.run.title')}</p>
-            <RunLedger steps={steps} compact={!checking} />
-          </div>
         </div>
       </div>
+
+      {!checking && (
+        <div className="wrap">
+          {/* what was checked, step by step, for anyone who wants it: folded so the verdict reads first */}
+          <details className="vf-details" data-testid="vf-details">
+            <summary>
+              <ChevronDown size={18} aria-hidden className="vf-details-chev" />
+              <span>{t('vf.details.show')}</span>
+              <span className="vf-details-sub">{t('vf.details.sub')}</span>
+            </summary>
+            <div className="vf-details-body">
+              <div className="vf-check" data-state={stageKind}>
+                <div className="vf-check-qr paper-object">
+                  <Qr value={verifyUrl(id)} size={120} label={t('vf.checking.qr')} />
+                </div>
+                <p className="vf-check-id">
+                  <span className="label">№</span>
+                  <span className="mono">…{shortId(id, 12)}</span>
+                </p>
+              </div>
+              <div className="vf-run-wrap is-done">
+                <p className="label">{t('vf.run.title')}</p>
+                <RunLedger steps={steps} compact />
+              </div>
+            </div>
+          </details>
+        </div>
+      )}
     </section>
   );
 }

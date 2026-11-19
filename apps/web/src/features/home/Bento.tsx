@@ -122,7 +122,7 @@ export function Bento() {
   const on = useOnScreen(box);
   const credential = STORY.calm.action.receipt_credential_id ?? '';
   return (
-    <section className="section cv" aria-labelledby="bento-title">
+    <section className="section mesh mesh-garden cv" aria-labelledby="bento-title">
       <div className="wrap">
         <Head eyebrow={t('story.feat.eyebrow')} title={t('story.feat.title')} id="bento-title" />
         <div ref={box} className="mt-14 grid gap-4 md:grid-cols-6" data-offscreen={on ? undefined : ''}>

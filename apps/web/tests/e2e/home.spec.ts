@@ -2,8 +2,9 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 /**
- * The home hero's scroll story (builder H, v4): a field of leaves on a canvas that morphs through six pictures, each
- * with one line; and the loader that draws the KrishiLoop mark while the app's code loads.
+ * The home hero's story (builder H v4; v5 builder Ho: it plays by itself): a field of leaves on a canvas that morphs
+ * through six pictures, each with one line and its own pastel; the phone band and the team strip; and the loader that
+ * draws the KrishiLoop mark while the app's code loads.
  */
 const seriousA11y = async (page: Page) => {
   await page.waitForFunction(() =>
@@ -25,7 +26,10 @@ const painted = (page: Page) =>
     return n;
   });
 
-test('home story: six pictures with one line each, dots jump between them, and the leaves are their own chunk', async ({ page }) => {
+/** the line on screen now (the one leaving, if any, is .is-out) */
+const lineNow = (page: Page) => page.locator('section.kg-hero .kg-line:not(.is-out)');
+
+test('home story: six pictures that play by themselves, a pause button, dots that jump, and the leaves in their own chunk', async ({ page }) => {
   const chunks: string[] = [];
   page.on('request', (r) => {
     if (/story\/field|field-[\w-]+\.js/.test(r.url())) chunks.push(r.url());
@@ -42,39 +46,57 @@ test('home story: six pictures with one line each, dots jump between them, and t
   // every line is in the page for screen readers, and the canvas is hidden from them
   const lines = hero.locator('figcaption ol li');
   await expect(lines).toHaveCount(6);
-  await expect(lines.nth(3)).toContainText('Reports from nearby farms warn the whole area.');
+  await expect(lines.nth(3)).toContainText('When nearby farms report a disease, the whole area is warned.');
   await expect(hero.locator('canvas')).toHaveAttribute('aria-hidden', 'true');
   await expect(hero.locator('.kg-illus')).toBeVisible();
   await expect(hero.locator('.kg-illus')).toContainText('Illustration: drawn leaves, not real data');
-  // the first picture, then a dot takes the reader to the weather warning
-  await expect(hero.locator('.kg-line')).toContainText('Your field');
+  // it plays by itself: the first picture, then the crop doctor a few seconds later, each with its own pastel
+  await expect(lineNow(page)).toContainText('Your field');
+  await expect(hero).toHaveAttribute('data-tone', 'butter');
+  await expect(lineNow(page)).toContainText('Crop doctor', { timeout: 9000 });
+  await expect(hero).toHaveAttribute('data-tone', 'lotus');
+  // a dot jumps to the weather warning; while the mouse rests on the story, it waits
   const dot = hero.getByRole('button', { name: 'Go to step 3: Weather warning' });
   await dot.click();
   await expect(dot).toHaveAttribute('aria-current', 'step');
-  await expect(hero.locator('.kg-line')).toContainText('Rain on the way?');
-  // the headline is still on screen while the story is pinned
+  await expect(lineNow(page)).toContainText('Rain coming?');
+  await expect(hero).toHaveAttribute('data-paused', '');
+  await page.waitForTimeout(5600);
+  await expect(dot).toHaveAttribute('aria-current', 'step');
+  // the mouse leaves: after a moment it plays on to the next picture
+  await page.mouse.move(4, 4);
+  await expect(hero.getByRole('button', { name: 'Go to step 4: Disease map' })).toHaveAttribute('aria-current', 'step', { timeout: 9000 });
+  // the visible pause button stops it for good (WCAG 2.2.2), and play starts it again
+  const pause = hero.getByRole('button', { name: 'Pause the story' });
+  await expect(pause).toBeVisible();
+  await pause.click();
+  await page.mouse.move(4, 4);
+  const play = hero.getByRole('button', { name: 'Play the story' });
+  await expect(play).toBeVisible();
+  const at = await hero.locator('.kg-dot[aria-current]').getAttribute('aria-label');
+  await page.waitForTimeout(6000);
+  expect(await hero.locator('.kg-dot[aria-current]').getAttribute('aria-label'), 'paused: the picture stays').toBe(at);
+  await play.click();
+  await expect(hero.getByRole('button', { name: 'Pause the story' })).toBeVisible();
+  // the headline stays on screen the whole time, and the hero is one screen tall (nothing pinned)
   await expect(page.getByRole('heading', { level: 1 })).toBeInViewport();
-  await expect(hero.getByRole('link', { name: /Try the farmer app/ })).toBeInViewport();
-  // back to the first picture, then skip the story: the page lands below the band
-  await hero.getByRole('button', { name: 'Go to step 1: Your field' }).click();
-  await expect(hero.locator('.kg-line')).toContainText('Your field');
-  await hero.getByRole('link', { name: 'Skip the story' }).click();
-  await expect(page).toHaveURL(/#home-after$/);
-  await expect(page.getByRole('heading', { level: 1 })).not.toBeInViewport({ timeout: 5000 });
+  const h = await hero.evaluate((el) => el.getBoundingClientRect().height);
+  expect(h).toBeLessThanOrEqual((await page.evaluate(() => window.innerHeight)) + 2);
 });
 
-test('home story: reduced motion draws each picture once, still', async ({ page }) => {
+test('home story: reduced motion starts paused and draws each picture once, still', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const hero = page.locator('section.kg-hero');
   await expect(hero.locator('.kg-field[data-live]')).toHaveCount(1);
   await expect.poll(() => painted(page), { timeout: 8000 }).toBeGreaterThan(200);
+  await expect(hero.getByRole('button', { name: 'Play the story' })).toBeVisible();
   const a = await painted(page);
   await page.waitForTimeout(700);
   expect(await painted(page), 'nothing moves under reduced motion').toBe(a);
   await expect(hero.locator('.kg-hint')).toHaveCount(0);
   await hero.getByRole('button', { name: 'Go to step 6: The loop' }).click();
-  await expect(hero.locator('.kg-line')).toContainText('called back from every farmer');
+  await expect(lineNow(page)).toContainText('we take it back from every farmer');
   await page.waitForTimeout(300);
   expect(await painted(page), 'the still picture changed with the step').not.toBe(a);
 });
@@ -84,10 +106,32 @@ test('home story: no serious accessibility problems mid-story, Bangla, dark, pho
   await page.goto('/?lang=bn&theme=dark');
   const hero = page.locator('section.kg-hero');
   await hero.getByRole('button', { name: /৪ নম্বর ধাপে যান/ }).click();
-  await expect(hero.locator('.kg-line')).toContainText('গ্রামের রোগ-মানচিত্র');
+  await expect(lineNow(page)).toContainText('রোগের মানচিত্র');
+  await expect(hero.getByRole('button', { name: 'গল্প থামান' })).toBeVisible();
   const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(over, 'no horizontal page scroll').toBeLessThanOrEqual(1);
   expect(await seriousA11y(page)).toEqual([]);
+});
+
+test('home: "Use it on your phone" (QR and copy link to /m) and the team strip, in both themes, at 360 px', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 780 });
+  for (const theme of ['light', 'dark']) {
+    await page.goto(`/?theme=${theme}`);
+    const band = page.getByTestId('phone-band');
+    await band.scrollIntoViewIfNeeded();
+    await expect(band.getByRole('heading', { level: 2, name: 'Use it on your phone.' })).toBeVisible();
+    await expect(band.getByTestId('open-on-phone-url')).toHaveValue(/\/m$/);
+    await expect(band.getByRole('link', { name: /Open the phone app/ })).toHaveAttribute('href', '/m');
+    const strip = page.getByTestId('team-strip');
+    await strip.scrollIntoViewIfNeeded();
+    await expect(strip.getByRole('img')).toHaveCount(5);
+    await expect(strip.getByRole('img', { name: 'Abdullah Rubab' })).toBeVisible();
+    await expect(strip).toContainText('Team lead');
+    await expect(strip.getByRole('link', { name: /Meet the team/ })).toHaveAttribute('href', '/about#team');
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(over, `no horizontal page scroll (${theme})`).toBeLessThanOrEqual(1);
+    expect(await seriousA11y(page), theme).toEqual([]);
+  }
 });
 
 test('loader: the mark is drawn by the HTML alone, stays out of the way, and shows once per session', async ({ page }) => {

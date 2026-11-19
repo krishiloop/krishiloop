@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCheck, CircleDot, Inbox, MessageCircleQuestion, Undo2 } from 'lucide-react';
+import { CheckCheck, CircleDot, Inbox, MapPin, MessageCircleQuestion, PenLine, Phone, Search, Siren, Undo2, X } from 'lucide-react';
 import type { InboxItem } from '../../lib/api/types';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, fmtNum, humanize, pickText } from '../../lib/format';
@@ -23,12 +23,19 @@ export function InboxPanel({ selectedId, onSelect, onClose }: { selectedId: stri
   const meta = useInboxMeta();
   const wide = useMedia(WIDE);
   const [filter, setFilter] = useState<Filter>('open');
+  const [query, setQuery] = useState('');
+  const [urgentOnly, setUrgentOnly] = useState(false);
   // on wide screens the newest open case is already open beside the list (no URL change until the officer picks one)
   const autoId = wide && !selectedId ? ((items.find((i) => i.status === filter || filter === 'all') ?? null)?.item_id ?? null) : null;
   const activeId = selectedId ?? autoId;
   const selected = activeId ? (items.find((i) => i.item_id === activeId) ?? null) : null;
   const counts = { open: items.filter((i) => i.status === 'open').length, resolved: items.filter((i) => i.status === 'resolved').length, all: items.length };
-  const shown = items.filter((i) => filter === 'all' || i.status === filter);
+  const q = query.trim().toLowerCase();
+  const shown = items
+    .filter((i) => filter === 'all' || i.status === filter)
+    .filter((i) => !urgentOnly || isUrgent(i))
+    .filter((i) => !q || [i.farmer_display_name, i.field_id, i.question ?? '', reasonTitle(i.reason_code, t), i.item_id].some((v) => v.toLowerCase().includes(q)));
+  const urgentCount = items.filter((i) => (filter === 'all' || i.status === filter) && isUrgent(i)).length;
 
   // a case opened by link stays in view even when the filter would hide it
   const linked = selectedId ? (items.find((i) => i.item_id === selectedId) ?? null) : null;
@@ -60,6 +67,23 @@ export function InboxPanel({ selectedId, onSelect, onClose }: { selectedId: stri
             }))}
           />
         </div>
+        <div className="off-queue-tools">
+          <label className="off-search">
+            <Search size={16} aria-hidden />
+            <span className="sr-only-live">{t('off.inbox.search')}</span>
+            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('off.inbox.searchPh')} data-testid="case-search" />
+            {query && (
+              <button type="button" className="off-search-x" onClick={() => setQuery('')} aria-label={t('off.inbox.clear')}>
+                <X size={14} aria-hidden />
+              </button>
+            )}
+          </label>
+          <button type="button" className="off-pchip" data-tone="terracotta" aria-pressed={urgentOnly} onClick={() => setUrgentOnly((v) => !v)} data-testid="urgent-only">
+            <Siren size={14} aria-hidden />
+            {t('off.inbox.urgentOnly')}
+            <span className="mono text-xs">{fmtNum(urgentCount, lang)}</span>
+          </button>
+        </div>
         <p className="mt-3 text-sm text-ink-3">{t('off.inbox.local')}</p>
         {!wide && selectedId && !linked && !loading && (
           <div className="mt-4">
@@ -75,15 +99,15 @@ export function InboxPanel({ selectedId, onSelect, onClose }: { selectedId: stri
           </div>
         ) : shown.length === 0 ? (
           <div className="off-empty mt-4" data-testid="inbox-empty">
-            <Inbox size={28} strokeWidth={1.5} aria-hidden />
-            <p className="m-0 font-medium text-ink">{filter === 'open' ? t('off.inbox.emptyOpen') : t('off.inbox.empty')}</p>
+            <EmptyArt />
+            <p className="m-0 font-medium text-ink">{q || urgentOnly ? t('off.inbox.noMatch') : filter === 'open' ? t('off.inbox.emptyOpen') : t('off.inbox.empty')}</p>
             <p className="m-0 max-w-[40ch] text-sm text-ink-3">{t('off.inbox.emptyHint')}</p>
             <LinkButton to="/officer?tab=recall" variant="secondary" size="sm" arrow>
               {t('off.inbox.toRecall')}
             </LinkButton>
           </div>
         ) : (
-          <AnimatedList key={filter} className="off-rows mt-4" testId="case-list">
+          <AnimatedList key={`${filter}-${urgentOnly ? 1 : 0}`} className="off-rows mt-4" testId="case-list">
             {shown.map((it) => (
               <CaseRow key={it.item_id} item={it} active={it.item_id === activeId} onSelect={onSelect} />
             ))}
@@ -133,9 +157,9 @@ function CaseRow({ item, active, onSelect }: { item: InboxItem; active: boolean;
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-3">
-          <span className="flex min-w-0 items-center gap-2">
-            {item.priority === 'urgent' && <span className="chip chip-stop flex-none">{t('off.urgent')}</span>}
-            <span className="truncate font-semibold text-ink">{reasonTitle(item.reason_code, t)}</span>
+          <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+            <PriorityChip item={item} />
+            <span className="font-semibold leading-snug text-ink">{reasonTitle(item.reason_code, t)}</span>
           </span>
           <span className="mono flex-none text-xs text-ink-3">{fmtDate(item.created_at, lang, 'short')}</span>
         </span>
@@ -153,6 +177,48 @@ function CaseRow({ item, active, onSelect }: { item: InboxItem; active: boolean;
         <span className="sr-only-live">{item.status === 'open' ? t('off.filter.open') : t('off.filter.resolved')}</span>
       </span>
     </Link>
+  );
+}
+
+const isUrgent = (i: InboxItem) => i.priority === 'urgent' || i.reason_code === 'unsafe_intent';
+
+/** The case's priority as a chip with an icon and a word: urgent (clay), a visit or call (rain blue), a question (hyacinth). */
+function PriorityChip({ item }: { item: InboxItem }) {
+  const { t } = useI18n();
+  if (isUrgent(item))
+    return (
+      <span className="off-prio flex-none" data-tone="terracotta">
+        <Siren size={12} aria-hidden />
+        {t('off.urgent')}
+      </span>
+    );
+  if (item.reason_code === 'visit_request')
+    return (
+      <span className="off-prio flex-none" data-tone="monsoon">
+        <MapPin size={12} aria-hidden />
+        {t('off.prio.visit')}
+      </span>
+    );
+  if (item.question)
+    return (
+      <span className="off-prio flex-none" data-tone="hyacinth">
+        <MessageCircleQuestion size={12} aria-hidden />
+        {t('off.prio.question')}
+      </span>
+    );
+  return null;
+}
+
+/** A small line drawing for empty lists: an open tray with a leaf resting in it. */
+export function EmptyArt() {
+  return (
+    <svg className="off-empty-art" viewBox="0 0 120 80" width="120" height="80" aria-hidden>
+      <path d="M14 46 h92 l-10 24 H24 z" fill="var(--color-butter)" stroke="var(--color-ink-3)" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M14 46 l12 -18 h68 l12 18" fill="none" stroke="var(--color-ink-3)" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M44 46 c4 8 28 8 32 0" fill="none" stroke="var(--color-ink-3)" strokeWidth="1.4" />
+      <path d="M58 40 C50 26 60 12 78 10 C80 26 72 38 58 40 Z" fill="var(--color-moss)" stroke="var(--color-moss-ink)" strokeWidth="1.3" />
+      <path d="M58 40 C64 30 70 22 76 13" fill="none" stroke="var(--color-moss-ink)" strokeWidth="1" />
+    </svg>
   );
 }
 
@@ -310,10 +376,30 @@ export function CaseDetail({ item, withTitle }: { item: InboxItem; withTitle?: b
   );
 }
 
+type Act = 'answer' | 'call' | 'visit';
+const ACTS = [
+  ['answer', 'off.act.answer'],
+  ['call', 'off.act.call'],
+  ['visit', 'off.act.visit'],
+] as const;
+
+/** The case drawer's actions: answer, log a call, or plan a visit (each writes the note), then resolve. Saved in this browser. */
 function Resolve({ item }: { item: InboxItem }) {
   const { t, lang } = useI18n();
   const [note, setNote] = useState(item.resolution_note ?? '');
   const done = useRef<HTMLParagraphElement>(null);
+  const box = useRef<HTMLTextAreaElement>(null);
+  const [act, setAct] = useState<Act>(item.reason_code === 'visit_request' ? 'visit' : 'answer');
+  const starters = [t('off.act.callNote'), t('off.act.visitNote')];
+  const pick = (a: Act) => {
+    setAct(a);
+    // a call or a visit starts the note with a plain line the officer can change; an answer keeps what is written
+    const blank = !note.trim() || starters.includes(note);
+    if (a === 'call' && blank) setNote(t('off.act.callNote'));
+    if (a === 'visit' && blank) setNote(t('off.act.visitNote'));
+    if (a === 'answer' && starters.includes(note)) setNote('');
+    box.current?.focus();
+  };
   const local = isLocalCase(item.item_id);
   const recorded = isRecordedCase(item.item_id);
   const by = item.resolved_by === 'farmer-app' ? t('off.case.byFarmerApp') : t('off.case.byYou');
@@ -333,10 +419,18 @@ function Resolve({ item }: { item: InboxItem }) {
             toast(t('off.case.resolvedToast'));
           }}
         >
-          <label htmlFor={`note-${item.item_id}`} className="eyebrow block">
+          <div className="off-acts" role="group" aria-label={t('off.act.label')}>
+            {ACTS.map(([a, key]) => (
+              <button key={a} type="button" className="off-act" aria-pressed={act === a} onClick={() => pick(a)} data-testid={`act-${a}`}>
+                {a === 'answer' ? <PenLine size={16} aria-hidden /> : a === 'call' ? <Phone size={16} aria-hidden /> : <MapPin size={16} aria-hidden />}
+                {t(key)}
+              </button>
+            ))}
+          </div>
+          <label htmlFor={`note-${item.item_id}`} className="eyebrow mt-4 block">
             {t('off.case.note')}
           </label>
-          <textarea id={`note-${item.item_id}`} className="off-textarea mt-2" rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('off.case.notePh')} data-testid="case-note" />
+          <textarea ref={box} id={`note-${item.item_id}`} className="off-textarea mt-2" rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('off.case.notePh')} data-testid="case-note" />
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <Button type="submit" variant="primary" data-testid="resolve-btn">
               <CheckCheck size={17} aria-hidden />

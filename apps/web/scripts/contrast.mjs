@@ -5,8 +5,8 @@ const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 
 const lum = (h) => { const [r, g, b] = hex(h).map(lin); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
 export const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
 
-// "Field Guide" (DESIGN.md, from the KrishiGuard AI deck): Cream (light, the default), Forest (dark), the forest band
-// inside a cream page, the deepest band inside a forest page, and the paper object (receipts, both themes).
+// "Field Guide" (DESIGN.md, from the KrishiGuard AI deck): Cream (light, the default), Dusk (dark, v5), the forest band
+// (.band-night, the deep accent in both themes), and the paper object (receipts, both themes).
 // Keep in step with src/styles/index.css.
 const meaning = { go: '#9bd18a', goWash: '#1b3a26', wait: '#f0b158', waitWash: '#33301a', stop: '#f39478', stopWash: '#3a2a20', carbon: '#b9c3f2', carbonWash: '#1f2c3a', water: '#a8d1df', waterWash: '#18333a' };
 export const THEMES = {
@@ -20,8 +20,9 @@ export const THEMES = {
     paper: '#14261c', sunk: '#0e2419', card: '#173a29', ink: '#f3eee2', ink2: '#c9d3c8', ink3: '#a3b2a6', ...meaning,
     accent: '#e2a93b', accentInk: '#14261c', accentText: '#e2a93b', sprout: '#b7d98a', sproutInk: '#102006', white: '#ffffff',
   },
-  deepestBand: {
-    paper: '#0e2419', sunk: '#0a1c13', card: '#14301f', ink: '#f3eee2', ink2: '#c9d3c8', ink3: '#a3b2a6', ...meaning,
+  // v5 (builder Ho): the dark theme is dusk, a deep aubergine ink with pastel lights (forest stays as .band-night)
+  dusk: {
+    paper: '#1b1720', sunk: '#141118', card: '#241f2a', ink: '#f3eee2', ink2: '#d3ccd2', ink3: '#b4abb6', ...meaning,
     accent: '#e2a93b', accentInk: '#14261c', accentText: '#e2a93b', sprout: '#b7d98a', sproutInk: '#102006', white: '#ffffff',
   },
   paperObject: {
@@ -47,7 +48,7 @@ const PAIRS = [
   ['paper', 'ink', 4.5],
 ];
 // buttons in a meaning colour: white text on paper, dark ink (#14130f) on the lighter lantern / night tones
-const BUTTONS = { cream: [['white', 'go', 4.5], ['white', 'stop', 4.5]], paperObject: [['white', 'go', 4.5], ['white', 'stop', 4.5]], forest: [['btnInk', 'go', 4.5], ['btnInk', 'stop', 4.5]], deepestBand: [['btnInk', 'go', 4.5], ['btnInk', 'stop', 4.5]] };
+const BUTTONS = { cream: [['white', 'go', 4.5], ['white', 'stop', 4.5]], paperObject: [['white', 'go', 4.5], ['white', 'stop', 4.5]], forest: [['btnInk', 'go', 4.5], ['btnInk', 'stop', 4.5]], dusk: [['btnInk', 'go', 4.5], ['btnInk', 'stop', 4.5]] };
 for (const t of Object.values(THEMES)) t.btnInk = '#14130f';
 
 let bad = 0;
@@ -71,6 +72,10 @@ const PALETTE = {
   cream: {
     washes: { butter: ['#f7ecc6', '#6b4a06'], lotus: ['#f7e1dd', '#8a2f3c'], monsoon: ['#deebf2', '#22506a'], hyacinth: ['#e8e1f2', '#553f86'], moss: ['#e2ebd9', '#2f5a35'], terracotta: ['#f6dfd1', '#8a3a1c'] },
     text: { ink: '#14261c', ink2: '#46524a', ink3: '#5a645c', accentText: '#8a5a0e', go: '#2f6b3a', wait: '#8a4e00', stop: '#a83a21', water: '#2b6476', carbon: '#35428f' },
+  },
+  dusk: {
+    washes: { butter: ['#2b2817', '#f2d98b'], lotus: ['#33212a', '#f0b9b4'], monsoon: ['#152f39', '#a8d1df'], hyacinth: ['#262238', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#35231a', '#ef9e80'] },
+    text: { ink: '#f3eee2', ink2: '#d3ccd2', ink3: '#b4abb6', accentText: '#e2a93b', go: '#9bd18a', wait: '#f0b158', stop: '#f39478', water: '#a8d1df', carbon: '#b9c3f2' },
   },
   forest: {
     washes: { butter: ['#2b2817', '#f2d98b'], lotus: ['#33212a', '#f0b9b4'], monsoon: ['#152f39', '#a8d1df'], hyacinth: ['#262238', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#35231a', '#ef9e80'] },
@@ -105,6 +110,30 @@ if (process.argv[1] && process.argv[1].endsWith('contrast.mjs')) {
   MAP.forEach(([fill, ink], i) => check(`--map-ink-${i} on --map-${i}`, ink, fill));
   console.log('\n== leaf pastels with forest ink');
   for (const [k, c] of Object.entries(LEAVES)) check(`forest ink on ${k} leaf`, '#14261c', c);
+  // v5 (builder Ho): text on the pastel meshes (kit.css .mesh, the hero's washes) at each blob's strongest point: a leaf
+  // mixed into the page colour (40 % in .mesh, 48 % in the hero; on dusk a third of that). On a cream mesh the quiet
+  // grey and the gold-brown run a shade deeper (kit.css: ink-3 #4f5952, accent-text #7a4f0b).
+  const mix = (a, b, t) => '#' + hex(a).map((v, i) => Math.round(v * t + hex(b)[i] * (1 - t)).toString(16).padStart(2, '0')).join('');
+  console.log('\n== pastel meshes, strongest point');
+  for (const [leafName, leaf] of Object.entries(LEAVES)) {
+    if (leafName === 'mustard') continue;
+    for (const [where, base, t, texts] of [
+      ['cream mesh', '#f3eee2', 0.4, { ink: '#14261c', ink2: '#46524a', ink3: '#4f5952', accentText: '#7a4f0b' }],
+      ['cream hero', '#f3eee2', 0.48, { ink: '#14261c', ink2: '#46524a', ink3: '#4f5952', accentText: '#7a4f0b' }],
+      ['dusk mesh', '#1b1720', 0.4 * 0.32, { ink: '#f3eee2', ink2: '#d3ccd2', ink3: '#b4abb6', accentText: '#e2a93b' }],
+      ['dusk hero', '#1b1720', 0.48 * 0.34, { ink: '#f3eee2', ink2: '#d3ccd2', ink3: '#b4abb6', accentText: '#e2a93b' }],
+    ]) {
+      const bg = mix(leaf, base, t);
+      for (const [k, c] of Object.entries(texts)) check(`${k} on ${where} (${leafName} ${bg})`, c, bg);
+    }
+  }
+  // the team cards: the name in ink and the roles in the pastel's own ink, on the card's wash (both themes)
+  console.log('\n== team cards');
+  for (const [theme, { washes, text }] of [['cream', PALETTE.cream], ['dusk', PALETTE.dusk]])
+    for (const [name, [wash, own]] of Object.entries(washes)) {
+      check(`${theme} team name on ${name}`, text.ink, wash);
+      check(`${theme} team role on ${name}`, own, wash);
+    }
   console.log(badP ? `\n${badP} palette pair(s) below threshold` : '\nall palette pairs pass');
   process.exit(bad || badP ? 1 : 0);
 }

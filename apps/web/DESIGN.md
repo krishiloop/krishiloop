@@ -11,7 +11,10 @@ colors (exact values from the KrishiGuard AI pptx):
     ink-2: "#46524A"   # slate text
     ink-3: "#5A645C"   # slate, a shade darker than the deck's #5E675F so it passes AA on every cream surface
     eyebrow: "#8A5A0E" # gold-brown, uppercase, letter-spaced
-  forest (dark, and every forest band):
+  dusk (the DARK theme since 20 Nov v5: a deep aubergine ink with pastel lights, not green):
+    paper: "#1B1720"; sunk: "#141118"; card: "#241F2A"; raised: "#2D2734"; rule: "#322B38"
+    ink: "#F3EEE2"; ink-2: "#D3CCD2"; ink-3: "#B4ABB6"; eyebrow: "#E2A93B"
+  forest (.band-night only: the one deep accent, the footer; no longer the dark theme or the home hero):
     paper: "#14261C"   # forest
     sunk: "#0E2419"    # deepest (the band inside a forest page)
     card: "#173A29"    # dark card
@@ -42,7 +45,13 @@ radius: {doc: 3, ui: 12, frame: 22, pill: 999, sheet: "clamp(24px, 3.4vw, 44px)"
 art: the deck's own line art (public/art/*.webp, 6-185 KB): field lines and a gold ring (hero), a mustard-flower branch
   (page tops), a leaf corner (forest page heroes), a rice plant (footer), the leaf with gold detection corners (the phone)
 motion: expo-out (.16,1,.3,1) for reveals and sheets; quint-out for UI; reduced motion: short fades only
-hero: a scroll story told by a field of leaves (Canvas 2D, lazy chunk, no WebGL); loader: the mark draws itself (index.html)
+hero: a story told by a field of leaves that plays by itself, each picture on its own pastel (Canvas 2D, lazy chunk, no
+  WebGL); loader: the mark draws itself (index.html), on cream or dusk
+meshes (v5): .mesh + .mesh-<pastel> (kit.css): three soft radial blobs of the pastels over the page colour, behind key
+  sections; on a cream mesh ink-3 is #4F5952 and the gold-brown #7A4F0B (AA at the strongest point, contrast.mjs)
+botanic background (v5): .botanic-bg (on a section) or .botanic-art (a layer inside one) + --branch | --rice | --corner |
+  --flower | --leaf: the deck's line drawings in the corners, swaying a degree or two only while on screen
+  (shell/botanicArt.ts sets data-art-on); still under reduced motion; paler on phones
 ---
 
 # KrishiLoop design system: "Field Guide"
@@ -51,6 +60,9 @@ hero: a scroll story told by a field of leaves (Canvas 2D, lazy chunk, no WebGL)
 art from it, so the deck and the product read as one thing.
 
 **Layout language**
+- **v5 (20 Nov, the owner: "still too much green, use some pastel colours"):** the home page and /about are cream with
+  pastel meshes and the deck's line art; forest green is only the footer's deep accent; the dark theme is dusk
+  (aubergine ink). The paragraph below is the v3 layout, kept for history.
 - Forest-green bands alternate with cream sections (home: forest hero, cream product, forest "who it is for", cream
   system, forest "we asked AI first", cream measures, forest footer). `.band-night` is the forest band (in the dark
   theme it becomes the deepest green, so bands still alternate). `.kg-pagehero` opens a page as a forest band that runs
@@ -104,7 +116,26 @@ in the register, so they are not on the site.
   - **Spotlight cards** (`.surface` with `spotlight()`) for content.
   - **Paper** (`.paper-object`) for receipts and printed rules.
 
-## The hero: a story told by leaves (builder H, 19 Nov v4)
+## The hero, v5 (builder Ho, 20 Nov): it plays by itself
+The owner: "your animations don't look that premium, and it should auto swap". The hero is now one screen (nothing
+pinned): cream in the light theme, dusk in the dark one, and the six pictures play by themselves, one every 4.8 s.
+- **Playing:** the active dot fills as its picture's time runs out (a CSS animation; its end moves the story on). It waits
+  while a mouse rests on the story, while a keyboard is in it, for 4 s after a touch, off screen and in a hidden tab. A
+  visible pause / play button stops it for good (WCAG 2.2.2). Reduced motion: it starts paused, the pictures are stills.
+- **Motion:** each change is one 2.2 s morph: the leaves set off in a wave from the left (like wind crossing the field),
+  fly on eased (smootherstep) curved paths that lift toward the viewer and tumble, and land softly; a change mid-flight
+  starts from where every leaf is, so nothing jumps. Two depth layers of big, soft, pre-blurred pastel leaves drift
+  behind and in front at their own speeds and shift a little with the pointer (parallax).
+- **Colour:** each picture has its pastel: butter (the field), lotus (the sick leaf), monsoon (rain), hyacinth (the map),
+  moss (the receipt), terracotta (the loop). Six still wash layers crossfade (opacity), and a soft glow of the pastel
+  glides to the picture's subject (a transform). On cream the leaves take deeper tones of the same pigments
+  (`PALETTE_LIGHT` in story/shapes.ts); on dusk the pure pastels.
+- **Caption:** the old line lifts away, the new one wipes in through a soft mask (left to right) and rises.
+- **Art:** the deck's mustard-flower branch under the nav and a leaf branch low on the left (`.botanic-art`).
+- **Budget:** unchanged (300 leaves at 30 fps on phones, 680 elsewhere, plus 20 to 42 depth leaves); the field starts as
+  one short task (one picture; the rest and the blurred sprites in idle moments).
+
+## The hero: a story told by leaves (builder H, 19 Nov v4, history)
 The owner asked for leaves and branches that move and turn into new shapes, like the particle field in their UVERA
 project, but with no WebGL. The hero is a forest band pinned for six stretches of scroll. Beside the headline (which
 never moves or fades), a few hundred leaf sprites on a 2D canvas form one picture per stretch, with one plain line under
@@ -195,10 +226,12 @@ rise one after another, 80 ms apart). Both are driven by one IntersectionObserve
 | App screens | `/app`, `/officer`, `/verify`, `/trust`, `/proof`, `/about` | variance 4, motion 4, density 7; Motion only for UI state (tabs, sheets, verdicts) |
 
 Every inner page opens under the deck's mustard-flower branch and field lines (`.page-dawn`, added by `SiteLayout`).
+Any section can add the botanic background (`.botanic-bg botanic-bg--rice`, etc.) and a pastel mesh (`.mesh mesh-lotus`).
 
 | Page | Layout |
 |---|---|
-| `/` | The deck's order (see the top of this file): the forest hero with the leaf story (pinned, six pictures), the product magazine with a sticky index (scroll-spy) and seven plates in their own pastels, then the forest "who it is for" band (verified facts, bars drawn to scale, the ways to use it). |
+| `/` | v5: the cream hero with the leaf story (plays by itself, six pictures, six pastels), the product magazine with a sticky index (scroll-spy) and seven plates in their own pastels, the map and tools strips, "Use it on your phone" (a hyacinth mesh: QR and copy link to /m), "who it is for" on a butter mesh with rice stalks, the system on a monsoon mesh, the aubergine "we asked AI first" band, the bento on a garden mesh, the receipt, the status on a moss mesh, the team strip (five arched portraits), the end card. |
+| `/about` (v5) | Cream hero on a butter mesh with the branch art and the seal, "why" on a lotus mesh, the promises, the timeline, the team (portrait cards: arched photos on each person's pastel, names and roles exactly as the team gave them, `features/about/team.ts`), the invitation on a monsoon mesh. |
 | `/receipt`, `/trust`, `/proof` | Open with a forest band (`.kg-pagehero`) under the nav; /proof has a glass numbered table of contents. |
 | `/officer`, `/verify`, `/about` | Cream, Fraunces titles and display figures, gold eyebrows, the field art at the top. |
 | footer | A forest band with the deck's rice plant, the big sentence and the two actions (plain links in liquid pills: the shell never loads Motion). |

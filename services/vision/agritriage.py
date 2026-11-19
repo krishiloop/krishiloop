@@ -16,6 +16,11 @@ is this module's own reading (model id, version, sha256, gate outcome, set, cove
 signed ModelCredential, which can be recalled ("recall a model, not only a rule"). How the conformal gate and earned
 area trust combine is photo-trust policy v2 (rules/policy/photo-trust.yaml, `agritriage:`); the class -> pack map is
 rules/policy/agritriage-classes.yaml.
+
+Explainability (20 Nov): the file is model_xai.onnx (tools/xai_export.py: the same weights and logits, plus outputs for
+an exact class activation map and the stage-3 attention). Every reading also returns, from the SAME run, the CAM cells
+and attention for its top class and a colour estimate of the leaf's spots (agritriage_xai.py); a case stores them as
+`xai`. The occlusion map (`heat`) stays as the cross-check that needs extra runs.
 """
 from __future__ import annotations
 
@@ -37,6 +42,7 @@ import yaml
 from services.engine.planner import trust_area
 from services.engine.rules import evaluate, load_pack
 from services.trust.vc import issue_credential, now_iso
+from services.vision import agritriage_xai as xai_mod
 from services.vision.ledger import AreaLedger, LedgerError, Policy, wilson_lower_bound
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -49,6 +55,7 @@ WEIGHTS = "Research weights (trained on PlantWild, non-commercial)"
 GRID = 7                     # occlusion map: 7 x 7 patches of 32 px on the 224 px input
 FILL = 0.5                   # a masked patch is mid grey (inputs are RGB in [0, 1]; the model normalises inside)
 BATCH = 7
+XAI_FETCH = ["logits", "xai_cam", "xai_cam_bias", "xai_attn3_0", "xai_attn3_1"]   # one run: the answer and its views
 ROUTES = ("receipt", "officer", "retake")
 
 
@@ -163,8 +170,8 @@ class AgriTriageModel:
 
     def __init__(self, model_dir: Path = MODEL_DIR):
         import onnxruntime as ort
-        self.path = model_dir / "model.onnx"
         self.cfg = json.loads((model_dir / "config.json").read_text(encoding="utf-8"))
+        self.path = model_dir / self.cfg["model"]          # model_xai.onnx: the classifier plus its XAI outputs
         raw = self.path.read_bytes()
         self.sha256 = hashlib.sha256(raw).hexdigest()
         self.config_sha256 = hashlib.sha256((model_dir / "config.json").read_bytes()).hexdigest()
@@ -173,18 +180,32 @@ class AgriTriageModel:
         so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
         self.session = ort.InferenceSession(raw, so, providers=["CPUExecutionProvider"])
         self.input = self.session.get_inputs()[0].name
+        self.xai = all(n in {o.name for o in self.session.get_outputs()} for n in XAI_FETCH)
         self.classes, self.crops = list(self.cfg["classes"]), list(self.cfg["crops"])
         self._lock = threading.Lock()
 
     def logits(self, x: np.ndarray) -> np.ndarray:
         with self._lock:
-            return self.session.run(None, {self.input: x.astype(np.float32)})[0]
+            return self.session.run(["logits"], {self.input: x.astype(np.float32)})[0]
+
+    def outputs(self, x: np.ndarray) -> dict:
+        """One run: the logits and, with model_xai.onnx, the CAM cells, their bias and the stage-3 attention."""
+        if not getattr(self, "xai", False):
+            return {"logits": self.logits(x)}
+        with self._lock:
+            return dict(zip(XAI_FETCH, self.session.run(XAI_FETCH, {self.input: x.astype(np.float32)})))
 
     def read(self, image: bytes, crop: str | None, q: float | None = None) -> tuple[dict, np.ndarray]:
         """(the reading, the gate's full probability vector)."""
+        reading, p, _ = self.read_explained(image, crop, q)
+        return reading, p
+
+    def read_explained(self, image: bytes, crop: str | None, q: float | None = None) -> tuple[dict, np.ndarray, dict | None]:
+        """(the reading, the probability vector, the XAI views for the top class from the SAME run, or None)."""
         x = preprocess(image, self.cfg["input_size"], self.cfg["resize"])
         t0 = time.perf_counter()
-        z = self.logits(x)[0]
+        outs = self.outputs(x)
+        z = outs["logits"][0]
         ms = (time.perf_counter() - t0) * 1000
         g = gate(z, self.cfg, crop, q)
         top = [i for i in g["order"] if g["p"][i] > 0][:5]
@@ -195,7 +216,12 @@ class AgriTriageModel:
                    "temperature": round(float(self.cfg["temperature"]), 6),
                    "labels": [{"label": self.classes[i], "prob": round(float(g["p"][i]), 4)} for i in top],
                    "inference_ms": round(ms, 1), "weights": WEIGHTS}
-        return reading, g["p"]
+        xai = None
+        if "xai_cam" in outs:
+            t1 = time.perf_counter()
+            xai = {**xai_mod.explain(outs, top[0], x), "target": self.classes[top[0]]}
+            xai["ms"] = round((time.perf_counter() - t1) * 1000, 1)
+        return reading, g["p"], xai
 
     def heat(self, image: bytes, crop: str | None, target: str) -> dict:
         """Occlusion sensitivity for one class: where hiding the leaf lowers that class's probability most."""
@@ -416,7 +442,7 @@ class AgriTriageService:
         if not any_crop and crop is None:
             raise LedgerError(f"the photo model has no crop for {field['crop']}")
         q, q_source = self._area_q(area) if crop else (None, "plantwild_cal")
-        reading, p = self.model.read(image, crop, q)
+        reading, p, xai = self.model.read_explained(image, crop, q)
         reading["q_source"] = q_source
         case_id = f"pc-{uuid.uuid4().hex[:16]}"
         with self._lock:
@@ -427,7 +453,7 @@ class AgriTriageService:
             case = {"case_id": case_id, "area": area, "model": MODEL, "field_id": field["field_id"], "crop": field["crop"],
                     "stage": field["stage"], "pack_id": field["pack_id"], "created_at": _now(), "route": route,
                     "reason": reason, "reading": reading, "mapping": entry, "consent": bool(consent), "photo": None,
-                    "verdict": None, "heat": None, "agreement": self._agreement(reading, client),
+                    "verdict": None, "heat": None, "xai": xai, "agreement": self._agreement(reading, client),
                     "p_crop": [round(float(v), 6) for v in p] if crop else None}
             if consent and route != "receipt":   # the officer may need it; a receipted photo is never kept
                 photo = self.dir / "photos" / f"{case_id}.jpg"; photo.parent.mkdir(parents=True, exist_ok=True)
@@ -555,5 +581,5 @@ class AgriTriageService:
     def public(case: dict) -> dict:
         """What leaves the server: never the photo bytes or the full probability vector."""
         out = {k: case.get(k) for k in ("case_id", "area", "model", "field_id", "crop", "stage", "created_at", "route", "reason",
-                                         "reading", "mapping", "consent", "verdict", "agreement", "heat")}
+                                         "reading", "mapping", "consent", "verdict", "agreement", "heat", "xai")}
         return {**out, "photo_available": bool(case.get("photo"))}

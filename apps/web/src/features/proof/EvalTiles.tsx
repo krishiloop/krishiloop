@@ -2,10 +2,9 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Chip, type Tone } from '../../ui/Chip';
 import { CountText } from '../../ui/kit/CountText';
-import { spotlight } from '../../ui/kit/hooks';
 import { useI18n, type Key, type Lang } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
-import { EVALS, NEW_EVALS, type EvalTile, type EvalTone } from './sources';
+import { EVALS, NEW_EVALS, type EvalTile, type EvalTone, type NewEval } from './sources';
 
 const TONE: Record<EvalTone, Tone> = { bad: 'wait', synthetic: 'carbon', replay: 'carbon', measured: 'neutral' };
 
@@ -101,86 +100,97 @@ function Table({ tile }: { tile: EvalTile }) {
   );
 }
 
+type Item = { kind: 'eval'; tile: EvalTile } | { kind: 'new'; e: NewEval };
+const evalById = (id: string) => EVALS.find((x) => x.id === id);
+const newById = (id: string) => NEW_EVALS.find((x) => x.id === id);
+
+/** The results, grouped the way a visitor asks: is it safe, does the photo AI work, is it fast. */
+export const GROUPS = [
+  { id: 'safety', tone: 'terracotta', items: ['new:safety', 'eval:threshold', 'eval:ask'] },
+  { id: 'photo', tone: 'moss', items: ['new:agritriage', 'eval:v1', 'eval:zeroShot', 'eval:kshot', 'eval:trust'] },
+  { id: 'speed', tone: 'monsoon', items: ['new:sovereign', 'new:speech'] },
+] as const;
+export type GroupId = (typeof GROUPS)[number]['id'];
+
+const resolve = (ref: string): Item | null => {
+  const [kind, id] = ref.split(':') as ['eval' | 'new', string];
+  if (kind === 'eval') {
+    const tile = evalById(id);
+    return tile ? { kind, tile } : null;
+  }
+  const e = newById(id);
+  return e ? { kind, e } : null;
+};
+
 /**
- * The evaluations, one tile each: the number as the file states it, what it measures, the caveat, and the files. The bad
- * results are first and stay in: a model near chance, a threshold that passes wrong answers, a synthetic test set.
+ * One result as a card: the big number, one plain line on what it means, the honest label, then the technical name in
+ * small print, the caveat, and "See the file". The bad results stay in. Showcase cards lean toward the mouse on a
+ * desktop (data-tilt, ui/kit/autoTilt).
  */
-export function EvalTiles() {
+function ResultCard({ item, i }: { item: Item; i: number }) {
   const { t, lang } = useI18n();
+  const id = item.kind === 'eval' ? item.tile.id : item.e.id;
+  const base = item.kind === 'eval' ? `proof.eval.${id}` : `proof.new.${id}`;
+  const tone = item.kind === 'eval' ? item.tile.tone : item.e.tone;
+  const value = item.kind === 'eval' ? item.tile.value : item.e.value;
+  const sources = item.kind === 'eval' ? item.tile.sources : (item.e.sources ?? [item.e.source]);
   return (
-    <div className="pf-tiles" data-testid="eval-tiles">
-      {EVALS.map((tile, i) => (
-        <article key={tile.id} className="pf-tile surface" data-reveal style={{ ['--i' as string]: i % 3 }} data-testid={`eval-${tile.id}`} {...spotlight()}>
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="eyebrow m-0">{t(`proof.eval.${tile.id}.kicker` as Key)}</h3>
-            <Chip tone={TONE[tile.tone]}>{t(`proof.tone.${tile.tone}` as Key)}</Chip>
-          </div>
-          <div className="pf-num">
-            <CountText text={tile.value} localize={(v) => localDigits(v, lang)} />
-          </div>
-          <p className="m-0 font-semibold leading-snug">{t(`proof.eval.${tile.id}.what` as Key)}</p>
-          {tile.bars ? <Bars tile={tile} /> : null}
-          {tile.line ? <Line tile={tile} /> : null}
-          {tile.table ? <Table tile={tile} /> : null}
-          {tile.ranges ? <Ranges tile={tile} /> : null}
-          <p className="m-0 text-[0.9rem] text-ink-2">{t(`proof.eval.${tile.id}.caveat` as Key)}</p>
-          <div className="pf-src">
-            {tile.sources.map((s) => (
-              <a key={s.path} className="link" href={s.href} target="_blank" rel="noreferrer">
-                {s.path}
-              </a>
-            ))}
-            {tile.more ? (
-              <Link to={tile.more} className="link inline-flex items-center gap-1 text-[0.82rem]">
-                {t('proof.eval.more')} <ArrowRight size={13} aria-hidden />
-              </Link>
-            ) : null}
-          </div>
-        </article>
-      ))}
-    </div>
+    <article className="pf-card" data-reveal data-tilt="3" style={{ ['--i' as string]: i % 3 }} data-testid={item.kind === 'eval' ? `eval-${id}` : `new-${id}`}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h4 className="pf-card-k">{t(`${base}.kicker` as Key)}</h4>
+        <span className="flex flex-wrap gap-1.5">
+          {item.kind === 'new' && item.e.partial ? <Chip tone="wait">{t('proof.new.partial')}</Chip> : null}
+          <Chip tone={TONE[tone]}>{t(`proof.tone.${tone}` as Key)}</Chip>
+        </span>
+      </div>
+      <div className="pf-num">
+        <CountText text={value} localize={(v) => localDigits(v, lang)} />
+      </div>
+      <p className="pf-plain">{t(`proof.plain.${id}` as Key)}</p>
+      {item.kind === 'eval' && item.tile.bars ? <Bars tile={item.tile} /> : null}
+      {item.kind === 'eval' && item.tile.line ? <Line tile={item.tile} /> : null}
+      {item.kind === 'eval' && item.tile.table ? <Table tile={item.tile} /> : null}
+      {item.kind === 'eval' && item.tile.ranges ? <Ranges tile={item.tile} /> : null}
+      {item.kind === 'new' ? (
+        <ul className="pf-cmp">
+          {item.e.compare.map((c) => (
+            <li key={c.key} data-strong={c.strong || undefined} data-bad={c.bad || undefined}>
+              <span>{t(`proof.new.${id}.${c.key}` as Key)}</span>
+              <i style={{ ['--v' as string]: c.width }} aria-hidden />
+              <b>{localDigits(c.text, lang)}</b>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      <p className="pf-tech">
+        <span className="pf-tech-k">{t('proof.tech')}</span> {t(`${base}.what` as Key)}
+      </p>
+      <p className="pf-caveat">{t(`${base}.caveat` as Key)}</p>
+      <div className="pf-src">
+        <span className="pf-src-k">{t('proof.seeFile')}</span>
+        {sources.map((s) => (
+          <a key={s.path} className="link" href={s.href} target="_blank" rel="noreferrer">
+            {s.path}
+          </a>
+        ))}
+        {item.kind === 'eval' && item.tile.more ? (
+          <Link to={item.tile.more} className="link inline-flex items-center gap-1 text-[0.82rem]">
+            {t('proof.eval.more')} <ArrowRight size={13} aria-hidden />
+          </Link>
+        ) : null}
+      </div>
+    </article>
   );
 }
 
-/**
- * The three results measured on 29 Oct (safety eval v1, Bangla speech, sovereign mode): the headline number, a two- or
- * three-row comparison exactly as the report states it, the caveat, and the report. "Not final" where runs continue.
- */
-export function NewTiles() {
-  const { t, lang } = useI18n();
+/** One group of result cards (Safety, Photo AI, Speed). */
+export function ResultGroup({ id }: { id: GroupId }) {
+  const g = GROUPS.find((x) => x.id === id)!;
+  const items = g.items.map(resolve).filter((x): x is Item => !!x);
   return (
-    <div className="pf-new" data-testid="eval-new">
-      {NEW_EVALS.map((e, i) => (
-        <article key={e.id} className="pf-tile surface" data-reveal style={{ ['--i' as string]: i }} data-testid={`new-${e.id}`} {...spotlight()}>
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="eyebrow m-0">{t(`proof.new.${e.id}.kicker` as Key)}</h3>
-            <span className="flex flex-wrap gap-1.5">
-              {e.partial ? <Chip tone="wait">{t('proof.new.partial')}</Chip> : null}
-              <Chip tone={TONE[e.tone]}>{t(`proof.tone.${e.tone}` as Key)}</Chip>
-            </span>
-          </div>
-          <div className="pf-num">
-            <CountText text={e.value} localize={(v) => localDigits(v, lang)} />
-          </div>
-          <p className="m-0 font-semibold leading-snug">{t(`proof.new.${e.id}.what` as Key)}</p>
-          <ul className="pf-cmp">
-            {e.compare.map((c) => (
-              <li key={c.key} data-strong={c.strong || undefined} data-bad={c.bad || undefined}>
-                <span>{t(`proof.new.${e.id}.${c.key}` as Key)}</span>
-                <i style={{ ['--v' as string]: c.width }} aria-hidden />
-                <b>{localDigits(c.text, lang)}</b>
-              </li>
-            ))}
-          </ul>
-          <p className="m-0 text-[0.9rem] text-ink-2">{t(`proof.new.${e.id}.caveat` as Key)}</p>
-          <div className="pf-src">
-            {(e.sources ?? [e.source]).map((src) => (
-              <a key={src.path} className="link" href={src.href} target="_blank" rel="noreferrer">
-                {src.path}
-              </a>
-            ))}
-          </div>
-        </article>
+    <div className="pf-cards" data-tone={g.tone} data-testid={`eval-group-${id}`}>
+      {items.map((it, i) => (
+        <ResultCard key={it.kind === 'eval' ? it.tile.id : it.e.id} item={it} i={i} />
       ))}
     </div>
   );

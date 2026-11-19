@@ -76,17 +76,20 @@ test.describe('/proof in recorded mode', () => {
 
   test('evaluations show the numbers, the honest labels and their files', async ({ page }) => {
     await page.goto('/proof?sample=1');
-    const tiles = page.getByTestId('eval-tiles');
-    await expect(tiles.locator('article')).toHaveCount(6);
+    // ten results in three groups a visitor asks about: safety, the photo AI, speed (each card: number, plain line, file)
+    await expect(page.locator('[data-testid^="eval-group-"] article')).toHaveCount(10);
+    await expect(page.getByTestId('eval-group-safety').locator('article')).toHaveCount(3);
+    await expect(page.getByTestId('eval-group-photo').locator('article')).toHaveCount(5);
+    await expect(page.getByTestId('eval-group-speed').locator('article')).toHaveCount(2);
+    await expect(page.getByTestId('eval-v1')).toContainText('See the file:');
     await expect(page.getByTestId('eval-v1')).toContainText('0.267');
     await expect(page.getByTestId('eval-v1')).toContainText('Bad result, kept');
     await expect(page.getByTestId('eval-ask')).toContainText('0.89');
-    await expect(page.getByTestId('eval-ask')).toContainText('Synthetic');
+    await expect(page.getByTestId('eval-ask')).toContainText('Made-up test questions');
     await expect(page.getByTestId('eval-trust')).toContainText('70–126'); // the 95% range over 200 random orders (earned_trust_ci.json), was 89–109 over 3
     await expect(page.getByTestId('eval-trust')).toContainText('Replay');
     await expect(page.getByTestId('eval-ask').getByRole('link', { name: 'ml/ask/eval_report.json' })).toHaveAttribute('href', /eval_report\.json$/);
     // the three results of 29 Oct, each with its report; the safety eval says it is not final
-    await expect(page.getByTestId('eval-new').locator('article')).toHaveCount(4); // + AgriTriage-Lite (photo-ai.spec.ts)
     await expect(page.getByTestId('new-safety')).toContainText('Not final');
     await expect(page.getByTestId('new-speech')).toContainText('Not yet wired into the app');
     await expect(page.getByTestId('new-sovereign').getByRole('link', { name: 'ml/sovereign/REPORT.md' })).toHaveAttribute('href', /ml\/sovereign\/REPORT\.md$/);

@@ -46,6 +46,8 @@ export function SiteLayout() {
 
   useEffect(() => {
     startReveal();
+    // the botanic art's sway (kit.css .botanic-bg): its own tiny chunk, so the first screen does not wait for it
+    void import('./botanicArt').then((m) => m.startBotanicArt());
   }, []);
   // showcase cards lean toward the mouse: one delegated listener for every page, loaded only for a desktop mouse
   useEffect(() => {

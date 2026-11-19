@@ -190,7 +190,7 @@ const NEXT: Key[] = ['story.status.next1', 'story.status.next2', 'story.status.n
 export function StatusBand() {
   const { t } = useI18n();
   return (
-    <section className="section cv" aria-labelledby="status-title">
+    <section className="section mesh botanic-bg botanic-bg--corner cv" aria-labelledby="status-title">
       <div className="wrap">
         <Head eyebrow={t('story.status.eyebrow')} title={t('story.status.title')} id="status-title" />
         <div className="mt-14 grid gap-6 lg:grid-cols-[1.25fr_1fr]">

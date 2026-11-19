@@ -1,41 +1,66 @@
-import { LIFE, PALETTE, shapeBuilders, type Shape } from './shapes';
-import { holdMap, STEPS } from './steps';
+import { DEPTH, LIFE, PALETTE, PALETTE_LIGHT, shapeBuilders, type Shape } from './shapes';
+import { STEPS } from './steps';
 
 /**
- * The leaf field (builder H): a few hundred small leaves on a 2D canvas that morph between the six pictures of the
- * hero story as the page scrolls. No WebGL: every leaf is one pre-drawn sprite per colour, placed with setTransform.
- * The pointer brushes leaves aside like wind; a tap is a gust. Lazy chunk, started after the first paint.
+ * The leaf field (builder H v4, reworked by builder Ho v5): a few hundred small leaves on a 2D canvas that fly from one
+ * picture of the hero story to the next. v5: the story plays by itself (HomeHero calls `go(step)` every few seconds),
+ * so each change is one timed morph: the leaves set off in a wave, like wind crossing the field, fly on eased curved
+ * paths (lifting toward the viewer mid-flight and tumbling), and settle softly. Behind and in front of the picture,
+ * two depth layers of big, soft, blurred pastel leaves drift at their own speeds, and shift a little with the pointer
+ * (parallax). A soft glow (a DOM element, moved with a transform) follows the story's subject.
  *
- * Budget: 300 leaves at 30 fps on phones, 680 at the display's rate elsewhere; the loop stops off screen and in a
- * hidden tab. Reduced motion: no loop at all, each picture is drawn once, still, when its step comes.
+ * No WebGL: every leaf is one pre-drawn sprite per colour (the blurred ones are blurred once, when made), placed with
+ * setTransform. Budget: 300 leaves at 30 fps on phones, 680 at the display's rate elsewhere; the loop stops off screen
+ * and in a hidden tab. Reduced motion: no loop at all, each picture is drawn once, still.
  */
-export type FieldApi = { destroy(): void; setStep(step: number): void };
+export type FieldApi = { destroy(): void; go(step: number): void; setDark(dark: boolean): void };
 export type FieldOptions = {
   canvas: HTMLCanvasElement;
-  /** scroll progress, 0 to STEPS - 1 */
-  getProgress: () => number;
+  /** the soft light that follows the subject (moved with --gx / --gy, a CSS transform transition) */
+  glow?: HTMLElement | null;
+  step: number;
   reduced: boolean;
   mobile: boolean;
+  dark: boolean;
 };
 
 const SPR_L = 40; // sprite size in CSS px (drawn at the device pixel ratio)
 const SPR_W = 18;
+/** seconds one change of picture takes, from the first leaf leaving to the last one landing */
+const MORPH = 2.2;
+/** the share of that time over which the leaves set off (the wave) */
+const WAVE = 0.42;
+/** where each picture's subject is (the glow sits there), in the pictures' -1..1 box; picture 2 uses its lesion */
+const SUBJECT: [number, number][] = [
+  [0.02, -0.32], // the rice plant's ears
+  [0, 0], // the lesion (replaced by the shape's own centre)
+  [-0.04, -0.42], // the cloud
+  [-0.04, 0.02], // the map
+  [0.13, 0.32], // the stamp and tick
+  [0, 0], // the loop
+];
 
-function sprite(color: string, dpr: number): HTMLCanvasElement {
+type Spr = { img: HTMLCanvasElement; w: number; h: number };
+
+function leafPath(g: CanvasRenderingContext2D, L: number, W: number, x0: number) {
+  const m = W / 2;
+  g.beginPath();
+  g.moveTo(x0 + L * 0.04, m);
+  g.bezierCurveTo(x0 + L * 0.28, W * 0.03, x0 + L * 0.7, W * 0.08, x0 + L * 0.975, m);
+  g.bezierCurveTo(x0 + L * 0.7, W * 0.92, x0 + L * 0.28, W * 0.97, x0 + L * 0.04, m);
+  g.closePath();
+}
+
+/** a crisp leaf: fill, light on the upper half, a darker midrib */
+function sprite(color: string, dpr: number): Spr {
   const c = document.createElement('canvas');
   c.width = Math.ceil(SPR_L * dpr);
   c.height = Math.ceil(SPR_W * dpr);
   const g = c.getContext('2d')!;
   g.scale(dpr, dpr);
-  const m = SPR_W / 2;
-  g.beginPath();
-  g.moveTo(1.5, m);
-  g.bezierCurveTo(SPR_L * 0.28, 0.6, SPR_L * 0.7, 1.4, SPR_L - 1, m);
-  g.bezierCurveTo(SPR_L * 0.7, SPR_W - 1.4, SPR_L * 0.28, SPR_W - 0.6, 1.5, m);
-  g.closePath();
+  leafPath(g, SPR_L, SPR_W, 0);
   g.fillStyle = color;
   g.fill();
-  // light on the upper half, a darker midrib: a leaf, not a dash
   const hi = g.createLinearGradient(0, 0, 0, SPR_W);
   hi.addColorStop(0, 'rgba(255,255,255,0.28)');
   hi.addColorStop(0.5, 'rgba(255,255,255,0)');
@@ -43,43 +68,81 @@ function sprite(color: string, dpr: number): HTMLCanvasElement {
   g.fillStyle = hi;
   g.fill();
   g.beginPath();
-  g.moveTo(3, m);
-  g.quadraticCurveTo(SPR_L * 0.5, m - 0.8, SPR_L - 4, m);
+  g.moveTo(3, SPR_W / 2);
+  g.quadraticCurveTo(SPR_L * 0.5, SPR_W / 2 - 0.8, SPR_L - 4, SPR_W / 2);
   g.strokeStyle = 'rgba(20,38,28,0.28)';
   g.lineWidth = 1.1;
   g.stroke();
-  return c;
+  return { img: c, w: SPR_L, h: SPR_W };
 }
 
-const smooth = (v: number) => (v <= 0 ? 0 : v >= 1 ? 1 : v * v * (3 - 2 * v));
-const wrapAngle = (a: number) => a - Math.round(a / (Math.PI * 2)) * Math.PI * 2;
+/**
+ * A soft, out-of-focus leaf for the depth layers: the leaf is drawn into a tiny canvas (one pixel for every `blur` CSS
+ * pixels) and placed at full size, so the browser's smooth upscaling does the blurring. No shadow or filter blur, so
+ * making all twelve costs almost nothing, and drawing one costs the same as a crisp leaf.
+ */
+function softSprite(color: string, L: number, blur: number): Spr {
+  const W = L * 0.45;
+  const pad = blur * 1.5;
+  const w = L + pad * 2;
+  const h = W + pad * 2;
+  const k = 1 / Math.max(1, blur * 0.7);
+  const c = document.createElement('canvas');
+  c.width = Math.max(4, Math.ceil(w * k));
+  c.height = Math.max(4, Math.ceil(h * k));
+  const g = c.getContext('2d')!;
+  g.scale(c.width / w, c.height / h);
+  g.translate(pad, pad);
+  leafPath(g, L, W, 0);
+  g.fillStyle = color;
+  g.fill();
+  return { img: c, w, h };
+}
 
-export function startField({ canvas, getProgress, reduced, mobile }: FieldOptions): FieldApi {
+const clamp01 = (v: number) => (v <= 0 ? 0 : v >= 1 ? 1 : v);
+/** smootherstep: no jolt as a leaf leaves, no bump as it lands */
+const ease = (v: number) => (v <= 0 ? 0 : v >= 1 ? 1 : v * v * v * (v * (v * 6 - 15) + 10));
+const wrapAngle = (a: number) => a - Math.round(a / (Math.PI * 2)) * Math.PI * 2;
+const hash = (i: number, a: number, b: number) => {
+  const r = Math.sin(i * a + b) * 43758.5453;
+  return r - Math.floor(r);
+};
+
+export function startField({ canvas, glow, step: first, reduced, mobile, dark: dark0 }: FieldOptions): FieldApi {
   const ctx = canvas.getContext('2d');
-  if (!ctx) return { destroy() {}, setStep() {} };
+  if (!ctx) return { destroy() {}, go() {}, setDark() {} };
   const n = mobile ? 300 : 680;
-  // the pictures: the first two now, the others one per idle moment (or at once when the story reaches them)
+  // the pictures: the one on screen now, the others one per idle moment (or at once when asked for), so starting the
+  // field is one short task, not one long one
   const builders = shapeBuilders(n);
   const cache: (Shape | undefined)[] = [];
   const shape = (i: number): Shape => (cache[i] ??= builders[i]!());
-  shape(0);
-  shape(1);
+  shape(first);
   type IdleWin = Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (h: number) => void };
   const w = window as IdleWin;
   let idle = 0;
-  const later = (i: number) => {
-    if (i >= STEPS) return;
+  const later = (k: number) => {
+    if (k >= STEPS) return;
     const next = () => {
-      shape(i);
-      later(i + 1);
+      shape(k);
+      later(k + 1);
     };
-    idle = w.requestIdleCallback ? w.requestIdleCallback(next, { timeout: 2000 }) : window.setTimeout(next, 120);
+    idle = w.requestIdleCallback ? w.requestIdleCallback(next, { timeout: 2500 }) : window.setTimeout(next, 150);
   };
-  later(2);
+  later(0);
   const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.75 : 2);
-  const sprites = PALETTE.map((c) => sprite(c, dpr));
+  let dark = dark0;
+  let sprites: Spr[] = [];
+  const paint = () => {
+    sprites = (dark ? PALETTE : PALETTE_LIGHT).map((c) => sprite(c, dpr));
+  };
+  paint();
+  // the soft depth leaves (tiny canvases, see softSprite)
+  const far = reduced ? [] : DEPTH.map((c) => softSprite(c, 84, 6));
+  const near = reduced ? [] : DEPTH.map((c) => softSprite(c, 150, 12));
 
-  // per leaf: a seed, a size, which way it curls in flight, and the push the pointer gave it (offset, velocity, spin)
+  // per leaf: a seed, a size, which way it curls in flight, the push the pointer gave it (offset, velocity, spin),
+  // where it is now (r*) and where its flight started (f*)
   const seed = new Float32Array(n);
   const size = new Float32Array(n);
   const curl = new Float32Array(n);
@@ -89,18 +152,40 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
   const vy = new Float32Array(n);
   const sp = new Float32Array(n);
   const sv = new Float32Array(n);
-  const ix = new Float32Array(n);
-  const iy = new Float32Array(n);
+  const rx = new Float32Array(n), ry = new Float32Array(n), ra = new Float32Array(n), ro = new Float32Array(n);
+  const rs = new Float32Array(n), rl = new Float32Array(n), rw = new Float32Array(n);
+  const rc = new Uint8Array(n);
+  const fx = new Float32Array(n), fy = new Float32Array(n), fa = new Float32Array(n), fo = new Float32Array(n);
+  const fs = new Float32Array(n), fl = new Float32Array(n), fw = new Float32Array(n);
+  const fc = new Uint8Array(n);
+  const delay = new Float32Array(n);
   for (let i = 0; i < n; i++) {
-    const r = Math.sin(i * 12.9898 + 78.233) * 43758.5453;
-    seed[i] = r - Math.floor(r);
-    const r2 = Math.sin(i * 4.1414 + 3.7) * 9631.17;
-    size[i] = 0.78 + (r2 - Math.floor(r2)) * 0.44;
-    curl[i] = (i % 2 ? 1 : -1) * (0.18 + seed[i]! * 0.3);
+    seed[i] = hash(i, 12.9898, 78.233);
+    size[i] = 0.78 + hash(i, 4.1414, 3.7) * 0.44;
+    curl[i] = (i % 2 ? 1 : -1) * (0.16 + seed[i]! * 0.28);
     // the first visit: the leaves blow in from the right, on the wind
-    ix[i] = 1.25 + seed[i]! * 0.9;
-    iy[i] = -1.1 + ((i * 0.618) % 1) * 2.2;
+    fx[i] = 1.3 + seed[i]! * 0.9;
+    fy[i] = -1.1 + ((i * 0.618) % 1) * 2.2;
+    fa[i] = seed[i]! * 6;
+    fo[i] = 0;
+    fs[i] = 1;
+    fl[i] = 1;
+    fw[i] = 1;
+    fc[i] = shape(first).c[i]!;
   }
+
+  // the depth layers: big soft leaves far behind (slow) and a few nearer (faster, at the edges)
+  const NF = mobile ? 16 : 34;
+  const NN = mobile ? 4 : 8;
+  type Deep = { x: number; y: number; s: number; c: number; v: number; ph: number; spin: number };
+  const mkDeep = (k: number, nearer: boolean): Deep => {
+    const a = hash(k + (nearer ? 500 : 0), 7.13, 1.9);
+    const b = hash(k + (nearer ? 500 : 0), 3.71, 8.2);
+    const edge = nearer ? (k % 2 ? 0.02 + a * 0.12 : 0.86 + a * 0.12) : a;
+    return { x: edge, y: b * 1.2 - 0.1, s: nearer ? 0.8 + b * 0.45 : 0.55 + b * 0.6, c: k % DEPTH.length, v: (nearer ? 0.03 : 0.012) + a * 0.012, ph: b * 6.28, spin: (a - 0.5) * 0.3 };
+  };
+  const farL = Array.from({ length: NF }, (_, k) => mkDeep(k, false));
+  const nearL = Array.from({ length: NN }, (_, k) => mkDeep(k, true));
 
   let W = 0;
   let H = 0;
@@ -108,6 +193,18 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
   let cx = 0;
   let cy = 0;
   let leaf = 12;
+  let target = first;
+  let m = reduced ? 1 : 0; // the morph's progress, 0 to 1
+  let t = 0;
+  let wind = 0;
+  const ptr = { x: -1e4, y: -1e4, vx: 0, vy: 0, on: false, t: 0, px: 0, py: 0, sx: 0, sy: 0 };
+
+  const placeGlow = () => {
+    if (!glow) return;
+    const [gx, gy] = target === 1 ? [shape(1).bx, shape(1).by] : SUBJECT[target]!;
+    glow.style.setProperty('--gx', `${(cx + gx * R).toFixed(1)}px`);
+    glow.style.setProperty('--gy', `${(cy + gy * R).toFixed(1)}px`);
+  };
   const resize = () => {
     const b = canvas.getBoundingClientRect();
     W = b.width;
@@ -118,86 +215,96 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
     cx = W / 2;
     cy = H / 2;
     leaf = Math.max(8, Math.min(18, R * 0.062));
+    placeGlow();
     if (reduced) draw(0);
   };
 
-  let state = reduced ? 0 : holdMap(getProgress());
-  let staticStep = 0;
-  let t = 0;
-  let intro = reduced ? 1 : 0;
-  let wind = 0;
-  const ptr = { x: -1e4, y: -1e4, vx: 0, vy: 0, on: false, t: 0 };
+  /** one depth layer: soft leaves drifting down and across, shifted a little by the pointer */
+  function drawDeep(list: Deep[], sprs: Spr[], alpha: number, par: number, dt: number) {
+    if (!sprs.length) return;
+    const g = ctx!;
+    const base = Math.max(W, H);
+    for (const d of list) {
+      if (dt > 0) {
+        d.y += d.v * dt;
+        if (d.y > 1.15) d.y -= 1.3;
+      }
+      const sw = Math.sin(t * 0.35 + d.ph);
+      const px = (d.x + sw * 0.025) * W - ptr.sx * par;
+      const py = d.y * H - ptr.sy * par;
+      const ang = d.ph + t * d.spin + sw * 0.35;
+      const spr = sprs[d.c]!;
+      const sc = (d.s * base) / 900;
+      const co = Math.cos(ang) * sc;
+      const si = Math.sin(ang) * sc;
+      g.globalAlpha = alpha;
+      g.setTransform(co * dpr, si * dpr, -si * dpr, co * dpr, px * dpr, py * dpr);
+      g.drawImage(spr.img, -spr.w / 2, -spr.h / 2, spr.w, spr.h);
+    }
+  }
 
   /** one frame: where every leaf is, how it moves, and paint it */
   function draw(dt: number) {
-    const s = Math.min(STEPS - 1, Math.max(0, state));
-    const i0 = Math.min(STEPS - 2, Math.floor(s));
-    const f = s - i0;
-    const A = shape(i0);
-    const B = shape(i0 + 1);
+    const B = shape(target);
     const g = ctx!;
     g.setTransform(1, 0, 0, 1, 0, 0);
     g.clearRect(0, 0, canvas.width, canvas.height);
+    if (!reduced) drawDeep(farL, far, dark ? 0.2 : 0.5, 10, dt);
     const rad = mobile ? 72 : 96;
     const rad2 = rad * rad;
     const physics = !reduced && dt > 0;
     const k = 1 - Math.exp(-dt * 7); // pointer velocity decay
     ptr.vx -= ptr.vx * k;
     ptr.vy -= ptr.vy * k;
+    const span = 1 - WAVE;
 
     for (let i = 0; i < n; i++) {
       const sd = seed[i]!;
-      const lf = smooth((f - sd * 0.35) / 0.65);
-      // each picture's own life, applied to its end of the flight
-      let ax = A.x[i]!, ay = A.y[i]!, aa = A.a[i]!, al = A.o[i]!, as = 1;
-      let bx = B.x[i]!, by = B.y[i]!, ba = B.a[i]!, bl = B.o[i]!, bs = 1;
-      if (lf < 1) {
-        const r = life(A.k[i]!, ax, ay, aa, al, sd, A.bx, A.by);
-        ax = r[0]; ay = r[1]; aa = r[2]; al = r[3]; as = r[4];
+      const r = life(B.k[i]!, B.x[i]!, B.y[i]!, B.a[i]!, B.o[i]!, sd, B.bx, B.by);
+      let x = r[0], y = r[1], ang = r[2], alpha = r[3], sc = r[4];
+      let lm = B.l[i]!, wm = B.w[i]!;
+      let ci = B.c[i]!;
+      const u = reduced ? 1 : ease((m - delay[i]!) / span);
+      if (u < 1) {
+        // in flight: a curved path that lifts a little (a leaf on the wind), a tumble, and nearer to the eye mid-way
+        const x0 = fx[i]!, y0 = fy[i]!;
+        const dx = x - x0, dy = y - y0;
+        const dist = Math.hypot(dx, dy);
+        const qx = (x0 + x) / 2 - dy * curl[i]!;
+        const qy = (y0 + y) / 2 + dx * curl[i]! - 0.16 * dist - 0.04;
+        const v = 1 - u;
+        x = v * v * x0 + 2 * u * v * qx + u * u * x;
+        y = v * v * y0 + 2 * u * v * qy + u * u * y;
+        const arc = Math.sin(Math.PI * u);
+        ang = fa[i]! + wrapAngle(ang - fa[i]!) * u + arc * (sd - 0.5) * 6;
+        alpha = fo[i]! + (alpha - fo[i]!) * u;
+        sc = (fs[i]! + (sc - fs[i]!) * u) * (1 + 0.34 * arc);
+        lm = fl[i]! + (lm - fl[i]!) * u;
+        wm = fw[i]! + (wm - fw[i]!) * u;
+        if (u < 0.5) ci = fc[i]!;
       }
-      if (lf > 0) {
-        const r = life(B.k[i]!, bx, by, ba, bl, sd, B.bx, B.by);
-        bx = r[0]; by = r[1]; ba = r[2]; bl = r[3]; bs = r[4];
-      }
-      let x = ax + (bx - ax) * lf;
-      let y = ay + (by - ay) * lf;
-      let ang = aa + wrapAngle(ba - aa) * lf;
-      if (lf > 0 && lf < 1) {
-        // in flight: a curved path and a tumble, like a leaf on the wind
-        const arc = Math.sin(Math.PI * lf);
-        x += -(by - ay) * arc * curl[i]!;
-        y += (bx - ax) * arc * curl[i]!;
-        ang += arc * (sd - 0.5) * 7;
-      }
-      let alpha = al + (bl - al) * lf;
-      if (intro < 1) {
-        const li = smooth((intro - sd * 0.45) / 0.55);
-        x = ix[i]! + (x - ix[i]!) * li;
-        y = iy[i]! + (y - iy[i]!) * li + Math.sin(li * Math.PI) * 0.18 * (sd - 0.5);
-        ang += (1 - li) * (sd * 9 - 4);
-        alpha *= Math.min(1, li * 1.6);
-      }
-      if (!reduced) ang += Math.sin(t * 1.7 + sd * 20) * 0.12;
+      if (!reduced) ang += Math.sin(t * 1.7 + sd * 20) * 0.1;
+      rx[i] = x; ry[i] = y; ra[i] = ang; ro[i] = alpha; rs[i] = sc; rl[i] = lm; rw[i] = wm; rc[i] = ci;
 
       let px = cx + x * R;
       let py = cy + y * R;
       if (physics) {
-        let fx = 0;
-        let fy = 0;
+        let fxp = 0;
+        let fyp = 0;
         if (ptr.on) {
-          const dx = px + ox[i]! - ptr.x;
-          const dy = py + oy[i]! - ptr.y;
-          const d2 = dx * dx + dy * dy;
+          const ddx = px + ox[i]! - ptr.x;
+          const ddy = py + oy[i]! - ptr.y;
+          const d2 = ddx * ddx + ddy * ddy;
           if (d2 < rad2) {
             const d = Math.sqrt(d2) + 0.5;
             const fall = (1 - d / rad) ** 2;
-            fx += (dx / d) * 2600 * fall + ptr.vx * 9 * fall;
-            fy += (dy / d) * 2600 * fall + ptr.vy * 9 * fall;
-            sv[i]! += ((dx / d) * ptr.vy - (dy / d) * ptr.vx) * 0.004 * fall;
+            fxp += (ddx / d) * 2600 * fall + ptr.vx * 9 * fall;
+            fyp += (ddy / d) * 2600 * fall + ptr.vy * 9 * fall;
+            sv[i]! += ((ddx / d) * ptr.vy - (ddy / d) * ptr.vx) * 0.004 * fall;
           }
         }
-        vx[i]! += (fx - 16 * ox[i]! - 5.2 * vx[i]!) * dt;
-        vy[i]! += (fy - 16 * oy[i]! - 5.2 * vy[i]!) * dt;
+        vx[i]! += (fxp - 16 * ox[i]! - 5.2 * vx[i]!) * dt;
+        vy[i]! += (fyp - 16 * oy[i]! - 5.2 * vy[i]!) * dt;
         ox[i]! += vx[i]! * dt;
         oy[i]! += vy[i]! * dt;
         sv[i]! -= (sv[i]! * 3 + sp[i]! * 10) * dt;
@@ -208,16 +315,16 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
       ang += sp[i]!;
       if (alpha < 0.02) continue;
 
-      const ci = lf < 0.5 ? A.c[i]! : B.c[i]!;
-      const sc = (as + (bs - as) * lf) * size[i]! * (leaf / SPR_L);
-      const lm = (A.l[i]! + (B.l[i]! - A.l[i]!) * lf) * sc;
-      const wm = (A.w[i]! + (B.w[i]! - A.w[i]!) * lf) * sc;
+      const s = sc * size[i]! * (leaf / SPR_L);
+      const L = lm * s;
+      const Wd = wm * s;
       const co = Math.cos(ang);
       const si = Math.sin(ang);
       g.globalAlpha = alpha > 1 ? 1 : alpha;
-      g.setTransform(co * lm * dpr, si * lm * dpr, -si * wm * dpr, co * wm * dpr, px * dpr, py * dpr);
-      g.drawImage(sprites[ci]!, -SPR_L / 2, -SPR_W / 2, SPR_L, SPR_W);
+      g.setTransform(co * L * dpr, si * L * dpr, -si * Wd * dpr, co * Wd * dpr, px * dpr, py * dpr);
+      g.drawImage(sprites[ci]!.img, -SPR_L / 2, -SPR_W / 2, SPR_L, SPR_W);
     }
+    if (!reduced) drawDeep(nearL, near, dark ? 0.16 : 0.34, 26, dt);
     g.globalAlpha = 1;
   }
 
@@ -227,9 +334,9 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
     let s = 1;
     if (kind === LIFE.sway) {
       const h = Math.max(0, Math.min(1, (0.92 - y) / 1.9));
-      const w = (Math.sin(t * 1.05 + sd * 0.7 + y * 0.9) * 0.05 + wind * 0.16) * h * h;
-      x += w;
-      a += w * 1.6;
+      const wv = (Math.sin(t * 1.05 + sd * 0.7 + y * 0.9) * 0.05 + wind * 0.16) * h * h;
+      x += wv;
+      a += wv * 1.6;
     } else if (kind === LIFE.rain) {
       const top = -0.14;
       const span = 1.04;
@@ -239,9 +346,9 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
     } else if (kind === LIFE.pulse) {
       s = 1 + Math.sin(t * 2.4 + sd * 6.28) * 0.16;
     } else if (kind === LIFE.bracket) {
-      const k = 1 + (0.5 + 0.5 * Math.sin(t * 2.1)) * 0.08;
-      x = bx + (x - bx) * k;
-      y = by + (y - by) * k;
+      const kk = 1 + (0.5 + 0.5 * Math.sin(t * 2.1)) * 0.08;
+      x = bx + (x - bx) * kk;
+      y = by + (y - by) * kk;
     } else if (kind === LIFE.orbit) {
       const th = t * (0.1 + sd * 0.06);
       const c = Math.cos(th);
@@ -263,6 +370,12 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
     return out;
   }
 
+  /** the wave: leaves set off from the left first (the wind's side), a little shuffled */
+  const setDelays = () => {
+    for (let i = 0; i < n; i++) delay[i] = WAVE * (0.62 * clamp01((fx[i]! + 1.1) / 2.2) + 0.38 * seed[i]!);
+  };
+  setDelays();
+
   // ---- the loop: only while on screen and the tab is visible; 30 fps on phones
   let raf = 0;
   let last = 0;
@@ -273,10 +386,12 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
     const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
     last = now;
     t += dt;
-    intro = Math.min(1, intro + dt / 1.7);
+    m = Math.min(1, m + dt / MORPH);
     wind -= wind * Math.min(1, dt * 1.6);
-    const target = holdMap(getProgress());
-    state += (target - state) * (1 - Math.exp(-dt * 5));
+    // the pointer's parallax target, eased
+    const e = 1 - Math.exp(-dt * 3);
+    ptr.sx += (ptr.px - ptr.sx) * e;
+    ptr.sy += (ptr.py - ptr.sy) * e;
     draw(dt);
   };
   const run = () => {
@@ -296,16 +411,16 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
   io.observe(canvas);
   const onVis = () => (document.hidden ? halt() : run());
   document.addEventListener('visibilitychange', onVis);
-  const ro = new ResizeObserver(resize);
-  ro.observe(canvas);
+  const ro2 = new ResizeObserver(resize);
+  ro2.observe(canvas);
 
-  // ---- the pointer is wind: a brush pushes leaves aside, a tap is a gust
-  const local = (e: PointerEvent) => {
+  // ---- the pointer is wind: a brush pushes leaves aside, a tap is a gust; it also tilts the depth layers (parallax)
+  const local = (ev: PointerEvent) => {
     const b = canvas.getBoundingClientRect();
-    return [e.clientX - b.left, e.clientY - b.top] as const;
+    return [ev.clientX - b.left, ev.clientY - b.top] as const;
   };
-  const onMove = (e: PointerEvent) => {
-    const [x, y] = local(e);
+  const onMove = (ev: PointerEvent) => {
+    const [x, y] = local(ev);
     const now = performance.now();
     if (ptr.on) {
       const dtm = Math.max(8, now - ptr.t) / 1000;
@@ -316,18 +431,20 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
     ptr.y = y;
     ptr.t = now;
     ptr.on = true;
+    ptr.px = W ? x / W - 0.5 : 0;
+    ptr.py = H ? y / H - 0.5 : 0;
   };
   const onLeave = () => {
     ptr.on = false;
     ptr.x = ptr.y = -1e4;
+    ptr.px = ptr.py = 0;
   };
-  const onDown = (e: PointerEvent) => {
-    const [gx, gy] = local(e);
+  const onDown = (ev: PointerEvent) => {
+    const [gx, gy] = local(ev);
     wind = 1;
-    const here = shape(Math.round(Math.min(STEPS - 1, state)));
     for (let i = 0; i < n; i++) {
-      const px = cx + here.x[i]! * R + ox[i]!;
-      const py = cy + here.y[i]! * R + oy[i]!;
+      const px = cx + rx[i]! * R + ox[i]!;
+      const py = cy + ry[i]! * R + oy[i]!;
       const dx = px - gx;
       const dy = py - gy;
       const d = Math.hypot(dx, dy) + 1;
@@ -353,18 +470,35 @@ export function startField({ canvas, getProgress, reduced, mobile }: FieldOption
       if (w.cancelIdleCallback) w.cancelIdleCallback(idle);
       else window.clearTimeout(idle);
       io.disconnect();
-      ro.disconnect();
+      ro2.disconnect();
       document.removeEventListener('visibilitychange', onVis);
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerleave', onLeave);
       canvas.removeEventListener('pointercancel', onLeave);
       canvas.removeEventListener('pointerdown', onDown);
     },
-    setStep(step: number) {
-      if (!reduced || step === staticStep) return;
-      staticStep = step;
-      state = step;
-      draw(0);
+    go(step: number) {
+      if (step === target || step < 0 || step >= STEPS) return;
+      // the next flight starts where every leaf is right now (even mid-flight), so a quick change never jumps
+      fx.set(rx);
+      fy.set(ry);
+      fa.set(ra);
+      fo.set(ro);
+      fs.set(rs);
+      fl.set(rl);
+      fw.set(rw);
+      fc.set(rc);
+      setDelays();
+      target = step;
+      m = 0;
+      placeGlow();
+      if (reduced) draw(0);
+    },
+    setDark(d: boolean) {
+      if (d === dark) return;
+      dark = d;
+      paint();
+      if (reduced) draw(0);
     },
   };
 }

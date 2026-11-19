@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
-import { Camera, CircleQuestionMark, ListChecks, Loader2, PenTool, RotateCcw, ScanSearch, ShieldCheck, UserRound, type LucideIcon } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react';
+import { Camera, CircleQuestionMark, ListChecks, Loader2, PenTool, RotateCcw, ShieldCheck, UserRound, type LucideIcon } from 'lucide-react';
 import { useI18n, type Key } from '../../lib/i18n';
+import '../../lib/i18n/strings.photoai';
 import { fmtNum } from '../../lib/format';
 import { cx } from '../../lib/cx';
 import { gate, niceClass, topClasses, type GateResult, type Outcome } from '../../lib/agritriage/gate';
-import { heatColour } from '../../lib/agritriage/occlusion';
-import { decodeImage, loadRuntime, occlusionMap, preprocess, readPhoto, type Reading, type Runtime } from '../../lib/agritriage/runtime';
-import { Comparer } from '../../ui/kit/Comparer';
+import { camOf, decodeImage, loadRuntime, occlusionMap, preprocess, readPhoto, type Reading, type Runtime } from '../../lib/agritriage/runtime';
+import { attentionReceived, toRgb } from '../../lib/agritriage/xai';
+import { XaiViews } from '../farmer/photo/XaiViews';
 import { drawTestLeaf } from './testLeaf';
 import { Choice } from './parts';
 
@@ -17,9 +18,9 @@ type Phase =
   | { k: 'idle' }
   | { k: 'loading' }
   | { k: 'reading' }
-  | { k: 'done'; reading: Reading; photo: string; test: boolean }
+  | { k: 'done'; reading: Reading; rgb: Uint8Array; test: boolean }
   | { k: 'error'; kind: 'model' | 'image' };
-type Heat = { k: 'idle' } | { k: 'running'; done: number; total: number; grid: number } | { k: 'done'; url: string; grid: number };
+type Heat = { k: 'idle' } | { k: 'running'; done: number; total: number; grid: number } | { k: 'done'; heat: number[]; grid: number; target: number };
 
 const GATE: { o: Outcome; icon: LucideIcon; tone: string }[] = [
   { o: 'diagnose', icon: ShieldCheck, tone: 'is-sure' },
@@ -27,45 +28,14 @@ const GATE: { o: Outcome; icon: LucideIcon; tone: string }[] = [
   { o: 'refer', icon: UserRound, tone: 'is-risky' },
 ];
 
-/** The 224 px square the model saw (CHW floats back to pixels), with the occlusion map over it when given. */
-function squareUrl(x: Float32Array, S: number, heat?: number[], grid = 7): string {
-  const cv = document.createElement('canvas');
-  cv.width = S;
-  cv.height = S;
-  const g = cv.getContext('2d')!;
-  const img = g.createImageData(S, S);
-  const n = S * S;
-  for (let i = 0; i < n; i++) {
-    img.data[4 * i] = Math.round(x[i]! * 255);
-    img.data[4 * i + 1] = Math.round(x[n + i]! * 255);
-    img.data[4 * i + 2] = Math.round(x[2 * n + i]! * 255);
-    img.data[4 * i + 3] = 255;
-  }
-  g.putImageData(img, 0, 0);
-  if (heat) {
-    const h = document.createElement('canvas');
-    h.width = grid;
-    h.height = grid;
-    const hg = h.getContext('2d')!;
-    const hd = hg.createImageData(grid, grid);
-    heat.forEach((v, i) => hd.data.set(heatColour(v), 4 * i));
-    hg.putImageData(hd, 0, 0);
-    g.globalAlpha = 0.25;
-    g.fillStyle = '#000';
-    g.fillRect(0, 0, S, S);
-    g.globalAlpha = 1;
-    g.imageSmoothingEnabled = true;
-    g.drawImage(h, 0, 0, S, S);
-  }
-  return cv.toDataURL('image/jpeg', 0.88);
-}
-
 const modelCrop = (c: Crop) => (c === 'any' ? null : c);
 
 /**
  * "Check a leaf photo": the AgriTriage-Lite student (lib/agritriage, builder P) reads the photo inside the browser; the
  * model and its runtime load only when the visitor starts. The conformal gate answers diagnose / shortlist / refer;
- * changing the crop re-runs the gate on the same reading at once. "Where it looked" is the occlusion map in the Comparer.
+ * changing the crop re-runs the gate on the same reading at once. "Why this answer?" (farmer/photo/XaiViews) shows the
+ * exact CAM, the attention and the spots at once from the same run; the hide-and-check (occlusion) test runs a quick
+ * 4 x 4 pass in the background and can be sharpened to 7 x 7.
  * Research weights (trained on PlantWild, non-commercial). No sample photos are shipped: the visitor's own, or a drawn leaf.
  */
 export default function LeafTool() {
@@ -99,7 +69,7 @@ export default function LeafTool() {
       const x = preprocess(img, rt.current.cfg);
       img.close?.();
       const reading = await readPhoto(rt.current, x, modelCrop(crop));
-      setPhase({ k: 'done', reading, photo: squareUrl(x, rt.current.cfg.input_size), test });
+      setPhase({ k: 'done', reading, rgb: toRgb(x, rt.current.cfg.input_size), test });
     } catch {
       setPhase({ k: 'error', kind: 'image' });
     }
@@ -130,10 +100,13 @@ export default function LeafTool() {
     const now = { ...phase.reading, result: gate(phase.reading.logits, rt.current.cfg, modelCrop(crop)) };
     const h = await occlusionMap(rt.current, now, modelCrop(crop), target, (done, total) => setHeat({ k: 'running', done, total, grid }), sig, 8, grid);
     if (!h || sig.cancelled) return;
-    setHeat({ k: 'done', url: squareUrl(phase.reading.x, rt.current.cfg.input_size, h.heat, grid), grid });
+    setHeat({ k: 'done', heat: h.heat, grid, target });
   }
 
   const busy = phase.k === 'loading' || phase.k === 'reading';
+  const reading = phase.k === 'done' ? phase.reading : null;
+  const cam = useMemo(() => (reading && target >= 0 ? camOf(reading, target) : null), [reading, target]);
+  const attention = useMemo(() => (reading?.xai ? attentionReceived(reading.xai.attn, reading.xai.heads, reading.xai.n) : null), [reading]);
   return (
     <div className="try-leaf">
       <p className="flex flex-wrap gap-2">
@@ -225,32 +198,27 @@ export default function LeafTool() {
           </div>
 
           <div>
-            <p className="eyebrow flex items-center gap-2">
-              <ScanSearch size={14} aria-hidden /> {t('try.leaf.where')}
-            </p>
-            {heat.k === 'done' ? (
-              <Comparer
-                className="try-cmp aspect-square"
-                before={<img src={phase.photo} alt="" />}
-                after={<img src={heat.url} alt="" />}
-                beforeLabel={t('try.leaf.photo')}
-                afterLabel={t('try.leaf.where')}
-                label={t('try.leaf.compare')}
-                initial={50}
-              />
-            ) : (
-              <div className="try-cmp aspect-square try-cmp-wait">
-                <img src={phase.photo} alt="" />
-              </div>
-            )}
+            <XaiViews
+              tid="leaf"
+              rgb={phase.rgb}
+              size={rt.current.cfg.input_size}
+              target={rt.current.cfg.classes[target]!}
+              cam={cam}
+              attention={attention}
+              occlusion={heat.k === 'done' && heat.target === target ? { heat: heat.heat, grid: heat.grid } : null}
+              occlusionData={heat.k === 'done' ? { where: 'phone', grid: heat.grid } : undefined}
+              photoAlt={t('fa.photo.ai.previewAlt')}
+              occlusionSlot={
+                heat.k === 'done' && heat.grid < 7 ? (
+                  <button type="button" className="try-chipbtn" onClick={() => void map(7)} data-testid="leaf-sharper">
+                    <RotateCcw size={14} aria-hidden /> {t('try.leaf.sharper')}
+                  </button>
+                ) : null
+              }
+            />
             <p className="mt-2 text-xs text-ink-2" data-testid="leaf-map-state">
               {heat.k === 'running' ? t('try.leaf.mapping', { done: fmtNum(heat.done, lang), total: fmtNum(heat.total, lang) }) : heat.k === 'done' ? t('try.leaf.mapNote') : ''}
             </p>
-            {heat.k === 'done' && heat.grid < 7 && (
-              <button type="button" className="try-chipbtn mt-2" onClick={() => void map(7)} data-testid="leaf-sharper">
-                <RotateCcw size={14} aria-hidden /> {t('try.leaf.sharper')}
-              </button>
-            )}
             <p className="mt-2 text-xs text-ink-3">{t('try.leaf.ms', { ms: fmtNum(Math.round(phase.reading.ms), lang) })}</p>
           </div>
         </div>

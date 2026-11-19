@@ -184,6 +184,7 @@ export default function MapPage() {
   );
 
   return (
+    <div className="mp-shell botanic-bg">
     <div className="mp-page wrap" data-testid="map-page">
       <header className="mp-head">
         <p className="eyebrow">{t('map.eyebrow')}</p>
@@ -322,6 +323,7 @@ export default function MapPage() {
           <Credits sightings={sightings} shown={shown} geos={shown.map((c) => geos[`${c}|${levelOf(c)}`]).filter(Boolean) as GeoFile[]} pest={pest} />
         </>
       )}
+    </div>
     </div>
   );
 }

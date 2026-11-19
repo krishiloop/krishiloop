@@ -3,7 +3,7 @@ import '../../lib/i18n/strings.verify';
 import '../../lib/i18n/strings.trust';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Check, ClipboardPaste, FileCheck2, FileJson, Link2, MessageSquareText, Printer, RotateCcw, ScanLine, X } from 'lucide-react';
+import { Check, ChevronDown, ClipboardPaste, FileCheck2, FileJson, Link2, MessageSquareText, Printer, RotateCcw, ScanLine, X } from 'lucide-react';
 import { apiStore, setForcedSample, type VerifyOutcome } from '../../lib/api/client';
 import { isSampleId } from '../../lib/api/mocks';
 import { RECORDED_AT } from '../../data/recorded';
@@ -14,7 +14,7 @@ import { cx } from '../../lib/cx';
 import { Button, LinkButton } from '../../ui/Button';
 import { DataMark } from '../../ui/DataMark';
 import { Stamp, type StampKind } from '../../ui/Stamp';
-import { spotlight } from '../../ui/kit/hooks';
+import { magnet } from './magnet';
 import { toast } from '../../ui/Toast';
 import { ScannerSheet, scanSupport } from './Scanner';
 import { VerdictStage, useMeaning, verdictOf, type VerdictKind } from './VerdictStage';
@@ -266,115 +266,159 @@ function VerifyEntry() {
   };
 
   return (
-    <div className="wrap pb-20 pt-10 sm:pt-14">
-      <header className="max-w-3xl">
-        <p className="label hero-rise flex items-center gap-2.5">
-          <span className="h-px w-8 bg-ink-3" aria-hidden />
-          {t('vf.entry.eyebrow')}
-        </p>
-        <h1 className="t-title hero-rise mt-5" style={{ ['--i' as string]: 1 }}>
-          {t('vf.entry.title')}
-        </h1>
-        <p className="t-lead hero-rise mt-4 max-w-[46ch]" style={{ ['--i' as string]: 2 }}>
-          {t('vf.entry.lead')}
-        </p>
-      </header>
+    <div className="vf-entry-page botanic-bg">
+      <div className="wrap pb-20 pt-10 sm:pt-14">
+        <header className="vf-entry-head">
+          <p className="label hero-rise flex items-center gap-2.5">
+            <span className="h-px w-8 bg-ink-3" aria-hidden />
+            {t('vf.entry.eyebrow')}
+          </p>
+          <h1 className="t-title hero-rise mt-5" style={{ ['--i' as string]: 1 }}>
+            {t('vf.entry.title')}
+          </h1>
+          <p className="t-lead hero-rise mt-4 max-w-[46ch]" style={{ ['--i' as string]: 2 }}>
+            {t('vf.entry.lead')}
+          </p>
+        </header>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.65fr)] lg:items-start lg:gap-14">
-        <section className="vf-zone surface hero-rise" style={{ ['--i' as string]: 3 }} aria-labelledby="vf-zone-h" {...spotlight()}>
+        <section className="vf-entry hero-rise" style={{ ['--i' as string]: 3 }} aria-labelledby="vf-zone-h">
           <h2 id="vf-zone-h" className="sr-only">
             {t('vf.zone.title')}
           </h2>
-          <form onSubmit={submit} noValidate>
-            <label htmlFor="vf-id" className="label">
-              {t('vf.entry.label')}
-            </label>
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-              <input
-                ref={input}
-                id="vf-id"
-                className="vf-input"
-                value={value}
-                onChange={(e) => {
-                  setValue(e.target.value);
-                  setError(false);
-                  setClipNote(false);
-                }}
-                placeholder={t('vf.entry.placeholder')}
-                autoComplete="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                inputMode="url"
-                aria-invalid={error || undefined}
-                aria-describedby={error ? 'vf-id-err' : clipNote ? 'vf-id-clip' : undefined}
-                data-testid="vf-input"
-              />
-              <Button type="submit" variant="primary" size="lg" className="sm:min-w-[9.5rem]" data-testid="vf-check" arrow>
-                {t('vf.entry.check')}
-              </Button>
+
+          {/* 1. scan: front and centre on a phone */}
+          <div className="vf-card vf-card-scan" data-tone="monsoon">
+            <div className="vf-scanart" aria-hidden>
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <rect x="28" y="28" width="64" height="64" rx="6" fill="var(--color-card)" />
+                {/* a drawn QR: three finder squares and a scatter of modules (decoration, not a real code) */}
+                {[
+                  [33, 33],
+                  [69, 33],
+                  [33, 69],
+                ].map(([x, y]) => (
+                  <g key={`${x}-${y}`}>
+                    <rect x={x} y={y} width="18" height="18" rx="2" fill="none" stroke="var(--color-ink)" strokeWidth="3" />
+                    <rect x={x! + 6} y={y! + 6} width="6" height="6" fill="var(--color-ink)" />
+                  </g>
+                ))}
+                {[
+                  [56, 34], [61, 40], [56, 46], [56, 56], [62, 56], [68, 56], [74, 62], [80, 56], [86, 62], [56, 62],
+                  [62, 68], [56, 74], [68, 74], [74, 80], [80, 74], [86, 80], [62, 86], [74, 86], [86, 86], [40, 56], [46, 62],
+                ].map(([x, y]) => (
+                  <rect key={`m${x}-${y}`} x={x} y={y} width="5" height="5" rx="1" fill="var(--color-ink)" />
+                ))}
+                <path d="M18 34 V22 a4 4 0 0 1 4 -4 H34 M86 18 H98 a4 4 0 0 1 4 4 V34 M102 86 V98 a4 4 0 0 1 -4 4 H86 M34 102 H22 a4 4 0 0 1 -4 -4 V86" fill="none" stroke="var(--color-monsoon-ink)" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+              <span className="vf-scanline" />
             </div>
-            {error && (
-              <p id="vf-id-err" role="alert" className="mt-2.5 text-sm text-stop">
-                {t('vf.entry.bad')}
-              </p>
-            )}
-            {clipNote && !error && (
-              <p id="vf-id-clip" className="mt-2.5 text-sm text-ink-2">
-                {t('vf.zone.noClip')}
-              </p>
-            )}
-          </form>
+            <div className="min-w-0">
+              <h3 className="vf-card-t">{t('vf.entry.scan')}</h3>
+              <p className="vf-card-s">{t('vf.zone.scanSub')}</p>
+              {canScan === true ? (
+                <button type="button" className="btn btn-primary btn-lg press mt-4" onClick={() => setScanning(true)} data-testid="vf-scan" {...magnet()}>
+                  <ScanLine size={19} aria-hidden />
+                  {t('vf.zone.scanGo')}
+                </button>
+              ) : canScan === false ? (
+                <p className="vf-card-off" data-testid="vf-noscan">
+                  {t('vf.entry.noScan')}
+                </p>
+              ) : (
+                <span className="skeleton mt-4 inline-block h-12 w-48" aria-hidden />
+              )}
+            </div>
+          </div>
 
-          <CodeEntry />
-
-          <div className="vf-ways">
-            {canScan === true ? (
-              <button type="button" className="vf-way press" onClick={() => setScanning(true)} data-testid="vf-scan">
-                <ScanLine size={22} aria-hidden />
-                <span>
-                  <span className="vf-way-t">{t('vf.entry.scan')}</span>
-                  <span className="vf-way-s">{t('vf.zone.scanSub')}</span>
+          {/* 2. paste a link or an id */}
+          <div className="vf-card" data-tone="butter">
+            <form onSubmit={submit} noValidate>
+              <label htmlFor="vf-id" className="vf-card-t block">
+                <span className="vf-card-n" aria-hidden>
+                  <Link2 size={17} />
                 </span>
-              </button>
-            ) : canScan === false ? (
-              <div className="vf-way" data-off="">
-                <ScanLine size={22} aria-hidden />
-                <span>
-                  <span className="vf-way-t">{t('vf.zone.scanOff')}</span>
-                  <span className="vf-way-s" data-testid="vf-noscan">
-                    {t('vf.entry.noScan')}
-                  </span>
-                </span>
+                {t('vf.entry.label')}
+              </label>
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+                <input
+                  ref={input}
+                  id="vf-id"
+                  className="vf-input"
+                  value={value}
+                  onChange={(e) => {
+                    setValue(e.target.value);
+                    setError(false);
+                    setClipNote(false);
+                  }}
+                  placeholder={t('vf.entry.placeholder')}
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  inputMode="url"
+                  aria-invalid={error || undefined}
+                  aria-describedby={error ? 'vf-id-err' : clipNote ? 'vf-id-clip' : undefined}
+                  data-testid="vf-input"
+                />
+                <Button type="submit" variant="primary" size="lg" className="sm:min-w-[9.5rem]" data-testid="vf-check" arrow {...magnet()}>
+                  {t('vf.entry.check')}
+                </Button>
               </div>
-            ) : (
-              <div className="vf-way skeleton" aria-hidden />
-            )}
-            <button type="button" className="vf-way press" onClick={() => void paste()} data-testid="vf-paste">
-              <ClipboardPaste size={22} aria-hidden />
-              <span>
-                <span className="vf-way-t">{t('vf.zone.paste')}</span>
-                <span className="vf-way-s">{t('vf.zone.pasteSub')}</span>
-              </span>
+              {error && (
+                <p id="vf-id-err" role="alert" className="mt-2.5 text-sm text-stop">
+                  {t('vf.entry.bad')}
+                </p>
+              )}
+              {clipNote && !error && (
+                <p id="vf-id-clip" className="mt-2.5 text-sm text-ink-2">
+                  {t('vf.zone.noClip')}
+                </p>
+              )}
+            </form>
+            <button type="button" className="vf-paste press" onClick={() => void paste()} data-testid="vf-paste">
+              <ClipboardPaste size={17} aria-hidden />
+              <span>{t('vf.zone.paste')}</span>
             </button>
+          </div>
+
+          {/* 3. the code from an SMS */}
+          <div className="vf-card" data-tone="lotus">
+            <CodeEntry />
+          </div>
+
+          {/* no receipt at hand: a recorded one, one tap away */}
+          <div className="vf-card vf-card-try" data-tone="moss">
             {!HERO_RECEIPT ? (
-              <div className="vf-way skeleton" aria-hidden />
+              <span className="skeleton block h-14 w-full" aria-hidden />
             ) : (
-              <Link to={verifyPath(HERO_RECEIPT)} className="vf-way press" data-testid="vf-try">
+              <Link to={verifyPath(HERO_RECEIPT)} className="vf-try press" data-testid="vf-try">
                 <FileCheck2 size={22} aria-hidden />
-                <span>
-                  <span className="vf-way-t">{t('vf.entry.try')}</span>
-                  <span className="vf-way-s">
-                    <DataMark kind="recorded" date={RECORDED_AT} />
-                  </span>
+                <span className="min-w-0">
+                  <span className="vf-card-t block">{t('vf.entry.try')}</span>
+                  <span className="vf-card-s block">{t('vf.entry.trySub')}</span>
                 </span>
+                <DataMark kind="recorded" date={RECORDED_AT} />
               </Link>
             )}
           </div>
+        </section>
 
-          <div className="vf-what">
-            <p className="label" id="vf-chain-h">
-              {t('vf.zone.steps')}
-            </p>
+        <section className="vf-legend-wrap" aria-labelledby="vf-legend-h" data-testid="vf-legend">
+          <h2 id="vf-legend-h" className="vf-legend-h">
+            {t('vf.legend.title')}
+          </h2>
+          <ul className="vf-legend">
+            {LEGEND.map((l, i) => (
+              <li key={l.kind} data-reveal style={{ ['--i' as string]: i }} data-kind={l.kind}>
+                <Stamp kind={l.kind} size="inherit" />
+                <p className="m-0 text-sm leading-snug text-ink-2">{t(l.key)}</p>
+              </li>
+            ))}
+          </ul>
+          <details className="vf-details vf-what">
+            <summary>
+              <ChevronDown size={18} aria-hidden className="vf-details-chev" />
+              <span id="vf-chain-h">{t('vf.zone.steps')}</span>
+            </summary>
             <ol className="vf-chain" aria-labelledby="vf-chain-h">
               {CHAIN.map((k, i) => (
                 <li key={k} style={{ ['--i' as string]: i }}>
@@ -382,26 +426,12 @@ function VerifyEntry() {
                 </li>
               ))}
             </ol>
-          </div>
+          </details>
         </section>
 
-        <aside aria-labelledby="vf-legend-h" data-testid="vf-legend" className="hero-rise" style={{ ['--i' as string]: 4 }}>
-          <h2 id="vf-legend-h" className="label">
-            {t('vf.legend.title')}
-          </h2>
-          <ul className="vf-legend">
-            {LEGEND.map((l, i) => (
-              <li key={l.kind} data-reveal style={{ ['--i' as string]: i }}>
-                <Stamp kind={l.kind} size="inherit" />
-                <p className="m-0 text-sm leading-snug text-ink-2">{t(l.key)}</p>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <Recent />
+        <ScannerSheet open={scanning} onClose={closeScan} />
       </div>
-
-      <Recent />
-      <ScannerSheet open={scanning} onClose={closeScan} />
     </div>
   );
 }

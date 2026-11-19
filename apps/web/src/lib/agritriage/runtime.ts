@@ -11,12 +11,16 @@ export const BASE = '/models/agritriage/';
 
 interface OrtTensor {
   data: Float32Array;
+  dims: readonly number[];
 }
 interface OrtSession {
   inputNames: string[];
   outputNames: string[];
-  run(feeds: Record<string, unknown>): Promise<Record<string, OrtTensor>>;
+  run(feeds: Record<string, unknown>, fetches?: readonly string[]): Promise<Record<string, OrtTensor>>;
 }
+
+/** model_xai.onnx's extra outputs read with every diagnosis (tools/xai_export.py): no extra run. */
+export const XAI_FETCH = ['logits', 'xai_cam', 'xai_cam_bias', 'xai_attn3_0', 'xai_attn3_1'] as const;
 interface OrtModule {
   env: { wasm: { wasmPaths: string; numThreads: number } };
   Tensor: new (type: 'float32', data: Float32Array, dims: number[]) => unknown;
@@ -36,6 +40,8 @@ export interface Runtime {
   /** seconds from the first byte asked to a ready session */
   loadS: number;
   threads: number;
+  /** the file has the XAI outputs (model_xai.onnx) */
+  xai: boolean;
 }
 
 let loading: Promise<Runtime> | null = null;
@@ -72,7 +78,8 @@ export function loadRuntime(): Promise<Runtime> {
         graphOptimizationLevel: 'all',
         extra: { session: { disable_quant_qdq: '1' } }, // fold the INT8 weights to float once, at load (as the demo)
       });
-      return { cfg, session, ort, input: session.inputNames[0], loadS: (performance.now() - t0) / 1000, threads: 1 };
+      const xai = XAI_FETCH.every((n) => session.outputNames.includes(n));
+      return { cfg, session, ort, input: session.inputNames[0], loadS: (performance.now() - t0) / 1000, threads: 1, xai };
     })();
     loading.catch(() => {
       loading = null; // a failed load may be retried
@@ -111,24 +118,50 @@ export async function decodeImage(blob: Blob): Promise<ImageBitmap> {
 
 async function logits(rt: Runtime, x: Float32Array, batch = 1): Promise<Float32Array> {
   const S = rt.cfg.input_size;
-  const out = await rt.session.run({ [rt.input]: new rt.ort.Tensor('float32', x, [batch, 3, S, S]) });
-  return out[rt.session.outputNames[0]].data;
+  const out = await rt.session.run({ [rt.input]: new rt.ort.Tensor('float32', x, [batch, 3, S, S]) }, ['logits']);
+  return out.logits.data;
+}
+
+/** What the model's own run gives besides the answer (model_xai.onnx): every class's 49 CAM cells and bias, and the
+ *  stage-3 attention of its two blocks ([heads, 49, 49] each). lib/agritriage/xai.ts turns them into views. */
+export interface XaiRaw {
+  cam: Float32Array;
+  camBias: Float32Array;
+  attn: Float32Array[];
+  heads: number;
+  n: number;
 }
 
 export interface Reading {
   result: GateResult;
   logits: Float32Array;
-  /** model time for this photo on this phone, in ms */
+  /** model time for this photo on this phone, in ms (the XAI outputs come from the same run) */
   ms: number;
   x: Float32Array;
+  xai: XaiRaw | null;
 }
 
-/** Read one prepared photo on this phone. */
+/** Read one prepared photo on this phone: the answer and, from the same run, what the CAM and attention views need. */
 export async function readPhoto(rt: Runtime, x: Float32Array, crop: string | null): Promise<Reading> {
+  const S = rt.cfg.input_size;
   const t0 = performance.now();
-  const z = await logits(rt, x);
+  if (!rt.xai) {
+    const z = await logits(rt, x);
+    return { result: gate(z, rt.cfg, crop), logits: z, ms: performance.now() - t0, x, xai: null };
+  }
+  const out = await rt.session.run({ [rt.input]: new rt.ort.Tensor('float32', x, [1, 3, S, S]) }, XAI_FETCH);
   const ms = performance.now() - t0;
-  return { result: gate(z, rt.cfg, crop), logits: z, ms, x };
+  const z = out.logits.data;
+  const a = out.xai_attn3_0;
+  const xai: XaiRaw = { cam: out.xai_cam.data, camBias: out.xai_cam_bias.data, attn: [a.data, out.xai_attn3_1.data], heads: a.dims[1] ?? 14, n: a.dims[3] ?? 49 };
+  return { result: gate(z, rt.cfg, crop), logits: z, ms, x, xai };
+}
+
+/** The 49 CAM cells of one class, their bias and the logit they add up to. */
+export function camOf(r: Reading, target: number): { cells: Float32Array; bias: number; logit: number } | null {
+  if (!r.xai) return null;
+  const N = 49;
+  return { cells: r.xai.cam.subarray(target * N, (target + 1) * N), bias: r.xai.camBias[target]!, logit: r.logits[target]! };
 }
 
 export interface HeatMap {

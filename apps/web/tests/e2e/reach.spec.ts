@@ -52,7 +52,7 @@ test('typing the code from an SMS opens the receipt, and the page says the code 
   await expect(page).toHaveURL(new RegExp(`/verify/${HERO}$`));
   expect([...new Set(asked)]).toEqual(['7KQ2MX4P']); // the dev server's StrictMode may ask twice
   await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'authentic');
-  await expect(page.getByTestId('vf-from-code')).toHaveText('Opened from SMS code 7KQ2-MX4P. The code only finds the receipt; the signature check is the proof.');
+  await expect(page.getByTestId('vf-from-code')).toHaveText('Opened from SMS code 7KQ2-MX4P. The code only finds the receipt. The signature check is the proof.');
   await axeOk(page);
 });
 
@@ -91,7 +91,7 @@ test('when the verifier cannot be reached, the page says so and offers to try ag
   const asked = await mockCodes(page, { down: true });
   await page.goto('/v/7KQ2-MX4P');
   await expect(page.getByTestId('vf-code-open')).toHaveAttribute('data-state', 'unreachable');
-  await expect(page.getByTestId('vf-code-open')).toContainText('The verifier could not be reached');
+  await expect(page.getByTestId('vf-code-open')).toContainText('We could not reach the checker');
   const before = asked.length;
   await page.getByRole('button', { name: 'Try again' }).click();
   await expect.poll(() => asked.length).toBeGreaterThan(before);

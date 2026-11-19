@@ -817,3 +817,201 @@ html.reveal-ready [data-reveal] .pf-cmp i::after {
     }
   }
 }
+
+/* ==================================================================
+   v5 (20 Nov, builder Pg): a premium report. A cream opener with pastel washes and four parts (Safety, Photo AI,
+   Speed, How we built it); each result a card: the big number, one plain line, then the technical name in small
+   print, the limits and "See the file". Showcase cards lean on a desktop (data-tilt). No deep bands.
+   ================================================================== */
+.pf-hero-v5 {
+  position: relative;
+  isolation: isolate;
+}
+.pf-hero-v5::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 70% at 6% 10%, color-mix(in oklab, var(--color-hyacinth) 85%, transparent), transparent 70%),
+    radial-gradient(36% 60% at 60% 0%, color-mix(in oklab, var(--color-butter) 85%, transparent), transparent 70%),
+    radial-gradient(34% 60% at 100% 60%, color-mix(in oklab, var(--color-lotus) 75%, transparent), transparent 70%);
+}
+.pf-parts {
+  display: grid;
+  gap: 8px;
+  margin-top: 2rem;
+}
+@media (min-width: 640px) {
+  .pf-parts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .pf-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    align-items: end;
+    gap: 56px;
+  }
+  .pf-parts {
+    margin-top: 0;
+  }
+}
+.pf-parts > a {
+  --pw: var(--color-butter);
+  --pi: var(--color-butter-ink);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-height: 64px;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid color-mix(in oklab, var(--pi) 18%, transparent);
+  border-radius: 18px;
+  background: var(--pw);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: transform 240ms var(--ease-out);
+}
+.pf-parts > a[data-tone="terracotta"] { --pw: var(--color-terracotta); --pi: var(--color-terracotta-ink); }
+.pf-parts > a[data-tone="moss"] { --pw: var(--color-moss); --pi: var(--color-moss-ink); }
+.pf-parts > a[data-tone="monsoon"] { --pw: var(--color-monsoon); --pi: var(--color-monsoon-ink); }
+.pf-parts > a[data-tone="hyacinth"] { --pw: var(--color-hyacinth); --pi: var(--color-hyacinth-ink); }
+.pf-parts .pf-jump-n {
+  display: inline;
+  padding-top: 0.15rem;
+  font-size: 0.75rem;
+  color: var(--pi);
+}
+.pf-parts b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+.pf-parts-s {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.84rem;
+  color: var(--color-ink-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .pf-parts > a:hover {
+    transform: translateY(-3px);
+  }
+}
+.pf-built .pf-jump .pf-jump-n {
+  display: inline;
+  margin-right: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--color-ink-3);
+}
+
+/* the parts wear soft washes, one each */
+.pf-part {
+  --pw: var(--color-paper);
+  --pi: var(--color-ink);
+  border-top: 1px solid var(--color-rule);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--pw) 60%, var(--color-paper)), var(--color-paper) 70%);
+}
+.pf-part[data-tone="terracotta"] { --pw: var(--color-terracotta); --pi: var(--color-terracotta-ink); }
+.pf-part[data-tone="moss"] { --pw: var(--color-moss); --pi: var(--color-moss-ink); }
+.pf-part[data-tone="monsoon"] { --pw: var(--color-monsoon); --pi: var(--color-monsoon-ink); }
+.pf-part[data-tone="hyacinth"] { --pw: var(--color-hyacinth); --pi: var(--color-hyacinth-ink); }
+.pf-sunk {
+  background: color-mix(in oklab, var(--color-hyacinth) 30%, var(--color-paper));
+}
+
+/* the result cards */
+.pf-cards {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 720px) {
+  .pf-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .pf-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pf-cards[data-tone="monsoon"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pf-card {
+  --cw: var(--color-butter);
+  --ci: var(--color-butter-ink);
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(1.1rem, 2.2vw, 1.5rem);
+  border: 1px solid var(--color-rule);
+  border-radius: 24px;
+  background: var(--color-card);
+  box-shadow: 0 24px 50px -40px rgb(20 38 28 / 0.55);
+}
+.pf-cards[data-tone="terracotta"] .pf-card { --cw: var(--color-terracotta); --ci: var(--color-terracotta-ink); }
+.pf-cards[data-tone="moss"] .pf-card { --cw: var(--color-moss); --ci: var(--color-moss-ink); }
+.pf-cards[data-tone="monsoon"] .pf-card { --cw: var(--color-monsoon); --ci: var(--color-monsoon-ink); }
+.pf-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  border-radius: 24px 24px 0 0;
+  background: var(--cw);
+}
+.pf-card-k {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ci);
+}
+.pf-card-k:is(:lang(bn), :lang(hi)) {
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.95rem;
+}
+.pf-card .pf-num {
+  font-family: var(--font-display);
+  font-weight: 560;
+  font-stretch: 100%;
+  letter-spacing: -0.035em;
+  font-size: clamp(2.6rem, 2rem + 1.8vw, 3.5rem);
+}
+.pf-plain {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 560;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+.pf-tech {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-ink-3);
+}
+.pf-tech-k {
+  font-weight: 650;
+  color: var(--color-ink-2);
+}
+.pf-caveat {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+.pf-src-k {
+  width: 100%;
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--color-ink-2);
+}

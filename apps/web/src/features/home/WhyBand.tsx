@@ -27,7 +27,7 @@ const WAYS: { t: Key; d: Key; tag: Key; icon: typeof Smartphone }[] = [
 ];
 
 /**
- * Who it is for (deck slide 3), as a forest band: the share of work that is farming, the harvest lost to pests and
+ * Who it is for (deck slide 3), on a butter mesh with the deck's rice stalks (v5: no longer a forest band): the share of work that is farming, the harvest lost to pests and
  * diseases (bars drawn to scale once in view), and the ways to use it, from a smartphone to a basic phone.
  */
 export function WhyBand() {
@@ -35,8 +35,7 @@ export function WhyBand() {
   const [ref, seen] = useSeenOnce<HTMLDivElement>();
   const pct = (v: number) => `${fmtNum(v, lang, { minimumFractionDigits: v % 1 ? 1 : 1, maximumFractionDigits: 2 })}%`;
   return (
-    <section className="band-night sheet-band section relative cv" aria-labelledby="why-title">
-      <img src="/art/dark-leaf.webp" alt="" aria-hidden className="botanic right-0 top-0 w-[min(40vw,420px)]" loading="lazy" decoding="async" />
+    <section className="sheet-band mesh mesh-butter botanic-bg botanic-bg--rice section relative cv" aria-labelledby="why-title">
       <div className="wrap relative">
         <p className="eyebrow m-0" data-reveal>
           {t('home.why.eyebrow')}
@@ -49,7 +48,7 @@ export function WhyBand() {
           <div ref={ref}>
             <p className="eyebrow m-0">{t('home.why.matters')}</p>
             <div className="mt-6 flex flex-wrap items-end gap-x-6 gap-y-3">
-              <p className="figure m-0 text-[clamp(4rem,2.6rem+4.4vw,6.6rem)] text-accent">{pct(WORK)}</p>
+              <p className="figure m-0 text-[clamp(4rem,2.6rem+4.4vw,6.6rem)] text-accent-text">{pct(WORK)}</p>
               <p className="m-0 max-w-[26ch] pb-3 text-[1.05rem] leading-snug text-ink-2">{t('home.why.work')}</p>
             </div>
             <p className="m-0 mt-10 text-[1.05rem] font-[650] text-ink">{t('home.why.lost')}</p>
@@ -90,7 +89,7 @@ export function WhyBand() {
               })}
             </ol>
             <div className="mt-10 grid grid-cols-[auto_1fr] items-end gap-x-5 border-t border-rule pt-8">
-              <p className="figure m-0 text-[clamp(3rem,2rem+3vw,4.6rem)] text-accent">{t('home.why.hh', { n: fmtNum(HOUSEHOLDS, lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}</p>
+              <p className="figure m-0 text-[clamp(3rem,2rem+3vw,4.6rem)] text-accent-text">{t('home.why.hh', { n: fmtNum(HOUSEHOLDS, lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) })}</p>
               <p className="m-0 pb-2 text-[0.98rem] leading-snug text-ink-2">{t('home.why.hh.sub')}</p>
             </div>
           </div>

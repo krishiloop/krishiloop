@@ -53,12 +53,12 @@ test('the shield: four checks from the recorded forecast, unknown as unknown, te
   // no river forecast for this field: unknown, never "no risk"
   const flood = page.getByTestId('kg-check-flood');
   await expect(flood).toHaveAttribute('data-level', 'unknown');
-  await expect(flood).toContainText('No river forecast');
+  await expect(flood).toContainText(/no river forecast/i);
   await flood.getByRole('button').click();
-  await expect(flood).toContainText('Unknown is never "no risk"');
+  await expect(flood).toContainText('Not knowing never means it is safe');
   // a clear check opens to its team-set threshold, said as such
   await page.getByTestId('kg-check-disease').getByRole('button').click();
-  await expect(page.getByTestId('kg-team-disease')).toContainText('Threshold set by our team (not from a source; review pending)');
+  await expect(page.getByTestId('kg-team-disease')).toContainText('Limit set by our team, not from a written source');
   await expect(shield(page)).toContainText('Recorded 2 Nov');
   await expect(page.getByTestId('kg-hear')).toBeVisible();
 });
@@ -93,7 +93,7 @@ test('near you: the simulated scenario for the field’s district, labelled, and
   await page.goto(APP);
   const near = page.getByTestId('kg-near');
   await expect(near).toContainText('Mymensingh district');
-  await expect(near).toContainText('Real reports need the live service');
+  await expect(near).toContainText('Real reports need our server');
   await expect(page.getByTestId('kg-near-sim')).toContainText('Simulated');
   await expect(page.getByTestId('kg-near-sim')).toContainText('9 farmers reported bacterial leaf blight');
   await expect(near).toContainText('at least 3 farmers reported. Never one farmer.');

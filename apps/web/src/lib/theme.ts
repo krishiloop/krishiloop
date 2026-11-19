@@ -16,7 +16,7 @@ export const themeStore = createStore<Theme>(typeof window === 'undefined' ? 'li
 function apply(t: Theme) {
   if (typeof document === 'undefined') return;
   document.documentElement.dataset.theme = t;
-  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', t === 'dark' ? '#14261c' : '#f3eee2'));
+  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', t === 'dark' ? '#1b1720' : '#f3eee2'));
 }
 apply(themeStore.get());
 themeStore.subscribe(() => apply(themeStore.get()));

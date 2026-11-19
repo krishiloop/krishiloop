@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ChangeEvent } from 'react';
+import { useEffect, useMemo, useRef, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Camera, Check, Image as ImageIcon, Lightbulb, Loader2, ReceiptText, RotateCcw, ScanSearch, ServerOff, ShieldCheck, UserRound } from 'lucide-react';
 import { useI18n, type Key, type Lang } from '../../../lib/i18n';
@@ -9,11 +9,11 @@ import { cx } from '../../../lib/cx';
 import { apiStore, useApiState } from '../../../lib/api/client';
 import type { Action, Plan } from '../../../lib/api/types';
 import { FIELD_TO_MODEL_CROP, gate, niceClass, topClasses, type GateResult } from '../../../lib/agritriage/gate';
-import { heatColour } from '../../../lib/agritriage/occlusion';
-import { decodeImage, loadRuntime, occlusionMap, preprocess, readPhoto, type Reading, type Runtime } from '../../../lib/agritriage/runtime';
+import { camOf, decodeImage, loadRuntime, occlusionMap, preprocess, readPhoto, type Reading, type Runtime } from '../../../lib/agritriage/runtime';
+import { attentionReceived, toRgb } from '../../../lib/agritriage/xai';
 import { escalateTriage, submitTriage, triageHeatOnce, triagePlan, type ModelInfo, type TriageArea, type TriageCase } from '../../../lib/agritriage/api';
-import { Comparer } from '../../../ui/kit/Comparer';
 import { prepareJpeg } from './downscale';
+import { XaiViews } from './XaiViews';
 import { currentField, farmer, useFarmer } from '../farmerStore';
 import { logPlan } from '../inspector';
 import { holdPlan } from '../receipts';
@@ -23,7 +23,9 @@ import { cropName } from '../words';
 
 /**
  * AgriTriage-Lite in the farmer app: the owner's TinyViT-11M student reads the leaf INSIDE the phone (ONNX Runtime Web,
- * loaded only here), the conformal gate answers diagnose / shortlist / refer, and an occlusion map shows where it looked.
+ * loaded only here), the conformal gate answers diagnose / shortlist / refer, and "Why this answer?" (XaiViews) shows
+ * where it looked (exact CAM), what it paid attention to and the spots on the leaf at once, from the same model run;
+ * the hide-and-check (occlusion) test needs extra runs and starts only when asked.
  * A signed answer is a second, server-side reading of the same photo (only when the farmer asks): photo-trust policy v2
  * then gives a receipt, asks for a clearer photo, or hands the case to the officer. Works with recorded data too: the
  * on-device step needs no server.
@@ -33,7 +35,7 @@ type Phase =
   | { k: 'idle' }
   | { k: 'loading' }
   | { k: 'reading'; preview: string }
-  | { k: 'done'; preview: string; photo: string; reading: Reading; b64: string }
+  | { k: 'done'; preview: string; rgb: Uint8Array; reading: Reading; b64: string }
   | { k: 'error'; kind: 'model' | 'image'; message: string };
 type Server =
   | { k: 'idle' }
@@ -42,7 +44,7 @@ type Server =
   | { k: 'error'; message: string };
 type PlanState = { k: 'idle' } | { k: 'planning' } | { k: 'done'; action: Action | null; plan: Plan } | { k: 'error'; message: string };
 /** A map on screen: computed on this phone (a quick 4 x 4 pass, then 7 x 7) or, if the farmer chose it, on our server. */
-type Shown = { url: string; grid: number; ms: number; where: 'phone' | 'server'; target: number; roundTripMs?: number };
+type Shown = { heat: number[]; grid: number; ms: number; where: 'phone' | 'server'; target: number; roundTripMs?: number };
 type Heat =
   | { k: 'idle' }
   | { k: 'running'; done: number; total: number; stage: 'quick' | 'fine' | 'server'; shown: Shown | null }
@@ -63,45 +65,6 @@ const store = createStore<State>({ phase: { k: 'idle' }, mode: 'field', server: 
 let previewUrl: string | null = null;
 let runtime: Runtime | null = null;
 const cancel = { cancelled: false };
-
-/** The 224 px square the model saw, as an image (CHW floats in [0, 1] back to pixels), at 2x for sharp phones. */
-function squareUrl(x: Float32Array, S: number, heat?: number[], grid = 7): string {
-  const cv = document.createElement('canvas');
-  cv.width = S;
-  cv.height = S;
-  const g = cv.getContext('2d')!;
-  const img = g.createImageData(S, S);
-  const n = S * S;
-  for (let i = 0; i < n; i++) {
-    img.data[4 * i] = Math.round(x[i] * 255);
-    img.data[4 * i + 1] = Math.round(x[n + i] * 255);
-    img.data[4 * i + 2] = Math.round(x[2 * n + i] * 255);
-    img.data[4 * i + 3] = 255;
-  }
-  g.putImageData(img, 0, 0);
-  const out = document.createElement('canvas');
-  out.width = 2 * S;
-  out.height = 2 * S;
-  const o = out.getContext('2d')!;
-  o.imageSmoothingQuality = 'high';
-  o.drawImage(cv, 0, 0, 2 * S, 2 * S);
-  if (heat) {
-    const h = document.createElement('canvas');
-    h.width = grid;
-    h.height = grid;
-    const hg = h.getContext('2d')!;
-    const hd = hg.createImageData(grid, grid);
-    heat.forEach((v, i) => hd.data.set(heatColour(v), 4 * i));
-    hg.putImageData(hd, 0, 0);
-    o.globalAlpha = 0.25; // dim the photo a little under the map so warm squares read on a green leaf
-    o.fillStyle = '#000';
-    o.fillRect(0, 0, 2 * S, 2 * S);
-    o.globalAlpha = 1;
-    o.imageSmoothingEnabled = true;
-    o.drawImage(h, 0, 0, 2 * S, 2 * S);
-  }
-  return out.toDataURL('image/jpeg', 0.88);
-}
 
 async function read(file: File) {
   cancel.cancelled = true;
@@ -131,7 +94,7 @@ async function read(file: File) {
     const x = preprocess(bmp, runtime.cfg);
     bmp.close();
     const reading = await readPhoto(runtime, x, cropFor(store.get().mode));
-    store.set((s) => ({ ...s, phase: { k: 'done', preview: previewUrl!, photo: squareUrl(x, runtime!.cfg.input_size), reading, b64: prep.b64 } }));
+    store.set((s) => ({ ...s, phase: { k: 'done', preview: previewUrl!, rgb: toRgb(x, runtime!.cfg.input_size), reading, b64: prep.b64 } }));
     tick('photo');
   } catch (e) {
     store.set((s) => ({ ...s, phase: { k: 'error', kind: 'image', message: e instanceof Error ? e.message : String(e) } }));
@@ -165,7 +128,6 @@ async function showWhere() {
   cancel.cancelled = false;
   const r = s.phase.reading;
   const target = r.result.order[0];
-  const S = runtime.cfg.input_size;
   const crop = cropFor(s.mode);
   const f = currentField();
   // 1. the farmer chose our server and it is there: one call, about 4 s (the photo is used once and not kept)
@@ -174,7 +136,7 @@ async function showWhere() {
     const t0 = performance.now();
     try {
       const h = await triageHeatOnce(f.field_id, s.phase.b64, s.mode === 'any', runtime.cfg.classes[target]);
-      const shown: Shown = { url: squareUrl(r.x, S, h.heat, h.grid), grid: h.grid, ms: h.ms, where: 'server', target, roundTripMs: performance.now() - t0 };
+      const shown: Shown = { heat: h.heat, grid: h.grid, ms: h.ms, where: 'server', target, roundTripMs: performance.now() - t0 };
       store.set((x) => ({ ...x, heat: { k: 'done', shown } }));
       return;
     } catch {
@@ -188,9 +150,9 @@ async function showWhere() {
   try {
     const quick = await pass(4, 'quick');
     if (!quick) return store.set((x) => ({ ...x, heat: { k: 'idle' } }));
-    shown = { url: squareUrl(r.x, S, quick.heat, 4), grid: 4, ms: quick.ms, where: 'phone', target };
+    shown = { heat: quick.heat, grid: 4, ms: quick.ms, where: 'phone', target };
     const fine = await pass(7, 'fine');
-    if (fine) shown = { url: squareUrl(r.x, S, fine.heat, 7), grid: 7, ms: quick.ms + fine.ms, where: 'phone', target };
+    if (fine) shown = { heat: fine.heat, grid: 7, ms: quick.ms + fine.ms, where: 'phone', target };
     const done = shown;
     store.set((x) => ({ ...x, heat: { k: 'done', shown: done } }));
   } catch (e) {
@@ -347,6 +309,9 @@ function Result({ s, phase, rt, offline, profileId, onTab }: { s: State; phase: 
   const name = niceClass(rt.cfg.classes[r.order[0]]);
   const heat = s.heat;
   const shown = heat.k === 'idle' ? null : heat.shown;
+  const target = r.order[0]!;
+  const cam = useMemo(() => camOf(phase.reading, target), [phase.reading, target]);
+  const attention = useMemo(() => (phase.reading.xai ? attentionReceived(phase.reading.xai.attn, phase.reading.xai.heads, phase.reading.xai.n) : null), [phase.reading]);
   return (
     <article className="panel overflow-hidden" data-testid="fa-ai-card" data-outcome={r.outcome}>
       <div className="grid gap-3 p-4">
@@ -387,84 +352,18 @@ function Result({ s, phase, rt, offline, profileId, onTab }: { s: State; phase: 
       </div>
 
       <div className="grid gap-3 border-t border-rule p-4">
-        {shown && (
-          <div className="grid gap-2" data-testid="fa-ai-comparer" data-where={shown.where} data-grid={shown.grid}>
-            <Comparer
-              className="aspect-square w-full overflow-hidden rounded-[12px]"
-              before={<img src={phase.photo} alt={t('fa.photo.ai.previewAlt')} />}
-              after={<img src={shown.url} alt="" />}
-              beforeLabel={t('fa.photo.ai.wherePhoto')}
-              afterLabel={t('fa.photo.ai.whereHeat')}
-              label={t('fa.photo.ai.whereSlider')}
-              initial={50}
-            />
-            <p className="m-0 text-xs text-ink-3">{t('fa.photo.ai.whereMethod', { label: niceClass(rt.cfg.classes[shown.target]) })}</p>
-            <p className="m-0 text-xs font-semibold text-ink-2" data-testid="fa-ai-where-time">
-              {shown.where === 'server'
-                ? t('fa.photo.ai.whereOnServer', { grid: fmtNum(shown.grid, lang), s: secs(shown.ms, lang), rt: secs(shown.roundTripMs ?? shown.ms, lang) })
-                : t('fa.photo.ai.whereOnPhone', { grid: fmtNum(shown.grid, lang), s: secs(shown.ms, lang) })}
-            </p>
-          </div>
-        )}
-        {heat.k === 'running' && (
-          <div className="grid gap-2">
-            <p className="m-0 text-sm">
-              {heat.stage === 'server'
-                ? t('fa.photo.ai.whereServerRunning')
-                : t(heat.stage === 'quick' ? 'fa.photo.ai.whereRunning' : 'fa.photo.ai.whereSharpening', { done: fmtNum(heat.done, lang), total: fmtNum(heat.total, lang) })}
-            </p>
-            <div
-              className="h-2 overflow-hidden rounded-full bg-sunk"
-              role="progressbar"
-              aria-label={t('fa.photo.ai.where')}
-              aria-valuemin={0}
-              aria-valuemax={heat.total}
-              aria-valuenow={heat.done}
-              data-testid="fa-ai-where-progress"
-            >
-              <span className="block h-full origin-left bg-go transition-transform motion-reduce:transition-none" style={{ transform: `scaleX(${heat.total ? heat.done / heat.total : 0})` }} />
-            </div>
-            {heat.stage !== 'server' && (
-              <button type="button" className="btn btn-ghost btn-sm justify-self-start" onClick={() => (cancel.cancelled = true)}>
-                {t('fa.photo.ai.whereCancel')}
-              </button>
-            )}
-          </div>
-        )}
-        {/* also after a map is shown: the farmer may switch to our server and ask again */}
-        {heat.k !== 'running' && (heat.k !== 'done' || (heat.shown.where === 'phone' && !offline)) && (
-          <div className="grid gap-3">
-            <div className="flex flex-wrap items-center gap-3">
-              {!shown && <img src={phase.photo} alt={t('fa.photo.ai.previewAlt')} className="size-16 flex-none rounded-[10px] object-cover" />}
-              <button type="button" className="btn btn-secondary fa-hit" onClick={() => void showWhere()} data-testid="fa-ai-where">
-                <ScanSearch size={18} aria-hidden />
-                {t('fa.photo.ai.where')}
-              </button>
-            </div>
-            {!offline && (
-              <div className="flex items-start gap-3">
-                <div className="min-w-0 flex-1">
-                  <p id="fa-ai-srvmap" className="m-0 text-sm font-semibold">
-                    {t('fa.photo.ai.whereServer')}
-                  </p>
-                  <p className="m-0 mt-0.5 text-xs text-ink-3">{t('fa.photo.ai.whereServerSub')}</p>
-                </div>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={s.serverMap}
-                  aria-labelledby="fa-ai-srvmap"
-                  className="fa-switch"
-                  onClick={() => store.set((x) => ({ ...x, serverMap: !x.serverMap }))}
-                  data-testid="fa-ai-where-server"
-                >
-                  <span className="fa-switch-knob" aria-hidden />
-                </button>
-              </div>
-            )}
-            {heat.k === 'error' && <p className="mono m-0 w-full break-all text-xs text-ink-3">{heat.message}</p>}
-          </div>
-        )}
+        <XaiViews
+          tid="fa-ai"
+          rgb={phase.rgb}
+          size={rt.cfg.input_size}
+          target={rt.cfg.classes[target]!}
+          cam={cam}
+          attention={attention}
+          occlusion={shown && shown.target === target ? { heat: shown.heat, grid: shown.grid } : null}
+          occlusionData={shown ? { where: shown.where, grid: shown.grid } : undefined}
+          photoAlt={t('fa.photo.ai.previewAlt')}
+          occlusionSlot={<Occlusion s={s} heat={heat} shown={shown} offline={offline} />}
+        />
       </div>
 
       {r.outcome === 'shortlist' && (
@@ -484,6 +383,81 @@ function Result({ s, phase, rt, offline, profileId, onTab }: { s: State; phase: 
 
       <ServerStep s={s} outcome={r.outcome} offline={offline} profileId={profileId} onTab={onTab} />
     </article>
+  );
+}
+
+/** The hide-and-check (occlusion) test: run it, follow it, see where and how fast it ran. */
+function Occlusion({ s, heat, shown, offline }: { s: State; heat: Heat; shown: Shown | null; offline: boolean }) {
+  const { t, lang } = useI18n();
+  return (
+    <div className="grid gap-3">
+      {shown && (
+        <p className="m-0 text-xs font-semibold text-ink-2" data-testid="fa-ai-where-time">
+          {shown.where === 'server'
+            ? t('fa.photo.ai.whereOnServer', { grid: fmtNum(shown.grid, lang), s: secs(shown.ms, lang), rt: secs(shown.roundTripMs ?? shown.ms, lang) })
+            : t('fa.photo.ai.whereOnPhone', { grid: fmtNum(shown.grid, lang), s: secs(shown.ms, lang) })}
+        </p>
+      )}
+      {heat.k === 'running' && (
+        <div className="grid gap-2">
+          <p className="m-0 text-sm">
+            {heat.stage === 'server'
+              ? t('fa.photo.ai.whereServerRunning')
+              : t(heat.stage === 'quick' ? 'fa.photo.ai.whereRunning' : 'fa.photo.ai.whereSharpening', { done: fmtNum(heat.done, lang), total: fmtNum(heat.total, lang) })}
+          </p>
+          <div
+            className="h-2 overflow-hidden rounded-full bg-sunk"
+            role="progressbar"
+            aria-label={t('fa.photo.ai.where')}
+            aria-valuemin={0}
+            aria-valuemax={heat.total}
+            aria-valuenow={heat.done}
+            data-testid="fa-ai-where-progress"
+          >
+            <span className="block h-full origin-left bg-go transition-transform motion-reduce:transition-none" style={{ transform: `scaleX(${heat.total ? heat.done / heat.total : 0})` }} />
+          </div>
+          {heat.stage !== 'server' && (
+            <button type="button" className="btn btn-ghost btn-sm justify-self-start" onClick={() => (cancel.cancelled = true)}>
+              {t('fa.photo.ai.whereCancel')}
+            </button>
+          )}
+        </div>
+      )}
+      {/* also after a map is shown: the farmer may switch to our server and ask again */}
+      {heat.k !== 'running' && (heat.k !== 'done' || (heat.shown.where === 'phone' && !offline)) && (
+        <div className="grid gap-3">
+          <div className="grid gap-1.5">
+            <button type="button" className="btn btn-secondary fa-hit justify-self-start" onClick={() => void showWhere()} data-testid="fa-ai-where">
+              <ScanSearch size={18} aria-hidden />
+              {t('fa.photo.ai.where')}
+            </button>
+            {!shown && <p className="m-0 text-xs text-ink-3">{t('photoai.xai.occlusionWhy', { n: fmtNum(16 + 49, lang) })}</p>}
+          </div>
+          {!offline && (
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-1">
+                <p id="fa-ai-srvmap" className="m-0 text-sm font-semibold">
+                  {t('fa.photo.ai.whereServer')}
+                </p>
+                <p className="m-0 mt-0.5 text-xs text-ink-3">{t('fa.photo.ai.whereServerSub')}</p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={s.serverMap}
+                aria-labelledby="fa-ai-srvmap"
+                className="fa-switch"
+                onClick={() => store.set((x) => ({ ...x, serverMap: !x.serverMap }))}
+                data-testid="fa-ai-where-server"
+              >
+                <span className="fa-switch-knob" aria-hidden />
+              </button>
+            </div>
+          )}
+          {heat.k === 'error' && <p className="mono m-0 w-full break-all text-xs text-ink-3">{heat.message}</p>}
+        </div>
+      )}
+    </div>
   );
 }
 

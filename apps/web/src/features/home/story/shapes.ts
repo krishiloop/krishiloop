@@ -20,6 +20,25 @@ export const PALETTE = [
   '#b7d98a', // 9 sprout (something checks out)
   '#c97a55', // 10 clay (a lesion's rim)
 ] as const;
+/**
+ * The same eleven leaves for the cream hero (v5): the pure pastels vanish on cream, so each takes a deeper, still soft
+ * tone of the same pigment; cream itself (the cloud, the receipt's paper) becomes a rain-cloud grey.
+ */
+export const PALETTE_LIGHT = [
+  '#7fa36b', // 0 moss
+  '#5b9a3f', // 1 paddy green
+  '#d9ad3e', // 2 butter
+  '#c98a1c', // 3 mustard
+  '#df7a56', // 4 terracotta
+  '#dc8590', // 5 lotus
+  '#5f9fbd', // 6 monsoon
+  '#927fcc', // 7 hyacinth
+  '#8f98aa', // 8 cream -> cloud grey
+  '#84b54f', // 9 sprout
+  '#ad5d3b', // 10 clay
+] as const;
+/** The soft pastels of the far and near layers (depth): moss, butter, lotus, monsoon, hyacinth, terracotta. */
+export const DEPTH = ['#b9cfa8', '#f2d98b', '#f0b9b4', '#a8d1df', '#c6b7e4', '#ef9e80'] as const;
 const MOSS = 0, GREEN = 1, BUTTER = 2, MUSTARD = 3, TERRA = 4, LOTUS = 5, MONSOON = 6, HYACINTH = 7, CREAM = 8, SPROUT = 9, CLAY = 10;
 
 /** How a leaf lives once in place. */

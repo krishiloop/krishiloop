@@ -67,6 +67,31 @@ export interface ServerHeat {
   ms: number;
 }
 
+/** The server's views from the same run as its reading (services/vision/agritriage_xai.py explain). */
+export interface ServerXai {
+  method: 'cam+attention';
+  grid: number;
+  target: string;
+  target_index: number;
+  /** each 7 x 7 cell's share of the target's score; with cam_bias they add up to logit */
+  cam: number[];
+  cam_bias: number;
+  logit: number;
+  cam_error: number;
+  /** attention each square receives (stage 3, mean of heads, rows and both blocks) */
+  attention: number[];
+  attention_sinks: number[];
+  lesion?: {
+    leaf_found: boolean;
+    leaf_pct: number;
+    severity_pct: number | null;
+    kinds_pct: Record<'brown' | 'yellow' | 'dark', number | null>;
+    threshold: number;
+    overlap: { on_spots_pct: number; on_leaf_pct: number; spot_area_pct: number; lift: number | null; verdict: string };
+  };
+  ms: number;
+}
+
 export interface TriageCase {
   case_id: string;
   area: string;
@@ -83,6 +108,8 @@ export interface TriageCase {
   verdict: string | null;
   agreement: Agreement | null;
   heat: ServerHeat | null;
+  /** null for cases read before model_xai.onnx */
+  xai?: ServerXai | null;
   photo_available: boolean;
 }
 

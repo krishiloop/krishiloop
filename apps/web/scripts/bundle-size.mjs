@@ -51,7 +51,20 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   19 Nov 2026 (v4): FarmerApp 147 -> 149, OfficerPage 137 -> 139, VerifyPage 134 -> 136, TrustPage 122 -> 123, ProofPage
 //   125 -> 127. Shared code grew: the pastel palette tokens (index.css), the header's More menu and two new nav entries,
 //   and the lazy tilt loader; the pages' own chunks also gained the photo-model recall control and the plain-word labels.
-const PAGES = { HomePage: 190, MapPage: 116, TryPage: 140, ReceiptPage: 133, FarmerApp: 149, OfficerPage: 139, VerifyPage: 136, TrustPage: 123, ProofPage: 127, AboutPage: 110 };
+//   20 Nov 2026 (v5, builder Mo): MobileApp 155 (new: the phone app at /m, measured 152.1 on HEAD + this change alone).
+//   It reuses the farmer app's screens and stores (Today, Ask, the receipt sheet) and adds the welcome screens, receipts
+//   saved on the phone with their QR, and Help; the leaf model (AiPhoto) and the booking drawer stay lazy. FarmerApp 149 ->
+//   153 (measured 151.8 with this change alone, 152.1 with the other v5 builders' shared growth): the farmer screens are now shared by two pages, so the bundler moves them out of FarmerApp's own chunk into
+//   shared chunks (measured +3.0 KB gzipped, mostly gzip losing context across the split; the plain-word copy itself is
+//   +0.1 KB). The startup chunk is unchanged by this (+0.3 KB: one route); a lazy Leaf or Help tab would have split the
+//   i18n module out of the entry (+0.8 KB on every page), so both come with /m.
+//   20 Nov 2026 (v5, builder Pg, premium pages): OfficerPage 139 -> 142 (measured 141.0): the desk's "today" tiles that
+//   count up (five pastel tiles), the case queue's search and priority chips, the case drawer's answer / call / visit
+//   actions and the rules table head. VerifyPage 136 -> 137 (measured 136.2): the scan / paste / code cards with the drawn
+//   QR and the folded details (the kit's Motion-based Magnetic was replaced by a 0.3 KB local magnet to stay near 136).
+//   TrustPage 123 -> 125 (measured 124.0): the interactive gate picture over the real replay. MapPage 116 -> 117
+//   (measured 116.1): the v5 visual polish (pastel mesh, card edges). All CSS and copy; no new dependency.
+const PAGES = { HomePage: 190, MapPage: 117, TryPage: 140, ReceiptPage: 133, FarmerApp: 153, MobileApp: 155, OfficerPage: 142, VerifyPage: 137, TrustPage: 125, ProofPage: 127, AboutPage: 110 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

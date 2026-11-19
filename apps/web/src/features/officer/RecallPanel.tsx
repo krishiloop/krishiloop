@@ -70,7 +70,8 @@ export function RecallPanel({ focusRule }: { focusRule: string | null }) {
     }
     setLast(r.record);
     setPhase('done');
-    if (!window.matchMedia('(min-width: 1024px)').matches) wall.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    // the table sits above the wall at every width: bring the ripple into view
+    wall.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
     void loadInbox();
     void loadStats();
   };
@@ -151,6 +152,12 @@ export function RecallPanel({ focusRule }: { focusRule: string | null }) {
               <p className="eyebrow">
                 {rows[0]?.crop} · {pack}
               </p>
+              <div className="off-rule-head" aria-hidden>
+                <span>{t('off.recall.colRule')}</span>
+                <span>{t('off.recall.colSays')}</span>
+                <span>{t('off.recall.colReceipts')}</span>
+                <span />
+              </div>
               <ul className="off-rule-list" data-testid="rule-list">
                 {rows.map((row, i) => (
                   <li key={row.key} id={`rule-${row.key}`} className="off-in" style={{ ['--i' as string]: Math.min(i, 8) }}>
@@ -217,24 +224,24 @@ function RuleItem({ row, hl, onHl, onRecall, busy }: { row: RuleRow; hl: boolean
       }}
       onFocus={() => onHl(row.key)}
     >
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      <div className="off-rc-id">
         <span className={cx('mono text-[1.02rem] font-semibold text-ink', recalled && 'text-stop line-through decoration-2')}>
           {row.rule_id} v{row.version}
         </span>
         <span className="text-xs text-ink-3">{t(`ui.review.${row.review_level}`)}</span>
       </div>
-      <p lang={title.lang} className="off-rule-text">
+      <p lang={title.lang} className="off-rule-text off-rc-text">
         {title.text}
       </p>
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-2 text-sm text-ink-2">
-          <span className="off-chits" aria-hidden>
-            {row.receipts.slice(0, 6).map((r) => (
-              <span key={r.id} />
-            ))}
-          </span>
-          {t(row.receipts.length === 1 ? 'off.recall.cites1' : 'off.recall.cites', { n: fmtNum(row.receipts.length, lang) })}
+      <span className="off-rc-cites inline-flex items-center gap-2 text-sm text-ink-2">
+        <span className="off-chits" aria-hidden>
+          {row.receipts.slice(0, 6).map((r) => (
+            <span key={r.id} />
+          ))}
         </span>
+        {t(row.receipts.length === 1 ? 'off.recall.cites1' : 'off.recall.cites', { n: fmtNum(row.receipts.length, lang) })}
+      </span>
+      <div className="off-rc-act">
         {recalled ? (
           <span className="inline-flex items-center gap-3">
             <span className="mono text-xs text-ink-3">{fmtDate(row.recall!.at, lang, 'time')}</span>
@@ -242,12 +249,13 @@ function RuleItem({ row, hl, onHl, onRecall, busy }: { row: RuleRow; hl: boolean
           </span>
         ) : (
           <Button variant="secondary" size="sm" className="off-recall-btn" onClick={onRecall} disabled={busy} data-testid={`recall-${row.key}`}>
+            <Undo2 size={15} aria-hidden />
             {t('off.recall.do')}
           </Button>
         )}
       </div>
       {recalled && row.recall!.reason && (
-        <p className="m-0 mt-2 text-sm text-ink-2">
+        <p className="off-rc-reason m-0 text-sm text-ink-2">
           {t('off.recall.reasonWas')} <q className="text-ink">{row.recall!.reason}</q>
         </p>
       )}

@@ -28,10 +28,11 @@ test('home: the headline, the merged product, the receipt tiles, and no API call
     if (u.pathname.startsWith('/api/')) api.push(u.pathname);
   });
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('crop doctor, farm adviser and weather warning');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('plant doctor, farm helper and weather warning');
   // the product picture is now the magazine of the seven tools (it replaced the loop ring in the 19 Nov redesign)
   await expect(page.getByRole('heading', { level: 2, name: /One app for the whole season/ })).toBeVisible();
-  for (const name of ['Crop Guardian', 'Climate Shield', 'Village disease radar', 'Precision savings', 'Bangla voice and basic phones', 'The officer and human expert', 'Trust: a receipt anyone can check']) {
+  // v5 plain words (builder Ho): the seven tools named as a farmer would say them
+  for (const name of ['Plant doctor', 'Weather warnings', 'Disease alerts nearby', 'Buy only what you need', 'Bangla voice, any phone', 'A real expert when unsure', 'A receipt anyone can check']) {
     await expect(page.getByRole('heading', { level: 3, name, exact: true })).toBeVisible();
   }
   const slider = page.getByRole('slider', { name: 'Compare the leaf with the map of where the model looked' });
@@ -99,7 +100,7 @@ test('home: Bangla, dark theme, phone width, and no serious accessibility proble
   await page.goto('/?lang=bn&theme=dark');
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('ফসলের ডাক্তার');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('গাছের ডাক্তার');
   await noOverflow(page);
   expect(await seriousA11y(page)).toEqual([]);
 });
@@ -140,12 +141,20 @@ test('header: every page is one click away, and the phone menu works', async ({ 
   await expect(sheet).toBeVisible();
   await sheet.getByRole('link', { name: 'About' }).click();
   await expect(page).toHaveURL(/\/about$/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('proof behind it');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Farm advice you can check');
 });
 
-test('about: principles, a timeline that never blurs done and planned, and no serious accessibility problems', async ({ page }) => {
+test('about: promises, a timeline that never blurs done and planned, the team, and no serious accessibility problems', async ({ page }) => {
   await page.goto('/about');
-  await expect(page.getByRole('heading', { name: 'Six rules we do not bend.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Six promises we keep.' })).toBeVisible();
+  // the team (v5): five portrait cards, names and roles exactly as the team gave them, each photo's alt text the name
+  const team = page.getByTestId('team-cards');
+  await expect(team.getByRole('heading', { level: 3 })).toHaveCount(5);
+  for (const [name, role] of [['Abdullah Rubab', 'Team lead'], ['Md. Tanvir Hasan', 'UI developer'], ['Md. Sadman Al Islam Shabab', 'Full-stack developer'], ['Sourov Kumar', 'Idea generation'], ['Anushree Gope', 'Testing']]) {
+    const card = team.locator('article').filter({ has: page.getByRole('heading', { name, exact: true }) });
+    await expect(card).toContainText(role);
+    await expect(card.getByRole('img', { name, exact: true })).toHaveAttribute('src', /\/team\/\w+-400\.webp$/);
+  }
   const timeline = page.locator('ol.timeline');
   await expect(timeline.getByText('Done', { exact: true })).toHaveCount(3);
   await expect(timeline.getByText('Planned', { exact: true })).toHaveCount(4);

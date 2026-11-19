@@ -6,6 +6,6 @@ playwright-report
 .vercel
 # Photo model files never ship from here: the v0 model's training data blocks redistribution (ml/vision/MODEL_CARD.md)
 public/models/*.onnx
-# The one exception lives in its own folder, so the rule above never matches it: public/models/agritriage/model.onnx,
+# The one exception lives in its own folder, so the rule above never matches it: public/models/agritriage/model_xai.onnx,
 # the AgriTriage-Lite student (research weights, trained on PlantWild, non-commercial; labelled wherever it is used).
 .env*

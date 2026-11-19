@@ -1,7 +1,7 @@
 // this page's words (English loads per screen)
 import '../../lib/i18n/strings.trust';
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
-import { ChevronRight, FileQuestion, Lock, LockOpen, TriangleAlert } from 'lucide-react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { ChevronRight, FileQuestion, TriangleAlert } from 'lucide-react';
 import { DataMark } from '../../ui/DataMark';
 import { LinkButton } from '../../ui/Button';
 import { useI18n } from '../../lib/i18n';
@@ -9,22 +9,21 @@ import { fmtNum } from '../../lib/format';
 import { useMotionReduced } from '../../lib/motionPref';
 import { apiStore } from '../../lib/api/client';
 import { fetchReplay, useAreaStats } from '../../lib/api/trust';
-import { REPLAY_DATASETS, shapeReplay, type ReplayModel, type ShapedReplay } from './replay';
-import { POLICY_V1, type Policy } from './policy';
+import { REPLAY_DATASETS, shapeReplay, type ShapedReplay } from './replay';
+import { POLICY_V1 } from './policy';
 import { PHOTO_DEMO } from './labels';
 import { PolicyBar } from './PolicyBar';
 import { ReplayStage } from './ReplayStage';
 import { AreaCards } from './AreaCards';
 import { SandboxMeter } from './SandboxMeter';
-import { CiPanel, useCi, type CiArea } from './CiPanel';
+import { CiPanel, useCi } from './CiPanel';
+import { GatePicture } from './GatePicture';
 import { blob } from '../proof/repo';
 import './trust.css';
 
 type View = { state: 'loading' } | { state: 'ready'; replay: ShapedReplay; bundled: boolean } | { state: 'missing' } | { state: 'error'; message: string };
 
 const HERO_AREA = 'BD-D';
-const Y_MIN = 0.5;
-const toTrack = (lb: number) => Math.min(1, Math.max(0, (lb - Y_MIN) / (1 - Y_MIN)));
 
 /**
  * /trust: earned trust for photo diagnosis (plan/EARNED_TRUST_DESIGN.md, rules/policy/photo-trust.yaml).
@@ -65,24 +64,38 @@ export default function TrustPage() {
   const ci = useCi();
 
   return (
-    <div className="tp-page pb-8">
-      {/* 1. the idea */}
-      <section className="band-night kg-pagehero" aria-labelledby="tp-title">
-        <div className="wrap pt-10 pb-14 sm:pt-16 sm:pb-20">
-        <div className="grid items-end gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <div>
-            <p className="eyebrow hero-rise">{t('tp.eyebrow')}</p>
-            <h1 id="tp-title" className="t-title hero-rise mt-4 max-w-[16ch]" style={{ ['--i' as string]: 1 }} data-testid="trust-title">
-              {t('tp.title')}
-            </h1>
-            <p className="t-lead hero-rise mt-5 max-w-[46ch]" style={{ ['--i' as string]: 2 }}>
-              {t('tp.lead')}
-            </p>
+    <div className="tp-page botanic-bg pb-8">
+      {/* 1. the idea, in plain words, and one picture to move: the gate opening as officers check photos */}
+      <section className="tp-hero" aria-labelledby="tp-title">
+        <div className="wrap pt-10 pb-14 sm:pt-14 sm:pb-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+            <div>
+              <p className="eyebrow hero-rise">{t('tp.eyebrow')}</p>
+              <h1 id="tp-title" className="t-title hero-rise mt-4 max-w-[16ch]" style={{ ['--i' as string]: 1 }} data-testid="trust-title">
+                {t('tp.title')}
+              </h1>
+              <p className="t-lead hero-rise mt-5 max-w-[46ch]" style={{ ['--i' as string]: 2 }}>
+                {t('tp.lead')}
+              </p>
+              <ol className="tp-steps hero-rise" style={{ ['--i' as string]: 3 }}>
+                {(['tp.step.1', 'tp.step.2', 'tp.step.3'] as const).map((k, i) => (
+                  <li key={k} data-tone={['butter', 'moss', 'terracotta'][i]}>
+                    <span className="tp-step-n" aria-hidden>
+                      {i + 1}
+                    </span>
+                    <span>{t(k)}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="hero-rise" style={{ ['--i' as string]: 3 }}>
+              {replay && hero ? (
+                <GatePicture areas={replay.areas} initial={hero.key} policy={policy} play={!reduced} ci={ci?.areas ?? null} ciRuns={ci?.seeds_per_area ?? 0} />
+              ) : view.state === 'loading' ? (
+                <div className="skeleton h-[420px] w-full rounded-[28px]" />
+              ) : null}
+            </div>
           </div>
-          <div className="hero-rise" style={{ ['--i' as string]: 3 }}>
-            {hero ? <HeroMeter m={hero} policy={policy} play={!reduced} ci={ci?.areas[hero.key] ?? null} n={ci?.seeds_per_area ?? 0} /> : view.state === 'loading' ? <div className="skeleton h-[212px] w-full" /> : null}
-          </div>
-        </div>
         </div>
       </section>
 
@@ -100,7 +113,7 @@ export default function TrustPage() {
       </section>
 
       {/* 3 + 4. the replay and its areas */}
-      <section className="rule-t bg-sunk" aria-labelledby="tp-replay" id="replay">
+      <section className="rule-t tp-wash" data-tone="monsoon" aria-labelledby="tp-replay" id="replay">
         <div className="wrap section">
           <div className="flex flex-wrap items-center gap-3">
             <p className="eyebrow m-0">{t('tp.replay.eyebrow')}</p>
@@ -164,7 +177,7 @@ export default function TrustPage() {
       </section>
 
       {/* 5. this visitor's sandbox */}
-      <section className="rule-t" aria-labelledby="tp-sb">
+      <section className="rule-t tp-wash" data-tone="hyacinth" aria-labelledby="tp-sb">
         <div className="wrap section">
           <p className="eyebrow">{t('tp.sb.eyebrow')}</p>
           <h2 id="tp-sb" className="t-title mt-3 max-w-[18ch]">
@@ -220,58 +233,6 @@ export default function TrustPage() {
         </div>
       </section>
     </div>
-  );
-}
-
-/** The idea as an instrument: the real Savar replay's bound climbing through the bar, and the gate popping open. */
-function HeroMeter({ m, policy, play, ci, n }: { m: ReplayModel; policy: Policy; play: boolean; ci: CiArea | null; n: number }) {
-  const { t, lang } = useI18n();
-  const two = (n: number) => fmtNum(n, lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const end = useMemo(() => [...m.points].reverse().find((p) => p.lb !== null)?.lb ?? null, [m]);
-  const start = useMemo(() => m.points.find((p) => p.lb !== null)?.lb ?? null, [m]);
-  if (end === null || start === null) return null;
-  const open = m.openAt !== null;
-  return (
-    <figure className={`paper m-0 p-5 sm:p-6 ${play ? 'tp-hero-run' : ''}`} data-testid="hero-meter">
-      <figcaption className="flex flex-wrap items-center justify-between gap-2">
-        <span className="mono text-[0.75rem] tracking-[0.06em] text-ink-3">
-          {m.key} · {REPLAY_DATASETS[m.key] ?? m.key}
-        </span>
-        <DataMark kind="replay" />
-      </figcaption>
-      <div className="mt-5 flex items-end justify-between gap-4">
-        <div>
-          <p className="m-0 text-[0.85rem] text-ink-3">{t('tp.hero.bound')}</p>
-          <p className="tp-big m-0 mt-1">{two(end)}</p>
-        </div>
-        <span className={`tp-lock tp-lock-pop ${open ? 'text-go' : 'text-ink-3'}`} aria-hidden>
-          {open ? <LockOpen size={20} /> : <Lock size={20} />}
-        </span>
-      </div>
-      <div className="tp-meter mt-4" role="img" aria-label={t('tp.hero.aria', { lb: two(end), bar: two(policy.openLb), n: fmtNum(m.openAt ?? 0, lang) })}>
-        <div className="tp-track">
-          <span className="tp-fill" data-open={open} style={{ ['--p' as string]: toTrack(end), ['--from' as string]: toTrack(start) } as CSSProperties} />
-        </div>
-        <span className="tp-notch" style={{ ['--x' as string]: toTrack(policy.openLb) } as CSSProperties} />
-        <span className="tp-notch" data-kind="close" style={{ ['--x' as string]: toTrack(policy.closeLb) } as CSSProperties} />
-      </div>
-      <div className="mono relative mt-2 h-4 text-[0.7rem] text-ink-3" aria-hidden>
-        <span className="absolute left-0">{two(Y_MIN)}</span>
-        <span className="absolute -translate-x-1/2 font-semibold text-ink" style={{ left: `${toTrack(policy.openLb) * 100}%` }}>
-          {two(policy.openLb)}
-        </span>
-        <span className="absolute right-0">{two(1)}</span>
-      </div>
-      <p className={`m-0 mt-4 font-semibold ${open ? 'text-go' : 'text-ink-2'}`}>{open ? t('tp.hero.open', { n: fmtNum(m.openAt!, lang) }) : t('tp.hero.never')}</p>
-      {ci && ci.answers_to_open[1] !== null && ci.answers_to_open[0] !== null && ci.answers_to_open[2] !== null ? (
-        <p className="tp-hero-ci m-0 mt-1.5 text-[0.85rem] text-ink-2" data-testid="hero-ci">
-          {t('tp.hero.ci', { n: fmtNum(n, lang), med: fmtNum(ci.answers_to_open[1], lang), lo: fmtNum(ci.answers_to_open[0], lang), hi: fmtNum(ci.answers_to_open[2], lang) })}{' '}
-          <a className="link" href="#tp-ci-h">
-            {t('tp.hero.ciLink')}
-          </a>
-        </p>
-      ) : null}
-    </figure>
   );
 }
 

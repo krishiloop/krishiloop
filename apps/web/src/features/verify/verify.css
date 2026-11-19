@@ -986,3 +986,426 @@ html.reduce-motion :is(.vf-page .stamp-land, .vf-doc-card, .vf-doc-body > *, .vf
   font-weight: 600;
   letter-spacing: 0;
 }
+
+/* ==================================================================
+   v5 (20 Nov, builder Pg): three ways in as pastel cards (scan first, so a phone sees the camera at once), the
+   verdict as one big stamp and one plain sentence, and what was checked folded under "Show the details".
+   ================================================================== */
+.vf-entry-page {
+  position: relative;
+  isolation: isolate;
+}
+.vf-entry-page::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 620px;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 55% at 6% 0%, color-mix(in oklab, var(--color-monsoon) 85%, transparent), transparent 70%),
+    radial-gradient(34% 50% at 55% 8%, color-mix(in oklab, var(--color-butter) 80%, transparent), transparent 70%),
+    radial-gradient(36% 50% at 100% 30%, color-mix(in oklab, var(--color-lotus) 75%, transparent), transparent 70%);
+  mask-image: linear-gradient(180deg, #000 50%, transparent);
+}
+.vf-entry {
+  display: grid;
+  gap: 12px;
+  margin-top: 2.25rem;
+}
+@media (min-width: 960px) {
+  .vf-entry {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-rows: auto auto auto;
+    gap: 14px;
+  }
+  .vf-card-scan {
+    grid-row: span 3;
+  }
+}
+.vf-card {
+  --cw: var(--color-butter);
+  --ci: var(--color-butter-ink);
+  position: relative;
+  min-width: 0;
+  padding: clamp(1.1rem, 2.4vw, 1.6rem);
+  border: 1px solid color-mix(in oklab, var(--ci) 18%, transparent);
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 100% at 100% 0%, color-mix(in oklab, var(--color-card) 55%, transparent), transparent 65%),
+    var(--cw);
+}
+.vf-card[data-tone="monsoon"] { --cw: var(--color-monsoon); --ci: var(--color-monsoon-ink); }
+.vf-card[data-tone="lotus"] { --cw: var(--color-lotus); --ci: var(--color-lotus-ink); }
+.vf-card[data-tone="moss"] { --cw: var(--color-moss); --ci: var(--color-moss-ink); }
+.vf-card-t {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.55rem);
+  font-weight: 560;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+.vf-card-t:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+label.vf-card-t {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.vf-card-n {
+  display: inline-grid;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-card) 75%, transparent);
+  color: var(--ci);
+}
+.vf-card-s {
+  margin: 0.45rem 0 0;
+  max-width: 40ch;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+.vf-card-off {
+  margin: 1rem 0 0;
+  padding: 0.8rem 0.95rem;
+  border: 1px dashed color-mix(in oklab, var(--ci) 40%, transparent);
+  border-radius: 14px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+.vf-card-scan {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 1.25rem;
+}
+@media (min-width: 960px) {
+  .vf-card-scan {
+    justify-items: center;
+    text-align: center;
+  }
+  .vf-card-scan .vf-card-s {
+    margin-inline: auto;
+  }
+}
+@media (max-width: 959px) {
+  .vf-card-scan {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+}
+@media (max-width: 420px) {
+  .vf-card-scan {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+}
+.vf-scanart {
+  position: relative;
+  width: clamp(96px, 22vw, 168px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 22px;
+  background: color-mix(in oklab, var(--color-card) 60%, transparent);
+}
+.vf-scanart > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* the scan line sweeps the code (transform only), paused off screen and under reduced motion */
+.vf-scanline {
+  position: absolute;
+  inset: 14% 14% auto;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--color-monsoon-ink);
+  box-shadow: 0 0 14px 2px color-mix(in oklab, var(--color-monsoon-ink) 50%, transparent);
+  animation: vf-sweep 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+@keyframes vf-sweep {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(var(--sweep, 1) * 7.2em)); }
+}
+.vf-scanart {
+  font-size: clamp(9.6px, 2.2vw, 16.8px);
+}
+html.reduce-motion .vf-scanline,
+[data-offscreen] .vf-scanline {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-scanline {
+    animation: none;
+  }
+}
+.vf-paste {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  margin-top: 0.75rem;
+  padding: 0 0.95rem;
+  border: 1px solid color-mix(in oklab, var(--ci) 30%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--color-card) 60%, transparent);
+  color: var(--color-ink);
+  font-size: 0.92rem;
+  font-weight: 560;
+  cursor: pointer;
+  transition: background-color 200ms ease, transform 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .vf-paste:hover {
+    background: var(--color-card);
+  }
+}
+.vf-card .vf-code {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.vf-card .vf-code-label {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.55rem);
+  font-weight: 560;
+  color: var(--color-ink);
+}
+.vf-card .vf-code-label > svg {
+  color: var(--ci);
+}
+.vf-card-try {
+  padding: 0;
+}
+.vf-try {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: clamp(1rem, 2vw, 1.25rem) clamp(1.1rem, 2.4vw, 1.6rem);
+  border-radius: 24px;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: transform 240ms var(--ease-out);
+}
+.vf-try > svg {
+  color: var(--color-moss-ink);
+}
+.vf-try .vf-card-t {
+  font-size: 1.15rem;
+}
+.vf-try .vf-card-s {
+  margin-top: 0.15rem;
+  font-size: 0.88rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .vf-try:hover {
+    transform: translateY(-2px);
+  }
+}
+@media (max-width: 480px) {
+  .vf-try {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .vf-try > .chip {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* the four answers: four stamps in a row, one plain line under each */
+.vf-legend-wrap {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+.vf-legend-h {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+.vf-legend-wrap .vf-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 900px) {
+  .vf-legend-wrap .vf-legend {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.vf-legend-wrap .vf-legend > li {
+  display: grid;
+  justify-items: start;
+  gap: 0.7rem;
+  padding: 1rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--color-card) 85%, transparent);
+  font-size: 1.05rem;
+}
+
+/* details folded under a summary: "Show the details", "What does a check do?" */
+.vf-details {
+  margin-top: 1.25rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--color-card) 80%, transparent);
+}
+.vf-details > summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  min-height: 52px;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  font-weight: 620;
+  color: var(--color-ink);
+  list-style: none;
+}
+.vf-details > summary::-webkit-details-marker {
+  display: none;
+}
+.vf-details-sub {
+  font-size: 0.88rem;
+  font-weight: 450;
+  color: var(--color-ink-3);
+}
+.vf-details-chev {
+  color: var(--color-ink-3);
+  transform: rotate(-90deg);
+  transition: transform 220ms var(--ease-out);
+}
+.vf-details[open] .vf-details-chev {
+  transform: none;
+}
+.vf-details[open] > :not(summary) {
+  animation: vf-fold 260ms var(--ease-out) both;
+}
+@keyframes vf-fold {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-details[open] > :not(summary) {
+    animation: none;
+  }
+}
+.vf-details-body {
+  display: grid;
+  gap: 1.5rem;
+  padding: 0.5rem 1.1rem 1.25rem;
+}
+@media (min-width: 900px) {
+  .vf-details-body {
+    grid-template-columns: 17rem minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.vf-what .vf-chain {
+  margin: 0;
+  padding: 0.25rem 1.1rem 1.2rem;
+}
+
+/* the verdict: a big stamp on a soft wash of its own colour, then one plain sentence */
+.vf-v5 {
+  --vf-stamp: clamp(1.7rem, 1.2rem + 1.4vw, 2.35rem);
+  --vf-stamp-long: clamp(1.25rem, 0.95rem + 0.9vw, 1.65rem);
+  padding-bottom: clamp(1.25rem, 3vw, 2rem);
+  border-block: 0;
+  background: var(--color-paper);
+}
+.vf-v5::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 95% at 16% 40%, var(--vw, var(--color-butter)), transparent 75%),
+    radial-gradient(40% 60% at 95% 0%, color-mix(in oklab, var(--color-monsoon) 80%, transparent), transparent 70%);
+}
+.vf-v5[data-kind="authentic"] { --vw: var(--color-moss); }
+.vf-v5[data-kind="recalled"] { --vw: var(--color-terracotta); }
+.vf-v5[data-kind="expired"] { --vw: var(--color-butter); }
+.vf-v5[data-kind="invalid"],
+.vf-v5[data-kind="unreachable"] { --vw: var(--color-hyacinth); }
+.vf-v5[data-kind] {
+  background: var(--color-paper);
+}
+.vf-v5 > * {
+  position: relative;
+}
+.vf-v5-grid {
+  display: grid;
+  align-items: center;
+  gap: 1.5rem 3.5rem;
+  padding-block: clamp(2rem, 6vw, 4rem) clamp(1rem, 3vw, 1.75rem);
+}
+@media (min-width: 1024px) {
+  .vf-v5-grid {
+    grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+    min-height: clamp(20rem, 44vh, 26rem);
+  }
+}
+.vf-v5-mark {
+  display: grid;
+  place-items: center;
+  min-height: 9rem;
+}
+.vf-bigstamp {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 22rem);
+  aspect-ratio: 1.6;
+  border-radius: 28px;
+  background: color-mix(in oklab, var(--color-card) 70%, transparent);
+  box-shadow: 0 40px 80px -56px rgb(20 38 28 / 0.7);
+}
+.vf-bigstamp .vf-stamp {
+  position: relative;
+}
+.vf-bigstamp.vf-offline {
+  width: 9rem;
+  height: 9rem;
+  aspect-ratio: auto;
+  border: 1.5px dashed var(--color-rule-2);
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+}
+.vf-v5 .vf-meaning {
+  font-family: var(--font-display);
+  font-weight: 540;
+  font-stretch: 100%;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+.vf-v5 .vf-meaning:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.vf-v5 .vf-check {
+  width: 100%;
+}
+.vf-v5 .vf-check-qr {
+  opacity: 1;
+}
+.vf-v5 .vf-run-wrap.is-done {
+  margin-top: 0;
+}

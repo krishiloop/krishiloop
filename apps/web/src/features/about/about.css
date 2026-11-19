@@ -181,47 +181,7 @@ html.reveal-ready .money:not(.is-in) .money-arrow {
   transform: translateX(-8px);
 }
 
-/* ------------------------------------------------------------------ team: seats until the team names itself */
-.ab-team {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-@media (min-width: 640px) {
-  .ab-team {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1024px) {
-  .ab-team {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-}
-.ab-seat {
-  padding: 1.25rem;
-  border: 1px dashed var(--color-rule-2);
-  border-radius: var(--radius-frame);
-}
-.ab-seat-face {
-  display: grid;
-  place-items: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  border: 1px dashed var(--color-rule-2);
-  border-radius: 999px;
-  color: var(--color-ink-3);
-}
-.ab-seat-line {
-  display: block;
-  height: 0.6rem;
-  margin-top: 0.7rem;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--color-ink) 7%, transparent);
-}
-.ab-seat-line.is-short {
-  width: 55%;
-  margin-top: 0.45rem;
-}
+/* the team: features/about/team.css (TeamCards) */
 
 /* ================================================================== "Monsoon Field" (19 Nov 2026)
    The principle numbers are outlined display figures in mustard ink. */

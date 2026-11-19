@@ -1,7 +1,8 @@
 // this page's words (English loads per screen)
 import '../../lib/i18n/strings.about';
-import type { CSSProperties } from 'react';
-import { ArrowRight, BotOff, Building2, ClipboardList, Eye, HeartHandshake, LockOpen, ReceiptText, Scale, ScanSearch, Sprout, UserRound, type LucideIcon } from 'lucide-react';
+import { useEffect, type CSSProperties } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ArrowRight, BotOff, Building2, ClipboardList, Eye, HeartHandshake, LockOpen, ReceiptText, Scale, ScanSearch, Sprout, type LucideIcon } from 'lucide-react';
 import { useI18n, type Key } from '../../lib/i18n';
 import { cx } from '../../lib/cx';
 import { LinkButton } from '../../ui/Button';
@@ -9,7 +10,7 @@ import { LogoMark } from '../../ui/Logo';
 import { Heading } from '../../ui/kit/Heading';
 import { Timeline } from '../../ui/kit/Timeline';
 import { spotlight } from '../../ui/kit/hooks';
-import { TEAM } from './team';
+import { TeamCards } from './TeamCards';
 import './about.css';
 
 /** A round rubber seal: the brand's promise set on a circle, stamped once when the page opens. */
@@ -65,21 +66,24 @@ const TIMELINE: { n: number; done: boolean }[] = [
   { n: 6, done: false },
   { n: 7, done: false },
 ];
-const SEATS = [1, 2, 3, 4, 5];
 const iv = (i: number) => ({ '--i': i }) as CSSProperties;
 
 /**
  * /about: why we built it, what we will not bend on, who it serves, how it pays (labelled hypotheses), the road so far
- * (done vs planned, never blurred: the traced rail stops at "now"), the team (names come from the team, never guessed),
- * and an invitation to pilot.
+ * (done vs planned, never blurred: the traced rail stops at "now"), the team (names and roles as the team gave them,
+ * team.ts), and an invitation to pilot. v5 (builder Ho): cream with pastel meshes and the deck's line art, no forest bands.
  */
 export default function AboutPage() {
   const { t } = useI18n();
+  const { hash } = useLocation();
+  // arriving from the home page's team strip (/about#team): go straight to the team
+  useEffect(() => {
+    if (hash) document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ block: 'start' });
+  }, [hash]);
   return (
     <div className="ab-page">
       {/* hero */}
-      <section className="relative overflow-hidden" aria-labelledby="about-title">
-        <div className="bg-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden />
+      <section className="ab-hero mesh mesh-butter botanic-bg botanic-bg--branch relative overflow-hidden" aria-labelledby="about-title">
         <div className="wrap relative grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.25fr_1fr] lg:pb-24 lg:pt-24">
           <div>
             <p className="label hero-rise m-0 flex items-center gap-2.5">
@@ -98,8 +102,7 @@ export default function AboutPage() {
       </section>
 
       {/* why */}
-      <section className="sheet-band band-night" aria-labelledby="why-title">
-        <div className="bg-dots pointer-events-none absolute inset-0 opacity-50" aria-hidden />
+      <section className="sheet-band mesh mesh-lotus" aria-labelledby="why-title">
         <div className="wrap relative grid gap-10 py-20 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <p className="label m-0 flex items-center gap-2.5" data-reveal>
@@ -196,48 +199,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* team: names come from the team itself, so until then the seats say so */}
-      <section className="section border-t border-rule" aria-labelledby="team-title">
+      {/* team: names and roles exactly as the team gave them (team.ts), portraits on their own pastels */}
+      <section id="team" className="section border-t border-rule botanic-bg botanic-bg--rice" aria-labelledby="team-title">
         <div className="wrap">
           <Heading eyebrow={t('about.team.eyebrow')} title={t('about.team.title')} lead={t('about.team.line')} id="team-title" />
-          {TEAM.length > 0 ? (
-            <ul className="ab-team m-0 mt-14 list-none p-0">
-              {TEAM.map((m, i) => (
-                <li key={m.name} className="surface p-5" data-reveal style={iv(i)} {...spotlight()}>
-                  <span className="grid size-14 place-items-center rounded-full bg-ink text-[1.1rem] font-semibold text-paper" aria-hidden>
-                    {m.initials}
-                  </span>
-                  <p className="m-0 mt-4 font-semibold">{m.name}</p>
-                  <p className="m-0 mt-1 text-sm text-ink-3">{m.role}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="mt-14" data-testid="team-soon">
-              <ul className="ab-team m-0 list-none p-0" aria-hidden>
-                {SEATS.map((n, i) => (
-                  <li key={n} className="ab-seat" data-reveal style={iv(i)}>
-                    <span className="ab-seat-face">
-                      <UserRound size={22} strokeWidth={1.5} />
-                    </span>
-                    <span className="mono mt-5 block text-[0.72rem] text-ink-3">{`0${n}`}</span>
-                    <span className="ab-seat-line" />
-                    <span className="ab-seat-line is-short" />
-                  </li>
-                ))}
-              </ul>
-              <p className="m-0 mt-5 flex flex-wrap items-center gap-2 text-sm text-ink-2">
-                <span className="chip">{t('about.team.soonChip')}</span>
-                {t('about.team.soon')}
-              </p>
-            </div>
-          )}
+          <TeamCards className="mt-14" />
         </div>
       </section>
 
       {/* invitation */}
-      <section className="sheet-band band-night mb-6" aria-labelledby="cta-title">
-        <div className="bg-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden />
+      <section className="sheet-band mesh mesh-monsoon botanic-bg botanic-bg--leaf mb-6" aria-labelledby="cta-title">
         <div className="wrap relative py-20 md:py-28">
           <h2 id="cta-title" className="t-hero m-0 max-w-[14ch]" data-reveal>
             {t('about.cta.title')}

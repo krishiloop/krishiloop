@@ -20,14 +20,14 @@
     <link rel="preload" href="/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/fraunces-latin-opsz.woff2" as="font" type="font/woff2" crossorigin />
     <script>
-      /* Theme and language before first paint, so nothing flashes. Cream (light) is the default, forest is one tap away. Storage can throw. */
+      /* Theme and language before first paint, so nothing flashes. Cream (light) is the default, dusk (dark) is one tap away. Storage can throw. */
       (function () {
         try {
           var d = document.documentElement;
           var q = new URLSearchParams(location.search);
           var theme = q.get('theme') || localStorage.getItem('kl.theme');
           d.dataset.theme = theme === 'dark' ? 'dark' : 'light';
-          if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#14261c');
+          if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1b1720');
           var lang = q.get('lang') || localStorage.getItem('kl.lang');
           if (lang === 'en' || lang === 'bn' || lang === 'hi' || lang === 'sw') d.lang = lang;
           else if ((navigator.language || '').toLowerCase().indexOf('bn') === 0) d.lang = 'bn';
@@ -51,9 +51,13 @@
         z-index: 300;
         display: grid;
         place-items: center;
-        background: #14261c;
+        /* the page's own colour (v5): cream, or dusk in the dark theme, so the loader hands over without a flash */
+        background: #f3eee2;
         pointer-events: none;
         animation: kl-out 300ms ease-in 900ms forwards;
+      }
+      [data-theme="dark"] #kl-boot {
+        background: #1b1720;
       }
       .kl-ready #kl-boot {
         animation: kl-out 260ms ease-in forwards;

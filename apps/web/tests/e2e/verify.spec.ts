@@ -54,12 +54,12 @@ test.describe('entry', () => {
     const legend = page.getByTestId('vf-legend');
     for (const word of ['Authentic', 'Recalled', 'Expired', 'Cannot verify']) await expect(legend).toContainText(word);
     // not a receipt id: said plainly, nothing is fetched
-    await page.getByLabel('Receipt id or link').fill('hello');
+    await page.getByLabel('Receipt link or number').fill('hello');
     await page.getByRole('button', { name: 'Check' }).click();
-    await expect(page.getByRole('alert')).toContainText('That is not a receipt id');
+    await expect(page.getByRole('alert')).toContainText('That is not a receipt link');
     await expect(page).toHaveURL(/\/verify\?sample=1$/);
     // a full link from any host works
-    await page.getByLabel('Receipt id or link').fill(`https://krishiloop.example/verify/${HERO}?utm=qr`);
+    await page.getByLabel('Receipt link or number').fill(`https://krishiloop.example/verify/${HERO}?utm=qr`);
     await page.getByRole('button', { name: 'Check' }).click();
     await expect(page).toHaveURL(new RegExp(`/verify/${HERO}$`));
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'authentic');
@@ -68,7 +68,7 @@ test.describe('entry', () => {
     await expect(page.getByTestId('vf-recent')).toContainText('No spray needed now');
     await page.getByTestId('vf-try').click();
     await expect(page).toHaveURL(new RegExp(`/verify/${HERO}`));
-    await expect(page.getByTestId('verdict-line')).toHaveText('Issued by KrishiLoop and unaltered.');
+    await expect(page.getByTestId('verdict-line')).toHaveText('This advice is real and unchanged.');
   });
 
   test('camera scanning is offered only where the browser can read QR codes, and says so otherwise', async ({ page }) => {
@@ -97,10 +97,10 @@ test.describe('recorded receipt', () => {
     const verdict = page.getByTestId('verdict');
     await expect(verdict).toHaveAttribute('data-status', 'authentic');
     await expect(verdict.locator('.stamp')).toContainText('Authentic');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Issued by KrishiLoop and unaltered.');
-    await expect(verdict).toContainText('Authentic does not mean the advice suits every field');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('This advice is real and unchanged.');
+    await expect(verdict).toContainText('Real does not mean it fits every field');
     await expect(verdict).toContainText('Recorded 2 Nov');
-    await expect(page.getByTestId('note-sandbox')).toContainText('demo sandbox');
+    await expect(page.getByTestId('note-sandbox')).toContainText('practice copy');
     // the document: sources with quotes, readings, numbers people set, confidence, signature, timeline
     await expect(page.getByTestId('doc-sources')).toContainText('Bangladesh Rice Research Institute');
     await expect(page.getByTestId('doc-params')).toContainText('not from the source');
@@ -138,7 +138,7 @@ test.describe('recorded receipt', () => {
   test('Bangla, at phone width, fits', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`/verify/${HERO}?sample=1&lang=bn`);
-    await expect(page.getByTestId('verdict-line')).toHaveText('কৃষিলুপের দেওয়া, কিছু বদলানো হয়নি।');
+    await expect(page.getByTestId('verdict-line')).toHaveText('এই পরামর্শ আসল, কিছু বদলানো হয়নি।');
     await expect(page.getByTestId('receipt-doc')).toBeVisible();
     await noOverflow(page);
   });
@@ -173,9 +173,9 @@ test.describe('other verdicts', () => {
     const verdict = page.getByTestId('verdict');
     await expect(verdict).toHaveAttribute('data-status', 'recalled');
     await expect(verdict.locator('.stamp')).toContainText('Recalled');
-    await expect(page.getByTestId('verdict-line')).toHaveText('KrishiLoop withdrew this advice.');
+    await expect(page.getByTestId('verdict-line')).toHaveText(/^This advice was taken back( on .+)?\. Do not follow it\.$/);
     await expect(page.getByTestId('withdrawn-rules')).toContainText('R-BDR-002 v1');
-    await expect(verdict).toContainText('Do not act on it');
+    await expect(verdict).toContainText('Ask your officer');
     await expect(page.getByTestId('doc-timeline')).toContainText('Recalled: R-BDR-002 v1');
     await axeOk(page);
   });
@@ -185,15 +185,15 @@ test.describe('other verdicts', () => {
     await page.goto(`/verify/${ID}`);
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'expired');
     await expect(page.getByTestId('verdict').locator('.stamp')).toContainText('Expired');
-    await expect(page.getByTestId('verdict-line')).toHaveText('Signed by KrishiLoop, for an earlier week.');
+    await expect(page.getByTestId('verdict-line')).toHaveText('This advice is real, but it was for an earlier week.');
   });
 
   test('cannot verify: an id KrishiLoop never issued', async ({ page }) => {
     await mockVerify(page, {});
     await page.goto(`/verify/${ID}`);
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'invalid');
-    await expect(page.getByTestId('verdict-line')).toHaveText('This receipt could not be verified.');
-    await expect(page.getByTestId('verdict')).toContainText('KrishiLoop has no receipt with this id');
+    await expect(page.getByTestId('verdict-line')).toHaveText('We could not check this receipt.');
+    await expect(page.getByTestId('verdict')).toContainText('We have no receipt with this number');
     await expect(page.getByTestId('no-doc')).toContainText('unknown credential');
     await axeOk(page);
   });
@@ -202,7 +202,7 @@ test.describe('other verdicts', () => {
     await page.route((u) => u.pathname.startsWith('/api/verify/'), (route) => route.fulfill({ status: 502, body: 'Bad gateway' }));
     await page.goto(`/verify/${ID}`);
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'unreachable');
-    await expect(page.getByTestId('verdict-line')).toHaveText('We could not reach the verifier.');
+    await expect(page.getByTestId('verdict-line')).toHaveText('We could not reach the checker.');
     await expect(page.getByTestId('verdict')).toContainText('This says nothing about the receipt');
     await expect(page.getByTestId('verdict').locator('.stamp')).toHaveCount(0);
   });
@@ -228,7 +228,7 @@ test.describe('earned photo trust', () => {
     await mockVerify(page, { [AREA_CRED]: { status: 'authentic', reason: 'issued by KrishiLoop and unaltered', credential: areaCredential, sandbox: true } });
     await page.goto(`/verify/${AREA_CRED}`);
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'authentic');
-    await expect(page.getByTestId('verdict-line')).toHaveText('This photo check had earned trust in rice@BD.');
+    await expect(page.getByTestId('verdict-line')).toHaveText('Officers had checked the photo AI in rice@BD, and it passed.');
     await expect(page.getByTestId('area-ticket-area')).toHaveText('rice@BD');
     await expect(page.getByTestId('area-details')).toContainText('30 right of 30');
     await expect(page.getByTestId('area-d-bound')).toContainText('against a bar of 0.85');
@@ -240,7 +240,7 @@ test.describe('earned photo trust', () => {
     await mockVerify(page, { [AREA_CRED]: { status: 'recalled', reason: 'withdrawn', rules: [], credential: areaCredential, sandbox: true } });
     await page.goto(`/verify/${AREA_CRED}`);
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'recalled');
-    await expect(page.getByTestId('verdict-line')).toHaveText('Photo trust in rice@BD was withdrawn.');
+    await expect(page.getByTestId('verdict-line')).toHaveText('The photo AI in rice@BD was stopped.');
     await expect(page.getByTestId('verdict')).toContainText('Photos in this area go to the officer again');
   });
 
@@ -248,7 +248,7 @@ test.describe('earned photo trust', () => {
     const cred = liveCredential(PHOTO_RECEIPT, (s) => ({ ...s, area_trust_ref: { credential_id: `urn:uuid:${AREA_CRED}`, area: 'rice@BD', model: 'bioclip2@1' } }));
     await mockVerify(page, { [PHOTO_RECEIPT]: { status: 'recalled', reason: 'withdrawn: photo trust for bioclip2@1 in rice@BD', rules: ['photo trust for bioclip2@1 in rice@BD'], credential: cred, sandbox: true } });
     await page.goto(`/verify/${PHOTO_RECEIPT}`);
-    await expect(page.getByTestId('verdict-line')).toHaveText('The photo trust this advice used was withdrawn.');
+    await expect(page.getByTestId('verdict-line')).toHaveText('The photo AI this advice used was stopped.');
     await expect(page.getByTestId('photo-withdrawn-entry')).toContainText('photo trust for bioclip2@1 in rice@BD');
     await expect(page.getByTestId('receipt-photo-trust')).toContainText('rice@BD');
     await expect(page.getByTestId('receipt-photo-trust-link')).toHaveAttribute('href', `/verify/${AREA_CRED}`);

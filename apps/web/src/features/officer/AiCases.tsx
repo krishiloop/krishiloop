@@ -6,46 +6,33 @@ import { fmtNum } from '../../lib/format';
 import { cx } from '../../lib/cx';
 import { useApiState } from '../../lib/api/client';
 import { judgeTriage, listTriageCases, recallModel, triageHeat, triageImageUrl, type ServerHeat, type TriageCase } from '../../lib/agritriage/api';
-import { heatColour } from '../../lib/agritriage/occlusion';
 import { niceClass } from '../../lib/agritriage/gate';
-import { Comparer } from '../../ui/kit/Comparer';
+import { rgbaToRgb } from '../../lib/agritriage/xai';
+import { XaiViews } from '../farmer/photo/XaiViews';
 
 /**
  * AgriTriage-Lite photo cases for the officer (the visitor plays the officer in the demo): the farmer's photo (only with
- * consent, only until the verdict), the server's gate result, the top classes, and the server's occlusion map in a
- * drag-to-compare slider. A verdict feeds the area's ledger: earned trust and the coverage check (photo-trust policy v2).
+ * consent, only until the verdict), the server's gate result, the top classes, and "Why this answer?": the server's
+ * exact CAM and attention from the same run as its reading (stored with the case, so they show at once), the spots on
+ * the leaf (a colour estimate made here from the photo) and, on request, the server's hide-and-check (occlusion) test. A verdict feeds the area's ledger: earned trust and the coverage check (photo-trust policy v2).
  */
 const OUT_TONE = { diagnose: 'chip-go', shortlist: 'chip-wait', refer: 'chip-stop' } as const;
 
-/** The square the model saw (shorter side scaled to 256, centre 224), with the 7 x 7 heat on top. Same maths as the server. */
-async function squares(url: string, heat: number[], grid: number): Promise<{ photo: string; map: string }> {
+/** The square the model saw (shorter side scaled to 256, centre 224), as RGB bytes: what the views are drawn on. */
+async function square(url: string, S = 224): Promise<Uint8Array> {
   const img = new Image();
   img.src = url;
   await img.decode();
   const side = (Math.min(img.naturalWidth, img.naturalHeight) * 224) / 256;
   const sx = (img.naturalWidth - side) / 2;
   const sy = (img.naturalHeight - side) / 2;
-  const S = 448;
   const cv = document.createElement('canvas');
   cv.width = S;
   cv.height = S;
-  const g = cv.getContext('2d')!;
+  const g = cv.getContext('2d', { willReadFrequently: true })!;
+  g.imageSmoothingQuality = 'high';
   g.drawImage(img, sx, sy, side, side, 0, 0, S, S);
-  const photo = cv.toDataURL('image/jpeg', 0.88);
-  const h = document.createElement('canvas');
-  h.width = grid;
-  h.height = grid;
-  const hg = h.getContext('2d')!;
-  const d = hg.createImageData(grid, grid);
-  heat.forEach((v, i) => d.data.set(heatColour(v), 4 * i));
-  hg.putImageData(d, 0, 0);
-  g.globalAlpha = 0.25;
-  g.fillStyle = '#000';
-  g.fillRect(0, 0, S, S);
-  g.globalAlpha = 1;
-  g.imageSmoothingEnabled = true;
-  g.drawImage(h, 0, 0, S, S);
-  return { photo, map: cv.toDataURL('image/jpeg', 0.88) };
+  return rgbaToRgb(g.getImageData(0, 0, S, S).data);
 }
 
 export function AiCases() {
@@ -98,15 +85,25 @@ function AiCase({ c, onJudged }: { c: TriageCase; onJudged: (c: TriageCase) => v
   const { t, lang } = useI18n();
   const r = c.reading;
   const url = c.photo_available ? triageImageUrl(c.case_id) : null;
-  const [heat, setHeat] = useState<{ k: 'idle' } | { k: 'running' } | { k: 'done'; h: ServerHeat; photo: string; map: string } | { k: 'error'; m: string }>({ k: 'idle' });
+  const [heat, setHeat] = useState<{ k: 'idle' } | { k: 'running' } | { k: 'done'; h: ServerHeat } | { k: 'error'; m: string }>(c.heat ? { k: 'done', h: c.heat } : { k: 'idle' });
+  const [rgb, setRgb] = useState<Uint8Array | null>(null);
+  useEffect(() => {
+    if (!url) return;
+    let live = true;
+    square(url)
+      .then((d) => live && setRgb(d))
+      .catch(() => undefined); // the plain photo stays; the views need the pixels
+    return () => {
+      live = false;
+    };
+  }, [url]);
   const [label, setLabel] = useState(r.labels[0]?.label ?? '');
   const [sending, setSending] = useState(false);
   const showWhere = async () => {
     if (!url) return;
     setHeat({ k: 'running' });
     try {
-      const h = c.heat ?? (await triageHeat(c.case_id));
-      setHeat({ k: 'done', h, ...(await squares(url, h.heat, h.grid)) });
+      setHeat({ k: 'done', h: c.heat ?? (await triageHeat(c.case_id)) });
     } catch (e) {
       setHeat({ k: 'error', m: e instanceof Error ? e.message : String(e) });
     }
@@ -136,27 +133,34 @@ function AiCase({ c, onJudged }: { c: TriageCase; onJudged: (c: TriageCase) => v
           area: c.area,
         })}
       </p>
-      {heat.k === 'done' ? (
-        <Comparer
-          className="aspect-square w-full overflow-hidden rounded-[12px]"
-          before={<img src={heat.photo} alt={t('off.photo.ai.photoAlt')} />}
-          after={<img src={heat.map} alt="" />}
-          beforeLabel={t('off.photo.ai.wherePhoto')}
-          afterLabel={t('off.photo.ai.whereHeat')}
-          label={t('off.photo.ai.whereSlider')}
+      {url && rgb ? (
+        <XaiViews
+          tid="off-ai"
+          rgb={rgb}
+          size={224}
+          target={c.xai?.target ?? r.labels[0]?.label ?? ''}
+          cam={c.xai ? { cells: c.xai.cam, bias: c.xai.cam_bias, logit: c.xai.logit } : null}
+          attention={c.xai?.attention ?? null}
+          occlusion={heat.k === 'done' ? { heat: heat.h.heat, grid: heat.h.grid } : null}
+          occlusionData={heat.k === 'done' ? { where: 'server', grid: heat.h.grid } : undefined}
+          photoAlt={t('off.photo.ai.photoAlt')}
+          occlusionSlot={
+            <>
+              {heat.k !== 'done' && (
+                <button type="button" className="btn btn-secondary btn-sm justify-self-start" disabled={heat.k === 'running'} onClick={() => void showWhere()} data-testid="off-ai-where">
+                  <ScanSearch size={16} aria-hidden />
+                  {heat.k === 'running' ? t('off.photo.ai.whereRunning') : t('off.photo.ai.where')}
+                </button>
+              )}
+              {heat.k === 'error' && <p className="mono m-0 break-all text-xs text-ink-3">{heat.m}</p>}
+            </>
+          }
         />
       ) : url ? (
         <img src={url} alt={t('off.photo.ai.photoAlt')} className="aspect-[4/3] w-full rounded-[12px] object-cover" />
       ) : (
         <p className="m-0 text-sm text-ink-3">{t('off.photo.ai.noPhoto')}</p>
       )}
-      {url && heat.k !== 'done' && (
-        <button type="button" className="btn btn-secondary btn-sm justify-self-start" disabled={heat.k === 'running'} onClick={() => void showWhere()} data-testid="off-ai-where">
-          <ScanSearch size={16} aria-hidden />
-          {heat.k === 'running' ? t('off.photo.ai.whereRunning') : t('off.photo.ai.where')}
-        </button>
-      )}
-      {heat.k === 'error' && <p className="mono m-0 break-all text-xs text-ink-3">{heat.m}</p>}
       <ul className="m-0 grid list-none gap-1 p-0 text-sm">
         {r.labels.slice(0, 3).map((l) => (
           <li key={l.label} className="flex justify-between gap-3">

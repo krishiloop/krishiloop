@@ -15,6 +15,7 @@ import { resetTried, tick, TRY_IDS, useTried, type TryId } from './checklist';
 import { clearInspector, useInspector, useWorking, type InsEntry, type InsKind, type Part, type TraceNode, type TraceStep } from './inspector';
 import { useHeld } from './receipts';
 import type { TabId } from './TabBar';
+import { OpenOnPhone } from '../mobile/OpenOnPhone'; // builder Mo: the phone app's QR and link, on the wide screen only
 
 /* ================================================================== left rail: pick a field and a farmer, what to try */
 
@@ -145,6 +146,8 @@ export function DemoRail({ onTab, inSheet }: { onTab: (t: TabId) => void; inShee
           );
         })}
       </fieldset>
+
+      {!inSheet && <OpenOnPhone compact />}
     </div>
   );
 }

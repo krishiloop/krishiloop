@@ -1,0 +1,244 @@
+/* The team (builder Ho, v5): portrait cards on /about and the strip on home. Each person wears a pastel from the
+   painter's palette (index.css): the wash behind the card, the leaf behind the photo, the ink on the roles (AA in
+   scripts/contrast.mjs). Transform and opacity only; the lean toward the mouse is ui/kit/autoTilt (data-tilt). */
+:is(.tm-card, .tm-face) {
+  --tile: var(--color-butter);
+  --tile-ink: var(--color-butter-ink);
+  --tile-leaf: var(--color-butter-leaf);
+}
+:is(.tm-card, .tm-face)[data-tone="lotus"] { --tile: var(--color-lotus); --tile-ink: var(--color-lotus-ink); --tile-leaf: var(--color-lotus-leaf); }
+:is(.tm-card, .tm-face)[data-tone="monsoon"] { --tile: var(--color-monsoon); --tile-ink: var(--color-monsoon-ink); --tile-leaf: var(--color-monsoon-leaf); }
+:is(.tm-card, .tm-face)[data-tone="hyacinth"] { --tile: var(--color-hyacinth); --tile-ink: var(--color-hyacinth-ink); --tile-leaf: var(--color-hyacinth-leaf); }
+:is(.tm-card, .tm-face)[data-tone="moss"] { --tile: var(--color-moss); --tile-ink: var(--color-moss-ink); --tile-leaf: var(--color-moss-leaf); }
+:is(.tm-card, .tm-face)[data-tone="terracotta"] { --tile: var(--color-terracotta); --tile-ink: var(--color-terracotta-ink); --tile-leaf: var(--color-terracotta-leaf); }
+
+/* ---- the cards: a loose collage (every other card a little lower), two columns on phones with the lead first */
+.tm-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tm-item:first-child {
+  grid-column: 1 / -1;
+}
+@media (min-width: 640px) {
+  .tm-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .tm-item:first-child {
+    grid-column: auto;
+  }
+}
+@media (min-width: 1024px) {
+  .tm-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+    padding-bottom: 48px;
+  }
+  .tm-item:nth-child(even) {
+    transform: translateY(48px);
+  }
+  html.reveal-ready .tm-grid[data-stagger]:not(.is-in) > .tm-item:nth-child(even) {
+    transform: translateY(70px);
+  }
+}
+.tm-card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px 12px 18px;
+  border-radius: 26px;
+  border: 1px solid color-mix(in oklab, var(--tile-ink) 14%, transparent);
+  background:
+    radial-gradient(90% 60% at 50% 0%, color-mix(in oklab, var(--tile-leaf) 40%, transparent), transparent 70%),
+    var(--tile);
+  box-shadow: var(--shadow-lift);
+}
+.tm-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 999px 999px 16px 16px;
+  background: var(--tile-leaf);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--tile-ink) 18%, transparent),
+    0 10px 24px -16px color-mix(in oklab, var(--tile-ink) 60%, transparent);
+}
+.tm-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  transition: transform 900ms var(--ease-out-expo);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tm-card:hover .tm-photo img {
+    transform: scale(1.04);
+  }
+}
+.tm-body {
+  padding: 0 6px;
+}
+.tm-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: clamp(1.12rem, 1rem + 0.4vw, 1.3rem);
+  font-weight: 520;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.tm-name:lang(bn) {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+.tm-latin {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-ink-2);
+}
+.tm-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.tm-roles > li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--tile-ink) 22%, transparent);
+  color: var(--tile-ink);
+  font-size: 0.8rem;
+  font-weight: 620;
+  line-height: 1.5;
+}
+.tm-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+.tm-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 32px;
+  color: var(--tile-ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+/* the lead on a phone: wide, photo beside the words */
+@media (max-width: 639.98px) {
+  .tm-item:first-child .tm-card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+  }
+  .tm-roles > li {
+    font-size: 0.76rem;
+    padding: 2px 8px;
+  }
+}
+
+/* ---- the home strip: five small arches, names and first roles, and the way to the full team */
+.tm-strip-grid {
+  display: grid;
+  gap: 36px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .tm-strip-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+    gap: 56px;
+  }
+}
+.tm-meet {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-top: 18px;
+  color: var(--color-ink);
+  font-weight: 620;
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+.tm-faces {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px 12px;
+}
+.tm-face {
+  grid-column: span 2;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 4px;
+  min-width: 0;
+}
+/* 3 + 2 on phones, the second row centred */
+.tm-face:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+@media (min-width: 640px) {
+  .tm-faces {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .tm-face,
+  .tm-face:nth-child(4) {
+    grid-column: auto;
+  }
+  .tm-face:nth-child(even) {
+    transform: translateY(22px);
+  }
+  html.reveal-ready .tm-faces[data-stagger]:not(.is-in) > .tm-face:nth-child(even) {
+    transform: translateY(44px);
+  }
+}
+.tm-face-photo {
+  display: block;
+  width: min(100%, 128px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 999px 999px 14px 14px;
+  background: var(--tile-leaf);
+  box-shadow:
+    0 0 0 5px var(--tile),
+    0 0 0 6px color-mix(in oklab, var(--tile-ink) 16%, transparent);
+  margin-bottom: 10px;
+}
+.tm-face-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.tm-face-name {
+  font-size: 0.9rem;
+  font-weight: 640;
+  line-height: 1.25;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.tm-face-role {
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: var(--color-ink-2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tm-item:nth-child(even),
+  .tm-face:nth-child(even) {
+    transform: none !important;
+  }
+}

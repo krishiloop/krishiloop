@@ -129,7 +129,7 @@ export function ProductIndex() {
   }, []);
 
   return (
-    <section className="section relative" aria-labelledby="pi-title" ref={box} data-offscreen={on ? undefined : ''}>
+    <section className="section relative botanic-bg botanic-bg--branch" aria-labelledby="pi-title" ref={box} data-offscreen={on ? undefined : ''}>
       <div className="wrap grid gap-12 lg:grid-cols-[minmax(260px,0.72fr)_2fr] lg:gap-16">
         <aside className="pi-side">
           <p className="label flex items-center gap-2.5" data-reveal>

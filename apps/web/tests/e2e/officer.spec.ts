@@ -29,8 +29,8 @@ const count = (page: Page, key: 'open' | 'receipts' | 'recalled') => page.getByT
 test.describe('recorded console', () => {
   test('who you are, the counters, the tabs, and the recorded inbox', async ({ page }) => {
     await page.goto('/officer?sample=1');
-    await expect(page.getByRole('heading', { level: 1, name: 'Officer desk · demo copy' })).toBeVisible();
-    await expect(page.getByText('Your recall changes only your own demo receipts')).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Officer desk' })).toBeVisible();
+    await expect(page.getByText('What you do here changes only your own copy')).toBeVisible();
     await expect(page.getByTestId('data-mode')).toContainText('Recorded 2 Nov');
     await expect(count(page, 'receipts')).toHaveText('20');
     await expect(count(page, 'recalled')).toHaveText('0');
@@ -42,12 +42,12 @@ test.describe('recorded console', () => {
     await expect(rows).toHaveCount(2);
     await expect(page.getByTestId('case-detail')).toBeVisible();
     // reasons in plain words, the farmer's question, and the details as key/values
-    await rows.filter({ hasText: 'A question with no sourced answer' }).click();
+    await rows.filter({ hasText: 'A question we have no answer for' }).click();
     await expect(page).toHaveURL(/\/officer\/inbox-11894d644055#case$/);
     await expect(page.getByTestId('case-question')).toHaveText('Can I get a loan to buy fertiliser?');
     await expect(page.getByTestId('case-retrieved')).toContainText('R-BDR-003');
-    await expect(page.getByTestId('case-retrieved')).toContainText('None reached the bar');
-    await rows.filter({ hasText: 'A rule it needed was withdrawn' }).click();
+    await expect(page.getByTestId('case-retrieved')).toContainText('None reached the pass mark');
+    await rows.filter({ hasText: 'A rule it used was taken back' }).click();
     await expect(page.getByTestId('case-recalled')).toContainText('R-BDR-002 v1');
     await expect(page.getByTestId('case-details')).toContainText('pack-bd-rice');
   });
@@ -56,7 +56,7 @@ test.describe('recorded console', () => {
     await page.goto('/officer/inbox-11894d644055?sample=1');
     const detail = page.getByTestId('case-detail');
     await expect(detail).toContainText(/saved in this browser only/i);
-    await expect(page.getByText('the official resolve needs an officer’s admin token')).toBeVisible();
+    await expect(page.getByText('A real officer signs in to close cases for good')).toBeVisible();
     await detail.getByLabel('Your note to the farmer').fill('Loans are outside the advice. Called the farmer.');
     await detail.getByRole('button', { name: 'Resolve' }).click();
     await expect(page.getByTestId('case-resolved')).toContainText('Resolved by you');
@@ -91,40 +91,40 @@ test.describe('recorded console', () => {
 
   test('recall: confirm with a reason, the ripple, the count, the farmer notice, and the receipt verifies as Recalled', async ({ page }) => {
     await page.goto('/officer?tab=recall&sample=1');
-    await expect(page.getByText('Recall is simulated in your browser on the recorded receipts.')).toBeVisible();
+    await expect(page.getByText('This recall is a practice run in your browser, on recorded receipts.')).toBeVisible();
     const tiles = page.getByTestId('receipt-tile');
     await expect(tiles).toHaveCount(20);
     await expect(page.locator('[data-testid=receipt-tile][data-state=recalled]')).toHaveCount(0);
     await page.getByTestId('recall-R-BDR-002@1').click();
     const dialog = page.getByRole('dialog', { name: 'Recall R-BDR-002 v1?' });
     await expect(dialog).toBeVisible();
-    await expect(dialog).toContainText('4 receipts in your sandbox cite it');
+    await expect(dialog).toContainText('4 receipts in your copy use it');
     await dialog.getByRole('button', { name: 'Recall' }).click(); // no reason yet
     await expect(dialog).toContainText('Write a short reason first.');
-    await dialog.getByRole('button', { name: 'Threshold under review' }).click();
+    await dialog.getByRole('button', { name: 'The pest limit is under review' }).click();
     // a recall is deliberate: press and hold (about 1.7 s) until the fill completes
     await dialog.getByRole('button', { name: 'Recall' }).click({ delay: 2200 });
     await expect(dialog).toBeHidden();
     const result = page.getByTestId('recall-result');
     await expect(result).toBeVisible();
-    await expect(page.getByTestId('recall-line')).toContainText('receipts now verify as Recalled; the planner stops using R-BDR-002 v1.');
+    await expect(page.getByTestId('recall-line')).toContainText('receipts now show Recalled. The app stops using R-BDR-002 v1.');
     await expect(page.getByTestId('recall-line').locator('.sr-only-live')).toHaveText('4');
     await expect(page.locator('[data-testid=receipt-tile][data-state=recalled]')).toHaveCount(4);
     await expect(count(page, 'recalled')).toHaveText('1');
     // the farmer plans that used it now abstain, each with an inbox case
-    await expect(page.getByTestId('replans')).toContainText('plan now abstains');
-    await expect(page.getByTestId('notification-preview')).toContainText('Preview. SMS is sandbox: not sent');
+    await expect(page.getByTestId('replans')).toContainText('plan now waits for an officer');
+    await expect(page.getByTestId('notification-preview')).toContainText('Preview only. This SMS was not sent');
     await expect(page.getByTestId('notification-preview')).toContainText('R-BDR-002 v1');
     await expect(page.locator('[data-rule="R-BDR-002@1"]')).toHaveAttribute('data-state', 'recalled');
     // re-check one: the verifier now says Recalled, and its timeline carries the officer's reason
-    await page.getByRole('link', { name: 'Re-check one' }).click();
+    await page.getByRole('link', { name: 'Check one again' }).click();
     await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'recalled');
     await expect(page.getByTestId('withdrawn-rules')).toContainText('R-BDR-002 v1');
-    await expect(page.getByTestId('doc-timeline')).toContainText('Reason given: “Threshold under review”');
-    await expect(page.getByTestId('doc-timeline')).toContainText('by you, in the officer console');
+    await expect(page.getByTestId('doc-timeline')).toContainText('Reason given: “The pest limit is under review”');
+    await expect(page.getByTestId('doc-timeline')).toContainText('by you, on the officer desk');
     // undo the simulation: everything is Authentic again
     await page.goto('/officer?tab=recall&sample=1');
-    await page.getByRole('button', { name: 'Undo simulated recalls' }).click();
+    await page.getByRole('button', { name: 'Undo practice recalls' }).click();
     await expect(page.locator('[data-testid=receipt-tile][data-state=recalled]')).toHaveCount(0);
     await expect(count(page, 'recalled')).toHaveText('0');
   });
@@ -148,7 +148,7 @@ test.describe('recorded console', () => {
 
   test('Bangla', async ({ page }) => {
     await page.goto('/officer?sample=1&lang=bn');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('অফিসারের ডেস্ক · ডেমো কপি');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('অফিসারের ডেস্ক');
     await expect(page.getByRole('tab', { name: /নিয়ম ও প্রত্যাহার/ })).toBeVisible();
   });
 
@@ -283,7 +283,7 @@ test.describe('photo cases (mocked sandbox)', () => {
     await expect(page.getByTestId('gate-state')).toContainText('Gate open');
     const moment = page.getByTestId('gate-moment');
     await expect(moment).toHaveAttribute('data-event', 'opened');
-    await expect(moment).toContainText('Trust earned in rice@BD');
+    await expect(moment).toContainText('The gate opened in rice@BD');
     await expect(page.getByTestId('gate-moment-verify')).toHaveAttribute('href', `/verify/${AREA_CRED.replace('urn:uuid:', '')}`);
     await expect(page.getByTestId('pc-status')).toHaveText('Judged');
     await expect(page.getByTestId('pc-photo-empty')).toContainText('deleted after the verdict');
@@ -312,8 +312,8 @@ test.describe('photo cases (mocked sandbox)', () => {
     await page.getByTestId('pc-choice-tungro').click();
     await expect(page.getByTestId('pc-review-result')).toHaveText('The suggestion was wrong');
     await expect(page.getByTestId('gate-moment')).toHaveAttribute('data-event', 'closed');
-    await expect(page.getByTestId('gate-moment')).toContainText('Trust withdrawn in rice@BD');
-    await expect(page.getByTestId('gate-moment')).toContainText('verifies as withdrawn');
+    await expect(page.getByTestId('gate-moment')).toContainText('The gate closed again in rice@BD');
+    await expect(page.getByTestId('gate-moment')).toContainText('shows as taken back');
     await expect(page.getByTestId('gate-state')).toContainText('Gate closed');
   });
 
@@ -352,11 +352,11 @@ test('live: plans -> recall -> Recalled -> the farmer plan abstains', async ({ p
   await expect(page.getByTestId('recall-result')).toBeVisible({ timeout: 30_000 });
   await expect(page.getByTestId('recall-line').locator('.sr-only-live')).toHaveText('2');
   await expect(page.locator('[data-testid=receipt-tile][data-state=recalled]')).toHaveCount(2);
-  await expect(page.getByTestId('replans')).toContainText('plan now abstains');
+  await expect(page.getByTestId('replans')).toContainText('plan now waits for an officer');
   await expect(count(page, 'recalled')).toHaveText('1');
-  await page.getByRole('link', { name: 'Re-check one' }).click();
+  await page.getByRole('link', { name: 'Check one again' }).click();
   await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'recalled');
   await expect(page.getByTestId('verdict')).toContainText('It is yours');
   await page.goto('/officer?tab=inbox');
-  await expect(page.getByTestId('case-row').filter({ hasText: 'A rule it needed was withdrawn' }).first()).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByTestId('case-row').filter({ hasText: 'A rule it used was taken back' }).first()).toBeVisible({ timeout: 20_000 });
 });

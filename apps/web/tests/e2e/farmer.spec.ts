@@ -99,7 +99,7 @@ test.describe('recorded mode (deterministic)', () => {
 
     // SMS preview: the exact text, a live counter, labelled planned
     await sheet.getByTestId('fa-rc-sms').click();
-    await expect(sheet.getByTestId('fa-sms')).toContainText('Preview. SMS is sandbox: not sent');
+    await expect(sheet.getByTestId('fa-sms')).toContainText('Preview only. This SMS is not sent.');
     // the recorded receipt's own short code (issued by the server when it was recorded) and its /v/ link
     await expect(sheet.getByTestId('fa-sms-text')).toContainText(/Check receipt [0-9A-Z]{4}-[0-9A-Z]{4}: \S+\/v\/[0-9A-Z]{4}-[0-9A-Z]{4}/);
     await expect(sheet.getByTestId('fa-sms-text')).toContainText('KrishiLoop: No spray needed. Rule R-BDR-002 v1. Check receipt');
@@ -147,10 +147,10 @@ test.describe('recorded mode (deterministic)', () => {
     await expect(answer).toContainText('No spray needed');
     await expect(answer).toContainText('R-BDR-002 v1');
     const pipe = page.getByTestId('fa-pipeline');
-    await expect(pipe).toContainText('BM25');
+    await expect(pipe).toContainText('word search'); // the BM25 stage, in plain words
     await expect(pipe.locator('[data-stage="rerank"]')).toHaveAttribute('data-state', 'skipped');
     await expect(pipe.locator('[data-stage="receipt"]')).toHaveAttribute('data-state', 'ran');
-    await expect(page.getByTestId('fa-ask')).toContainText('only a fingerprint of your question');
+    await expect(page.getByTestId('fa-ask')).toContainText('only a code made from your question');
     await expect(page.getByTestId('fa-try-ask')).toHaveAttribute('data-done', 'true');
     await expect(page.getByTestId('fa-inspector')).toContainText('langgraph: normalise');
 
@@ -160,7 +160,7 @@ test.describe('recorded mode (deterministic)', () => {
 
     await page.getByTestId('fa-ask-input').fill('How much water does rice need at tillering?');
     await page.getByTestId('fa-ask-send').click();
-    await expect(page.getByTestId('fa-ask-offline')).toContainText('The live server is not connected.');
+    await expect(page.getByTestId('fa-ask-offline')).toContainText('Our server is not connected.');
 
     await page.getByTestId('fa-ask-input').fill('Can I get a loan to buy fertiliser?');
     await page.getByTestId('fa-ask-send').click();
@@ -174,9 +174,9 @@ test.describe('recorded mode (deterministic)', () => {
     await page.goto(`${REC}&tab=photo`);
     await page.getByTestId('fa-photo-earlier').locator('summary').click(); // the earlier research model, closed by default
     const off = page.getByTestId('fa-photo-offline');
-    await expect(off).toContainText('The photo check needs the live server.');
+    await expect(off).toContainText('This photo check needs our server.');
     await expect(off.getByRole('button', { name: 'Take a photo' })).toBeDisabled();
-    await expect(off.getByRole('link', { name: /earn trust/ })).toHaveAttribute('href', '/trust');
+    await expect(off.getByRole('link', { name: /answers without waiting/ })).toHaveAttribute('href', '/trust');
   });
 
   test('a recall reaches this tab: Today abstains with the reason, Receipts show RECALLED and what to do', async ({ page }) => {
@@ -194,7 +194,7 @@ test.describe('recorded mode (deterministic)', () => {
     await page.getByRole('tab', { name: /Today/ }).click();
     const abs = page.getByTestId('fa-abstained');
     await expect(abs).toContainText('We’re not sure this week.');
-    await expect(abs.getByTestId('fa-abs-reason')).toContainText('withdrawn for review');
+    await expect(abs.getByTestId('fa-abs-reason')).toContainText('withdrawn to be checked again');
     await expect(abs.getByTestId('fa-abs-case')).toHaveText(/^inbox-/);
     await expect(page.getByTestId('fa-after-recall')).toBeVisible();
     await expect(page.getByTestId('fa-try-recall')).toHaveAttribute('data-done', 'true');
@@ -339,7 +339,7 @@ test.describe('live API smoke', () => {
     await page.getByRole('tab', { name: 'Today' }).click();
     await page.evaluate("import('/src/lib/api/client.ts').then((m) => m.recallRule('R-BDR-001', 1, { reason: 'e2e: farmer app recall path' }))");
     await expect(page.getByTestId('fa-abstained')).toBeVisible({ timeout: 30_000 });
-    await expect(page.getByTestId('fa-abs-reason')).toContainText('withdrawn for review');
+    await expect(page.getByTestId('fa-abs-reason')).toContainText('withdrawn to be checked again');
     await page.getByRole('tab', { name: /Receipts/ }).click();
     await expect(page.locator('[data-testid="fa-receipt-row"][data-status="recalled"]').first()).toBeVisible({ timeout: 15_000 });
     await expect(page.getByTestId('fa-try-recall')).toHaveAttribute('data-done', 'true');

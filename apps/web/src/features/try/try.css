@@ -1165,3 +1165,36 @@ html.reduce-motion .try-check-body,
 html.reduce-motion .try-leaf-out {
   animation-name: try-fade;
 }
+
+/* ------------------------------------------------------------------ v5 polish (builder Pg): a soft pastel mesh behind
+   the top of the page, and the jump pills lift toward the hand. Visual only. */
+.try-page {
+  position: relative;
+  isolation: isolate;
+}
+.try-page::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 620px;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 60% at 4% 4%, color-mix(in oklab, var(--color-butter) 90%, transparent), transparent 70%),
+    radial-gradient(34% 50% at 55% 0%, color-mix(in oklab, var(--color-hyacinth) 65%, transparent), transparent 70%),
+    radial-gradient(34% 50% at 100% 35%, color-mix(in oklab, var(--color-moss) 80%, transparent), transparent 70%);
+  mask-image: linear-gradient(180deg, #000 55%, transparent);
+}
+.try-jump-link {
+  transition: transform 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .try-jump-link:hover {
+    transform: translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .try-jump-link {
+    transition: none;
+  }
+}

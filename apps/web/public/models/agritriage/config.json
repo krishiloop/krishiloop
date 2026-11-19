@@ -1,5 +1,5 @@
 {
- "model": "model.onnx",
+ "model": "model_xai.onnx",
  "model_mb": 11.5,
  "precision": "int8",
  "onnx_test_accuracy": {
@@ -221,5 +221,22 @@
  },
  "onnx_agreement": 0.953125,
  "samples": [],
- "source_run": "outputs/runs/p1f_indomain/proposed_tinyvit_11m/seed0"
+ "source_run": "outputs/runs/p1f_indomain/proposed_tinyvit_11m/seed0",
+ "xai": {
+  "outputs": [
+   "xai_cam",
+   "xai_cam_bias",
+   "xai_attn3_0",
+   "xai_attn3_1",
+   "xai_attn2_5",
+   "xai_feat"
+  ],
+  "grid": 7,
+  "attention": [
+   "xai_attn3_0",
+   "xai_attn3_1"
+  ],
+  "attention_fine": "xai_attn2_5",
+  "evidence": "evidence/xai_export.json"
+ }
 }

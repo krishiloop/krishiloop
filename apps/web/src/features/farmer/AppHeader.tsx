@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Download, ScanLine, Headset } from 'lucide-react';
+import { ArrowLeft, BookOpen, ScanLine, Headset } from 'lucide-react';
 import { setLang, useI18n } from '../../lib/i18n';
 import { fmtDate } from '../../lib/format';
 import { LogoMark } from '../../ui/Logo';
@@ -9,7 +9,6 @@ import { RECORDED_AT } from '../../data/recorded';
 import { useApiState } from '../../lib/api/client';
 import { currentField, useFarmer } from './farmerStore';
 import { cropName, countryName, stageName } from './words';
-import { promptInstall, useInstall } from './install';
 
 /**
  * The app's own header (on phones it replaces the site bar). On a phone it starts with a thin glass strip that keeps
@@ -21,7 +20,6 @@ export function AppHeader({ onGuide }: { onGuide: () => void }) {
   const { t, lang } = useI18n();
   const st = useFarmer();
   const api = useApiState();
-  const install = useInstall();
   const field = currentField(st);
   const recorded = st.planSource === 'sample' || api.forced || api.mode === 'sample';
   const plan = st.plan;
@@ -87,11 +85,6 @@ export function AppHeader({ onGuide }: { onGuide: () => void }) {
             ))}
           </div>
           <LangSwitch compact className="fa-more-langs" />
-          {install === 'ready' && (
-            <button type="button" className="btn btn-ghost btn-icon fa-hit" onClick={() => void promptInstall()} aria-label={t('fa.install')} title={t('fa.install')} data-testid="fa-install">
-              <Download size={19} aria-hidden />
-            </button>
-          )}
         </div>
       </div>
     </header>

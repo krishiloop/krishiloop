@@ -47,18 +47,18 @@ export default defineConfig({
       injectRegister: 'auto',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        // the farmer app, installable from the browser (DESIGN.md "Monsoon Field"): standalone, portrait, the paddy-night
-        // theme, and shortcuts back into the website (verify a receipt, the officer)
-        id: '/app',
+        // the phone app (/m, builder Mo): opening the manifest's start_url gives the phone app, not the website. Quiet on
+        // purpose: nothing in the UI asks anyone to install it (the owner's rule). Forest app bar, cream page (the palette).
+        id: '/m',
         name: 'KrishiLoop: farm advice with a receipt',
         short_name: 'KrishiLoop',
-        description: 'Every piece of AI farm advice comes with a receipt anyone can check.',
-        theme_color: '#0e1712',
-        background_color: '#0e1712',
+        description: 'Farm advice for this week, a leaf check on your phone, and a receipt for every answer.',
+        theme_color: '#14261c',
+        background_color: '#14261c',
         display: 'standalone',
         display_override: ['standalone', 'minimal-ui'],
         orientation: 'portrait',
-        start_url: '/app',
+        start_url: '/m',
         scope: '/',
         lang: 'en',
         dir: 'ltr',
@@ -69,10 +69,10 @@ export default defineConfig({
           { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
         shortcuts: [
-          { name: 'Should I spray?', short_name: 'This week', url: '/app?tab=today', description: 'Open the farmer app' },
-          { name: 'Photo of a leaf', short_name: 'Photo', url: '/app?tab=photo', description: 'Crop Guardian' },
-          { name: 'Verify a receipt', short_name: 'Verify', url: '/verify', description: 'Check a receipt' },
-          { name: 'Officer', short_name: 'Officer', url: '/officer', description: 'The officer console' },
+          { name: 'This week', short_name: 'Home', url: '/m?tab=home', description: 'This week’s advice for my field' },
+          { name: 'Check a leaf', short_name: 'Leaf', url: '/m?tab=leaf', description: 'Check a sick leaf with the camera' },
+          { name: 'My receipts', short_name: 'Receipts', url: '/m?tab=receipts', description: 'Receipts saved on this phone' },
+          { name: 'Check a receipt', short_name: 'Check', url: '/verify', description: 'Check any receipt' },
         ],
       },
       workbox: {
@@ -91,6 +91,9 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/api\//, /^\/status\//, /^\/\.well-known\//],
         runtimeCaching: [
           { urlPattern: ({ url }) => url.pathname.startsWith('/api/verify/') || url.pathname.startsWith('/status/'), handler: 'NetworkOnly' },
+          // the leaf model (11.5 MB) and its runtime, once used, stay on the phone so the leaf check works with no internet
+          // (builder Mo). NetworkFirst: a new model from the server wins when online (a cheap 304 when unchanged).
+          { urlPattern: ({ url }) => url.pathname.startsWith('/models/agritriage/'), handler: 'NetworkFirst', options: { cacheName: 'kl-leaf-model', networkTimeoutSeconds: 4, expiration: { maxEntries: 16 } } },
           { urlPattern: ({ url }) => url.pathname === '/api/demo', handler: 'StaleWhileRevalidate', options: { cacheName: 'kl-demo', expiration: { maxEntries: 4, maxAgeSeconds: 86400 } } },
           { urlPattern: ({ request, url }) => request.destination === 'script' && url.origin === self.location.origin, handler: 'CacheFirst', options: { cacheName: 'kl-chunks', expiration: { maxEntries: 40, maxAgeSeconds: 2592000 } } },
         ],

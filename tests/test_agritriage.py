@@ -110,7 +110,7 @@ def model():
 
 
 def test_the_server_reads_the_same_file_the_phone_runs(model):
-    raw = (at.MODEL_DIR / "model.onnx").read_bytes()
+    raw = (at.MODEL_DIR / CFG["model"]).read_bytes()                  # model_xai.onnx (tools/xai_export.py)
     assert model.sha256 == hashlib.sha256(raw).hexdigest() and len(raw) > 10_000_000
     r, p = model.read(leaf_jpeg(), "rice")
     assert r["model"] == "agritriage-tinyvit@1" and r["mode"] == "crop_known" and r["coverage_target"] == 0.9
@@ -357,6 +357,9 @@ def test_api_reads_the_uploaded_photo_and_keeps_it_only_with_consent(tmp_path, m
     assert c["route"] in ("receipt", "officer", "retake") and c["agreement"]["client_outcome"] == "diagnose"
     assert body["model"]["credential_id"].startswith("urn:uuid:") and body["model"]["recalled"] is False
     assert c["photo_available"] == (c["route"] != "receipt")
+    x = c["xai"]                                                       # the views from the same run as the reading
+    assert x["target"] == c["reading"]["labels"][0]["label"] and len(x["cam"]) == 49 and len(x["attention"]) == 49
+    assert x["cam_error"] < 1e-4 and x["lesion"]["leaf_found"] is True
     assert client.post(f"/api/demo/{sid}/agritriage", json={"field_id": "BD-SAMPLE-02", "image_b64": "%%%"}).status_code == 422
     assert client.post(f"/api/demo/{sid}/agritriage", json={"field_id": "XX", "image_b64": b64}).status_code == 404
     assert client.get(f"/api/demo/{sid}/agritriage/cases").json()["cases"][0]["case_id"] == c["case_id"]

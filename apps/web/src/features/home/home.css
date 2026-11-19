@@ -82,37 +82,82 @@
 }
 
 
-/* ================================================================== the hero: a scroll story told by leaves (builder H, v4)
-   A forest band, pinned while the leaf field (story/field.ts, canvas) morphs through six pictures. The copy column never
-   moves or fades: the headline, the promise and the two actions stay readable for the whole story. */
-/* the forest runs up under the floating nav pill, as on the deck's title slide */
+/* ================================================================== the hero: a story told by leaves
+   builder H v4; v5 builder Ho: it plays by itself and is no longer a forest band. Cream (dusk in the dark theme) with
+   each picture's own pastel washing in behind it, the deck's line drawings in the corners, a soft glow on the story's
+   subject, and the leaf field (story/field.ts, canvas). One screen tall, nothing pinned, so nothing shifts. */
 .kg-hero {
   isolation: isolate;
   margin-top: calc(var(--header-h) * -1);
-}
-/* the pin: one screen, plus a stretch of scroll per picture */
-.kg-track {
-  --kg-step: 64svh;
-  position: relative;
-  height: calc(100svh + (var(--kg-steps, 6) - 1) * var(--kg-step));
-}
-.kg-stick {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  padding-top: var(--header-h);
   overflow: hidden;
+  background: var(--color-paper);
+  --tone: var(--color-butter-leaf);
 }
-/* soft light behind the field: mustard low, monsoon high, the paddy rows over it (static, no download) */
-.kg-glow {
+.kg-hero[data-tone="lotus"] { --tone: var(--color-lotus-leaf); }
+.kg-hero[data-tone="monsoon"] { --tone: var(--color-monsoon-leaf); }
+.kg-hero[data-tone="hyacinth"] { --tone: var(--color-hyacinth-leaf); }
+.kg-hero[data-tone="moss"] { --tone: var(--color-moss-leaf); }
+.kg-hero[data-tone="terracotta"] { --tone: var(--color-terracotta-leaf); }
+
+/* each picture's wash: soft blobs of its pastel and two neighbours, crossfaded (opacity only) */
+.kg-washes {
   position: absolute;
   inset: 0;
+  z-index: -2;
   pointer-events: none;
+}
+.kg-wash {
+  --a: 1;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1600ms var(--ease-in-out);
   background:
-    radial-gradient(60% 55% at 72% 58%, rgb(226 169 59 / 0.13), transparent 70%),
-    radial-gradient(42% 40% at 88% 18%, rgb(168 209 223 / 0.1), transparent 70%),
-    radial-gradient(38% 40% at 8% 92%, rgb(198 183 228 / 0.08), transparent 70%),
-    var(--rows);
+    radial-gradient(52% 58% at 76% 52%, color-mix(in oklab, var(--w1) calc(48% * var(--a)), transparent), transparent 72%),
+    radial-gradient(40% 46% at 96% 4%, color-mix(in oklab, var(--w2) calc(38% * var(--a)), transparent), transparent 70%),
+    radial-gradient(46% 52% at 4% 100%, color-mix(in oklab, var(--w3) calc(34% * var(--a)), transparent), transparent 72%),
+    radial-gradient(34% 40% at 24% 8%, color-mix(in oklab, var(--w2) calc(22% * var(--a)), transparent), transparent 70%);
+}
+:root:not([data-theme="light"]) .kg-wash {
+  --a: 0.34;
+}
+.kg-wash[data-on] {
+  opacity: 1;
+}
+.kg-wash-butter { --w1: var(--color-butter-leaf); --w2: var(--color-moss-leaf); --w3: var(--color-lotus-leaf); }
+.kg-wash-lotus { --w1: var(--color-lotus-leaf); --w2: var(--color-butter-leaf); --w3: var(--color-hyacinth-leaf); }
+.kg-wash-monsoon { --w1: var(--color-monsoon-leaf); --w2: var(--color-hyacinth-leaf); --w3: var(--color-moss-leaf); }
+.kg-wash-hyacinth { --w1: var(--color-hyacinth-leaf); --w2: var(--color-lotus-leaf); --w3: var(--color-monsoon-leaf); }
+.kg-wash-moss { --w1: var(--color-moss-leaf); --w2: var(--color-monsoon-leaf); --w3: var(--color-butter-leaf); }
+.kg-wash-terracotta { --w1: var(--color-terracotta-leaf); --w2: var(--color-butter-leaf); --w3: var(--color-hyacinth-leaf); }
+/* the paddy rows from above, faint, over the wash */
+.kg-washes::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--rows);
+  opacity: 0.7;
+}
+/* the corner art: a mustard-flower branch under the nav at the top, a leaf branch low on the left */
+.kg-art {
+  z-index: -1;
+}
+.kg-art.botanic-bg--branch::before {
+  top: calc(var(--header-h) + 6px);
+  right: -1vw;
+  width: min(26vw, 340px);
+}
+.kg-art.botanic-bg--branch::after {
+  bottom: -2%;
+  left: -3vw;
+  width: min(28vw, 360px);
+}
+.kg-stick {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  max-height: 1100px;
+  padding-top: var(--header-h);
 }
 .kg-grid {
   position: relative;
@@ -137,7 +182,7 @@
   font-size: clamp(1.25rem, 1.05rem + 1vw, 2rem);
   font-weight: 600;
   line-height: 1.3;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .kg-wordmark {
   font-family: var(--font-display);
@@ -151,64 +196,22 @@
 .kg-promise {
   font-size: clamp(1.08rem, 0.96rem + 0.7vw, 1.6rem);
   line-height: 1.4;
-  color: var(--color-sage);
+  color: var(--color-ink-2);
   text-wrap: balance;
 }
 .kg-promise:lang(bn) {
   line-height: 1.6;
 }
-/* the deck's outlined mustard pill */
+/* the deck's outlined pill: gold-brown on cream, mustard on dusk */
 .kg-outline.liquid-glass {
-  border: 1.5px solid var(--color-accent);
-  background: transparent;
+  border: 1.5px solid color-mix(in oklab, var(--color-accent-text) 70%, transparent);
+  background: color-mix(in oklab, var(--color-card) 55%, transparent);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   box-shadow: none;
 }
 .kg-outline.liquid-glass::before {
   display: block;
-}
-/* skip the story: a quiet text link, visible on large screens (phones scroll past in a few flicks) */
-.kg-skip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  min-height: 44px;
-  margin-top: 22px;
-  color: var(--color-ink-2);
-  font-size: 0.9rem;
-  font-weight: 560;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 200ms ease, border-color 200ms ease;
-}
-/* below that size it waits, out of sight, for a keyboard: it shows when it has focus */
-@media (max-width: 1023.98px), (max-height: 719.98px) {
-  .kg-skip:not(:focus-visible) {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    min-height: 0;
-    margin: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-}
-@media (hover: hover) and (pointer: fine) {
-  .kg-skip:hover {
-    color: var(--color-ink);
-    border-color: var(--color-accent);
-  }
-}
-.kg-after {
-  display: block;
-  height: 0;
-  scroll-margin-top: var(--header-h);
-}
-.kg-after:focus {
-  outline: none;
 }
 /* the story column: the canvas grows, the caption sits under it */
 .kg-story {
@@ -234,10 +237,35 @@
   height: 100%;
   opacity: 0;
   touch-action: pan-y;
-  transition: opacity 700ms var(--ease-out-quint);
+  transition: opacity 900ms var(--ease-out-quint);
 }
 .kg-field[data-live] canvas {
   opacity: 1;
+}
+/* the glow on the story's subject: one soft disc of the picture's pastel, glided there with a transform (field.ts
+   sets --gx / --gy in px); its colour eases with the picture */
+.kg-spot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(78%, 560px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  color: var(--tone);
+  background: radial-gradient(closest-side, currentColor, color-mix(in oklab, currentColor 40%, transparent) 45%, transparent);
+  opacity: 0;
+  transform: translate3d(calc(var(--gx, 50%) - 50%), calc(var(--gy, 50%) - 50%), 0);
+  transition:
+    transform 2000ms var(--ease-in-out),
+    color 1600ms ease,
+    opacity 1200ms ease;
+}
+.kg-field[data-live] .kg-spot {
+  opacity: 0.75;
+}
+:root:not([data-theme="light"]) .kg-field[data-live] .kg-spot {
+  opacity: 0.2;
 }
 .kg-illus {
   position: absolute;
@@ -250,14 +278,51 @@
   gap: 10px;
   min-height: 0;
 }
-/* the line for this picture: a gentle rise each time it changes (keyed on the step) */
-.kg-line {
-  animation: kg-line-in 520ms var(--ease-out-quint) both;
+/* the line for this picture: the old one lifts away, the new one wipes in through a soft mask (left to right) */
+.kg-lines {
+  display: grid;
 }
-@keyframes kg-line-in {
+.kg-lines > .kg-line {
+  grid-area: 1 / 1;
+}
+.kg-line.is-first {
+  animation: kg-line-up 700ms var(--ease-out-quint) both;
+}
+.kg-line.is-in {
+  -webkit-mask-image: linear-gradient(90deg, #000 42%, transparent 58%);
+  mask-image: linear-gradient(90deg, #000 42%, transparent 58%);
+  -webkit-mask-size: 260% 100%;
+  mask-size: 260% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation:
+    kg-line-wipe 1100ms var(--ease-out-quint) 160ms both,
+    kg-line-up 900ms var(--ease-out-expo) 160ms both;
+}
+.kg-line.is-out {
+  pointer-events: none;
+  animation: kg-line-out 420ms var(--ease-out-quint) both;
+}
+@keyframes kg-line-wipe {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+@keyframes kg-line-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
+  }
+}
+@keyframes kg-line-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
   }
 }
 .kg-line-k {
@@ -268,7 +333,7 @@
   font-weight: 650;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 .kg-line-k:lang(bn) {
   font-size: 0.9rem;
@@ -312,12 +377,41 @@
   justify-content: space-between;
   gap: 4px 16px;
 }
+.kg-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* pause / play: a small round button, always visible while the story can move (WCAG 2.2.2) */
+.kg-play {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-left: -4px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--color-ink) 30%, transparent);
+  background: color-mix(in oklab, var(--color-card) 70%, transparent);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    transform 200ms var(--ease-out-quint),
+    border-color 200ms ease;
+}
+.kg-play:active {
+  transform: scale(0.94);
+}
+@media (hover: hover) and (pointer: fine) {
+  .kg-play:hover {
+    border-color: color-mix(in oklab, var(--color-ink) 55%, transparent);
+  }
+}
 .kg-dots {
   display: flex;
   align-items: center;
-  margin-left: -8px;
 }
-/* each dot is a 32 px target with a small pill inside; the current one stretches and turns mustard */
+/* each dot is a 32 px target with a small pill inside; the current one stretches, and fills as its time runs out */
 .kg-dot {
   position: relative;
   width: 32px;
@@ -326,9 +420,11 @@
   border: 0;
   background: none;
   cursor: pointer;
+  --dot: color-mix(in oklab, var(--color-ink) 34%, transparent);
+  --fill: var(--color-accent-text);
 }
-.kg-dot::before {
-  content: "";
+.kg-dot::before,
+.kg-dot-bar {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -336,20 +432,43 @@
   height: 6px;
   margin: -3px 0 0 -11px;
   border-radius: 999px;
-  background: color-mix(in oklab, var(--color-ink) 26%, transparent);
+}
+.kg-dot::before {
+  content: "";
+  background: var(--dot);
   transform: scaleX(0.36);
-  transition: transform 360ms var(--ease-out-quint), background-color 260ms ease;
+  transition:
+    transform 420ms var(--ease-out-quint),
+    background-color 260ms ease;
 }
 .kg-dot[aria-current]::before {
-  background: var(--color-accent);
   transform: none;
+  background: color-mix(in oklab, var(--color-ink) 22%, transparent);
+}
+/* without the bar (paused for good), the current dot is simply full */
+.kg-hero[data-stopped] .kg-dot[aria-current]::before {
+  background: var(--fill);
+}
+.kg-dot-bar {
+  display: block;
+  background: var(--fill);
+  transform-origin: 0 50%;
+  animation: kg-dot-fill var(--kg-dur, 4800ms) linear both;
+}
+.kg-hero[data-paused] .kg-dot-bar {
+  animation-play-state: paused;
+}
+@keyframes kg-dot-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 @media (hover: hover) and (pointer: fine) {
   .kg-dot:hover::before {
-    background: color-mix(in oklab, var(--color-ink) 55%, transparent);
-  }
-  .kg-dot[aria-current]:hover::before {
-    background: var(--color-accent);
+    --dot: color-mix(in oklab, var(--color-ink) 55%, transparent);
   }
 }
 .kg-hint {
@@ -383,16 +502,20 @@
   .kg-hint {
     display: none;
   }
-}
-/* a very short screen (a phone on its side): no pin; the story sits under the copy and the dots choose the picture */
-@media (max-height: 599.98px) {
-  .kg-track {
-    height: auto;
+  .kg-art.botanic-bg--branch::before {
+    width: 34vw;
+    top: calc(var(--header-h) + 2px);
   }
+  .kg-art.botanic-bg--branch::after {
+    display: none;
+  }
+}
+/* a very short screen (a phone on its side): the story sits under the copy */
+@media (max-height: 599.98px) {
   .kg-stick {
-    position: relative;
     height: auto;
     min-height: 0;
+    max-height: none;
   }
   .kg-grid {
     height: auto;
@@ -415,8 +538,15 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .kg-line {
-    animation-name: fade-in;
+  .kg-line.is-in,
+  .kg-line.is-first {
+    -webkit-mask-image: none;
+    mask-image: none;
+    animation: fade-in 150ms ease both;
+  }
+  /* the dot still measures the picture's time when the visitor presses play (a progress bar, not travel) */
+  .kg-dot-bar {
+    animation-duration: var(--kg-dur, 4800ms) !important;
   }
 }
 
@@ -953,11 +1083,18 @@
 
 /* section bands in alternating washes: sky behind the system diagram, aubergine for "we asked AI first", young paddy
    behind the honest status (forest and cream keep the hero, the product and "who it is for") */
+/* v5 (builder Ho): soft pastel meshes over the washes (kit.css .mesh), not flat fills */
 section[aria-labelledby="flow-title"] {
-  background: var(--color-monsoon);
+  --mesh-base: var(--color-monsoon);
+  --m1: var(--color-hyacinth-leaf);
+  --m2: var(--color-butter-leaf);
+  --m3: var(--color-monsoon-leaf);
 }
 section[aria-labelledby="status-title"] {
-  background: var(--color-moss);
+  --mesh-base: var(--color-moss);
+  --m1: var(--color-butter-leaf);
+  --m2: var(--color-monsoon-leaf);
+  --m3: var(--color-lotus-leaf);
 }
 section[aria-labelledby="end-title"] .surface {
   background:
@@ -1002,4 +1139,68 @@ section[aria-labelledby="bento-title"] .surface {
   background:
     linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0) 38%),
     var(--tile, var(--color-card));
+}
+
+/* ------------------------------------------------------------------ "Use it on your phone" (PhoneBand, builder Ho v5) */
+.ph-grid {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .ph-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: 64px;
+  }
+}
+.ph-points {
+  display: grid;
+  gap: 10px;
+}
+.ph-points > li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.02rem;
+  font-weight: 560;
+  color: var(--color-ink);
+}
+.ph-tick {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-hyacinth-leaf);
+  color: #14261c;
+}
+/* the QR card floats on a soft pastel halo, a little turned, like a note pinned to the page */
+.ph-card {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 460px);
+}
+.ph-card::before {
+  content: "";
+  position: absolute;
+  inset: -18% -12%;
+  z-index: -1;
+  background:
+    radial-gradient(closest-side, color-mix(in oklab, var(--color-butter-leaf) 55%, transparent), transparent),
+    radial-gradient(closest-side at 70% 60%, color-mix(in oklab, var(--color-lotus-leaf) 45%, transparent), transparent);
+  pointer-events: none;
+}
+:root:not([data-theme="light"]) .ph-card::before {
+  opacity: 0.3;
+}
+.ph-card .oop {
+  padding: 18px;
+  border-radius: 24px;
+  box-shadow: var(--shadow-pop);
+}
+@media (min-width: 1024px) {
+  .ph-card > [data-tilt] {
+    rotate: -2deg;
+  }
 }

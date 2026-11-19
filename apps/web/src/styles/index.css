@@ -102,20 +102,23 @@
   line-gap-override: 0%;
 }
 
-/* Forest (dark) is the base; Cream (light, data-theme="light") is the default the page boots with (index.html). */
+/* Dusk (dark) is the base; Cream (light, data-theme="light") is the default the page boots with (index.html).
+   20 Nov v5 (builder Ho, the owner: "still too much green, use some pastel colours"): the dark theme is no longer forest.
+   It is dusk over the paddies: a deep aubergine ink with the pastels as its lights. Forest green stays only as the deep
+   accent band (.band-night: the footer and a page's closing band). */
 @theme static {
-  /* surfaces: the forest of the deck's title and safety slides */
-  --color-paper: #14261c;
-  --color-sunk: #0e2419;
-  --color-card: #173a29;
-  --color-raised: #1d4532;
-  /* ink: cream and sage */
+  /* surfaces: dusk, a deep aubergine ink (never a gradient into indigo or purple) */
+  --color-paper: #1b1720;
+  --color-sunk: #141118;
+  --color-card: #241f2a;
+  --color-raised: #2d2734;
+  /* ink: cream, and two warm greys with a little lotus in them */
   --color-ink: #f3eee2;
-  --color-ink-2: #c9d3c8;
-  --color-ink-3: #a3b2a6;
+  --color-ink-2: #d3ccd2;
+  --color-ink-3: #b4abb6;
   /* hairlines */
-  --color-rule: #24422f;
-  --color-rule-2: #31553f;
+  --color-rule: #322b38;
+  --color-rule-2: #443b4b;
   /* the action: mustard (the primary button, the highlight); soft mustard for washes and pills */
   --color-accent: #e2a93b;
   --color-accent-ink: #14261c;
@@ -213,7 +216,7 @@
   --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 18px 44px -22px rgb(0 0 0 / 0.75);
   --shadow-pop: 0 1px 0 rgb(0 0 0 / 0.3), 0 34px 80px -28px rgb(0 0 0 / 0.8);
   --glow-accent: 0 0 0 1px rgb(226 169 59 / 0.35), 0 10px 30px -12px rgb(226 169 59 / 0.55);
-  --glass-bg: rgb(23 58 41 / 0.6);
+  --glass-bg: rgb(36 31 42 / 0.62);
   --glass-edge: rgb(255 255 255 / 0.12);
   --grain: none;
   --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .36  0 0 0 0 .26  0 0 0 .045 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
@@ -296,8 +299,8 @@
   --rows: repeating-linear-gradient(176deg, rgb(20 38 28 / 0.045) 0 1px, transparent 1px 34px);
 }
 
-/* A forest band inside a cream page (the hero, the safety gate, a closing section). In the dark theme it is the
-   deepest green, so bands still alternate. */
+/* A forest band: the one deep accent (the footer, a page's closing band). The same forest in both themes: on dusk it
+   reads as the deep green accent, on cream as the deck's title slide. Use it sparingly (v5: "too much green"). */
 .band-night {
   --color-paper: #14261c;
   --color-sunk: #0e2419;
@@ -347,11 +350,7 @@
   background-color: var(--color-paper);
   color: var(--color-ink);
 }
-:root:not([data-theme="light"]) .band-night {
-  --color-paper: #0e2419;
-  --color-sunk: #0a1c13;
-  --color-card: #14301f;
-}
+
 
 /* A physical paper object (receipt, printed rule, the light sheet) keeps the paper palette in both themes. */
 .paper-object,

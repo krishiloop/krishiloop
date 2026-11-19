@@ -31,7 +31,7 @@ test.describe('/trust in recorded mode', () => {
   test('the idea, the bar and the tiers', async ({ page }) => {
     const errs = errors(page);
     await page.goto('/trust?sample=1');
-    await expect(page.getByRole('heading', { level: 1, name: 'Photo answers earn trust one area at a time.' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'The photo AI must prove itself, one area at a time.' })).toBeVisible();
     await expect(page.getByTestId('hero-meter')).toContainText('Gate open after 93 officer answers');
 
     const tiles = page.getByTestId('policy-tiles');

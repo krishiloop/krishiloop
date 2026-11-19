@@ -7,7 +7,7 @@ import { RollNumber } from '../../ui/RollNumber';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { Architecture } from './Architecture';
-import { EvalTiles, NewTiles } from './EvalTiles';
+import { ResultGroup, type GroupId } from './EvalTiles';
 import { CheckYourself } from './CheckYourself';
 import { REPRO, ACTIONS_URL, MCP_DOC, MCP_SERVERS, MCP_TESTS, PROMPT_LIBRARY, READ_THE_CODE, REGISTER, STANDARDS, TESTS, type StandardState } from './sources';
 import './proof.css';
@@ -15,8 +15,11 @@ import './proof.css';
 // the terminal sits below the fold: its own chunk, so the first visit does not pay for it
 const Terminal = lazy(() => import('../../ui/kit/Terminal').then((m) => ({ default: m.Terminal })));
 
-const SECTIONS = ['architecture', 'check', 'evaluations', 'standards', 'mcp', 'tests', 'data', 'prompts'] as const;
+const SECTIONS = ['architecture', 'check', 'standards', 'mcp', 'tests', 'data', 'prompts'] as const;
 type SectionId = (typeof SECTIONS)[number];
+/** the page reads in four parts: three groups of results, then how it was built */
+const PARTS = ['safety', 'photo', 'speed', 'built'] as const;
+const PART_TONE = { safety: 'terracotta', photo: 'moss', speed: 'monsoon', built: 'hyacinth' } as const;
 
 const STATE_ICON: Record<StandardState, ReactNode> = {
   implemented: <CircleCheck size={14} aria-hidden />,
@@ -35,28 +38,66 @@ export default function ProofPage() {
   const toolCount = MCP_SERVERS.reduce((a, s) => a + s.tools.length, 0);
 
   return (
-    <div className="pf-page pb-10">
-      <section className="band-night kg-pagehero" aria-labelledby="pf-title">
-        <div className="wrap pf-hero pt-10 pb-14 sm:pt-16">
-        <div>
-        <p className="eyebrow hero-rise">{t('proof.eyebrow')}</p>
-        <h1 id="pf-title" className="t-title hero-rise mt-4 max-w-[18ch]" style={{ ['--i' as string]: 1 }} data-testid="proof-title">
-          {t('proof.title')}
-        </h1>
-        <p className="t-lead hero-rise mt-5 max-w-[52ch]" style={{ ['--i' as string]: 2 }}>
-          {t('proof.lead')}
-        </p>
+    <div className="pf-page botanic-bg pb-10">
+      <section className="pf-hero-v5" aria-labelledby="pf-title">
+        <div className="wrap pf-hero pt-10 pb-12 sm:pt-14">
+          <div>
+            <p className="eyebrow hero-rise">{t('proof.eyebrow')}</p>
+            <h1 id="pf-title" className="t-title hero-rise mt-4 max-w-[18ch]" style={{ ['--i' as string]: 1 }} data-testid="proof-title">
+              {t('proof.title')}
+            </h1>
+            <p className="t-lead hero-rise mt-5 max-w-[52ch]" style={{ ['--i' as string]: 2 }}>
+              {t('proof.lead')}
+            </p>
+          </div>
+          <nav className="pf-parts hero-rise" style={{ ['--i' as string]: 3 }} aria-label={t('proof.jump')}>
+            {PARTS.map((id, i) => (
+              <a key={id} href={`#part-${id}`} data-tone={PART_TONE[id]}>
+                <span className="pf-jump-n mono" aria-hidden>
+                  {fmtNum(i + 1, lang, { minimumIntegerDigits: 2 })}
+                </span>
+                <span>
+                  <b>{t(`proof.part.${id}` as Key)}</b>
+                  <span className="pf-parts-s">{t(`proof.part.${id}.sub` as Key)}</span>
+                </span>
+              </a>
+            ))}
+          </nav>
         </div>
-        <nav className="pf-jump glass hero-rise" style={{ ['--i' as string]: 3 }} aria-label={t('proof.jump')}>
-          {SECTIONS.map((id, i) => (
-            <a key={id} href={`#${id}`}>
-              <span className="pf-jump-n mono" aria-hidden>
-                {fmtNum(i + 1, lang, { minimumIntegerDigits: 2 })}
-              </span>
-              {t(`proof.nav.${id}` as Key)}
-            </a>
-          ))}
-        </nav>
+      </section>
+
+      {(['safety', 'photo', 'speed'] as GroupId[]).map((g) => (
+        <section key={g} id={`part-${g}`} className="pf-part scroll-mt-20" data-tone={PART_TONE[g]} aria-labelledby={`pf-part-${g}`} data-testid={`part-${g}`}>
+          <div className="wrap section">
+            <p className="eyebrow">{t(`proof.part.${g}` as Key)}</p>
+            <h2 id={`pf-part-${g}`} className="t-title mt-3 max-w-[22ch]">
+              {t(`proof.part.${g}.title` as Key)}
+            </h2>
+            <p className="t-lead mt-4 max-w-[56ch]">{t(`proof.part.${g}.lead` as Key)}</p>
+            <div className="mt-10">
+              <ResultGroup id={g} />
+            </div>
+          </div>
+        </section>
+      ))}
+
+      <section id="part-built" className="pf-part pf-built scroll-mt-20" data-tone="hyacinth" aria-labelledby="pf-part-built">
+        <div className="wrap pt-14 sm:pt-20">
+          <p className="eyebrow">{t('proof.part.built')}</p>
+          <h2 id="pf-part-built" className="t-title mt-3 max-w-[22ch]">
+            {t('proof.part.built.title')}
+          </h2>
+          <p className="t-lead mt-4 max-w-[56ch]">{t('proof.part.built.lead')}</p>
+          <nav className="pf-jump mt-8" aria-label={t('proof.part.built')}>
+            {SECTIONS.map((id, i) => (
+              <a key={id} href={`#${id}`}>
+                <span className="pf-jump-n mono" aria-hidden>
+                  {fmtNum(i + 1, lang, { minimumIntegerDigits: 2 })}
+                </span>
+                {t(`proof.nav.${id}` as Key)}
+              </a>
+            ))}
+          </nav>
         </div>
       </section>
 
@@ -77,20 +118,6 @@ export default function ProofPage() {
             lines={REPRO.flatMap((r) => [{ cmd: r.cmd }, ...(r.out ? [{ out: t(`proof.term.${r.out}` as Key) }] : [])])}
             />
           </Suspense>
-        </div>
-      </Section>
-
-      <Section id="evaluations" title={t('proof.eval.title')} lead={t('proof.eval.lead')}>
-        <EvalTiles />
-        <div className="mt-14">
-          <p className="label m-0 flex items-center gap-2.5">
-            <span className="h-px w-8 bg-ink-3" aria-hidden />
-            {t('proof.new.eyebrow')}
-          </p>
-          <h3 className="t-head m-0 mt-4 max-w-[26ch]">{t('proof.new.title')}</h3>
-          <div className="mt-8">
-            <NewTiles />
-          </div>
         </div>
       </Section>
 
@@ -230,7 +257,7 @@ export default function ProofPage() {
 function Section({ id, title, lead, tone, children }: { id: SectionId; title: string; lead: string; tone?: 'sunk'; children: ReactNode }) {
   const { t } = useI18n();
   return (
-    <section id={id} className={`rule-t scroll-mt-20 ${tone === 'sunk' ? 'bg-sunk' : ''}`} aria-labelledby={`pf-${id}`} data-testid={`section-${id}`}>
+    <section id={id} className={`rule-t scroll-mt-20 ${tone === 'sunk' ? 'pf-sunk' : ''}`} aria-labelledby={`pf-${id}`} data-testid={`section-${id}`}>
       <div className="wrap section">
         <p className="eyebrow">{t(`proof.nav.${id}` as Key)}</p>
         <h2 id={`pf-${id}`} className="t-title mt-3 max-w-[22ch]">

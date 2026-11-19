@@ -45,7 +45,7 @@ export default function TryPage() {
   }, [hash]);
 
   return (
-    <div className="try-page">
+    <div className="try-page botanic-bg">
       <header className="wrap try-hero">
         <p className="eyebrow">{t('try.eyebrow')}</p>
         <h1 className="t-title try-hero-title">{t('try.title')}</h1>

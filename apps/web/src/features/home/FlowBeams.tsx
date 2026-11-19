@@ -44,7 +44,7 @@ export function FlowBeams() {
   const officer = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="section cv" aria-labelledby="flow-title">
+    <section className="section mesh cv" aria-labelledby="flow-title">
       <div className="wrap">
         <Head eyebrow={t('home.flow.eyebrow')} title={t('home.flow.title')} id="flow-title" lead={t('home.flow.note')} />
 
