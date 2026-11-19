@@ -29,13 +29,13 @@ const count = (page: Page, key: 'open' | 'receipts' | 'recalled') => page.getByT
 test.describe('recorded console', () => {
   test('who you are, the counters, the tabs, and the recorded inbox', async ({ page }) => {
     await page.goto('/officer?sample=1');
-    await expect(page.getByRole('heading', { level: 1, name: 'Demo officer · your sandbox' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Officer desk · demo copy' })).toBeVisible();
     await expect(page.getByText('Your recall changes only your own demo receipts')).toBeVisible();
     await expect(page.getByTestId('data-mode')).toContainText('Recorded 2 Nov');
     await expect(count(page, 'receipts')).toHaveText('20');
     await expect(count(page, 'recalled')).toHaveText('0');
     await expect(count(page, 'open')).toHaveText('2');
-    for (const name of ['Inbox', 'Photo cases', 'Rules & recall', 'Area trust']) await expect(page.getByRole('tab', { name: new RegExp(name) })).toBeVisible();
+    for (const name of ['Inbox', 'Leaf photos', 'Rules and recalls', 'Photo AI by area']) await expect(page.getByRole('tab', { name: new RegExp(name) })).toBeVisible();
     await expect(page.getByRole('tab', { name: /Inbox/ })).toHaveAttribute('aria-selected', 'true');
     // the newest open case is already open beside the list on a wide screen
     const rows = page.getByTestId('case-row');
@@ -71,10 +71,10 @@ test.describe('recorded console', () => {
 
   test('photo cases and area trust need the live server, and say so', async ({ page }) => {
     await page.goto('/officer?tab=photos&sample=1');
-    await expect(page.getByTestId('photo-recorded')).toContainText('Photo cases need the live server');
-    await page.getByRole('tab', { name: /Area trust/ }).click();
+    await expect(page.getByTestId('photo-recorded')).toContainText('Leaf photos need the live server');
+    await page.getByRole('tab', { name: /Photo AI by area/ }).click();
     await expect(page).toHaveURL(/tab=trust/);
-    await expect(page.getByTestId('area-recorded')).toContainText('Area trust needs the live server');
+    await expect(page.getByTestId('area-recorded')).toContainText('Photo AI by area needs the live server');
   });
 
   test('tabs: arrow keys move between them, and each tab names its panel', async ({ page }) => {
@@ -82,11 +82,11 @@ test.describe('recorded console', () => {
     const inbox = page.getByRole('tab', { name: /Inbox/ });
     await inbox.focus();
     await page.keyboard.press('ArrowRight');
-    await expect(page.getByRole('tab', { name: /Photo cases/ })).toBeFocused();
-    await expect(page.getByRole('tab', { name: /Photo cases/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: /Leaf photos/ })).toBeFocused();
+    await expect(page.getByRole('tab', { name: /Leaf photos/ })).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', 'off-tab-photos');
     await page.keyboard.press('End');
-    await expect(page.getByRole('tab', { name: /Area trust/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByRole('tab', { name: /Photo AI by area/ })).toHaveAttribute('aria-selected', 'true');
   });
 
   test('recall: confirm with a reason, the ripple, the count, the farmer notice, and the receipt verifies as Recalled', async ({ page }) => {
@@ -148,7 +148,7 @@ test.describe('recorded console', () => {
 
   test('Bangla', async ({ page }) => {
     await page.goto('/officer?sample=1&lang=bn');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('ডেমো অফিসার · আপনার স্যান্ডবক্স');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('অফিসারের ডেস্ক · ডেমো কপি');
     await expect(page.getByRole('tab', { name: /নিয়ম ও প্রত্যাহার/ })).toBeVisible();
   });
 
@@ -260,7 +260,7 @@ test.describe('photo cases (mocked sandbox)', () => {
     const st = await mockSandbox(page, { area: 'one-away', cases: 2 });
     await page.goto('/officer?tab=photos');
     await expect(page.getByTestId('photo-card')).toHaveCount(2);
-    await expect(page.getByRole('tab', { name: /Photo cases/ })).toContainText('2');
+    await expect(page.getByRole('tab', { name: /Leaf photos/ })).toContainText('2');
     const detail = page.getByTestId('photo-detail');
     await expect(detail).toBeVisible();
     await expect(page.getByTestId('pc-photo-img')).toBeVisible();

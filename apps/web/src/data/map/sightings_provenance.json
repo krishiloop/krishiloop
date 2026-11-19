@@ -1,0 +1,312 @@
+{
+ "queried": "2026-11-19",
+ "api": "https://api.gbif.org/v1",
+ "taxa": [
+  {
+   "id": "faw",
+   "sci": "Spodoptera frugiperda",
+   "key": 5109855,
+   "matched": "Spodoptera frugiperda J.E.Smith, 1797",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Animalia",
+   "problems": [
+    "fall_armyworm"
+   ]
+  },
+  {
+   "id": "blast",
+   "sci": "Pyricularia oryzae",
+   "key": 2569273,
+   "matched": "Pyricularia oryzae Cavara",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Fungi",
+   "problems": [
+    "blast",
+    "rice_blast",
+    "neck_blast"
+   ]
+  },
+  {
+   "id": "late_blight",
+   "sci": "Phytophthora infestans",
+   "key": 3203716,
+   "matched": "Phytophthora infestans (Mont.) de Bary",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Chromista",
+   "problems": [
+    "late_blight"
+   ]
+  },
+  {
+   "id": "bph",
+   "sci": "Nilaparvata lugens",
+   "key": 2056628,
+   "matched": "Nilaparvata lugens (Stål, 1854)",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Animalia",
+   "problems": [
+    "brown_planthopper"
+   ]
+  },
+  {
+   "id": "locust",
+   "sci": "Schistocerca gregaria",
+   "key": 1707320,
+   "matched": "Schistocerca gregaria (Forskål, 1775)",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Animalia",
+   "problems": [
+    "desert_locust",
+    "locust"
+   ]
+  },
+  {
+   "id": "blb",
+   "sci": "Xanthomonas oryzae",
+   "key": 5427645,
+   "matched": "Xanthomonas oryzae",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Bacteria",
+   "problems": [
+    "bacterial_leaf_blight",
+    "bacterial_blight"
+   ]
+  },
+  {
+   "id": "brown_spot",
+   "sci": "Bipolaris oryzae",
+   "key": 2615973,
+   "matched": "Bipolaris oryzae (Breda de Haan) Shoemaker",
+   "status": "ACCEPTED",
+   "matchType": "EXACT",
+   "kingdom": "Fungi",
+   "problems": [
+    "brown_spot"
+   ]
+  }
+ ],
+ "queries": 174,
+ "countries": {
+  "BD": {
+   "levels": {
+    "division": {
+     "gadm_level": 1,
+     "gadm_units": 8,
+     "our_areas": 8,
+     "matched": 8,
+     "how": {
+      "Barisal": "exact -> BD-div-barisal",
+      "Chittagong": "exact -> BD-div-chittagong",
+      "Dhaka": "exact -> BD-div-dhaka",
+      "Khulna": "exact -> BD-div-khulna",
+      "Rajshahi": "exact -> BD-div-rajshahi",
+      "Rangpur": "exact -> BD-div-rangpur",
+      "Sylhet": "exact -> BD-div-sylhet",
+      "Mymensingh": "exact -> BD-div-mymensingh"
+     },
+     "unmatched_gadm": [],
+     "unmatched_ours": []
+    },
+    "district": {
+     "gadm_level": 2,
+     "gadm_units": 64,
+     "our_areas": 64,
+     "matched": 64,
+     "how": {
+      "Barguna": "exact -> BD-barguna",
+      "Barisal": "exact -> BD-barisal",
+      "Bhola": "exact -> BD-bhola",
+      "Jhalokati": "exact -> BD-jhalokati",
+      "Patuakhali": "exact -> BD-patuakhali",
+      "Pirojpur": "exact -> BD-pirojpur",
+      "Noakhali": "exact -> BD-noakhali",
+      "Rangamati": "exact -> BD-rangamati",
+      "Bandarban": "exact -> BD-bandarban",
+      "Brahamanbaria": "exact -> BD-brahamanbaria",
+      "Chandpur": "exact -> BD-chandpur",
+      "Chittagong": "exact -> BD-chittagong",
+      "Comilla": "exact -> BD-comilla",
+      "Cox'S Bazar": "exact -> BD-coxs-bazar",
+      "Feni": "exact -> BD-feni",
+      "Khagrachhari": "exact -> BD-khagrachhari",
+      "Lakshmipur": "exact -> BD-lakshmipur",
+      "Narayanganj": "exact -> BD-narayanganj",
+      "Narsingdi": "exact -> BD-narsingdi",
+      "Rajbari": "exact -> BD-rajbari",
+      "Shariatpur": "exact -> BD-shariatpur",
+      "Tangail": "exact -> BD-tangail",
+      "Dhaka": "exact -> BD-dhaka",
+      "Faridpur": "exact -> BD-faridpur",
+      "Gazipur": "exact -> BD-gazipur",
+      "Gopalganj": "exact -> BD-gopalganj",
+      "Kishoreganj": "exact -> BD-kishoreganj",
+      "Madaripur": "exact -> BD-madaripur",
+      "Manikganj": "exact -> BD-manikganj",
+      "Munshiganj": "exact -> BD-munshiganj",
+      "Satkhira": "exact -> BD-satkhira",
+      "Bagerhat": "exact -> BD-bagerhat",
+      "Chuadanga": "exact -> BD-chuadanga",
+      "Jessore": "exact -> BD-jessore",
+      "Jhenaidah": "exact -> BD-jhenaidah",
+      "Khulna": "exact -> BD-khulna",
+      "Kushtia": "exact -> BD-kushtia",
+      "Magura": "exact -> BD-magura",
+      "Meherpur": "exact -> BD-meherpur",
+      "Narail": "exact -> BD-narail",
+      "Bogra": "exact -> BD-bogra",
+      "Joypurhat": "exact -> BD-joypurhat",
+      "Naogaon": "exact -> BD-naogaon",
+      "Natore": "exact -> BD-natore",
+      "Nawabganj": "exact -> BD-nawabganj",
+      "Pabna": "exact -> BD-pabna",
+      "Rajshahi": "exact -> BD-rajshahi",
+      "Sirajganj": "exact -> BD-sirajganj",
+      "Dinajpur": "exact -> BD-dinajpur",
+      "Gaibandha": "exact -> BD-gaibandha",
+      "Kurigram": "exact -> BD-kurigram",
+      "Lalmonirhat": "exact -> BD-lalmonirhat",
+      "Nilphamari": "exact -> BD-nilphamari",
+      "Panchagarh": "exact -> BD-panchagarh",
+      "Rangpur": "exact -> BD-rangpur",
+      "Thakurgaon": "exact -> BD-thakurgaon",
+      "Habiganj": "exact -> BD-habiganj",
+      "Maulvibazar": "exact -> BD-maulvibazar",
+      "Sunamganj": "exact -> BD-sunamganj",
+      "Sylhet": "exact -> BD-sylhet",
+      "Mymensingh": "exact -> BD-mymensingh",
+      "Netrakona": "exact -> BD-netrakona",
+      "Sherpur": "exact -> BD-sherpur",
+      "Jamalpur": "exact -> BD-jamalpur"
+     },
+     "unmatched_gadm": [],
+     "unmatched_ours": []
+    }
+   },
+   "default_level": "district"
+  },
+  "IN": {
+   "levels": {
+    "state": {
+     "gadm_level": 1,
+     "gadm_units": 36,
+     "our_areas": 36,
+     "matched": 36,
+     "how": {
+      "Goa": "exact -> IN-goa",
+      "Gujarat": "exact -> IN-gujarat",
+      "Haryana": "exact -> IN-haryana",
+      "Himachal Pradesh": "exact -> IN-himachal-pradesh",
+      "Jharkhand": "exact -> IN-jharkhand",
+      "Karnataka": "exact -> IN-karnataka",
+      "Kerala": "exact -> IN-kerala",
+      "Lakshadweep": "exact -> IN-lakshadweep",
+      "Madhya Pradesh": "exact -> IN-madhya-pradesh",
+      "Andaman and Nicobar": "variant -> IN-andaman-and-nicobar-islands",
+      "Maharashtra": "exact -> IN-maharashtra",
+      "Manipur": "exact -> IN-manipur",
+      "Meghalaya": "exact -> IN-meghalaya",
+      "Mizoram": "exact -> IN-mizoram",
+      "Nagaland": "exact -> IN-nagaland",
+      "NCT of Delhi": "alias -> IN-delhi",
+      "Odisha": "exact -> IN-odisha",
+      "Puducherry": "exact -> IN-puducherry",
+      "Punjab": "exact -> IN-punjab",
+      "Rajasthan": "exact -> IN-rajasthan",
+      "Andhra Pradesh": "exact -> IN-andhra-pradesh",
+      "Sikkim": "exact -> IN-sikkim",
+      "Tamil Nadu": "exact -> IN-tamil-nadu",
+      "Telangana": "exact -> IN-telangana",
+      "Tripura": "exact -> IN-tripura",
+      "Uttar Pradesh": "exact -> IN-uttar-pradesh",
+      "Uttarakhand": "exact -> IN-uttarakhand",
+      "West Bengal": "exact -> IN-west-bengal",
+      "Arunachal Pradesh": "exact -> IN-arunachal-pradesh",
+      "Assam": "exact -> IN-assam",
+      "Bihar": "exact -> IN-bihar",
+      "Chandigarh": "exact -> IN-chandigarh",
+      "Chhattisgarh": "exact -> IN-chhattisgarh",
+      "Dadra and Nagar Haveli": "alias -> IN-dadra-and-nagar-haveli-and-daman-and-diu",
+      "Daman and Diu": "alias -> IN-dadra-and-nagar-haveli-and-daman-and-diu",
+      "Jammu and Kashmir": "exact -> IN-jammu-and-kashmir"
+     },
+     "unmatched_gadm": [],
+     "unmatched_ours": [
+      {
+       "code": "IN-ladakh",
+       "name": "Ladakh"
+      }
+     ]
+    }
+   }
+  },
+  "KE": {
+   "levels": {
+    "county": {
+     "gadm_level": 1,
+     "gadm_units": 47,
+     "our_areas": 47,
+     "matched": 47,
+     "how": {
+      "Kajiado": "exact -> KE-kajiado",
+      "Kakamega": "exact -> KE-kakamega",
+      "Kericho": "exact -> KE-kericho",
+      "Kiambu": "exact -> KE-kiambu",
+      "Kilifi": "exact -> KE-kilifi",
+      "Kirinyaga": "exact -> KE-kirinyaga",
+      "Kisii": "exact -> KE-kisii",
+      "Kisumu": "exact -> KE-kisumu",
+      "Kitui": "exact -> KE-kitui",
+      "Kwale": "exact -> KE-kwale",
+      "Baringo": "exact -> KE-baringo",
+      "Laikipia": "exact -> KE-laikipia",
+      "Lamu": "exact -> KE-lamu",
+      "Machakos": "exact -> KE-machakos",
+      "Makueni": "exact -> KE-makueni",
+      "Mandera": "exact -> KE-mandera",
+      "Marsabit": "exact -> KE-marsabit",
+      "Meru": "exact -> KE-meru",
+      "Migori": "exact -> KE-migori",
+      "Mombasa": "exact -> KE-mombasa",
+      "Murang'a": "exact -> KE-muranga",
+      "Bomet": "exact -> KE-bomet",
+      "Nairobi": "exact -> KE-nairobi",
+      "Nakuru": "exact -> KE-nakuru",
+      "Nandi": "exact -> KE-nandi",
+      "Narok": "exact -> KE-narok",
+      "Nyamira": "exact -> KE-nyamira",
+      "Nyandarua": "exact -> KE-nyandarua",
+      "Nyeri": "exact -> KE-nyeri",
+      "Samburu": "exact -> KE-samburu",
+      "Siaya": "exact -> KE-siaya",
+      "Taita Taveta": "exact -> KE-taita-taveta",
+      "Bungoma": "exact -> KE-bungoma",
+      "Tana River": "exact -> KE-tana-river",
+      "Tharaka-Nithi": "alias -> KE-tharaka",
+      "Trans Nzoia": "exact -> KE-trans-nzoia",
+      "Turkana": "exact -> KE-turkana",
+      "Uasin Gishu": "exact -> KE-uasin-gishu",
+      "Vihiga": "exact -> KE-vihiga",
+      "Wajir": "exact -> KE-wajir",
+      "West Pokot": "exact -> KE-west-pokot",
+      "Busia": "exact -> KE-busia",
+      "Elgeyo-Marakwet": "exact -> KE-elgeyo-marakwet",
+      "Embu": "exact -> KE-embu",
+      "Garissa": "exact -> KE-garissa",
+      "Homa Bay": "exact -> KE-homa-bay",
+      "Isiolo": "exact -> KE-isiolo"
+     },
+     "unmatched_gadm": [],
+     "unmatched_ours": []
+    }
+   }
+  }
+ },
+ "citation": "GBIF.org (19 November 2026) GBIF occurrence search, facet counts via api.gbif.org/v1/occurrence/search. Records are shared by many publishers under CC0 1.0, CC BY 4.0 or CC BY-NC 4.0 (the mix per pest and country is listed with each count). A formal GBIF download with a DOI has not been made.",
+ "geoBoundaries_disclaimer": "geoBoundaries (CITATION-AND-USE-geoBoundaries.txt, release 9469f09): \"we make no representations or warranties ... as to the validity, accuracy, completeness, or fitness for a particular purpose\". Its India metadata states no separate note on disputed borders."
+}

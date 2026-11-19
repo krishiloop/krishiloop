@@ -221,7 +221,7 @@ test.describe('recorded mode (deterministic)', () => {
       await page.keyboard.press('End');
       await expect(page.getByRole('tab', { name: 'রসিদ' })).toHaveAttribute('aria-selected', 'true');
       await page.getByTestId('fa-guide').click();
-      const guide = page.getByRole('dialog', { name: 'গাইড' });
+      const guide = page.getByRole('dialog', { name: 'কীভাবে ব্যবহার করবেন' });
       await expect(guide).toContainText('যা চেষ্টা করবেন');
       await expect(guide.getByTestId('fa-inspector')).toBeVisible();
       await noOverflow(page);

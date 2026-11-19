@@ -6,7 +6,7 @@ import type proof from './en.proof';
 
 const d: Record<keyof typeof proof, string> = {
   /* ---------------------------------------------------------------- the proof page (/proof) */
-  'proof.eyebrow': 'প্রমাণ · কারিগরি বিচারকদের জন্য',
+  'proof.eyebrow': 'প্রমাণপত্র · কারিগরি বিচারকদের জন্য',
   'proof.title': 'প্রতিটি সংখ্যা, তার ফাইলসহ।',
   'proof.lead': 'প্রতিটি দাবি তার ফাইলের সঙ্গে যুক্ত, আর খারাপ ফলও রাখা আছে। একটি রসিদের স্বাক্ষর এখানেই, আপনার নিজের ব্রাউজারে যাচাই করুন।',
   'proof.jump': 'এই পাতায়',
@@ -155,7 +155,7 @@ const d: Record<keyof typeof proof, string> = {
   'proof.new.speech.omni': 'Omnilingual CTC-1B-v2',
   'proof.new.speech.whisper': 'Whisper large-v3-turbo',
   'proof.new.speech.caveat': 'পড়ে শোনানো কথা, মাঠের কৃষক নয়। কম হলেই ভালো। অ্যাপে এখনো যুক্ত নয়।',
-  'proof.new.sovereign.kicker': 'সার্বভৌম মোড',
+  'proof.new.sovereign.kicker': 'আমাদের নিজের কম্পিউটারে চলে',
   'proof.new.sovereign.what': 'একটি RTX 5090-এ ছবি পড়া, মধ্যমা সময়, সব ক্লাউড কল আটকানো',
   'proof.new.sovereign.gpu': 'RTX 5090',
   'proof.new.sovereign.cpu': 'ল্যাপটপ CPU',
@@ -185,7 +185,7 @@ const d: Record<keyof typeof proof, string> = {
   'proof.eval.threshold.caveat': 'এটি ৩২–৬৩% ছবি পাস করায়। তাই সীমা দিয়ে সিদ্ধান্ত হয় না; বরং আস্থা এলাকা ধরে অর্জন করতে হয়।',
   'proof.eval.threshold.passed': 'পাস করে',
   'proof.eval.threshold.right': 'ঠিক',
-  'proof.eval.trust.kicker': 'অর্জিত আস্থা, পদ্ধতি ২',
+  'proof.eval.trust.kicker': 'ছবি-এআইয়ের আস্থা অর্জন (রিপ্লে গবেষণা)',
   'proof.eval.trust.what': 'সাভারে ফটক খোলার আগে কর্মকর্তার উত্তর: ২০০টি এলোমেলো ক্রমে ৯৫% পরিসর (মধ্যমা ১০২)',
   'proof.eval.trust.caveat': 'রিপ্লে: ডেটাসেটের লেবেল কর্মকর্তার জায়গা নিয়েছে। একটি মডেল-কাঠামো। গাজীপুরে ২০০টির ২৮টি রানে ফটক আবার বন্ধ হয়েছে; ধান-সমাধানে ৩৬টিতে কখনো খোলেনি। পদ্ধতি ১ মাত্র ২৪টির ১টি রানে খুলেছিল।',
   'proof.eval.trust.col.area': 'এলাকা',

@@ -62,5 +62,49 @@ if (process.argv[1] && process.argv[1].endsWith('contrast.mjs')) {
     }
   }
   console.log(bad ? `\n${bad} pair(s) below threshold` : '\nall pairs pass');
-  process.exit(bad ? 1 : 0);
+  // the palette pairs below run too; the exit code covers both
+}
+
+// ---- The painter's palette (builder H, 19 Nov v4; index.css). Every text colour a section or tile may put on a pastel
+// wash, in both themes; the aubergine band; and the disease map scale (--map-0..5 with --map-ink-0..5).
+const PALETTE = {
+  cream: {
+    washes: { butter: ['#f7ecc6', '#6b4a06'], lotus: ['#f7e1dd', '#8a2f3c'], monsoon: ['#deebf2', '#22506a'], hyacinth: ['#e8e1f2', '#553f86'], moss: ['#e2ebd9', '#2f5a35'], terracotta: ['#f6dfd1', '#8a3a1c'] },
+    text: { ink: '#14261c', ink2: '#46524a', ink3: '#5a645c', accentText: '#8a5a0e', go: '#2f6b3a', wait: '#8a4e00', stop: '#a83a21', water: '#2b6476', carbon: '#35428f' },
+  },
+  forest: {
+    washes: { butter: ['#2b2817', '#f2d98b'], lotus: ['#33212a', '#f0b9b4'], monsoon: ['#152f39', '#a8d1df'], hyacinth: ['#262238', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#35231a', '#ef9e80'] },
+    text: { ink: '#f3eee2', ink2: '#c9d3c8', ink3: '#a3b2a6', accentText: '#e2a93b', go: '#9bd18a', wait: '#f0b158', stop: '#f39478', water: '#a8d1df', carbon: '#b9c3f2' },
+  },
+};
+// the aubergine band ("we asked AI first"): forest-band ink on aubergine paper and card, both themes
+const AUBERGINE = { paper: ['#3a2340', '#2b1a30'], card: ['#472c4f', '#3a2340'] };
+const BAND_TEXT = { ink: '#f3eee2', ink2: '#c9d3c8', ink3: '#a3b2a6', accent: '#e2a93b', go: '#9bd18a', stop: '#f39478' };
+// the map: forest ink on the light steps, cream on the darkest (labels on a filled area)
+const MAP = [['#e6ecdf', '#14261c'], ['#f5e7b2', '#14261c'], ['#f4cc94', '#14261c'], ['#eda383', '#14261c'], ['#cf6f66', '#14261c'], ['#8c3550', '#fffdf8']];
+// the gate fills and the leaf pastels take forest ink (chips, legend swatches with words on them)
+const LEAVES = { butter: '#f2d98b', lotus: '#f0b9b4', monsoon: '#a8d1df', hyacinth: '#c6b7e4', moss: '#b9cfa8', terracotta: '#ef9e80', mustard: '#e2a93b' };
+
+if (process.argv[1] && process.argv[1].endsWith('contrast.mjs')) {
+  let badP = 0;
+  const check = (label, fg, bg, min = 4.5) => {
+    const r = ratio(fg, bg);
+    if (r < min) badP++;
+    console.log(`${r >= min ? 'ok  ' : 'FAIL'} ${label.padEnd(38)} ${r.toFixed(2)}  (min ${min})`);
+  };
+  for (const [theme, { washes, text }] of Object.entries(PALETTE)) {
+    console.log(`\n== palette washes, ${theme}`);
+    for (const [name, [wash, own]] of Object.entries(washes)) {
+      check(`${name}-ink on ${name}`, own, wash);
+      for (const [k, c] of Object.entries(text)) check(`${k} on ${name}`, c, wash);
+    }
+  }
+  console.log('\n== aubergine band');
+  for (const [surf, pair] of Object.entries(AUBERGINE)) pair.forEach((bg, i) => Object.entries(BAND_TEXT).forEach(([k, c]) => check(`${k} on aubergine ${surf} (${i ? 'dark' : 'cream'} theme)`, c, bg)));
+  console.log('\n== map scale');
+  MAP.forEach(([fill, ink], i) => check(`--map-ink-${i} on --map-${i}`, ink, fill));
+  console.log('\n== leaf pastels with forest ink');
+  for (const [k, c] of Object.entries(LEAVES)) check(`forest ink on ${k} leaf`, '#14261c', c);
+  console.log(badP ? `\n${badP} palette pair(s) below threshold` : '\nall palette pairs pass');
+  process.exit(bad || badP ? 1 : 0);
 }

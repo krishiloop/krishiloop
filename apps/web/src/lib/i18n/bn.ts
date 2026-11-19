@@ -18,6 +18,10 @@ import proof from './bn.proof';
 import krishiguard from './bn.krishiguard'; // builder R: climate, radar, calculator, visit
 import radartab from './bn.radartab'; // builder R: the officer's radar tab label
 import photoai from './bn.photoai'; // builder P: AgriTriage-Lite photo model
+import diseaseMap from './bn.map'; // builder M: the Disease map
+import tryPage from './bn.try'; // builder I: the /try tools
+import tryStrip from './bn.trystrip'; // builder I: the "Try it" strip
+import homestory from './bn.homestory'; // builder H: the home hero story
 
 const d: Record<Key, string> = {
   ...ui,
@@ -31,6 +35,10 @@ const d: Record<Key, string> = {
   ...krishiguard,
   ...radartab,
   ...photoai,
+  ...diseaseMap,
+  ...tryPage,
+  ...tryStrip,
+  ...homestory,
 };
 
 export default d;

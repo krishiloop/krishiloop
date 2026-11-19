@@ -848,3 +848,61 @@ dialog.palette::backdrop {
   opacity: 0.6;
   pointer-events: none;
 }
+
+/* ------------------------------------------------------------------ premium micro-interactions (builder H, v4)
+   Small and purposeful, inside DESIGN.md's motion rules: transform and opacity only, hover behind a fine pointer,
+   nothing under reduced motion beyond a short fade. */
+/* any element with data-tilt leans toward the mouse (ui/kit/autoTilt.ts, installed once in SiteLayout) */
+[data-tilt] {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 700ms var(--ease-out-quint);
+}
+[data-tilt][data-tilt-on] {
+  transition: transform 140ms linear;
+}
+@media (hover: hover) and (pointer: fine) {
+  /* a card that is a link lifts a little toward the hand */
+  a.surface {
+    transition:
+      border-color 400ms var(--ease-out-quint),
+      transform 500ms var(--ease-out-quint);
+  }
+  a.surface:hover {
+    transform: translateY(-3px);
+  }
+  a.surface.press:active {
+    transform: translateY(-1px) scale(0.985);
+  }
+  /* the secondary pill fills with ink from below, like the liquid pills (transform only) */
+  .btn-secondary {
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .btn-secondary::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -25%;
+    top: 100%;
+    width: 150%;
+    aspect-ratio: 1;
+    border-radius: 42%;
+    background: color-mix(in oklab, var(--color-ink) 9%, transparent);
+    transition: transform 700ms var(--ease-out-expo);
+    pointer-events: none;
+  }
+  .btn-secondary:hover::before {
+    transform: translate3d(0, -78%, 0) rotate(160deg);
+  }
+  /* segmented controls and tabs: the segment under the hand warms before it is chosen */
+  .seg button:not([aria-pressed="true"]):not([aria-checked="true"]):not([aria-selected="true"]):hover {
+    background: color-mix(in oklab, var(--color-ink) 6%, transparent);
+    color: var(--color-ink);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt],
+  .pi-art {
+    transform: none !important;
+  }
+}

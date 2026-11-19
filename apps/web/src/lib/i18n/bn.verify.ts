@@ -161,7 +161,7 @@ const d: Record<keyof typeof verify, string> = {
   'vf.photoRef.link': 'সেই আস্থা যাচাই করুন',
 
   /* ---------------------------------------------------------------- area trust credential */
-  'vf.area.header': 'এলাকার আস্থা',
+  'vf.area.header': 'এই এলাকায় ছবি-এআইয়ের আস্থা',
   'vf.area.verdicts': 'কর্মকর্তার রায়',
   'vf.area.sure': 'নিশ্চিত উত্তর',
   'vf.area.sureVal': '{n}টির মধ্যে {right}টি মিলেছে',

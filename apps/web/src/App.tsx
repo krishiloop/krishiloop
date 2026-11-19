@@ -13,6 +13,8 @@ const OfficerPage = lazy(() => import('./features/officer/OfficerPage'));
 const TrustPage = lazy(() => import('./features/trust/TrustPage'));
 const ProofPage = lazy(() => import('./features/proof/ProofPage'));
 const AboutPage = lazy(() => import('./features/about/AboutPage'));
+const TryPage = lazy(() => import('./features/try/TryPage')); // builder I: /try
+const MapPage = lazy(() => import('./features/map/MapPage')); // builder M: the Disease map
 
 function NotFound() {
   const { t } = useI18n();
@@ -46,6 +48,8 @@ export default function App() {
           <Route path="trust" element={<TrustPage />} />
           <Route path="proof" element={<ProofPage />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="try" element={<TryPage />} />
+          <Route path="map" element={<MapPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

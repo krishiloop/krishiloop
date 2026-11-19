@@ -1,0 +1,50 @@
+/* The Disease map preview card for the home page (builder M). Tokens only. */
+.mp-teaser {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-frame, 22px);
+  background: var(--color-card);
+  min-width: 0;
+}
+@media (min-width: 640px) {
+  .mp-teaser {
+    grid-template-columns: minmax(0, 1fr) 150px;
+    align-items: center;
+  }
+}
+.mp-teaser-map {
+  width: 100%;
+  max-width: 150px;
+  justify-self: center;
+}
+.mp-teaser-map path {
+  fill: var(--map-0);
+  stroke: var(--map-stroke);
+  stroke-width: 0.8;
+}
+.mp-teaser-map path.s-1 {
+  fill: var(--map-1);
+}
+.mp-teaser-map path.s-2 {
+  fill: var(--map-2);
+}
+.mp-teaser-map path.s-3 {
+  fill: var(--map-3);
+}
+.mp-teaser-map path.s-4 {
+  fill: var(--map-4);
+}
+.mp-teaser-map path.s-5 {
+  fill: var(--map-5);
+}
+.mp-teaser-swatches {
+  display: flex;
+  gap: 3px;
+}
+.mp-teaser-swatches span {
+  width: 22px;
+  height: 8px;
+  border-radius: 3px;
+}

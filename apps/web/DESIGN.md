@@ -23,6 +23,15 @@ colors (exact values from the KrishiGuard AI pptx):
   the photo gate (deck slide 6, fills with forest ink):
     very-sure: "#E2A93B"; not-sure: "#A8D1DF"; new-or-risky: "#EF9E80"
   meaning (always with an icon and a word): go, wait, stop, ember (recall), carbon (dashed, sample data)
+  the painter's palette (19 Nov v4, pastels of Bangladeshi fields; wash = band or tile, ink = AA text on it, leaf = art):
+    butter (rice straw):        wash #F7ECC6 / ink #6B4A06 / leaf #F2D98B   (forest: wash #2B2817, ink = leaf)
+    lotus (water-lily blush):   wash #F7E1DD / ink #8A2F3C / leaf #F0B9B4   (forest: wash #33212A)
+    monsoon (rain sky):         wash #DEEBF2 / ink #22506A / leaf #A8D1DF   (forest: wash #152F39; = the gate's not sure)
+    hyacinth (water hyacinth):  wash #E8E1F2 / ink #553F86 / leaf #C6B7E4   (forest: wash #262238)
+    moss (young paddy, sage):   wash #E2EBD9 / ink #2F5A35 / leaf #B9CFA8   (forest: wash #18311F)
+    terracotta (village clay):  wash #F6DFD1 / ink #8A3A1C / leaf #EF9E80   (forest: wash #35231A; = the gate's new or risky)
+    aubergine (deep accent):    #3A2340 band (#2B1A30 in the forest theme), cream ink; never a gradient into indigo or purple
+  map scale (--map-0..5, builder M): #E6ECDF #F5E7B2 #F4CC94 #EDA383 #CF6F66 #8C3550, forest ink on 0-4, cream on 5
 typography:
   display: Fraunces (variable, opsz 9-144, self-hosted, preloaded): headlines, the wordmark, big numbers (.figure)
   sans: Inter (variable, self-hosted, preloaded): everything you read or tap; eyebrows in Inter 650 caps, 0.15em
@@ -33,6 +42,7 @@ radius: {doc: 3, ui: 12, frame: 22, pill: 999, sheet: "clamp(24px, 3.4vw, 44px)"
 art: the deck's own line art (public/art/*.webp, 6-185 KB): field lines and a gold ring (hero), a mustard-flower branch
   (page tops), a leaf corner (forest page heroes), a rice plant (footer), the leaf with gold detection corners (the phone)
 motion: expo-out (.16,1,.3,1) for reveals and sheets; quint-out for UI; reduced motion: short fades only
+hero: a scroll story told by a field of leaves (Canvas 2D, lazy chunk, no WebGL); loader: the mark draws itself (index.html)
 ---
 
 # KrishiLoop design system: "Field Guide"
@@ -51,8 +61,8 @@ art from it, so the deck and the product read as one thing.
 - Thin botanical line art as quiet decoration (`.botanic`, `.page-dawn`), never under text that must be read.
 
 **Home, in the deck's order:** the hero (the Bangla name over a Fraunces wordmark, the promise "a crop doctor, farm
-adviser and weather warning in every farmer's pocket, in Bangla", three numbered problems, a phone showing the leaf with
-gold detection corners and the gate's answer, two glass alerts; all labelled Illustration), then the product: 01 Crop
+adviser and weather warning in every farmer's pocket, in Bangla", the two actions, and the leaf story beside them; see
+"The hero" below), then the product: 01 Crop
 Guardian (teacher-student, offline, the three-way gate with measured shares, the "where it looked" map), 02 Climate
 Shield, 03 village disease radar, 04 precision savings, 05 Bangla voice and basic phones, 06 the officer and human
 expert, 07 trust: the receipt anyone can check, and recall. The receipt print demo lives on /receipt and lower on home.
@@ -71,6 +81,15 @@ in the register, so they are not on the site.
   - **Ember** marks a recall.
   - Go, wait and stop are verdicts and decisions, always with an icon and a word.
   - Carbon (dashed) marks sample, recorded or replay data.
+- **The painter's palette** (19 Nov v4) is how the page stops being all green, and it carries meaning too:
+  - **Section bands** alternate: forest (hero, "who it is for"), cream (the product), monsoon wash (the system),
+    aubergine (we asked AI first), cream (the bento), paper, moss wash (the honest status), a lotus card (the end).
+  - **Each product plate and bento tile wears its own pastel**: crop doctor moss, weather monsoon, disease radar lotus,
+    savings butter, voice hyacinth, officer terracotta; its number and rule take the pastel's ink.
+  - **The map scale** (`--map-0`…`--map-5`) runs pale sage, butter, apricot, terracotta, clay rose, deep lotus.
+  - **The gate**: not sure is the monsoon leaf, new or risky the terracotta leaf (the deck's own values).
+  - Text on any wash is ink (or the wash's own ink); `npm run contrast` checks every pair in both themes.
+  - Never an indigo-to-purple gradient: aubergine is one flat deep band.
 - **Never colour alone.** Every state has an icon and a word.
 - **Every visual carries data:** a real receipt, a real rule id, measured numbers. If a graphic could be swapped for a
   random glow, delete it.
@@ -85,7 +104,42 @@ in the register, so they are not on the site.
   - **Spotlight cards** (`.surface` with `spotlight()`) for content.
   - **Paper** (`.paper-object`) for receipts and printed rules.
 
+## The hero: a story told by leaves (builder H, 19 Nov v4)
+The owner asked for leaves and branches that move and turn into new shapes, like the particle field in their UVERA
+project, but with no WebGL. The hero is a forest band pinned for six stretches of scroll. Beside the headline (which
+never moves or fades), a few hundred leaf sprites on a 2D canvas form one picture per stretch, with one plain line under
+it: 01 a rice plant swaying (your field), 02 one leaf with a lesion and the crop doctor's gold corners, 03 a cloud, rain
+and a bolt (the weather warning), 04 Bangladesh with three hot spots (the village disease map), 05 a receipt with a
+stamp and a tick, 06 the KrishiLoop loop with the pastels orbiting it.
+
+- **Files:** `features/home/story/steps.ts` (the six lines, first screen), `story/shapes.ts` and `story/field.ts` (the
+  leaves: one lazy chunk, about 6 KB gzipped, loaded after the page's load event).
+- **Motion:** each picture holds still for the first part of its stretch and morphs in the second, so a reader who stops
+  always sees a whole picture; leaves fly on curved paths and tumble, staggered. The pointer pushes leaves like wind, a
+  tap is a gust. The first visit's leaves blow in from the right.
+- **Budget:** 300 leaves at 30 fps on phones, 680 elsewhere; the loop stops off screen and in a hidden tab.
+- **Reduced motion:** no loop, no wind: each picture is drawn once, still, when its step comes.
+- **Honesty and access:** the canvas is `aria-hidden` and labelled "Illustration: drawn leaves, not real data" (the hot
+  spots are not reports); the six lines are a list for screen readers; dots are buttons ("Go to step 3: Weather
+  warning"); "Skip the story" jumps past the band. The caption keeps a fixed height, so nothing shifts.
+
+## The loader (index.html, builder H)
+On the first page of a browser session, inline SVG and CSS (no JavaScript needed) draw the mark while the app's code
+loads: the ring draws itself (stroke-dashoffset), the dot pops, a leaf sprouts from it. It leaves as soon as the page
+has its headline (an h1 in `#root`), and after 0.9 s at the latest (gone by 1.2 s). `aria-hidden`, no pointer events, one
+`role="status"` line ("Loading KrishiLoop", Bangla when the page is Bangla), removed once faded. Reduced motion: the mark
+stands still and fades. A later page in the same session shows nothing.
+
 ## The kit (`src/ui/kit/`, `src/styles/kit.css`)
+
+### Added on 19 Nov v4 (builder H)
+| Piece | What it does |
+|---|---|
+| `autoTilt` (`ui/kit/autoTilt.ts`, loaded by `SiteLayout` for a desktop mouse only) | Any `[data-tilt]` element (and the home plates' art panels) leans toward the mouse: one delegated listener, CSS variables, no re-render. `data-tilt="4"` sets the largest lean. Off on touch, while dragging, and under reduced motion. |
+| Link cards | `a.surface` lifts 3 px toward the hand on hover. |
+| `.btn-secondary` | Fills with ink from below on hover, like the liquid pills. |
+| `.seg` | The segment under the hand warms before it is chosen. |
+| Home plates | The "open" pill fills with the plate's own pastel ink. |
 
 ### Added on 19 Nov (use these; P and R included)
 
@@ -144,7 +198,7 @@ Every inner page opens under the deck's mustard-flower branch and field lines (`
 
 | Page | Layout |
 |---|---|
-| `/` | The deck's order (see the top of this file): forest hero with the phone illustration and glass alerts, the product magazine with a sticky index (scroll-spy) and seven alternating plates, then the forest "who it is for" band (verified facts, bars drawn to scale, the ways to use it). |
+| `/` | The deck's order (see the top of this file): the forest hero with the leaf story (pinned, six pictures), the product magazine with a sticky index (scroll-spy) and seven plates in their own pastels, then the forest "who it is for" band (verified facts, bars drawn to scale, the ways to use it). |
 | `/receipt`, `/trust`, `/proof` | Open with a forest band (`.kg-pagehero`) under the nav; /proof has a glass numbered table of contents. |
 | `/officer`, `/verify`, `/about` | Cream, Fraunces titles and display figures, gold eyebrows, the field art at the top. |
 | footer | A forest band with the deck's rice plant, the big sentence and the two actions (plain links in liquid pills: the shell never loads Motion). |

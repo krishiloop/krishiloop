@@ -114,14 +114,26 @@ test('header: every page is one click away, and the phone menu works', async ({ 
   const nav = page.getByRole('navigation', { name: 'Main' }).first();
   for (const [name, path] of [
     ['Farmer app', '/app'],
-    ['Officer', '/officer'],
-    ['Verify', '/verify'],
-    ['Trust', '/trust'],
-    ['Proof', '/proof'],
+    ['Disease map', '/map'],
+    ['Try it yourself', '/try'],
+    ['Officer desk', '/officer'],
+    ['Check a receipt', '/verify'],
+  ] as const) {
+    await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('href', path);
+  }
+  // the less-used pages sit under "More" (a disclosure: Escape closes it)
+  const more = nav.getByRole('button', { name: 'More' });
+  await more.click();
+  await expect(more).toHaveAttribute('aria-expanded', 'true');
+  for (const [name, path] of [
+    ['Photo AI accuracy', '/trust'],
+    ['Evidence', '/proof'],
     ['About', '/about'],
   ] as const) {
     await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('href', path);
   }
+  await page.keyboard.press('Escape');
+  await expect(more).toHaveAttribute('aria-expanded', 'false');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('button', { name: 'Menu' }).click();
   const sheet = page.getByRole('dialog', { name: 'Menu' });

@@ -1,0 +1,102 @@
+/* The "Try it" strip (TryTeaser): four pastel shortcuts into /try. Hover lifts only with a fine pointer. */
+@import './tones.css';
+
+.try-strip {
+  display: grid;
+  gap: 1rem;
+}
+.try-strip-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 1rem;
+}
+.try-strip-head .eyebrow {
+  flex-basis: 100%;
+}
+.try-strip-title {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-head);
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+.try-strip-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.try-strip-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.try-strip-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 76px;
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  background: var(--tone);
+  border: 1px solid color-mix(in oklab, var(--tone-ink) 22%, transparent);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition:
+    transform 260ms var(--ease-out),
+    box-shadow 260ms var(--ease-out);
+}
+.try-strip-item:active {
+  transform: scale(0.98);
+}
+.try-strip-item:focus-visible,
+.try-strip-all:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.try-strip-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--color-card) 72%, transparent);
+  color: var(--tone-ink);
+}
+.try-strip-name {
+  display: block;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+.try-strip-sub {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.84rem;
+  color: var(--color-ink-2);
+}
+.try-strip-arrow {
+  flex: none;
+  margin-left: auto;
+  color: var(--tone-ink);
+  transition: transform 260ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .try-strip-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
+  .try-strip-item:hover .try-strip-arrow {
+    transform: translateX(3px);
+  }
+}

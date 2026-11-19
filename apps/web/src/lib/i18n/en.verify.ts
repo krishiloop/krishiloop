@@ -159,7 +159,7 @@ const verify = {
   'vf.photoRef.link': 'Check that trust',
 
   /* ---------------------------------------------------------------- area trust credential */
-  'vf.area.header': 'Area trust',
+  'vf.area.header': 'Photo AI trust in this area',
   'vf.area.verdicts': 'Officer verdicts',
   'vf.area.sure': 'Sure answers',
   'vf.area.sureVal': '{right} right of {n}',

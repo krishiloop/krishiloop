@@ -6,7 +6,7 @@
 const farmer = {
   /* ---------------------------------------------------------------- frame */
   'fa.h1': 'KrishiLoop farmer app',
-  'fa.guide': 'Guide',
+  'fa.guide': 'How to use',
   'fa.guideSub': 'Pick a sample field and farmer, see what to try, and watch what really happens.',
   'fa.install': 'Install app',
   'fa.head.sample': 'sample point',
@@ -208,7 +208,7 @@ const farmer = {
 
   /* ---------------------------------------------------------------- glass-box rails */
   'fa.rail.aria': 'Demo controls',
-  'fa.rail.eyebrow': 'Glass-box demo',
+  'fa.rail.eyebrow': 'Demo',
   'fa.rail.title': 'Try it as a farmer',
   'fa.rail.sub': 'Sample fields, no real farmer. Every answer is real.',
   'fa.rail.field': 'Field',
@@ -228,8 +228,8 @@ const farmer = {
   'fa.try.todoSr': 'To do:',
 
   /* ---------------------------------------------------------------- the inspector */
-  'fa.ins.title': 'Inspector',
-  'fa.ins.sub': 'What really happened, newest first.',
+  'fa.ins.title': 'Activity log',
+  'fa.ins.sub': 'Every request and answer, newest first.',
   'fa.ins.clear': 'Clear',
   'fa.ins.empty': 'Each call the app makes appears here.',
   'fa.ins.recorded': 'recorded',
@@ -288,8 +288,8 @@ const farmer = {
   'fa.ins.rebuilt': 'plan rebuilt',
   'fa.ins.error': 'error',
   /* ---------------------------------------------------------------- behind the tap (the trace rail) */
-  'fa.tr.aria': 'Behind the tap',
-  'fa.tr.title': 'Behind the tap',
+  'fa.tr.aria': 'How this answer was made',
+  'fa.tr.title': 'How this answer was made',
   'fa.tr.idle': 'Tap something in the app.',
   'fa.tr.working': 'Working on {what}…',
   'fa.tr.order': 'Steps light in the order the answer reports them. Only real ids and versions.',

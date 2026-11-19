@@ -1,4 +1,6 @@
 import { ProductIndex } from './ProductIndex';
+import { MapTeaser } from '../map/MapTeaser';
+import { TryTeaser } from '../try/TryTeaser';
 import { WhyBand } from './WhyBand';
 import { FlowBeams } from './FlowBeams';
 import { BotsBand, EndBand, StatusBand } from './Bands';
@@ -15,6 +17,8 @@ export default function HomeRest() {
   return (
     <>
       <ProductIndex />
+      <MapTeaser />
+      <TryTeaser />
       <WhyBand />
       <FlowBeams />
       <BotsBand />

@@ -11,7 +11,7 @@ import type trust from './en.trust';
 
 const d: Record<keyof typeof trust, string> = {
   /* ---------------------------------------------------------------- shared */
-  'trust.title': 'এলাকার আস্থা',
+  'trust.title': 'ছবি-এআই কীভাবে আস্থা অর্জন করে',
   'trust.label.healthy': 'সুস্থ',
   'trust.label.blast': 'ব্লাস্ট',
   'trust.label.brown_spot': 'বাদামি দাগ',
@@ -48,7 +48,7 @@ const d: Record<keyof typeof trust, string> = {
   'trust.moment.sr.closed': '{area} এলাকায় আস্থা তুলে নেওয়া হয়েছে।',
 
   /* ---------------------------------------------------------------- the trust page (/trust, rebuilt Oct 29) */
-  'tp.eyebrow': 'অর্জিত আস্থা · ছবি দেখে রোগ চেনা',
+  'tp.eyebrow': 'ছবি-এআই · এলাকা ধরে যাচাই',
   'tp.title': 'ছবির উত্তরকে আস্থা অর্জন করতে হয়, এক এলাকা করে।',
   'tp.lead': 'আগে কর্মকর্তা উত্তর দেন। কোনো এলাকায় তাঁদের উত্তরে যদি দেখা যায় মডেল যথেষ্ট বার ঠিক বলছে, তবে শুধু সেখানেই ফটক খোলে; তাঁরা একমত না হলে আবার বন্ধ হয়।',
   'tp.hero.bound': 'এখনকার নিম্নসীমা',

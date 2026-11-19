@@ -171,7 +171,7 @@ test('booking: validation, the confirmation with a masked phone, and the case in
 /* ------------------------------------------------------------------ the officer's radar */
 test('radar: the map, the SIMULATION label, k-anonymous cells, hidden counts and warn neighbours', async ({ page }) => {
   await page.goto('/officer?tab=radar&sample=1&lang=en');
-  await expect(page.getByRole('tab', { name: /Outbreak radar/ })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('tab', { name: /Disease reports map/ })).toHaveAttribute('aria-selected', 'true');
   const radar = page.getByTestId('kg-radar');
   await expect(radar).toBeVisible();
   // recorded mode starts on the simulated scenario, labelled on the map and above it

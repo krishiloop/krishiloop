@@ -14,6 +14,10 @@ import proof from './en.proof';
 import krishiguard from './en.krishiguard'; // builder R: climate, radar, calculator, visit
 import radartab from './en.radartab'; // builder R: the officer's radar tab label
 import photoai from './en.photoai'; // builder P: AgriTriage-Lite photo model
+import diseaseMap from './en.map'; // builder M: the Disease map
+import tryPage from './en.try'; // builder I: the /try tools
+import tryStrip from './en.trystrip'; // builder I: the "Try it" strip
+import homestory from './en.homestory'; // builder H: the home hero story
 
 const en = {
   ...ui,
@@ -27,6 +31,10 @@ const en = {
   ...krishiguard,
   ...radartab,
   ...photoai,
+  ...diseaseMap,
+  ...tryPage,
+  ...tryStrip,
+  ...homestory,
 } as const satisfies Record<string, string>;
 
 export default en;

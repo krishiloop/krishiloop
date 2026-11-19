@@ -8,7 +8,7 @@ import type farmer from './en.farmer';
 const d: Record<keyof typeof farmer, string> = {
   /* ---------------------------------------------------------------- frame */
   'fa.h1': 'কৃষিলুপ কৃষক অ্যাপ',
-  'fa.guide': 'গাইড',
+  'fa.guide': 'কীভাবে ব্যবহার করবেন',
   'fa.guideSub': 'একটি নমুনা জমি ও কৃষক বেছে নিন, কী চেষ্টা করবেন দেখুন, আর আসলে কী ঘটে তা দেখুন।',
   'fa.install': 'অ্যাপ ইনস্টল করুন',
   'fa.head.sample': 'নমুনা জায়গা',
@@ -210,7 +210,7 @@ const d: Record<keyof typeof farmer, string> = {
 
   /* ---------------------------------------------------------------- glass-box rails */
   'fa.rail.aria': 'ডেমো নিয়ন্ত্রণ',
-  'fa.rail.eyebrow': 'স্বচ্ছ ডেমো',
+  'fa.rail.eyebrow': 'ডেমো',
   'fa.rail.title': 'কৃষক হিসেবে চেষ্টা করুন',
   'fa.rail.sub': 'নমুনা জমি, কোনো আসল কৃষক নেই। প্রতিটি উত্তর আসল।',
   'fa.rail.field': 'জমি',
@@ -230,8 +230,8 @@ const d: Record<keyof typeof farmer, string> = {
   'fa.try.todoSr': 'বাকি:',
 
   /* ---------------------------------------------------------------- the inspector */
-  'fa.ins.title': 'পরিদর্শক',
-  'fa.ins.sub': 'আসলে যা ঘটেছে, নতুনটি আগে।',
+  'fa.ins.title': 'কাজের খাতা',
+  'fa.ins.sub': 'প্রতিটি অনুরোধ আর উত্তর, নতুনটি আগে।',
   'fa.ins.clear': 'মুছুন',
   'fa.ins.empty': 'অ্যাপের প্রতিটি অনুরোধ এখানে দেখা যাবে।',
   'fa.ins.recorded': 'রেকর্ড করা',
@@ -290,8 +290,8 @@ const d: Record<keyof typeof farmer, string> = {
   'fa.ins.rebuilt': 'পরিকল্পনা নতুন করে তৈরি',
   'fa.ins.error': 'ত্রুটি',
   /* ---------------------------------------------------------------- behind the tap (the trace rail) */
-  'fa.tr.aria': 'ট্যাপের পেছনে',
-  'fa.tr.title': 'ট্যাপের পেছনে',
+  'fa.tr.aria': 'এই উত্তর কীভাবে তৈরি হলো',
+  'fa.tr.title': 'এই উত্তর কীভাবে তৈরি হলো',
   'fa.tr.idle': 'অ্যাপে কিছু একটা চাপুন।',
   'fa.tr.working': '{what} নিয়ে কাজ চলছে…',
   'fa.tr.order': 'উত্তর যে ক্রমে ধাপগুলো জানায়, সেই ক্রমেই জ্বলে। শুধু আসল আইডি আর সংস্করণ।',

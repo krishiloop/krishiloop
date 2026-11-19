@@ -6,7 +6,7 @@
  */
 const trust = {
   /* ---------------------------------------------------------------- shared */
-  'trust.title': 'Area trust',
+  'trust.title': 'How the photo AI earns trust',
   'trust.label.healthy': 'Healthy',
   'trust.label.blast': 'Blast',
   'trust.label.brown_spot': 'Brown spot',
@@ -43,7 +43,7 @@ const trust = {
   'trust.moment.sr.closed': 'Trust withdrawn in {area}.',
 
   /* ---------------------------------------------------------------- the trust page (/trust, rebuilt Oct 29) */
-  'tp.eyebrow': 'Earned trust · photo diagnosis',
+  'tp.eyebrow': 'Photo AI · checked area by area',
   'tp.title': 'Photo answers earn trust one area at a time.',
   'tp.lead': 'Officers answer first. When their answers show the model is right often enough in one area, a gate opens there, and it closes again if they stop agreeing.',
   'tp.hero.bound': 'Lower bound now',

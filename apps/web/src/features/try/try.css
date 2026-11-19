@@ -1,0 +1,1167 @@
+/* /try: six tools, each a pastel card (tones.css: builder H's painter's palette). The pastel frames the tool; what
+   you read and touch sits on the theme's own card colour. Only transform and opacity animate. Thumbs first: every
+   target is 44 px or more, and nothing is wider than a 360 px phone. */
+@import './tones.css';
+
+.try-page {
+  padding-bottom: clamp(56px, 8vw, 120px);
+}
+.try-page .chip {
+  white-space: normal;
+  text-align: left;
+}
+
+/* ------------------------------------------------------------------ the top of the page */
+.try-hero {
+  padding-top: clamp(40px, 7vw, 96px);
+  padding-bottom: clamp(24px, 4vw, 44px);
+}
+.try-hero-title {
+  max-width: 17ch;
+  margin-top: 0.8rem;
+}
+.try-hero-lead {
+  max-width: 58ch;
+  margin-top: 1rem;
+  color: var(--color-ink-2);
+}
+.try-hero-honest {
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--color-ink-2);
+}
+.try-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+.try-jump-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.45rem 1rem 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: var(--tone);
+  border: 1px solid color-mix(in oklab, var(--tone-ink) 28%, transparent);
+  color: var(--color-ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 220ms var(--ease-out);
+}
+@media (max-width: 639px) {
+  .try-jump {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .try-jump-link {
+    border-radius: 16px;
+    font-size: 0.84rem;
+    line-height: 1.25;
+  }
+}
+.try-jump-link .mono {
+  color: var(--tone-ink);
+  font-size: 0.78rem;
+}
+.try-jump-link:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .try-jump-link:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ------------------------------------------------------------------ the grid of tools (asymmetric on wide screens) */
+.try-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 28px);
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .try-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .try-card.is-wide {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1100px) {
+  .try-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .try-card {
+    grid-column: span 6;
+  }
+  .try-card.is-wide {
+    grid-column: 1 / -1;
+  }
+  #leaf,
+  #recall {
+    grid-column: span 7;
+  }
+  #receipt,
+  #savings {
+    grid-column: span 5;
+  }
+}
+
+.try-card {
+  position: relative;
+  min-width: 0;
+  padding: clamp(16px, 3vw, 30px);
+  border-radius: var(--radius-frame, 22px);
+  background: var(--tone);
+  border: 1px solid color-mix(in oklab, var(--tone-ink) 20%, transparent);
+  scroll-margin-top: calc(var(--header-h, 72px) + 16px);
+}
+.try-card-head {
+  display: flex;
+  gap: clamp(12px, 2vw, 20px);
+  align-items: flex-start;
+}
+.try-num {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 1.6rem + 1.8vw, 3rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--tone-ink);
+  font-variant-numeric: tabular-nums;
+}
+.try-card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-head);
+  line-height: 1.12;
+  font-weight: 560;
+  color: var(--color-ink);
+}
+.try-card-help {
+  margin-top: 0.35rem;
+  max-width: 52ch;
+  font-size: 0.95rem;
+  color: var(--color-ink-2);
+}
+.try-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+.try-card-body {
+  margin-top: clamp(14px, 2vw, 22px);
+}
+
+/* the controls sit on the pastel; the answer on a card */
+.try-split {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .is-wide .try-split {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(18px, 2.6vw, 32px);
+  }
+  .is-wide .try-result {
+    position: sticky;
+    top: calc(var(--header-h, 72px) + 16px);
+  }
+}
+.try-controls {
+  display: grid;
+  gap: 1.05rem;
+  min-width: 0;
+}
+.try-result {
+  min-width: 0;
+  padding: clamp(14px, 2.4vw, 22px);
+  border-radius: 18px;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  box-shadow: var(--shadow-lift);
+}
+.try-pack {
+  margin-top: -0.4rem;
+  font-size: 0.82rem;
+  color: var(--color-ink-2);
+}
+.try-group {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.9rem 0 0;
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--tone-ink) 22%, transparent);
+}
+.try-group-title {
+  padding: 0;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tone-ink);
+}
+.try-group-title:is(:lang(bn)) {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+.try-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+/* ------------------------------------------------------------------ sliders and choices */
+.try-slider {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.try-slider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.try-slider-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+.try-slider-value {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--tone-ink);
+  font-variant-numeric: tabular-nums;
+}
+.try-slider-value:is(:lang(bn), :lang(hi)),
+.try-bar-val:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+}
+.try-slider-hint {
+  font-size: 0.8rem;
+  color: var(--color-ink-2);
+}
+.try-slider input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.try-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--tone-ink) var(--pct), color-mix(in oklab, var(--color-ink) 18%, transparent) var(--pct));
+}
+.try-slider input[type="range"]::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--tone-ink) var(--pct), color-mix(in oklab, var(--color-ink) 18%, transparent) var(--pct));
+}
+.try-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: var(--color-card);
+  border: 2px solid var(--tone-ink);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.22);
+  transition: transform 160ms var(--ease-out);
+}
+.try-slider input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-card);
+  border: 2px solid var(--tone-ink);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.22);
+}
+.try-slider input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.14);
+}
+.try-slider input[type="range"]:focus-visible {
+  outline: none;
+}
+.try-slider input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.try-slider input[type="range"]:focus-visible::-moz-range-thumb {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.try-choice {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.try-choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+.try-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--tone-ink) 38%, transparent);
+  background: color-mix(in oklab, var(--color-card) 72%, transparent);
+  color: var(--color-ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out);
+}
+.try-pill input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.try-pill.is-on {
+  background: var(--tone-ink);
+  border-color: var(--tone-ink);
+  color: var(--tone);
+}
+.try-pill:has(input:focus-visible) {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+.try-pill:active {
+  transform: scale(0.97);
+}
+
+.try-chipbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-rule-2, var(--color-rule));
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: transform 160ms var(--ease-out);
+}
+.try-chipbtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.try-chipbtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.try-chipbtn:focus-visible,
+.try-more:focus-visible,
+.try-recall-btn:focus-visible,
+.try-input:focus-visible,
+.try-bar:focus-visible,
+.try-link:focus-visible,
+.try-preview summary:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* phones: the answer in sight while the sliders move (sticks to the foot of the controls, never past them) */
+.try-peek {
+  position: sticky;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 0.4rem 1.1rem 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule-2, var(--color-rule));
+  box-shadow: var(--shadow-pop);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.try-peek-label {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+.try-peek-label:is(:lang(bn)) {
+  letter-spacing: 0;
+  font-size: 0.82rem;
+}
+.try-peek-word {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.1;
+  animation: try-flip 420ms var(--ease-out-expo) both;
+}
+.try-peek.is-go .try-peek-word {
+  color: var(--color-go);
+}
+.try-peek.is-stop .try-peek-word {
+  color: var(--color-stop);
+}
+.try-peek.is-wait .try-peek-word {
+  color: var(--color-wait);
+}
+.try-peek:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+@media (min-width: 900px) {
+  .try-peek {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ the answer: a scale of four words, one lit */
+.try-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.try-scale-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px dashed var(--color-rule-2, var(--color-rule));
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-ink-2);
+  transition:
+    background-color 220ms var(--ease-out),
+    color 220ms var(--ease-out);
+}
+.try-scale-step.is-on {
+  border-style: solid;
+}
+.try-scale-step.is-on.is-go {
+  background: var(--color-go-wash);
+  color: var(--color-go);
+  border-color: color-mix(in oklab, var(--color-go) 45%, transparent);
+}
+.try-scale-step.is-on.is-stop {
+  background: var(--color-stop-wash);
+  color: var(--color-stop);
+  border-color: color-mix(in oklab, var(--color-stop) 45%, transparent);
+}
+.try-scale-step.is-on.is-wait {
+  background: var(--color-wait-wash);
+  color: var(--color-wait);
+  border-color: color-mix(in oklab, var(--color-wait) 45%, transparent);
+}
+.try-word {
+  margin: 0.7rem 0 0.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 1.6rem + 2.6vw, 3.4rem);
+  font-weight: 560;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transform-origin: 50% 100%;
+  animation: try-flip 460ms var(--ease-out-expo) both;
+}
+.try-word.is-go {
+  color: var(--color-go);
+}
+.try-word.is-stop {
+  color: var(--color-stop);
+}
+.try-word.is-wait {
+  color: var(--color-wait);
+}
+@keyframes try-flip {
+  from {
+    opacity: 0;
+    transform: perspective(520px) rotateX(-72deg) translateY(0.12em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes try-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes try-pop {
+  from {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes try-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.try-rule {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+.try-rule-id {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--color-ink);
+}
+.try-rule-says {
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+.try-quote {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--tone-ink);
+  border-radius: 0 10px 10px 0;
+  background: color-mix(in oklab, var(--tone) 55%, var(--color-card));
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+.try-src {
+  font-size: 0.8rem;
+}
+.try-src a,
+.try-context a {
+  color: var(--color-ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.try-abstain {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  background: var(--color-wait-wash);
+  color: var(--color-ink);
+}
+.try-abstain > svg {
+  color: var(--color-wait);
+  margin-top: 0.1rem;
+}
+.try-facts {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.85rem;
+}
+.try-facts dt {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.try-facts dd {
+  margin: 0;
+  color: var(--color-ink-2);
+}
+.try-team {
+  font-size: 0.78rem;
+  color: var(--color-wait);
+}
+.try-also {
+  margin-top: 1rem;
+}
+.try-also ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.88rem;
+  color: var(--color-ink-2);
+}
+.try-also li {
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--color-rule-2, var(--color-rule));
+}
+.try-never {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  color: var(--color-ink-2);
+}
+.try-never svg {
+  flex: none;
+  margin-top: 0.15rem;
+}
+
+/* the receipt preview: carbon-dashed paper, because it is not a signed receipt */
+.try-preview {
+  margin-top: 0.9rem;
+}
+.try-preview summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--color-ink);
+  cursor: pointer;
+  list-style: none;
+}
+.try-preview summary::-webkit-details-marker {
+  display: none;
+}
+.try-paper {
+  margin-top: 0.4rem;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px dashed color-mix(in oklab, var(--color-carbon) 70%, transparent);
+  background: var(--color-sunk);
+  font-size: 0.85rem;
+  animation: try-rise 340ms var(--ease-out-expo) both;
+}
+.try-paper-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.try-paper-rows {
+  display: grid;
+  grid-template-columns: 6.4rem minmax(0, 1fr);
+  gap: 0.5rem 0.75rem;
+  margin: 0.85rem 0 0;
+}
+.try-paper-rows dt {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  padding-top: 0.12rem;
+}
+.try-paper-rows dt:is(:lang(bn)) {
+  letter-spacing: 0;
+  font-size: 0.82rem;
+}
+.try-paper-rows dd {
+  margin: 0;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+.try-paper-note {
+  margin-top: 0.85rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--color-rule-2, var(--color-rule));
+  font-size: 0.8rem;
+  color: var(--color-ink-2);
+}
+
+/* ------------------------------------------------------------------ weather: the practice week */
+.try-presets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+.try-presets .try-slider-label {
+  margin-right: 0.2rem;
+}
+.try-bars {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.try-bars-plot {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: clamp(4px, 1.4vw, 10px);
+}
+.try-bar-col {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.try-bar {
+  position: relative;
+  width: 100%;
+  max-width: 46px;
+  height: 112px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--color-card) 78%, transparent);
+  border: 1px solid color-mix(in oklab, var(--tone-ink) 30%, transparent);
+  cursor: ns-resize;
+  touch-action: none;
+}
+.try-bar::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: var(--line);
+  border-top: 2px dashed var(--color-stop);
+  pointer-events: none;
+}
+.try-bar-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  transition: transform 120ms linear;
+  will-change: transform;
+}
+.is-rain .try-bar-fill {
+  background: var(--color-monsoon-ink, #22506a);
+}
+.is-heat .try-bar-fill {
+  background: var(--color-terracotta-ink, #8a3a1c);
+}
+.try-bar.is-over .try-bar-fill {
+  background: var(--color-stop);
+}
+.try-bar-val {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.try-bar-day {
+  font-size: 0.7rem;
+  color: var(--color-ink-2);
+}
+.try-bars-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--color-ink-2);
+}
+.try-bars-dash {
+  width: 20px;
+  border-top: 2px dashed var(--color-stop);
+}
+
+.try-wcount {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-display);
+  font-size: var(--text-head);
+  line-height: 1.15;
+  color: var(--color-ink);
+  animation: try-fade 280ms var(--ease-out) both;
+}
+.try-checks {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.try-check {
+  padding: 0.7rem 0.8rem;
+  border-radius: 14px;
+  border: 1px solid var(--color-rule);
+  background: var(--color-card);
+  transition: border-color 220ms var(--ease-out);
+}
+.try-check.is-warn {
+  border-color: color-mix(in oklab, var(--color-stop) 50%, var(--color-rule));
+  background: color-mix(in oklab, var(--color-stop-wash) 55%, var(--color-card));
+}
+.try-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+.try-check-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--color-go-wash);
+  color: var(--color-go);
+  animation: try-pop 340ms var(--ease-out) both;
+}
+.is-warn .try-check-icon {
+  background: var(--color-stop-wash);
+  color: var(--color-stop);
+}
+.is-unknown .try-check-icon {
+  background: var(--color-wait-wash);
+  color: var(--color-wait);
+}
+.try-check-line {
+  margin-top: 0.15rem;
+  font-size: 0.88rem;
+  color: var(--color-ink-2);
+}
+.try-check-cite {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--color-ink);
+}
+.try-more {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -0.3rem -0.4rem 0 0;
+  border-radius: 12px;
+  color: var(--color-ink-2);
+}
+.try-chev {
+  transition: transform 220ms var(--ease-out);
+}
+.try-chev.is-open {
+  transform: rotate(180deg);
+}
+.try-check-body {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--color-rule-2, var(--color-rule));
+  animation: try-rise 280ms var(--ease-out) both;
+}
+.try-context {
+  font-size: 0.84rem;
+  color: var(--color-ink-2);
+}
+
+/* ------------------------------------------------------------------ the leaf photo */
+.try-leaf {
+  display: grid;
+  gap: 0.9rem;
+}
+.try-leaf-start {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+.try-busy {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+}
+.try-leaf-out {
+  display: grid;
+  gap: 1.15rem;
+  padding: clamp(14px, 2.4vw, 20px);
+  border-radius: 18px;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  box-shadow: var(--shadow-lift);
+  animation: try-rise 380ms var(--ease-out-expo) both;
+}
+.try-gate {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.try-gate-step {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 40px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 12px;
+  border: 1px dashed var(--color-rule-2, var(--color-rule));
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-ink-2);
+}
+.try-gate-step.is-on {
+  border-style: solid;
+  border-color: transparent;
+  color: #14261c;
+  animation: try-pop 360ms var(--ease-out) both;
+}
+.try-gate-step.is-on.is-sure {
+  background: var(--color-gate-sure, #e2a93b);
+}
+.try-gate-step.is-on.is-unsure {
+  background: var(--color-gate-unsure, #a8d1df);
+}
+.try-gate-step.is-on.is-risky {
+  background: var(--color-gate-risky, #ef9e80);
+}
+.try-top {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.try-top-bar {
+  display: block;
+  height: 6px;
+  margin-top: 0.3rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--color-ink) 12%, transparent);
+}
+.try-top-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--tone-ink);
+  transform-origin: 0 50%;
+  transition: transform 520ms var(--ease-out-expo);
+}
+.try-cmp {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin-top: 0.5rem;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.try-cmp-wait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ------------------------------------------------------------------ check a receipt */
+.try-rc {
+  display: grid;
+  gap: 0.55rem;
+}
+.try-rc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.try-input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-rule-2, var(--color-rule));
+  background: var(--color-card);
+  color: var(--color-ink);
+  font-size: 1.02rem;
+}
+.try-input::placeholder {
+  color: var(--color-ink-3);
+}
+.try-rc-open {
+  min-height: 48px;
+}
+.try-rc-open:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.try-rc-state {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 1.6rem;
+  font-size: 0.88rem;
+  color: var(--color-ink-2);
+}
+.try-rc-state.is-ok {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.try-rc-state.is-ok svg {
+  color: var(--color-go);
+}
+.try-rc-sample {
+  display: grid;
+  justify-items: start;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed color-mix(in oklab, var(--tone-ink) 35%, transparent);
+}
+
+/* ------------------------------------------------------------------ recall */
+.try-recall {
+  display: grid;
+  gap: 0.9rem;
+}
+.try-tickets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 178px), 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.try-ticket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0.8rem 0.9rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-rule);
+  border-left: 4px solid var(--color-go);
+  background: var(--color-card);
+  box-shadow: var(--shadow-lift);
+  transition:
+    border-color 260ms var(--ease-out),
+    background-color 260ms var(--ease-out);
+}
+.try-ticket.is-recalled {
+  border-left-color: var(--color-stop);
+  background: color-mix(in oklab, var(--color-stop-wash) 40%, var(--color-card));
+}
+.try-ticket-title {
+  margin: 0.3rem 0;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.try-ticket-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.3rem;
+}
+.try-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.try-recall-actions {
+  display: grid;
+  justify-items: stretch;
+  gap: 0.45rem;
+}
+.try-recall-actions .try-chipbtn {
+  justify-self: start;
+}
+.try-recall-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 54px;
+  padding: 0.55rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--color-stop) 40%, var(--color-rule));
+  background: var(--color-card);
+  color: var(--color-ink);
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms var(--ease-out);
+}
+.try-recall-btn > svg {
+  flex: none;
+  color: var(--color-stop);
+}
+.try-recall-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.try-recall-btn.is-done {
+  border-style: dashed;
+  background: var(--color-stop-wash);
+  cursor: default;
+}
+@media (hover: hover) and (pointer: fine) {
+  .try-recall-btn:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-stop-wash) 60%, var(--color-card));
+  }
+}
+
+/* ------------------------------------------------------------------ less motion: short fades only */
+@media (prefers-reduced-motion: reduce) {
+  .try-word,
+  .try-peek-word,
+  .try-check-icon,
+  .try-gate-step.is-on,
+  .try-paper,
+  .try-check-body,
+  .try-leaf-out {
+    animation-name: try-fade;
+  }
+  .try-bar-fill,
+  .try-top-bar > span {
+    transition: none;
+  }
+}
+html.reduce-motion .try-word,
+html.reduce-motion .try-peek-word,
+html.reduce-motion .try-check-icon,
+html.reduce-motion .try-gate-step.is-on,
+html.reduce-motion .try-paper,
+html.reduce-motion .try-check-body,
+html.reduce-motion .try-leaf-out {
+  animation-name: try-fade;
+}

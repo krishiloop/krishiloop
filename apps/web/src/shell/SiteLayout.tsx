@@ -11,6 +11,8 @@ import { NAV_ALL } from './SiteHeader';
 
 const TITLES: [RegExp, Key][] = [
   [/^\/app/, 'ui.nav.app'],
+  [/^\/map/, 'ui.nav.map'],
+  [/^\/try/, 'ui.nav.try'],
   [/^\/officer/, 'ui.nav.officer'],
   [/^\/verify/, 'ui.nav.verify'],
   [/^\/trust/, 'ui.nav.trust'],
@@ -44,6 +46,19 @@ export function SiteLayout() {
 
   useEffect(() => {
     startReveal();
+  }, []);
+  // showcase cards lean toward the mouse: one delegated listener for every page, loaded only for a desktop mouse
+  useEffect(() => {
+    if (!window.matchMedia?.('(hover: hover) and (pointer: fine)').matches) return;
+    let stop: (() => void) | undefined;
+    let dead = false;
+    void import('../ui/kit/autoTilt').then((m) => {
+      if (!dead) stop = m.startAutoTilt();
+    });
+    return () => {
+      dead = true;
+      stop?.();
+    };
   }, []);
 
   useEffect(() => {

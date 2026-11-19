@@ -151,6 +151,33 @@
   --color-carbon: #b9c3f2;
   --color-carbon-wash: #1f2c3a;
 
+  /* The painter's palette: pastels of Bangladeshi fields (DESIGN.md "Palette"). Each colour has three jobs:
+     <name> = the wash behind a section band or a tile; <name>-ink = text and icons on that wash (AA, contrast.mjs);
+     <name>-leaf = the pure pastel for art, leaves, charts and chips (forest ink on it). Forest values here, cream below.
+     butter = rice straw at harvest; lotus = the water lily's blush; monsoon = the rain sky; hyacinth = water hyacinth
+     flowers on the ponds; moss = young paddy, pale sage; terracotta = the clay of village pots and river banks. */
+  --color-butter: #2b2817;
+  --color-butter-ink: #f2d98b;
+  --color-butter-leaf: #f2d98b;
+  --color-lotus: #33212a;
+  --color-lotus-ink: #f0b9b4;
+  --color-lotus-leaf: #f0b9b4;
+  --color-monsoon: #152f39;
+  --color-monsoon-ink: #a8d1df;
+  --color-monsoon-leaf: #a8d1df;
+  --color-hyacinth: #262238;
+  --color-hyacinth-ink: #c6b7e4;
+  --color-hyacinth-leaf: #c6b7e4;
+  --color-moss: #18311f;
+  --color-moss-ink: #b9cfa8;
+  --color-moss-leaf: #b9cfa8;
+  --color-terracotta: #35231a;
+  --color-terracotta-ink: #ef9e80;
+  --color-terracotta-leaf: #ef9e80;
+  /* the deep accent for contrast: aubergine (a band, a dark tile), never as a gradient into indigo or purple */
+  --color-aubergine: #3a2340;
+  --color-aubergine-deep: #2b1a30;
+
   --font-sans: "Inter", "Inter Fallback", "Hind Siliguri", "Hind Siliguri Fallback", "Anek Devanagari Variable", ui-sans-serif, system-ui, "Nirmala UI", sans-serif;
   --font-display: "Fraunces", "Fraunces Fallback", "Hind Siliguri", "Hind Siliguri Fallback", "Anek Devanagari Variable", Georgia, "Nirmala UI", serif;
   --font-serif: "Fraunces", "Fraunces Fallback", "Tiro Bangla", ui-serif, Georgia, "Nirmala UI", serif;
@@ -194,6 +221,23 @@
   --rows: repeating-linear-gradient(176deg, rgb(243 238 226 / 0.05) 0 1px, transparent 1px 34px);
   --header-h: 72px;
   --gutter: clamp(16px, 4.2vw, 56px);
+
+  /* The disease map scale (builder M, /map): six pastel steps from "no reports" to "many reports", lightness falling
+     step by step, so it reads in grey too. The same fills in both themes. Labels on a fill use --map-ink-<n> (AA). */
+  --map-0: #e6ecdf; /* no reports: pale sage */
+  --map-1: #f5e7b2; /* a few: rice-straw butter */
+  --map-2: #f4cc94; /* apricot */
+  --map-3: #eda383; /* terracotta */
+  --map-4: #cf6f66; /* clay rose */
+  --map-5: #8c3550; /* many: deep lotus */
+  --map-ink-0: #14261c;
+  --map-ink-1: #14261c;
+  --map-ink-2: #14261c;
+  --map-ink-3: #14261c;
+  --map-ink-4: #14261c;
+  --map-ink-5: #fffdf8;
+  --map-stroke: #14261c; /* borders between areas: forest page */
+  --map-water: #152f39; /* sea and rivers: monsoon, forest page */
 }
 
 /* Cream: the deck's pages. The default theme (index.html), readable in sunlight. */
@@ -229,6 +273,21 @@
   --color-ember: #b93d17;
   --color-carbon: #35428f;
   --color-carbon-wash: #e3e5f3;
+  /* the painter's palette on cream: pale washes, deep inks, the same pure leaves */
+  --color-butter: #f7ecc6;
+  --color-butter-ink: #6b4a06;
+  --color-lotus: #f7e1dd;
+  --color-lotus-ink: #8a2f3c;
+  --color-monsoon: #deebf2;
+  --color-monsoon-ink: #22506a;
+  --color-hyacinth: #e8e1f2;
+  --color-hyacinth-ink: #553f86;
+  --color-moss: #e2ebd9;
+  --color-moss-ink: #2f5a35;
+  --color-terracotta: #f6dfd1;
+  --color-terracotta-ink: #8a3a1c;
+  --map-stroke: #fffdf8;
+  --map-water: #deebf2;
   --shadow-lift: 0 1px 0 rgb(20 38 28 / 0.04), 0 14px 34px -20px rgb(20 38 28 / 0.28);
   --shadow-pop: 0 1px 0 rgb(20 38 28 / 0.05), 0 28px 64px -24px rgb(20 38 28 / 0.32);
   --glow-accent: 0 0 0 1px rgb(138 90 14 / 0.25), 0 10px 26px -12px rgb(196 140 30 / 0.55);
@@ -265,6 +324,20 @@
   --color-ember: #ff7a4d;
   --color-carbon: #b9c3f2;
   --color-carbon-wash: #1f2c3a;
+  --color-butter: #2b2817;
+  --color-butter-ink: #f2d98b;
+  --color-lotus: #33212a;
+  --color-lotus-ink: #f0b9b4;
+  --color-monsoon: #152f39;
+  --color-monsoon-ink: #a8d1df;
+  --color-hyacinth: #262238;
+  --color-hyacinth-ink: #c6b7e4;
+  --color-moss: #18311f;
+  --color-moss-ink: #b9cfa8;
+  --color-terracotta: #35231a;
+  --color-terracotta-ink: #ef9e80;
+  --map-stroke: #14261c;
+  --map-water: #152f39;
   --glow-accent: 0 0 0 1px rgb(226 169 59 / 0.35), 0 10px 30px -12px rgb(226 169 59 / 0.55);
   --glass-bg: rgb(23 58 41 / 0.6);
   --glass-edge: rgb(255 255 255 / 0.12);
@@ -363,6 +436,11 @@ body::after {
 #main:focus,
 #main:focus-visible {
   outline: none;
+}
+/* the forest heroes run up under the sticky nav with a negative top margin; without a block formatting context that
+   margin collapses through <main>, which then jumps 72 px when the page replaces the loading skeleton (CLS 0.09) */
+#main {
+  display: flow-root;
 }
 img,
 svg,

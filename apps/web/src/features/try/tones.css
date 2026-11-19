@@ -1,0 +1,51 @@
+/* The six pastels of /try and its strip: builder H's painter's palette (index.css: butter, moss, monsoon, terracotta,
+   hyacinth, lotus; each with a wash and an ink that pass AA). The hex values are only fallbacks, the same values, used
+   if a page loads without those tokens. Forest (dark) first, cream (light) below. */
+.tone-butter {
+  --tone: var(--color-butter, #2b2817);
+  --tone-ink: var(--color-butter-ink, #f2d98b);
+}
+.tone-moss {
+  --tone: var(--color-moss, #18311f);
+  --tone-ink: var(--color-moss-ink, #b9cfa8);
+}
+.tone-monsoon {
+  --tone: var(--color-monsoon, #152f39);
+  --tone-ink: var(--color-monsoon-ink, #a8d1df);
+}
+.tone-terracotta {
+  --tone: var(--color-terracotta, #35231a);
+  --tone-ink: var(--color-terracotta-ink, #ef9e80);
+}
+.tone-hyacinth {
+  --tone: var(--color-hyacinth, #262238);
+  --tone-ink: var(--color-hyacinth-ink, #c6b7e4);
+}
+.tone-lotus {
+  --tone: var(--color-lotus, #33212a);
+  --tone-ink: var(--color-lotus-ink, #f0b9b4);
+}
+[data-theme="light"] .tone-butter {
+  --tone: var(--color-butter, #f7ecc6);
+  --tone-ink: var(--color-butter-ink, #6b4a06);
+}
+[data-theme="light"] .tone-moss {
+  --tone: var(--color-moss, #e2ebd9);
+  --tone-ink: var(--color-moss-ink, #2f5a35);
+}
+[data-theme="light"] .tone-monsoon {
+  --tone: var(--color-monsoon, #deebf2);
+  --tone-ink: var(--color-monsoon-ink, #22506a);
+}
+[data-theme="light"] .tone-terracotta {
+  --tone: var(--color-terracotta, #f6dfd1);
+  --tone-ink: var(--color-terracotta-ink, #8a3a1c);
+}
+[data-theme="light"] .tone-hyacinth {
+  --tone: var(--color-hyacinth, #e8e1f2);
+  --tone-ink: var(--color-hyacinth-ink, #553f86);
+}
+[data-theme="light"] .tone-lotus {
+  --tone: var(--color-lotus, #f7e1dd);
+  --tone-ink: var(--color-lotus-ink, #8a2f3c);
+}

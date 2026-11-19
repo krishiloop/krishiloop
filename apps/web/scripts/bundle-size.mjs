@@ -46,7 +46,12 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   nav lozenge, the new ui.* strings for the Drawer, the Comparer and the app's site strip); the farmer app's header
 //   gained the strip that links back to the website, Verify and the Officer (three icons and the theme toggle, ~1 KB).
 //   Fonts and art are not JavaScript and do not count here. Home stays under 190 because the product magazine is lazy.
-const PAGES = { HomePage: 190, ReceiptPage: 133, FarmerApp: 147, OfficerPage: 137, VerifyPage: 134, TrustPage: 122, ProofPage: 125, AboutPage: 110 };
+//   19 Nov 2026 (v4): MapPage 116 (new: the 3-country disease map; its outlines load lazily per country).
+//   19 Nov 2026 (v4): TryPage 140 (new: the six real tools; the leaf model loads only when started).
+//   19 Nov 2026 (v4): FarmerApp 147 -> 149, OfficerPage 137 -> 139, VerifyPage 134 -> 136, TrustPage 122 -> 123, ProofPage
+//   125 -> 127. Shared code grew: the pastel palette tokens (index.css), the header's More menu and two new nav entries,
+//   and the lazy tilt loader; the pages' own chunks also gained the photo-model recall control and the plain-word labels.
+const PAGES = { HomePage: 190, MapPage: 116, TryPage: 140, ReceiptPage: 133, FarmerApp: 149, OfficerPage: 139, VerifyPage: 136, TrustPage: 123, ProofPage: 127, AboutPage: 110 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

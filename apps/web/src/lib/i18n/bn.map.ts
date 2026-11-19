@@ -1,0 +1,126 @@
+/**
+ * Bangla (বাংলা) copy for the Disease map (builder M). Machine-written; pending native-speaker review.
+ * Every key of en.map.ts is here (the type below checks it) and every {placeholder} is kept (i18n.test.ts).
+ * GBIF, geoBoundaries, Open-Meteo, KrishiLoop, CC BY 4.0 and units stay as they are.
+ */
+import type map from './en.map';
+
+const d: Record<keyof typeof map, string> = {
+  'map.eyebrow': 'রোগ-পোকার মানচিত্র',
+  'map.title': 'কোথায় কোথায় পোকা ও রোগ দেখা গেছে',
+  'map.lead':
+    'বাংলাদেশ, ভারত ও কেনিয়া, এলাকা ধরে ধরে। একটি পোকা, কয়েক বছরের সময়সীমা আর যে স্তরগুলো চান তা বেছে নিন। কোনো এলাকা খুললে সেখানকার হিসাব, পরবর্তী ৭ দিনের আবহাওয়ার পূর্বাভাস আর কী দেখতে হবে তা পাবেন।',
+  'map.loading': 'মানচিত্র লোড হচ্ছে',
+  'map.loadError': 'মানচিত্র লোড হয়নি। আপনার ইন্টারনেট সংযোগ দেখে পৃষ্ঠাটি আবার লোড করুন।',
+
+  /* controls */
+  'map.ctl.country': 'দেশ',
+  'map.ctl.bdLevel': 'বাংলাদেশের এলাকা',
+  'map.ctl.pest': 'পোকা বা রোগ',
+  'map.ctl.layers': 'স্তর',
+  'map.ctl.more': 'বছর ও স্তর: {from} থেকে {to}, {n}টি স্তর চালু',
+  'map.country.BD': 'বাংলাদেশ',
+  'map.country.IN': 'ভারত',
+  'map.country.KE': 'কেনিয়া',
+  'map.country.all': 'তিনটি দেশই',
+  'map.level.district': 'জেলা',
+  'map.level.division': 'বিভাগ',
+  'map.level.state': 'রাজ্য',
+  'map.level.county': 'কাউন্টি',
+  'map.levels.district': 'জেলাসমূহ',
+  'map.levels.division': 'বিভাগসমূহ',
+  'map.levels.state': 'রাজ্যসমূহ',
+  'map.levels.county': 'কাউন্টিসমূহ',
+  'map.pest.all': 'সব পোকা ও রোগ',
+  'map.pest.faw': 'ফল আর্মিওয়ার্ম',
+  'map.pest.blast': 'ধানের ব্লাস্ট রোগ',
+  'map.pest.late_blight': 'নাবি ধসা রোগ',
+  'map.pest.bph': 'বাদামি গাছফড়িং',
+  'map.pest.locust': 'মরু পঙ্গপাল',
+  'map.pest.blb': 'ধানের পাতাপোড়া রোগ',
+  'map.pest.brown_spot': 'ধানের বাদামি দাগ রোগ',
+  'map.problem.unidentified': 'এমন একটি সমস্যা যার নাম অ্যাপ বলতে পারেনি',
+  'map.years.label': 'বছর',
+  'map.years.range': '{from} থেকে {to}',
+  'map.years.from': 'শুরুর বছর',
+  'map.years.to': 'শেষ বছর',
+  'map.years.all': 'সব বছর',
+  'map.years.since2000': '২০০০ সাল থেকে',
+  'map.years.last10': 'গত ১০ বছর',
+  'map.layer.sightings': 'রেকর্ড করা দেখা',
+  'map.layer.reports': 'কৃষকদের রিপোর্ট, গত {days} দিন',
+  'map.layer.sim': 'সিমুলেটেড রোগ-ছড়ানো: অনুশীলনের ডেটা',
+
+  /* labels on the map */
+  'map.mark.recorded': 'রেকর্ড করা',
+  'map.mark.sim': 'সিমুলেটেড',
+  'map.label.sightings':
+    'GBIF-এ রেকর্ড করা দেখা ({from} থেকে {to} সাল, গবেষণা ও নাগরিক-বিজ্ঞান রেকর্ড)। রং দেখায় মানুষ কোথায় এই পোকাগুলো দেখেছেন, এখন কতটা রোগ আছে তা নয়।',
+  'map.label.undated': 'সব বছর বেছে নিলে যেসব রেকর্ডে বছর লেখা নেই সেগুলোও গোনা হয়।',
+  'map.label.sim': 'বানানো কৃষকদের বানানো রিপোর্ট, কীভাবে রোগ ছড়ায় তা দেখানোর জন্য। আসল হিসাবে কখনো যোগ হয় না।',
+  'map.reports.live': 'গত {days} দিনে KrishiLoop-এ কৃষকদের জানানো তথ্য। কোনো এলাকা তখনই দেখানো হয় যখন অন্তত {k} জন কৃষক একই সমস্যা জানান।',
+  'map.reports.needsLive': 'কৃষকদের জানানো তথ্যের জন্য লাইভ সেবা লাগে, যা এখানে যুক্ত নেই, তাই কিছু দেখানো হচ্ছে না।',
+  'map.reports.india': 'KrishiLoop-এ এখনো ভারত থেকে কৃষকদের কোনো তথ্য নেই।',
+  'map.reports.layerOff': 'কৃষকদের জানানো তথ্যের স্তরটি বন্ধ আছে।',
+  'map.reports.cell': '{area}-তে কৃষকেরা {problem} জানিয়েছেন',
+  'map.reports.none': 'গত {days} দিনে এখানে {k} জন বা তার বেশি কৃষক কোনো সমস্যা জানাননি।',
+  'map.sim.noneHere': 'অনুশীলনের এই পরিস্থিতিতে এখানে কোনো রিপোর্ট নেই।',
+  'map.totals': 'মোট {total}টি রেকর্ডের মধ্যে {placed}টির মানচিত্রে জায়গা আছে ({level})',
+  'map.svgLabel': '{country}-এর মানচিত্র, {level}। এলাকাগুলোর মধ্যে যেতে তির চিহ্ন ব্যবহার করুন, আর একটি খুলতে Enter চাপুন।',
+  'map.top': 'সবচেয়ে বেশি রেকর্ড আছে এমন {level}',
+  'map.noneInRange': 'এই বছরগুলোতে {country}-এ এই পোকার কোনো জায়গা-চিহ্নিত রেকর্ড GBIF-এ নেই।',
+  'map.caveat.IN':
+    'সীমানা geoBoundaries-এর ভারতের ফাইল অনুযায়ী দেখানো হয়েছে, যার রেখাগুলো যে হুবহু সঠিক তার কোনো গ্যারান্টি নেই। কিছু সীমানা বিতর্কিত; এই মানচিত্র কোনো পক্ষ নেয় না।',
+  'map.a11y.sightings': '{n}টি রেকর্ড করা দেখা',
+  'map.a11y.reports': 'গত {days} দিনে {n} জন কৃষক জানিয়েছেন',
+  'map.a11y.sim': '{n}টি সিমুলেটেড রিপোর্ট',
+  'map.tip': '{area}: {n}টি রেকর্ড করা',
+  'map.tipReports': '{n} জন কৃষক জানিয়েছেন',
+
+  /* legend */
+  'map.legend.title': 'প্রতি এলাকায় রেকর্ড করা দেখা',
+  'map.legend.none': 'কিছু নেই',
+  'map.legend.range': '{from} থেকে {to}',
+  'map.legend.plus': '{n} বা তার বেশি',
+  'map.legend.reports': 'বৃত্ত: গত {days} দিনে যে কৃষকেরা জানিয়েছেন',
+  'map.legend.sim': 'ড্যাশ-করা বৃত্ত ও ডোরা: সিমুলেটেড অনুশীলনের ডেটা',
+
+  /* the area panel */
+  'map.panel.title': '{area} ({level}, {country})',
+  'map.panel.empty': 'এলাকার হিসাব, আবহাওয়া আর কী দেখতে হবে তা জানতে মানচিত্রে একটি এলাকা বেছে নিন।',
+  'map.panel.recorded': 'GBIF-এ রেকর্ড করা দেখা',
+  'map.panel.recordedSub': '{from} থেকে {to} সাল পর্যন্ত {n}টি রেকর্ড, পোকা অনুযায়ী।',
+  'map.panel.recordedNote': 'মানুষ কোথায় এই পোকাগুলো দেখেছেন, এখন কতটা আছে তা নয়।',
+  'map.wx.title': 'আবহাওয়া, পরবর্তী ৭ দিন',
+  'map.wx.loading': 'পূর্বাভাস লোড হচ্ছে',
+  'map.wx.error': 'পূর্বাভাস লোড হয়নি।',
+  'map.wx.rainAhead': 'বৃষ্টির পূর্বাভাস আছে: সপ্তাহজুড়ে প্রায় {mm} মিমি।',
+  'map.wx.day': '{day}: বৃষ্টি {mm} মিমি, সর্বোচ্চ {hi} °C, সর্বনিম্ন {lo} °C, আর্দ্রতা {rh}%',
+  'map.wx.key': 'দণ্ড: মিমি-তে বৃষ্টি। তারপর সর্বোচ্চ ও সর্বনিম্ন °C, এবং আর্দ্রতা।',
+  'map.wx.credit': 'এই এলাকার কেন্দ্রের পূর্বাভাস ({lat}, {lon}), সরাসরি',
+  'map.watch.title': 'কী দেখতে হবে',
+  'map.watch.pack.BD': 'আমাদের বাংলাদেশের ধানের নিয়ম, প্রতিটি তার উৎস থেকে উদ্ধৃত:',
+  'map.watch.pack.KE': 'আমাদের কেনিয়ার আলুর নাবি ধসা রোগের নিয়ম, প্রতিটি তার উৎস থেকে উদ্ধৃত:',
+  'map.watch.pack.IN': 'ভারতের জন্য আমাদের নিয়ম:',
+  'map.watch.source': '{publisher}, পৃষ্ঠা {page}',
+  'map.watch.noRule': '{country}-এ {pests}-এর জন্য এখনো উৎস-সহ কোনো নিয়ম আমাদের কাছে নেই।',
+  'map.watch.noCountry': '{country}-এর জন্য এখনো উৎস-সহ কোনো নিয়ম আমাদের কাছে নেই।',
+
+  /* credits */
+  'map.credit.sightings': 'রেকর্ড করা দেখা:',
+  'map.credit.gbif': 'GBIF-এর ঘটনার সংখ্যা, {date} তারিখে চাওয়া হয়েছে এবং এই পৃষ্ঠার সঙ্গে সংরক্ষিত (পৃষ্ঠাটি নিজে GBIF-কে ডাকে না)।',
+  'map.credit.licences': 'এই রেকর্ডগুলোর লাইসেন্স: {list}।',
+  'map.credit.keys': 'GBIF ট্যাক্সন কী:',
+  'map.credit.borders': 'সীমানা, {country}:',
+  'map.credit.weather': 'আবহাওয়া:',
+  'map.credit.openmeteo': 'Open-Meteo.com পূর্বাভাস API (CC BY 4.0), শুধু আপনি কোনো এলাকা খুললে আপনার ব্রাউজার এটি চায়।',
+
+  /* the home preview card */
+  'map.teaser.eyebrow': 'রোগ-পোকার মানচিত্র',
+  'map.teaser.title': 'দেখুন কোথায় কোথায় পোকা দেখা গেছে',
+  'map.teaser.body': 'বাংলাদেশ, ভারত ও কেনিয়া, এলাকা ধরে ধরে: রেকর্ড করা দেখা, কৃষকদের জানানো তথ্য আর সরাসরি আবহাওয়ার খোঁজ।',
+  'map.teaser.cta': 'রোগ-পোকার মানচিত্র খুলুন',
+  'map.teaser.stat': 'GBIF থেকে {n}টি রেকর্ড করা দেখা, যার মানচিত্রে জায়গা আছে',
+};
+
+export default d;

@@ -1,7 +1,7 @@
 /** English copy for the proof page (/proof) and the redesigned trust page (/trust). Spread into en.ts; bn.proof.ts must carry every key (i18n.test.ts). */
 const proof = {
   /* ---------------------------------------------------------------- the proof page (/proof) */
-  'proof.eyebrow': 'Proof · for technical judges',
+  'proof.eyebrow': 'Evidence · for technical judges',
   'proof.title': 'Every number, with its file.',
   'proof.lead': 'Each claim links to the file that holds it, and the bad results stay in. Check a receipt’s signature here, in your own browser.',
   'proof.jump': 'On this page',
@@ -150,7 +150,7 @@ const proof = {
   'proof.new.speech.omni': 'Omnilingual CTC-1B-v2',
   'proof.new.speech.whisper': 'Whisper large-v3-turbo',
   'proof.new.speech.caveat': 'Read speech, not farmers in a field. Lower is better. Not yet wired into the app.',
-  'proof.new.sovereign.kicker': 'Sovereign mode',
+  'proof.new.sovereign.kicker': 'Runs on our own computer',
   'proof.new.sovereign.what': 'Photo reading, median, on one RTX 5090 with every cloud call refused',
   'proof.new.sovereign.gpu': 'RTX 5090',
   'proof.new.sovereign.cpu': 'Laptop CPU',
@@ -180,7 +180,7 @@ const proof = {
   'proof.eval.threshold.caveat': 'It passes 32–63% of photos. So a threshold cannot decide; trust is earned per area instead.',
   'proof.eval.threshold.passed': 'passed',
   'proof.eval.threshold.right': 'right',
-  'proof.eval.trust.kicker': 'Earned trust, protocol 2',
+  'proof.eval.trust.kicker': 'Photo AI earning trust (replay study)',
   'proof.eval.trust.what': 'Officer answers before the gate opened in Savar: the 95% range over 200 random orders (median 102)',
   'proof.eval.trust.caveat': 'Replay: dataset labels stand in for officers. One backbone. Gazipur closed its gate again in 28 of 200 runs; Dhan-Shomadhan never opened in 36. Protocol 1 opened in only 1 of 24 runs.',
   'proof.eval.trust.col.area': 'Area',
