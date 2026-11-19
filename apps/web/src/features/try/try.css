@@ -938,7 +938,7 @@
   animation: try-pop 360ms var(--ease-out) both;
 }
 .try-gate-step.is-on.is-sure {
-  background: var(--color-gate-sure, #e2a93b);
+  background: var(--color-gate-sure, #b9cfa8);
 }
 .try-gate-step.is-on.is-unsure {
   background: var(--color-gate-unsure, #a8d1df);

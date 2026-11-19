@@ -1,3 +1,4 @@
+import { PlantSpot } from '../../ui/PlantSpot';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Camera, Inbox, Lock, LockOpen, RefreshCw, ServerOff, WifiOff } from 'lucide-react';
@@ -101,6 +102,7 @@ export function SandboxMeter() {
 function Notice({ icon, text, testId }: { icon: ReactNode; text: string; testId?: string }) {
   return (
     <div className="tp-notice" data-testid={testId}>
+      <PlantSpot name="tomato" size={40} className="shrink-0" />
       <span className="mt-0.5 shrink-0 text-ink-3">{icon}</span>
       <p className="m-0">{text}</p>
     </div>

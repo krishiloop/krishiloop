@@ -6,6 +6,7 @@ import { ArrowRight, BotOff, Building2, ClipboardList, Eye, HeartHandshake, Lock
 import { useI18n, type Key } from '../../lib/i18n';
 import { cx } from '../../lib/cx';
 import { LinkButton } from '../../ui/Button';
+import { Fold } from '../../ui/Fold';
 import { LogoMark } from '../../ui/Logo';
 import { Heading } from '../../ui/kit/Heading';
 import { Timeline } from '../../ui/kit/Timeline';
@@ -194,8 +195,17 @@ export default function AboutPage() {
             doneLabel={t('about.time.done')}
             plannedLabel={t('about.time.plan')}
             nowLabel={t('about.time.now')}
-            items={TIMELINE.map(({ n, done }) => ({ date: t(`about.t${n}.date` as Key), body: t(`about.t${n}` as Key), done }))}
+            items={TIMELINE.filter((x) => x.done).map(({ n, done }) => ({ date: t(`about.t${n}.date` as Key), body: t(`about.t${n}` as Key), done }))}
           />
+          <Fold label={t('about.time.plan')}>
+            <ul className="m-0 grid list-none gap-2 p-0">
+              {TIMELINE.filter((x) => !x.done).map(({ n }) => (
+                <li key={n}>
+                  <span className="mono text-xs text-ink-3">{t(`about.t${n}.date` as Key)}</span> {t(`about.t${n}` as Key)}
+                </li>
+              ))}
+            </ul>
+          </Fold>
         </div>
       </section>
 

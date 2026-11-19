@@ -207,7 +207,7 @@
 /* the camera is the app's main tool: its tab sits on a forest pill in both themes */
 .m-tab[data-main] .m-tab-icon {
   background: #14261c;
-  color: #f3dda8;
+  color: #dfe8d6;
   box-shadow: 0 6px 16px -8px rgb(20 38 28 / 0.7);
 }
 .m-tab[data-main][aria-selected="true"] .m-tab-icon {
@@ -382,7 +382,7 @@
   width: 52px;
   height: 52px;
   border-radius: 16px;
-  background: #e2a93b;
+  background: #c9dcbc;
   color: #14261c;
 }
 .m-officer-title {
@@ -577,7 +577,7 @@
 }
 .m-ob-lang-small {
   font-size: 0.86rem;
-  color: var(--color-ink-3);
+  color: var(--color-ink-2); /* ink-3 fell to 4.4:1 on the chosen card in the forest theme */
 }
 .m-ob-tick {
   position: absolute;

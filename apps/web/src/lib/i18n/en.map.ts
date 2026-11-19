@@ -7,7 +7,7 @@ const map = {
   'map.eyebrow': 'Disease map',
   'map.title': 'Where pests and diseases have been recorded',
   'map.lead':
-    'Bangladesh, India and Kenya, area by area. Choose a pest, a range of years and the layers you want. Open an area for its counts, a live 7-day weather forecast and what to watch.',
+    'Bangladesh, India and Kenya, area by area.',
   'map.loading': 'Loading the map',
   'map.loadError': 'The map could not load. Check your connection and reload the page.',
 
@@ -53,11 +53,11 @@ const map = {
   'map.mark.recorded': 'Recorded',
   'map.mark.sim': 'Simulated',
   'map.label.sightings':
-    'Recorded sightings in GBIF (research and citizen-science records, years {from} to {to}). The colour shows where people recorded these pests, not how much disease there is now.',
-  'map.label.undated': 'With every year chosen, records that have no year are counted too.',
-  'map.label.sim': 'Made-up reports from made-up farmers, to show how an outbreak would look. Never added to real counts.',
-  'map.reports.live': 'Farmer reports from KrishiLoop in the last {days} days. An area shows only when at least {k} farmers reported the same problem.',
-  'map.reports.needsLive': 'Farmer reports need the live service, which is not connected here, so none are shown.',
+    'GBIF sightings, years {from} to {to}.',
+  'map.label.undated': 'Records with no year count too.',
+  'map.label.sim': 'Made-up reports, for practice. Never added to real counts.',
+  'map.reports.live': 'Farmer reports, last {days} days. Shown only when {k} or more farmers agree.',
+  'map.reports.needsLive': 'Farmer reports need the live service.',
   'map.reports.india': 'KrishiLoop has no farmer reports from India yet.',
   'map.reports.layerOff': 'The farmer reports layer is off.',
   'map.reports.cell': 'farmers reported {problem} ({area})',
@@ -68,7 +68,7 @@ const map = {
   'map.top': '{level} with the most records',
   'map.noneInRange': 'GBIF has no placed records of this pest in {country} for these years.',
   'map.caveat.IN':
-    'Borders follow the geoBoundaries file for India, which makes no promise that its lines are exact. Some borders are disputed; this map takes no position.',
+    'Borders follow geoBoundaries. Some are disputed; this map takes no position.',
   'map.a11y.sightings': '{n} recorded sightings',
   'map.a11y.reports': '{n} farmers reported in the last {days} days',
   'map.a11y.sim': '{n} simulated reports',
@@ -85,7 +85,7 @@ const map = {
 
   /* the area panel */
   'map.panel.title': '{area} ({level}, {country})',
-  'map.panel.empty': 'Choose an area on the map to see its counts, its weather and what to watch.',
+  'map.panel.empty': 'Choose an area to see its counts.',
   'map.panel.recorded': 'Recorded sightings in GBIF',
   'map.panel.recordedSub': '{n} records from {from} to {to}, by pest.',
   'map.panel.recordedNote': 'Where people recorded these pests, not how much there is now.',
@@ -115,10 +115,12 @@ const map = {
 
   /* the home preview card */
   'map.teaser.eyebrow': 'Disease map',
-  'map.teaser.title': 'See where pests have been recorded',
-  'map.teaser.body': 'Bangladesh, India and Kenya, area by area: recorded sightings, farmer reports and a live weather check.',
+  'map.teaser.title': 'See where pests were recorded',
+  'map.teaser.body': 'Bangladesh, India and Kenya, area by area.',
   'map.teaser.cta': 'Open the disease map',
   'map.teaser.stat': '{n} recorded sightings with a place, from GBIF',
+  'map.credits.fold': 'Sources and licences',
+  'map.label.sightings.more': 'Where pests were recorded, not how much disease there is now.',
 } as const;
 
 export default map;

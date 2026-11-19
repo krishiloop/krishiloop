@@ -4,6 +4,7 @@ import { Chip, type Tone } from '../../ui/Chip';
 import { CountText } from '../../ui/kit/CountText';
 import { useI18n, type Key, type Lang } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
+import { Fold } from '../../ui/Fold';
 import { EVALS, NEW_EVALS, type EvalTile, type EvalTone, type NewEval } from './sources';
 
 const TONE: Record<EvalTone, Tone> = { bad: 'wait', synthetic: 'carbon', replay: 'carbon', measured: 'neutral' };
@@ -162,6 +163,7 @@ function ResultCard({ item, i }: { item: Item; i: number }) {
           ))}
         </ul>
       ) : null}
+      <Fold>
       <p className="pf-tech">
         <span className="pf-tech-k">{t('proof.tech')}</span> {t(`${base}.what` as Key)}
       </p>
@@ -179,6 +181,7 @@ function ResultCard({ item, i }: { item: Item; i: number }) {
           </Link>
         ) : null}
       </div>
+      </Fold>
     </article>
   );
 }

@@ -119,6 +119,8 @@ const ui = {
   'ui.cmp.label': 'Drag to compare the two pictures',
   'ui.app.website': 'Website',
   'ui.app.site': 'KrishiLoop website',
+  'ui.app.verify': 'Check',
+  'ui.app.officer': 'Officer',
 
   /* ---------------------------------------------------------------- footer */
   'ui.nav.receipt': 'How a receipt works',
@@ -127,16 +129,16 @@ const ui = {
   'ui.palette.empty': 'Nothing matches.',
   'ui.palette.open': 'Search and jump',
   'ui.footer.big': 'Advice you can check.',
-  'ui.footer.standards': 'Receipts follow an open web standard (W3C Verifiable Credentials 2.0)',
-  'ui.footer.tag': 'Every piece of AI farm advice comes with a receipt anyone can check. If advice turns out wrong, we take it back from every farmer who got it.',
+  'ui.footer.standards': 'Open web standard (W3C)',
+  'ui.footer.tag': 'Farm advice with a receipt.',
   'ui.footer.product': 'Product',
   'ui.footer.evidence': 'Evidence',
   'ui.footer.code': 'Source code',
   'ui.footer.modelCard': 'Photo AI fact sheet',
   'ui.footer.prompts': 'AI prompts we used',
   'ui.footer.api': 'Data formats',
-  'ui.footer.credit': 'Built for the International AI Builders Congress 2026 · AgriSphere AI · Precision Farm',
-  'ui.footer.noPii': 'No real farmer data here. Every field you see is a sample, and says so.',
+  'ui.footer.credit': 'Built for the International AI Builders Congress 2026',
+  'ui.footer.noPii': 'Every field here is a sample, and says so.',
 } as const satisfies Record<string, string>;
 
 export default ui;

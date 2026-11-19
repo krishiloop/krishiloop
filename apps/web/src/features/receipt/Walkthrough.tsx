@@ -72,7 +72,6 @@ export function Walkthrough() {
             <h2 id="rw-title" className="t-title mt-3 max-w-[20ch]">
               {t('rw.title')}
             </h2>
-            <p className="t-lead mt-4 max-w-[52ch]">{t('rw.lead')}</p>
           </div>
           <DataMark kind="recorded" date={RECORDED_AT} />
         </div>
@@ -148,7 +147,7 @@ function Picture({ step, lang }: { step: Step; lang: Lang }) {
           <p className="rw-card-k">
             {t('rw.data.field')} <span className="mono">{plan.field_id}</span> · {plan.crop}
           </p>
-          <WeatherStrip days={snap.forecast?.days ?? []} today={snap.forecast?.days[0]?.date} className="mt-3" />
+          <WeatherStrip days={(snap.forecast?.days ?? []).slice(0, 4)} today={snap.forecast?.days[0]?.date} className="mt-3" />
           <p className="m-0 mt-3 text-xs text-ink-3">{t('rw.data.source')}</p>
         </div>
       );

@@ -122,7 +122,7 @@ test('take advice back: the receipts that used the rule turn Recalled, and the p
   await expect(page.getByTestId('recall-ticket-0')).toHaveAttribute('data-status', 'recalled');
   await expect(page.getByTestId('recall-ticket-0').locator('.stamp')).toHaveText('Recalled');
   await expect(page.getByTestId('recall-ticket-1')).toHaveAttribute('data-status', 'authentic');
-  await expect(page.getByTestId('recall-reach')).toContainText('4 of 20 recorded receipts now show Recalled');
+  await expect(page.getByTestId('recall-reach')).toContainText('4 of 20 receipts now show Recalled');
 
   // the same rule is no longer served in "Should I spray?": the officer decides
   await expect(spray(page)).toHaveAttribute('data-reason', 'rule_recalled');

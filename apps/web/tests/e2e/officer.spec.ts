@@ -30,7 +30,7 @@ test.describe('recorded console', () => {
   test('who you are, the counters, the tabs, and the recorded inbox', async ({ page }) => {
     await page.goto('/officer?sample=1');
     await expect(page.getByRole('heading', { level: 1, name: 'Officer desk' })).toBeVisible();
-    await expect(page.getByText('What you do here changes only your own copy')).toBeVisible();
+    await expect(page.getByText('Recorded answers. Recalls here are practice.')).toBeVisible();
     await expect(page.getByTestId('data-mode')).toContainText('Recorded 2 Nov');
     await expect(count(page, 'receipts')).toHaveText('20');
     await expect(count(page, 'recalled')).toHaveText('0');

@@ -4,8 +4,9 @@
 
 /* ==================================================================
    KrishiLoop design system "Field Guide" (apps/web/DESIGN.md), taken from the owner's KrishiGuard AI deck:
-   cream pages and forest-green bands, Fraunces headlines, Inter for everything you read or tap, Hind Siliguri for
-   Bangla, one mustard accent, gold-brown letter-spaced eyebrows, thin botanical line art.
+   creamy white pages and forest-green bands, Fraunces headlines, Inter for everything you read or tap, Hind Siliguri
+   for Bangla, forest actions with cream text, pastel washes, letter-spaced eyebrows, thin botanical line art.
+   No yellow or mustard anywhere (owner, 20 Nov).
    Colour is reserved for meaning (go, wait, stop, recalled, dashed carbon for sample data). Receipts stay paper.
    ================================================================== */
 
@@ -107,25 +108,25 @@
    It is dusk over the paddies: a deep aubergine ink with the pastels as its lights. Forest green stays only as the deep
    accent band (.band-night: the footer and a page's closing band). */
 @theme static {
-  /* surfaces: dusk, a deep aubergine ink (never a gradient into indigo or purple) */
-  --color-paper: #1b1720;
-  --color-sunk: #141118;
-  --color-card: #241f2a;
-  --color-raised: #2d2734;
+  /* surfaces: the deck's forest (dark theme) */
+  --color-paper: #0e2419;
+  --color-sunk: #0a1c13;
+  --color-card: #173a29;
+  --color-raised: #1d4532;
   /* ink: cream, and two warm greys with a little lotus in them */
   --color-ink: #f3eee2;
-  --color-ink-2: #d3ccd2;
-  --color-ink-3: #b4abb6;
+  --color-ink-2: #c9d3c8;
+  --color-ink-3: #a3b2a6;
   /* hairlines */
-  --color-rule: #322b38;
-  --color-rule-2: #443b4b;
-  /* the action: mustard (the primary button, the highlight); soft mustard for washes and pills */
-  --color-accent: #e2a93b;
+  --color-rule: #24422f;
+  --color-rule-2: #31553f;
+  /* the action: pale sage on forest (no yellow, owner 20 Nov) */
+  --color-accent: #c9dcbc;
   --color-accent-ink: #14261c;
-  --color-accent-text: #e2a93b;
-  --color-accent-soft: #f3dda8;
-  /* gold-brown eyebrows in cream, mustard in forest */
-  --color-eyebrow: #e2a93b;
+  --color-accent-text: #c9dcbc;
+  --color-accent-soft: #dfe8d6;
+  /* sage eyebrows on forest, forest-sage on cream */
+  --color-eyebrow: #c9dcbc;
   /* the moment something checks out */
   --color-sprout: #b7d98a;
   --color-sprout-ink: #102006;
@@ -134,20 +135,20 @@
   --color-deepest: #0e2419;
   --color-paddy: #173a29;
   --color-sage: #b7c6b6;
-  --color-straw: #f3dda8;
+  --color-straw: #e7e0cf;
   --color-clay: #d98a6c;
   --color-water: #a8d1df;
   --color-water-wash: #18333a;
-  /* the photo gate (deck slide 6): very sure = mustard, not sure = light blue, new or risky = salmon (fills, forest ink) */
-  --color-gate-sure: #e2a93b;
+  /* the photo gate (deck slide 6): very sure = sage, not sure = light blue, new or risky = salmon (fills, forest ink) */
+  --color-gate-sure: #b9cfa8;
   --color-gate-unsure: #a8d1df;
   --color-gate-risky: #ef9e80;
   /* meaning */
   --color-go: #9bd18a;
   --color-go-wash: #1b3a26;
-  --color-wait: #f0b158;
-  --color-wait-fill: #e2a93b;
-  --color-wait-wash: #33301a;
+  --color-wait: #f2b59a;
+  --color-wait-fill: #efb59a;
+  --color-wait-wash: #3a2a22;
   --color-stop: #f39478;
   --color-stop-wash: #3a2a20;
   --color-ember: #ff7a4d;
@@ -157,11 +158,11 @@
   /* The painter's palette: pastels of Bangladeshi fields (DESIGN.md "Palette"). Each colour has three jobs:
      <name> = the wash behind a section band or a tile; <name>-ink = text and icons on that wash (AA, contrast.mjs);
      <name>-leaf = the pure pastel for art, leaves, charts and chips (forest ink on it). Forest values here, cream below.
-     butter = rice straw at harvest; lotus = the water lily's blush; monsoon = the rain sky; hyacinth = water hyacinth
+     butter = creamy rice paste (a cream, not a yellow); lotus = the water lily's blush; monsoon = the rain sky; hyacinth = water hyacinth
      flowers on the ponds; moss = young paddy, pale sage; terracotta = the clay of village pots and river banks. */
-  --color-butter: #2b2817;
-  --color-butter-ink: #f2d98b;
-  --color-butter-leaf: #f2d98b;
+  --color-butter: #23302a;
+  --color-butter-ink: #e9e2d2;
+  --color-butter-leaf: #ece4d4;
   --color-lotus: #33212a;
   --color-lotus-ink: #f0b9b4;
   --color-lotus-leaf: #f0b9b4;
@@ -215,8 +216,8 @@
   color-scheme: dark;
   --shadow-lift: 0 1px 0 rgb(0 0 0 / 0.3), 0 18px 44px -22px rgb(0 0 0 / 0.75);
   --shadow-pop: 0 1px 0 rgb(0 0 0 / 0.3), 0 34px 80px -28px rgb(0 0 0 / 0.8);
-  --glow-accent: 0 0 0 1px rgb(226 169 59 / 0.35), 0 10px 30px -12px rgb(226 169 59 / 0.55);
-  --glass-bg: rgb(36 31 42 / 0.62);
+  --glow-accent: 0 0 0 1px rgb(201 220 188 / 0.35), 0 10px 30px -12px rgb(201 220 188 / 0.45);
+  --glass-bg: rgb(23 58 41 / 0.62);
   --glass-edge: rgb(255 255 255 / 0.12);
   --grain: none;
   --paper-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .36  0 0 0 0 .26  0 0 0 .045 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
@@ -228,8 +229,8 @@
   /* The disease map scale (builder M, /map): six pastel steps from "no reports" to "many reports", lightness falling
      step by step, so it reads in grey too. The same fills in both themes. Labels on a fill use --map-ink-<n> (AA). */
   --map-0: #e6ecdf; /* no reports: pale sage */
-  --map-1: #f5e7b2; /* a few: rice-straw butter */
-  --map-2: #f4cc94; /* apricot */
+  --map-1: #f3e4d6; /* a few: pale apricot */
+  --map-2: #f2c3a4; /* peach */
   --map-3: #eda383; /* terracotta */
   --map-4: #cf6f66; /* clay rose */
   --map-5: #8c3550; /* many: deep lotus */
@@ -246,8 +247,8 @@
 /* Cream: the deck's pages. The default theme (index.html), readable in sunlight. */
 [data-theme="light"] {
   color-scheme: light;
-  --color-paper: #f3eee2;
-  --color-sunk: #ebe4d3;
+  --color-paper: #faf6ee;
+  --color-sunk: #f1ebe0;
   --color-card: #fffdf8;
   --color-raised: #ffffff;
   --color-ink: #14261c;
@@ -255,30 +256,30 @@
   --color-ink-3: #5a645c;
   --color-rule: #dcd3bf;
   --color-rule-2: #cbbf9f;
-  --color-accent: #e2a93b;
-  --color-accent-ink: #14261c;
-  --color-accent-text: #8a5a0e;
-  --color-accent-soft: #f3dda8;
-  --color-eyebrow: #8a5a0e;
+  --color-accent: #1f3d2c;
+  --color-accent-ink: #faf6ee;
+  --color-accent-text: #2f5a35;
+  --color-accent-soft: #e2ebd9;
+  --color-eyebrow: #3d6b45;
   --color-sprout: #b7d98a;
   --color-sprout-ink: #102006;
   --color-sage: #7f8f80;
-  --color-straw: #f3dda8;
+  --color-straw: #efe8da;
   --color-clay: #b4603d;
   --color-water: #2b6476;
   --color-water-wash: #dcebee;
   --color-go: #2f6b3a;
   --color-go-wash: #e2edd9;
-  --color-wait: #8a4e00;
-  --color-wait-wash: #f6e7ca;
+  --color-wait: #7a4a1e;
+  --color-wait-wash: #f8e4d8;
   --color-stop: #a83a21;
   --color-stop-wash: #f7e2d9;
   --color-ember: #b93d17;
   --color-carbon: #35428f;
   --color-carbon-wash: #e3e5f3;
   /* the painter's palette on cream: pale washes, deep inks, the same pure leaves */
-  --color-butter: #f7ecc6;
-  --color-butter-ink: #6b4a06;
+  --color-butter: #f3eee4;
+  --color-butter-ink: #5b4a36;
   --color-lotus: #f7e1dd;
   --color-lotus-ink: #8a2f3c;
   --color-monsoon: #deebf2;
@@ -293,7 +294,7 @@
   --map-water: #deebf2;
   --shadow-lift: 0 1px 0 rgb(20 38 28 / 0.04), 0 14px 34px -20px rgb(20 38 28 / 0.28);
   --shadow-pop: 0 1px 0 rgb(20 38 28 / 0.05), 0 28px 64px -24px rgb(20 38 28 / 0.32);
-  --glow-accent: 0 0 0 1px rgb(138 90 14 / 0.25), 0 10px 26px -12px rgb(196 140 30 / 0.55);
+  --glow-accent: 0 0 0 1px rgb(31 61 44 / 0.22), 0 10px 26px -12px rgb(31 61 44 / 0.4);
   --glass-bg: rgb(255 253 248 / 0.7);
   --glass-edge: rgb(20 38 28 / 0.1);
   --rows: repeating-linear-gradient(176deg, rgb(20 38 28 / 0.045) 0 1px, transparent 1px 34px);
@@ -311,24 +312,24 @@
   --color-ink-3: #a3b2a6;
   --color-rule: #24422f;
   --color-rule-2: #31553f;
-  --color-accent: #e2a93b;
+  --color-accent: #c9dcbc;
   --color-accent-ink: #14261c;
-  --color-accent-text: #e2a93b;
-  --color-eyebrow: #e2a93b;
+  --color-accent-text: #c9dcbc;
+  --color-eyebrow: #c9dcbc;
   --color-sage: #b7c6b6;
   --color-water: #a8d1df;
   --color-water-wash: #18333a;
   --color-go: #9bd18a;
   --color-go-wash: #1b3a26;
-  --color-wait: #f0b158;
-  --color-wait-wash: #33301a;
+  --color-wait: #f2b59a;
+  --color-wait-wash: #3a2a22;
   --color-stop: #f39478;
   --color-stop-wash: #3a2a20;
   --color-ember: #ff7a4d;
   --color-carbon: #b9c3f2;
   --color-carbon-wash: #1f2c3a;
-  --color-butter: #2b2817;
-  --color-butter-ink: #f2d98b;
+  --color-butter: #23302a;
+  --color-butter-ink: #e9e2d2;
   --color-lotus: #33212a;
   --color-lotus-ink: #f0b9b4;
   --color-monsoon: #152f39;
@@ -365,14 +366,14 @@
   --color-rule-2: #dcd3bf;
   --color-go: #1e6b45;
   --color-go-wash: #e1ede2;
-  --color-wait: #8f5600;
-  --color-wait-wash: #f6eacc;
+  --color-wait: #7a4a1e;
+  --color-wait-wash: #f8e4d8;
   --color-stop: #b9321a;
   --color-stop-wash: #f8e4dd;
   --color-carbon: #3646a6;
   --color-carbon-wash: #e2e5f4;
-  --color-accent-text: #8a5a0e;
-  --color-eyebrow: #8a5a0e;
+  --color-accent-text: #2f5a35;
+  --color-eyebrow: #3d6b45;
   color-scheme: light;
   color: var(--color-ink);
 }

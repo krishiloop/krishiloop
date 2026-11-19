@@ -1,4 +1,5 @@
 import { ProductIndex } from './ProductIndex';
+import { PlantStrip } from './PlantStrip';
 import { MapTeaser } from '../map/MapTeaser';
 import { TryTeaser } from '../try/TryTeaser';
 import { WhyBand } from './WhyBand';
@@ -20,8 +21,12 @@ export default function HomeRest() {
   return (
     <>
       <ProductIndex />
-      <MapTeaser />
-      <TryTeaser />
+      <PlantStrip />
+      {/* the two teasers come without their own page gutter (each page places them), so they share one here */}
+      <div className="wrap grid gap-14 pb-20 sm:gap-16 sm:pb-28">
+        <MapTeaser />
+        <TryTeaser />
+      </div>
       <PhoneBand />
       <WhyBand />
       <FlowBeams />

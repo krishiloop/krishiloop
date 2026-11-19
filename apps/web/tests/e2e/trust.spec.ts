@@ -31,12 +31,12 @@ test.describe('/trust in recorded mode', () => {
   test('the idea, the bar and the tiers', async ({ page }) => {
     const errs = errors(page);
     await page.goto('/trust?sample=1');
-    await expect(page.getByRole('heading', { level: 1, name: 'The photo AI must prove itself, one area at a time.' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'The photo AI proves itself, area by area.' })).toBeVisible();
     await expect(page.getByTestId('hero-meter')).toContainText('Gate open after 93 officer answers');
 
     const tiles = page.getByTestId('policy-tiles');
     for (const v of ['0.85', '30/50', '≥ 0.85', '< 0.80', '10%']) await expect(tiles).toContainText(v);
-    await expect(tiles).toContainText('Sure answers needed, among the last 50 judged');
+    await expect(tiles).toContainText('Sure answers needed in the last 50');
     await expect(page.getByTestId('tiers')).toContainText('Off: photos never drive inputs');
     const strict = page.getByTestId('strictness');
     await expect(strict).toContainText('30 of 30 right');
@@ -46,7 +46,7 @@ test.describe('/trust in recorded mode', () => {
 
   test('the real replay: labelled, scrubbable to the end, with the gate marker and the final numbers', async ({ page }) => {
     await page.goto('/trust?sample=1');
-    await expect(page.getByTestId('replay-label')).toHaveText('Replay of public datasets: their labels stand in for officers. Not real officers or farms.');
+    await expect(page.getByTestId('replay-label')).toHaveText('Replay of public datasets. Not real officers or farms.');
     await expect(page.getByTestId('replay-bundled')).toBeVisible();
     const chart = page.getByTestId('replay-chart');
     await expect(chart).toHaveAttribute('data-area', 'BD-D');

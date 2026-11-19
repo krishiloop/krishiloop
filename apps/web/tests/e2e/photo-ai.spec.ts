@@ -77,6 +77,7 @@ test('/proof: the AgriTriage-Lite tile, with its numbers and every file they com
   await expect(tile).toContainText('22.6% → 38.3%');
   await expect(tile).toContainText('Research weights (trained on PlantWild, non-commercial)');
   await expect(tile).toContainText('earlier MobileNetV3-S student');
+  await tile.locator('summary').first().click(); // v6: the source files sit under Show more
   await expect(tile.getByRole('link')).toHaveCount(4);
   await expect(tile.getByRole('link', { name: /poster_numbers\.json$/ })).toHaveAttribute('href', /evidence\/poster_numbers\.json$/);
 });

@@ -3,6 +3,7 @@ import '../../lib/i18n/strings.proof';
 import { lazy, Suspense, type ReactNode } from 'react';
 import { CircleCheck, CircleDashed, CircleDot, ExternalLink } from 'lucide-react';
 import { ExternalButton } from '../../ui/Button';
+import { Fold } from '../../ui/Fold';
 import { RollNumber } from '../../ui/RollNumber';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
@@ -38,7 +39,7 @@ export default function ProofPage() {
   const toolCount = MCP_SERVERS.reduce((a, s) => a + s.tools.length, 0);
 
   return (
-    <div className="pf-page botanic-bg pb-10">
+    <div className="pf-page botanic-bg botanic-bg--pg-b pb-10">
       <section className="pf-hero-v5" aria-labelledby="pf-title">
         <div className="wrap pf-hero pt-10 pb-12 sm:pt-14">
           <div>
@@ -110,6 +111,7 @@ export default function ProofPage() {
           <div className="paper p-5 sm:p-7">
             <CheckYourself />
           </div>
+          <Fold>
           <Suspense fallback={<div className="skeleton h-[320px] rounded-[22px]" aria-hidden />}>
             <Terminal
             title={t('proof.term.title')}
@@ -118,10 +120,11 @@ export default function ProofPage() {
             lines={REPRO.flatMap((r) => [{ cmd: r.cmd }, ...(r.out ? [{ out: t(`proof.term.${r.out}` as Key) }] : [])])}
             />
           </Suspense>
+          </Fold>
         </div>
       </Section>
 
-      <Section id="standards" title={t('proof.std.title')} lead={t('proof.std.lead')} tone="sunk">
+      <Section id="standards" title={t('proof.std.title')} lead={t('proof.std.lead')} tone="sunk" fold>
         <ul className="pf-std" data-testid="standards">
           {STANDARDS.map((s, i) => (
             <li key={s.id} data-reveal style={{ ['--i' as string]: i % 6 }} data-state={s.state}>
@@ -143,7 +146,7 @@ export default function ProofPage() {
         </ul>
       </Section>
 
-      <Section id="mcp" title={t('proof.mcp.title', { servers: num(MCP_SERVERS.length), tools: num(toolCount) })} lead={t('proof.mcp.lead')}>
+      <Section id="mcp" title={t('proof.mcp.title', { servers: num(MCP_SERVERS.length), tools: num(toolCount) })} lead={t('proof.mcp.lead')} fold>
         <div className="pf-servers" data-testid="mcp-servers">
           {MCP_SERVERS.map((s, i) => (
             <div key={s.name} className="pf-server" data-reveal style={{ ['--i' as string]: i }}>
@@ -185,7 +188,8 @@ export default function ProofPage() {
           <Stat value={num(TESTS.browserCrypto)} label={t('proof.tests.browser', { n: num(TESTS.receipts) })} source={TESTS.web} />
           <Stat value={num(TESTS.mcp)} label={t('proof.tests.mcp')} source={MCP_TESTS} />
         </div>
-        <ul className="mt-6 grid list-none gap-2 p-0 text-[0.92rem] text-ink-2 md:grid-cols-2">
+        <Fold>
+        <ul className="mt-2 grid list-none gap-2 p-0 text-[0.92rem] text-ink-2 md:grid-cols-2">
           {(['proof.tests.f1', 'proof.tests.f2', 'proof.tests.f3', 'proof.tests.f4'] as const).map((k) => (
             <li key={k} className="flex gap-2">
               <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-ink-3" aria-hidden />
@@ -198,9 +202,10 @@ export default function ProofPage() {
             {t('proof.tests.actions')}
           </ExternalButton>
         </div>
+        </Fold>
       </Section>
 
-      <Section id="data" title={t('proof.data.title')} lead={t('proof.data.lead')}>
+      <Section id="data" title={t('proof.data.title')} lead={t('proof.data.lead')} fold>
         <div className="overflow-x-auto">
           <table className="pf-reg" data-testid="register">
             <thead>
@@ -230,7 +235,7 @@ export default function ProofPage() {
         </div>
       </Section>
 
-      <Section id="prompts" title={t('proof.prompts.title')} lead={t('proof.prompts.lead')} tone="sunk">
+      <Section id="prompts" title={t('proof.prompts.title')} lead={t('proof.prompts.lead')} tone="sunk" fold>
         <div className="flex flex-wrap gap-3">
           <ExternalButton href={PROMPT_LIBRARY.index.href} variant="primary">
             {t('proof.prompts.open')}
@@ -254,7 +259,7 @@ export default function ProofPage() {
   );
 }
 
-function Section({ id, title, lead, tone, children }: { id: SectionId; title: string; lead: string; tone?: 'sunk'; children: ReactNode }) {
+function Section({ id, title, lead, tone, fold, children }: { id: SectionId; title: string; lead: string; tone?: 'sunk'; fold?: boolean; children: ReactNode }) {
   const { t } = useI18n();
   return (
     <section id={id} className={`rule-t scroll-mt-20 ${tone === 'sunk' ? 'pf-sunk' : ''}`} aria-labelledby={`pf-${id}`} data-testid={`section-${id}`}>
@@ -264,7 +269,7 @@ function Section({ id, title, lead, tone, children }: { id: SectionId; title: st
           {title}
         </h2>
         <p className="t-lead mt-4 max-w-[56ch]">{lead}</p>
-        <div className="mt-10">{children}</div>
+        <div className="mt-8">{fold ? <Fold>{children}</Fold> : children}</div>
       </div>
     </section>
   );

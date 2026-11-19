@@ -6,6 +6,7 @@ import { setTheme, useTheme } from '../../lib/theme';
 import { cx } from '../../lib/cx';
 import { useApiState } from '../../lib/api/client';
 import { DataMark } from '../../ui/DataMark';
+import { NearestOffice } from '../offices/NearestOffice';
 import { RECORDED_AT } from '../../data/recorded';
 import { select, useFarmer } from '../farmer/farmerStore';
 import { cropName, countryName, profileLetter, profileSummary, profilesFor, stageName } from '../farmer/words';
@@ -62,6 +63,8 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
           {t('m.help.officerGo')}
         </button>
       </section>
+
+      <NearestOffice variant="entry" />
 
       <section className="m-card" aria-labelledby="m-lang-title">
         <h3 id="m-lang-title" className="eyebrow">

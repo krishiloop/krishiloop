@@ -33,6 +33,8 @@ const WAVE = 0.42;
 /** where each picture's subject is (the glow sits there), in the pictures' -1..1 box; picture 2 uses its lesion */
 const SUBJECT: [number, number][] = [
   [0.02, -0.32], // the rice plant's ears
+  [0.03, -0.94], // the potato flower
+  [0.2, 0.4], // the tomatoes
   [0, 0], // the lesion (replaced by the shape's own centre)
   [-0.04, -0.42], // the cloud
   [-0.04, 0.02], // the map
@@ -201,7 +203,7 @@ export function startField({ canvas, glow, step: first, reduced, mobile, dark: d
 
   const placeGlow = () => {
     if (!glow) return;
-    const [gx, gy] = target === 1 ? [shape(1).bx, shape(1).by] : SUBJECT[target]!;
+    const [gx, gy] = target === 3 ? [shape(3).bx, shape(3).by] : SUBJECT[target]!;
     glow.style.setProperty('--gx', `${(cx + gx * R).toFixed(1)}px`);
     glow.style.setProperty('--gy', `${(cy + gy * R).toFixed(1)}px`);
   };

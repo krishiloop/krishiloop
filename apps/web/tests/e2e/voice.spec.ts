@@ -2,15 +2,16 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 /**
- * Our own Bangla voice in the farmer app (P1 #13), in RECORDED mode (`?sample=1`, deterministic, no backend):
- *  - "Hear" on a Bangla receipt whose exact text has a pre-made clip plays OUR clip, labelled (svara-tts-v1, Built with
- *    Llama, not yet checked by a native speaker); HTMLMediaElement.play is stubbed, so nothing is really played;
- *  - a RECALLED receipt never plays its withdrawn advice: it shows (or reads) the recall notice instead;
+ * Our pre-made voice in the farmer app, in RECORDED mode (`?sample=1`, deterministic, no backend):
+ *  - "Hear" on a Bangla receipt whose exact text has a pre-made clip plays OUR clip, labelled (Google Gemini, made ahead
+ *    of time, not yet checked by a native speaker); HTMLMediaElement.play is stubbed, so nothing is really played;
+ *  - a RECALLED receipt never plays its withdrawn advice: it plays (or shows) the recall notice instead;
  *  - a text without a clip falls back to the browser voice, and to "no voice" when there is none;
  *  - the sovereign microphone: MediaRecorder -> POST /api/voice/asr -> the normal Ask flow (fake recorder, fake API).
  */
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
-const CLIP_002 = '/audio/bn/svara-m-cd8e51c6c42c4a3a.ogg'; // R-BDR-002 v1, "এখন স্প্রে দরকার নেই: …"
+const CLIP_002 = '/audio/bn/gemini38-cd8e51c6c42c4a3a.ogg'; // R-BDR-002 v1, "এখন স্প্রে দরকার নেই: …"
+const RECALL_BN = '/audio/bn/gemini38-dd54c5fc770ce6d8.ogg'; // the Bangla recall notice (fa.voice.recalledSay)
 const Q_BN = 'ধানে বাদামি গাছফড়িং দেখছি, এখন কি স্প্রে করব?'; // the recorded Bangla Ask question
 
 type W = Window & { __played: string[]; __spoken: string[] };
@@ -52,8 +53,7 @@ test.describe('our own Bangla voice (recorded mode)', () => {
     await page.getByTestId('fa-hear').click();
     await expect.poll(() => played(page)).toEqual([CLIP_002]);
     const label = page.getByTestId('fa-why').getByTestId('fa-voice-ours');
-    await expect(label).toContainText('Built with Llama');
-    await expect(label).toContainText('svara-tts-v1');
+    await expect(label).toContainText('জেমিনি');
     await expect(label).toContainText('বাংলাভাষী');
     await expect(page.getByTestId('fa-hear')).toHaveAttribute('aria-pressed', 'true');
     expect(await spoken(page)).toEqual([]); // the browser voice was not used
@@ -61,14 +61,14 @@ test.describe('our own Bangla voice (recorded mode)', () => {
     await expect(page.getByTestId('fa-hear')).toHaveAttribute('aria-pressed', 'false');
   });
 
-  test('the receipt sheet and the Ask answer play the same clip; English stays with the browser', async ({ page }) => {
+  test('the receipt sheet and the Ask answer play the same clip', async ({ page }) => {
     await page.goto('/app?sample=1&lang=bn');
     await page.getByTestId('fa-decision').getByRole('button', { name: 'রসিদ খুলুন' }).click();
     const sheet = page.getByRole('dialog');
     await expect(sheet.locator('.stamp')).toHaveText(/খাঁটি/);
     await sheet.getByTestId('fa-rc-read').click();
     await expect.poll(() => played(page)).toEqual([CLIP_002]);
-    await expect(sheet.getByTestId('fa-rc-voice').getByTestId('fa-voice-ours')).toContainText('Built with Llama');
+    await expect(sheet.getByTestId('fa-rc-voice').getByTestId('fa-voice-ours')).toContainText('জেমিনি');
     await page.keyboard.press('Escape');
     await expect(sheet).toHaveCount(0);
 
@@ -80,7 +80,7 @@ test.describe('our own Bangla voice (recorded mode)', () => {
     await expect(page.getByTestId('fa-answer-voice').getByTestId('fa-voice-ours')).toBeVisible();
   });
 
-  test('RECALLED: the withdrawn advice is never played; the recall notice is shown instead', async ({ page }) => {
+  test('RECALLED: the withdrawn advice is never played; the recall notice is played and shown instead', async ({ page }) => {
     await page.goto('/app?sample=1&lang=bn');
     await expect(page.getByTestId('fa-decision')).toBeVisible();
     await page.getByRole('tab', { name: 'রসিদ' }).click();
@@ -95,12 +95,16 @@ test.describe('our own Bangla voice (recorded mode)', () => {
     const notice = sheet.getByTestId('fa-voice-notice');
     await expect(notice).toContainText('এই পরামর্শ বাতিল হয়েছে');
     await expect(notice).not.toContainText('স্প্রে দরকার নেই');
-    expect(await played(page)).toEqual([]);
+    await expect.poll(() => played(page)).toEqual([RECALL_BN]); // the notice's own clip, never CLIP_002
     expect(await spoken(page)).toEqual([]);
-    await expect(sheet.getByTestId('fa-voice-ours')).toHaveCount(0);
   });
 
-  test('a text without a shipped clip (R-BDR-006, held back) gets no clip: no Bangla voice here, so it says so', async ({ page }) => {
+  test('a text without a shipped clip gets no clip: no Bangla voice here, so it says so', async ({ page }) => {
+    // R-BDR-006's clips are taken out of the manifest here, so this is the "no clip" path whatever today's build ships
+    await page.route('**/audio/manifest.json', async (r) => {
+      const m = (await (await r.fetch()).json()) as { clips: { rule_id?: string }[] };
+      await r.fulfill({ json: { ...m, clips: m.clips.filter((c) => c.rule_id !== 'R-BDR-006') } });
+    });
     await page.goto('/app?sample=1&lang=bn&field=BD-SAMPLE-01&profile=demo-farmer-d');
     await page.getByTestId('fa-action-row').filter({ hasText: 'জমিতে পানি জমে থাকতে দেবেন না' }).click();
     const sheet = page.getByRole('dialog');

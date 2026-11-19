@@ -76,7 +76,7 @@ test('country switch: Bangladesh districts first, then India, Kenya and all thre
   await expect(country(page, 'BD')).toHaveAttribute('data-level', sightings.countries.BD.default_level);
   await expect(country(page, 'BD').locator('path[data-code]')).toHaveCount(64);
   // the exact label on the recorded layer
-  await expect(page.getByTestId('map-label-sightings')).toContainText('Recorded sightings in GBIF (research and citizen-science records, years');
+  await expect(page.getByTestId('map-label-sightings')).toContainText('GBIF sightings, years');
   await expect(page.getByTestId('map-label-sightings')).toContainText('not how much disease there is now');
 
   const countries = page.getByRole('radiogroup', { name: 'Country' });

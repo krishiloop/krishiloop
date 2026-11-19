@@ -57,9 +57,6 @@ export function TopStrip({ counters }: { counters: Counters }) {
         <h1 className="off-title hero-rise" style={{ ['--i' as string]: 1 }}>
           {t('off.title')}
         </h1>
-        <p className="off-hero-lead hero-rise" style={{ ['--i' as string]: 2 }}>
-          {t('off.sandbox')}
-        </p>
         <p className="off-mode hero-rise" style={{ ['--i' as string]: 2 }} data-testid="data-mode">
           {api.mode === 'unknown' ? (
             <span className="skeleton inline-block h-6 w-24" aria-hidden />
@@ -99,9 +96,6 @@ export function TopStrip({ counters }: { counters: Counters }) {
                     <TileNumber value={value} />
                   )}
                 </dd>
-                <p className="off-tile-hint" aria-hidden>
-                  {hint(c.key, c.hint)}
-                </p>
               </div>
             );
           })}

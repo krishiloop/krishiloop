@@ -85,7 +85,6 @@ export function RecallRipple() {
                     >
                       <span className="min-w-0 flex-1">
                         <span className={cx('mono block text-sm font-semibold', on && 'text-stop line-through decoration-2')}>{r.id}</span>
-                        <span className="mt-0.5 block text-[0.95rem] leading-snug text-ink-2">{t(r.label)}</span>
                       </span>
                       <span className="mono text-xs text-ink-3">×{fmtNum(counts[r.id] ?? 0, lang)}</span>
                       <span className={cx('btn btn-sm pointer-events-none', on ? 'btn-secondary' : 'btn-danger')} aria-hidden>
@@ -113,7 +112,6 @@ export function RecallRipple() {
                 </Button>
               )}
             </div>
-            <p className="m-0 mt-6 text-sm text-ink-3">{t('story.recall.note')}</p>
             <LinkButton to="/officer?tab=recall" variant="secondary" arrow className="mt-4">
               {t('story.recall.real')}
             </LinkButton>

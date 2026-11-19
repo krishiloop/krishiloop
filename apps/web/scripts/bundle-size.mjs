@@ -64,7 +64,10 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   QR and the folded details (the kit's Motion-based Magnetic was replaced by a 0.3 KB local magnet to stay near 136).
 //   TrustPage 123 -> 125 (measured 124.0): the interactive gate picture over the real replay. MapPage 116 -> 117
 //   (measured 116.1): the v5 visual polish (pastel mesh, card edges). All CSS and copy; no new dependency.
-const PAGES = { HomePage: 190, MapPage: 117, TryPage: 140, ReceiptPage: 133, FarmerApp: 153, MobileApp: 155, OfficerPage: 142, VerifyPage: 137, TrustPage: 125, ProofPage: 127, AboutPage: 110 };
+//   20 Nov 2026 (builder O, nearest agriculture office): FarmerApp 153 -> 156 (measured 154.4): the small always-loaded part of
+//   the new card (the card and entry row, its 50 English words, ~1.4 KB gzipped; the farmer app and the phone app share it).
+//   The sheet, the map, Leaflet (41.8 KB) and the office data (28.7 KB) are lazy chunks, loaded only when the card is opened.
+const PAGES = { HomePage: 190, MapPage: 117, TryPage: 140, ReceiptPage: 133, FarmerApp: 156, MobileApp: 155, OfficerPage: 142, VerifyPage: 137, TrustPage: 125, ProofPage: 127, AboutPage: 110 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

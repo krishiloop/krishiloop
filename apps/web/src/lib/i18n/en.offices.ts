@@ -1,0 +1,50 @@
+/**
+ * English words for "Nearest agriculture office" (features/offices). Plain, short words. Keys: near.*.
+ * Facts: the Krishi Call Centre short code 16123 is VERIFIED (fact register D5). Office data is real and sourced
+ * (src/data/offices/bd.json); where a point is the middle of an upazila the screen says "approximate".
+ */
+const offices = {
+  'near.card.title': 'Not sure? Talk to your nearest agriculture office',
+  'near.card.sub': 'See the closest offices. Call them or get directions.',
+  'near.card.go': 'Find my agriculture office',
+  'near.entry.title': 'Find my agriculture office',
+  'near.entry.sub': 'See the nearest offices on a map.',
+  'near.sheet.title': 'Nearest agriculture office',
+  'near.sheet.sub': 'Offices of the Department of Agricultural Extension (DAE)',
+  'near.loc.why': 'To find the closest office we need to know where you are. Your place stays on this phone. We send it nowhere.',
+  'near.loc.allow': 'Use my location',
+  'near.loc.sample': 'Use the sample farm',
+  'near.loc.asking': 'Finding where you are',
+  'near.loc.denied': 'We could not get your location, so this shows the sample farm.',
+  'near.from.you': 'Near you',
+  'near.from.sample': 'Near the sample farm (not a real farm)',
+  'near.change': 'Use my location instead',
+  'near.far': 'We only have offices in Bangladesh so far, and none is close to this place.',
+  'near.callcentre': 'Krishi Call Centre: 16123',
+  'near.callcentre.sub': 'Farm advice by phone, from the Department of Agricultural Extension.',
+  'near.callcentre.call': 'Call 16123',
+  'near.call': 'Call {phone}',
+  'near.gothere': 'Go there',
+  'near.gothere.aria': 'Go to {name}: open directions in your map app',
+  'near.osm': 'Open in OpenStreetMap',
+  'near.km': '{km} km away',
+  'near.approx': 'Approximate place: the middle of the upazila, not the office door.',
+  'near.exact': 'Place from OpenStreetMap.',
+  'near.officer': 'Officer',
+  'near.officerCall': 'Call the officer: {phone}',
+  'near.officerNote': 'Name and number as the government page lists them.',
+  'near.officerNone': 'No officer name is published for this office.',
+  'near.nophone': 'No office phone is published. Call 16123.',
+  'near.source': 'Source: government page, read {date}',
+  'near.sourceNone': 'Source: upazila outline (geoBoundaries). No office page found.',
+  'near.map.label': 'Map of the nearest offices',
+  'near.map.loading': 'Loading the map',
+  'near.map.error': 'The map could not load. The list below still works.',
+  'near.map.you': 'You',
+  'near.map.sample': 'Sample farm',
+  'near.list': 'Closest offices',
+  'near.attrib': 'Map: © OpenStreetMap contributors. Outlines: geoBoundaries.',
+  'near.mt': 'The Bangla words here are machine-written and not yet checked by a native speaker.',
+} as const satisfies Record<string, string>;
+
+export default offices;

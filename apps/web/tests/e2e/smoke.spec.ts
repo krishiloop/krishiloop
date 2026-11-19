@@ -30,7 +30,7 @@ test('home: the headline, the merged product, the receipt tiles, and no API call
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('plant doctor, farm helper and weather warning');
   // the product picture is now the magazine of the seven tools (it replaced the loop ring in the 19 Nov redesign)
-  await expect(page.getByRole('heading', { level: 2, name: /One app for the whole season/ })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: /One app for the season/ })).toBeVisible();
   // v5 plain words (builder Ho): the seven tools named as a farmer would say them
   for (const name of ['Plant doctor', 'Weather warnings', 'Disease alerts nearby', 'Buy only what you need', 'Bangla voice, any phone', 'A real expert when unsure', 'A receipt anyone can check']) {
     await expect(page.getByRole('heading', { level: 3, name, exact: true })).toBeVisible();
@@ -157,7 +157,9 @@ test('about: promises, a timeline that never blurs done and planned, the team, a
   }
   const timeline = page.locator('ol.timeline');
   await expect(timeline.getByText('Done', { exact: true })).toHaveCount(3);
-  await expect(timeline.getByText('Planned', { exact: true })).toHaveCount(4);
+  // v6: the four planned items sit under "Planned" (a Show more fold), not in the rail
+  await expect(timeline.getByText('Planned', { exact: true })).toHaveCount(0);
+  await expect(page.locator('section[aria-labelledby="time-title"] details li')).toHaveCount(4);
   await noOverflow(page);
   expect(await seriousA11y(page)).toEqual([]);
 });

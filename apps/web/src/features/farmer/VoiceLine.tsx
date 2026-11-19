@@ -4,8 +4,8 @@ import { cx } from '../../lib/cx';
 import type { ReadOutcome } from './voice';
 
 /**
- * Under a "Hear" button: what was read and by whom. Our own clip carries its label (machine voice, svara-tts-v1, Built
- * with Llama, not yet checked by a native speaker); a recalled receipt shows the notice that was read instead of its
+ * Under a "Hear" button: what was read and by whom. Our own clip carries its voice's label (Google Gemini TTS, or the
+ * earlier svara voice for a Bangla rule not yet remade; neither checked by a native speaker yet); a recalled receipt shows the notice that was read instead of its
  * advice; a device without a voice for the language says so. `toastNoVoice`: the caller already said it in a toast.
  */
 export function VoiceLine({ out, className, toastNoVoice = false }: { out: ReadOutcome | null; className?: string; toastNoVoice?: boolean }) {
@@ -24,7 +24,7 @@ export function VoiceLine({ out, className, toastNoVoice = false }: { out: ReadO
       {out.via === 'ours' && (
         <p className="fa-voice-ours" data-testid="fa-voice-ours">
           <Volume2 size={15} aria-hidden className="mt-[2px] flex-none" />
-          <span>{t('fa.voice.ours')}</span>
+          <span>{t(out.clipVoice?.startsWith('svara') ? 'fa.voice.oursSvara' : 'fa.voice.ours')}</span>
         </p>
       )}
       {quiet && !toastNoVoice && !out.notice && (

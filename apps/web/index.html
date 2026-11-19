@@ -6,7 +6,7 @@
     <title>KrishiLoop · AI farm advice with a receipt anyone can check</title>
     <meta name="description" content="Every piece of AI farm advice comes with a receipt anyone can check: the source passage, the field data, the rule and its version. If a rule turns out wrong, we recall it from every farmer who got it." />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f3eee2" />
+    <meta name="theme-color" content="#faf6ee" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -27,7 +27,7 @@
           var q = new URLSearchParams(location.search);
           var theme = q.get('theme') || localStorage.getItem('kl.theme');
           d.dataset.theme = theme === 'dark' ? 'dark' : 'light';
-          if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1b1720');
+          if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0e2419');
           var lang = q.get('lang') || localStorage.getItem('kl.lang');
           if (lang === 'en' || lang === 'bn' || lang === 'hi' || lang === 'sw') d.lang = lang;
           else if ((navigator.language || '').toLowerCase().indexOf('bn') === 0) d.lang = 'bn';
@@ -52,12 +52,12 @@
         display: grid;
         place-items: center;
         /* the page's own colour (v5): cream, or dusk in the dark theme, so the loader hands over without a flash */
-        background: #f3eee2;
+        background: #faf6ee;
         pointer-events: none;
         animation: kl-out 300ms ease-in 900ms forwards;
       }
       [data-theme="dark"] #kl-boot {
-        background: #1b1720;
+        background: #0e2419;
       }
       .kl-ready #kl-boot {
         animation: kl-out 260ms ease-in forwards;
@@ -130,7 +130,7 @@
   <body>
     <div id="kl-boot" aria-hidden="true">
       <svg viewBox="0 0 64 64" fill="none">
-        <circle class="ring" cx="32" cy="32" r="23" pathLength="100" stroke="#e2a93b" stroke-width="4.8" stroke-linecap="round" transform="rotate(-62 32 32)" />
+        <circle class="ring" cx="32" cy="32" r="23" pathLength="100" stroke="#2f5a35" stroke-width="4.8" stroke-linecap="round" transform="rotate(-62 32 32)" />
         <path class="leaf" d="M33 8C35.5 1.5 42 -1.5 49.5 0.5C46.5 6.5 40 9.5 33 8Z" fill="#8fc26a" />
         <circle class="dot" cx="32" cy="9" r="6.2" fill="#b7d98a" />
       </svg>

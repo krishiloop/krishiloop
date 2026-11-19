@@ -13,6 +13,8 @@ import { isLocalCase, isRecordedCase, reopenCase, resolveCase, useInbox, useInbo
 import { parseRuleLabel, reasonHint, reasonTitle } from './reasons';
 import { useMedia, WIDE } from './useMedia';
 import { AnimatedList } from '../../ui/kit/AnimatedList';
+import { Fold } from '../../ui/Fold';
+import { PlantSpot } from '../../ui/PlantSpot';
 
 type Filter = 'open' | 'resolved' | 'all';
 
@@ -100,6 +102,7 @@ export function InboxPanel({ selectedId, onSelect, onClose }: { selectedId: stri
         ) : shown.length === 0 ? (
           <div className="off-empty mt-4" data-testid="inbox-empty">
             <EmptyArt />
+            <PlantSpot name="chilli" size={44} />
             <p className="m-0 font-medium text-ink">{q || urgentOnly ? t('off.inbox.noMatch') : filter === 'open' ? t('off.inbox.emptyOpen') : t('off.inbox.empty')}</p>
             <p className="m-0 max-w-[40ch] text-sm text-ink-3">{t('off.inbox.emptyHint')}</p>
             <LinkButton to="/officer?tab=recall" variant="secondary" size="sm" arrow>
@@ -276,21 +279,6 @@ export function CaseDetail({ item, withTitle }: { item: InboxItem; withTitle?: b
       )}
       {hint && <p className="m-0 mt-2 max-w-[58ch] text-ink-2">{hint}</p>}
 
-      <dl className="off-kv mt-5">
-        <dt>{t('off.case.farmer')}</dt>
-        <dd className="mono">{item.farmer_display_name}</dd>
-        <dt>{t('off.case.field')}</dt>
-        <dd className="mono">{item.field_id}</dd>
-        <dt>{t('off.case.received')}</dt>
-        <dd className="mono">{fmtDate(item.created_at, lang, 'datetime')}</dd>
-        {item.diagnosis_id && (
-          <>
-            <dt>{t('off.case.diagnosis')}</dt>
-            <dd className="mono break-all">{item.diagnosis_id}</dd>
-          </>
-        )}
-      </dl>
-
       {item.question && (
         <section className="off-block">
           <h4 className="eyebrow">{t('off.case.question')}</h4>
@@ -355,10 +343,24 @@ export function CaseDetail({ item, withTitle }: { item: InboxItem; withTitle?: b
         </section>
       )}
 
-      {rest.length > 0 && (
+      {(
         <section className="off-block" data-testid="case-details">
-          <h4 className="eyebrow">{t('off.case.details')}</h4>
-          <dl className="off-kv off-kv-sm mt-3">
+          <Fold label={t('off.case.details')}>
+          <dl className="off-kv">
+            <dt>{t('off.case.farmer')}</dt>
+            <dd className="mono">{item.farmer_display_name}</dd>
+            <dt>{t('off.case.field')}</dt>
+            <dd className="mono">{item.field_id}</dd>
+            <dt>{t('off.case.received')}</dt>
+            <dd className="mono">{fmtDate(item.created_at, lang, 'datetime')}</dd>
+            {item.diagnosis_id && (
+              <>
+                <dt>{t('off.case.diagnosis')}</dt>
+                <dd className="mono break-all">{item.diagnosis_id}</dd>
+              </>
+            )}
+          </dl>
+          <dl className="off-kv off-kv-sm">
             {rest.map(([k, v]) => (
               <div key={k} className="contents">
                 <dt>{humanize(k)}</dt>
@@ -368,6 +370,7 @@ export function CaseDetail({ item, withTitle }: { item: InboxItem; withTitle?: b
               </div>
             ))}
           </dl>
+          </Fold>
         </section>
       )}
 

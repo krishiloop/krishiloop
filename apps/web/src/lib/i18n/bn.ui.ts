@@ -114,6 +114,8 @@ const d: Record<keyof typeof ui, string> = {
   'ui.cmp.label': 'দুটি ছবি মেলাতে টেনে সরান',
   'ui.app.website': 'ওয়েবসাইট',
   'ui.app.site': 'KrishiLoop ওয়েবসাইট',
+  'ui.app.verify': 'যাচাই',
+  'ui.app.officer': 'অফিসার',
 
   'ui.nav.receipt': 'রসিদ কীভাবে কাজ করে',
   'ui.palette.title': 'যেকোনো জায়গায় যান',
@@ -121,16 +123,16 @@ const d: Record<keyof typeof ui, string> = {
   'ui.palette.empty': 'কিছু মেলেনি।',
   'ui.palette.open': 'খুঁজুন ও যান',
   'ui.footer.big': 'যে পরামর্শ যাচাই করা যায়।',
-  'ui.footer.standards': 'রসিদ একটা খোলা ওয়েব মানদণ্ড মেনে চলে (W3C Verifiable Credentials 2.0)',
-  'ui.footer.tag': 'এআই-এর প্রতিটি কৃষি পরামর্শের সাথে একটা রসিদ থাকে, যা যে কেউ মিলিয়ে দেখতে পারে। পরামর্শ ভুল হলে, যারা পেয়েছেন সবার কাছ থেকে আমরা তা ফিরিয়ে নিই।',
+  'ui.footer.standards': 'খোলা ওয়েব মান (W3C)',
+  'ui.footer.tag': 'রসিদসহ কৃষি পরামর্শ।',
   'ui.footer.product': 'পণ্য',
   'ui.footer.evidence': 'প্রমাণ',
   'ui.footer.code': 'সোর্স কোড',
   'ui.footer.modelCard': 'ছবির এআই সম্পর্কে তথ্য',
   'ui.footer.prompts': 'আমাদের ব্যবহার করা এআই প্রম্পট',
   'ui.footer.api': 'তথ্যের ফরম্যাট',
-  'ui.footer.credit': 'International AI Builders Congress 2026-এর জন্য তৈরি · AgriSphere AI · Precision Farm',
-  'ui.footer.noPii': 'এখানে কোনো আসল কৃষকের তথ্য নেই। যে জমি দেখছেন সব নমুনা, আর তা লেখা থাকে।',
+  'ui.footer.credit': 'International AI Builders Congress 2026-এর জন্য তৈরি',
+  'ui.footer.noPii': 'এখানকার সব জমি নমুনা, আর তা লেখা থাকে।',
 };
 
 export default d;

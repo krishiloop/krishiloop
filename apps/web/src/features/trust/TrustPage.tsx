@@ -19,6 +19,8 @@ import { SandboxMeter } from './SandboxMeter';
 import { CiPanel, useCi } from './CiPanel';
 import { GatePicture } from './GatePicture';
 import { blob } from '../proof/repo';
+import { Fold } from '../../ui/Fold';
+import { PlantSpot } from '../../ui/PlantSpot';
 import './trust.css';
 
 type View = { state: 'loading' } | { state: 'ready'; replay: ShapedReplay; bundled: boolean } | { state: 'missing' } | { state: 'error'; message: string };
@@ -64,7 +66,7 @@ export default function TrustPage() {
   const ci = useCi();
 
   return (
-    <div className="tp-page botanic-bg pb-8">
+    <div className="tp-page botanic-bg botanic-bg--pg-c pb-8">
       {/* 1. the idea, in plain words, and one picture to move: the gate opening as officers check photos */}
       <section className="tp-hero" aria-labelledby="tp-title">
         <div className="wrap pt-10 pb-14 sm:pt-14 sm:pb-20">
@@ -102,7 +104,10 @@ export default function TrustPage() {
       {/* 2. the bar */}
       <section className="rule-t" aria-labelledby="tp-bar">
         <div className="wrap section">
-          <p className="eyebrow">{t('tp.policy.eyebrow')}</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="eyebrow m-0">{t('tp.policy.eyebrow')}</p>
+            <span className="chip chip-carbon">{t('tp.policy.draft')}</span>
+          </div>
           <h2 id="tp-bar" className="t-title mt-3 max-w-[20ch]">
             {t('tp.policy.title')}
           </h2>
@@ -159,7 +164,9 @@ export default function TrustPage() {
 
           {replay ? (
             <div className="mt-6">
-              <CiPanel selected={model?.key ?? selected} />
+              <Fold label={t('tp.ci.fold', { n: fmtNum(ci?.seeds_per_area ?? 200, lang) })} testId="ci-fold">
+                <CiPanel selected={model?.key ?? selected} />
+              </Fold>
             </div>
           ) : null}
 
@@ -170,7 +177,9 @@ export default function TrustPage() {
               <div className="mt-6">
                 <AreaCards areas={replay.areas} policy={policy} selected={model?.key ?? selected} onSelect={setSelected} ci={ci} />
               </div>
-              <p className="mt-5 max-w-[80ch] text-[0.82rem] text-ink-3">{t('tp.replay.credit', { backbone: replay.backbone === 'bioclip2' ? 'BioCLIP 2' : replay.backbone })}</p>
+              <Fold>
+                <p className="m-0 max-w-[80ch] text-[0.82rem] text-ink-3">{t('tp.replay.credit', { backbone: replay.backbone === 'bioclip2' ? 'BioCLIP 2' : replay.backbone })}</p>
+              </Fold>
             </div>
           ) : null}
         </div>
@@ -239,6 +248,7 @@ export default function TrustPage() {
 function Empty({ icon, text, testId, alert }: { icon: ReactNode; text: string; testId: string; alert?: boolean }) {
   return (
     <div className="tp-notice" data-testid={testId} role={alert ? 'alert' : undefined}>
+      <PlantSpot name="potato" size={40} className="shrink-0" />
       <span className="mt-0.5 shrink-0 text-ink-3">{icon}</span>
       <p className="m-0">{text}</p>
     </div>

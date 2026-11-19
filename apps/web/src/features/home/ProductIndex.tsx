@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Camera, CloudRain, Headset, Mic, Pause, Play, Radar, ReceiptText, Sprout, Thermometer, Waves, Wheat } from 'lucide-react';
+import { ArrowUpRight, Camera, CloudRain, Headset, Mic, Pause, Play, Radar, ReceiptText, Sprout, Waves, Wheat } from 'lucide-react';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { verifyUrl } from '../../lib/qr';
@@ -10,6 +10,7 @@ import { ReceiptCard } from '../../ui/Receipt';
 import { DataMark } from '../../ui/DataMark';
 import { WeatherStrip } from '../../ui/WeatherStrip';
 import { Comparer } from '../../ui/kit/Comparer';
+import { Fold } from '../../ui/Fold';
 import { TiltCard } from '../../ui/kit/TiltCard';
 import { LiquidLink } from '../../ui/kit/LiquidButton';
 import { spotlight, useOnScreen } from '../../ui/kit/hooks';
@@ -22,14 +23,14 @@ import { LeafArt } from './LeafArt';
      the size from evidence/poster_numbers.json -> data.per_dataset[plantwild].test), 89 classes, 11.5 MB;
    - the radar: src/features/officer/radar/simulated.json (services/engine/radar.py on a SIMULATED village scenario);
    - the forecast: src/data/recorded/story.json -> snapshot.forecast (Open-Meteo, recorded 2 Nov 2026);
-   - the voice: public/audio/manifest.json, clip R-BDR-002__male (our own svara-tts voice, review pending). */
+   - the voice: public/audio/manifest.json, R-BDR-002 v1 in Bangla (Google Gemini 3.8 Flash TTS, made ahead of time; native review pending). */
 const GATE = { act: 63.6, actRight: 91.3, shortlist: 17.8, refer: 18.6, testN: 3663, classes: 89 };
-const VOICE = { src: '/audio/bn/svara-m-cd8e51c6c42c4a3a.ogg', text: 'এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।', rule: 'R-BDR-002' };
+const VOICE = { src: '/audio/bn/gemini38-cd8e51c6c42c4a3a.ogg', text: 'এখন স্প্রে দরকার নেই: পোকার সংখ্যা সীমার নিচে। কয়েক দিন পর আবার গুনে দেখুন।', rule: 'R-BDR-002' };
 
 type Cell = { area_name: string; country: string; problem: string; reports: number; reporters: number };
 const RADAR = (() => {
   const s = (radarRaw as { simulated?: { k?: number; cells?: Cell[] } }).simulated;
-  return { k: s?.k ?? 3, cells: (s?.cells ?? []).filter((c) => c && typeof c.reports === 'number').slice(0, 4) };
+  return { k: s?.k ?? 3, cells: (s?.cells ?? []).filter((c) => c && typeof c.reports === 'number').slice(0, 2) };
 })();
 const PROBLEM_BN: Record<string, string> = {
   bacterial_leaf_blight: 'ব্যাকটেরিয়াজনিত পাতা পোড়া',
@@ -191,26 +192,26 @@ export function ProductIndex() {
             }
           >
             <p className="m-0 mt-4 flex flex-wrap gap-2">
-              <span className="chip">{t('home.pi.guardian.offline')}</span>
               <span className="chip">{t('home.pi.guardian.size', { n: fmtNum(GATE.classes, lang), mb: fmtNum(11.5, lang) })}</span>
             </p>
             <ul className="pi-gate3 m-0 mt-5 list-none p-0" data-stagger aria-label={t('home.pi.guardian.gate')}>
               {(
                 [
-                  ['sure', 'home.pi.guardian.sure', 'home.pi.guardian.sure.do', GATE.act],
-                  ['unsure', 'home.pi.guardian.unsure', 'home.pi.guardian.unsure.do', GATE.shortlist],
-                  ['risky', 'home.pi.guardian.risky', 'home.pi.guardian.risky.do', GATE.refer],
+                  ['sure', 'home.pi.guardian.sure', GATE.act],
+                  ['unsure', 'home.pi.guardian.unsure', GATE.shortlist],
+                  ['risky', 'home.pi.guardian.risky', GATE.refer],
                 ] as const
-              ).map(([g, k, d, v]) => (
+              ).map(([g, k, v]) => (
                 <li key={g} data-g={g}>
                   <span className="pi-gate3-pill">{t(k)}</span>
-                  <span className="pi-gate3-do">{t(d)}</span>
                   <span className="pi-gate3-v figure">{pct(v, lang)}</span>
                 </li>
               ))}
             </ul>
             <p className="m-0 mt-3 text-[0.92rem] font-[560] text-ink">{t('home.pi.guardian.right', { pct: pct(GATE.actRight, lang) })}</p>
-            <p className="m-0 mt-1.5 text-[0.8rem] leading-snug text-ink-3">{t('home.pi.guardian.src', { n: fmtNum(GATE.testN, lang) })}</p>
+            <Fold>
+              <p className="m-0 text-[0.8rem] leading-snug text-ink-3">{t('home.pi.guardian.src', { n: fmtNum(GATE.testN, lang) })}</p>
+            </Fold>
           </Plate>
 
           {/* 02 Climate Shield */}
@@ -224,12 +225,9 @@ export function ProductIndex() {
             art={
               <div className="pi-climate">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="chip">
-                    <Thermometer size={13} aria-hidden /> {t('home.hero.climate')}
-                  </span>
                   <DataMark kind="recorded" date={STORY.snapshot.forecast?.issued_at ?? STORY.snapshot.created_at} />
                 </div>
-                <WeatherStrip days={STORY.snapshot.forecast?.days ?? []} className="mt-6" />
+                <WeatherStrip days={(STORY.snapshot.forecast?.days ?? []).slice(0, 5)} className="mt-6" />
                 <p className="m-0 mt-5 flex items-center gap-2 text-[0.8rem] text-ink-3">
                   <Waves size={14} aria-hidden className="text-water" />
                   {t('home.pi.climate.src')}
@@ -320,7 +318,12 @@ export function ProductIndex() {
                 <div className="mt-6">
                   <VoicePlayer />
                 </div>
-                <p className="m-0 mt-4 text-[0.78rem] leading-snug text-ink-3">{t('home.pi.voice.note')}</p>
+                <p className="m-0 mt-4 flex flex-wrap items-center gap-2">
+                  <span className="chip chip-carbon">{t('home.pi.voice.chip')}</span>
+                </p>
+                <Fold>
+                  <p className="m-0 text-[0.78rem] leading-snug text-ink-3">{t('home.pi.voice.note')}</p>
+                </Fold>
               </div>
             }
           />
@@ -335,7 +338,7 @@ export function ProductIndex() {
             to="/officer"
             art={
               <ul className="pi-inbox m-0 list-none p-0" aria-hidden data-stagger>
-                {(['story.recall.r001', 'story.recall.r010', 'story.recall.r002'] as Key[]).map((k, i) => (
+                {(['story.recall.r001', 'story.recall.r010'] as Key[]).map((k, i) => (
                   <li key={k} style={{ '--k': i } as CSSProperties}>
                     <Headset size={16} className="flex-none text-wait" />
                     <span className="truncate">{t(k)}</span>
@@ -353,13 +356,9 @@ export function ProductIndex() {
             to={`/verify/${encodeURIComponent(credential.replace(/^urn:uuid:/, ''))}`}
             art={
               <div className="pi-receipts">
-                <TiltCard className="pi-r-back" max={5} glare={false}>
-                  <ReceiptCard receipt={STORY.calm.action.receipt} status="recalled" compact />
-                </TiltCard>
                 <TiltCard className="pi-r-front" max={6}>
-                  <ReceiptCard receipt={STORY.calm.action.receipt} status="authentic" compact />
+                  <ReceiptCard receipt={STORY.calm.action.receipt} status="authentic" compact tiny />
                 </TiltCard>
-                <span className="chip chip-stop pi-r-tag">{t('home.pi.receipt.after')}</span>
               </div>
             }
           >

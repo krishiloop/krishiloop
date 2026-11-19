@@ -160,7 +160,7 @@ export function HomeHero() {
       {/* each picture's pastel wash: six still layers, only the current one shows (an opacity crossfade) */}
       <div className="kg-washes" aria-hidden>
         {STORY.map((s, i) => (
-          <div key={s.tone} className={`kg-wash kg-wash-${s.tone}`} data-on={i === step ? '' : undefined} />
+          <div key={`${s.tone}-${i}`} className={`kg-wash kg-wash-${s.tone}`} data-on={i === step ? '' : undefined} />
         ))}
       </div>
       {/* the deck's line drawings in the hero's corners (kit.css .botanic-art), swaying a little while on screen */}

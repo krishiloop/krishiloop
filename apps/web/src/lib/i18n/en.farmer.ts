@@ -92,7 +92,8 @@ const farmer = {
   'fa.rc.sandbox': 'Practice copy: a recall on the officer screen changes only your receipts.',
   'fa.voice.noVoice': 'This phone has no {lang} voice, so we won’t read it in the wrong one.',
   'fa.voice.noTts': 'This browser cannot read text aloud.',
-  'fa.voice.ours': 'Our own computer voice (svara-tts-v1). Built with Llama. A native speaker has not checked it yet.',
+  'fa.voice.ours': 'Voice made with Google Gemini, ahead of time. A native speaker has not checked it yet.',
+  'fa.voice.oursSvara': 'Our own Bangla voice (svara-tts, Built with Llama). A native speaker has not checked it yet.',
   'fa.voice.recalledSay': 'This advice was recalled. Don’t act on it. Open Today for this week’s answer, or ask your officer.',
   'fa.voice.invalidSay': 'We could not check this receipt, so we don’t read its advice aloud.',
 

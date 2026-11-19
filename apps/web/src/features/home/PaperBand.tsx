@@ -11,17 +11,12 @@ import { STORY } from '../story/storyData';
  */
 export function PaperBand() {
   const { t } = useI18n();
-  const second = STORY.potato ?? STORY.pests;
   return (
     <section className="sheet-band paper-object bg-paper" aria-labelledby="paper-title">
       <div className="bg-grid pointer-events-none absolute inset-0" aria-hidden />
       <div className="wrap relative grid items-center gap-14 py-[clamp(72px,9vw,136px)] lg:grid-cols-[1fr_1.1fr]">
         <div>
-          <p className="label flex items-center gap-2.5" data-reveal>
-            <span className="h-px w-8 bg-ink-3" aria-hidden />
-            {t('home.paper.eyebrow')}
-          </p>
-          <h2 id="paper-title" className="t-hero mt-5 text-ink" data-reveal style={{ '--i': 1 } as CSSProperties}>
+          <h2 id="paper-title" className="t-hero text-ink" data-reveal style={{ '--i': 1 } as CSSProperties}>
             {t('home.paper.title')}
           </h2>
           <p className="t-lead mt-6 max-w-[42ch]" data-reveal style={{ '--i': 2 } as CSSProperties}>
@@ -35,12 +30,9 @@ export function PaperBand() {
             </Magnetic>
           </div>
         </div>
-        <div className="relative mx-auto w-full max-w-[460px] pb-10" data-reveal style={{ '--i': 1 } as CSSProperties}>
-          <div className="absolute inset-x-6 top-10 rotate-[5deg]">
-            <ReceiptCard receipt={second.action.receipt} status="recalled" compact />
-          </div>
+        <div className="relative mx-auto w-full max-w-[420px] pb-6" data-reveal style={{ '--i': 1 } as CSSProperties}>
           <div className="relative -rotate-[3deg]">
-            <ReceiptCard receipt={STORY.calm.action.receipt} status="authentic" compact />
+            <ReceiptCard receipt={STORY.calm.action.receipt} status="authentic" compact tiny />
           </div>
         </div>
       </div>

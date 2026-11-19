@@ -3,6 +3,7 @@ import { ExternalLink, Lock, ReceiptText, ShieldQuestionMark, Sprout, TimerReset
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum, pickText } from '../../lib/format';
 import { cx } from '../../lib/cx';
+import { Fold } from '../../ui/Fold';
 import { sampleRecalls } from '../../lib/api/mocks';
 import { DATA, localToday, parseRange, plan, receiptPreview, sprayWeek, type PackId, type PlanOutcome } from './engine';
 import { Choice, Peek, Slider } from './parts';
@@ -115,6 +116,7 @@ export function SprayTool() {
 
         {out.status === 'ok' ? <RuleBlock rule={out.decision} /> : <Abstain out={out} />}
 
+        <Fold>
         <dl className="try-facts">
           <div>
             <dt>{t('try.facts.humid', { n: humid == null ? '?' : n(humid) })}</dt>
@@ -142,6 +144,7 @@ export function SprayTool() {
             </ul>
           </div>
         )}
+        </Fold>
 
         <p className="try-never">
           <Lock size={14} aria-hidden /> {t('try.neverSpray')}
@@ -168,18 +171,17 @@ function RuleBlock({ rule }: { rule: Extract<PlanOutcome, { status: 'ok' }>['dec
         <span className="eyebrow block">{t('try.ruleSays')}</span>
         <span lang={title.lang}>{title.text}</span>
       </p>
-      <blockquote className="try-quote" lang={doc.language}>
-        <span className="eyebrow block" lang={lang}>
-          {t('try.sourceSays')}
-        </span>
-        “{src.quote}”
-      </blockquote>
-      <p className="try-src">
-        <a href={doc.url} target="_blank" rel="noreferrer">
-          {t('try.page', { doc: doc.publisher, page: fmtNum(src.page, lang) })}
-          <ExternalLink size={12} aria-hidden className="ml-1 inline" />
-        </a>
-      </p>
+      <Fold label={t('try.sourceSays')}>
+        <blockquote className="try-quote" lang={doc.language}>
+          “{src.quote}”
+        </blockquote>
+        <p className="try-src">
+          <a href={doc.url} target="_blank" rel="noreferrer">
+            {t('try.page', { doc: doc.publisher, page: fmtNum(src.page, lang) })}
+            <ExternalLink size={12} aria-hidden className="ml-1 inline" />
+          </a>
+        </p>
+      </Fold>
     </div>
   );
 }

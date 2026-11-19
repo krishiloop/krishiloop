@@ -14,7 +14,7 @@ import { Walkthrough } from './Walkthrough';
  */
 export default function ReceiptPage() {
   return (
-    <div className="rc-page botanic-bg">
+    <div className="rc-page botanic-bg botanic-bg--pg-b">
       <Hero />
       <Walkthrough />
       <RecallRipple />

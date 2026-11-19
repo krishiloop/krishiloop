@@ -12,6 +12,12 @@ import { DataMark } from '../../ui/DataMark';
 import { verifyPath } from '../verify/verifyUtil';
 import { citing, recallPreview, ruleKey, SAMPLE_RECEIPTS } from './recall';
 
+/** A ticket shows the first words of its advice (the whole sentence is on the receipt, one tap away). */
+function clipWords(s: string, n: number) {
+  const w = s.split(/\s+/);
+  return w.length > n ? `${w.slice(0, n).join(' ')}…` : s;
+}
+
 interface Item {
   id: string;
   receipt: Receipt;
@@ -76,8 +82,8 @@ export function RecallTool() {
           return (
             <li key={s.id} className={cx('try-ticket', st === 'recalled' && 'is-recalled')} data-testid={`recall-ticket-${i}`} data-status={st}>
               <p className="eyebrow">{t('try.recall.receipt', { n: fmtNum(i + 1, lang) })} · {t(`try.case.${s.receipt.plan?.crop === 'potato' ? 'potato-vegetative' : `rice-${s.receipt.plan?.stage ?? 'tillering'}`}` as Key)}</p>
-              <p className="try-ticket-title" lang={title.lang}>
-                {title.text}
+              <p className="try-ticket-title" lang={title.lang} title={title.text}>
+                {clipWords(title.text, 7)}
               </p>
               <p className={cx('mono text-sm', st === 'recalled' && 'text-stop line-through decoration-2')}>
                 {ref.rule_id} v{ref.version}

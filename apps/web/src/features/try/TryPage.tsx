@@ -45,11 +45,10 @@ export default function TryPage() {
   }, [hash]);
 
   return (
-    <div className="try-page botanic-bg">
+    <div className="try-page botanic-bg botanic-bg--pg-a">
       <header className="wrap try-hero">
         <p className="eyebrow">{t('try.eyebrow')}</p>
         <h1 className="t-title try-hero-title">{t('try.title')}</h1>
-        <p className="t-lead try-hero-lead">{t('try.lead')}</p>
         <p className="try-hero-honest">{t('try.honest')}</p>
         <nav className="try-jump" aria-label={t('try.jump')}>
           {TOOLS.map((x, i) => (

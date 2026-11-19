@@ -19,6 +19,7 @@ import { logPlan } from '../inspector';
 import { holdPlan } from '../receipts';
 import type { TabId } from '../TabBar';
 import { tick } from '../checklist';
+import { NearestOffice } from '../../offices/NearestOffice';
 import { cropName } from '../words';
 
 /**
@@ -381,6 +382,7 @@ function Result({ s, phase, rt, offline, profileId, onTab }: { s: State; phase: 
         </div>
       )}
 
+      {r.outcome !== 'diagnose' && <NearestOffice className="m-4" />}
       <ServerStep s={s} outcome={r.outcome} offline={offline} profileId={profileId} onTab={onTab} />
     </article>
   );

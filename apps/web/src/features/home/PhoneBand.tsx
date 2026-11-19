@@ -1,10 +1,7 @@
 import type { CSSProperties } from 'react';
-import { Check } from 'lucide-react';
-import { useI18n, type Key } from '../../lib/i18n';
+import { useI18n } from '../../lib/i18n';
 import { LiquidLink } from '../../ui/kit/LiquidButton';
 import { OpenOnPhone } from '../mobile/OpenOnPhone';
-
-const POINTS: Key[] = ['home.phone.p1', 'home.phone.p2', 'home.phone.p3'];
 
 /**
  * "Use it on your phone" (builder Ho, v5): the owner's ask, "I just scan a code or use a copy link". On a laptop the
@@ -17,26 +14,9 @@ export function PhoneBand() {
     <section className="sheet-band mesh mesh-hyacinth botanic-bg botanic-bg--flower section" aria-labelledby="phone-title" data-testid="phone-band">
       <div className="wrap ph-grid">
         <div>
-          <p className="label m-0 flex items-center gap-2.5" data-reveal>
-            <span className="h-px w-8 bg-ink-3" aria-hidden />
-            {t('home.phone.eyebrow')}
-          </p>
-          <h2 id="phone-title" className="t-title m-0 mt-5 max-w-[16ch]" data-reveal style={{ '--i': 1 } as CSSProperties}>
+          <h2 id="phone-title" className="t-title m-0 max-w-[16ch]" data-reveal style={{ '--i': 1 } as CSSProperties}>
             {t('home.phone.title')}
           </h2>
-          <p className="t-lead m-0 mt-5 max-w-[42ch]" data-reveal style={{ '--i': 2 } as CSSProperties}>
-            {t('home.phone.line')}
-          </p>
-          <ul className="ph-points m-0 mt-7 list-none p-0" data-stagger>
-            {POINTS.map((k) => (
-              <li key={k}>
-                <span className="ph-tick" aria-hidden>
-                  <Check size={13} strokeWidth={3} />
-                </span>
-                {t(k)}
-              </li>
-            ))}
-          </ul>
           <div className="mt-8" data-reveal style={{ '--i': 3 } as CSSProperties}>
             <LiquidLink to="/m" size="lg" arrow>
               {t('home.phone.open')}
@@ -45,7 +25,7 @@ export function PhoneBand() {
         </div>
         <div className="ph-card" data-reveal style={{ '--i': 2 } as CSSProperties}>
           <div data-tilt="4">
-            <OpenOnPhone />
+            <OpenOnPhone compact />
           </div>
         </div>
       </div>

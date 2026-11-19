@@ -101,7 +101,6 @@ const EDGES: Edge[] = [
 const edgeId = (e: Edge) => `${e.from}-${e.to}`;
 
 const label = (id: NodeId) => `proof.arch.${id}` as Key;
-const sub = (id: NodeId) => `proof.arch.${id}.sub` as Key;
 const explain = (id: NodeId) => `proof.arch.${id}.exp` as Key;
 
 /* ------------------------------------------------------------------ helpers */
@@ -217,7 +216,6 @@ export function Architecture() {
         <Icon size={16} className="pa-ico shrink-0" aria-hidden />
         <span>
           <b>{t(label(n.id))}</b>
-          <small className="block">{t(sub(n.id))}</small>
         </span>
       </button>
     );

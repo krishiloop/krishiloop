@@ -31,6 +31,7 @@ import {
 import { MapView } from './MapView';
 import { AreaPanel } from './AreaPanel';
 import { YearRange } from './YearRange';
+import { Fold } from '../../ui/Fold';
 import './map.css';
 
 type View = Country | 'all';
@@ -249,13 +250,16 @@ export default function MapPage() {
 
           <div className="mp-labels">
             {layers.sightings && (
-              <p className="mp-note" data-testid="map-label-sightings">
+              <div className="mp-note" data-testid="map-label-sightings">
                 <span className="chip chip-carbon">{t('map.mark.recorded')}</span>
-                <span>
-                  {t('map.label.sightings', { from: yr(range.from), to: yr(range.to) })}
-                  {isFullRange(range, span) && ` ${t('map.label.undated')}`}
-                </span>
-              </p>
+                <span>{t('map.label.sightings', { from: yr(range.from), to: yr(range.to) })}</span>
+                <Fold>
+                  <span>
+                    {t('map.label.sightings.more')}
+                    {isFullRange(range, span) && ` ${t('map.label.undated')}`}
+                  </span>
+                </Fold>
+              </div>
             )}
             {layers.reports && (
               <p className="mp-note" data-testid="map-label-reports">
@@ -320,7 +324,9 @@ export default function MapPage() {
           )}
 
           <Legend days={days} />
-          <Credits sightings={sightings} shown={shown} geos={shown.map((c) => geos[`${c}|${levelOf(c)}`]).filter(Boolean) as GeoFile[]} pest={pest} />
+          <Fold label={t('map.credits.fold')} testId="map-credits-fold">
+            <Credits sightings={sightings} shown={shown} geos={shown.map((c) => geos[`${c}|${levelOf(c)}`]).filter(Boolean) as GeoFile[]} pest={pest} />
+          </Fold>
         </>
       )}
     </div>

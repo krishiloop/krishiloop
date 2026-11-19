@@ -74,7 +74,7 @@ export function TeamCards({ className }: { className?: string }) {
 export function TeamStrip() {
   const { t, lang } = useI18n();
   return (
-    <section className="section tm-strip botanic-bg botanic-bg--corner" aria-labelledby="team-strip-title" data-testid="team-strip">
+    <section className="section tm-strip botanic-bg botanic-bg--cereal" aria-labelledby="team-strip-title" data-testid="team-strip">
       <div className="wrap tm-strip-grid">
         <header>
           <p className="label m-0 flex items-center gap-2.5" data-reveal>

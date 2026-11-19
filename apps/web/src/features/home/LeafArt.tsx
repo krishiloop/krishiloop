@@ -21,9 +21,9 @@ export function LeafArt({ map, className }: { map?: boolean; className?: string 
         </linearGradient>
         <radialGradient id={`${id}-heat`}>
           <stop offset="0" stopColor="#ff6b3d" stopOpacity="0.95" />
-          <stop offset="0.35" stopColor="#eec643" stopOpacity="0.75" />
-          <stop offset="0.75" stopColor="#eec643" stopOpacity="0.15" />
-          <stop offset="1" stopColor="#eec643" stopOpacity="0" />
+          <stop offset="0.35" stopColor="#f0b9b4" stopOpacity="0.75" />
+          <stop offset="0.75" stopColor="#f0b9b4" stopOpacity="0.15" />
+          <stop offset="1" stopColor="#f0b9b4" stopOpacity="0" />
         </radialGradient>
         <clipPath id={`${id}-clip`}>
           <path d="M18 214 C 92 120, 238 70, 388 52 C 330 120, 206 206, 18 214 Z" />

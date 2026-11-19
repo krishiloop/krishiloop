@@ -1,7 +1,8 @@
 /// <reference types="node" />
 import { readFileSync, statSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { findRuleClip, normaliseSpoken, parseManifest, planRead, sha256Hex, type ClipManifest, type ReadRequest } from './speechClips';
+import { findNoticeClip, findRuleClip, normaliseSpoken, parseManifest, planRead, sha256Hex, type ClipManifest, type ReadRequest } from './speechClips';
+import en from './i18n/en';
 import bn from './i18n/bn';
 import plans from '../data/recorded/plans.json';
 
@@ -37,34 +38,70 @@ describe('the spoken-text key (same rules as ml/voice/readbacks.py)', () => {
 });
 
 describe('the shipped manifest (apps/web/public/audio)', () => {
-  it('is well formed, male voice only, credited "Built with Llama", pending a native listen', () => {
+  const voiceOf = (raw as { voice: { fallback?: { model?: string; attribution?: string } } }).voice;
+  const GEMINI = 'gemini:gemini-3.8-flash-tts:Kore';
+  const SVARA = 'svara:kenpath/svara-tts-v1';
+  // every voice a clip may carry, and its file prefix (ml/voice/gemini_readbacks.py MODELS; the svara stand-ins)
+  const PREFIX: Record<string, string> = {
+    [GEMINI]: 'gemini38',
+    'gemini:gemini-3.8-flash-lite-tts:Kore': 'gemini38l',
+    'gemini:gemini-3.1-flash-tts-preview:Kore': 'gemini31',
+    [SVARA]: 'svara-m',
+  };
+  const isGemini = (v?: string) => !!v && v.startsWith('gemini:');
+
+  it('is well formed: Gemini 3.8 Flash TTS, the earlier svara voice credited "Built with Llama", pending a native listen', () => {
     expect(manifest.clips.length).toBe((raw as { clips: unknown[] }).clips.length);
-    expect(manifest.voice.speaker).toBe('Bengali (Male)');
-    expect(manifest.voice.attribution).toBe('Built with Llama');
+    expect(manifest.voice.model).toBe('Google gemini-3.8-flash-tts');
     expect(manifest.voice.review).toMatch(/pending/);
+    expect(voiceOf.fallback?.attribution).toBe('Built with Llama');
+    for (const c of manifest.clips) expect(Object.keys(PREFIX)).toContain(c.voice);
+    expect(manifest.clips.filter((c) => isGemini(c.voice)).length).toBeGreaterThan(manifest.clips.length / 2);
   });
 
   it('every hash is the TypeScript hash of its text (the Python build and the app agree)', async () => {
     for (const c of manifest.clips) {
       expect(c.text).toBe(normaliseSpoken(c.text));
       expect(await sha256Hex(c.text)).toBe(c.text_sha256);
-      expect(c.file).toBe(`bn/svara-m-${c.text_sha256.slice(0, 16)}.ogg`);
+      expect(c.file).toBe(`${c.lang}/${PREFIX[c.voice!]}-${c.text_sha256.slice(0, 16)}.ogg`);
+    }
+  });
+
+  it('a svara clip only stands in: a Bangla rule with no passing Gemini clip', () => {
+    const key = (c: { kind: string; rule_id?: string; notice_id?: string; version?: number; lang: string }) => `${c.kind} ${c.rule_id ?? c.notice_id} ${c.version} ${c.lang}`;
+    const gem = new Set(manifest.clips.filter((c) => isGemini(c.voice)).map(key));
+    for (const c of manifest.clips.filter((c) => c.voice === SVARA)) {
+      expect([c.kind, c.lang]).toEqual(['rule', 'bn']);
+      expect(gem.has(key(c))).toBe(false);
+    }
+  });
+
+  it('the recall and cannot-check notices have a clip in Bangla and English, word for word the app’s notice', async () => {
+    for (const [id, k] of [['recalled', 'fa.voice.recalledSay'], ['invalid', 'fa.voice.invalidSay']] as const) {
+      expect((await findNoticeClip(manifest, { id, lang: 'bn', text: bn[k] }))?.voice).toBe(GEMINI);
+      expect((await findNoticeClip(manifest, { id, lang: 'en', text: en[k] }))?.voice).toBe(GEMINI);
     }
   });
 
   it('ships only files it lists, each the size it says, and stays small', () => {
+    // a clip downloads only when someone taps Hear (the service worker never precaches audio), so the budget is per clip
     const files = new Set(manifest.clips.map((c) => c.file));
     let total = 0;
     for (const f of files) {
       const size = statSync(new URL(f, AUDIO)).size;
       expect(size).toBe(manifest.clips.find((c) => c.file === f)!.bytes);
+      expect(size).toBeLessThan(80 * 1024);
       total += size;
     }
-    expect(total).toBeLessThan(320 * 1024);
+    expect(total).toBeLessThan(2.5 * 1024 * 1024);
   });
 
   it('ships no clip whose round trip was worse than 10 % CER', () => {
     for (const c of manifest.clips) expect(c.roundtrip_cer_pct ?? 100).toBeLessThanOrEqual(10);
+  });
+
+  it('holds back R-PLB-009 in Bangla: its round trip was 14 % CER, so it gets no clip', async () => {
+    expect(manifest.clips.some((c) => c.rule_id === 'R-PLB-009' && c.lang === 'bn')).toBe(false);
   });
 
   it('rejects a wrong schema and any file outside /audio/<lang>/', () => {
@@ -77,7 +114,7 @@ describe('the shipped manifest (apps/web/public/audio)', () => {
 describe('a clip plays only for its exact text', () => {
   it('finds R-BDR-002 v1 for its exact sentence, also with stray spaces or a decomposed nukta', async () => {
     const hit = await findRuleClip(manifest, { ruleId: 'R-BDR-002', version: 1, lang: 'bn', text: R002 });
-    expect(hit?.file).toBe('bn/svara-m-cd8e51c6c42c4a3a.ogg');
+    expect(hit?.file).toBe('bn/gemini38-cd8e51c6c42c4a3a.ogg');
     const messy = ` ${R002.replace(' ', '\u00A0 ').normalize('NFD')}\n`;
     expect((await findRuleClip(manifest, { ruleId: 'R-BDR-002', version: 1, lang: 'bn', text: messy }))?.file).toBe(hit?.file);
   });
@@ -92,7 +129,7 @@ describe('a clip plays only for its exact text', () => {
     expect(await findRuleClip(manifest, { ...k, text: `স্প্রে নয\u09BC. ${R002}` })).toBeNull(); // the decision word is not in the clip
   });
 
-  it('matches what the recorded Bangla plans really read (R-BDR-006 is held back: its round trip failed; the potato rules have no clip yet)', async () => {
+  it('matches what the recorded Bangla plans really read: every rule they use has a checked clip', async () => {
     const found: Record<string, boolean> = {};
     for (const plan of Object.values(plans as Record<string, { actions?: { title: { bn?: string }; receipt: { rule_refs: { rule_id: string; version: number }[] } }[] }>)) {
       for (const a of plan.actions ?? []) {
@@ -101,8 +138,8 @@ describe('a clip plays only for its exact text', () => {
       }
     }
     expect(found).toEqual({
-      'R-BDR-001 v1': true, 'R-BDR-002 v1': true, 'R-BDR-005 v1': true, 'R-BDR-006 v1': false, 'R-BDR-009 v1': true, 'R-BDR-010 v1': true,
-      'R-PLB-006 v1': false, 'R-PLB-010 v1': false, 'R-PLB-011 v2': false,
+      'R-BDR-001 v1': true, 'R-BDR-002 v1': true, 'R-BDR-005 v1': true, 'R-BDR-006 v1': true, 'R-BDR-009 v1': true, 'R-BDR-010 v1': true,
+      'R-PLB-006 v1': true, 'R-PLB-010 v1': true, 'R-PLB-011 v2': true,
     });
   });
 });

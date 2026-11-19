@@ -10,6 +10,7 @@ import { attentionReceived, toRgb } from '../../lib/agritriage/xai';
 import { XaiViews } from '../farmer/photo/XaiViews';
 import { drawTestLeaf } from './testLeaf';
 import { Choice } from './parts';
+import { NearestOffice } from '../offices/NearestOffice';
 
 /** public/models/agritriage/config.json `model_mb` (the INT8 student, 11,500,687 bytes): said before anything loads. */
 const MODEL_MB = 11.5;
@@ -175,6 +176,7 @@ export default function LeafTool() {
                     : t('try.gate.why.unknown')}
             </p>
           </div>
+          {result.outcome !== 'diagnose' && <NearestOffice />}
 
           <div>
             <p className="eyebrow">{t('try.leaf.top')}</p>

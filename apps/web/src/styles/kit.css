@@ -456,7 +456,7 @@ html.reveal-ready [data-stagger].is-in > :nth-child(n + 7) { transition-delay: 4
   animation: sheen 9s linear infinite;
 }
 [data-theme="light"] .text-sheen {
-  background-image: linear-gradient(100deg, var(--color-ink) 0%, #6a4e00 30%, #8a6400 55%, #6a4e00 80%, var(--color-ink) 100%);
+  background-image: linear-gradient(100deg, var(--color-ink) 0%, #2f5a35 30%, #3d6b45 55%, #2f5a35 80%, var(--color-ink) 100%);
 }
 @keyframes sheen {
   to {
@@ -928,8 +928,8 @@ dialog.palette::backdrop {
 }
 [data-theme="light"] :is(.mesh, .kg-hero) {
   --color-ink-3: #4f5952;
-  --color-accent-text: #7a4f0b;
-  --color-eyebrow: #7a4f0b;
+  --color-accent-text: #2f5a35;
+  --color-eyebrow: #335e3b;
 }
 .mesh-butter { --m1: var(--color-butter-leaf); --m2: var(--color-lotus-leaf); --m3: var(--color-moss-leaf); }
 .mesh-lotus { --m1: var(--color-lotus-leaf); --m2: var(--color-butter-leaf); --m3: var(--color-hyacinth-leaf); }
@@ -1092,4 +1092,97 @@ dialog.palette::backdrop {
   :is(.botanic-bg, .botanic-art)::after {
     animation: none !important;
   }
+}
+
+/* ================================================================== v6 (20 Nov): the "Show more" fold and plant art */
+.fold {
+  margin-top: 10px;
+  font-size: 0.86rem;
+  color: var(--color-ink-2);
+}
+.fold > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  color: var(--color-ink-2);
+}
+.fold > summary::-webkit-details-marker {
+  display: none;
+}
+.fold > summary:hover {
+  color: var(--color-ink);
+}
+.fold-chev {
+  transition: transform 200ms var(--ease-out);
+}
+.fold[open] > summary .fold-chev {
+  transform: rotate(90deg);
+}
+.fold-body {
+  display: grid;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+/* ---- plant line art (v6, 20 Nov: "add more plants"): public/art/plants/*.svg, thin lines, under 3 KB each.
+   Same hooks as the deck's art (.botanic-bg on a section, .botanic-art as a layer), same transform-only sway while on
+   screen, still under reduced motion. Section forms are anchored low; page forms (-pg-) sit high in the corners.
+   --field: potato (low left) + tomato (low right)      --orchard: banana (low left) + mango (high right)
+   --cereal: jute (low left) + wheat (low right)        --chillifield: chilli (low left) + wheat (high right)
+   --pg-a / --pg-b / --pg-c: two plants each, down a long page's two edges, very quiet. */
+.botanic-bg--field::before,
+.botanic-bg--orchard::before,
+.botanic-bg--cereal::before,
+.botanic-bg--chillifield::before,
+.botanic-bg--field::after,
+.botanic-bg--orchard::after,
+.botanic-bg--cereal::after,
+.botanic-bg--chillifield::after,
+[class*="botanic-bg--pg-"]::before,
+[class*="botanic-bg--pg-"]::after {
+  content: "";
+  filter: var(--art-f, none);
+}
+:root:not([data-theme="light"]) :is(.botanic-bg, .botanic-art),
+.band-night :is(.botanic-bg, .botanic-art) {
+  --art-f: brightness(2.1) saturate(0.7);
+}
+.botanic-bg--field::before { --art: url("/art/plants/potato.svg"); bottom: 0; left: 1vw; width: min(13vw, 170px); aspect-ratio: 200 / 270; transform-origin: 50% 100%; }
+.botanic-bg--field::after { --art: url("/art/plants/tomato.svg"); --art-d: 14s; --art-delay: -4s; bottom: 0; right: 1.5vw; width: min(13vw, 170px); aspect-ratio: 200 / 270; transform-origin: 40% 100%; }
+.botanic-bg--orchard::before { --art: url("/art/plants/banana.svg"); bottom: 0; left: 0.5vw; width: min(13vw, 170px); aspect-ratio: 230 / 296; transform-origin: 20% 100%; }
+.botanic-bg--orchard::after { --art: url("/art/plants/mango.svg"); --art-d: 15s; --art-delay: -6s; top: 1vw; right: 0; width: min(22vw, 280px); aspect-ratio: 200 / 190; transform-origin: 100% 20%; }
+.botanic-bg--cereal::before { --art: url("/art/plants/jute.svg"); bottom: 0; left: 1vw; width: min(11vw, 150px); aspect-ratio: 200 / 280; transform-origin: 50% 100%; }
+.botanic-bg--cereal::after { --art: url("/art/plants/wheat.svg"); --art-d: 13s; --art-delay: -3s; bottom: 0; right: 1.5vw; width: min(12vw, 160px); aspect-ratio: 200 / 280; transform-origin: 40% 100%; }
+.botanic-bg--chillifield::before { --art: url("/art/plants/chilli.svg"); bottom: 0; left: 1vw; width: min(12vw, 160px); aspect-ratio: 200 / 270; transform-origin: 50% 100%; }
+.botanic-bg--chillifield::after { --art: url("/art/plants/wheat.svg"); --art-d: 14s; top: 1vw; right: 1vw; width: min(11vw, 150px); aspect-ratio: 200 / 280; transform-origin: 40% 100%; }
+/* page forms: two plants down the edges of a long page, behind the content (cards cover them), paler */
+.botanic-bg--pg-a::before { --art: url("/art/plants/tomato.svg"); top: 120px; right: 0.8vw; width: min(11vw, 150px); aspect-ratio: 200 / 270; transform-origin: 40% 100%; --art-o: 0.55; }
+.botanic-bg--pg-a::after { --art: url("/art/plants/potato.svg"); top: 760px; left: 0.6vw; width: min(11vw, 150px); aspect-ratio: 200 / 270; transform-origin: 50% 100%; --art-o: 0.5; --art-delay: -5s; }
+.botanic-bg--pg-b::before { --art: url("/art/plants/mango.svg"); top: 110px; right: 0; width: min(18vw, 240px); aspect-ratio: 200 / 190; transform-origin: 100% 20%; --art-o: 0.55; }
+.botanic-bg--pg-b::after { --art: url("/art/plants/wheat.svg"); top: 820px; left: 0.6vw; width: min(10vw, 140px); aspect-ratio: 200 / 280; transform-origin: 40% 100%; --art-o: 0.5; --art-delay: -4s; }
+.botanic-bg--pg-c::before { --art: url("/art/plants/chilli.svg"); top: 120px; right: 0.8vw; width: min(11vw, 150px); aspect-ratio: 200 / 270; transform-origin: 50% 100%; --art-o: 0.55; }
+.botanic-bg--pg-c::after { --art: url("/art/plants/jute.svg"); top: 800px; left: 0.6vw; width: min(9vw, 130px); aspect-ratio: 200 / 280; transform-origin: 50% 100%; --art-o: 0.5; --art-delay: -6s; }
+@media (max-width: 767.98px) {
+  .botanic-bg--field::before, .botanic-bg--field::after, .botanic-bg--orchard::before, .botanic-bg--orchard::after,
+  .botanic-bg--cereal::before, .botanic-bg--cereal::after, .botanic-bg--chillifield::before, .botanic-bg--chillifield::after,
+  [class*="botanic-bg--pg-"]::before, [class*="botanic-bg--pg-"]::after { width: 22vw; opacity: 0.6; }
+}
+
+/* a small plant on a card or an empty state: an <img> (components/PlantSpot), quiet, sways a degree */
+.plant-spot {
+  display: block;
+  width: 56px;
+  height: auto;
+  opacity: 0.7;
+  pointer-events: none;
+  transform-origin: 50% 100%;
+  filter: var(--art-f, none);
+}
+:root:not([data-theme="light"]) .plant-spot { --art-f: brightness(2.1) saturate(0.7); }
+@media (prefers-reduced-motion: no-preference) {
+  .plant-spot { animation: art-sway 9s ease-in-out infinite alternate; }
 }

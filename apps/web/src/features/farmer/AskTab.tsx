@@ -24,6 +24,7 @@ import { VoiceLine } from './VoiceLine';
 import { reasonText } from './words';
 import { Pipeline } from './Pipeline';
 import { Handoff } from './Handoff';
+import { NearestOffice } from '../offices/NearestOffice';
 import { ClickSpark } from '../../ui/kit/ClickSpark';
 import type { ReceiptRef } from './ReceiptSheet';
 
@@ -211,6 +212,7 @@ export function AskTab({ onOpenReceipt }: { onOpenReceipt: (r: ReceiptRef) => vo
         <h2 className="t-head">{t('fa.ask.title')}</h2>
         <p className="mt-1.5 text-ink-2">{t('fa.ask.sub')}</p>
       </div>
+      <NearestOffice variant="entry" />
 
       {supported ? (
         <div className="grid justify-items-center gap-3">
@@ -349,6 +351,7 @@ function Answer({ r, recorded, onOpenReceipt }: { r: AskResponse; recorded: bool
             </div>
           </div>
           <Handoff />
+          <NearestOffice className="m-4" />
           <dl className="m-0 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 border-t border-rule px-5 py-4 text-sm">
             {ab?.why && (
               <>

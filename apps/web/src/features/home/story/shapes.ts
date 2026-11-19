@@ -10,8 +10,8 @@
 export const PALETTE = [
   '#b9cfa8', // 0 moss (pale sage, young paddy)
   '#8fc26a', // 1 paddy green
-  '#f2d98b', // 2 butter (rice straw)
-  '#e2a93b', // 3 mustard (the action colour)
+  '#efe7d6', // 2 cream (rice paste)
+  '#a8d1df', // 3 monsoon sky
   '#ef9e80', // 4 terracotta
   '#f0b9b4', // 5 lotus
   '#a8d1df', // 6 monsoon
@@ -27,8 +27,8 @@ export const PALETTE = [
 export const PALETTE_LIGHT = [
   '#7fa36b', // 0 moss
   '#5b9a3f', // 1 paddy green
-  '#d9ad3e', // 2 butter
-  '#c98a1c', // 3 mustard
+  '#9fb48f', // 2 pale paddy (was butter: no yellow)
+  '#c4806a', // 3 clay (was mustard: no yellow)
   '#df7a56', // 4 terracotta
   '#dc8590', // 5 lotus
   '#5f9fbd', // 6 monsoon
@@ -38,7 +38,7 @@ export const PALETTE_LIGHT = [
   '#ad5d3b', // 10 clay
 ] as const;
 /** The soft pastels of the far and near layers (depth): moss, butter, lotus, monsoon, hyacinth, terracotta. */
-export const DEPTH = ['#b9cfa8', '#f2d98b', '#f0b9b4', '#a8d1df', '#c6b7e4', '#ef9e80'] as const;
+export const DEPTH = ['#b9cfa8', '#efe7d6', '#f0b9b4', '#a8d1df', '#c6b7e4', '#ef9e80'] as const;
 const MOSS = 0, GREEN = 1, BUTTER = 2, MUSTARD = 3, TERRA = 4, LOTUS = 5, MONSOON = 6, HYACINTH = 7, CREAM = 8, SPROUT = 9, CLAY = 10;
 
 /** How a leaf lives once in place. */
@@ -553,7 +553,142 @@ function loopMark(n: number): Shape {
   );
 }
 
-/** The six pictures, each built the first time it is asked for (the field builds the first two at once, the rest when idle). */
+/* ------------------------------------------------------------------ plants the photo AI knows: a potato plant and a tomato plant (v6) */
+/** A plant is a stem, side branches with leaflets on both sides, and what it bears: flowers and tubers, or trusses of fruit. */
+function branchLeaves(f: (t: number) => [number, number], colors: readonly number[], l = 0.9, w = 1.1) {
+  return (r: Rand): Sample => {
+    const t = 0.12 + r() * 0.88;
+    const [x, y, a] = along(f, t);
+    const side = r() < 0.5 ? -1 : 1;
+    const off = (0.03 + r() * 0.05) * side;
+    return [x - Math.sin(a) * off + jit(r, 0.01), y + Math.cos(a) * off + jit(r, 0.01), a + side * (0.7 + r() * 0.35), pick(r, colors), LIFE.sway, l * (1 - t * 0.3), w, 0.95 - t * 0.15];
+  };
+}
+
+function potatoPlant(n: number): Shape {
+  const stem = cubic([0.02, 0.66], [-0.1, 0.1], [0.12, -0.5], [0.02, -0.92]);
+  const branches = [0.2, 0.32, 0.45, 0.58, 0.72, 0.86].map((t, i) => {
+    const side = i % 2 ? 1 : -1;
+    const [x, y] = stem(t);
+    const L = 0.62 - i * 0.05;
+    return quad([x, y], [x + side * L * 0.55, y - 0.02], [x + side * L, y - L * 0.38 - 0.06]);
+  });
+  const tubers = [
+    [-0.42, 0.84, 0.19, 0.12],
+    [0.1, 0.9, 0.2, 0.12],
+    [0.5, 0.82, 0.17, 0.11],
+  ];
+  return build(
+    n,
+    [
+      [
+        18,
+        (r) => {
+          const [x, y, a] = along(stem, r());
+          return [x + jit(r, 0.008), y, a, pick(r, [GREEN, MOSS]), LIFE.sway, 1.1, 0.4, 0.95];
+        },
+      ],
+      [
+        46,
+        (r, j) => {
+          const b = branches[j % branches.length]!;
+          return branchLeaves(b, [GREEN, GREEN, MOSS, SPROUT])(r);
+        },
+      ],
+      [
+        8,
+        (r) => {
+          const th = r() * TAU;
+          return [0.03 + Math.cos(th) * 0.1, -0.95 + Math.sin(th) * 0.1, th + Math.PI / 2, pick(r, [LOTUS, CREAM, HYACINTH]), LIFE.sway, 0.55, 1.2, 1];
+        },
+      ],
+      [
+        16,
+        (r) => {
+          const [cx, cy, rx, ry] = tubers[Math.floor(r() * tubers.length)]!;
+          const th = r() * TAU;
+          const k = Math.sqrt(r());
+          return [cx! + Math.cos(th) * rx! * k, cy! + Math.sin(th) * ry! * k, th + Math.PI / 2, pick(r, [TERRA, LOTUS, CLAY]), LIFE.still, 0.55, 1.25, 0.9];
+        },
+      ],
+      [
+        6,
+        (r) => {
+          const x = jit(r, 0.8);
+          return [x, 0.7 + Math.abs(jit(r, 0.03)), jit(r, 0.05), MONSOON, LIFE.still, 1.5, 0.3, 0.5 + r() * 0.3];
+        },
+      ],
+      [8, ambient([MOSS, LOTUS, SPROUT, CREAM])],
+    ],
+    23,
+  );
+}
+
+function tomatoPlant(n: number): Shape {
+  const stem = cubic([-0.2, 0.9], [-0.34, 0.3], [0.2, -0.2], [0.08, -0.92]);
+  const branches = [0.18, 0.3, 0.42, 0.54, 0.66, 0.8].map((t, i) => {
+    const side = i % 2 ? 1 : -1;
+    const [x, y] = stem(t);
+    const L = 0.6 - i * 0.04;
+    return quad([x, y], [x + side * L * 0.6, y - 0.03], [x + side * L, y - L * 0.34 - 0.05]);
+  });
+  const fruit = [
+    [0.36, 0.34, 0.15],
+    [0.55, 0.52, 0.13],
+    [0.22, 0.58, 0.12],
+    [-0.46, 0.14, 0.12],
+  ];
+  return build(
+    n,
+    [
+      [
+        16,
+        (r) => {
+          const [x, y, a] = along(stem, r());
+          return [x + jit(r, 0.008), y, a, pick(r, [GREEN, MOSS]), LIFE.sway, 1.1, 0.4, 0.95];
+        },
+      ],
+      [
+        42,
+        (r, j) => {
+          const b = branches[j % branches.length]!;
+          return branchLeaves(b, [GREEN, MOSS, MOSS, SPROUT], 0.95, 1.05)(r);
+        },
+      ],
+      [
+        26,
+        (r) => {
+          const [cx, cy, rad] = fruit[Math.floor(r() * fruit.length)]!;
+          const th = r() * TAU;
+          const k = Math.sqrt(r());
+          return [cx! + Math.cos(th) * rad! * k, cy! + Math.sin(th) * rad! * k, th + Math.PI / 2, pick(r, [TERRA, TERRA, LOTUS]), LIFE.pulse, 0.5, 1.3, 0.95];
+        },
+      ],
+      [
+        3,
+        (r) => {
+          const [cx, cy, rad] = fruit[Math.floor(r() * fruit.length)]!;
+          return [cx! + jit(r, 0.03), cy! - rad! - 0.02, r() * TAU, SPROUT, LIFE.still, 0.4, 0.9, 1];
+        },
+      ],
+      [
+        5,
+        (r) => {
+          const th = r() * TAU;
+          return [0.08 + Math.cos(th) * 0.08, -0.95 + Math.sin(th) * 0.08, th + Math.PI / 2, pick(r, [CREAM, LOTUS]), LIFE.sway, 0.5, 1.2, 1];
+        },
+      ],
+      [
+        8,
+        (r) => [jit(r, 0.8), 0.92 + Math.abs(jit(r, 0.04)), jit(r, 0.05), MONSOON, LIFE.still, 1.5, 0.3, 0.5 + r() * 0.3],
+      ],
+      [8, ambient([MOSS, LOTUS, SPROUT, CREAM])],
+    ],
+    29,
+  );
+}
+
+/** The eight pictures, each built the first time it is asked for (the field builds the first two at once, the rest when idle). */
 export function shapeBuilders(n: number): (() => Shape)[] {
-  return [() => ricePlant(n), () => sickLeaf(n), () => rainCloud(n), () => bangladesh(n), () => receipt(n), () => loopMark(n)];
+  return [() => ricePlant(n), () => potatoPlant(n), () => tomatoPlant(n), () => sickLeaf(n), () => rainCloud(n), () => bangladesh(n), () => receipt(n), () => loopMark(n)];
 }

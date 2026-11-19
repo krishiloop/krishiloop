@@ -3,6 +3,7 @@ import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { requiredRight, type Policy } from './policy';
 import { blob } from '../proof/sources';
+import { Fold } from '../../ui/Fold';
 
 const POLICY_URL = blob('rules/policy/photo-trust.yaml');
 
@@ -41,7 +42,8 @@ export function PolicyBar({ policy, version }: { policy: Policy; version: number
         ))}
       </div>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
+      <Fold>
+      <div className="mt-6 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
         <div>
           <h3 className="eyebrow">{t('tp.tier.title')}</h3>
           <ol className="m-0 mt-3 list-none p-0" data-testid="tiers">
@@ -77,12 +79,13 @@ export function PolicyBar({ policy, version }: { policy: Policy; version: number
         </div>
       </div>
 
-      <p className="m-0 mt-8 text-[0.85rem] text-ink-3">
+      <p className="m-0 mt-6 text-[0.85rem] text-ink-3">
         {t('tp.policy.note', { v: fmtNum(version, lang) })}{' '}
         <a className="link mono text-[0.8rem]" href={POLICY_URL} target="_blank" rel="noreferrer">
           rules/policy/photo-trust.yaml
         </a>
       </p>
+      </Fold>
     </div>
   );
 }

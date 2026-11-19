@@ -40,7 +40,7 @@ test('typing the code from an SMS opens the receipt, and the page says the code 
   const asked = await mockCodes(page);
   await page.goto('/verify');
   const box = page.getByLabel('Code from an SMS');
-  await expect(page.getByTestId('vf-code-form')).toContainText('Case and dashes do not matter');
+  await expect(page.getByTestId('vf-code-form')).toContainText('Eight letters and digits');
   // not a code: said plainly, nothing is asked
   await box.fill('hello');
   await page.getByRole('button', { name: 'Open' }).click();

@@ -185,3 +185,35 @@ All long jobs went through `ssh -o BatchMode=yes nbtc5090 "powershell -NoProfile
 3. `readbacks.py build` with both results files keeps the best take of each text that passes.
 
 The steps are in the script's header.
+
+## 10. The Gemini voice (20 Nov 2026)
+
+The owner asked for a more human Bangla and English voice, light on the phone, on the latest technology.
+
+**What it is.**
+- The readbacks are made once, ahead of time, with Google Gemini TTS, using the prebuilt "Kore" voice.
+  - The models are tried in order: `gemini-3.8-flash-tts`, then `gemini-3.8-flash-lite-tts`, then `gemini-3.1-flash-tts-preview`. Each has its own small daily quota on the free tier.
+  - The script is `ml/voice/gemini_readbacks.py`.
+- Phones only play small Opus files (about 20–50 KB each). They do no speech work.
+- Only our own rule titles and the two fixed notices are sent to Google, never farmer text or data.
+
+**The same promises as the svara clips (section 9).**
+- A clip is keyed by rule id + version (or notice id) + the sha256 of the normalised text. The app plays it only for that exact text.
+- Each clip is transcribed back with `gemini-3.8-flash` and scored with `bn_text.py`. A clip above 10% CER is held back.
+  - Transcripts and scores are in `results/gemini_roundtrip.json`.
+  - This is a SYNTHETIC check by a model from the same vendor. It is not a native listen.
+- A recalled receipt never plays its advice. The recall notice now has its own clip in both languages.
+- The script can keep an earlier svara-tts-v1 clip (Built with Llama) for a Bangla rule with no passing Gemini clip. Each clip names its voice, and the label under "Hear" follows it. Today no svara clip is needed.
+
+**Status on 20 Nov** (`apps/web/public/audio/manifest.json`, `results/gemini_roundtrip.json`):
+- **35 readbacks shipped** (33 audio files: R-BDR-002 and 003 share a text):
+  - the recall and cannot-check notices, in Bangla and English;
+  - all 12 Bangla rice rules;
+  - 10 of 11 Bangla potato rules;
+  - English rice rules R-BDR-001 to 009.
+- Round trip on the shipped clips: median 0.81% CER, worst 5.48%. They came from three models: 13 from 3.8 Flash TTS, 11 from 3.8 Flash Lite TTS and 11 from 3.1 Flash TTS preview.
+- **Held back by the check:** R-PLB-009 in Bangla, at a 14.16% round trip. It uses the device voice until a new take passes.
+- **Not checked yet:** R-BDR-010 in English. Every speech-to-text quota was used up, so the clip is held back.
+- **Not made yet:** 13 English texts (R-BDR-011 and 012, and the potato rules). They use the device voice.
+- No svara clip is needed any more, so the old svara files left `apps/web/public` (they stay in git history and in `results/`).
+- The free tier allowed about 11 TTS requests and about 20 speech-to-text requests per model per day. Rerun the script after the quota resets (about 14:00 Bangladesh time). It resumes where it stopped and never redoes a clip that exists.

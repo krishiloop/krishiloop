@@ -6,6 +6,7 @@ import { verifyUrl } from '../../lib/qr';
 import { cx } from '../../lib/cx';
 import { LinkButton } from '../../ui/Button';
 import { Qr } from '../../ui/Qr';
+import { Fold } from '../../ui/Fold';
 import { ReceiptCard } from '../../ui/Receipt';
 import { Marquee } from '../../ui/kit/Marquee';
 import { NumberTicker } from '../../ui/kit/NumberTicker';
@@ -190,14 +191,14 @@ const NEXT: Key[] = ['story.status.next1', 'story.status.next2', 'story.status.n
 export function StatusBand() {
   const { t } = useI18n();
   return (
-    <section className="section mesh botanic-bg botanic-bg--corner cv" aria-labelledby="status-title">
+    <section className="section mesh botanic-bg botanic-bg--field cv" aria-labelledby="status-title">
       <div className="wrap">
         <Head eyebrow={t('story.status.eyebrow')} title={t('story.status.title')} id="status-title" />
         <div className="mt-14 grid gap-6 lg:grid-cols-[1.25fr_1fr]">
           <div className="surface p-7 sm:p-9" data-reveal {...spotlight()}>
             <p className="label text-go">{t('story.status.now')}</p>
             <ul className="m-0 mt-6 grid list-none gap-x-8 gap-y-4 p-0 sm:grid-cols-2">
-              {NOW.map((k) => (
+              {NOW.slice(0, 3).map((k) => (
                 <li key={k} className="flex gap-3 text-[1rem] leading-snug text-ink">
                   <span className="mt-0.5 grid size-5 flex-none place-items-center rounded-full bg-sprout text-sprout-ink">
                     <Check size={12} strokeWidth={3} aria-hidden />
@@ -206,17 +207,39 @@ export function StatusBand() {
                 </li>
               ))}
             </ul>
+            <Fold>
+              <ul className="m-0 grid list-none gap-x-8 gap-y-4 p-0 sm:grid-cols-2">
+                {NOW.slice(3).map((k) => (
+                  <li key={k} className="flex gap-3 text-[1rem] leading-snug text-ink">
+                    <span className="mt-0.5 grid size-5 flex-none place-items-center rounded-full bg-sprout text-sprout-ink">
+                      <Check size={12} strokeWidth={3} aria-hidden />
+                    </span>
+                    {t(k)}
+                  </li>
+                ))}
+              </ul>
+            </Fold>
           </div>
           <div className="rounded-[var(--radius-frame)] border border-dashed border-rule-2 p-7 sm:p-9" data-reveal style={{ '--i': 1 } as CSSProperties}>
             <p className="label">{t('story.status.next')}</p>
             <ul className="m-0 mt-6 list-none space-y-4 p-0">
-              {NEXT.map((k) => (
+              {NEXT.slice(0, 2).map((k) => (
                 <li key={k} className="flex gap-3 text-[1rem] leading-snug text-ink-2">
                   <CircleDashed size={20} className="flex-none text-ink-3" aria-hidden />
                   {t(k)}
                 </li>
               ))}
             </ul>
+            <Fold>
+              <ul className="m-0 list-none space-y-4 p-0">
+                {NEXT.slice(2).map((k) => (
+                  <li key={k} className="flex gap-3 text-[1rem] leading-snug text-ink-2">
+                    <CircleDashed size={20} className="flex-none text-ink-3" aria-hidden />
+                    {t(k)}
+                  </li>
+                ))}
+              </ul>
+            </Fold>
           </div>
         </div>
       </div>

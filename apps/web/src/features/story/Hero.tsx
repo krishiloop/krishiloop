@@ -52,9 +52,6 @@ export function Hero() {
             {t('ui.cta.verify')}
           </LinkButton>
         </div>
-        <p className="mono hero-rise mt-9 text-xs leading-relaxed text-ink-3" style={{ ['--i' as string]: 4 }}>
-          {t('story.hero.facts')}
-        </p>
       </div>
 
       <div className="relative mx-auto w-full max-w-[460px] lg:mt-2">
@@ -68,6 +65,7 @@ export function Hero() {
             status={state}
             stampKey={stampKey}
             struck={state === 'recalled'}
+            compact
             print
             stampDelay={stampKey === 0 ? 950 : 0}
             mark={<DataMark kind="recorded" date={RECORDED_AT} />}

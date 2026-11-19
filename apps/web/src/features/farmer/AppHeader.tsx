@@ -33,13 +33,13 @@ export function AppHeader({ onGuide }: { onGuide: () => void }) {
           <span>{t('ui.app.website')}</span>
         </Link>
         <div className="flex items-center gap-1">
-          <Link to="/verify" className="fa-site-link">
+          <Link to="/verify" className="fa-site-link" aria-label={t('ui.nav.verify')}>
             <ScanLine size={15} aria-hidden />
-            {t('ui.nav.verify')}
+            {t('ui.app.verify')}
           </Link>
-          <Link to="/officer" className="fa-site-link">
+          <Link to="/officer" className="fa-site-link" aria-label={t('ui.nav.officer')}>
             <Headset size={15} aria-hidden />
-            {t('ui.nav.officer')}
+            {t('ui.app.officer')}
           </Link>
           <ThemeToggle />
         </div>

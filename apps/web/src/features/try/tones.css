@@ -3,7 +3,7 @@
    if a page loads without those tokens. Forest (dark) first, cream (light) below. */
 .tone-butter {
   --tone: var(--color-butter, #2b2817);
-  --tone-ink: var(--color-butter-ink, #f2d98b);
+  --tone-ink: var(--color-butter-ink, #e9e2d2);
 }
 .tone-moss {
   --tone: var(--color-moss, #18311f);
@@ -26,8 +26,8 @@
   --tone-ink: var(--color-lotus-ink, #f0b9b4);
 }
 [data-theme="light"] .tone-butter {
-  --tone: var(--color-butter, #f7ecc6);
-  --tone-ink: var(--color-butter-ink, #6b4a06);
+  --tone: var(--color-butter, #f3eee4);
+  --tone-ink: var(--color-butter-ink, #5b4a36);
 }
 [data-theme="light"] .tone-moss {
   --tone: var(--color-moss, #e2ebd9);

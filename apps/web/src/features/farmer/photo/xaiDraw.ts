@@ -6,7 +6,7 @@
 import { dilate, outline, upsample, type Lesion } from '../../../lib/agritriage/xai';
 
 /** butter -> apricot -> terracotta -> clay rose -> deep lotus (the /map scale): "pushed the answer" */
-export const WARM = ['#f5e7b2', '#f4cc94', '#eda383', '#cf6f66', '#8c3550'];
+export const WARM = ['#f3e4d6', '#f2c3a4', '#eda383', '#cf6f66', '#8c3550'];
 /** pale monsoon -> monsoon -> hyacinth -> deep hyacinth: "attention" */
 export const COOL = ['#d9ecf2', '#a8d1df', '#c6b7e4', '#8d77c4', '#4b3a78'];
 export const SPOT = '#f0b9b4'; // lotus

@@ -88,10 +88,12 @@ test.describe('/proof in recorded mode', () => {
     await expect(page.getByTestId('eval-ask')).toContainText('Made-up test questions');
     await expect(page.getByTestId('eval-trust')).toContainText('70–126'); // the 95% range over 200 random orders (earned_trust_ci.json), was 89–109 over 3
     await expect(page.getByTestId('eval-trust')).toContainText('Replay');
+    await page.getByTestId('eval-ask').locator('summary').click(); // v6: caveat and files sit under Show more
     await expect(page.getByTestId('eval-ask').getByRole('link', { name: 'ml/ask/eval_report.json' })).toHaveAttribute('href', /eval_report\.json$/);
     // the three results of 29 Oct, each with its report; the safety eval says it is not final
     await expect(page.getByTestId('new-safety')).toContainText('Not final');
     await expect(page.getByTestId('new-speech')).toContainText('Not yet wired into the app');
+    await page.getByTestId('new-sovereign').locator('summary').click();
     await expect(page.getByTestId('new-sovereign').getByRole('link', { name: 'ml/sovereign/REPORT.md' })).toHaveAttribute('href', /ml\/sovereign\/REPORT\.md$/);
   });
 
@@ -106,6 +108,7 @@ test.describe('/proof in recorded mode', () => {
     await expect(mcp.locator('.pf-tool')).toHaveCount(14);
     await expect(page.getByTestId('section-mcp').getByRole('heading', { level: 2 })).toHaveText('5 MCP servers, 14 tools, all read-only.');
     await expect(page.getByTestId('tests')).toContainText('176');
+    await page.getByTestId('section-tests').locator('summary').click();
     await expect(page.getByRole('link', { name: 'Open GitHub Actions' })).toHaveAttribute('href', 'https://github.com/krishiloop/krishiloop/actions');
     await expect(page.getByTestId('register')).toContainText('permitted (not CC BY)');
   });

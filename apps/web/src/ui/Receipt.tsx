@@ -45,6 +45,7 @@ export function ReceiptCard({
   stampKey,
   mark,
   compact,
+  tiny,
   print,
   struck,
   stampDelay = 0,
@@ -57,6 +58,8 @@ export function ReceiptCard({
   stampKey?: string | number;
   mark?: ReactNode;
   compact?: boolean;
+  /** v6: no quote and no signature row, just the advice, the rule and the week (home cards, where the page must stay light) */
+  tiny?: boolean;
   print?: boolean;
   struck?: boolean;
   /** ms before the stamp lands (e.g. after the paper has printed) */
@@ -98,7 +101,7 @@ export function ReceiptCard({
             </div>
           </div>
 
-          {source && <Quote source={source} lines={compact ? 3 : 6} className="mt-5 border-l-2 border-rule-2 pl-4" />}
+          {source && !tiny && <Quote source={source} lines={compact ? 3 : 6} className="mt-5 border-l-2 border-rule-2 pl-4" />}
 
           <dl className="mt-5 grid grid-cols-[6.4rem_1fr] gap-x-3 gap-y-2 text-sm">
             {rule && (
@@ -141,10 +144,12 @@ export function ReceiptCard({
                 </span>
               </Row>
             )}
-            <Row label={t('ui.receipt.signed')}>
-              <span className="mono">eddsa-jcs-2022</span>
-              <span className="text-ink-3"> · {fmtDate(receipt.created_at, lang)}</span>
-            </Row>
+            {!tiny && (
+              <Row label={t('ui.receipt.signed')}>
+                <span className="mono">eddsa-jcs-2022</span>
+                <span className="text-ink-3"> · {fmtDate(receipt.created_at, lang)}</span>
+              </Row>
+            )}
           </dl>
 
           {credentialId && (

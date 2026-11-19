@@ -2,39 +2,36 @@
 name: KrishiLoop
 direction: field guide (the owner's KrishiGuard AI deck): cream pages, forest bands, Fraunces headlines
 dials: {home: {variance: 7, motion: 6, density: 4}, app-screens: {variance: 4, motion: 4, density: 7}}
-colors (exact values from the KrishiGuard AI pptx):
+colors (20 Nov 2026: creamy white and forest, pastel washes, NO yellow or mustard anywhere, owner's rule; the values in
+  src/styles/index.css and scripts/contrast.mjs are the truth, and contrast.mjs checks every pair):
   cream (light, the DEFAULT):
-    paper: "#F3EEE2"   # the deck's cream page
-    card: "#FFFDF8"    # cream card (paper objects #FBF8F1)
+    paper: "#FAF6EE"   # creamy white page
+    sunk: "#F1EBE0"; card: "#FFFDF8"; raised: "#FFFFFF"
     rule: "#DCD3BF"    # thin lines (paper objects #E6DECB)
     ink: "#14261C"     # forest ink
     ink-2: "#46524A"   # slate text
-    ink-3: "#5A645C"   # slate, a shade darker than the deck's #5E675F so it passes AA on every cream surface
-    eyebrow: "#8A5A0E" # gold-brown, uppercase, letter-spaced
-  dusk (the DARK theme since 20 Nov v5: a deep aubergine ink with pastel lights, not green):
-    paper: "#1B1720"; sunk: "#141118"; card: "#241F2A"; raised: "#2D2734"; rule: "#322B38"
-    ink: "#F3EEE2"; ink-2: "#D3CCD2"; ink-3: "#B4ABB6"; eyebrow: "#E2A93B"
-  forest (.band-night only: the one deep accent, the footer; no longer the dark theme or the home hero):
-    paper: "#14261C"   # forest
-    sunk: "#0E2419"    # deepest (the band inside a forest page)
-    card: "#173A29"    # dark card
-    ink: "#F3EEE2"; ink-2: "#C9D3C8"; ink-3: "#A3B2A6"; sage: "#B7C6B6"
-    eyebrow: "#E2A93B" # mustard on forest
+    ink-3: "#5A645C"   # slate, passes AA on every cream surface
+    eyebrow: "#3D6B45" # deep sage, uppercase, letter-spaced
+  forest (the DARK theme, the deck's forest, and .band-night):
+    paper: "#0E2419"; sunk: "#0A1C13"; card: "#173A29"; raised: "#1D4532"; rule: "#24422F"
+    ink: "#F3EEE2"; ink-2: "#C9D3C8"; ink-3: "#A3B2A6"; eyebrow: "#C9DCBC" (pale sage)
   action:
-    accent: "#E2A93B"       # mustard: the primary button (forest ink on it), highlights, numbers
-    accent-soft: "#F3DDA8"  # soft mustard: pills and washes
-  the photo gate (deck slide 6, fills with forest ink):
-    very-sure: "#E2A93B"; not-sure: "#A8D1DF"; new-or-risky: "#EF9E80"
-  meaning (always with an icon and a word): go, wait, stop, ember (recall), carbon (dashed, sample data)
-  the painter's palette (19 Nov v4, pastels of Bangladeshi fields; wash = band or tile, ink = AA text on it, leaf = art):
-    butter (rice straw):        wash #F7ECC6 / ink #6B4A06 / leaf #F2D98B   (forest: wash #2B2817, ink = leaf)
+    light: accent "#1F3D2C" (forest pill, cream text "#FAF6EE"); accent-text "#2F5A35"; accent-soft "#E2EBD9"
+    dark:  accent "#C9DCBC" (pale sage pill, forest text "#14261C"); accent-soft "#DFE8D6"
+  the photo gate (fills with forest ink):
+    very-sure: "#B9CFA8" (sage); not-sure: "#A8D1DF" (monsoon blue); new-or-risky: "#EF9E80" (terracotta)
+  meaning (always with an icon and a word): go #2F6B3A, wait #7A4A1E (earth brown), stop #A83A21, ember (recall),
+    carbon (dashed, sample data). On forest: go #9BD18A, wait #F2B59A, stop #F39478.
+  the painter's palette (pastels of Bangladeshi fields; wash = band or tile, ink = AA text on it, leaf = art):
+    butter (rice paste, a CREAM, not a yellow): wash #F3EEE4 / ink #5B4A36   (forest: wash #23302A, ink #E9E2D2)
     lotus (water-lily blush):   wash #F7E1DD / ink #8A2F3C / leaf #F0B9B4   (forest: wash #33212A)
     monsoon (rain sky):         wash #DEEBF2 / ink #22506A / leaf #A8D1DF   (forest: wash #152F39; = the gate's not sure)
     hyacinth (water hyacinth):  wash #E8E1F2 / ink #553F86 / leaf #C6B7E4   (forest: wash #262238)
     moss (young paddy, sage):   wash #E2EBD9 / ink #2F5A35 / leaf #B9CFA8   (forest: wash #18311F)
     terracotta (village clay):  wash #F6DFD1 / ink #8A3A1C / leaf #EF9E80   (forest: wash #35231A; = the gate's new or risky)
-    aubergine (deep accent):    #3A2340 band (#2B1A30 in the forest theme), cream ink; never a gradient into indigo or purple
-  map scale (--map-0..5, builder M): #E6ECDF #F5E7B2 #F4CC94 #EDA383 #CF6F66 #8C3550, forest ink on 0-4, cream on 5
+  map scale (--map-0..5): #E6ECDF #F3E4D6 #F2C3A4 #EDA383 #CF6F66 #8C3550 (sage, pale apricot, peach, terracotta, clay
+    rose, deep lotus), forest ink on 0-4, cream on 5
+  older notes below that say "mustard" or "gold" describe the v4 look: read forest (actions) and sage (on forest).
 typography:
   display: Fraunces (variable, opsz 9-144, self-hosted, preloaded): headlines, the wordmark, big numbers (.figure)
   sans: Inter (variable, self-hosted, preloaded): everything you read or tap; eyebrows in Inter 650 caps, 0.15em

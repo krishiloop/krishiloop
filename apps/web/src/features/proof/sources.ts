@@ -269,7 +269,7 @@ export const REGISTER: { id: RegisterId; name: string; licence: string; source: 
   { id: 'cip', name: 'CIP potato late-blight manual', licence: 'permitted (not CC BY)', source: file('corpus/manifest.yaml') },
   { id: 'leaf', name: 'Dhan-Shomadhan, RiceyLeafDisease, RiceLeafDisease-BD5, RiceLeafDiseaseBD', licence: 'CC BY 4.0', source: file('ml/vision/MODEL_CARD.md') },
   { id: 'textModels', name: 'multilingual-e5-small · gte-multilingual-reranker-base', licence: 'MIT · Apache-2.0', source: file('ml/ask/eval_report.json') },
-  { id: 'voice', name: 'svara-tts-v1 (Built with Llama) · Omnilingual CTC-1B', licence: 'Llama 3.2 Community License · Apache-2.0', source: file('ml/voice/REPORT.md') },
+  { id: 'voice', name: 'Google Gemini TTS (readbacks, made ahead of time) · Omnilingual CTC-1B (speech input prototype)', licence: 'Gemini API terms · Apache-2.0', source: file('ml/voice/gemini_readbacks.py') },
 ];
 
 export const READ_THE_CODE: Source[] = [file('README.md'), dir('specs'), dir('contracts'), file('ml/vision/MODEL_CARD.md'), dir('docs/prompt-library')];

@@ -20,7 +20,6 @@ export function TryTeaser({ className }: { className?: string }) {
   return (
     <section className={`try-strip ${className ?? ''}`} aria-labelledby="try-strip-title" data-testid="try-teaser">
       <div className="try-strip-head">
-        <p className="eyebrow">{t('try.strip.eyebrow')}</p>
         <h2 id="try-strip-title" className="try-strip-title">
           {t('try.strip.title')}
         </h2>
@@ -29,7 +28,7 @@ export function TryTeaser({ className }: { className?: string }) {
         </Link>
       </div>
       <ul className="try-strip-list">
-        {ITEMS.map(({ id, icon: Icon, title, sub, tone }) => (
+        {ITEMS.map(({ id, icon: Icon, title, tone }) => (
           <li key={id}>
             <Link to={`/try#${id}`} className={`try-strip-item tone-${tone}`}>
               <span className="try-strip-icon" aria-hidden>
@@ -37,7 +36,6 @@ export function TryTeaser({ className }: { className?: string }) {
               </span>
               <span className="min-w-0">
                 <span className="try-strip-name">{t(title)}</span>
-                <span className="try-strip-sub">{t(sub)}</span>
               </span>
               <ArrowRight size={16} aria-hidden className="try-strip-arrow" />
             </Link>

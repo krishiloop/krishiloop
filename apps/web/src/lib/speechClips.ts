@@ -1,6 +1,8 @@
 /**
- * Our own Bangla voice: readbacks synthesised ahead of time on our GPU (svara-tts-v1, male voice, Llama 3.2 Community
- * License, "Built with Llama"), one clip per rule version, listed in /audio/manifest.json (ml/voice/readbacks.py build).
+ * Our pre-made voice: Bangla and English readbacks made once, ahead of time, with Google Gemini 3.8 Flash TTS
+ * (ml/voice/gemini_readbacks.py), one clip per rule version and per notice, listed in /audio/manifest.json. Each clip was
+ * transcribed back and is held back above 10 % CER. A Bangla rule with no passing Gemini clip yet keeps its earlier
+ * svara-tts-v1 clip (made on our GPU, Llama 3.2 Community License, "Built with Llama"); every clip names its voice.
  *
  * The one promise: a clip plays ONLY for the exact text it speaks. A clip is found by rule id + rule version + the
  * sha256 of the normalised text; any other text (a changed rule, another version, another language) gets no clip and
@@ -19,8 +21,10 @@ export interface ClipEntry {
   /** the exact text the clip speaks, normalised */
   text: string;
   text_sha256: string;
-  /** under /audio/, e.g. bn/svara-m-cd8e51c6c42c4a3a.ogg */
+  /** under /audio/, e.g. bn/gemini38-cd8e51c6c42c4a3a.ogg */
   file: string;
+  /** which voice made it: 'gemini:<model>:<speaker>' or 'svara:<model>' (the label under "Hear" follows it) */
+  voice?: string;
   bytes: number;
   audio_s: number;
   roundtrip_cer_pct?: number | null;
@@ -28,7 +32,7 @@ export interface ClipEntry {
 
 export interface ClipManifest {
   schema: string;
-  voice: { model: string; speaker: string; licence: string; attribution: string; review: string };
+  voice: { model: string; speaker: string; review: string; licence?: string; attribution?: string };
   clips: ClipEntry[];
 }
 
@@ -132,7 +136,8 @@ export async function planRead(req: ReadRequest, manifest: ClipManifest | null):
  * What one tap on "Hear" did.
  *  - state: 'playing' (audio started; onEnd follows), 'shown' (a notice we could not speak: the UI shows it),
  *    'no-voice' (no voice for this language on this device: we never read it in a wrong one), 'unsupported'.
- *  - via: 'ours' = our own pre-made clip (svara-tts-v1, Built with Llama), 'browser' = the device's voice.
+ *  - via: 'ours' = one of our pre-made clips, 'browser' = the device's voice.
+ *  - clipVoice: with 'ours', the clip's own voice tag (Gemini, or the earlier svara voice), so the label names it.
  *  - notice: set when the receipt is recalled or cannot be verified: this was read INSTEAD of the advice.
  */
 export interface ReadOutcome {
@@ -140,6 +145,7 @@ export interface ReadOutcome {
   via: 'ours' | 'browser' | null;
   notice: string | null;
   lang: string;
+  clipVoice?: string;
 }
 
 /** The device's own voice for a language (passed in, so this lazy chunk imports nothing from the app). */
@@ -147,14 +153,16 @@ export type Speaker = (text: string, lang: string, onEnd: () => void) => Promise
 
 /** Carry out planRead: our clip, else the device voice, else say so. A notice replaces recalled advice. */
 export async function readWith(req: ReadRequest, onEnd: () => void, speak: Speaker): Promise<ReadOutcome> {
-  const manifest = req.textLang === 'bn' || req.noticeLang === 'bn' ? await loadClipManifest() : null;
+  // our pre-made clips exist in Bangla and English (Gemini TTS, ml/voice/gemini_readbacks.py); other languages use the device voice
+  const withClips = (l: string) => l === 'bn' || l === 'en';
+  const manifest = withClips(req.textLang) || withClips(req.noticeLang) ? await loadClipManifest() : null;
   const plan = await planRead(req, manifest);
   if (plan.kind === 'notice') {
-    if (plan.clip && (await playClip(plan.clip, onEnd))) return { state: 'playing', via: 'ours', notice: plan.text, lang: plan.lang };
+    if (plan.clip && (await playClip(plan.clip, onEnd))) return { state: 'playing', via: 'ours', notice: plan.text, lang: plan.lang, clipVoice: plan.clip.voice };
     const s = await speak(plan.text, plan.lang, onEnd);
     return { state: s === 'playing' ? 'playing' : 'shown', via: s === 'playing' ? 'browser' : null, notice: plan.text, lang: plan.lang };
   }
-  if (plan.kind === 'clip' && (await playClip(plan.clip, onEnd))) return { state: 'playing', via: 'ours', notice: null, lang: plan.clip.lang };
+  if (plan.kind === 'clip' && (await playClip(plan.clip, onEnd))) return { state: 'playing', via: 'ours', notice: null, lang: plan.clip.lang, clipVoice: plan.clip.voice };
   const { text, lang } = plan.kind === 'clip' ? plan.fallback : plan;
   const s = await speak(text, lang, onEnd);
   return { state: s, via: s === 'playing' ? 'browser' : null, notice: null, lang };

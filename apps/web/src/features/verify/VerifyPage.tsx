@@ -23,6 +23,7 @@ import { ReceiptDoc } from './ReceiptDoc';
 import { AreaDoc } from './AreaDoc';
 import { clearChecks, downloadCredential, isAreaTrust, isReceipt, looksLikeReceipt, normalizeId, recentChecks, verifyPath, type RecentStatus } from './verifyUtil';
 import { codePath, displayCode, lookupCode, normalizeCode, type CodeLookup } from './code';
+import { Fold } from '../../ui/Fold';
 import './verify.css';
 
 /**
@@ -314,7 +315,6 @@ function VerifyEntry() {
             </div>
             <div className="min-w-0">
               <h3 className="vf-card-t">{t('vf.entry.scan')}</h3>
-              <p className="vf-card-s">{t('vf.zone.scanSub')}</p>
               {canScan === true ? (
                 <button type="button" className="btn btn-primary btn-lg press mt-4" onClick={() => setScanning(true)} data-testid="vf-scan" {...magnet()}>
                   <ScanLine size={19} aria-hidden />
@@ -394,7 +394,6 @@ function VerifyEntry() {
                 <FileCheck2 size={22} aria-hidden />
                 <span className="min-w-0">
                   <span className="vf-card-t block">{t('vf.entry.try')}</span>
-                  <span className="vf-card-s block">{t('vf.entry.trySub')}</span>
                 </span>
                 <DataMark kind="recorded" date={RECORDED_AT} />
               </Link>
@@ -403,9 +402,10 @@ function VerifyEntry() {
         </section>
 
         <section className="vf-legend-wrap" aria-labelledby="vf-legend-h" data-testid="vf-legend">
-          <h2 id="vf-legend-h" className="vf-legend-h">
+          <h2 id="vf-legend-h" className="sr-only">
             {t('vf.legend.title')}
           </h2>
+          <Fold label={t('vf.legend.title')}>
           <ul className="vf-legend">
             {LEGEND.map((l, i) => (
               <li key={l.kind} data-reveal style={{ ['--i' as string]: i }} data-kind={l.kind}>
@@ -414,6 +414,7 @@ function VerifyEntry() {
               </li>
             ))}
           </ul>
+          </Fold>
           <details className="vf-details vf-what">
             <summary>
               <ChevronDown size={18} aria-hidden className="vf-details-chev" />
