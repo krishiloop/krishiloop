@@ -1,0 +1,311 @@
+/* The officer's outbreak radar (builder R). Tokens only; only transform and opacity animate. Class names kg-*. */
+.kg-radar {
+  display: grid;
+  gap: 1.1rem;
+  min-width: 0;
+}
+.kg-radar-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.kg-radar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.kg-radar-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--color-ink-2);
+}
+.kg-radar-note.is-sim {
+  padding: 0.65rem 0.8rem;
+  border: 1px dashed var(--color-carbon);
+  border-radius: 12px;
+  background: var(--color-carbon-wash);
+  color: var(--color-ink);
+}
+.kg-radar-grid {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .kg-radar-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.kg-radar-side {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------ map */
+.kg-map {
+  position: relative;
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-frame, 22px);
+  background:
+    radial-gradient(120% 80% at 50% 0%, color-mix(in oklab, var(--color-card) 70%, transparent), transparent),
+    var(--color-sunk);
+  min-width: 0;
+}
+.kg-map.is-sim {
+  border-style: dashed;
+  border-color: var(--color-carbon);
+}
+.kg-map-loading {
+  aspect-ratio: 3 / 4;
+}
+.kg-map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+}
+.kg-map-base path {
+  fill: var(--color-card);
+  stroke: var(--color-rule-2);
+  stroke-width: 0.8;
+}
+.kg-map-heat path {
+  stroke: var(--color-stop);
+  stroke-width: 1;
+  cursor: pointer;
+  animation: kg-heat-in 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.kg-map-heat .kg-step-1 {
+  fill: var(--color-wait);
+  opacity: 0.55;
+}
+.kg-map-heat .kg-step-2 {
+  fill: var(--color-ember, var(--color-stop));
+  opacity: 0.75;
+}
+.kg-map-heat .kg-step-3 {
+  fill: var(--color-stop);
+  opacity: 0.95;
+}
+.kg-map-hatch path {
+  pointer-events: none;
+  opacity: 0.55;
+}
+.kg-hatch-line {
+  stroke: var(--color-paper);
+  stroke-width: 5;
+}
+.kg-map-sel {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2.5;
+  pointer-events: none;
+}
+.kg-map-labels text {
+  fill: var(--color-ink);
+  stroke: var(--color-paper);
+  stroke-width: 6px;
+  paint-order: stroke;
+  font-weight: 650;
+  pointer-events: none;
+}
+.kg-pulse {
+  fill: none;
+  stroke: var(--color-stop);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kg-ring 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+}
+.kg-map-stamp {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  z-index: 1;
+  padding: 0.25rem 0.6rem;
+  border: 2px solid var(--color-carbon);
+  border-radius: 6px;
+  background: var(--color-carbon-wash);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  transform: rotate(-3deg);
+}
+.kg-map-cap {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--color-ink-2);
+}
+.kg-maplegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.8rem;
+}
+.kg-maplegend-label {
+  font-weight: 650;
+}
+.kg-maplegend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+}
+.kg-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: currentColor;
+}
+.kg-swatch.kg-step-1 {
+  background: var(--color-wait);
+  opacity: 0.55;
+}
+.kg-swatch.kg-step-2 {
+  background: var(--color-ember, var(--color-stop));
+  opacity: 0.75;
+}
+.kg-swatch.kg-step-3 {
+  background: var(--color-stop);
+}
+.kg-credit {
+  color: var(--color-ink-3);
+}
+.kg-credit .kg-link,
+.kg-radar .kg-link {
+  color: var(--color-ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ cells */
+.kg-cells {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.kg-cell {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-ui, 12px);
+  background: var(--color-card);
+}
+.kg-cell.is-sel {
+  border-color: var(--color-ink);
+}
+.kg-cell-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.15rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.kg-cell-n {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-ink);
+  background: var(--color-sunk);
+  border: 2px solid var(--color-wait);
+}
+.kg-cell-n.kg-step-2 {
+  border-color: var(--color-ember, var(--color-stop));
+}
+.kg-cell-n.kg-step-3 {
+  border-color: var(--color-stop);
+}
+.kg-warn-btn {
+  justify-self: start;
+}
+.kg-warn-box {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: var(--color-sunk);
+  outline: none;
+  animation: kg-heat-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.kg-notice {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.6rem 0.7rem;
+  border-left: 3px solid var(--color-wait);
+  background: var(--color-card);
+  border-radius: 6px;
+}
+.kg-warn-result {
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.kg-hidden {
+  font-size: 0.82rem;
+  color: var(--color-ink-2);
+}
+.kg-radar .kg-err {
+  font-size: 0.82rem;
+  color: var(--color-stop);
+}
+
+@keyframes kg-heat-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes kg-ring {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+:root.reduce-motion :is(.kg-pulse, .kg-map-heat path, .kg-warn-box) {
+  animation: none;
+}
+:root.reduce-motion .kg-pulse {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kg-pulse {
+    display: none;
+  }
+  .kg-map-heat path,
+  .kg-warn-box {
+    animation: none;
+  }
+}

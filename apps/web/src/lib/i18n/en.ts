@@ -11,6 +11,9 @@ import officer from './en.officer';
 import verify from './en.verify';
 import trust from './en.trust';
 import proof from './en.proof';
+import krishiguard from './en.krishiguard'; // builder R: climate, radar, calculator, visit
+import radartab from './en.radartab'; // builder R: the officer's radar tab label
+import photoai from './en.photoai'; // builder P: AgriTriage-Lite photo model
 
 const en = {
   ...ui,
@@ -21,6 +24,9 @@ const en = {
   ...verify,
   ...trust,
   ...proof,
+  ...krishiguard,
+  ...radartab,
+  ...photoai,
 } as const satisfies Record<string, string>;
 
 export default en;

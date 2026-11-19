@@ -1,0 +1,854 @@
+{
+ "teacher_params": 171524352,
+ "p1_ce_f1": 0.539792162462958,
+ "p1_large_f1": 0.6827771491261186,
+ "p1_large_acc": 0.7182637182637183,
+ "p1_large_mb": 4.298068046569824,
+ "p1_large_params": 4316046.0,
+ "p1_ours_f1": 0.5820495822515007,
+ "p1_ours_f1_sd": 0.004913164595342317,
+ "p1_ours_acc": 0.6251706251706252,
+ "p1_ours_mb": 1.651106834411621,
+ "p1_ours_params": 1609086.0,
+ "p1_ours_ms": 1.2566500008688308,
+ "p1_seeds": 3,
+ "p1_teacher_f1": 0.7544985902204878,
+ "p1_retained": 0.7714389261899188,
+ "p1_kd_gain_pts": 4.22574197885427,
+ "size_ratio": 106.59738012760039,
+ "p1_table": [
+  {
+   "variant": "proposed",
+   "f1": 0.5820495822515007,
+   "sd": 0.004913164595342317,
+   "n": 3,
+   "acc": 0.6251706251706252,
+   "mb": 1.651106834411621,
+   "params": 1609086,
+   "ms": 1.2566500008688308,
+   "pm": 1.609086,
+   "grp": 0
+  },
+  {
+   "variant": "proposed_large",
+   "f1": 0.6827771491261186,
+   "sd": 0.0068397891896445386,
+   "n": 3,
+   "acc": 0.7182637182637183,
+   "mb": 4.298068046569824,
+   "params": 4316046,
+   "ms": 3.562249999959022,
+   "pm": 4.316046,
+   "grp": 1
+  },
+  {
+   "variant": "proposed_shufflenet",
+   "f1": 0.63432638539676,
+   "sd": 0.003497547179070457,
+   "n": 3,
+   "acc": 0.6747656747656748,
+   "mb": 1.4831180572509766,
+   "params": 1344834,
+   "ms": 3.014249996340368,
+   "pm": 1.344834,
+   "grp": 0
+  },
+  {
+   "variant": "ce_mnv3s",
+   "f1": 0.539792162462958,
+   "sd": 0.0066641524064762125,
+   "n": 3,
+   "acc": 0.5849485849485849,
+   "mb": 1.859659194946289,
+   "params": 1609081,
+   "ms": 1.5278500031854492,
+   "pm": 1.609081,
+   "grp": 0
+  },
+  {
+   "variant": "ce_mnv3l",
+   "f1": 0.6319347295146434,
+   "sd": 0.018123931439939442,
+   "n": 3,
+   "acc": 0.6734916734916735,
+   "mb": 4.296818733215332,
+   "params": 4316041,
+   "ms": 2.995599999849219,
+   "pm": 4.316041,
+   "grp": 1
+  },
+  {
+   "variant": "ce_effb0",
+   "f1": 0.6472000032482571,
+   "sd": 0.008274752884513278,
+   "n": 3,
+   "acc": 0.6874146874146874,
+   "mb": 4.221268653869629,
+   "params": 4121557,
+   "ms": 5.405000003520399,
+   "pm": 4.121557,
+   "grp": 1
+  },
+  {
+   "variant": "ce_mobilevit_s",
+   "f1": 0.6617070677980467,
+   "sd": 0.004235321179366972,
+   "n": 3,
+   "acc": 0.7015197015197016,
+   "mb": 13.3561372756958,
+   "params": 4994681,
+   "ms": 17.218099994352087,
+   "pm": 4.994681,
+   "grp": 1
+  },
+  {
+   "variant": "ce_ghostnetv2",
+   "f1": 0.6263765025505594,
+   "sd": 0.012370325639347948,
+   "n": 3,
+   "acc": 0.6676676676676676,
+   "mb": 5.206658363342285,
+   "params": 4989917,
+   "ms": 5.043450008088257,
+   "pm": 4.989917,
+   "grp": 1
+  },
+  {
+   "variant": "ce_shufflenetv2",
+   "f1": 0.5990949680156704,
+   "sd": 0.009174193303923437,
+   "n": 3,
+   "acc": 0.6407316407316407,
+   "mb": 1.481886863708496,
+   "params": 1344829,
+   "ms": 2.213550003943965,
+   "pm": 1.344829,
+   "grp": 0
+  },
+  {
+   "variant": "kd_vanilla",
+   "f1": 0.5865149620702318,
+   "sd": 0.00892075604315306,
+   "n": 3,
+   "acc": 0.6292656292656292,
+   "mb": 1.859654426574707,
+   "params": 1609081,
+   "ms": 2.139450003596721,
+   "pm": 1.609081,
+   "grp": 0
+  },
+  {
+   "variant": "kd_logit_feat",
+   "f1": 0.5907948614170265,
+   "sd": 0.007990289061546465,
+   "n": 3,
+   "acc": 0.6334516334516335,
+   "mb": 1.8596582412719727,
+   "params": 1609081,
+   "ms": 1.9158999966748524,
+   "pm": 1.609081,
+   "grp": 0
+  }
+ ],
+ "triage": [
+  {
+   "rate_act": 0.5401765401765402,
+   "rate_shortlist": 0.11111111111111112,
+   "rate_refer": 0.3487123487123487,
+   "error_when_act": 0.0766056650642612,
+   "error_without_gate": 0.22932022932022933,
+   "unknown_referred": NaN,
+   "shortlist_hit": 0.8978439238924194,
+   "n": 3,
+   "group": 0,
+   "label": "PlantWild, any crop",
+   "exp": "p1f_indomain",
+   "set": "plantwild_test",
+   "variant": "proposed_tinyvit_11m"
+  },
+  {
+   "rate_act": 0.7438347438347438,
+   "rate_shortlist": 0.1447811447811448,
+   "rate_refer": 0.11138411138411138,
+   "error_when_act": 0.06031126027888156,
+   "error_without_gate": 0.1175721175721175,
+   "unknown_referred": NaN,
+   "shortlist_hit": 0.9295808810415552,
+   "n": 3,
+   "group": 0,
+   "label": "PlantWild, crop known",
+   "exp": "p1f_indomain",
+   "set": "crop known",
+   "variant": "proposed_tinyvit_11m"
+  },
+  {
+   "rate_act": 0.481638418079096,
+   "rate_shortlist": 0.28813559322033894,
+   "rate_refer": 0.230225988700565,
+   "error_when_act": 0.10784615384615386,
+   "error_without_gate": 0.2754237288135593,
+   "unknown_referred": NaN,
+   "shortlist_hit": 0.9652734778121775,
+   "n": 3,
+   "group": 0,
+   "label": "PlantDoc (new websites)",
+   "exp": "p2f_web2web",
+   "set": "plantdoc_test",
+   "variant": "proposed_tinyvit_11m"
+  },
+  {
+   "rate_act": 0.07912178956089479,
+   "rate_shortlist": 0.0,
+   "rate_refer": 0.9208782104391052,
+   "error_when_act": 0.5774254742547424,
+   "error_without_gate": 0.8257387462027065,
+   "unknown_referred": NaN,
+   "shortlist_hit": NaN,
+   "n": 3,
+   "group": 1,
+   "label": "Lab \u2192 field (PlantDoc)",
+   "exp": "p3_lab2field",
+   "set": "plantdoc",
+   "variant": "proposed"
+  },
+  {
+   "rate_act": 0.029001883239171373,
+   "rate_shortlist": 0.875517890772128,
+   "rate_refer": 0.09548022598870058,
+   "error_when_act": 0.46256038647342995,
+   "error_without_gate": 0.671563088512241,
+   "unknown_referred": NaN,
+   "shortlist_hit": 0.8015137309812671,
+   "n": 3,
+   "group": 1,
+   "label": "BD rice, new campaign",
+   "exp": "p4_bd_rice",
+   "set": "riceleafbd",
+   "variant": "proposed"
+  },
+  {
+   "rate_act": 0.3497133497133497,
+   "rate_shortlist": 0.07198107198107197,
+   "rate_refer": 0.5783055783055784,
+   "error_when_act": 0.10858957767556547,
+   "error_without_gate": 0.37530013571354,
+   "unknown_referred": 0.772340425531915,
+   "shortlist_hit": 0.8765266181732659,
+   "n": 3,
+   "group": 1,
+   "label": "Unseen diseases + crop",
+   "exp": "p6_unknown_h0",
+   "set": "plantwild_test",
+   "variant": "proposed"
+  }
+ ],
+ "shift_coverage": [
+  {
+   "label": "PlantWild\n(in-domain)",
+   "exp": "p1_indomain",
+   "set": "plantwild_test",
+   "source": 0.9098189098189099,
+   "target": NaN,
+   "target_size": NaN
+  },
+  {
+   "label": "PlantDoc\n(web\u2192web)",
+   "exp": "p2_web2web",
+   "set": "plantdoc",
+   "source": 0.9057938965059709,
+   "target": 0.9052533628155519,
+   "target_size": 6.501800257969413
+  },
+  {
+   "label": "PlantDoc\n(lab\u2192field)",
+   "exp": "p3_lab2field",
+   "set": "plantdoc",
+   "source": 0.23211819939243306,
+   "target": 0.9036336958398067,
+   "target_size": 22.63826342137062
+  },
+  {
+   "label": "PlantWild\n(lab\u2192field)",
+   "exp": "p3_lab2field",
+   "set": "plantwild",
+   "source": 0.1942319678168735,
+   "target": 0.9004639467346651,
+   "target_size": 22.73138829862587
+  },
+  {
+   "label": "RiceLeafBD\n(BD rice)",
+   "exp": "p4_bd_rice",
+   "set": "riceleafbd",
+   "source": 0.804331450094162,
+   "target": 0.9036417137476459,
+   "target_size": 2.735310734463276
+  }
+ ],
+ "unknown": [
+  {
+   "variant": "proposed",
+   "set": "Known diseases",
+   "referred": 0.5482769479287756,
+   "sd": 0.0132473364730852,
+   "auroc": NaN,
+   "n": 9
+  },
+  {
+   "variant": "proposed",
+   "set": "Unseen diseases",
+   "referred": 0.8168055726055179,
+   "sd": 0.039174380645502285,
+   "auroc": 0.6958069051495213,
+   "n": 9
+  },
+  {
+   "variant": "proposed",
+   "set": "Unseen crop (cassava)",
+   "referred": 0.9514674596267285,
+   "sd": 0.013988692605572641,
+   "auroc": 0.8315249528047154,
+   "n": 9
+  },
+  {
+   "variant": "ce_mnv3s",
+   "set": "Known diseases",
+   "referred": 0.6106372932598446,
+   "sd": 0.03222203643135879,
+   "auroc": NaN,
+   "n": 9
+  },
+  {
+   "variant": "ce_mnv3s",
+   "set": "Unseen diseases",
+   "referred": 0.8471344389742307,
+   "sd": 0.05307327749853281,
+   "auroc": 0.6725509156328239,
+   "n": 9
+  },
+  {
+   "variant": "ce_mnv3s",
+   "set": "Unseen crop (cassava)",
+   "referred": 0.9763562518131709,
+   "sd": 0.008259286892789978,
+   "auroc": 0.8644680763947797,
+   "n": 9
+  },
+  {
+   "variant": "kd_vanilla",
+   "set": "Known diseases",
+   "referred": 0.5469309014791696,
+   "sd": 0.01807413653740054,
+   "auroc": NaN,
+   "n": 9
+  },
+  {
+   "variant": "kd_vanilla",
+   "set": "Unseen diseases",
+   "referred": 0.8248904597448087,
+   "sd": 0.033323459453346346,
+   "auroc": 0.7043426647565676,
+   "n": 9
+  },
+  {
+   "variant": "kd_vanilla",
+   "set": "Unseen crop (cassava)",
+   "referred": 0.964751958224543,
+   "sd": 0.010250847764059668,
+   "auroc": 0.857691377939185,
+   "n": 9
+  }
+ ],
+ "corruptions": [
+  {
+   "variant": "ce_mnv3s",
+   "severity": 1,
+   "macro_f1": 0.5036457369424093,
+   "coverage": 0.9141505141505141,
+   "mean_set_size": 12.340576940576941
+  },
+  {
+   "variant": "ce_mnv3s",
+   "severity": 2,
+   "macro_f1": 0.41310425409466234,
+   "coverage": 0.9013923013923014,
+   "mean_set_size": 17.01723541723542
+  },
+  {
+   "variant": "ce_mnv3s",
+   "severity": 3,
+   "macro_f1": 0.27272634162145687,
+   "coverage": 0.8502684502684502,
+   "mean_set_size": 24.044353444353444
+  },
+  {
+   "variant": "proposed",
+   "severity": 1,
+   "macro_f1": 0.5434690639867569,
+   "coverage": 0.9094549094549095,
+   "mean_set_size": 21.96647556647557
+  },
+  {
+   "variant": "proposed",
+   "severity": 2,
+   "macro_f1": 0.4516197784256792,
+   "coverage": 0.8943488943488943,
+   "mean_set_size": 26.837109837109836
+  },
+  {
+   "variant": "proposed",
+   "severity": 3,
+   "macro_f1": 0.31613908156515075,
+   "coverage": 0.8542906542906543,
+   "mean_set_size": 33.18764218764219
+  }
+ ],
+ "ablation_a3_distill": [
+  {
+   "key": "no_kd",
+   "label": "No teacher",
+   "f1": 0.534451703672015,
+   "sd": 0.006767338045644745,
+   "ece": 0.02336090417870867,
+   "n": 3
+  },
+  {
+   "key": "logit_only",
+   "label": "+ logit KD",
+   "f1": 0.578669858958599,
+   "sd": 0.004530187547459969,
+   "ece": 0.05767291311887551,
+   "n": 3
+  },
+  {
+   "key": "logit_feat",
+   "label": "+ feature KD",
+   "f1": 0.5750267201107461,
+   "sd": 0.011278959302960785,
+   "ece": 0.05930475576449617,
+   "n": 3
+  },
+  {
+   "key": "logit_feat_disagree",
+   "label": "+ disagreement\nweighting (ours)",
+   "f1": 0.5820495822515007,
+   "sd": 0.004913164595342317,
+   "ece": 0.05018308568725174,
+   "n": 3
+  }
+ ],
+ "ufd": [
+  {
+   "label": "Web \u2192 web (PlantDoc)",
+   "base": 0.5875706214689266,
+   "ufd": 0.6242937853107344,
+   "teacher": 0.7259887005649718,
+   "seeds": 3
+  },
+  {
+   "label": "Lab \u2192 field (PlantDoc)",
+   "base": 0.22598870056497175,
+   "ufd": 0.3827683615819209,
+   "teacher": 0.5550847457627118,
+   "seeds": 3
+  },
+  {
+   "label": "Rice: RiceLeafBD \u2192 Dhan-Shomadhan",
+   "base": 0.28125,
+   "ufd": 0.4166666666666667,
+   "teacher": 0.3125,
+   "seeds": 3
+  },
+  {
+   "label": "Rice: Dhan-Shomadhan \u2192 RiceLeafBD",
+   "base": 0.34756820877817324,
+   "ufd": 0.3487544483985765,
+   "teacher": 0.4578884934756821,
+   "seeds": 3
+  }
+ ],
+ "ranking": [
+  {
+   "group": null,
+   "label": "GPU-size models",
+   "acc": null,
+   "sd": null,
+   "kind": null,
+   "params_m": null
+  },
+  {
+   "group": "row",
+   "label": "Our teacher (3 frozen ViT-L)",
+   "acc": 0.8238238238238238,
+   "sd": 0.0029191036367904612,
+   "kind": "teacher",
+   "params_m": NaN
+  },
+  {
+   "group": "row",
+   "label": "Published 3-model fusion (2026) [10]",
+   "acc": 0.8023,
+   "sd": 0.0,
+   "kind": "published",
+   "params_m": NaN
+  },
+  {
+   "group": "row",
+   "label": "Published PlantWild model (2024) [1]",
+   "acc": 0.7618,
+   "sd": 0.0,
+   "kind": "published",
+   "params_m": NaN
+  },
+  {
+   "group": null,
+   "label": "Phone-sized, learned from our teacher",
+   "acc": null,
+   "sd": null,
+   "kind": null,
+   "params_m": null
+  },
+  {
+   "group": "row",
+   "label": "TinyViT-11M",
+   "acc": 0.7706797706797707,
+   "sd": 0.007113739678293954,
+   "kind": "ours",
+   "params_m": 10.587933
+  },
+  {
+   "group": "row",
+   "label": "MobileCLIP2-S0",
+   "acc": 0.7275457275457277,
+   "sd": 0.001790182507316957,
+   "kind": "ours",
+   "params_m": 10.973401
+  },
+  {
+   "group": "row",
+   "label": "MobileNetV3-L",
+   "acc": 0.7163527163527164,
+   "sd": 0.0,
+   "kind": "ours",
+   "params_m": 4.316046
+  },
+  {
+   "group": "row",
+   "label": "MobileNetV3-S",
+   "acc": 0.6117936117936118,
+   "sd": 0.0,
+   "kind": "ours",
+   "params_m": 1.609086
+  },
+  {
+   "group": null,
+   "label": "Phone-sized, no teacher",
+   "acc": null,
+   "sd": null,
+   "kind": null,
+   "params_m": null
+  },
+  {
+   "group": "row",
+   "label": "TinyViT-11M",
+   "acc": 0.7619437619437619,
+   "sd": 0.001638001638001596,
+   "kind": "base",
+   "params_m": 10.587933
+  },
+  {
+   "group": "row",
+   "label": "MobileViT-S",
+   "acc": 0.7015197015197016,
+   "sd": 0.0043793646066123786,
+   "kind": "base",
+   "params_m": 4.994681
+  },
+  {
+   "group": "row",
+   "label": "EfficientNet-B0",
+   "acc": 0.6874146874146874,
+   "sd": 0.007740893736695511,
+   "kind": "base",
+   "params_m": 4.121557
+  },
+  {
+   "group": "row",
+   "label": "MobileNetV3-L",
+   "acc": 0.6734916734916735,
+   "sd": 0.012608357345078328,
+   "kind": "base",
+   "params_m": 4.316041
+  }
+ ],
+ "plantdoc": [
+  {
+   "set": "plantdoc_test",
+   "label": "No teacher",
+   "acc": 0.7033898305084746,
+   "sd": 0.015277759641796635,
+   "seeds": 3,
+   "n": 236
+  },
+  {
+   "set": "plantdoc_test",
+   "label": "+ teacher (ours)",
+   "acc": 0.7245762711864407,
+   "sd": 0.008474576271186435,
+   "seeds": 3,
+   "n": 236
+  },
+  {
+   "set": "plantdoc_test",
+   "label": "+ unlabelled PlantDoc photos",
+   "acc": 0.7132768361581919,
+   "sd": 0.013620975651119986,
+   "seeds": 3,
+   "n": 236
+  },
+  {
+   "set": "plantdoc_test",
+   "label": "teacher",
+   "acc": 0.7415254237288136,
+   "n": 236
+  },
+  {
+   "set": "plantdoc",
+   "label": "No teacher",
+   "acc": 0.693203597228365,
+   "sd": 0.01200967822757852,
+   "seeds": 3,
+   "n": 2261
+  },
+  {
+   "set": "plantdoc",
+   "label": "+ teacher (ours)",
+   "acc": 0.708388618605337,
+   "sd": 0.005600300726292954,
+   "seeds": 3,
+   "n": 2261
+  },
+  {
+   "set": "plantdoc",
+   "label": "teacher",
+   "acc": 0.7521745540321391,
+   "n": 2261
+  }
+ ],
+ "severity": [
+  {
+   "arch": "lraspp_mobilenet_v3_large",
+   "test": {
+    "lesion_iou": 0.6376939980011658,
+    "background_iou": 0.8814929402663648,
+    "miou": 0.7595934691337654,
+    "dice": 0.7787706357591619,
+    "severity_mae": 0.07190169532341556,
+    "severity_spearman": 0.8132596574012015,
+    "n": 1546
+   },
+   "params": 3218308,
+   "best_val_lesion_iou": 0.6473883846712873
+  }
+ ],
+ "head": {
+  "teacher_acc": 0.8238238238238238,
+  "teacher_acc_sd": 0.0029191036367904612,
+  "teacher_n": 3,
+  "teacher_f1": 0.7994128265761605,
+  "teacher_f1_sd": 0.004384271749622449,
+  "teacher_params": 923624448,
+  "tiny_acc": 0.7706797706797707,
+  "tiny_acc_sd": 0.007113739678293954,
+  "tiny_n": 3,
+  "tiny_f1": 0.7388686464818482,
+  "tiny_f1_sd": 0.007246127094120547,
+  "tiny_params": 10587933,
+  "tiny_mb": 10.967909812927246,
+  "tiny_ms": 19.161199998052325,
+  "tiny_ms4": 6.497700000181794,
+  "tiny_int8_acc": 0.7747747747747747,
+  "tiny_ce_acc": 0.7619437619437619,
+  "tiny_ce_acc_sd": 0.001638001638001596,
+  "tiny_ce_n": 3,
+  "tiny_ce_f1": 0.7294418135950638,
+  "tiny_ce_f1_sd": 0.003743935859164672,
+  "tiny_ce_params": 10587933,
+  "tiny_ce_mb": 10.967909812927246,
+  "tiny_ce_ms": 19.24670000153128,
+  "tiny_ce_ms4": 6.498050002846867,
+  "tiny_ce_int8_acc": 0.7613977613977614,
+  "vits_acc": 0.7545727545727545,
+  "vits_acc_sd": 0.0036930792406411395,
+  "vits_n": 3,
+  "vits_f1": 0.7209979212319357,
+  "vits_f1_sd": 0.0038179748901322917,
+  "vits_params": 21621209,
+  "vits_mb": 21.212879180908203,
+  "vits_ms": 36.20344999944791,
+  "vits_ms4": 12.83924999734154,
+  "vits_int8_acc": 0.7523887523887524,
+  "mclip_acc": 0.7275457275457277,
+  "mclip_acc_sd": 0.001790182507316957,
+  "mclip_n": 3,
+  "mclip_f1": 0.6926515706277603,
+  "mclip_f1_sd": 0.002262617064983708,
+  "mclip_params": 10973401,
+  "mclip_mb": 11.088871955871582,
+  "mclip_ms": 18.62914999946952,
+  "mclip_ms4": 6.424799998058006,
+  "mclip_int8_acc": 0.7278187278187278,
+  "tiny_ratio": 87.23368838847016,
+  "tiny_kd_gain": 0.0087360087360087,
+  "tiny_kd_ci": [
+   0.003003003003003,
+   0.014105014105014
+  ],
+  "tiny_kd_p": 0.004,
+  "tiny_any_accuracy": 0.7706797706797707,
+  "tiny_any_coverage": 0.907998907998908,
+  "tiny_any_rate_act": 0.5401765401765402,
+  "tiny_any_error_when_act": 0.0766056650642612,
+  "tiny_any_rate_shortlist": 0.11111111111111112,
+  "tiny_any_rate_refer": 0.3487123487123487,
+  "tiny_any_mean_set_size": 7.935207935207934,
+  "tiny_any_n": 3,
+  "mnv3s_any_accuracy": 0.6251706251706252,
+  "mnv3s_any_coverage": 0.9098189098189099,
+  "mnv3s_any_rate_act": 0.34115934115934116,
+  "mnv3s_any_error_when_act": 0.10242620247208194,
+  "mnv3s_any_rate_shortlist": 0.08472108472108471,
+  "mnv3s_any_rate_refer": 0.5741195741195741,
+  "mnv3s_any_mean_set_size": 19.58995358995359,
+  "mnv3s_any_n": 3,
+  "tiny_ck_accuracy": 0.8824278824278825,
+  "tiny_ck_coverage": 0.8958048958048958,
+  "tiny_ck_rate_act": 0.7438347438347438,
+  "tiny_ck_error_when_act": 0.06031126027888156,
+  "tiny_ck_rate_shortlist": 0.1447811447811448,
+  "tiny_ck_rate_refer": 0.11138411138411138,
+  "tiny_ck_mean_set_size": 1.2621712621712622,
+  "tiny_ck_n": 3,
+  "mnv3s_ck_accuracy": 0.8385658385658386,
+  "mnv3s_ck_coverage": 0.9009009009009009,
+  "mnv3s_ck_rate_act": 0.6235326235326236,
+  "mnv3s_ck_error_when_act": 0.06319624994132515,
+  "mnv3s_ck_rate_shortlist": 0.22713622713622714,
+  "mnv3s_ck_rate_refer": 0.14933114933114933,
+  "mnv3s_ck_mean_set_size": 1.5155155155155153,
+  "mnv3s_ck_n": 3,
+  "pd_ufd_acc": 0.713276836158192,
+  "pd_ufd_acc_sd": 0.013620975651119957,
+  "pd_ufd_n": 3,
+  "pd_ufd_cov": 0.9214212000589709,
+  "pd_kd_acc": 0.7245762711864406,
+  "pd_kd_acc_sd": 0.008474576271186474,
+  "pd_kd_n": 3,
+  "pd_kd_cov": 0.8966533982013858,
+  "pd_ce_acc": 0.7033898305084746,
+  "pd_ce_acc_sd": 0.015277759641796586,
+  "pd_ce_n": 3,
+  "pd_ce_cov": 0.8839746424885743,
+  "pd_teacher_acc": 0.7415254237288136,
+  "pd_teacher_acc_sd": 0.01121081064010423,
+  "pd_all_kd_gain": 0.0151850213769719,
+  "pd_all_kd_ci": [
+   0.0069254017396433,
+   0.0230023588382723
+  ],
+  "pd_all_kd_p": 0.0,
+  "pd_test_kd_gain": 0.021186440677966,
+  "pd_test_kd_ci": [
+   -0.0042372881355933,
+   0.0466454802259887
+  ],
+  "pd_test_kd_p": 0.44,
+  "pd_kd_all_acc": 0.708388618605337,
+  "pd_ce_all_acc": 0.693203597228365
+ },
+ "data": {
+  "images_cls": 88335,
+  "excluded_cls": 838,
+  "images_all": 96109,
+  "datasets_cls": 6,
+  "per_dataset": [
+   {
+    "dataset": "plantwild",
+    "images": 18541,
+    "excluded": 617,
+    "classes": 89,
+    "train": 12483,
+    "val": 915,
+    "cal": 863,
+    "test": 3663
+   },
+   {
+    "dataset": "plantdoc",
+    "images": 2572,
+    "excluded": 111,
+    "classes": 28,
+    "train": 1889,
+    "val": 220,
+    "cal": 116,
+    "test": 236
+   },
+   {
+    "dataset": "plantvillage",
+    "images": 54305,
+    "excluded": 30,
+    "classes": 38,
+    "train": 37949,
+    "val": 5389,
+    "cal": 2889,
+    "test": 8048
+   },
+   {
+    "dataset": "cassava",
+    "images": 9430,
+    "excluded": 77,
+    "classes": 5,
+    "train": 5591,
+    "val": 942,
+    "cal": 936,
+    "test": 1884
+   },
+   {
+    "dataset": "dhan_shomadhan",
+    "images": 337,
+    "excluded": 0,
+    "classes": 5,
+    "train": 237,
+    "val": 32,
+    "cal": 18,
+    "test": 50
+   },
+   {
+    "dataset": "riceleafbd",
+    "images": 3150,
+    "excluded": 3,
+    "classes": 5,
+    "train": 2198,
+    "val": 307,
+    "cal": 161,
+    "test": 481
+   },
+   {
+    "dataset": "plantseg",
+    "images": 7774,
+    "excluded": 502,
+    "classes": 1,
+    "train": 4925,
+    "val": 397,
+    "cal": 404,
+    "test": 1546
+   }
+  ],
+  "dup_pairs": 9921,
+  "dup_pairs_cross": 5851
+ },
+ "audit": {
+  "pw_test": 3677,
+  "pw_leak_train_copies": 244,
+  "pw_test_with_dup": 214,
+  "pw_conflict_clusters": 379
+ }
+}

@@ -1,0 +1,64 @@
+/* The savings calculator (builder R). Shares the form classes in ../climate/climate.css (kg-input, kg-label...). */
+
+.kg-calc {
+  display: grid;
+  gap: 1.15rem;
+}
+.kg-calc-yours {
+  margin: 0;
+}
+.kg-calc-size {
+  display: grid;
+  gap: 0.5rem;
+}
+.kg-units {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+.kg-unit {
+  min-height: 44px;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.2rem;
+}
+.kg-input-num {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+}
+.kg-input-sm {
+  max-width: 8rem;
+  font-family: var(--font-mono);
+}
+.kg-calc-dpb {
+  margin-top: 0.7rem;
+}
+.kg-calc-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.kg-calc-out {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: var(--color-go-wash);
+  border: 1px solid color-mix(in oklab, var(--color-go) 35%, var(--color-rule));
+}
+.kg-calc-out.is-bad {
+  background: var(--color-sunk);
+  border-color: var(--color-rule);
+}
+.kg-calc-total {
+  font-family: var(--font-mono);
+  font-size: clamp(1.9rem, 1.4rem + 2.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-go);
+  font-variant-numeric: tabular-nums;
+}
+.kg-calc-break {
+  font-size: 0.85rem;
+  color: var(--color-ink-2);
+}

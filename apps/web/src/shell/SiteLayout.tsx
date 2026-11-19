@@ -21,7 +21,8 @@ const TITLES: [RegExp, Key][] = [
 
 function PageSkeleton() {
   return (
-    <div className="wrap pt-16" aria-busy="true">
+    // a full screen tall, so the footer never shows (and then jumps away) while a page chunk loads: CLS 0
+    <div className="wrap min-h-[100svh] pt-16" aria-busy="true">
       <div className="skeleton h-12 w-2/3 max-w-xl" />
       <div className="skeleton mt-6 h-72 w-full" />
     </div>
@@ -37,6 +38,7 @@ export function SiteLayout() {
   const { t } = useI18n();
   const { pathname, hash } = useLocation();
   const inApp = !!useMatch('/app');
+  const isHome = pathname === '/';
   const main = useRef<HTMLElement>(null);
   const first = useRef(true);
 
@@ -65,7 +67,9 @@ export function SiteLayout() {
         {t('ui.nav.skip')}
       </a>
       <SiteHeader className={cx(inApp && 'max-lg:hidden')} />
-      <main id="main" ref={main} tabIndex={-1} className="min-h-[70dvh]">
+      <main id="main" ref={main} tabIndex={-1} className="relative isolate min-h-[70dvh]">
+        {/* every inner page opens under the same field light: mustard dawn, paddy rows (static, behind everything) */}
+        {!inApp && !isHome && <div className="page-dawn" aria-hidden />}
         <Suspense fallback={<PageSkeleton />}>
           <Outlet />
         </Suspense>

@@ -1,0 +1,26 @@
+# Village outbreak radar (services/engine/radar.py): DATA, not code. Written 2026-11-19 by builder R.
+# Bangla is machine-written; pending native-speaker review.
+version: 1
+
+# The SIMULATED village scenario: made-up reports from made-up farmers, seeded, to show how the radar behaves.
+# [area, problem, reporters, reports, first day ago, last day ago]. Areas are radar_geo area codes.
+# Two cells are deliberately below k (3 reporters), to show hiding.
+scenario:
+  - [BD-mymensingh, bacterial_leaf_blight, 9, 14, 11, 0]
+  - [BD-netrakona, bacterial_leaf_blight, 5, 7, 6, 1]
+  - [BD-sherpur, bacterial_leaf_blight, 3, 4, 4, 2]
+  - [BD-tangail, blast, 4, 5, 9, 3]
+  - [BD-mymensingh, brown_planthopper, 3, 3, 5, 2]
+  - [BD-jamalpur, unidentified, 4, 6, 8, 1]
+  - [BD-kishoreganj, blast, 2, 2, 3, 3]
+  - [KE-nyandarua, late_blight, 7, 10, 10, 0]
+  - [KE-nakuru, late_blight, 4, 5, 6, 1]
+  - [KE-nyeri, late_blight, 2, 3, 4, 2]
+
+# Problem words in the "warn neighbours" notice (any other problem id is shown with spaces for underscores).
+problems:
+  bacterial_leaf_blight: {en: bacterial leaf blight, bn: পাতাপোড়া রোগ}
+  blast: {en: blast, bn: ব্লাস্ট রোগ}
+  brown_planthopper: {en: brown planthopper, bn: বাদামি গাছফড়িং}
+  late_blight: {en: late blight, bn: নাবি ধসা রোগ}
+  unidentified: {en: a problem the app could not name, bn: এমন সমস্যা যা অ্যাপ চিনতে পারেনি}

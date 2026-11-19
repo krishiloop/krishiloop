@@ -86,7 +86,7 @@ test.describe('/proof in recorded mode', () => {
     await expect(page.getByTestId('eval-trust')).toContainText('Replay');
     await expect(page.getByTestId('eval-ask').getByRole('link', { name: 'ml/ask/eval_report.json' })).toHaveAttribute('href', /eval_report\.json$/);
     // the three results of 29 Oct, each with its report; the safety eval says it is not final
-    await expect(page.getByTestId('eval-new').locator('article')).toHaveCount(3);
+    await expect(page.getByTestId('eval-new').locator('article')).toHaveCount(4); // + AgriTriage-Lite (photo-ai.spec.ts)
     await expect(page.getByTestId('new-safety')).toContainText('Not final');
     await expect(page.getByTestId('new-speech')).toContainText('Not yet wired into the app');
     await expect(page.getByTestId('new-sovereign').getByRole('link', { name: 'ml/sovereign/REPORT.md' })).toHaveAttribute('href', /ml\/sovereign\/REPORT\.md$/);

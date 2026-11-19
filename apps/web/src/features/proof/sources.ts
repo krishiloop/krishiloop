@@ -121,7 +121,7 @@ export const EVALS: EvalTile[] = [
 ];
 
 /* ------------------------------------------------------------------ measured this week (29 Oct), each with its report */
-export type NewEvalId = 'safety' | 'speech' | 'sovereign';
+export type NewEvalId = 'safety' | 'speech' | 'sovereign' | 'agritriage';
 export interface NewEval {
   id: NewEvalId;
   value: string;
@@ -129,6 +129,8 @@ export interface NewEval {
   /** a two- or three-row comparison: the bar width (0..1) and the text as the report states it */
   compare: { key: string; width: number; text: string; strong?: boolean; bad?: boolean }[];
   source: Source;
+  /** when the numbers come from more than one file: all of them (the first is `source`) */
+  sources?: Source[];
   /** still running, so not final */
   partial?: boolean;
 }
@@ -168,6 +170,33 @@ export const NEW_EVALS: NewEval[] = [
       { key: 'cpu', width: 1, text: '932 ms' },
     ],
     source: file('ml/sovereign/REPORT.md'),
+  },
+  {
+    id: 'agritriage',
+    value: '77.4%',
+    tone: 'measured',
+    // AgriTriage-Lite (the owner's poster project; copies of its files in apps/web/public/models/agritriage/). Top-1 of the
+    // INT8 student on PlantWild test (3,663 photos, 89 diseases): config.json onnx_test_accuracy.int8 = 0.7742. Gate rows:
+    // demo-README.md table (= config.json test_report). Last three rows: poster_numbers.json unknown "Unseen diseases"
+    // 0.8168, shift_coverage RiceLeafBD 0.8043 -> 0.9036, ufd "Lab -> field" 0.2260 -> 0.3828: the earlier MobileNetV3-S
+    // student (REVIEW.md, last section), not the TinyViT the app runs.
+    compare: [
+      { key: 'anyCrop', width: 0.64, text: '64% · 91%' },
+      { key: 'cropKnown', width: 0.88, text: '88% · 92%', strong: true },
+      { key: 'shortlist', width: 0.18, text: '18% / 7%' },
+      { key: 'refer', width: 0.19, text: '19% / 5%' },
+      { key: 'coverage', width: 0.92, text: '92% / 92%' },
+      { key: 'unseen', width: 0.82, text: '82%' },
+      { key: 'recal', width: 0.904, text: '80.4% → 90.4%' },
+      { key: 'field', width: 0.383, text: '22.6% → 38.3%' },
+    ],
+    source: file('apps/web/public/models/agritriage/config.json'),
+    sources: [
+      file('apps/web/public/models/agritriage/config.json'),
+      file('apps/web/public/models/agritriage/evidence/demo-README.md'),
+      file('apps/web/public/models/agritriage/evidence/poster_numbers.json'),
+      file('apps/web/public/models/agritriage/evidence/REVIEW.md'),
+    ],
   },
 ];
 

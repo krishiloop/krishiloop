@@ -1,4 +1,4 @@
-/* The farmer app (/app), "Field Night". Tokens only (src/styles/index.css); motion is transform and opacity only
+/* The farmer app (/app), "Monsoon Field". Tokens only (src/styles/index.css); motion is transform and opacity only
    (DESIGN.md), each animation with its purpose next to it. Reduced motion keeps short fades and drops all travel.
    Class names are prefixed fa- so nothing leaks. This file is unlayered, so it wins over ui.css (components layer). */
 
@@ -17,27 +17,49 @@
 }
 .fa-panel {
   padding: 18px 16px 32px;
+  /* a new tab slides up a touch as it arrives (it says "you moved"; 220 ms, transform and opacity only) */
+  animation: fa-panel-in 220ms var(--ease-out-quint) both;
+}
+@keyframes fa-panel-in {
+  from {
+    opacity: 0.4;
+    transform: translateY(8px);
+  }
 }
 @media (max-width: 1023.98px) {
+  /* a native app in the browser: the whole screen (100dvh: no jump when the URL bar hides), the notch and the dynamic
+     island above (safe-area-inset-top, for the installed app's translucent status bar), the home bar below */
   .fa-device {
-    max-width: 480px;
+    max-width: 520px;
     min-height: 100dvh;
     margin-inline: auto;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    background: var(--color-paper);
   }
+  /* the deck's forest app bar: the notch area, the site strip and the field sit on forest; the content on cream */
+  .fa-device {
+    padding-top: 0;
+  }
+  .fa-head {
+    padding-top: env(safe-area-inset-top, 0px);
+    border-radius: 0 0 26px 26px;
+    border-bottom: 0;
+    box-shadow: 0 18px 40px -30px rgb(0 0 0 / 0.6);
+  }
+  /* the tab bar floats: a glass pill in thumb reach, clear of the home bar */
   .fa-tabbar {
     position: fixed;
-    inset: auto 0 0 0;
+    left: max(10px, env(safe-area-inset-left, 0px));
+    right: max(10px, env(safe-area-inset-right, 0px));
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     z-index: 40;
-    max-width: 480px;
+    max-width: 500px;
     margin-inline: auto;
-    padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
-    border-top: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
-    background: color-mix(in oklab, var(--color-paper) 82%, transparent);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    backdrop-filter: blur(16px) saturate(140%);
   }
   .fa-scroll {
-    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
   }
 }
 @media (min-width: 1024px) {
@@ -76,10 +98,14 @@
     scrollbar-width: none;
   }
   .fa-stage[data-wide] .fa-tabbar {
-    position: relative;
-    padding-bottom: 18px; /* the home bar */
-    border-top: 1px solid var(--color-rule);
-    background: var(--color-paper);
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 22px; /* above the home bar */
+    z-index: 4;
+  }
+  .fa-stage[data-wide] .fa-scroll {
+    padding-bottom: 96px;
   }
   /* the screen dims while the receipt sheet is up inside it */
   .fa-stage[data-wide] .fa-device::after {
@@ -185,13 +211,71 @@
 
 /* ================================================================ header */
 .fa-head {
-  padding: 10px 16px 6px;
-  background-color: var(--color-paper);
+  padding: 0 0 4px;
   border-bottom: 1px solid var(--color-rule);
 }
+.fa-head-main {
+  padding: 8px 16px 2px;
+}
 .fa-stage[data-wide] .fa-head {
-  padding: 2px 14px 4px;
+  padding: 2px 0 4px;
   background: transparent;
+}
+.fa-stage[data-wide] .fa-head-main {
+  padding: 0 14px;
+}
+.fa-field-name {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-size: 1.24rem;
+  font-weight: 460;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.fa-field-name:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-size: 1.08rem;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+/* the strip that keeps the app connected to the website (phones) */
+.fa-site {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 6px 2px 8px;
+  border-bottom: 1px solid var(--color-rule);
+}
+.fa-site-home,
+.fa-site-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 10px;
+  border-radius: 999px;
+  color: var(--color-ink-2);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.fa-site-home {
+  padding-left: 6px;
+  color: var(--color-ink);
+}
+.fa-site-link:active,
+.fa-site-home:active {
+  background: color-mix(in oklab, var(--color-ink) 8%, transparent);
+}
+@media (max-width: 374px) {
+  .fa-site-link svg {
+    display: none;
+  }
+}
+.fa-guide {
+  border-radius: 999px;
 }
 .fa-hit {
   min-height: 48px;
@@ -235,8 +319,32 @@
    A keyboard choice moves it without animation (DESIGN.md: nothing animates on keyboard actions). */
 /* (position and bottom padding: see the frame rules above, per layout) */
 .fa-tabbar {
-  padding-top: 6px;
-  padding-inline: 8px;
+  padding: 6px;
+  border-radius: 30px;
+  isolation: isolate;
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.02) 45%, rgb(255 255 255 / 0.05)),
+    var(--glass-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    inset 0 -1px 0 rgb(0 0 0 / 0.3),
+    0 18px 40px -16px rgb(0 0 0 / 0.75);
+}
+[data-theme="light"] .fa-tabbar {
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 0.8), rgb(255 255 255 / 0.45)),
+    var(--glass-bg);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 18px 40px -18px rgb(19 35 26 / 0.4);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .fa-tabbar {
+    background: var(--color-card);
+  }
 }
 .fa-tabs {
   position: relative;
@@ -251,8 +359,8 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  min-height: 62px;
-  padding: 4px 2px 6px;
+  min-height: 60px;
+  padding: 4px 2px 5px;
   border: 0;
   background: transparent;
   color: var(--color-ink-3);
@@ -272,11 +380,14 @@
   color: var(--color-ink);
   font-weight: 650;
 }
+.fa-tab[aria-selected="true"] svg {
+  color: var(--color-accent-text);
+}
 .fa-tab > span:first-child {
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 32px;
+  width: 52px;
+  height: 28px;
   transition: transform 140ms var(--ease-out);
 }
 .fa-tab:active > span:first-child {
@@ -285,24 +396,30 @@
 .fa-tab:focus-visible {
   outline-offset: -4px;
 }
+/* the chosen tab sits on a liquid lozenge: lit from above, a mustard tint, a soft glow under it */
 .fa-tab-ind {
   position: absolute;
-  top: 10px;
-  left: 8px;
-  width: calc((100% - 16px) / 4);
-  height: 32px;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc((100% - 12px) / 4);
   display: flex;
   justify-content: center;
   pointer-events: none;
-  transition: transform 260ms var(--ease-in-out);
+  transition: transform 320ms var(--ease-out-expo);
 }
 .fa-tab-ind::before {
   content: "";
-  width: 58px;
-  height: 32px;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--color-ink) 11%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 9%, transparent);
+  width: calc(100% - 4px);
+  height: 100%;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0) 60%),
+    color-mix(in oklab, var(--color-accent) 14%, color-mix(in oklab, var(--color-ink) 6%, transparent));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    inset 0 0 0 1px color-mix(in oklab, var(--color-accent) 22%, transparent),
+    0 6px 18px -8px color-mix(in oklab, var(--color-accent) 45%, transparent);
 }
 .fa-tabbar[data-input="key"] .fa-tab-ind {
   transition: none;
@@ -1433,4 +1550,33 @@ html.reduce-motion :is(.fa-press, .spark-burst) {
   html.fa-printing .fa-print-root .paper {
     box-shadow: none;
   }
+}
+
+/* the site strip is for phones only: on wide screens the site header is right above the phone */
+@media (min-width: 1024px) {
+  .fa-site {
+    display: none;
+  }
+}
+
+/* the forest app bar (deck): hairlines inside it are the band's own; the field name in cream Fraunces */
+.fa-head.band-night .fa-site {
+  border-bottom-color: var(--color-rule);
+}
+.fa-head.band-night .fa-head-main {
+  padding-bottom: 8px;
+}
+.fa-stage[data-wide] .fa-head.band-night {
+  margin: 0;
+  border-radius: 0 0 22px 22px;
+  padding-top: 2px;
+  background: var(--color-paper);
+}
+/* inside the showpiece phone the status bar is part of the forest app bar */
+.fa-iph .iph-status {
+  background: #14261c;
+  color: #f3eee2;
+}
+:root:not([data-theme="light"]) .fa-iph .iph-status {
+  background: #0e2419;
 }

@@ -23,24 +23,32 @@ export default defineConfig({
       injectRegister: 'auto',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'KrishiLoop',
+        // the farmer app, installable from the browser (DESIGN.md "Monsoon Field"): standalone, portrait, the paddy-night
+        // theme, and shortcuts back into the website (verify a receipt, the officer)
+        id: '/app',
+        name: 'KrishiLoop: farm advice with a receipt',
         short_name: 'KrishiLoop',
         description: 'Every piece of AI farm advice comes with a receipt anyone can check.',
-        theme_color: '#f4f0e6',
-        background_color: '#f4f0e6',
+        theme_color: '#0e1712',
+        background_color: '#0e1712',
         display: 'standalone',
+        display_override: ['standalone', 'minimal-ui'],
         orientation: 'portrait',
         start_url: '/app',
         scope: '/',
         lang: 'en',
+        dir: 'ltr',
+        categories: ['productivity', 'education', 'utilities'],
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
           { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
         shortcuts: [
-          { name: 'Should I spray?', url: '/app', description: 'Open the farmer app' },
-          { name: 'Verify a receipt', url: '/verify', description: 'Check a receipt' },
+          { name: 'Should I spray?', short_name: 'This week', url: '/app?tab=today', description: 'Open the farmer app' },
+          { name: 'Photo of a leaf', short_name: 'Photo', url: '/app?tab=photo', description: 'Crop Guardian' },
+          { name: 'Verify a receipt', short_name: 'Verify', url: '/verify', description: 'Check a receipt' },
+          { name: 'Officer', short_name: 'Officer', url: '/officer', description: 'The officer console' },
         ],
       },
       workbox: {

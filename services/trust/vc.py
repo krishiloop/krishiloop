@@ -182,7 +182,7 @@ class StatusList:
 # ---------------------------------------------------------------- KrishiLoop credentials
 def issue_credential(kind: str, subject: dict, issuer: Issuer, status: StatusList | None = None,
                      valid_until: str | None = None) -> dict:
-    assert kind in ("RuleCredential", "AdviceReceiptCredential", "AreaTrustCredential")
+    assert kind in ("RuleCredential", "AdviceReceiptCredential", "AreaTrustCredential", "ModelCredential")
     doc = {
         "@context": [VC_V2],
         "id": f"urn:uuid:{uuid.uuid4()}",
@@ -256,6 +256,14 @@ def verify_receipt(receipt_cred: dict, fetch: Callable[[str], dict], resolve_key
                 return {"status": "invalid", "reason": "area photo-trust credential does not match"}
             if is_revoked(at, fetch, resolve_key):
                 recalled.append(f"photo trust for {area_ref['model']} in {area_ref['area']}")
+        model_ref = (receipt_cred["credentialSubject"].get("photo_reading") or {}).get("model_ref")
+        if model_ref:   # a photo model's reading informed this advice: the model must not have been recalled
+            mc = fetch(model_ref["credential_id"])
+            ms = mc.get("credentialSubject") or {}
+            if not verify_signature(mc, resolve_key) or mc.get("id") != model_ref["credential_id"]                     or "ModelCredential" not in mc.get("type", []) or mc.get("issuer") != receipt_cred.get("issuer")                     or ms.get("model") != model_ref["model"] or ms.get("sha256") != model_ref["sha256"]:
+                return {"status": "invalid", "reason": "photo model credential does not match"}
+            if is_revoked(mc, fetch, resolve_key):
+                recalled.append(f"photo model {model_ref['model']}")
     except Exception as e:  # malformed input or an unreachable status list must never look authentic
         return {"status": "invalid", "reason": f"could not verify: {type(e).__name__}"}
     if recalled:
@@ -285,3 +293,19 @@ def verify_area_trust(cred: dict, fetch: Callable[[str], dict], resolve_key: Cal
     return {"status": "authentic", "reason": "issued by KrishiLoop and unaltered: this photo model had earned trust in "
                                              "this area when it was issued (this is not a guarantee of correctness)",
             "credential": cred}
+
+
+def verify_model(cred: dict, fetch: Callable[[str], dict], resolve_key: Callable[[str], VerifyKey]) -> dict[str, Any]:
+    """A photo model's credential (services/vision/agritriage.py): authentic until the model is recalled."""
+    try:
+        if "ModelCredential" not in cred.get("type", []):
+            return {"status": "invalid", "reason": "not a KrishiLoop model credential"}
+        if not verify_signature(cred, resolve_key):
+            return {"status": "invalid", "reason": "signature does not verify (altered or not issued by us)"}
+        if is_revoked(cred, fetch, resolve_key):
+            return {"status": "recalled", "reason": "this photo model was recalled: receipts that used its readings are "
+                                                    "withdrawn", "credential": cred}
+    except Exception as e:  # never look authentic on malformed input
+        return {"status": "invalid", "reason": f"could not verify: {type(e).__name__}"}
+    return {"status": "authentic", "reason": "issued by KrishiLoop and unaltered: the photo model file and gate this "
+                                             "receipt cites (this is not a guarantee of correctness)", "credential": cred}

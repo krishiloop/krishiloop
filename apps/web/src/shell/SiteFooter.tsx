@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useI18n } from '../lib/i18n';
 import { Wordmark } from '../ui/kit/LoopMark';
 import { FlickeringGrid } from '../ui/kit/FlickeringGrid';
+import { LinkButton } from '../ui/Button';
 import { NAV_ALL } from './SiteHeader';
 
 const REPO = 'https://github.com/krishiloop/krishiloop';
@@ -20,11 +21,24 @@ export function SiteFooter() {
     { href: `${REPO}/tree/main/contracts/schemas`, label: t('ui.footer.api') },
   ];
   return (
-    <footer className="relative mt-10 overflow-hidden border-t border-rule">
+    <footer className="band-night relative mt-10 overflow-hidden">
+      {/* the deck's closing art: the rice plant rising from the bottom edge (the team's own drawing) */}
+      <img src="/art/rice-plant.webp" alt="" aria-hidden loading="lazy" decoding="async" className="botanic bottom-0 right-[4%] w-[min(46vw,560px)]" />
       <div className="wrap relative z-10 pt-20 md:pt-28">
-        <p className="t-display max-w-[14ch] text-ink" data-reveal>
-          {t('ui.footer.big')}
-        </p>
+        <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+          <p className="t-display m-0 max-w-[14ch] text-ink" data-reveal>
+            {t('ui.footer.big')}
+          </p>
+          <div className="flex flex-wrap gap-3 lg:pb-4" data-reveal style={{ ['--i' as string]: 1 }}>
+            {/* plain links styled as the liquid pills: the shell never loads the animation library */}
+            <LinkButton to="/app" variant="primary" size="lg" arrow>
+              {t('ui.cta.tryApp')}
+            </LinkButton>
+            <LinkButton to="/verify" variant="ghost" size="lg" className="liquid liquid-glass glass">
+              {t('ui.cta.verify')}
+            </LinkButton>
+          </div>
+        </div>
         <div className="mt-16 grid gap-12 border-t border-rule pt-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
             <Wordmark />

@@ -17,7 +17,7 @@ import uuid
 from pathlib import Path
 
 from services.trust.vc import (Issuer, StatusList, issue_credential, now_iso, verify_area_trust, verify_key_from_multibase,
-                               verify_receipt)
+                               verify_model, verify_receipt)
 
 ROOT = Path(__file__).resolve().parents[2]
 CRED_ID = re.compile(r"^(?:urn:uuid:)?([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$")
@@ -178,6 +178,8 @@ class TrustStore:
             return {"status": "invalid", "reason": "unknown credential"}
         if "AreaTrustCredential" in cred.get("type", []):
             return verify_area_trust(cred, self.get, self.resolve_key)
+        if "ModelCredential" in cred.get("type", []):   # a photo model (services/vision/agritriage.py)
+            return verify_model(cred, self.get, self.resolve_key)
         return verify_receipt(cred, self.get, self.resolve_key)
 
     def did_document(self) -> dict:

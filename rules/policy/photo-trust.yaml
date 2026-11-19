@@ -2,8 +2,10 @@
 # Data, reviewed like a rule (plan/EARNED_TRUST_DESIGN.md). The numbers are team-set, NOT from a source, and the
 # policy has not been reviewed by an agronomist or a statistician yet.
 policy_id: photo-trust
-version: 1
+version: 2
 status: draft
+# v2 (19 Nov 2026): adds `agritriage:` below, the rule for the AgriTriage-Lite student (agritriage-tinyvit@1), whose
+# conformal gate gives each photo its own statistical check. Everything in v1 is unchanged.
 # A suggestion is "sure" when its calibrated top probability reaches this.
 sure_threshold: 0.85
 # The gate looks at the officer's verdicts on the most recent sure suggestions.
@@ -24,3 +26,36 @@ tiers:
   - tier: 2
     may: feed an input decision (spray or not)
     needs: not enabled in version 1
+
+# ---------------------------------------------------------------- v2: AgriTriage-Lite (conformal gate) and earned trust
+# Two checks, one per photo and one per area, and both must hold for a receipt:
+#   per photo  the server's own reading (services/vision/agritriage.py, the same ONNX and gate the phone runs) is
+#              "diagnose": crop known, energy below the unknown-photo threshold, and exactly one disease in the 90% set;
+#   per area   the conformal promise has not been shown to fail here. The officer's verdicts on this area's photos say
+#              whether the true disease was inside the server's set; when the Wilson 95% UPPER bound of that coverage
+#              falls below the 90% target (we are then 95% sure the promise fails here), receipts stop and every photo
+#              goes to the officer. After `recalibrate_min_checks` officer-confirmed crop-known photos, the area's own
+#              threshold q replaces PlantWild's: the poster's local recalibration (RiceLeafBD coverage 80.4% -> 90.4%
+#              with 20% local photos, measured on the earlier MobileNetV3-S student).
+# On top of that, the class must map to a photo-keyed rule that fires for this field (agritriage-classes.yaml), the
+# rule must allow a conformal reading on its own (`conformal_enough`, set per class), or the area must have EARNED
+# trust for this model (the v1 precision gate above, from the same officer verdicts). A share is still audited.
+# Shortlists ask for a clearer photo first, then the officer; refer and unknown go straight to the officer.
+# Caveat: verdicts come mostly from referred and audited photos, so the coverage check sees harder photos than the
+# receipted ones; it errs towards stopping receipts. Team-set numbers, not reviewed by a statistician yet.
+agritriage:
+  model: agritriage-tinyvit@1
+  coverage_target: 0.90
+  coverage_min_checks: 20
+  recalibrate_min_checks: 20
+  recalibrate_every: 10
+  audit_rate: 0.10
+  tier: 1            # practices only: a photo never feeds an input decision (tier 2 stays off)
+  receipt_requires:
+    - crop known (the field's crop; an any-crop reading never gets a receipt)
+    - gate outcome diagnose (one disease in the 90% set, not unknown)
+    - the class maps to a photo-keyed rule in the field's pack that fires for this field
+    - the model credential is not recalled
+    - the area's coverage check has not failed
+    - the rule allows a conformal reading on its own, or the area has earned trust for this model
+    - not drawn for audit

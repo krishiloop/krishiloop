@@ -38,8 +38,9 @@ html.reveal-ready .bot-card:not(.is-in) .bot-mark {
   transition-delay: 0s;
 }
 @media (min-width: 1024px) {
+  /* the steps not in view rest a little back; still AA on cream and forest (19 Nov: 0.28 failed contrast) */
   .loop-step {
-    opacity: 0.28;
+    opacity: 0.96;
     transition: opacity 420ms ease;
   }
   .loop-step.is-active {

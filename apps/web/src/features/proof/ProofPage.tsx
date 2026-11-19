@@ -36,7 +36,9 @@ export default function ProofPage() {
 
   return (
     <div className="pf-page pb-10">
-      <section className="wrap pt-10 pb-12 sm:pt-16" aria-labelledby="pf-title">
+      <section className="band-night kg-pagehero" aria-labelledby="pf-title">
+        <div className="wrap pf-hero pt-10 pb-14 sm:pt-16">
+        <div>
         <p className="eyebrow hero-rise">{t('proof.eyebrow')}</p>
         <h1 id="pf-title" className="t-title hero-rise mt-4 max-w-[18ch]" style={{ ['--i' as string]: 1 }} data-testid="proof-title">
           {t('proof.title')}
@@ -44,13 +46,18 @@ export default function ProofPage() {
         <p className="t-lead hero-rise mt-5 max-w-[52ch]" style={{ ['--i' as string]: 2 }}>
           {t('proof.lead')}
         </p>
-        <nav className="pf-jump hero-rise mt-8" style={{ ['--i' as string]: 3 }} aria-label={t('proof.jump')}>
-          {SECTIONS.map((id) => (
+        </div>
+        <nav className="pf-jump glass hero-rise" style={{ ['--i' as string]: 3 }} aria-label={t('proof.jump')}>
+          {SECTIONS.map((id, i) => (
             <a key={id} href={`#${id}`}>
+              <span className="pf-jump-n mono" aria-hidden>
+                {fmtNum(i + 1, lang, { minimumIntegerDigits: 2 })}
+              </span>
               {t(`proof.nav.${id}` as Key)}
             </a>
           ))}
         </nav>
+        </div>
       </section>
 
       <Section id="architecture" title={t('proof.arch.title')} lead={t('proof.arch.lead')}>

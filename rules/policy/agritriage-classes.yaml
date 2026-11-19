@@ -1,0 +1,45 @@
+# AgriTriage-Lite class map: which of the student's 89 PlantWild classes a KrishiLoop pack covers, and with which rule.
+# Data, reviewed like a rule (photo-trust policy v2, services/vision/agritriage.py). A class that is not listed here,
+# or lists no rule, never gets a receipt: the farmer sees the diagnosis and the case goes to the officer
+# ("diagnosis shown, no sourced action"). Checked against rules/registry on 19 Nov 2026.
+policy_id: agritriage-classes
+version: 1
+model: agritriage-tinyvit@1
+status: draft
+# KrishiLoop field crop -> the model's crop name (crop-known mode masks every other crop's classes)
+crops:
+  rice: rice
+  potato: potato
+classes:
+  rice blast:
+    pack_id: pack-bd-rice
+    diagnosis_label: blast            # the fact value R-BDR-012 tests
+    rules: [R-BDR-012]
+    # R-BDR-012 is the BD pack's only photo-keyed rule: a tier-1 practice (cautious urea, match the leaf colour chart,
+    # show the photo to the officer), stages tillering and booting. Low risk, and it sends the farmer to the officer
+    # anyway, so a conformal diagnose may receipt it without earned area trust.
+    conformal_enough: true
+  rice sheath blight:
+    pack_id: pack-bd-rice
+    diagnosis_label: sheath_blight
+    rules: []                         # no rule in the BD pack is keyed on sheath blight -> officer
+  rice healthy:
+    pack_id: pack-bd-rice
+    diagnosis_label: healthy
+    rules: []                         # nothing to receipt for a healthy leaf; the weekly plan stands
+  potato late blight:
+    pack_id: pack-potato-late-blight
+    diagnosis_label: late_blight
+    # Checked: every rule in the potato pack (R-PLB-001..011) is keyed on stage, the forecast and crop protection;
+    # none takes a photo diagnosis as a fact, and R-PLB-008/011 are input decisions, which a photo may never feed
+    # (tier 2 is off). So a late-blight photo is shown, sent to the officer, and the weather-based plan still stands.
+    # A photo-keyed potato rule needs a sourced quote and a reviewer first.
+    rules: []
+  potato early blight:
+    pack_id: pack-potato-late-blight
+    diagnosis_label: early_blight
+    rules: []                         # the pack covers late blight only
+  potato healthy:
+    pack_id: pack-potato-late-blight
+    diagnosis_label: healthy
+    rules: []

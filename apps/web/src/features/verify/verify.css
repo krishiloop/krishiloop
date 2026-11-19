@@ -970,3 +970,19 @@ html.reduce-motion :is(.vf-page .stamp-land, .vf-doc-card, .vf-doc-body > *, .vf
     transform: translateY(0);
   }
 }
+
+/* ================================================================== "Monsoon Field" (19 Nov 2026)
+   The verdict sentence takes the display face (the one line a visitor came for). */
+.vf-meaning {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-stretch: 100%;
+  font-weight: 430;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+.vf-meaning:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0;
+}

@@ -107,6 +107,10 @@ const d: Record<keyof typeof ui, string> = {
   'ui.notFound': 'এই পাতাটি নেই।',
   'ui.notFoundBody': 'লিংকটি পুরোনো হতে পারে। গল্প থেকে শুরু করুন, অথবা কৃষক অ্যাপ খুলুন।',
   'ui.goHome': 'হোম পাতায় যান',
+  'ui.drawer.step': 'ধাপ {n} / {total}',
+  'ui.cmp.label': 'দুটি ছবি মেলাতে টেনে সরান',
+  'ui.app.website': 'ওয়েবসাইট',
+  'ui.app.site': 'KrishiLoop ওয়েবসাইট',
 
   'ui.nav.receipt': 'রসিদ কীভাবে কাজ করে',
   'ui.palette.title': 'যেকোনো জায়গায় যান',

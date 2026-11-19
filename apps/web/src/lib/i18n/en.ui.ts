@@ -112,6 +112,10 @@ const ui = {
   'ui.notFound': 'This page does not exist.',
   'ui.notFoundBody': 'The link may be old. Start from the story, or open the farmer app.',
   'ui.goHome': 'Go to the home page',
+  'ui.drawer.step': 'Step {n} of {total}',
+  'ui.cmp.label': 'Drag to compare the two pictures',
+  'ui.app.website': 'Website',
+  'ui.app.site': 'KrishiLoop website',
 
   /* ---------------------------------------------------------------- footer */
   'ui.nav.receipt': 'How a receipt works',

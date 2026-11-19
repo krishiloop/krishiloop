@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Camera, ChevronDown, CircleCheck, CircleX, ImageOff, Leaf } from 'lucide-react';
 import type { PhotoCase } from '../../lib/api/types';
@@ -15,6 +15,8 @@ import { judge, usePhotoCases } from './photoCases';
 import { AreaGauge } from './AreaGauge';
 import { useMedia, WIDE } from './useMedia';
 import { AnimatedList } from '../../ui/kit/AnimatedList';
+// AgriTriage-Lite cases: their own chunk (the comparer and the photo-model helpers), so the console's first load stays flat
+const AiCases = lazy(() => import('./AiCases').then((m) => ({ default: m.AiCases })));
 
 /** The labels the server's photo model chooses between (its `core` list). A label not here is shown humanised. */
 const LABELS = ['healthy', 'blast', 'brown_spot', 'tungro', 'sheath_blight'] as const;
@@ -30,8 +32,20 @@ export function labelName(label: string, t: (k: Key) => string): string {
 }
 const pct = (p: number) => `${Math.round(p * 100)}%`;
 
+/** AgriTriage-Lite cases (the phone model, read again on the server) first, then the earned-trust photo cases. */
+export function PhotoPanel(props: { selectedId: string | null; onSelect: (id: string) => void; onClose: () => void }) {
+  return (
+    <>
+      <Suspense fallback={null}>
+        <AiCases />
+      </Suspense>
+      <BioPhotoPanel {...props} />
+    </>
+  );
+}
+
 /** Photo cases from the server's photo check, as a grid, with the case beside it (a sheet on phones). */
-export function PhotoPanel({ selectedId, onSelect, onClose }: { selectedId: string | null; onSelect: (id: string) => void; onClose: () => void }) {
+function BioPhotoPanel({ selectedId, onSelect, onClose }: { selectedId: string | null; onSelect: (id: string) => void; onClose: () => void }) {
   const { t } = useI18n();
   const api = useApiState();
   const photo = usePhotoCases();

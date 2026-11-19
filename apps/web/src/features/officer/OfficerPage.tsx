@@ -1,9 +1,10 @@
 // this page's words (English loads per screen)
 import '../../lib/i18n/strings.officer';
 import '../../lib/i18n/strings.trust';
-import { useCallback, useEffect, useMemo } from 'react';
+import '../../lib/i18n/strings.radartab'; // builder R: the radar tab's label (the radar's words load with it)
+import { lazy, Suspense, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Camera, Inbox, Leaf, Undo2 } from 'lucide-react';
+import { Camera, Inbox, Leaf, Radar, Undo2 } from 'lucide-react';
 import { currentSessionId, useApiState } from '../../lib/api/client';
 import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
@@ -18,10 +19,11 @@ import { InboxPanel } from './InboxPanel';
 import { PhotoPanel } from './PhotoPanel';
 import { RecallPanel } from './RecallPanel';
 import { AreaPanel } from './AreaPanel';
+const RadarPanel = lazy(() => import('./radar/RadarPanel')); // builder R: village outbreak radar (map loads lazily)
 import './officer.css';
 
-type Tab = 'inbox' | 'photos' | 'recall' | 'trust';
-const TABS: Tab[] = ['inbox', 'photos', 'recall', 'trust'];
+type Tab = 'inbox' | 'photos' | 'recall' | 'radar' | 'trust';
+const TABS: Tab[] = ['inbox', 'photos', 'recall', 'radar', 'trust'];
 const isTab = (v: string | null): v is Tab => !!v && (TABS as string[]).includes(v);
 
 /**
@@ -92,6 +94,7 @@ export default function OfficerPage() {
     { id: 'inbox', label: t('off.tab.inbox'), short: t('off.tab.inboxShort'), icon: <Inbox size={17} aria-hidden />, badge: badge(openCases, 'off.tab.openN') },
     { id: 'photos', label: t('off.tab.photos'), short: t('off.tab.photosShort'), icon: <Camera size={17} aria-hidden />, badge: badge(openPhotos, 'off.tab.openPhotos') },
     { id: 'recall', label: t('off.tab.recall'), short: t('off.tab.recallShort'), icon: <Undo2 size={17} aria-hidden /> },
+    { id: 'radar', label: t('off.radar.tab'), short: t('off.radar.tabShort'), icon: <Radar size={17} aria-hidden /> },
     { id: 'trust', label: t('off.tab.trust'), short: t('off.tab.trustShort'), icon: <Leaf size={17} aria-hidden /> },
   ];
 
@@ -107,6 +110,7 @@ export default function OfficerPage() {
           {tab === 'photos' && <PhotoPanel selectedId={caseId} onSelect={select} onClose={close} />}
           {tab === 'recall' && <RecallPanel focusRule={focusRule} />}
           {tab === 'trust' && <AreaPanel />}
+          {tab === 'radar' && <Suspense fallback={null}><RadarPanel /></Suspense>}
         </div>
       </div>
     </div>

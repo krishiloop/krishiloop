@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type ChangeEvent } from 'react';
+import { lazy, Suspense, useEffect, useId, useRef, useState, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Camera, Check, Image as ImageIcon, RefreshCw, ServerOff, ShieldCheck, UserRound } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
@@ -16,6 +16,9 @@ import { logError, logPhoto, setWorking } from './inspector';
 import { tick } from './checklist';
 import { areaOf, cropName, countryName, photoLabelName } from './words';
 import type { TabId } from './TabBar';
+
+/** AgriTriage-Lite on the phone: its own chunk, and ONNX Runtime + the 11.5 MB model load only when a photo is read. */
+const AiPhoto = lazy(() => import('./photo/AiPhoto'));
 
 type PhotoState =
   | { phase: 'idle' }
@@ -118,10 +121,15 @@ export function PhotoTab({ onTab }: { onTab: (t: TabId) => void }) {
 
   return (
     <div className="grid gap-6" data-testid="fa-photo">
-      <div>
-        <h2 className="t-head">{t('fa.photo.title')}</h2>
-        <p className="mt-1.5 text-ink-2">{t('fa.photo.sub')}</p>
-      </div>
+      <h2 className="t-head">{t('fa.photo.title')}</h2>
+      <Suspense fallback={<div className="skeleton h-40" aria-hidden />}>
+        <AiPhoto onTab={onTab} />
+      </Suspense>
+      {/* the earlier research model (BioCLIP 2 on the server, earned trust per area): kept, closed by default */}
+      <details className="grid gap-6 border-t border-rule pt-5" data-testid="fa-photo-earlier">
+        <summary className="t-head fa-hit cursor-pointer">{t('fa.photo.areaTitle')}</summary>
+        <div className="mt-4 grid gap-6">
+        <p className="m-0 text-ink-2">{t('fa.photo.sub')}</p>
 
       {offline ? (
         <section className="panel p-5" data-testid="fa-photo-offline">
@@ -193,6 +201,8 @@ export function PhotoTab({ onTab }: { onTab: (t: TabId) => void }) {
           </div>
         </>
       )}
+        </div>
+      </details>
     </div>
   );
 }

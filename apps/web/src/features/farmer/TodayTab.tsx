@@ -21,6 +21,7 @@ import { VoiceLine } from './VoiceLine';
 import type { ReceiptRef } from './ReceiptSheet';
 import type { TabId } from './TabBar';
 import { Handoff } from './Handoff';
+import { KrishiGuardSlot } from './climate'; // builder R: Climate-Smart Shield, near you, calculator, visit booking
 
 /**
  * Today: this week's one decision (pictogram, word, the rule's own sentence, the receipt one tap away), at most two other
@@ -108,6 +109,7 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
         </section>
       )}
 
+      <KrishiGuardSlot />
       <Weather plan={plan} snapshot={st.snapshot} />
     </div>
   );

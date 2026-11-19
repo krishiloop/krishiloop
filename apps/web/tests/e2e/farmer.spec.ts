@@ -172,6 +172,7 @@ test.describe('recorded mode (deterministic)', () => {
 
   test('Photo: honest without the live server, with a link to the real replay', async ({ page }) => {
     await page.goto(`${REC}&tab=photo`);
+    await page.getByTestId('fa-photo-earlier').locator('summary').click(); // the earlier research model, closed by default
     const off = page.getByTestId('fa-photo-offline');
     await expect(off).toContainText('The photo check needs the live server.');
     await expect(off.getByRole('button', { name: 'Take a photo' })).toBeDisabled();
@@ -307,6 +308,7 @@ test.describe('live API smoke', () => {
     await expect(page.getByTestId('fa-inspector')).toContainText('POST /api/demo/‹sid›/ask');
 
     await page.getByRole('tab', { name: 'Photo' }).click();
+    await page.getByTestId('fa-photo-earlier').locator('summary').click(); // the earlier research model, closed by default
     await expect(page.getByTestId('fa-area')).toContainText('Officer checks', { timeout: 15_000 });
     await page.getByTestId('fa-photo-consent').click();
     await expect(page.getByTestId('fa-photo-consent')).toHaveAttribute('aria-checked', 'true');

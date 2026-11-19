@@ -81,6 +81,8 @@ const officer = {
   'off.reason.no_rule_for_problem': 'No rule for this problem',
   'off.hint.unsafe_intent': 'About banned chemicals, mixing, doses, protection, food safety or an unwell person. Never answered automatically; urgent.',
   'off.hint.no_rule_for_problem': 'The farmer named a pest or disease that no rule of the pack covers.',
+  'off.reason.visit_request': 'Visit or call request',
+  'off.hint.visit_request': 'The farmer asked an officer to visit the field or call back, on the day and time they chose. The phone number is stored masked.',
   'off.urgent': 'Urgent',
   'off.reason.no_matching_rule': 'No rule fits',
   'off.hint.rule_recalled': 'The planner stopped using the withdrawn rule. Advise this farmer yourself.',

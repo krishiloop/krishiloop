@@ -16,6 +16,7 @@ export const REASONS = [
   'no_matching_rule',
   'unsafe_intent',
   'no_rule_for_problem',
+  'visit_request',
 ] as const;
 export type KnownReason = (typeof REASONS)[number];
 

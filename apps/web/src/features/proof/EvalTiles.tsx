@@ -174,9 +174,11 @@ export function NewTiles() {
           </ul>
           <p className="m-0 text-[0.9rem] text-ink-2">{t(`proof.new.${e.id}.caveat` as Key)}</p>
           <div className="pf-src">
-            <a className="link" href={e.source.href} target="_blank" rel="noreferrer">
-              {e.source.path}
-            </a>
+            {(e.sources ?? [e.source]).map((src) => (
+              <a key={src.path} className="link" href={src.href} target="_blank" rel="noreferrer">
+                {src.path}
+              </a>
+            ))}
           </div>
         </article>
       ))}

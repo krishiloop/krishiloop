@@ -1,0 +1,49 @@
+# Climate-Smart Shield (services/engine/climate.py): DATA, not code, so a new pack needs no engine change.
+# Written 2026-11-19 by builder R (the team's coding agent). Bangla is machine-written; pending native-speaker review.
+version: 1
+
+# Thresholds the shield adds on top of the packs' own reviewer parameters. Team-set, NOT from a source; every warning
+# that uses one says "threshold set by our team (not from a source; review pending)".
+team_params:
+  heat_tmax_c:
+    name: heat_tmax_c
+    value: 35
+    unit: C
+    set_by: team
+    note: NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold).
+  flood_rise_pct:
+    name: flood_rise_pct
+    value: 10
+    unit: '%'
+    set_by: team
+    note: "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first
+      (services/engine/snapshot.py). NOT from a source; review pending."
+
+# Which sourced rule a warning cites, per pack. `quote`: index of the rule's source quote that speaks to the weather.
+# `show_action`: the rule's own action is shown only when its whole condition holds for the field; false means the
+# quote alone (R-PLB-011's action is "no spray needed", which is not what a rain warning means).
+links:
+  pack-bd-rice:
+    heavy_rain: {rule_id: R-BDR-009, quote: 0, show_action: true}       # BRRI: no urea after a thunderstorm
+    disease: {rule_id: R-BDR-004, quote: 0, show_action: true}          # BRRI: humidity above 70% favours leaf blight
+  pack-potato-late-blight:
+    heavy_rain: {rule_id: R-PLB-011, quote: 2, show_action: false}      # CIP p.24: contact products washed away by rain
+    disease: {rule_id: R-PLB-008, quote: 1, show_action: true}          # CIP p.19: moderate temperatures, high humidity
+
+# "Why it matters": VERIFIED rows of D:/AI_congress/research/fact_register.md, per check and country.
+context:
+  BD:
+    heat:
+      fact_id: B9
+      source: The Daily Star, 17 Apr 2021 (DAE estimate)
+      url: https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321
+      text:
+        en: In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.
+        bn: ২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।
+    flood:
+      fact_id: B6
+      source: Dhaka Tribune, 27 Apr 2017 (district agriculture officer)
+      url: https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona
+      text:
+        en: The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.
+        bn: ২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।

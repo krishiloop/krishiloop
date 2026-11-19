@@ -576,6 +576,270 @@ def _stop_reach_bot() -> None:
 # ---------------------------------------------------------------- END Reach block
 
 
+# ---------------------------------------------------------------- BEGIN KrishiGuard block (builder R; services/engine/climate*.py, radar*.py)
+# Climate-Smart Shield (GET /api/climate: next-7-day warnings from the plan's own snapshot, citing sourced rules),
+# village outbreak radar (GET /api/radar: k-anonymous cells, k=3 devices, plus a SIMULATED scenario kept apart;
+# POST /api/demo/{sid}/radar/warn: a fixed notice through services/reach to this session's holders in that area) and
+# "ask an officer to visit or call" (POST /api/demo/{sid}/visit: an officer-inbox case, phone stored masked only).
+from datetime import datetime as _dt, timezone as _tz  # noqa: E402
+
+from services.engine import climate as climate_mod, climate_visit, radar as radar_mod  # noqa: E402
+from services.engine.planner import MAX_SNAPSHOT_AGE_H as _MAX_SNAPSHOT_AGE_H  # noqa: E402
+
+
+class WarnRequest(BaseModel):
+    area: str = Field(pattern=r"^[A-Z]{2}-[a-z0-9-]{1,40}$")
+    problem: str = Field(pattern=r"^[a-z0-9_]{1,60}$")
+    layer: str = Field(default="real", pattern=r"^(real|simulated)$")
+
+
+class VisitRequest(BaseModel):
+    field_id: str = Field(max_length=64)
+    profile_id: str = Field(max_length=64)
+    date: str = Field(max_length=10)
+    slot: str = Field(max_length=12)
+    mode: str = Field(default="visit", max_length=8)
+    phone: str | None = Field(default=None, max_length=24)
+    note: str = Field(default="", max_length=400)
+    lang: str = Field(default="en", pattern=r"^(en|bn|hi|sw)$")
+
+
+def _find_snapshot(snapshot_id: str) -> dict | None:
+    for p in (snap_mod.SNAP_DIR.glob("*.json") if snap_mod.SNAP_DIR.exists() else []):
+        try:
+            snap = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if snap.get("snapshot_id") == snapshot_id:
+            return snap
+    return None
+
+
+@app.get("/api/climate")
+def climate(field_id: str, snapshot_id: str, profile_id: str = "", sid: str = ""):
+    """The shield for the forecast a plan used (its snapshot_id). A rule recalled in this session's sandbox is never cited."""
+    field = DEMO_FIELDS.get(field_id)
+    if not field:
+        raise HTTPException(404, "unknown demo field")
+    snap = _find_snapshot(snapshot_id)
+    if not snap or snap.get("field_id") != field_id:
+        raise HTTPException(404, "unknown snapshot")
+    sb = _load_sandbox(sid) if sid else None
+    st = sb["store"] if sb else store()
+    return climate_mod.shield(snap, field, DEMO_PROFILES.get(profile_id), is_recalled=st.is_recalled,
+                              max_age_h=_MAX_SNAPSHOT_AGE_H)
+
+
+def _radar_now() -> "_dt":
+    return _dt.now(_tz.utc).replace(microsecond=0)
+
+
+@app.get("/api/radar")
+def radar(request: Request):
+    """Real reports on this server (every demo session counts as one device), k-anonymous; and the SIMULATED scenario,
+    aggregated on its own. Only the areas and counts of cells with at least k devices leave the server."""
+    if _rate_limited("radar:" + (request.client.host if request.client else "unknown")):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    now = _radar_now()
+    real = radar_mod.aggregate(radar_mod.collect(ROOT / "data" / "demo", inbox.INBOX_DIR, DEMO_FIELDS, now), now)
+    return {"real": real, "simulated": radar_mod.simulated(now),
+            "field_areas": {fid: radar_mod.field_area(f) for fid, f in DEMO_FIELDS.items()},
+            "reporter": "a device: one demo session counts once, whatever fields or farmers it used"}
+
+
+@app.post("/api/demo/{sid}/radar/warn")
+def radar_warn(sid: str, body: WarnRequest, request: Request):
+    sb = _sandbox(sid)
+    if _rate_limited(request.client.host if request.client else "unknown"):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    now = _radar_now()
+    agg = radar_mod.simulated(now) if body.layer == "simulated" else \
+        radar_mod.aggregate(radar_mod.collect(ROOT / "data" / "demo", inbox.INBOX_DIR, DEMO_FIELDS, now), now)
+    c = radar_mod.cell(agg, body.area, body.problem)
+    if not c:
+        raise HTTPException(409, f"no cell shown for this area and problem (fewer than {radar_mod.K_MIN} devices reported it)")
+    from services.reach.senders import TelegramSender
+    senders = {"sms": reach.outbox(), "telegram": TelegramSender(reach.telegram_transport())}
+    return radar_mod.warn(reach.db(), sb["store"], c, body.layer == "simulated", DEMO_FIELDS, senders, now.date().isoformat())
+
+
+@app.post("/api/demo/{sid}/visit")
+def demo_visit(sid: str, body: VisitRequest, request: Request):
+    sb = _sandbox(sid)
+    if body.field_id not in DEMO_FIELDS or body.profile_id not in DEMO_PROFILES:
+        raise HTTPException(404, "unknown demo field or profile")
+    if _rate_limited(request.client.host if request.client else "unknown"):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    try:
+        return climate_visit.create(body.field_id, body.profile_id, body.model_dump(), sb["inbox"], lang=body.lang)
+    except climate_visit.VisitError as e:
+        raise HTTPException(422, str(e))
+# ---------------------------------------------------------------- END KrishiGuard block
+
+
+# ---------------------------------------------------------------- BEGIN AgriTriage block (builder P; services/vision/agritriage.py)
+# The owner's AgriTriage-Lite student, on the server, on the farmer's own uploaded photo (the same ONNX and gate the
+# phone runs). Photo-trust policy v2 decides: a receipt (via the planner, citing this reading and the signed model
+# credential), "take a clearer photo" (shortlist), or the officer. The phone's own reading is stored for agreement only.
+from services.vision import agritriage as agritriage_mod  # noqa: E402
+
+
+class TriageRequest(BaseModel):
+    field_id: str = Field(max_length=64)
+    image_b64: str = Field(max_length=4_000_000)
+    consent: bool = False                           # may the server keep the photo for the officer?
+    any_crop: bool = False                          # the farmer chose "any crop" instead of the field's crop
+    client: dict | None = None                      # the phone's reading: recorded for agreement, never trusted
+
+
+class TriagePlanRequest(BaseModel):
+    profile_id: str = Field(max_length=64)
+
+
+class TriageVerdictRequest(BaseModel):
+    label: str = Field(max_length=80)
+
+
+class ModelRecallRequest(BaseModel):
+    reason: str = Field(default="", max_length=500)
+
+
+def _triage(sb: dict):
+    try:
+        with _lock:
+            svc = sb.get("agritriage")
+            if svc is None:
+                svc = sb["agritriage"] = agritriage_mod.AgriTriageService(sb["store"], sb["dir"] / "agritriage")
+        return svc
+    except (OSError, ImportError) as e:
+        raise HTTPException(503, f"the AgriTriage photo model is not available on this server ({type(e).__name__})")
+
+
+@app.post("/api/demo/{sid}/agritriage")
+def demo_triage(sid: str, body: TriageRequest, request: Request):
+    sb, field = _sandbox(sid), DEMO_FIELDS.get(body.field_id)
+    if not field:
+        raise HTTPException(404, "unknown demo field")
+    if _rate_limited(request.client.host if request.client else "unknown"):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    try:
+        image = base64.b64decode(body.image_b64, validate=True)
+    except (binascii.Error, ValueError):
+        raise HTTPException(422, "image_b64 is not base64")
+    svc = _triage(sb)
+    try:
+        case = svc.submit(field, image, body.consent, any_crop=body.any_crop, client=body.client)
+    except LedgerError as e:
+        raise HTTPException(409, str(e))
+    except (OSError, ValueError):
+        raise HTTPException(422, "not a readable image")
+    return {"case": case, "area": svc.area(case["area"]), "model": svc.model_info()}
+
+
+@app.post("/api/demo/{sid}/agritriage/{case_id}/plan")
+def demo_triage_plan(sid: str, case_id: str, body: TriagePlanRequest, request: Request):
+    """The weekly plan with this photo case's server reading: the photo-keyed practice gets its receipt."""
+    sb = _sandbox(sid)
+    svc = _triage(sb)
+    try:
+        case = svc.case(case_id)
+    except LedgerError:
+        raise HTTPException(404, "unknown photo case")
+    return _plan(sb["store"], PlanRequest(field_id=case["field_id"], profile_id=body.profile_id, photo_case_id=case_id),
+                 request, sb["inbox"], svc)
+
+
+@app.post("/api/demo/{sid}/agritriage/{case_id}/escalate")
+def demo_triage_escalate(sid: str, case_id: str):
+    try:
+        return _triage(_sandbox(sid)).escalate(case_id)
+    except LedgerError as e:
+        raise HTTPException(409, str(e))
+
+
+@app.get("/api/demo/{sid}/agritriage/cases")
+def demo_triage_cases(sid: str):
+    return {"cases": _triage(_sandbox(sid)).list_cases()}
+
+
+@app.get("/api/demo/{sid}/agritriage/model")
+def demo_triage_model(sid: str):
+    return _triage(_sandbox(sid)).model_info()
+
+
+@app.get("/api/demo/{sid}/agritriage/areas/{area}")
+def demo_triage_area(sid: str, area: str):
+    if not re.fullmatch(r"[a-z0-9_]+@[A-Za-z0-9_-]+", area):
+        raise HTTPException(404, "unknown area")
+    return _triage(_sandbox(sid)).area(area)
+
+
+@app.get("/api/demo/{sid}/agritriage/{case_id}/image")
+def demo_triage_image(sid: str, case_id: str):
+    from fastapi.responses import Response
+    try:
+        return Response(_triage(_sandbox(sid)).photo(case_id), media_type="image/jpeg", headers={"Cache-Control": "no-store"})
+    except LedgerError:
+        raise HTTPException(404, "no photo for this case")
+
+
+@app.get("/api/demo/{sid}/agritriage/{case_id}/heat")
+def demo_triage_heat(sid: str, case_id: str):
+    """The server's occlusion map (where hiding the leaf lowers the top class most), on the kept photo only."""
+    try:
+        return _triage(_sandbox(sid)).heat(case_id)
+    except LedgerError:
+        raise HTTPException(404, "no photo for this case")
+
+
+@app.post("/api/demo/{sid}/agritriage/{case_id}/verdict")
+def demo_triage_verdict(sid: str, case_id: str, body: TriageVerdictRequest):
+    try:
+        return _triage(_sandbox(sid)).judge(case_id, body.label, by=f"demo-officer:{sid[:6]}")
+    except LedgerError as e:
+        raise HTTPException(409, str(e))
+
+
+class TriageHeatRequest(BaseModel):
+    field_id: str = Field(max_length=64)
+    image_b64: str = Field(max_length=4_000_000)
+    any_crop: bool = False
+    target: str = Field(max_length=80)              # the class to explain (the phone's top class)
+
+
+@app.post("/api/demo/{sid}/agritriage/heat")
+def demo_triage_heat_once(sid: str, body: TriageHeatRequest, request: Request):
+    """'Show where' on the server (the farmer asked for it): the occlusion map of the posted photo. The photo is used once
+    for this answer and never written to disk; nothing is recorded in any case or ledger."""
+    sb, field = _sandbox(sid), DEMO_FIELDS.get(body.field_id)
+    if not field:
+        raise HTTPException(404, "unknown demo field")
+    if _rate_limited(request.client.host if request.client else "unknown"):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    try:
+        image = base64.b64decode(body.image_b64, validate=True)
+    except (binascii.Error, ValueError):
+        raise HTTPException(422, "image_b64 is not base64")
+    svc = _triage(sb)
+    if body.target not in svc.model.classes:
+        raise HTTPException(422, "unknown class")
+    crop = None if body.any_crop else svc.model_crop(field)
+    try:
+        return {**svc.model.heat(image, crop, body.target), "where": "server", "kept": False}
+    except (OSError, ValueError):
+        raise HTTPException(422, "not a readable image")
+
+
+@app.post("/api/demo/{sid}/agritriage/recall-model")
+def demo_triage_recall(sid: str, body: ModelRecallRequest):
+    """Recall the photo model in this sandbox: every receipt that cited its readings verifies as recalled."""
+    sb = _sandbox(sid)
+    hits = agritriage_mod.recall_model(sb["store"], body.reason, actor=f"demo-session-{sid}")
+    return {"recalled_model_credentials": hits, "model": agritriage_mod.MODEL,
+            "note": "receipts that used this model's readings now verify as 'recalled'; it gives no new receipts"}
+# ---------------------------------------------------------------- END AgriTriage block
+
+
 # ---------------------------------------------------------------- simple pages
 @app.get("/", response_class=HTMLResponse)
 def home():

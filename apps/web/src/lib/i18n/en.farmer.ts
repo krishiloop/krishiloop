@@ -194,6 +194,7 @@ const farmer = {
   'fa.photo.label.brown_spot': 'Brown spot',
   'fa.photo.label.tungro': 'Tungro',
   'fa.photo.label.sheath_blight': 'Sheath blight',
+  'fa.photo.areaTitle': 'Earlier research model: earned trust per area',
 
   /* ---------------------------------------------------------------- Receipts */
   'fa.rcs.title': 'Your receipts',

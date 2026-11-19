@@ -196,6 +196,7 @@ const d: Record<keyof typeof farmer, string> = {
   'fa.photo.label.brown_spot': 'বাদামি দাগ',
   'fa.photo.label.tungro': 'টুংরো',
   'fa.photo.label.sheath_blight': 'খোল পোড়া',
+  'fa.photo.areaTitle': 'আগের গবেষণা মডেল: এলাকাভিত্তিক অর্জিত আস্থা',
 
   /* ---------------------------------------------------------------- Receipts */
   'fa.rcs.title': 'আপনার রসিদ',

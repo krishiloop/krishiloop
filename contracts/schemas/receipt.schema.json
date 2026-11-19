@@ -228,6 +228,119 @@
           "type": "string"
         }
       }
+    },
+    "photo_reading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "model_ref",
+        "mode",
+        "outcome",
+        "set",
+        "coverage_target",
+        "labels",
+        "weights"
+      ],
+      "description": "Present when the server's own AgriTriage-Lite reading informed this advice (photo-trust policy v2): the model credential it cites, the conformal gate's outcome and set, the coverage target and the top labels. If the model credential is revoked (the model was recalled), this receipt verifies as recalled.",
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "model_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "credential_id",
+            "model",
+            "sha256"
+          ],
+          "properties": {
+            "credential_id": {
+              "type": "string",
+              "pattern": "^urn:uuid:"
+            },
+            "model": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "mode": {
+          "enum": [
+            "crop_known",
+            "any_crop"
+          ]
+        },
+        "crop": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "diagnose",
+            "shortlist",
+            "refer"
+          ]
+        },
+        "set": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coverage_target": {
+          "type": "number"
+        },
+        "q": {
+          "type": "number"
+        },
+        "q_source": {
+          "enum": [
+            "plantwild_cal",
+            "area_recalibrated"
+          ]
+        },
+        "energy": {
+          "type": "number"
+        },
+        "energy_threshold": {
+          "type": "number"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "prob"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "prob": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "class_map": {
+          "type": "string"
+        },
+        "weights": {
+          "type": "string"
+        }
+      }
     }
   },
   "$defs": {

@@ -16,15 +16,23 @@ const seriousA11y = async (page: Page) => {
   return r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.id}: ${v.nodes.length}`);
 };
 
-test('home: the headline, the loop, the receipt tiles, and no API calls', async ({ page }) => {
+test('home: the headline, the merged product, the receipt tiles, and no API calls', async ({ page }) => {
   const api: string[] = [];
   page.on('request', (r) => {
     const u = new URL(r.url());
     if (u.pathname.startsWith('/api/')) api.push(u.pathname);
   });
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('with a receipt');
-  await expect(page.getByRole('img', { name: /The loop: see, decide, speak, prove, learn/ })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('crop doctor, farm adviser and weather warning');
+  // the product picture is now the magazine of the seven tools (it replaced the loop ring in the 19 Nov redesign)
+  await expect(page.getByRole('heading', { level: 2, name: /One app for the whole season/ })).toBeVisible();
+  for (const name of ['Crop Guardian', 'Climate Shield', 'Village disease radar', 'Precision savings', 'Bangla voice and basic phones', 'The officer and human expert', 'Trust: a receipt anyone can check']) {
+    await expect(page.getByRole('heading', { level: 3, name, exact: true })).toBeVisible();
+  }
+  const slider = page.getByRole('slider', { name: 'Compare the leaf with the map of where the model looked' });
+  await slider.focus();
+  await page.keyboard.press('End');
+  await expect(slider).toHaveAttribute('aria-valuenow', '100');
   await page.mouse.wheel(0, 4000);
   await page.waitForTimeout(400);
   expect(api, 'the home page never calls the API').toEqual([]);
@@ -86,7 +94,7 @@ test('home: Bangla, dark theme, phone width, and no serious accessibility proble
   await page.goto('/?lang=bn&theme=dark');
   await expect(page.locator('html')).toHaveAttribute('lang', 'bn');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('রসিদ');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('ফসলের ডাক্তার');
   await noOverflow(page);
   expect(await seriousA11y(page)).toEqual([]);
 });

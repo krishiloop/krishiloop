@@ -222,3 +222,14 @@ html.reveal-ready .money:not(.is-in) .money-arrow {
   width: 55%;
   margin-top: 0.45rem;
 }
+
+/* ================================================================== "Monsoon Field" (19 Nov 2026)
+   The principle numbers are outlined display figures in mustard ink. */
+.ab-rule-n {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-stretch: 100%;
+  font-weight: 340;
+  letter-spacing: -0.03em;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--color-accent) 45%, transparent);
+}

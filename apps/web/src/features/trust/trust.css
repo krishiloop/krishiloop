@@ -680,3 +680,19 @@
   line-height: 1.35;
   color: var(--color-ink-3);
 }
+
+/* ================================================================== "Monsoon Field" (19 Nov 2026)
+   Measured numbers take the display face with lining figures. */
+.tp-big {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-stretch: 100%;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.tp-big:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  letter-spacing: 0;
+}

@@ -1,0 +1,153 @@
+/* The KrishiGuard drawer (builder R): a bottom sheet on phones, a side sheet from 768 px. Only transform and opacity
+   move; cubic-bezier(0.16, 1, 0.3, 1) in, a quicker ease out. Builder D may restyle; class names are kg-drawer-*. */
+.kg-drawer {
+  --kg-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  position: fixed;
+  inset: auto 0 0 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: 92dvh;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  overflow: visible;
+}
+.kg-drawer::backdrop {
+  background: rgb(0 0 0 / 0.55);
+  animation: kg-fade-in 260ms var(--kg-ease, ease-out) both;
+}
+.kg-drawer.is-closing::backdrop {
+  animation: kg-fade-out 220ms ease-in both;
+}
+.kg-drawer-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 92dvh;
+  background: var(--color-card);
+  border: 1px solid var(--color-rule-2);
+  border-bottom: 0;
+  border-radius: 22px 22px 0 0;
+  box-shadow: var(--shadow-pop);
+  animation: kg-sheet-up 460ms var(--kg-ease) both;
+  will-change: transform;
+}
+.kg-drawer.is-closing .kg-drawer-panel {
+  animation: kg-sheet-down 240ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+.kg-drawer-panel:not(.is-dragging) {
+  transition: transform 300ms var(--kg-ease);
+}
+.kg-drawer-drag {
+  touch-action: none;
+  flex: none;
+}
+.kg-drawer-grip {
+  width: 44px;
+  height: 5px;
+  margin: 10px auto 0;
+  border-radius: 99px;
+  background: var(--color-rule-2);
+}
+.kg-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+.kg-drawer-title {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.kg-drawer-body {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .kg-drawer {
+    inset: 0 0 0 auto;
+    width: min(480px, 100vw);
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+  .kg-drawer-panel {
+    height: 100%;
+    max-height: 100dvh;
+    border-radius: 22px 0 0 22px;
+    border-bottom: 1px solid var(--color-rule-2);
+    border-right: 0;
+    animation-name: kg-sheet-in;
+  }
+  .kg-drawer.is-closing .kg-drawer-panel {
+    animation-name: kg-sheet-out;
+  }
+  .kg-drawer-grip {
+    display: none;
+  }
+  .kg-drawer-head {
+    padding-top: 1.25rem;
+    padding-inline: 1.5rem;
+  }
+  .kg-drawer-body {
+    padding: 1.5rem;
+  }
+}
+
+@keyframes kg-sheet-up {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes kg-sheet-down {
+  from {
+    transform: translate3d(0, var(--kg-drag, 0px), 0);
+  }
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes kg-sheet-in {
+  from {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0.6;
+  }
+}
+@keyframes kg-sheet-out {
+  to {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0.6;
+  }
+}
+@keyframes kg-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes kg-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+:root.reduce-motion .kg-drawer-panel,
+:root.reduce-motion .kg-drawer::backdrop {
+  animation: none;
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kg-drawer-panel,
+  .kg-drawer::backdrop,
+  .kg-drawer.is-closing .kg-drawer-panel {
+    animation: none;
+    transition: none;
+  }
+}

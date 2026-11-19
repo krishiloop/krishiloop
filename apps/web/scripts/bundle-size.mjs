@@ -35,7 +35,18 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   2 Nov 2026: TrustPage 120 -> 121 and ProofPage 123 -> 124. The shared chunk grew ~0.3 KB (receipt short codes and
 //   recall notices in the API client, services/reach), and /proof gained the voice credits and the held-out safety
 //   numbers. The farmer app's SMS preview moved to a lazy chunk in the same change.
-const PAGES = { HomePage: 190, ReceiptPage: 133, FarmerApp: 145, OfficerPage: 136, VerifyPage: 133, TrustPage: 121, ProofPage: 124, AboutPage: 110 };
+//   19 Nov 2026 (builder P): ProofPage 124 -> 125. /proof gained the AgriTriage-Lite evaluation tile (its numbers, the
+//   eight row labels and its four source files: ~0.7 KB gzipped). The photo model itself, its runtime and the photo screens
+//   are lazy chunks (AiPhoto, AiCases) and add nothing to any first visit.
+//   19 Nov 2026 (builder R): OfficerPage 136 -> 137. The console gained the outbreak radar tab (its label in two
+//   languages, its icon and the lazy loader, ~0.4 KB gzipped). The radar itself, the map outlines (Bangladesh 11 KB,
+//   Kenya 5 KB) and the KrishiGuard words are lazy chunks; on Today the shield, calculator and booking are one lazy chunk.
+//   19 Nov 2026 (builder D, the deck redesign): FarmerApp 145 -> 147, VerifyPage 133 -> 134, TrustPage 121 -> 122. The
+//   shared shell grew ~0.4 KB gzipped (the forest footer with its two actions and line art, the page-top art layer, the
+//   nav lozenge, the new ui.* strings for the Drawer, the Comparer and the app's site strip); the farmer app's header
+//   gained the strip that links back to the website, Verify and the Officer (three icons and the theme toggle, ~1 KB).
+//   Fonts and art are not JavaScript and do not count here. Home stays under 190 because the product magazine is lazy.
+const PAGES = { HomePage: 190, ReceiptPage: 133, FarmerApp: 147, OfficerPage: 137, VerifyPage: 134, TrustPage: 122, ProofPage: 125, AboutPage: 110 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

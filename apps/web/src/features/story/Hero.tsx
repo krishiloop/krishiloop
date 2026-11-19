@@ -34,7 +34,8 @@ export function Hero() {
   };
 
   return (
-    <section className="wrap grid items-start gap-x-14 gap-y-12 pb-20 pt-10 sm:pt-14 lg:grid-cols-[1.04fr_1fr] lg:pb-28 lg:pt-20" aria-labelledby="hero-title">
+    <section className="band-night kg-pagehero" aria-labelledby="hero-title">
+      <div className="wrap grid items-start gap-x-14 gap-y-12 pb-20 pt-10 sm:pt-14 lg:grid-cols-[1.04fr_1fr] lg:pb-28 lg:pt-20">
       <div className="lg:sticky lg:top-[calc(var(--header-h)+48px)]">
         <p className="eyebrow hero-rise">{t('story.hero.eyebrow')}</p>
         <h1 id="hero-title" className="t-hero hero-rise mt-5 max-w-[13ch] text-ink" style={{ ['--i' as string]: 1 }}>
@@ -87,6 +88,7 @@ export function Hero() {
             {state === 'recalled' && <span className="mt-1 block text-ink-3">{t('story.hero.simNote')}</span>}
           </p>
         </div>
+      </div>
       </div>
     </section>
   );

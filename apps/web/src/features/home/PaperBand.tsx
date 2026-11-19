@@ -36,7 +36,7 @@ export function PaperBand() {
           </div>
         </div>
         <div className="relative mx-auto w-full max-w-[460px] pb-10" data-reveal style={{ '--i': 1 } as CSSProperties}>
-          <div className="absolute inset-x-6 top-10 rotate-[5deg] opacity-80">
+          <div className="absolute inset-x-6 top-10 rotate-[5deg]">
             <ReceiptCard receipt={second.action.receipt} status="recalled" compact />
           </div>
           <div className="relative -rotate-[3deg]">

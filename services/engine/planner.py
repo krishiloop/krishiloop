@@ -82,6 +82,10 @@ def diagnosis_gate(d: dict | None, area: str | None = None, store=None, from_ser
     model = f"{d['model']['name']}@{d['model']['version']}"
     # only a reading the server computed from its own photo case can pass, and only where the model earned trust;
     # a client's report (its labels, probabilities or "calibrated" flag) never can
+    # AgriTriage-Lite (photo-trust policy v2): the server's own conformal gate and the policy already decided this case
+    # (services/vision/agritriage.py decide()); only a reading built there carries this basis, and only with from_server
+    if from_server and d.get("gate_basis") == "conformal" and d.get("photo_reading"):
+        return True, "ok"
     if not from_server or store is None or not store.trusted_photo_model(model, area):
         return False, "uncalibrated"
     if d.get("ood_score") is not None and d["ood_score"] > DIAGNOSIS_GATE["max_ood"]:
@@ -129,7 +133,8 @@ def _receipt(rule: dict, snap: dict, facts: dict, advice: dict, plan_ctx: dict, 
     if diag and used & {"diagnosis_label", "diagnosis_prob"}:
         model = diag["model"]
         for var, value, unit in (("leaf_diagnosis", diag["labels"][0]["label"], "label"), ("leaf_diagnosis_prob", diag["labels"][0]["prob"], "probability")):
-            data.append({"source": f"on-device-model:{model['name']}@{model['version']}", "variable": var, "value": value,
+            where = "on-device-model" if diag.get("on_device", True) or not diag.get("photo_reading") else "server-model"
+            data.append({"source": f"{where}:{model['name']}@{model['version']}", "variable": var, "value": value,
                          "unit": unit, "observed_at": diag["created_at"], "retrieved_at": diag["created_at"], "location_precision": prec})
     params = {p["name"]: p for p in rule.get("reviewer_parameters", [])}
     defs = pack_parameter_defs(rule["pack_id"])
@@ -139,7 +144,12 @@ def _receipt(rule: dict, snap: dict, facts: dict, advice: dict, plan_ctx: dict, 
                 params.setdefault(name, defs[name])
     basis = rule.get("basis_note") or ("Forecast-dependent decision using reviewer-set thresholds (shown below); forecasts can be wrong."
                                        if derived else "Direct practice statement from the cited source.")
-    photo = {"area_trust_ref": facts["_area_trust"]} if diag and used & {"diagnosis_label", "diagnosis_prob"} else {}
+    photo = {}
+    if diag and used & {"diagnosis_label", "diagnosis_prob"}:
+        if (facts.get("_area_trust") or {}).get("credential_id"):
+            photo["area_trust_ref"] = facts["_area_trust"]
+        if diag.get("photo_reading"):   # AgriTriage-Lite: the server's reading and the model credential it cites
+            photo["photo_reading"] = diag["photo_reading"]
     return {"receipt_id": str(uuid.uuid4()), "claim": advice["action_id"], "advice": advice, "plan": plan_ctx,
             "sources": sources, "data": data, **photo,
             "rule_refs": [{"rule_id": rule["rule_id"], "version": rule["version"], "credential_id": PLACEHOLDER_CRED,

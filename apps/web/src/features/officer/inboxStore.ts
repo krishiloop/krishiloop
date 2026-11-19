@@ -45,6 +45,16 @@ export async function loadInbox(): Promise<void> {
   }
 }
 
+/**
+ * A case the farmer app made in recorded mode, where there is no server to send it to (builder R: "ask an officer to
+ * visit or call"). Kept in this browser like the others; the farmer screen says it was not sent.
+ */
+export function registerLocalCase(item: InboxItem) {
+  const cur = overlay.get();
+  if (cur.fromPlans.some((c) => c.item_id === item.item_id)) return;
+  overlay.set({ ...cur, fromPlans: [item, ...cur.fromPlans].slice(0, 20) });
+}
+
 /** Called when the farmer app shows an abstention, so the officer inbox has the case to open. */
 export function registerCase(plan: Plan, farmerLabel: string) {
   const a = plan.abstention;

@@ -64,7 +64,7 @@ export function SiteHeader({ className }: { className?: string }) {
           <nav aria-label={t('ui.nav.main')} className="mx-auto hidden lg:block">
             <ul ref={list} className="relative m-0 flex list-none items-center gap-0.5 p-0">
               {/* one highlight that slides to the current page (plain CSS transition: no animation library in the shell) */}
-              <span ref={pill} aria-hidden className="pointer-events-none absolute left-0 top-0 h-9 rounded-full bg-ink/[0.09] opacity-0 transition-[transform,width,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              <span ref={pill} aria-hidden className="nav-lozenge pointer-events-none absolute left-0 top-0 h-9 rounded-full opacity-0 transition-[transform,width,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
               {NAV.map((n) => (
                 <li key={n.to} className="relative">
                   <NavLink

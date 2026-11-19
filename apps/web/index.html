@@ -1,29 +1,33 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>KrishiLoop · AI farm advice with a receipt anyone can check</title>
     <meta name="description" content="Every piece of AI farm advice comes with a receipt anyone can check: the source passage, the field data, the rule and its version. If a rule turns out wrong, we recall it from every farmer who got it." />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#0a0b09" />
+    <meta name="theme-color" content="#f3eee2" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="KrishiLoop" />
     <meta property="og:title" content="KrishiLoop: AI farm advice with a receipt" />
     <meta property="og:description" content="Every piece of AI farm advice comes with a receipt anyone can check. If a rule turns out wrong, we recall it from every farmer who got it." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preload" href="/fonts/geist-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/instrument-serif-latin-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-latin-opsz.woff2" as="font" type="font/woff2" crossorigin />
     <script>
-      /* Theme and language before first paint, so nothing flashes. Field Night (dark) is the default. Storage can throw. */
+      /* Theme and language before first paint, so nothing flashes. Cream (light) is the default, forest is one tap away. Storage can throw. */
       (function () {
         try {
           var d = document.documentElement;
           var q = new URLSearchParams(location.search);
           var theme = q.get('theme') || localStorage.getItem('kl.theme');
-          d.dataset.theme = theme === 'light' ? 'light' : 'dark';
-          if (theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f2f0e8');
+          d.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+          if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#14261c');
           var lang = q.get('lang') || localStorage.getItem('kl.lang');
           if (lang === 'en' || lang === 'bn' || lang === 'hi' || lang === 'sw') d.lang = lang;
           else if ((navigator.language || '').toLowerCase().indexOf('bn') === 0) d.lang = 'bn';

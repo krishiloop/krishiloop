@@ -29,7 +29,9 @@ export type AbstentionCode =
   /** Ask router 0.2: a question about unsafe pesticide use or an unwell person; the case is marked urgent */
   | 'unsafe_intent'
   /** Ask router 0.2: the question names a pest or disease that no rule of the pack covers */
-  | 'no_rule_for_problem';
+  | 'no_rule_for_problem'
+  /** KrishiGuard (builder R): the farmer asked an officer to visit or call (POST /api/demo/{sid}/visit) */
+  | 'visit_request';
 
 export interface ReceiptSource {
   doc_id: string;
@@ -105,6 +107,25 @@ export interface AreaTrustRef {
   model: string;
 }
 
+/** The server's AgriTriage-Lite reading inside a receipt (contracts/schemas/receipt.schema.json `photo_reading`). */
+export interface PhotoReadingRef {
+  case_id: string;
+  model_ref: { credential_id: string; model: string; sha256: string };
+  mode: 'crop_known' | 'any_crop';
+  crop?: string | null;
+  outcome: 'diagnose' | 'shortlist' | 'refer';
+  set: string[];
+  coverage_target: number;
+  q?: number;
+  q_source?: 'plantwild_cal' | 'area_recalibrated';
+  energy?: number;
+  energy_threshold?: number;
+  temperature?: number;
+  labels: { label: string; prob: number }[];
+  class_map?: string;
+  weights: string;
+}
+
 export interface Receipt {
   receipt_id: string;
   claim: string;
@@ -115,6 +136,8 @@ export interface Receipt {
   data: Reading[];
   /** earned-trust backend: present when a photo reading informed this advice */
   area_trust_ref?: AreaTrustRef;
+  /** AgriTriage-Lite (photo-trust policy v2): the server's own photo reading behind this advice and the model credential it cites */
+  photo_reading?: PhotoReadingRef;
   rule_refs: RuleRef[];
   reviewer_parameters?: ReviewerParameter[];
   graph_path?: string[];

@@ -17,6 +17,9 @@ corpus/private/
 /data/
 outputs/
 *.onnx
+# ...except the AgriTriage-Lite student the farmer app runs in the browser (11.5 MB, INT8 weights; research weights
+# trained on PlantWild, CC BY-NC-ND 4.0, labelled wherever they are used). The v0 model stays out (see .vercelignore).
+!apps/web/public/models/agritriage/model.onnx
 *.pt
 *.pth
 *.safetensors

@@ -15,6 +15,9 @@ import officer from './bn.officer';
 import verify from './bn.verify';
 import trust from './bn.trust';
 import proof from './bn.proof';
+import krishiguard from './bn.krishiguard'; // builder R: climate, radar, calculator, visit
+import radartab from './bn.radartab'; // builder R: the officer's radar tab label
+import photoai from './bn.photoai'; // builder P: AgriTriage-Lite photo model
 
 const d: Record<Key, string> = {
   ...ui,
@@ -25,6 +28,9 @@ const d: Record<Key, string> = {
   ...verify,
   ...trust,
   ...proof,
+  ...krishiguard,
+  ...radartab,
+  ...photoai,
 };
 
 export default d;

@@ -67,7 +67,8 @@ export default function TrustPage() {
   return (
     <div className="tp-page pb-8">
       {/* 1. the idea */}
-      <section className="wrap pt-10 pb-14 sm:pt-16 sm:pb-20" aria-labelledby="tp-title">
+      <section className="band-night kg-pagehero" aria-labelledby="tp-title">
+        <div className="wrap pt-10 pb-14 sm:pt-16 sm:pb-20">
         <div className="grid items-end gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div>
             <p className="eyebrow hero-rise">{t('tp.eyebrow')}</p>
@@ -81,6 +82,7 @@ export default function TrustPage() {
           <div className="hero-rise" style={{ ['--i' as string]: 3 }}>
             {hero ? <HeroMeter m={hero} policy={policy} play={!reduced} ci={ci?.areas[hero.key] ?? null} n={ci?.seeds_per_area ?? 0} /> : view.state === 'loading' ? <div className="skeleton h-[212px] w-full" /> : null}
           </div>
+        </div>
         </div>
       </section>
 

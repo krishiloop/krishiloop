@@ -1,0 +1,3645 @@
+{
+ "note": "Recorded: the shield computed by services/engine/climate.py on the recorded snapshots (2 Nov 2026), as of the day each was saved. 'simulated' is a made-up stormy week, not a forecast.",
+ "version": "0.1.0",
+ "recorded": {
+  "BD-SAMPLE-01|demo-farmer-a": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-01|demo-farmer-b": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-01|demo-farmer-c": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-01|demo-farmer-d": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-a": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-b": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-c": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-d": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 0.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-02",
+      "value": 30.7,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 3,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-a": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 7.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-04",
+      "value": 20.0,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": null,
+      "value": 0,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-b": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 7.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-04",
+      "value": 20.0,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": null,
+      "value": 0,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-c": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 7.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-04",
+      "value": 20.0,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": null,
+      "value": 0,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-d": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644",
+   "data_mode": "live",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 0,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 7.2,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-04",
+      "value": 20.0,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "unknown",
+     "days": [],
+     "peak": null,
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": "no_river_forecast",
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": null,
+      "value": 0,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  }
+ },
+ "simulated": {
+  "BD-SAMPLE-01|demo-farmer-a": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-01|demo-farmer-b": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-01|demo-farmer-c": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-01|demo-farmer-d": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-01",
+   "crop": "rice",
+   "stage": "grain_fill",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:17Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-a": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-BDR-009",
+      "version": 1,
+      "applies": true,
+      "title": {
+       "bn": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+       "en": "Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight."
+      },
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-BRRIKB-003",
+       "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+       "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+       "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+       "page": 2,
+       "quote": "ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না",
+       "language": "bn"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-b": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-BDR-009",
+      "version": 1,
+      "applies": true,
+      "title": {
+       "bn": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+       "en": "Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight."
+      },
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-BRRIKB-003",
+       "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+       "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+       "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+       "page": 2,
+       "quote": "ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না",
+       "language": "bn"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-c": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-BDR-009",
+      "version": 1,
+      "applies": true,
+      "title": {
+       "bn": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+       "en": "Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight."
+      },
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-BRRIKB-003",
+       "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+       "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+       "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+       "page": 2,
+       "quote": "ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না",
+       "language": "bn"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "BD-SAMPLE-02|demo-farmer-d": {
+   "version": "0.1.0",
+   "field_id": "BD-SAMPLE-02",
+   "crop": "rice",
+   "stage": "tillering",
+   "pack_id": "pack-bd-rice",
+   "country": "BD",
+   "snapshot_id": "snap-BD-SAMPLE-02-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:15Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 48.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 20,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source (the source only says stormy rain); to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-BDR-009",
+      "version": 1,
+      "applies": true,
+      "title": {
+       "bn": "ঝড়বৃষ্টির পর ইউরিয়া সার দেবেন না; পাতাপোড়া রোগ দেখলে ইউরিয়া উপরি প্রয়োগ বন্ধ করুন।",
+       "en": "Do not apply urea after a thunderstorm, and stop top-dressing urea once you see leaf blight."
+      },
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-BRRIKB-003",
+       "title": "Bacterial leaf blight (পাতাপোড়া রোগ), Fact Sheet 2, Rice Production Training Manual, Module 10",
+       "publisher": "Bangladesh Rice Research Institute (BRRI) — Rice Knowledge Bank",
+       "url": "http://knowledgebank-brri.org/Rice_Production_Training_Manual/Day_3/Module_10/Factsheet2%20-%20Patapora%20rog.pdf",
+       "page": 2,
+       "quote": "ঝড়োবৃষ্টির পর ইউরিয়া সার দেয়া যাবে না",
+       "language": "bn"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "warn",
+     "days": [
+      "2026-11-05",
+      "2026-11-06"
+     ],
+     "peak": {
+      "date": "2026-11-06",
+      "value": 36.4,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B9",
+      "source": "The Daily Star, 17 Apr 2021 (DAE estimate)",
+      "url": "https://www.thedailystar.net/business/economy/news/3-lakh-paddy-growers-distress-2079321",
+      "text": {
+       "en": "In April 2021 a nor'wester and heat damaged 21,292 ha of boro rice in Bangladesh.",
+       "bn": "২০২১ সালের এপ্রিলে কালবৈশাখী ও তাপে বাংলাদেশে ২১,২৯২ হেক্টর বোরো ধান ক্ষতিগ্রস্ত হয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 820.0,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": {
+      "fact_id": "B6",
+      "source": "Dhaka Tribune, 27 Apr 2017 (district agriculture officer)",
+      "url": "https://www.dhakatribune.com/amp/bangladesh/nation/19349/flash-flood-causes-tk1-000cr-loss-in-netrakona",
+      "text": {
+       "en": "The 2017 flash flood in Netrokona submerged about 73,070 ha of paddy.",
+       "bn": "২০১৭ সালের আকস্মিক বন্যায় নেত্রকোনায় প্রায় ৭৩,০৭০ হেক্টর ধানখেত ডুবে গিয়েছিল।"
+      }
+     }
+    },
+    {
+     "kind": "disease",
+     "level": "clear",
+     "days": [
+      "2026-11-03",
+      "2026-11-04"
+     ],
+     "peak": {
+      "date": null,
+      "value": 2,
+      "unit": "days",
+      "of": 7,
+      "min": 4
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 70,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The source (DOC-BRRIKB-003 p.2) says humidity ABOVE 70%; the engine tests 'at least' 70. Pathologist to confirm; in aman season mean RH is often above this on most days, so the rule may fire very often."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "22-32",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source. The source says high temperature 26-30 C (DOC-BRRIKB-003 p.2) but the engine needs the whole day (min and max) inside this range, so it cannot express that. To be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 4,
+       "unit": "days of 7",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-a": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 14.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "applies": false,
+      "title": null,
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 24,
+       "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 22.5,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 17.6,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "warn",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 4,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-008",
+      "version": 1,
+      "applies": true,
+      "title": {
+       "bn": "সামনে আর্দ্র ও মৃদু তাপমাত্রার দিন আসছে এবং আপনার ফসল সুরক্ষিত নয়: সুরক্ষার উপায় নিয়ে এখনই আপনার কর্মকর্তার সঙ্গে যোগাযোগ করুন।",
+       "en": "Humid, mild days ahead and your crop is not protected: contact your officer about protection options now.",
+       "sw": "Siku za unyevunyevu na joto la wastani zinakuja na zao lako halijakingwa: wasiliana na afisa wako sasa kuhusu njia za kulikinga."
+      },
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 19,
+       "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-b": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 14.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "applies": false,
+      "title": null,
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 24,
+       "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 22.5,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 17.6,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "warn",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 4,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-c": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 14.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "applies": false,
+      "title": null,
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 24,
+       "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 22.5,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 17.6,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "warn",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 4,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-008",
+      "version": 1,
+      "applies": false,
+      "title": null,
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 19,
+       "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  },
+  "KE-SAMPLE-01|demo-farmer-d": {
+   "version": "0.1.0",
+   "field_id": "KE-SAMPLE-01",
+   "crop": "potato",
+   "stage": "vegetative",
+   "pack_id": "pack-potato-late-blight",
+   "country": "KE",
+   "snapshot_id": "snap-KE-SAMPLE-01-20261102T1644-SIMULATED",
+   "data_mode": "simulated",
+   "data_as_of": "2026-11-02T16:44:19Z",
+   "forecast_source": "open-meteo:forecast",
+   "as_of": "2026-11-02",
+   "window": {
+    "from": "2026-11-02",
+    "to": "2026-11-08",
+    "days": 7
+   },
+   "warnings": 3,
+   "checks": [
+    {
+     "kind": "heavy_rain",
+     "level": "warn",
+     "days": [
+      "2026-11-03"
+     ],
+     "peak": {
+      "date": "2026-11-03",
+      "value": 14.0,
+      "unit": "mm"
+     },
+     "thresholds": [
+      {
+       "name": "heavy_rain_mm",
+       "value": 10,
+       "unit": "mm/day",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-011",
+      "version": 2,
+      "applies": false,
+      "title": null,
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 24,
+       "quote": "Contact products do not protect new tissue (grown after application) and are washed away by rain.",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "heat",
+     "level": "clear",
+     "days": [],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 22.5,
+      "unit": "C"
+     },
+     "thresholds": [
+      {
+       "name": "heat_tmax_c",
+       "value": 35,
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from a source; to be set by an agronomist (we hold no sourced heat-stress threshold)."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "flood",
+     "level": "warn",
+     "days": [
+      "2026-11-08"
+     ],
+     "peak": {
+      "date": "2026-11-08",
+      "value": 17.6,
+      "unit": "m3/s",
+      "trend": "rising"
+     },
+     "thresholds": [
+      {
+       "name": "flood_rise_pct",
+       "value": 10,
+       "unit": "%",
+       "set_by": "team",
+       "note": "The snapshot calls river discharge 'rising' when the last forecast day is more than 10% above the first (services/engine/snapshot.py). NOT from a source; review pending."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": null,
+     "rule_withdrawn": null,
+     "context": null
+    },
+    {
+     "kind": "disease",
+     "level": "warn",
+     "days": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05"
+     ],
+     "peak": {
+      "date": null,
+      "value": 4,
+      "unit": "days",
+      "of": 7,
+      "min": 2
+     },
+     "thresholds": [
+      {
+       "name": "humid_rh_pct_min",
+       "value": 90,
+       "unit": "%",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "mild_temp_c_range",
+       "value": "10-25",
+       "unit": "C",
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      },
+      {
+       "name": "humid_mild_days_min",
+       "value": 2,
+       "set_by": "team",
+       "note": "NOT from source; to be set by the pathologist."
+      }
+     ],
+     "basis": "team",
+     "reason": null,
+     "rule": {
+      "rule_id": "R-PLB-008",
+      "version": 1,
+      "applies": false,
+      "title": null,
+      "review_level": "pending",
+      "source": {
+       "doc_id": "DOC-CIP-001",
+       "title": "Potato late blight: Technical manual",
+       "publisher": "International Potato Center (CIP)",
+       "url": "https://cipotato.org/wp-content/uploads/2014/08/005446.pdf",
+       "page": 19,
+       "quote": "4 days in optimal conditions: moderate temperatures and high humidity",
+       "language": "en"
+      }
+     },
+     "rule_withdrawn": null,
+     "context": null
+    }
+   ],
+   "threshold_label": "threshold set by our team (not from a source; review pending)"
+  }
+ }
+}
