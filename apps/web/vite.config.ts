@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -14,10 +14,34 @@ const proxy = {
   '/.well-known': { target: API, changeOrigin: true },
 };
 
+/**
+ * On the home page only, start fetching the home page's own chunk (and its imports) together with the entry script,
+ * instead of after it (the route is lazy): one round trip less before the first screen can render. Other pages are
+ * untouched.
+ */
+function preloadHome(): Plugin {
+  return {
+    name: 'kl-preload-home',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html, ctx) {
+        const chunks = Object.values(ctx.bundle ?? {}).flatMap((c) => (c.type === 'chunk' ? [c] : []));
+        const home = chunks.find((c) => c.isDynamicEntry && c.name === 'HomePage');
+        if (!home) return html;
+        const files = [home.fileName, ...home.imports].filter((f) => !html.includes(f));
+        const script = `<script>if(location.pathname==='/'){${JSON.stringify(files)}.forEach(function(f){var l=document.createElement('link');l.rel='modulepreload';l.href='/'+f;document.head.appendChild(l)})}</script>`;
+        return html.replace('</head>', `${script}\n  </head>`);
+      },
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    preloadHome(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',

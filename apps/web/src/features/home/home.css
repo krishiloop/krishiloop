@@ -877,3 +877,28 @@
     gap: 10px;
   }
 }
+
+/* the hero's scroll parallax, in CSS only (scroll-driven animations; browsers without them keep a still hero). It runs on
+   the page's own scroll, from the top to one screen down, as the earlier JS version did: at the top of the page every
+   layer is exactly in place and fully opaque */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .kg-par-art,
+    .kg-par-copy,
+    .kg-par-phone,
+    .kg-par-cards {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .kg-par-art { animation-name: kg-par-art; }
+    .kg-par-copy { animation-name: kg-par-copy; }
+    .kg-par-phone { animation-name: kg-par-phone; }
+    .kg-par-cards { animation-name: kg-par-cards; }
+  }
+}
+@keyframes kg-par-art { to { transform: translateY(80px); } }
+@keyframes kg-par-copy { 70% { opacity: 0; } to { transform: translateY(70px); opacity: 0; } }
+@keyframes kg-par-phone { to { transform: translateY(-60px); } }
+@keyframes kg-par-cards { to { transform: translateY(-150px); } }

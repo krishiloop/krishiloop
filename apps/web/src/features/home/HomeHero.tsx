@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
 import { CloudRain, Mic, Users } from 'lucide-react';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
@@ -23,17 +22,12 @@ export function HomeHero() {
   // start after the first paint (an effect, not requestAnimationFrame: a background tab never runs rAF)
   useEffect(() => setPlay(true), []);
 
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const copyY = useTransform(p, [0, 1], [0, 70]);
-  const copyOpacity = useTransform(p, [0, 0.7], [1, 0]);
-  const phoneY = useTransform(p, [0, 1], [0, -60]);
-  const cardsY = useTransform(p, [0, 1], [0, -150]);
-  const artY = useTransform(p, [0, 1], [0, 80]);
+  // the scroll parallax is CSS (scroll-driven animations, home.css .kg-par-*): no animation library on the first screen
 
   return (
     <section ref={ref} className="kg-hero band-night relative overflow-x-clip" data-offscreen={onScreen ? undefined : ''} aria-labelledby="home-title">
       {/* the deck's title-slide art: field lines, a gold ring, a leaf branch and a rice stalk (the team's own drawing) */}
-      <motion.div style={{ y: artY }} className="pointer-events-none absolute inset-0" aria-hidden>
+      <div className="kg-par-art pointer-events-none absolute inset-0" aria-hidden>
         <img
           src="/art/hero-lines-1024.webp"
           srcSet="/art/hero-lines-1024.webp 1024w, /art/hero-lines-2048.webp 2048w"
@@ -44,10 +38,10 @@ export function HomeHero() {
           decoding="async"
           className="kg-hero-art"
         />
-      </motion.div>
+      </div>
 
       <div className="wrap relative grid min-h-[calc(100svh-var(--header-h))] items-center gap-14 pb-20 pt-10 lg:grid-cols-[1.15fr_1fr] lg:gap-6">
-        <motion.div style={{ y: copyY, opacity: copyOpacity }} className="relative z-10">
+        <div className="kg-par-copy relative z-10">
           <p className="eyebrow hero-rise m-0" style={{ '--i': 0 } as CSSProperties}>
             {t('home.kicker')}
           </p>
@@ -58,7 +52,7 @@ export function HomeHero() {
             <SplitWords text="KrishiLoop" delay={0.15} play={play} />
             <span className="sr-only-live"> · {t('home.kg.promise')}</span>
           </h1>
-          <p className="kg-promise hero-rise m-0 mt-6 max-w-[34ch]" style={{ '--i': 4 } as CSSProperties} aria-hidden>
+          <p className="kg-promise hero-rise m-0 mt-6 max-w-[34ch]" style={{ '--i': 0 } as CSSProperties} aria-hidden>
             {t('home.kg.promise')}
           </p>
 
@@ -79,11 +73,11 @@ export function HomeHero() {
               {t('ui.nav.receipt')}
             </LiquidLink>
           </div>
-        </motion.div>
+        </div>
 
         {/* the app at work: an illustration (labelled), always in Bangla, as a farmer sees it */}
         <figure className="kg-stage relative m-0" aria-labelledby="kg-stage-cap">
-          <motion.div style={{ y: phoneY }} className="kg-phone-wrap">
+          <div className="kg-par-phone kg-phone-wrap">
             <div className="kg-phone hero-rise" style={{ '--i': 3 } as CSSProperties} aria-hidden>
               <div className="kg-screen" lang="bn">
                 <div className="flex items-center justify-between gap-2 px-4 pt-4">
@@ -116,9 +110,9 @@ export function HomeHero() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div style={{ y: cardsY }} className="kg-alerts" aria-hidden>
+          <div className="kg-par-cards kg-alerts" aria-hidden>
             <div className="kg-alert glass hero-rise" style={{ '--i': 6 } as CSSProperties}>
               <span className="kg-alert-ic" data-tone="water">
                 <CloudRain size={18} />
@@ -137,7 +131,7 @@ export function HomeHero() {
                 <span>{t('home.kg.alert.farmsSub')}</span>
               </span>
             </div>
-          </motion.div>
+          </div>
 
           <figcaption id="kg-stage-cap" className="kg-cap hero-rise" style={{ '--i': 9 } as CSSProperties}>
             <span className="chip chip-carbon">{t('home.illus')}</span>

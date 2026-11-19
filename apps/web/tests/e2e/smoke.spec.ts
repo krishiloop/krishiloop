@@ -12,6 +12,11 @@ const noOverflow = async (page: Page) => {
 };
 
 const seriousA11y = async (page: Page) => {
+  // judge the settled page: wait for the one-off entrance animations (finite, on the document timeline) to end; endless
+  // loops and scroll-driven animations never "finish" and are not waited for
+  await page.waitForFunction(() =>
+    document.getAnimations().every((a) => a.timeline !== document.timeline || a.playState !== 'running' || a.effect?.getComputedTiming().iterations === Infinity),
+  );
   const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
   return r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.id}: ${v.nodes.length}`);
 };
