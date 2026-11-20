@@ -70,3 +70,4 @@ apps/web/.vercel/
 # --- data warehouse export (tools/warehouse.py); the report in ml/warehouse/ is committed ---
 data_warehouse/
 .venv-prefect/
+.venv-agents/

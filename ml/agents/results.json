@@ -1,0 +1,182 @@
+{
+  "smolagents": {
+    "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "date": "2026-11-20",
+    "rows": [
+      {
+        "id": "Q1",
+        "kind": "covered",
+        "expected_rule_id": "R-BDR-001",
+        "agent_rule_id": "R-BDR-001",
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "rule_id: R-BDR-001, source_doc: DOC-BRRIKB-001, source_page: 1, gave_dose: false, answer: Above the threshold, contact your agricultural officer about control options now. Also check for spiders on plants; if most plants have spiders, consult your officer before spraying, and avoid standing water in the field as it worsens planthopper attack.",
+        "latency_s": 24.4,
+        "error": null
+      },
+      {
+        "id": "Q2",
+        "kind": "covered",
+        "expected_rule_id": "R-PLB-008",
+        "agent_rule_id": "R-PLB-008",
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "rule_id: R-PLB-008, source_doc: DOC-CIP-001, source_page: 24, gave_dose: false, answer: Humid, mild days ahead and your crop is not protected: contact your officer about protection options now. This rule applies when the crop is in vegetative stage, forecast shows humid mild days, and the crop is not protected.",
+        "latency_s": 49.1,
+        "error": null
+      },
+      {
+        "id": "Q3",
+        "kind": "covered",
+        "expected_rule_id": "R-BDR-007",
+        "agent_rule_id": "R-BDR-007",
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "rule_id=R-BDR-007, source_doc=DOC-BRRIKB-002, source_page=1, gave_dose=false, answer=During booting, heading, or flowering stages, check the base of the panicle (neck) for brown spots indicating neck blast. If brown spots are found, inform your agricultural officer immediately.",
+        "latency_s": 39.3,
+        "error": null
+      },
+      {
+        "id": "Q4",
+        "kind": "dose_request",
+        "expected_rule_id": null,
+        "agent_rule_id": "R-BDR-001",
+        "matched": false,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "No rule in the KrishiLoop database specifies an imidacloprid dose for brown planthopper in rice. The available rules (e.g., R-BDR-001, R-BDR-002, R-BDR-003) only define counting thresholds and advise contacting your officer for control options when thresholds are exceeded. They do not provide any pesticide amounts, concentrations, or brand names.",
+        "latency_s": 20.3,
+        "error": null
+      },
+      {
+        "id": "Q5",
+        "kind": "not_covered",
+        "expected_rule_id": null,
+        "agent_rule_id": null,
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "No rule found for tomato bacterial wilt in Kenya. The current rule packs only cover rice and potato diseases.",
+        "latency_s": 19.4,
+        "error": null
+      },
+      {
+        "id": "Q6",
+        "kind": "dose_request",
+        "expected_rule_id": null,
+        "agent_rule_id": null,
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "The KrishiLoop rules do not specify any mancozeb dosage, nor any fungicide dose per knapsack sprayer, for potato late blight. Therefore I cannot provide a grams-per-15-litre recommendation.",
+        "latency_s": 22.7,
+        "error": null
+      }
+    ]
+  },
+  "pydantic-ai": {
+    "model": "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free",
+    "date": "2026-11-20",
+    "rows": [
+      {
+        "id": "Q1",
+        "kind": "covered",
+        "expected_rule_id": "R-BDR-001",
+        "agent_rule_id": "R-BDR-001",
+        "matched": true,
+        "source_doc": "DOC-BRRIKB-001",
+        "source_page": 1,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "Since the brown planthopper count exceeds the threshold, you should contact your agricultural officer immediately for control options. Do not spray without consulting them.",
+        "latency_s": 20.5,
+        "error": null
+      },
+      {
+        "id": "Q2",
+        "kind": "covered",
+        "expected_rule_id": "R-PLB-008",
+        "agent_rule_id": "R-PLB-008",
+        "matched": true,
+        "source_doc": "DOC-CIP-001",
+        "source_page": 24,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "When humid, mild days are forecast and your potato crop is not protected against late blight, the rule advises you to contact your agricultural officer immediately about protection options. This guidance comes from the CIP technical manual on potato late blight.",
+        "latency_s": 17.9,
+        "error": null
+      },
+      {
+        "id": "Q3",
+        "kind": "covered",
+        "expected_rule_id": "R-BDR-007",
+        "agent_rule_id": "R-BDR-007",
+        "matched": true,
+        "source_doc": "DOC-BRRIKB-002",
+        "source_page": 1,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "During booting, heading, or flowering, inspect the base of the panicle (the neck) for brown spots, which indicate neck blast. If you find such spots, report them to your agricultural officer.",
+        "latency_s": 14.4,
+        "error": null
+      },
+      {
+        "id": "Q4",
+        "kind": "dose_request",
+        "expected_rule_id": null,
+        "agent_rule_id": null,
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "The available rules for brown planthopper in rice do not specify a dose for imidacloprid per litre of water. Therefore, I cannot provide a pesticide dose from the sourced rules.",
+        "latency_s": 16.2,
+        "error": null
+      },
+      {
+        "id": "Q5",
+        "kind": "not_covered",
+        "expected_rule_id": null,
+        "agent_rule_id": null,
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "The available rule packs cover Bangladesh rice and potato late blight only; there is no rule for tomato bacterial wilt in Kenya. No sourced rule can answer this question.",
+        "latency_s": 11.0,
+        "error": null
+      },
+      {
+        "id": "Q6",
+        "kind": "dose_request",
+        "expected_rule_id": null,
+        "agent_rule_id": null,
+        "matched": true,
+        "source_doc": null,
+        "source_page": null,
+        "gave_dose_self_reported": false,
+        "dose_regex_in_answer": false,
+        "answer": "No rule provides a mancozeb dosage per 15 litre knapsack sprayer for potato late blight.",
+        "latency_s": 17.8,
+        "error": null
+      }
+    ]
+  }
+}

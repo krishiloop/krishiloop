@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KrishiLoop docs</title>
+<meta name="description" content="KrishiLoop docs: the pitch, the technical write-up and a small live system panel. Every number is copied from the repository's own files.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+<style>
+@font-face{font-family:'Fraunces';src:url('/fonts/fraunces-latin-opsz.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}@font-face{font-family:'Fraunces';src:url('/fonts/fraunces-latin-opsz-italic.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}@font-face{font-family:'Inter';src:url('/fonts/inter-latin-wght.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}@font-face{font-family:'Hind Siliguri';src:url('/fonts/hind-siliguri-bengali-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:'Hind Siliguri';src:url('/fonts/hind-siliguri-bengali-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}@font-face{font-family:'Hind Siliguri';src:url('/fonts/hind-siliguri-bengali-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+:root{--paper:#faf6ee;--sunk:#f1ebe0;--card:#fffdf8;--raised:#ffffff;--ink:#14261c;--ink-2:#46524a;--ink-3:#5a645c;--rule:#dcd3bf;--rule-2:#cbbf9f;--accent:#1f3d2c;--accent-ink:#faf6ee;--accent-text:#2f5a35;--accent-soft:#e2ebd9;--eyebrow:#3d6b45;--go:#2f6b3a;--go-wash:#e2edd9;--wait:#7a4a1e;--wait-wash:#f8e4d8;--stop:#a83a21;--stop-wash:#f7e2d9;--ember:#b93d17;--carbon:#35428f;--carbon-wash:#e3e5f3;--gate-sure:#b9cfa8;--gate-unsure:#a8d1df;--gate-risky:#ef9e80;--moss:#e2ebd9;--moss-ink:#2f5a35;--terracotta:#f6dfd1;--terracotta-ink:#8a3a1c;--lotus:#f7e1dd;--lotus-ink:#8a2f3c;--monsoon:#deebf2;--monsoon-ink:#22506a;--hyacinth:#e8e1f2;--hyacinth-ink:#553f86;--butter:#f3eee4;--butter-ink:#5b4a36;--map-0:#e6ecdf;--map-1:#f3e4d6;--map-2:#f2c3a4;--map-3:#eda383;--map-4:#cf6f66;--map-5:#8c3550;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--space-24:96px;--radius-doc:3px;--radius-ui:12px;--radius-frame:22px;--radius-drawer:28px;--radius-pill:999px;--shadow-lift:0 1px 0 rgba(20,38,28,0.04), 0 14px 34px -20px rgba(20,38,28,0.28);--shadow-pop:0 1px 0 rgba(20,38,28,0.05), 0 28px 64px -24px rgba(20,38,28,0.32);--font-display:"Fraunces", "Hind Siliguri", Georgia, "Nirmala UI", serif;--font-sans:"Inter", "Hind Siliguri", ui-sans-serif, system-ui, "Nirmala UI", sans-serif;--font-bangla:"Hind Siliguri", "Nirmala UI", sans-serif;--font-mono:"Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.55}
+body{overflow-x:hidden}
+a{color:var(--accent-text);text-underline-offset:3px}
+code,.mono{font-family:var(--font-mono);font-size:.82em;overflow-wrap:anywhere}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+header.top .wrap{display:flex;align-items:center;gap:10px;min-height:60px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.brand{display:flex;align-items:center;gap:10px;font:600 18px/1 var(--font-display);color:var(--ink);text-decoration:none}
+.brand svg{width:30px;height:30px}
+.tools{display:flex;gap:8px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.btn,.theme{border:1px solid var(--rule-2);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 13px/1 var(--font-sans);cursor:pointer;min-height:36px}
+.btn:hover,.theme:hover{background:var(--accent-soft);color:#14261c}
+.search{position:relative;flex:1 1 180px;max-width:320px;min-width:140px}
+.search input{width:100%;min-height:36px;border:1px solid var(--rule-2);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:400 14px/1 var(--font-sans)}
+.search input::placeholder{color:var(--ink-3)}
+.results{position:absolute;left:0;right:0;top:42px;background:var(--raised);color:var(--ink);border:1px solid var(--rule-2);border-radius:14px;box-shadow:var(--shadow-pop);max-height:60vh;overflow:auto;padding:6px;display:none;z-index:7}
+.results.on{display:block}
+.results a{display:block;padding:8px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px}
+.results a:hover,.results a:focus{background:var(--accent-soft);color:#14261c}
+.results small{display:block;color:var(--ink-3);font-size:12.5px}
+.results a:hover small,.results a:focus small{color:#46524a}
+.results p{margin:6px 10px;color:var(--ink-2);font-size:14px}
+.snav{border-top:1px solid var(--rule)}
+.snav .wrap{display:flex;gap:6px 14px;overflow-x:auto;white-space:nowrap;min-height:40px;align-items:center;font-size:13.5px;scrollbar-width:thin}
+.snav a{color:var(--ink-2);text-decoration:none;padding:6px 0}
+.snav a:hover,.snav a.cur{color:var(--ink);text-decoration:underline}
+.eyebrow{font:650 11.84px/1.35 var(--font-sans);letter-spacing:.15em;text-transform:uppercase;color:var(--eyebrow)}
+h1,h2,h3{font-family:var(--font-display);color:var(--ink);letter-spacing:-.02em}
+h1{font-weight:360;font-size:clamp(2.4rem,1rem + 6vw,4.6rem);line-height:.98;margin:.2em 0 .25em}
+h2{font-weight:500;font-size:clamp(1.6rem,1.1rem + 1.8vw,2.4rem);line-height:1.08;margin:.15em 0 .45em}
+h3{font-weight:560;font-size:1.15rem;margin:1.4em 0 .5em}
+section.blk{padding:44px 0;border-top:1px solid var(--rule)}
+.lead{font-size:clamp(1.05rem,1rem + .3vw,1.2rem);color:var(--ink-2);max-width:62ch}
+p{max-width:72ch}
+.hero{padding:32px 0 24px}
+.ver{display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 12px;font-size:13.5px;color:var(--ink-2)}
+.ver b{background:var(--moss);color:var(--moss-ink);border-radius:999px;padding:3px 10px;font-weight:650}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+.card{border:1px solid var(--rule);background:var(--card);color:var(--ink);border-radius:18px;padding:16px 18px}
+.card h3{margin:0 0 .3em;font-size:1.05rem}
+.card p{margin:0;color:var(--ink-2);font-size:15px}
+.w-moss{background:var(--moss);color:var(--moss-ink);border-color:transparent}
+.w-terra{background:var(--terracotta);color:var(--terracotta-ink);border-color:transparent}
+.w-rain{background:var(--monsoon);color:var(--monsoon-ink);border-color:transparent}
+.w-lilac{background:var(--hyacinth);color:var(--hyacinth-ink);border-color:transparent}
+.w-lotus{background:var(--lotus);color:var(--lotus-ink);border-color:transparent}
+.card[class*="w-"] h3,.card[class*="w-"] p{color:inherit}
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:14px;background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink)}
+th{font:650 12px/1.3 var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);background:var(--sunk)}
+tr:last-child td{border-bottom:0}
+td small{color:var(--ink-3)}
+.tag{display:inline-block;border-radius:999px;padding:2px 9px;font:650 11.5px/1.5 var(--font-sans);background:var(--monsoon);color:var(--monsoon-ink);white-space:nowrap}
+.tag.plan{background:var(--hyacinth);color:var(--hyacinth-ink)}
+.tag.now{background:var(--moss);color:var(--moss-ink)}
+.panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:14px 0}
+.stat{border:1px solid var(--rule);background:var(--card);border-radius:16px;padding:14px 16px}
+.stat b{display:block;font:500 2rem/1.1 var(--font-display);color:var(--ink)}
+.stat span{display:block;font-size:14px;color:var(--ink)}
+.stat small{display:block;margin-top:4px;color:var(--ink-3);font-size:12px;overflow-wrap:anywhere}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pers{display:flex;gap:12px;align-items:center;border:1px solid var(--rule);background:var(--card);border-radius:16px;padding:14px}
+.av{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font:600 16px/1 var(--font-display)}
+.pers b{display:block;color:var(--ink)} .pers small{color:var(--ink-2);font-size:13.5px}
+.diag{max-width:480px;margin:14px auto;border:1px solid var(--rule);border-radius:18px;background:var(--card);padding:8px}
+.diag svg{display:block;width:100%;height:auto}
+.diag text{font-family:var(--font-sans);font-size:12.5px;fill:var(--ink)}
+.diag .t2{font-size:11px;fill:var(--ink-2)}
+.diag .b{fill:var(--card);stroke:var(--rule-2);stroke-width:1.5}
+.diag .m{fill:var(--moss);stroke:none} .diag .m text{fill:var(--moss-ink)}
+.diag .ln{stroke:var(--ink-2);stroke-width:1.6;fill:none}
+.diag .ah{fill:var(--ink-2)}
+.d-moss{fill:var(--moss)} .d-terra{fill:var(--terracotta)} .d-rain{fill:var(--monsoon)} .d-lilac{fill:var(--hyacinth)} .d-lotus{fill:var(--lotus)}
+.diag text.k-moss{fill:var(--moss-ink)} .diag text.k-terra{fill:var(--terracotta-ink)} .diag text.k-rain{fill:var(--monsoon-ink)} .diag text.k-lilac{fill:var(--hyacinth-ink)} .diag text.k-lotus{fill:var(--lotus-ink)}
+ul.tight{padding-left:20px;margin:.4em 0} ul.tight li{margin:.25em 0}
+.note{font-size:13.5px;color:var(--ink-3)}
+mark.hit{background:var(--moss);color:var(--moss-ink);outline:1px solid var(--moss-ink);border-radius:3px;padding:0 1px}
+.off{max-width:640px;margin:18vh auto;padding:0 16px;text-align:center}
+.off h1{font-size:clamp(2rem,1rem + 4vw,3.2rem)}
+footer{padding:36px 0 64px;color:var(--ink-3);font-size:14px;border-top:1px solid var(--rule)}
+:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{header.top,.snav,.no-print{display:none!important}body{background:#fff;color:#000}section.blk{break-inside:avoid-page;padding:20px 0}.tw{overflow:visible}a{color:inherit}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap">
+  <a class="brand" href="/" aria-label="KrishiLoop home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+  <defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f3a28"/><stop offset="1" stop-color="#0b140f"/></linearGradient></defs>
+  <rect width="64" height="64" rx="16" fill="url(#b)"/>
+  <g transform="translate(8 8) scale(2)" fill="none" stroke="#f2ecde" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5.5 2.75h13v18.5l-2.17-1.4-2.16 1.4-2.17-1.4-2.17 1.4-2.16-1.4-2.17 1.4z"/>
+    <path d="M8.75 11.6l2.25 2.25 4.4-4.85" stroke="#c9dcbc"/>
+  </g>
+</svg><span>KrishiLoop docs</span></a>
+  <div class="search no-print">
+    <input id="q" type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off">
+    <div class="results" id="res" role="listbox" aria-label="Search results"></div>
+  </div>
+  <div class="tools no-print">
+    <button class="btn" id="print" type="button">Print / save as PDF</button>
+    <button class="btn" id="md" type="button">Download Markdown</button>
+    <button class="btn" id="copy" type="button">Copy link</button>
+    <button class="theme" id="theme" type="button" aria-pressed="false">Dark theme</button>
+  </div>
+</div>
+<nav class="snav" aria-label="Sections"><div class="wrap" id="snav">
+<a href="#problem">Problem</a><a href="#solution">Solution</a><a href="#why-now">Why now</a><a href="#demo">Demo</a><a href="#market">Market</a><a href="#business">Business</a><a href="#traction">Traction</a><a href="#different">Different</a><a href="#team">Team</a><a href="#roadmap">Roadmap</a><a href="#architecture">Architecture</a><a href="#dataflow">Data flow</a><a href="#stack">Stack</a><a href="#apis">APIs</a><a href="#data">Data</a><a href="#ai">AI</a><a href="#security">Security</a><a href="#visibility">Visibility</a><a href="#changelog">Changelog</a>
+</div></nav>
+</header>
+
+<div class="off" id="off" hidden>
+  <span class="eyebrow">KrishiLoop docs</span>
+  <h1>Not available right now</h1>
+  <p class="lead">These docs are shown only inside a publishing window set by the team.</p>
+  <p id="offwin"></p>
+  <p><a href="/">Back to KrishiLoop</a></p>
+</div>
+
+<main id="docs">
+<div class="wrap hero" id="top">
+  <span class="eyebrow">Docs · pitch and technical write-up</span>
+  <h1>KrishiLoop</h1>
+  <p class="lead">A plant doctor, farm adviser and weather warning on every farmer's phone, in their own language. Every answer comes with a receipt anyone can check, and if it turns out wrong, we recall it from every farmer who got it.</p>
+  <div class="ver"><b id="ver">Docs v1.0</b><span>updated 2026-11-20</span><span id="cfgnote" class="note"></span></div>
+  <p class="note">Everything on this page is copied from the repository's own files. Numbers come with their source. Synthetic and public-dataset results are labelled as such.</p>
+</div>
+
+<div class="wrap">
+  <div class="panel" id="panel" hidden aria-live="polite"></div>
+  <p class="note" id="panelnote" hidden></p>
+</div>
+
+<section class="blk" id="problem"><div class="wrap">
+  <span class="eyebrow">1 · Problem</span>
+  <h2>Nobody can check what an AI told a farmer</h2>
+  <ul class="tight">
+    <li>608 million farms feed the world and 84% are under 2 hectares (FAO, 2019). Pests and pathogens take an estimated 30% of rice and 17% of potato yields (Savary et al., 2019).</li>
+    <li>AI farm advice is spreading, but nobody can check what an AI told a farmer, from which source, or take it back when it is wrong.</li>
+    <li>In our own test on synthetic questions, four open language models gave a dose nobody could check in 76% (85 of 112) of dose answers.</li>
+  </ul>
+</div></section>
+
+<section class="blk" id="solution"><div class="wrap">
+  <span class="eyebrow">2 · Solution</span>
+  <h2>A trust layer: advice with a receipt, and a recall</h2>
+  <div class="cards">
+    <div class="card w-moss"><h3>Plant doctor</h3><p>Our own 11.5 MB model reads a leaf photo offline in the phone's browser (89 diseases) and shows why with Grad-CAM. When unsure, it hands the farmer to a person.</p></div>
+    <div class="card w-terra"><h3>Farm adviser</h3><p>This week's advice for the field, with the source, page and rule behind it. Answers are a sourced rule or a hand-off to the officer, never free AI text.</p></div>
+    <div class="card w-rain"><h3>Signed receipt</h3><p>Every recommendation is a signed W3C Verifiable Credential. Anyone can check it by QR or a short SMS code: Authentic, Recalled or Cannot verify.</p></div>
+    <div class="card w-lilac"><h3>Recall</h3><p>If a rule or the photo model turns out wrong, we recall it and every receipt it touched turns Recalled.</p></div>
+    <div class="card w-lotus"><h3>Krishi officer</h3><p>The nearest upazila agriculture office is always one tap away: all 544 upazilas, and the Krishi Call Centre 16123.</p></div>
+  </div>
+</div></section>
+
+<section class="blk" id="why-now"><div class="wrap">
+  <span class="eyebrow">3 · Why now</span>
+  <h2>AI advice is spreading faster than accountability</h2>
+  <ul class="tight">
+    <li>AI farm advice is spreading, yet advice that can be checked by a third party and recalled afterwards is rare: we found no example of advice that is signed, checkable and recallable (PORTAL_ANSWERS, problem statement).</li>
+    <li>Rule: EU AI Act Article 50 requires machine-readable marking of AI-generated content and applies from 2 August 2026 (European Commission; fact register GL-25, VERIFIED). It is an EU rule, not a global one.</li>
+    <li>Reach: 82.8 million people were online in Bangladesh at end-2025, 47.0% of the population (DataReportal, Digital 2026; fact register D2, VERIFIED).</li>
+  </ul>
+</div></section>
+
+<section class="blk" id="demo"><div class="wrap">
+  <span class="eyebrow">4 · Product demo</span>
+  <h2>Try it in one minute</h2>
+  <p>No login, no install. The live site runs in sample mode: real answers saved from our server, each labelled "Saved" on screen.</p>
+  <div class="tw"><table>
+    <tr><th>Open</th><th>What you see</th></tr>
+    <tr><td><a href="/app">/app</a></td><td>Farmer app: this week's advice for a sample field, a signed receipt, Listen in Bangla, Ask, Photo</td></tr>
+    <tr><td><a href="/m">/m</a></td><td>The same app made for phones</td></tr>
+    <tr><td><a href="/krishi-officer">/krishi-officer</a></td><td>The nearest upazila agriculture office, its officer and phone, a map and directions</td></tr>
+    <tr><td><a href="/map">/map</a></td><td>Disease map: six countries, NASA satellite pictures, crop health (NDVI), weather and rainfall</td></tr>
+    <tr><td><a href="/try">/try</a></td><td>The real tools: should I spray, check a leaf photo, weather warnings, savings, take advice back</td></tr>
+    <tr><td><a href="/verify">/verify</a></td><td>Check a receipt: Authentic, Recalled or Cannot verify</td></tr>
+    <tr><td><a href="/proof">/proof</a></td><td>Every result, good and bad, with the file it comes from</td></tr>
+    <tr><td><a href="/design-system/">/design-system/</a></td><td>Tokens for both themes, type, components, rules</td></tr>
+  </table></div>
+</div></section>
+
+<section class="blk" id="market"><div class="wrap">
+  <span class="eyebrow">5 · Market</span>
+  <h2>Who we serve, with sources</h2>
+  <p>Only figures marked VERIFIED in our fact registers. We state no dollar market size.</p>
+  <div class="tw"><table>
+    <tr><th>Figure</th><th>Source</th></tr>
+    <tr><td>608 million+ farms worldwide (2019)</td><td>FAO ESA Working Paper 19-08, Lowder, Sanchez and Bertini (GL-01)</td></tr>
+    <tr><td>84% of farms are under 2 ha</td><td>Same paper (GL-02)</td></tr>
+    <tr><td>Farms under 2 ha produce roughly 35% of world food (2021)</td><td>FAO newsroom, 23 Apr 2021 (GL-04)</td></tr>
+    <tr><td>Pest and pathogen losses: 30.0% rice, 17.2% potato</td><td>Savary et al. (2019) (GL-14)</td></tr>
+    <tr><td>16.88 million agriculture-based households in Bangladesh (2019)</td><td>Agriculture Census 2019, via The Financial Express, 27 Dec 2022 (A3)</td></tr>
+    <tr><td>26% of rural residents own a smartphone (41% urban)</td><td>GSMA 2024, via The Financial Express, 9 Dec 2024 (D1)</td></tr>
+    <tr><td>92,094 calls to the Agriculture Call Centre (16123), Jul 2025 to Jun 2026</td><td>BSS news agency, 2 Jul 2026 (D4)</td></tr>
+    <tr><td>82.8 million people online in Bangladesh, 47.0% (end-2025)</td><td>DataReportal, Digital 2026 (D2)</td></tr>
+  </table></div>
+  <p class="note">The households and call figures are from different years and are never shown as a ratio. Our home market is Bangladesh; two packs run on one engine (Bangladesh rice, Kenya potato late blight).</p>
+</div></section>
+
+<section class="blk" id="business"><div class="wrap">
+  <span class="eyebrow">6 · Business model</span>
+  <h2>Farmers never pay <span class="tag plan">planned</span></h2>
+  <p>This is a draft model from the team's business-model file. Nothing below is revenue today, and prices are not set.</p>
+  <div class="tw"><table>
+    <tr><th>Line</th><th>Customer</th><th>What they buy</th><th>When</th></tr>
+    <tr><td>Programme wedge</td><td>NGO and microfinance agriculture programmes</td><td>Advice, officer inbox and receipts as programme evidence</td><td><span class="tag plan">planned</span> pilot 2027</td></tr>
+    <tr><td>Receipts and Recall API</td><td>AI-advisory providers and the governments running them</td><td>Sign each answer as a receipt, a validator gate, recall to every farmer who got it. Free open-core tier</td><td><span class="tag plan">planned</span> 2027, 1 to 2 design partners</td></tr>
+    <tr><td>Pack compilation</td><td>Content owners: ministries, research institutes</td><td>Their manuals turned into tested, signed packs</td><td><span class="tag plan">planned</span></td></tr>
+    <tr><td>Assurance and sovereign deployments</td><td>Funders and governments</td><td>Audit dashboards over the receipt ledger; in-country deployment</td><td><span class="tag plan">planned</span> after the first programme proof</td></tr>
+  </table></div>
+  <p class="note">Never: input sales, commissions, or selling farmer data. Input savings and loss reduction will be measured in a pilot; they are not measured yet.</p>
+</div></section>
+
+<section class="blk" id="traction"><div class="wrap">
+  <span class="eyebrow">7 · Traction and evidence</span>
+  <h2>Measured results, each with its file</h2>
+  <p>These are measured on synthetic questions or public datasets, not on real farmers. No pilot has run yet.</p>
+  <div class="tw"><table>
+    <tr><th>What</th><th>Result</th><th>File</th></tr>
+    <tr><td>Doses or brand names in answers</td><td>0 of 400 held-out English and Bangla questions (synthetic)</td><td><code>ml/evals/safety/ROUTER_FIX.md</code></td></tr>
+    <tr><td>Receipts that verify</td><td>99 of 99</td><td><code>ml/evals/safety/ROUTER_FIX.md</code></td></tr>
+    <tr><td>Abstentions that reach a person</td><td>361 of 361</td><td><code>ml/evals/safety/ROUTER_FIX.md</code></td></tr>
+    <tr><td>Photo model, PlantWild test set (public dataset)</td><td>77.4% top-1; answers 63.6% alone and is right on 91.3% of those</td><td><code>apps/web/public/models/agritriage/config.json</code></td></tr>
+    <tr><td>Grad-CAM correctness</td><td>matches a numerical gradient to a relative error of 2e-9</td><td><code>.../agritriage/evidence/xai_export.json</code></td></tr>
+    <tr><td>Bangla speech recognition (FLEURS, public)</td><td>6.2% character error</td><td><code>ml/voice/REPORT.md</code></td></tr>
+    <tr><td>Voice readbacks</td><td>35 clips ship, median 0.8% transcription error; one held back at 14%</td><td><code>ml/voice/results/gemini_roundtrip.json</code></td></tr>
+    <tr><td>Warehouse export</td><td>23 rules (12 rice, 11 potato), 11 receipts, 42 sightings</td><td><code>ml/warehouse/REPORT.md</code></td></tr>
+  </table></div>
+  <p><b>What did not work, published too:</b> our fine-tuned vision model was near chance on unseen datasets; two evaluation runs were invalid; the question router answered only 57% of in-scope held-out questions (the rest went to the officer).</p>
+  <p class="note">Tests: 391 pytest, 259 unit, 165 browser (README badge). Every rule awaits expert review.</p>
+</div></section>
+
+<section class="blk" id="different"><div class="wrap">
+  <span class="eyebrow">8 · What is different</span>
+  <h2>The advice itself is signed, checkable and recallable</h2>
+  <ul class="tight">
+    <li>Some advisers cite sources, but we found no example of advice that is signed, checkable by a third party, and recallable after the fact.</li>
+    <li>The advice comes from tested rule packs and a deterministic planner, not from a language model. Every rule quotes its source document and page.</li>
+    <li>It abstains when data is missing or a question is unsafe, and the case goes to an officer's inbox.</li>
+    <li>Photo diagnosis and chatbots already exist (for example Plantix, xarvio, and a BRRI photo app). Our layer is the receipt and recall, not another chat.</li>
+    <li>The rice pack was added with data only; no file under <code>services/</code> changed.</li>
+  </ul>
+</div></section>
+
+<section class="blk" id="team"><div class="wrap">
+  <span class="eyebrow">9 · Team</span>
+  <h2>Five people</h2>
+  <div class="team">
+    <div class="pers"><span class="av w-moss">AR</span><div><b>Abdullah Rubab</b><small>Team lead · AI/ML engineer · Domain expert</small></div></div>
+    <div class="pers"><span class="av w-terra">TH</span><div><b>Md. Tanvir Hasan</b><small>Product/UX designer · UI developer</small></div></div>
+    <div class="pers"><span class="av w-rain">SS</span><div><b>Md. Sadman Al Islam Shabab</b><small>Full-stack developer · Product/UX designer</small></div></div>
+    <div class="pers"><span class="av w-lilac">SK</span><div><b>Sourov Kumar</b><small>Domain expert · Idea generation</small></div></div>
+    <div class="pers"><span class="av w-lotus">AG</span><div><b>Anushree Gope</b><small>Reviewer · Testing</small></div></div>
+  </div>
+  <p class="note">Built with AI, honestly disclosed: Claude Code wrote most of the code under the team's direction and review; the team also used Gemini, Google Antigravity, ChatGPT and Grok. No language model writes the agronomy.</p>
+</div></section>
+
+<section class="blk" id="roadmap"><div class="wrap">
+  <span class="eyebrow">10 · Vision and roadmap</span>
+  <h2>From a sample demo to a pilot</h2>
+  <div class="tw"><table>
+    <tr><th>When</th><th>What</th><th>Status</th></tr>
+    <tr><td>Now</td><td>Live demo in sample mode; two packs on one engine; offline photo model; signed receipts and recall</td><td><span class="tag now">built</span></td></tr>
+    <tr><td>Next</td><td>Deploy the API publicly; expert review of every rule; native-speaker review of Bangla, Hindi, Swahili and Spanish texts</td><td><span class="tag plan">planned</span></td></tr>
+    <tr><td>Short and mid term</td><td>A pilot with an agriculture programme (2027) to measure input savings and loss reduction; 1 to 2 design partners for the Receipts and Recall API; a commercial photo model retrained on licence-checked data</td><td><span class="tag plan">planned</span></td></tr>
+    <tr><td>Long term</td><td>The same receipt and recall machinery for other advice under accountability (veterinary, fisheries, nutrition); an open protocol (W3C VC 2.0 and Bitstring Status List)</td><td><span class="tag plan">planned</span></td></tr>
+  </table></div>
+</div></section>
+
+<section class="blk" id="architecture"><div class="wrap">
+  <span class="eyebrow">11 · Architecture</span>
+  <h2>UI, API, services, stores</h2>
+  <div class="diag">
+  <svg viewBox="0 0 360 520" role="img" aria-label="Architecture: web apps call the FastAPI service, which uses six service packages (engine, ask, trust, vision, graph, mcp), which read and write four stores (JSON trust stores, Kuzu, LanceDB, DuckDB with Parquet and Delta).">
+    <rect class="b" x="10" y="10" width="340" height="56" rx="12"/>
+    <text x="180" y="34" text-anchor="middle">Web apps (React 19 + Vite)</text>
+    <text class="t2" x="180" y="52" text-anchor="middle">/app  /m  /try  /map  /verify  /proof</text>
+    <path class="ln" d="M180 66V92"/><path class="ah" d="M174 90h12l-6 9z"/>
+    <rect class="b" x="10" y="100" width="340" height="56" rx="12"/>
+    <text x="180" y="124" text-anchor="middle">API (FastAPI, services/api)</text>
+    <text class="t2" x="180" y="142" text-anchor="middle">plans, ask, verify, inbox, events, recall</text>
+    <path class="ln" d="M180 156V182"/><path class="ah" d="M174 180h12l-6 9z"/>
+    <rect class="d-moss" x="10" y="190" width="108" height="52" rx="12"/><text class="k-moss" x="64" y="212" text-anchor="middle">engine</text><text class="t2 k-moss" x="64" y="229" text-anchor="middle">planner, rules</text>
+    <rect class="d-rain" x="126" y="190" width="108" height="52" rx="12"/><text class="k-rain" x="180" y="212" text-anchor="middle">ask</text><text class="t2 k-rain" x="180" y="229" text-anchor="middle">LangGraph router</text>
+    <rect class="d-lilac" x="242" y="190" width="108" height="52" rx="12"/><text class="k-lilac" x="296" y="212" text-anchor="middle">trust</text><text class="t2 k-lilac" x="296" y="229" text-anchor="middle">VCs, recall</text>
+    <rect class="d-terra" x="10" y="250" width="108" height="52" rx="12"/><text class="k-terra" x="64" y="272" text-anchor="middle">vision</text><text class="t2 k-terra" x="64" y="289" text-anchor="middle">photo, Grad-CAM</text>
+    <rect class="d-lotus" x="126" y="250" width="108" height="52" rx="12"/><text class="k-lotus" x="180" y="272" text-anchor="middle">graph</text><text class="t2 k-lotus" x="180" y="289" text-anchor="middle">Kuzu, Graph RAG</text>
+    <rect class="d-moss" x="242" y="250" width="108" height="52" rx="12"/><text class="k-moss" x="296" y="272" text-anchor="middle">mcp</text><text class="t2 k-moss" x="296" y="289" text-anchor="middle">5 read-only servers</text>
+    <path class="ln" d="M180 302V332"/><path class="ah" d="M174 330h12l-6 9z"/>
+    <rect class="b" x="10" y="340" width="164" height="52" rx="12"/><text x="92" y="362" text-anchor="middle">JSON trust stores</text><text class="t2" x="92" y="379" text-anchor="middle">receipts, status lists</text>
+    <rect class="b" x="186" y="340" width="164" height="52" rx="12"/><text x="268" y="362" text-anchor="middle">Kuzu graph</text><text class="t2" x="268" y="379" text-anchor="middle">rules, sources, receipts</text>
+    <rect class="b" x="10" y="402" width="164" height="52" rx="12"/><text x="92" y="424" text-anchor="middle">LanceDB</text><text class="t2" x="92" y="441" text-anchor="middle">vectors (e5, 384 dim)</text>
+    <rect class="b" x="186" y="402" width="164" height="52" rx="12"/><text x="268" y="424" text-anchor="middle">DuckDB, Parquet, Delta</text><text class="t2" x="268" y="441" text-anchor="middle">warehouse and report</text>
+    <text class="t2" x="180" y="482" text-anchor="middle">The photo model also runs on the phone (ONNX).</text>
+    <text class="t2" x="180" y="500" text-anchor="middle">All stores are embedded files, no database server.</text>
+  </svg></div>
+</div></section>
+
+<section class="blk" id="dataflow"><div class="wrap">
+  <span class="eyebrow">12 · Data flow</span>
+  <h2>From a farmer's input to a checkable receipt</h2>
+  <div class="diag">
+  <svg viewBox="0 0 360 560" role="img" aria-label="Data flow: farmer input plus rules and open data go to the deterministic planner, ask router or photo gate; sure answers become a signed receipt, unsure or unsafe cases go to an officer; verification and recall feed back.">
+    <rect class="d-moss" x="10" y="10" width="164" height="56" rx="12"/><text class="k-moss" x="92" y="34" text-anchor="middle">Farmer input</text><text class="t2 k-moss" x="92" y="52" text-anchor="middle">field, question, photo</text>
+    <rect class="d-rain" x="186" y="10" width="164" height="56" rx="12"/><text class="k-rain" x="268" y="34" text-anchor="middle">Rules and open data</text><text class="t2 k-rain" x="268" y="52" text-anchor="middle">rule packs, weather, NASA</text>
+    <path class="ln" d="M92 66V100H180V120"/><path class="ln" d="M268 66V100H180"/><path class="ah" d="M174 118h12l-6 9z"/>
+    <rect class="b" x="10" y="128" width="340" height="88" rx="12"/>
+    <text x="180" y="150" text-anchor="middle">Decide</text>
+    <text class="t2" x="180" y="170" text-anchor="middle">deterministic planner (no language model)</text>
+    <text class="t2" x="180" y="187" text-anchor="middle">Ask router: hybrid search over sourced rules</text>
+    <text class="t2" x="180" y="204" text-anchor="middle">photo gate: conformal safety gate</text>
+    <path class="ln" d="M100 216V250"/><path class="ah" d="M94 248h12l-6 9z"/>
+    <path class="ln" d="M260 216V250"/><path class="ah" d="M254 248h12l-6 9z"/>
+    <text class="t2" x="96" y="240" text-anchor="end">sure</text>
+    <text class="t2" x="266" y="240">not sure or unsafe</text>
+    <rect class="d-moss" x="10" y="258" width="180" height="70" rx="12"/><text class="k-moss" x="100" y="284" text-anchor="middle">Advice + signed receipt</text><text class="t2 k-moss" x="100" y="304" text-anchor="middle">Bangla or English, W3C VC</text>
+    <rect class="d-terra" x="200" y="258" width="150" height="70" rx="12"/><text class="k-terra" x="275" y="284" text-anchor="middle">Krishi officer</text><text class="t2 k-terra" x="275" y="304" text-anchor="middle">inbox, nearest office</text>
+    <path class="ln" d="M100 328V362"/><path class="ah" d="M94 360h12l-6 9z"/>
+    <rect class="b" x="10" y="370" width="340" height="62" rx="12"/><text x="180" y="394" text-anchor="middle">Verify by QR or SMS code</text><text class="t2" x="180" y="414" text-anchor="middle">Authentic, Recalled or Cannot verify</text>
+    <path class="ln" d="M180 432V462"/><path class="ah" d="M174 460h12l-6 9z"/>
+    <rect class="d-lilac" x="10" y="470" width="340" height="62" rx="12"/><text class="k-lilac" x="180" y="494" text-anchor="middle">Recall and officer verdicts</text><text class="t2 k-lilac" x="180" y="514" text-anchor="middle">a recalled rule or model turns its receipts Recalled</text>
+    <path class="ln" d="M350 501H356V160H350"/><path class="ah" d="M350 160l9-6v12z"/>
+    <text class="t2" x="180" y="552" text-anchor="middle">Feedback: the planner stops serving a recalled rule.</text>
+  </svg></div>
+</div></section>
+
+<section class="blk" id="stack"><div class="wrap">
+  <span class="eyebrow">13 · Tech stack</span>
+  <h2>What it is built with</h2>
+  <div class="tw"><table>
+    <tr><th>Layer</th><th>Tools</th></tr>
+    <tr><td>Web</td><td>React 19, Vite, Tailwind CSS 4, offline service worker; Vitest and Playwright tests; Chart.js and D3.js (d3-scale) charts</td></tr>
+    <tr><td>API and services</td><td>Python 3.13, FastAPI, Uvicorn, pytest</td></tr>
+    <tr><td>Planner and rules</td><td>Deterministic engine, YAML rule packs, JSON Schema contracts</td></tr>
+    <tr><td>Ask</td><td>LangGraph router, hybrid search (BM25 + multilingual-e5)</td></tr>
+    <tr><td>Vision</td><td>TinyViT-11M student distilled from DINOv2, CLIP and Perception Encoder; ONNX int8; Grad-CAM</td></tr>
+    <tr><td>Trust</td><td>W3C Verifiable Credentials (eddsa-jcs-2022), Bitstring Status List, did:web</td></tr>
+    <tr><td>Data</td><td>Kuzu graph, LanceDB vectors, DuckDB, Parquet, Delta Lake (delta-rs), Vega-Lite (Altair)</td></tr>
+    <tr><td>Agents and pipeline</td><td>Five read-only MCP servers; Prefect data-refresh flow</td></tr>
+    <tr><td>Streaming</td><td>Server-Sent Events (<code>GET /api/events</code>)</td></tr>
+  </table></div>
+</div></section>
+
+<section class="blk" id="apis"><div class="wrap">
+  <span class="eyebrow">14 · APIs</span>
+  <h2>Our endpoints and the open APIs we use</h2>
+  <p>From the route decorators in <code>services/api/main.py</code>. The public site does not call them: it runs in sample mode, and the API is not deployed publicly yet.</p>
+  <div class="tw"><table>
+    <tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+    <tr><td>GET</td><td><code>/health</code></td><td>Service health</td></tr>
+    <tr><td>GET</td><td><code>/.well-known/did.json</code></td><td>The issuer's did:web document</td></tr>
+    <tr><td>GET</td><td><code>/api/verify/{cred_id}</code></td><td>Check a receipt: authentic, recalled or cannot verify</td></tr>
+    <tr><td>GET</td><td><code>/status/{status_id}</code></td><td>Status list used for recall</td></tr>
+    <tr><td>GET</td><td><code>/api/credentials/{cred_id}</code></td><td>Fetch a signed receipt</td></tr>
+    <tr><td>POST</td><td><code>/api/plan</code></td><td>Make a weekly plan and its receipt</td></tr>
+    <tr><td>POST</td><td><code>/api/admin/recall</code></td><td>Recall a rule version (admin token required)</td></tr>
+    <tr><td>GET</td><td><code>/api/inbox</code></td><td>Officer inbox</td></tr>
+    <tr><td>POST</td><td><code>/api/inbox/{item_id}/resolve</code></td><td>Officer resolves a case</td></tr>
+    <tr><td>GET</td><td><code>/api/packs</code></td><td>Rule packs</td></tr>
+    <tr><td>POST</td><td><code>/api/demo/{sid}/ask</code></td><td>Ask a question (demo session)</td></tr>
+    <tr><td>POST</td><td><code>/api/demo/{sid}/agritriage</code></td><td>Photo check (demo session)</td></tr>
+    <tr><td>GET</td><td><code>/api/climate</code>, <code>/api/radar</code></td><td>Climate facts and outbreak radar</td></tr>
+    <tr><td>GET</td><td><code>/api/events</code></td><td>Live events over SSE (ids and codes only)</td></tr>
+  </table></div>
+  <h3>External APIs and data</h3>
+  <div class="tw"><table>
+    <tr><th>Source</th><th>Used for</th><th>Licence (README)</th></tr>
+    <tr><td>Open-Meteo, GloFAS</td><td>Seven-day weather and river flood warnings</td><td>CC BY 4.0</td></tr>
+    <tr><td>NASA GIBS, POWER, GPM IMERG</td><td>Satellite and crop-health (NDVI) pictures; temperature, humidity, sunshine; 7-day rainfall per district</td><td>NASA EOSDIS / GES DISC</td></tr>
+    <tr><td>GBIF</td><td>Disease sightings on the map (six countries)</td><td>per-dataset</td></tr>
+    <tr><td>geoBoundaries</td><td>Map boundaries</td><td>CC BY 3.0 IGO and per-country</td></tr>
+    <tr><td>OpenStreetMap</td><td>Map tiles</td><td>ODbL</td></tr>
+    <tr><td>DAE upazila websites</td><td>Office locations and officers</td><td>Bangladesh National Portal</td></tr>
+  </table></div>
+</div></section>
+
+<section class="blk" id="data"><div class="wrap">
+  <span class="eyebrow">15 · Data layer</span>
+  <h2>Sources, storage, privacy</h2>
+  <ul class="tight">
+    <li><b>Sources:</b> rule packs (each rule with a verbatim source quote and page), the open APIs above, and public datasets for the photo model. Data keeps its own licences, listed in <code>corpus/manifest.yaml</code> and on <a href="/proof">/proof</a>.</li>
+    <li><b>Storage:</b> embedded files only. JSON trust stores, a Kuzu graph, a LanceDB table, and a DuckDB warehouse committed as Parquet and Delta Lake tables (versioned, with time travel). No database server to host.</li>
+    <li><b>Privacy:</b> sample farms carry no personal data. Photos stay on the phone: the leaf model runs in the browser. Live events carry ids and codes only. Officer names and phones are shown only as the government publishes them.</li>
+    <li><b>Contracts:</b> JSON Schemas for plans, receipts, credentials and inbox items are validated in CI.</li>
+  </ul>
+</div></section>
+
+<section class="blk" id="ai"><div class="wrap">
+  <span class="eyebrow">16 · AI layer</span>
+  <h2>AI that is checked, and never writes the advice</h2>
+  <div class="cards">
+    <div class="card w-terra"><h3>Photo model</h3><p>11.5 MB int8 model, 89 classes. A conformal safety gate chooses: diagnose, ask for a clearer photo, or refer. An energy score flags unknown photos. Grad-CAM, attention map and lesion mask show why.</p></div>
+    <div class="card w-rain"><h3>Ask router</h3><p>LangGraph router with hybrid retrieval (BM25 + multilingual-e5) over sourced rules, plus a Graph RAG step: sibling rules that cite the same page. The answer is a rule's validated text, or an abstention.</p></div>
+    <div class="card w-lilac"><h3>Language models</h3><p>Used for development-time evaluation and for ahead-of-time voice clips (Gemini). No language model writes the agronomy or the advice.</p></div>
+  </div>
+  <p class="note">Photo model weights are research weights trained on PlantWild (CC BY-NC-ND 4.0), non-commercial. A commercial version would retrain on licence-checked data.</p>
+</div></section>
+
+<section class="blk" id="security"><div class="wrap">
+  <span class="eyebrow">17 · Security</span>
+  <h2>Signed, recallable, read-only</h2>
+  <ul class="tight">
+    <li>Receipts are signed W3C Verifiable Credentials (eddsa-jcs-2022). Verification shows Authentic, Recalled or Cannot verify, never "correct".</li>
+    <li>Recall uses a W3C Bitstring Status List. A recalled rule or photo-model version turns every receipt it touched into Recalled.</li>
+    <li>Recall needs an admin token: <code>POST /api/admin/recall</code> returns 403 without it. The issuer key and admin token come from the environment, never from the repo.</li>
+    <li>The five MCP servers are read-only. Our rules server kept its DNS-rebinding guard on when we called it through a temporary tunnel (<code>docs/mcp-over-tunnel.md</code>): without the Host rewrite it answered 421, as it should. The tunnel was closed afterwards.</li>
+  </ul>
+</div></section>
+
+<section class="blk" id="visibility"><div class="wrap">
+  <span class="eyebrow">Visibility</span>
+  <h2>Who can see these docs, and when</h2>
+  <p>The team sets visibility and the publishing window in <code>docs.config.json</code> next to this page. It is deployed with the site. The page reads it first: if <code>visible</code> is false, or the time is outside the window, it shows "Not available right now" instead of the docs. If the file cannot be loaded, the docs are shown (fail open) with a quiet note.</p>
+  <p>A signed-in admin editor for visibility needs our live API, which is not deployed publicly yet (<span class="tag plan">planned</span>). This is a convenience gate for a static page, not access control: the page's files stay publicly reachable.</p>
+  <p class="note" id="cfgshow"></p>
+</div></section>
+
+<section class="blk" id="changelog"><div class="wrap">
+  <span class="eyebrow">18 · Changelog</span>
+  <h2>Docs v1.0, 2026-11-20 · recent commits</h2>
+  <ul class="tight">
+    <li>Public design-system page at /design-system/; the offline worker leaves it alone</li>
+    <li>Lakehouse: warehouse also commits Delta Lake tables, read back and versioned</li>
+    <li>Plainer labels, D3.js and Vega-Lite charts, Prefect data pipeline, MCP over a tunnel</li>
+    <li>Data stack built for real: Kuzu graph and Graph RAG, LanceDB, DuckDB, live SSE events, Chart.js</li>
+    <li>CI: onnx added for the Grad-CAM export tests</li>
+    <li>CI: Pillow and onnxruntime installed so the AgriTriage tests run</li>
+    <li>README for judges</li>
+    <li>v10: six-country disease map, NASA satellite rainfall, Spanish preview</li>
+    <li>v9: Krishi officer and Phone app in the top bar, NASA satellite data, map tiles fixed</li>
+    <li>v8: leaf-built farmer hero, nearest Krishi officer when unsure, /m in the site's theme</li>
+    <li>v7: true Grad-CAM, plant-doctor example, farmer app redesign</li>
+    <li>v6: nearest agriculture office, Gemini voice, more plants</li>
+    <li>v5: XAI for the leaf check, phone web app at /m, the team page</li>
+    <li>v4: leaf story hero, 3-country disease map, "Try it yourself" tools</li>
+    <li>Home speed pass: first screen renders alone</li>
+  </ul>
+</div></section>
+</main>
+
+<footer><div class="wrap">KrishiLoop docs · <a href="/">Home</a> · <a href="/proof">Evidence</a> · <a href="/design-system/">Design system</a> · <a href="https://github.com/krishiloop/krishiloop">GitHub</a> · Code is Apache-2.0; data keeps its own licences.</div></footer>
+
+<script>
+(function () {
+  var root = document.documentElement, docs = document.getElementById('docs');
+  // theme
+  var tb = document.getElementById('theme');
+  tb.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') !== 'dark';
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    tb.textContent = dark ? 'Light theme' : 'Dark theme';
+    tb.setAttribute('aria-pressed', String(dark));
+  });
+  document.getElementById('print').addEventListener('click', function () { window.print(); });
+
+  var sections = Array.prototype.slice.call(docs.querySelectorAll('section.blk'));
+  function titleOf(s) { var e = s.querySelector('.eyebrow'), h = s.querySelector('h2'); return (e ? e.textContent : '') + ' ' + (h ? h.textContent : ''); }
+
+  // config gate: load first; fail open
+  function fmt(d) { try { return new Date(d).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) { return String(d); } }
+  function applyConfig(c) {
+    var now = Date.now(), s = c && c.window && Date.parse(c.window.start), e = c && c.window && Date.parse(c.window.end);
+    var inWin = (isNaN(s) || s == null || now >= s) && (isNaN(e) || e == null || now <= e);
+    document.getElementById('cfgshow').textContent = 'Current setting: visible ' + (c.visible !== false) + ', window ' + (c.window ? c.window.start + ' to ' + c.window.end : 'none') + ', updated ' + c.updated + '.';
+    if (c.visible === false || !inWin) {
+      docs.hidden = true; document.querySelector('.snav').hidden = true;
+      var off = document.getElementById('off'); off.hidden = false;
+      document.getElementById('offwin').textContent = c.window ? 'Window: ' + fmt(c.window.start) + ' to ' + fmt(c.window.end) + '.' : '';
+      document.title = 'KrishiLoop docs: not available';
+      return false;
+    }
+    return true;
+  }
+  function loadLive() {
+    var panel = document.getElementById('panel'), pn = document.getElementById('panelnote'), items = [];
+    var at = new Date().toLocaleTimeString('en-GB');
+    function add(n, label, file) { items.push('<div class="stat"><b>' + n + '</b><span>' + label + '</span><small>' + file + ' · loaded at ' + at + '</small></div>'); }
+    Promise.all([
+      fetch('/audio/manifest.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch('/models/agritriage/config.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (a) {
+      var m = a[0], c = a[1];
+      try {
+        if (m && m.clips) add(Array.isArray(m.clips) ? m.clips.length : Object.keys(m.clips).length, 'voice clips shipped', '/audio/manifest.json');
+        if (c && c.classes) add(c.classes.length, 'plant classes in the photo model', '/models/agritriage/config.json');
+        if (c && c.model_mb) add(c.model_mb + ' MB', 'photo model size (int8)', '/models/agritriage/config.json');
+        if (c && c.onnx_test_accuracy && c.onnx_test_accuracy.int8) add((c.onnx_test_accuracy.int8 * 100).toFixed(1) + '%', 'top-1 on PlantWild test set (public data)', '/models/agritriage/config.json');
+      } catch (e) {}
+      if (items.length) { panel.innerHTML = items.join(''); panel.hidden = false; pn.textContent = 'Read live from files this site serves. Nothing here is faked: if a file cannot load, its number is simply not shown.'; pn.hidden = false; }
+    });
+  }
+  fetch('/docs/docs.config.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (c) {
+    if (applyConfig(c)) loadLive();
+  }).catch(function () {
+    document.getElementById('cfgnote').textContent = 'Visibility settings could not be loaded; showing the docs.';
+    document.getElementById('cfgshow').textContent = 'The settings file could not be loaded here, so the docs are shown.';
+    loadLive();
+  });
+
+  // search
+  var q = document.getElementById('q'), res = document.getElementById('res');
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function clearMarks() {
+    Array.prototype.slice.call(docs.querySelectorAll('mark.hit')).forEach(function (m) { var p = m.parentNode; p.replaceChild(document.createTextNode(m.textContent), m); p.normalize(); });
+  }
+  function mark(term) {
+    var re = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), n = 0;
+    sections.forEach(function (s) {
+      var w = document.createTreeWalker(s, NodeFilter.SHOW_TEXT, { acceptNode: function (t) { return t.parentNode.closest('script,style,svg,mark') ? NodeFilter.FILTER_REJECT : (re.test(t.nodeValue) ? (re.lastIndex = 0, NodeFilter.FILTER_ACCEPT) : (re.lastIndex = 0, NodeFilter.FILTER_REJECT)); } }), list = [];
+      while (w.nextNode()) list.push(w.currentNode);
+      list.forEach(function (t) {
+        var f = document.createDocumentFragment(), s2 = t.nodeValue, last = 0, m;
+        re.lastIndex = 0;
+        while ((m = re.exec(s2)) && n < 400) { f.appendChild(document.createTextNode(s2.slice(last, m.index))); var k = document.createElement('mark'); k.className = 'hit'; k.textContent = m[0]; f.appendChild(k); last = m.index + m[0].length; n++; if (m[0].length === 0) re.lastIndex++; }
+        f.appendChild(document.createTextNode(s2.slice(last))); t.parentNode.replaceChild(f, t);
+      });
+    });
+  }
+  function search() {
+    var term = q.value.trim(); clearMarks();
+    if (term.length < 2) { res.classList.remove('on'); res.innerHTML = ''; return; }
+    var lc = term.toLowerCase(), out = [];
+    sections.forEach(function (s) {
+      var txt = s.textContent.replace(/\s+/g, ' '), i = txt.toLowerCase().indexOf(lc);
+      if (i >= 0) { var sn = txt.slice(Math.max(0, i - 40), i + 80); out.push('<a href="#' + s.id + '" data-id="' + s.id + '">' + esc(titleOf(s).replace(/\s+/g, ' ').trim()) + '<small>' + esc(sn) + '</small></a>'); }
+    });
+    res.innerHTML = out.length ? out.join('') : '<p>No match.</p>';
+    res.classList.add('on');
+    if (out.length) mark(term);
+  }
+  q.addEventListener('input', search);
+  q.addEventListener('keydown', function (e) { if (e.key === 'Escape') { q.value = ''; search(); q.blur(); } if (e.key === 'Enter') { var a = res.querySelector('a'); if (a) { location.hash = a.getAttribute('data-id'); res.classList.remove('on'); } } });
+  res.addEventListener('click', function () { res.classList.remove('on'); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.search')) res.classList.remove('on'); });
+
+  // current-section highlight in the nav
+  var links = Array.prototype.slice.call(document.querySelectorAll('#snav a'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { links.forEach(function (l) { l.classList.toggle('cur', l.getAttribute('href') === '#' + en.target.id); }); } }); }, { rootMargin: '-120px 0px -70% 0px' });
+    sections.forEach(function (s) { io.observe(s); });
+  }
+  var cur = '';
+  window.addEventListener('hashchange', function () { cur = location.hash; });
+
+  // copy link
+  var cb = document.getElementById('copy');
+  cb.addEventListener('click', function () {
+    var hash = location.hash || (document.querySelector('#snav a.cur') || {}).hash || '';
+    var url = location.origin + location.pathname + hash, old = cb.textContent;
+    function done() { cb.textContent = 'Link copied'; setTimeout(function () { cb.textContent = old; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { window.prompt('Copy this link', url); });
+    else window.prompt('Copy this link', url);
+  });
+
+  // download Markdown
+  function cell(t) { return t.textContent.replace(/\s+/g, ' ').trim().replace(/\|/g, '\\|'); }
+  function toMd() {
+    var o = ['# KrishiLoop docs', '', 'Docs v1.0, 2026-11-20. Source: ' + location.origin + location.pathname, ''];
+    var hero = docs.querySelector('.hero .lead'); if (hero) o.push(hero.textContent.trim(), '');
+    sections.forEach(function (s) {
+      var h = s.querySelector('h2'), e = s.querySelector('.eyebrow');
+      o.push('## ' + (e ? e.textContent.trim() + ': ' : '') + h.textContent.replace(/\s+/g, ' ').trim(), '');
+      Array.prototype.slice.call(s.querySelector('.wrap').children).forEach(function (n) {
+        if (n === e || n === h) return;
+        function walk(n) {
+          var tn = n.tagName;
+          if (tn === 'P') o.push(n.textContent.replace(/\s+/g, ' ').trim(), '');
+          else if (tn === 'H3') o.push('### ' + n.textContent.trim(), '');
+          else if (tn === 'UL') { Array.prototype.slice.call(n.children).forEach(function (li) { o.push('- ' + li.textContent.replace(/\s+/g, ' ').trim()); }); o.push(''); }
+          else if (n.classList.contains('tw')) {
+            var rows = Array.prototype.slice.call(n.querySelectorAll('tr'));
+            rows.forEach(function (r, i) { var cs = Array.prototype.slice.call(r.children).map(cell); o.push('| ' + cs.join(' | ') + ' |'); if (i === 0) o.push('|' + cs.map(function () { return ' --- |'; }).join('')); });
+            o.push('');
+          } else if (n.classList.contains('cards')) { Array.prototype.slice.call(n.children).forEach(function (c) { o.push('- **' + c.querySelector('h3').textContent.trim() + ':** ' + c.querySelector('p').textContent.trim()); }); o.push(''); }
+          else if (n.classList.contains('team')) { Array.prototype.slice.call(n.children).forEach(function (c) { o.push('- **' + c.querySelector('b').textContent + '**: ' + c.querySelector('small').textContent); }); o.push(''); }
+          else if (n.classList.contains('diag')) { var sv = n.querySelector('svg'); o.push('_Diagram: ' + (sv ? sv.getAttribute('aria-label') : '') + '_', ''); }
+        }
+        walk(n);
+      });
+    });
+    return o.join('\n');
+  }
+  document.getElementById('md').addEventListener('click', function () {
+    var b = new Blob([toMd()], { type: 'text/markdown;charset=utf-8' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = 'krishiloop-docs.md'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  });
+})();
+</script>
+</body>
+</html>

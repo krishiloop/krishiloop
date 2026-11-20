@@ -17,6 +17,7 @@
 <p align="center">
   <a href="https://github.com/krishiloop/krishiloop/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/krishiloop/krishiloop/actions/workflows/ci.yml/badge.svg?branch=main"></a>
   <img alt="Tests" src="https://img.shields.io/badge/tests-391%20pytest%20%C2%B7%20259%20unit%20%C2%B7%20165%20browser-2f5a35">
+  <a href="https://huggingface.co/ABRUBAB/krishiloop-agritriage-tinyvit"><img alt="Hugging Face model" src="https://img.shields.io/badge/Hugging%20Face-photo%20model-c6b7e4"></a>
   <img alt="Languages" src="https://img.shields.io/badge/languages-Bangla%20%C2%B7%20English%20%2B%20Hindi%2C%20Swahili%2C%20Spanish%20previews-927fcc">
   <img alt="Licence" src="https://img.shields.io/badge/code-Apache--2.0-46524a">
 </p>
@@ -118,12 +119,13 @@ flowchart LR
 ```
 
 - **Decide:** a deterministic planner (no language model) turns rules and field data into one weekly decision. Questions go through a **LangGraph** router with **hybrid search** (BM25 + multilingual-e5) over sourced rules: the answer is a rule's validated text, or an abstention.
-- **See:** the photo model is a **TinyViT-11M student distilled from DINOv2, CLIP and Perception Encoder**, with a **conformal safety gate** (diagnose, ask for a clearer photo, or refer) and an energy score for unknown photos.
+- **See:** the photo model ([on Hugging Face](https://huggingface.co/ABRUBAB/krishiloop-agritriage-tinyvit), with Grad-CAM outputs and a model card) is a **TinyViT-11M student distilled from DINOv2, CLIP and Perception Encoder**, with a **conformal safety gate** (diagnose, ask for a clearer photo, or refer) and an energy score for unknown photos.
 - **Prove:** every answer is a signed credential; recall uses a W3C Bitstring Status List.
 - **Reach:** five read-only **MCP servers** let other AI advisers verify our receipts and read our rules.
 - **Data:** a **Kùzu** graph database links every rule, the source page it quotes and every receipt that used it, so a recall lists exactly the receipts it touches, and the Ask router uses the same graph for a **Graph RAG** step (sibling rules that cite the same page). Dense retrieval runs on a **LanceDB** vector table (multilingual-e5, 384 dimensions, rules and source chunks), and it ranks exactly as the in-memory search did. A **DuckDB** warehouse turns our rules, receipts, recalls, evaluations and GBIF sightings into Parquet and one SQL report (`tools/warehouse.py`, `ml/warehouse/REPORT.md`), and commits the same tables as **Delta Lake** tables (versioned, with time travel). All three are embedded: files, no database server to host.
 - **Live:** `GET /api/events` streams new officer cases, recalls and photo-ledger events over **Server-Sent Events**. The officer console refreshes as they happen. Events carry ids and codes only, never personal data.
-- **Look:** the design system is public at [krishiloop.vercel.app/design-system](https://krishiloop.vercel.app/design-system/) (tokens for both themes, type, components, rules); the team keeps the same system as a Claude Artifacts design system. The evidence page draws the per-model safety result with **Chart.js** and the warehouse's sightings per country with **D3.js** (`d3-scale`). The warehouse report's charts are **Vega-Lite** (Altair, rendered to SVG).
+- **Agents (dev-time only):** two evaluation agents, **smolagents** and **Pydantic AI**, each given only our read-only rules MCP server, answered 6 test questions on a free model: the right sourced rule on every covered question, no dose in any answer (`tools/agents/`, results in `ml/agents/RESULTS.md`). The product itself never lets a language model write advice.
+- **Look:** the docs (pitch plus technical write-up, with search and Markdown/PDF export) are at [krishiloop.vercel.app/docs](https://krishiloop.vercel.app/docs/), and the design system is public at [krishiloop.vercel.app/design-system](https://krishiloop.vercel.app/design-system/) (tokens for both themes, type, components, rules); the team keeps the same system as a Claude Artifacts design system. The evidence page draws the per-model safety result with **Chart.js** and the warehouse's sightings per country with **D3.js** (`d3-scale`). The warehouse report's charts are **Vega-Lite** (Altair, rendered to SVG).
 - **Run:** a **Prefect** flow chains the data refresh: contract checks, quote checks, the warehouse build and its tests (`tools/pipeline_flow.py`, last run in `ml/warehouse/PIPELINE_RUN.md`). Our MCP server was also called by a remote client through a temporary **Pinggy** tunnel, with its DNS-rebinding guard kept on (`docs/mcp-over-tunnel.md`).
 
 ## Results, each with its file

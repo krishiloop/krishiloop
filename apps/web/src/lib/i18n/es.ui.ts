@@ -110,6 +110,7 @@ const d: Partial<Record<keyof typeof ui, string>> = {
   'ui.footer.modelCard': 'Ficha de la IA de fotos',
   'ui.footer.prompts': 'Instrucciones de IA que usamos',
   'ui.footer.api': 'Formatos de datos',
+  'ui.footer.docs': 'Documentación',
   'ui.footer.design': 'Sistema de diseño',
   'ui.footer.credit': 'Hecho para el International AI Builders Congress 2026',
   'ui.footer.noPii': 'Cada finca aquí es un ejemplo, y lo dice.',

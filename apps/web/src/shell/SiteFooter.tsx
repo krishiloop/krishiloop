@@ -19,6 +19,7 @@ export function SiteFooter() {
     { href: `${REPO}/blob/main/ml/vision/MODEL_CARD.md`, label: t('ui.footer.modelCard') },
     { href: `${REPO}/tree/main/docs/prompt-library`, label: t('ui.footer.prompts') },
     { href: `${REPO}/tree/main/contracts/schemas`, label: t('ui.footer.api') },
+    { href: '/docs/', label: t('ui.footer.docs') },
     { href: '/design-system/', label: t('ui.footer.design') },
   ];
   return (

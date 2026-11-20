@@ -1,0 +1,8 @@
+# Dev-time evaluation agents only (tools/agents/): install into a separate venv (.venv-agents), never the project .venv.
+pydantic-ai-slim[openai,google]==2.71.0
+smolagents==1.26.0
+mcp==2.3.0
+fastmcp-slim==4.2.3
+google-genai==2.34.0
+openai==3.57.0
+python-dotenv==1.2.4
