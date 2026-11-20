@@ -31,7 +31,7 @@
 
 ## Try it in one minute
 
-<p align="center"><a href="https://youtu.be/iQPk4SlXOFw"><img src="docs/media/video.webp" alt="Watch the 3-minute KrishiLoop video on YouTube" width="78%"></a></p>
+<p align="center"><a href="https://youtu.be/lzTOXHmXOtU"><img src="docs/media/video.webp" alt="Watch the 3-minute KrishiLoop video on YouTube" width="78%"></a></p>
 
 No login, no install. The live site runs in **sample mode**: real answers saved from our server, every one labelled "Saved" on screen.
 
