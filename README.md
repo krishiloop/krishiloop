@@ -21,6 +21,8 @@
 
 <p align="center"><i>International AI Builders Congress 2026 · AgriSphere AI · Idea to Unicorn</i></p>
 
+<p align="center"><a href="#try-it-in-one-minute">Try it</a> · <a href="#the-problem">Problem</a> · <a href="#what-krishiloop-does">What it does</a> · <a href="#how-it-is-different">How it is different</a> · <a href="#how-it-works">How it works</a> · <a href="#results-each-with-its-file">Results</a> · <a href="#run-it-locally">Run it</a> · <a href="#honest-limits">Limits</a> · <a href="#team">Team</a></p>
+
 <p align="center">
   <img src="docs/media/hero-light.webp" alt="KrishiLoop home page: a leaf-built farmer beside an animated plant made of leaves" width="100%">
 </p>
@@ -28,6 +30,8 @@
 ---
 
 ## Try it in one minute
+
+<p align="center"><a href="https://youtu.be/iQPk4SlXOFw"><img src="docs/media/video.webp" alt="Watch the 3-minute KrishiLoop video on YouTube" width="78%"></a></p>
 
 No login, no install. The live site runs in **sample mode**: real answers saved from our server, every one labelled "Saved" on screen.
 
@@ -101,6 +105,19 @@ Every recommendation is a signed **W3C Verifiable Credential** (`eddsa-jcs-2022`
 <td width="50%"><img src="docs/media/phone-app.webp" alt="The phone app in English and Bangla, and the hand-off to the nearest officer"></td>
 </tr>
 </table>
+
+## How it is different
+
+| | A typical AI chat answer | KrishiLoop |
+|---|---|---|
+| Where the advice comes from | Generated text | A rule that quotes its source and page |
+| Doses and brand names | Can be made up: 85 of 112 dose answers in our test of four open models | Blocked by a validator: **0** in 400 held-out questions |
+| Can anyone check it? | No | Yes: a signed **W3C Verifiable Credential**, by QR or SMS code |
+| If it turns out wrong | It stays with the farmer | **Recalled** from every receipt that used the rule |
+| When the AI is not sure | It usually still answers | It says so and hands over to the **nearest Krishi officer** |
+| Leaf photos | Sent to a server | Read **offline, inside the phone** (11.5 MB model) |
+
+The test questions are synthetic; the files behind each number are on the [evidence page](https://krishiloop.vercel.app/proof).
 
 ## How it works
 
