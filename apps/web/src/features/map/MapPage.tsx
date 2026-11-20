@@ -33,6 +33,7 @@ import { AreaPanel } from './AreaPanel';
 import { YearRange } from './YearRange';
 import { Fold } from '../../ui/Fold';
 import './map.css';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 type View = Country | 'all';
 interface Layers {
@@ -188,6 +189,7 @@ export default function MapPage() {
     <div className="mp-shell botanic-bg">
     <div className="mp-page wrap" data-testid="map-page">
       <header className="mp-head">
+        <FarmerCameo mood="pointing" />
         <p className="eyebrow">{t('map.eyebrow')}</p>
         <h1 className="t-title mt-3">{t('map.title')}</h1>
         <p className="t-lead mt-4 max-w-[62ch]">{t('map.lead')}</p>

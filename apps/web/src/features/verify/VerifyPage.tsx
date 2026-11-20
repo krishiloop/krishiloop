@@ -25,6 +25,7 @@ import { clearChecks, downloadCredential, isAreaTrust, isReceipt, looksLikeRecei
 import { codePath, displayCode, lookupCode, normalizeCode, type CodeLookup } from './code';
 import { Fold } from '../../ui/Fold';
 import './verify.css';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 /**
  * /verify (paste, scan, type an SMS code or try a recorded receipt), /verify/:id (the verdict, then the receipt as a
@@ -270,6 +271,7 @@ function VerifyEntry() {
     <div className="vf-entry-page botanic-bg">
       <div className="wrap pb-20 pt-10 sm:pt-14">
         <header className="vf-entry-head">
+          <FarmerCameo mood="thinking" />
           <p className="label hero-rise flex items-center gap-2.5">
             <span className="h-px w-8 bg-ink-3" aria-hidden />
             {t('vf.entry.eyebrow')}

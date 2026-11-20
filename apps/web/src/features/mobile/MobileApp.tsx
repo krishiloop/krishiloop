@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { WifiOff } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
-import { useTheme } from '../../lib/theme';
 import { Toaster } from '../../ui/Toast';
 import { attach, init, loadPlan, useFarmer } from '../farmer/farmerStore';
 import { useHeld } from '../farmer/receipts';
@@ -34,7 +33,8 @@ const FROM_FARMER: Record<TabId, MTab> = { today: 'home', ask: 'ask', photo: 'le
 
 /**
  * /m: KrishiLoop as a phone app. No website header or footer: the whole screen (100dvh, notch and home bar kept clear),
- * a forest app bar with the farm, one scrolling page, and five tabs at the bottom in thumb reach (Home, Check a leaf,
+ * an app bar with the farm (the site's cream and pastel look; forest only in the dark theme), one scrolling page, and
+ * five tabs at the bottom in thumb reach (Home, Check a leaf,
  * Ask, My receipts, Help). It reuses the farmer app's screens and stores as they are (the same API and the same
  * recorded mode as /app), and adds what a phone needs: a first-run welcome, receipts saved on the phone (they show with
  * no internet), and a QR to show an officer. It is a web page in the phone's browser (Chrome, Safari): nothing to install.
@@ -43,7 +43,6 @@ const FROM_FARMER: Record<TabId, MTab> = { today: 'home', ask: 'ask', photo: 'le
 export default function MobileApp() {
   const { t } = useI18n();
   const st = useFarmer();
-  const theme = useTheme();
   const online = useOnline();
   const saved = useSaved();
   const { status } = useHeld();
@@ -69,15 +68,15 @@ export default function MobileApp() {
     if (st.boot === 'ready' && st.status === 'idle') void loadPlan();
   }, [st.boot, st.status]);
 
-  // the tab's name and the phone's status bar follow the app (the app bar is forest in both themes)
+  // the tab's name follows the app. The phone's status bar is the site's: lib/theme.ts paints it the page colour (cream,
+  // or forest in the dark theme), and the app bar's mesh starts from that same colour.
   useEffect(() => {
     document.title = t('m.title');
   }, [t]);
+  // the deck's line art sways a degree while on screen, as on the site (its own tiny chunk; still under reduced motion)
   useEffect(() => {
-    const metas = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
-    metas.forEach((m) => m.setAttribute('content', theme === 'dark' ? '#0e2419' : '#14261c'));
-    return () => metas.forEach((m) => m.setAttribute('content', theme === 'dark' ? '#14261c' : '#f3eee2'));
-  }, [theme]);
+    void import('../../shell/botanicArt').then((m) => m.startBotanicArt());
+  }, []);
 
   const go = useCallback((next: MTab) => {
     setTab(next);
@@ -116,6 +115,7 @@ export default function MobileApp() {
       <main ref={scroller} className="m-scroll" id="main" tabIndex={-1}>
         <h1 className="sr-only-live">{t('m.h1')}</h1>
         <div key={tab} role="tabpanel" id={mPanelId(tab)} aria-labelledby={mTabId(tab)} className="m-panel" data-testid={`m-panel-${tab}`}>
+          <div className="botanic-art botanic-bg--rice" aria-hidden />
           {tab === 'home' && (
             <TodayTab onOpenReceipt={setReceipt} onTab={fromFarmer} />
           )}

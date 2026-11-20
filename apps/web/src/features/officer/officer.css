@@ -1849,3 +1849,10 @@ dialog.off-dialog {
     transition: none;
   }
 }
+/* the leaf farmer in the corner, sending his photo to the officer (FarmerCameo) */
+.off-hero {
+  position: relative;
+}
+.off-hero-copy {
+  padding-right: clamp(96px, 12vw, 170px);
+}

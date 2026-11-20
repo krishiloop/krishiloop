@@ -12,6 +12,7 @@ import { ResultGroup, type GroupId } from './EvalTiles';
 import { CheckYourself } from './CheckYourself';
 import { REPRO, ACTIONS_URL, MCP_DOC, MCP_SERVERS, MCP_TESTS, PROMPT_LIBRARY, READ_THE_CODE, REGISTER, STANDARDS, TESTS, type StandardState } from './sources';
 import './proof.css';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 // the terminal sits below the fold: its own chunk, so the first visit does not pay for it
 const Terminal = lazy(() => import('../../ui/kit/Terminal').then((m) => ({ default: m.Terminal })));
@@ -43,6 +44,7 @@ export default function ProofPage() {
       <section className="pf-hero-v5" aria-labelledby="pf-title">
         <div className="wrap pf-hero pt-10 pb-12 sm:pt-14">
           <div>
+            <FarmerCameo mood="proud" />
             <p className="eyebrow hero-rise">{t('proof.eyebrow')}</p>
             <h1 id="pf-title" className="t-title hero-rise mt-4 max-w-[18ch]" style={{ ['--i' as string]: 1 }} data-testid="proof-title">
               {t('proof.title')}

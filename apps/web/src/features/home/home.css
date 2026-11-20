@@ -242,6 +242,31 @@
 .kg-field[data-live] canvas {
   opacity: 1;
 }
+/* the leaf farmer presents the story (owner, 20 Nov): the pictures make room on the left, and he stands big on the
+   right, facing them, his feet on the caption line */
+.kg-field canvas {
+  right: 24%;
+  width: auto;
+}
+.kg-farmer.leaf-farmer {
+  position: absolute;
+  right: -3%;
+  bottom: -2%;
+  width: auto;
+  height: 88%;
+  max-width: 44%;
+  z-index: 2;
+  filter: drop-shadow(0 16px 18px color-mix(in oklab, var(--color-forest) 14%, transparent));
+}
+@media (max-width: 1023px) {
+  .kg-field canvas {
+    right: 28%;
+  }
+  .kg-farmer.leaf-farmer {
+    height: 92%;
+    right: -4%;
+  }
+}
 /* the glow on the story's subject: one soft disc of the picture's pastel, glided there with a transform (field.ts
    sets --gx / --gy in px); its colour eases with the picture */
 .kg-spot {
@@ -1442,5 +1467,11 @@ section[aria-labelledby="bento-title"] .surface {
 @media (prefers-reduced-motion: reduce) {
   .kg-fl {
     animation: none;
+  }
+}
+@media (max-width: 1023px) {
+  .kg-illus {
+    right: auto;
+    left: 0;
   }
 }

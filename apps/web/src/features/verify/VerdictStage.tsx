@@ -18,6 +18,7 @@ import { HyperText } from '../../ui/kit/HyperText';
 import { splitRecalled } from '../trust/gate';
 import { recallOf } from '../officer/recallLog';
 import { RunLedger, type RunStep } from './CheckRun';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 export type VerdictKind = 'authentic' | 'recalled' | 'invalid' | 'expired' | 'unreachable';
 
@@ -150,6 +151,8 @@ export function VerdictStage({
             </>
           ) : (
             <div className="thud" key={`copy-${landKey}`}>
+              {/* the leaf farmer reads the verdict with you: glad when it holds, worried when it was taken back */}
+              <FarmerCameo mood={kind === 'authentic' ? 'happy' : kind === 'recalled' ? 'worried' : kind === 'unreachable' ? 'thinking' : 'surprised'} />
               <p className="eyebrow">{t(area ? 'vf.stage.eyebrowArea' : 'vf.stage.eyebrow', { id: shortId(id, 10), time: fmtDate(checkedAt, lang, 'time') })}</p>
               <h1 id="vf-verdict-line" className="vf-meaning" data-testid="verdict-line">
                 {line}

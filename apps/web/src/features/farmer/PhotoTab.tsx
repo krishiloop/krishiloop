@@ -16,6 +16,7 @@ import { logError, logPhoto, setWorking } from './inspector';
 import { tick } from './checklist';
 import { areaOf, cropName, countryName, photoLabelName } from './words';
 import type { TabId } from './TabBar';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 /** AgriTriage-Lite on the phone: its own chunk, and ONNX Runtime + the 11.5 MB model load only when a photo is read. */
 const AiPhoto = lazy(() => import('./photo/AiPhoto'));
@@ -121,7 +122,10 @@ export function PhotoTab({ onTab }: { onTab: (t: TabId) => void }) {
 
   return (
     <div className="grid gap-6" data-testid="fa-photo">
-      <h2 className="t-head">{t('fa.photo.title')}</h2>
+      <div className="flow-root">
+        <FarmerCameo mood="phone" />
+        <h2 className="t-head">{t('fa.photo.title')}</h2>
+      </div>
       <Suspense fallback={<div className="skeleton h-40" aria-hidden />}>
         <AiPhoto onTab={onTab} />
       </Suspense>

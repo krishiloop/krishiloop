@@ -67,7 +67,12 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   20 Nov 2026 (builder O, nearest agriculture office): FarmerApp 153 -> 156 (measured 154.4): the small always-loaded part of
 //   the new card (the card and entry row, its 50 English words, ~1.4 KB gzipped; the farmer app and the phone app share it).
 //   The sheet, the map, Leaflet (41.8 KB) and the office data (28.7 KB) are lazy chunks, loaded only when the card is opened.
-const PAGES = { HomePage: 190, MapPage: 117, TryPage: 140, ReceiptPage: 133, FarmerApp: 156, MobileApp: 155, OfficerPage: 142, VerifyPage: 137, TrustPage: 125, ProofPage: 127, AboutPage: 110 };
+//   20 Nov 2026, round 8 (owner: the leaf farmer on every page; nearest officer when unsure; /m in the site's theme):
+//   FarmerApp 156 -> 160 (measured 158.9) and MobileApp 155 -> 160 (measured 159.2): the officer finder's search, district
+//   list and "not sure" card logic (~3.5 KB) plus the farmer cameo's shell. Map 117 -> 118, Officer 142 -> 143, Verify
+//   137 -> 138, Trust 125 -> 126, Proof 127 -> 128, About 110 -> 111 (each measured 0.1-0.3 KB over): the cameo's tiny
+//   always-loaded shell and its CSS (it holds the space). The farmer's drawing code itself (6.1 KB) is a lazy chunk.
+const PAGES = { HomePage: 190, MapPage: 118, TryPage: 140, ReceiptPage: 133, FarmerApp: 160, MobileApp: 160, OfficerPage: 143, VerifyPage: 138, TrustPage: 126, ProofPage: 128, AboutPage: 111 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

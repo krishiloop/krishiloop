@@ -20,6 +20,7 @@ import { VoiceLine } from './VoiceLine';
 import type { ReceiptRef } from './ReceiptSheet';
 import type { TabId } from './TabBar';
 import { Handoff } from './Handoff';
+import { NearestOffice } from '../offices/NearestOffice';
 import { KrishiGuardSlot } from './climate'; // builder R: Climate-Smart Shield, near you, calculator, visit booking
 
 /**
@@ -109,6 +110,7 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
       )}
 
       <KrishiGuardSlot />
+      <NearestOffice variant="entry" />
       <Weather plan={plan} snapshot={st.snapshot} />
     </div>
   );
@@ -253,6 +255,7 @@ function Abstained({ plan, onTab }: { plan: Plan; onTab: (t: TabId) => void }) {
         </div>
       </div>
       <Handoff />
+      <NearestOffice className="m-4" />
       <dl className="m-0 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-2 border-t border-rule px-5 py-4 text-sm">
         <dt className="eyebrow pt-[3px]">{t('fa.abs.why')}</dt>
         <dd className="m-0" data-testid="fa-abs-reason">

@@ -25,8 +25,10 @@ import { reasonText } from './words';
 import { Pipeline } from './Pipeline';
 import { Handoff } from './Handoff';
 import { NearestOffice } from '../offices/NearestOffice';
+import { askNeedsOfficer } from '../offices/unsure';
 import { ClickSpark } from '../../ui/kit/ClickSpark';
 import type { ReceiptRef } from './ReceiptSheet';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 type AskState =
   | { phase: 'idle' }
@@ -208,7 +210,8 @@ export function AskTab({ onOpenReceipt }: { onOpenReceipt: (r: ReceiptRef) => vo
 
   return (
     <div className="grid gap-6" data-testid="fa-ask">
-      <div>
+      <div className="flow-root">
+        <FarmerCameo mood="thinking" />
         <h2 className="t-head">{t('fa.ask.title')}</h2>
         <p className="mt-1.5 text-ink-2">{t('fa.ask.sub')}</p>
       </div>
@@ -425,6 +428,7 @@ function Answer({ r, recorded, onOpenReceipt }: { r: AskResponse; recorded: bool
       <div aria-live="polite" data-testid="fa-answer-voice">
         <VoiceLine out={reader.out} />
       </div>
+      {askNeedsOfficer(r) && <NearestOffice />}
       <Pipeline path={r.pipeline.path} />
       <p className="text-xs leading-relaxed text-ink-3">{t('fa.ask.fingerprint')}</p>
     </div>

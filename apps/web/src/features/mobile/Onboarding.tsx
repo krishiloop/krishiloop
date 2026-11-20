@@ -4,7 +4,7 @@ import { setLang, useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { cx } from '../../lib/cx';
 import { SCENARIOS } from '../../lib/api/mocks';
-import { LogoMark } from '../../ui/Logo';
+import { Wordmark } from '../../ui/kit/LoopMark';
 import { init, select, useFarmer } from '../farmer/farmerStore';
 import { cropName, countryName, profileSummary, stageName } from '../farmer/words';
 
@@ -36,11 +36,8 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="m-ob" data-testid="m-welcome" data-step={step + 1}>
-      <div className="m-ob-top band-night">
-        <div className="m-ob-brand">
-          <LogoMark size={26} />
-          <span>KrishiLoop</span>
-        </div>
+      <div className="m-ob-top mesh">
+        <Wordmark />
         <ol className="m-ob-dots" aria-label={t('m.ob.step', { n: fmtNum(step + 1, lang), of: fmtNum(STEPS, lang) })}>
           {Array.from({ length: STEPS }, (_, i) => (
             <li key={i} data-on={i <= step || undefined} aria-current={i === step ? 'step' : undefined} />
@@ -49,6 +46,8 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
       </div>
 
       <main className="m-ob-body" key={step}>
+        {/* the deck's rice line art, low in the corners behind the choices (decorative) */}
+        <div className="botanic-art botanic-bg--rice" aria-hidden />
         <p className="m-ob-step">{t('m.ob.step', { n: fmtNum(step + 1, lang), of: fmtNum(STEPS, lang) })}</p>
 
         {step === 0 && (
@@ -125,7 +124,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
             </h1>
             <ul className="m-ob-what">
               <li>
-                <span className="m-ob-what-icon" data-tone="butter" aria-hidden>
+                <span className="m-ob-what-icon" data-tone="terracotta" aria-hidden>
                   <CalendarCheck size={24} />
                 </span>
                 {t('m.ob.what1')}

@@ -40,7 +40,7 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
     <div className="grid gap-6" data-testid="m-help">
       <h2 className="t-head">{t('m.help.title')}</h2>
 
-      <section className="m-officer" aria-labelledby="m-officer-title">
+      <section className="m-officer" data-tone="terracotta" aria-labelledby="m-officer-title">
         <span className="m-officer-icon" aria-hidden>
           <Headset size={26} />
         </span>
@@ -66,11 +66,11 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
 
       <NearestOffice variant="entry" />
 
-      <section className="m-card" aria-labelledby="m-lang-title">
+      <section className="surface m-card" aria-labelledby="m-lang-title">
         <h3 id="m-lang-title" className="eyebrow">
           {t('m.help.lang')}
         </h3>
-        <div className="m-seg mt-3" role="group" aria-labelledby="m-lang-title">
+        <div className="seg m-seg mt-3" role="group" aria-labelledby="m-lang-title">
           {(['bn', 'en'] as const).map((l) => (
             <button key={l} type="button" lang={l} aria-pressed={lang === l} onClick={() => void setLang(l)} data-testid={`m-help-lang-${l}`}>
               {l === 'bn' ? 'বাংলা' : 'English'}
@@ -80,7 +80,7 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
         <h3 id="m-screen-title" className="eyebrow mt-5">
           {t('m.help.screen')}
         </h3>
-        <div className="m-seg mt-3" role="group" aria-labelledby="m-screen-title">
+        <div className="seg m-seg mt-3" role="group" aria-labelledby="m-screen-title">
           <button type="button" aria-pressed={theme === 'light'} onClick={() => setTheme('light')} data-testid="m-theme-light">
             <Sun size={18} aria-hidden />
             {t('m.help.light')}
@@ -92,7 +92,7 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
         </div>
       </section>
 
-      <section className="m-card grid gap-4" aria-labelledby="m-farm-title">
+      <section className="surface m-card grid gap-4" aria-labelledby="m-farm-title">
         <div>
           <h3 id="m-farm-title" className="eyebrow">
             {t('m.help.farm')}
@@ -126,7 +126,7 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
         </fieldset>
       </section>
 
-      <section className="m-card" aria-labelledby="m-data-title" data-testid="m-data">
+      <section className="surface m-card" aria-labelledby="m-data-title" data-testid="m-data">
         <h3 id="m-data-title" className="eyebrow">
           {t('m.help.data')}
         </h3>
@@ -134,7 +134,7 @@ export default function HelpTab({ onRestart }: { onRestart: () => void }) {
         <p className="mt-2 text-sm text-ink-2">{recorded ? t('m.help.recorded') : t('m.help.live')}</p>
       </section>
 
-      <section className="m-card" aria-labelledby="m-honest-title">
+      <section className="surface m-card" aria-labelledby="m-honest-title">
         <h3 id="m-honest-title" className="eyebrow">
           {t('m.help.honest')}
         </h3>

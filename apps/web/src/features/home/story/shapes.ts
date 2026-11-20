@@ -688,7 +688,70 @@ function tomatoPlant(n: number): Shape {
   );
 }
 
-/** The eight pictures, each built the first time it is asked for (the field builds the first two at once, the rest when idle). */
+/* ------------------------------------------------------------------ 4b not sure: a map pin on the nearest office, and the path there */
+function officePin(n: number): Shape {
+  const cx = 0.22;
+  const cy = -0.36;
+  const R = 0.34;
+  const tip: [number, number] = [cx, cy + 0.74];
+  // the head of the pin goes over the top (150° to 390°, y down), then two straight sides meet at the tip
+  const sideL: [number, number] = [cx + R * Math.cos((150 * Math.PI) / 180), cy + R * Math.sin((150 * Math.PI) / 180)];
+  const sideR: [number, number] = [cx + R * Math.cos((30 * Math.PI) / 180), cy + R * Math.sin((30 * Math.PI) / 180)];
+  // the path the farmer walks: from the bottom left corner, curving up to the pin's tip
+  const path = (t: number): [number, number] => {
+    const u = 1 - t;
+    return [u * u * -0.92 + 2 * u * t * -0.55 + t * t * (tip[0] - 0.04), u * u * 0.92 + 2 * u * t * 0.2 + t * t * (tip[1] - 0.02)];
+  };
+  return build(
+    n,
+    [
+      [
+        40,
+        (r) => {
+          const th = ((150 + r() * 240) * Math.PI) / 180;
+          const rr = R + jit(r, 0.025);
+          return [cx + Math.cos(th) * rr, cy + Math.sin(th) * rr, th + Math.PI / 2 + jit(r, 0.2), pick(r, [TERRA, TERRA, LOTUS, CLAY]), LIFE.still, 1, 0.75, 0.95];
+        },
+      ],
+      [
+        18,
+        (r) => {
+          const [a, b] = r() < 0.5 ? [sideL, tip] : [sideR, tip];
+          const u = r();
+          return [a[0] + (b[0] - a[0]) * u + jit(r, 0.015), a[1] + (b[1] - a[1]) * u, Math.atan2(b[1] - a[1], b[0] - a[0]) + jit(r, 0.15), pick(r, [TERRA, LOTUS, CLAY]), LIFE.still, 0.95, 0.75, 0.95];
+        },
+      ],
+      [
+        12,
+        (r) => {
+          const th = r() * TAU;
+          return [cx + Math.cos(th) * 0.12, cy + Math.sin(th) * 0.12, th + Math.PI / 2, pick(r, [MOSS, GREEN, SPROUT]), LIFE.pulse, 0.7, 0.8, 1];
+        },
+      ],
+      [
+        16,
+        (r) => {
+          const th = r() * TAU;
+          const rr = 0.17 + r() * 0.13;
+          return [cx + Math.cos(th) * rr, cy + Math.sin(th) * rr * 0.95, r() * TAU, pick(r, [LOTUS, LOTUS, CREAM]), LIFE.still, 0.8, 0.75, 0.55];
+        },
+      ],
+      [
+        22,
+        (r, j, c) => {
+          const t = (j + r() * 0.4) / c;
+          const [x, y] = path(t);
+          const [x2, y2] = path(Math.min(1, t + 0.02));
+          return [x + jit(r, 0.02), y + jit(r, 0.02), Math.atan2(y2 - y, x2 - x), pick(r, [GREEN, MOSS, MONSOON]), LIFE.sway, 0.8, 0.8, 0.9];
+        },
+      ],
+      [8, ambient([LOTUS, MONSOON, MOSS])],
+    ],
+    53,
+  );
+}
+
+/** The nine pictures, each built the first time it is asked for (the field builds the first two at once, the rest when idle). */
 export function shapeBuilders(n: number): (() => Shape)[] {
-  return [() => ricePlant(n), () => potatoPlant(n), () => tomatoPlant(n), () => sickLeaf(n), () => rainCloud(n), () => bangladesh(n), () => receipt(n), () => loopMark(n)];
+  return [() => ricePlant(n), () => potatoPlant(n), () => tomatoPlant(n), () => sickLeaf(n), () => officePin(n), () => rainCloud(n), () => bangladesh(n), () => receipt(n), () => loopMark(n)];
 }

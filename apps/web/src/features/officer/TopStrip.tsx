@@ -6,6 +6,7 @@ import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { DataMark } from '../../ui/DataMark';
 import { CountUp } from '../../ui/kit/CountUp';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 export interface Counters {
   open: number | null;
@@ -52,6 +53,7 @@ export function TopStrip({ counters }: { counters: Counters }) {
   };
   return (
     <header className="off-hero">
+      <FarmerCameo mood="phone" variant="corner" flip />
       <div className="off-hero-copy">
         <p className="eyebrow hero-rise">{t('off.eyebrow')}</p>
         <h1 className="off-title hero-rise" style={{ ['--i' as string]: 1 }}>

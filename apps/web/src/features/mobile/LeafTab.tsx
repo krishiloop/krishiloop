@@ -15,18 +15,18 @@ export default function LeafTab({ onTab }: { onTab: (t: TabId) => void }) {
   return (
     <div className="m-leaf grid gap-5" data-testid="m-leaf">
       <h2 className="sr-only-live">{t('m.leaf.title')}</h2>
-      <section className="m-tips" aria-label={t('m.leaf.tips')}>
+      <section className="m-tips" data-tone="moss" aria-label={t('m.leaf.tips')}>
         <p className="m-tips-sub">{t('m.leaf.sub')}</p>
         <ul className="m-tips-row">
-          <li>
+          <li data-tone="moss">
             <Leaf size={18} aria-hidden />
             {t('m.leaf.tip1')}
           </li>
-          <li>
+          <li data-tone="terracotta">
             <Sun size={18} aria-hidden />
             {t('m.leaf.tip2')}
           </li>
-          <li>
+          <li data-tone="lotus">
             <Hand size={18} aria-hidden />
             {t('m.leaf.tip3')}
           </li>

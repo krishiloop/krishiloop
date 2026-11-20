@@ -13,6 +13,7 @@ import { Timeline } from '../../ui/kit/Timeline';
 import { spotlight } from '../../ui/kit/hooks';
 import { TeamCards } from './TeamCards';
 import './about.css';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 /** A round rubber seal: the brand's promise set on a circle, stamped once when the page opens. */
 function Seal() {
@@ -87,6 +88,7 @@ export default function AboutPage() {
       <section className="ab-hero mesh mesh-butter botanic-bg botanic-bg--branch relative overflow-hidden" aria-labelledby="about-title">
         <div className="wrap relative grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.25fr_1fr] lg:pb-24 lg:pt-24">
           <div>
+            <FarmerCameo mood="waving" />
             <p className="label hero-rise m-0 flex items-center gap-2.5">
               <span className="h-px w-8 bg-ink-3" aria-hidden />
               {t('about.eyebrow')}

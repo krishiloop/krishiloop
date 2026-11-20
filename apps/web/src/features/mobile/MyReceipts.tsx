@@ -115,7 +115,7 @@ function Row({ x, now, onOpen, onQr }: { x: SavedReceipt; now: Parameters<typeof
   const word = advice?.decision ? t(`ui.decision.${advice.decision}`) : '';
 
   return (
-    <div className={cx('m-rc', recalled && 'is-recalled')} data-testid="m-receipt" data-status={v.s}>
+    <div className={cx('surface m-rc', recalled && 'is-recalled')} data-testid="m-receipt" data-status={v.s}>
       <button type="button" className="m-rc-open" onClick={onOpen}>
         <span className="sr-only-live">{t('m.rc.open')}: </span>
         <span className={cx('grid size-12 flex-none place-items-center rounded-[12px]', TONE_TILE[tone])} style={{ ['--pict-bg' as string]: `var(--color-${tone === 'neutral' ? 'sunk' : `${tone}-wash`})` }}>
@@ -201,7 +201,7 @@ function QrBody({ x, title, onClose }: { x: SavedReceipt; title: string; onClose
   return (
     <div className="grid justify-items-center gap-4 pb-2 text-center" data-testid="m-qr">
       <p className="m-0 max-w-[32ch] font-semibold leading-snug">{title}</p>
-      <div className="m-qr-plate">{link ? <Qr value={link.url} size={232} label={t('m.qr.alt')} /> : <div className="skeleton size-[232px]" aria-hidden />}</div>
+      <div className="m-qr-plate paper-object">{link ? <Qr value={link.url} size={232} label={t('m.qr.alt')} /> : <div className="skeleton size-[232px]" aria-hidden />}</div>
       {link?.code && (
         <p className="m-0">
           <span className="block text-xs text-ink-3">{t('m.qr.code')}</span>

@@ -10,6 +10,7 @@ import { ReceiptTool } from './ReceiptTool';
 import { RecallTool } from './RecallTool';
 import { SavingsTool } from './SavingsTool';
 import './try.css';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 // the photo tool is its own chunk; the model and its runtime load only when the visitor starts (LeafTool)
 const LeafTool = lazy(() => import('./LeafTool'));
@@ -47,6 +48,7 @@ export default function TryPage() {
   return (
     <div className="try-page botanic-bg botanic-bg--pg-a">
       <header className="wrap try-hero">
+        <FarmerCameo mood="surprised" />
         <p className="eyebrow">{t('try.eyebrow')}</p>
         <h1 className="t-title try-hero-title">{t('try.title')}</h1>
         <p className="try-hero-honest">{t('try.honest')}</p>

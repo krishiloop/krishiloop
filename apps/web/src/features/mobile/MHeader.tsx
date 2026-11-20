@@ -1,14 +1,15 @@
 import { setLang, useI18n } from '../../lib/i18n';
 import { fmtDate } from '../../lib/format';
 import { useApiState } from '../../lib/api/client';
-import { LogoMark } from '../../ui/Logo';
+import { LoopMark } from '../../ui/kit/LoopMark';
 import { DataMark } from '../../ui/DataMark';
 import { RECORDED_AT } from '../../data/recorded';
 import { currentField, useFarmer } from '../farmer/farmerStore';
 import { cropName, countryName, stageName } from '../farmer/words';
 
 /**
- * The app bar: forest in both themes, under the notch. The farm (crop, growth stage, country) marked "Sample farm",
+ * The app bar, under the notch: the site's pastel mesh over the page colour (cream, or forest in the dark theme) with the
+ * site's loop mark. The farm (crop, growth stage, country) marked "Sample farm",
  * this week's dates, where the answers come from (Recorded, when the server is not connected), and a one-tap
  * language switch (English · বাংলা), 48 px tall.
  */
@@ -21,10 +22,10 @@ export function MHeader() {
   const recorded = st.planSource === 'sample' || api.forced || api.mode === 'sample';
 
   return (
-    <header className="m-head band-night" data-testid="m-head">
+    <header className="m-head mesh" data-testid="m-head">
       <div className="m-head-row">
         <span className="m-logo" aria-hidden>
-          <LogoMark size={22} />
+          <LoopMark size={26} />
         </span>
         <div className="min-w-0 flex-1" aria-live="polite">
           {field ? (

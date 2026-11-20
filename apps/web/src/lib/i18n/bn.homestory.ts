@@ -29,6 +29,8 @@ const homestory = {
   'home.story.s7.line': 'ছবির এআই আলুর পাতা চেনে।',
   'home.story.s8': 'টমেটো',
   'home.story.s8.line': 'আর টমেটো, ধান ও আরও অনেক ফসল।',
+  'home.story.s9': 'নিশ্চিত নই?',
+  'home.story.s9.line': 'নিকটতম কৃষি অফিসারকে দেখাই। “সেখানে যান” চাপুন।',
   'pl.c.apple': 'আপেল',
   'pl.c.banana': 'কলা',
   'pl.c.basil': 'বেসিল',

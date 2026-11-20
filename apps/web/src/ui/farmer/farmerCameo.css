@@ -1,0 +1,29 @@
+/* the farmer beside a page title (FarmerCameo.tsx) */
+.farmer-cameo {
+  pointer-events: none;
+  filter: drop-shadow(0 14px 16px color-mix(in srgb, #14261c 14%, transparent));
+}
+.farmer-cameo--float {
+  float: right;
+  width: clamp(100px, 13vw, 210px);
+  margin: -6px 0 10px clamp(12px, 2vw, 28px);
+  shape-outside: inset(0 0 0 18%);
+}
+.farmer-cameo--corner {
+  position: absolute;
+  top: -4px;
+  right: 0;
+  width: clamp(86px, 10vw, 150px);
+  z-index: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .farmer-cameo {
+    filter: none;
+  }
+}
+/* the space the farmer will stand in, held while his drawing code loads (no layout shift) */
+.farmer-cameo-hold {
+  display: block;
+  width: 100%;
+  aspect-ratio: 560 / 945;
+}

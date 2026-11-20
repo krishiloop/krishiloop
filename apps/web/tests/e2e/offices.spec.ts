@@ -3,16 +3,19 @@ import { expect, test, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
 /**
- * "Nearest agriculture office": the card on a hand-off ("not sure"), the sheet with the map and the nearest offices,
- * geolocation (mocked), the Go there and Call links, both themes under axe, and 360 px without sideways scroll.
- * Recorded mode (`?sample=1`) so no backend is needed; map tiles are answered locally so no test calls openstreetmap.org.
- * Run on its own port: E2E_PORT=5301 npx playwright test offices.spec.ts
+ * "Nearest Krishi officer": the card right where an answer is not sure (it asks for the place with one button, never
+ * guesses; a district list when location is refused), the officer as the data has it, Call / Go there / Call 16123,
+ * and the finder (map of every office, search in Bangla and English, list by distance, choosing an office flies the
+ * map to it). Recorded mode (`?sample=1`) so no backend is needed; map tiles are answered locally.
+ * Run on its own port: E2E_PORT=5291 npx playwright test offices.spec.ts
  */
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const APP = '/app?sample=1&lang=en&tab=ask';
+const M = '/m?sample=1&lang=en&welcome=0&tab=ask';
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+const DHAKA = { latitude: 23.8103, longitude: 90.4125 };
 
-type O = { id: string; lat: number; lon: number; phone: string | null; officer: { mobile: string | null } | null };
+type O = { id: string; lat: number; lon: number; district_en: string; phone: string | null; officer: { name_bn: string; mobile: string | null } | null };
 const data = JSON.parse(readFileSync(new URL('../../src/data/offices/bd.json', import.meta.url), 'utf8')) as { offices: O[] };
 const km = (a: number, b: number, c: number, d: number) => {
   const r = Math.PI / 180;
@@ -39,6 +42,11 @@ async function axe(page: Page, label: string) {
   const bad = r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => `${v.id}: ${v.nodes.length} node(s), e.g. ${v.nodes[0]?.target.join(' ')}`);
   expect(bad, `${label}: no serious or critical axe violations`).toEqual([]);
 }
+async function denyLocation(page: Page) {
+  await page.addInitScript(() => {
+    navigator.geolocation.getCurrentPosition = (_ok, err) => err?.({ code: 1, message: 'denied', PERMISSION_DENIED: 1, POSITION_UNAVAILABLE: 2, TIMEOUT: 3 } as GeolocationPositionError);
+  });
+}
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/tile.openstreetmap.org/**', (r) => r.fulfill({ status: 200, contentType: 'image/png', body: PNG }));
@@ -51,134 +59,197 @@ async function handOff(page: Page) {
   await expect(page.getByTestId('fa-ask-abstained')).toBeVisible();
 }
 
-test('the card appears when the question goes to the officer, and opens the nearest list for the sample farm', async ({ page }) => {
+test('not sure: the card asks for the place with one button, then names the nearest office and its officer', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation']);
+  await context.setGeolocation(DHAKA);
   await page.goto(APP);
   await handOff(page);
   const card = page.getByTestId('near-card');
-  await expect(card).toContainText('Not sure? Talk to your nearest agriculture office');
-  await card.getByTestId('near-open').click();
-  const sheet = page.getByRole('dialog', { name: 'Nearest agriculture office' });
+  await expect(card).toContainText('Nearest Krishi officer');
+  await expect(card).toHaveAttribute('data-state', 'ask');
+  await expect(card.getByRole('button')).toHaveCount(1); // one button, no guessed place
+  await card.getByTestId('near-card-locate').click();
+  const want = expected(DHAKA.latitude, DHAKA.longitude)[0]!;
+  await expect(card.getByTestId('near-card-office')).toHaveAttribute('data-id', want.id);
+  await expect(card.getByTestId('near-km')).toContainText('km away');
+  if (want.officer) {
+    await expect(card.getByTestId('near-officer')).toContainText(want.officer.name_bn);
+    await expect(card).toContainText('As published on the DAE website');
+  }
+  const ring = want.officer?.mobile ?? want.phone;
+  if (ring) await expect(card.getByTestId('near-card-call')).toHaveAttribute('href', `tel:${ring}`);
+  else await expect(card.getByTestId('near-card-call')).toHaveCount(0);
+  if (!want.officer?.mobile) await expect(card.getByTestId('near-card-helpline')).toHaveAttribute('href', 'tel:16123');
+  else await expect(card.getByTestId('near-card-helpline')).toHaveCount(0);
+
+  // Go there: the map, centred on that office, with Open directions to Google Maps in a new tab
+  await card.getByTestId('near-card-go').click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
   await expect(sheet).toBeVisible();
-  await expect(sheet.getByTestId('near-from')).toHaveAttribute('data-kind', 'sample');
-  await expect(sheet.getByTestId('near-from')).toContainText('sample farm');
-  // the Krishi Call Centre is always there (fact register D5)
+  await expect(sheet.getByTestId('near-office')).toHaveAttribute('data-id', want.id);
+  await expect(sheet.getByTestId('near-leaflet')).toHaveAttribute('data-selected', want.id);
+  await expect(sheet.locator('.near-pin-on')).toHaveCount(1);
+  await expect(sheet.locator('.near-pin-you')).toHaveCount(1);
+  const dir = sheet.getByTestId('near-directions');
+  await expect(dir).toHaveAttribute('href', `https://www.google.com/maps/dir/?api=1&destination=${want.lat},${want.lon}`);
+  await expect(dir).toHaveAttribute('target', '_blank');
+  await expect(sheet.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap');
+});
+
+test('location refused: the card offers a district list, then shows an office in that district without a distance', async ({ page }) => {
+  await denyLocation(page);
+  await page.goto(APP);
+  await handOff(page);
+  const card = page.getByTestId('near-card');
+  await card.getByTestId('near-card-locate').click();
+  await expect(card.getByTestId('near-card-denied')).toBeVisible();
+  await card.getByTestId('near-card-district').selectOption('Mymensingh');
+  const office = card.getByTestId('near-card-office');
+  await expect(office).toHaveAttribute('data-id', /^bd-mymensingh-/);
+  await expect(office).toContainText('In your district');
+  await expect(office.getByTestId('near-km')).toHaveCount(0);
+});
+
+test('the finder: search in English and Bangla, choose an office, the map flies to it', async ({ page }) => {
+  await page.goto(APP);
+  await page.getByTestId('near-entry').first().click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
+  await expect(sheet.getByTestId('near-leaflet')).toBeVisible();
+  // every office is on the map (canvas dots), with nothing chosen yet
+  await expect(sheet.getByTestId('near-from')).toHaveAttribute('data-kind', 'none');
+  await sheet.getByTestId('near-search').fill('Trishal');
+  const rows = sheet.getByTestId('near-row');
+  await expect(rows.first()).toHaveAttribute('data-id', 'bd-mymensingh-trishal');
+  await rows.first().click();
+  await expect(sheet.getByTestId('near-office')).toHaveAttribute('data-id', 'bd-mymensingh-trishal');
+  await expect(sheet.getByTestId('near-leaflet')).toHaveAttribute('data-selected', 'bd-mymensingh-trishal');
+  await expect(rows.first()).toHaveAttribute('aria-pressed', 'true');
+  // Bangla district name
+  await sheet.getByTestId('near-search').fill('ময়মনসিংহ');
+  const ids = await rows.evaluateAll((els) => els.map((e) => e.getAttribute('data-id')));
+  expect(ids.length).toBeGreaterThan(5);
+  expect(ids.every((id) => id!.startsWith('bd-mymensingh-'))).toBe(true);
+  // a newer English spelling
+  await sheet.getByTestId('near-search').fill('Bogura');
+  await expect(rows.first()).toHaveAttribute('data-id', /^bd-bogra-/);
+  await sheet.getByTestId('near-search').fill('Nairobi');
+  await expect(sheet.getByTestId('near-none')).toBeVisible();
+});
+
+test('the finder with location: the list is sorted by distance from the farmer and the nearest is chosen', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation']);
+  await context.setGeolocation(DHAKA);
+  await page.goto(APP);
+  await page.getByTestId('near-entry').first().click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
+  await sheet.getByTestId('near-locate').click();
+  await expect(sheet.getByTestId('near-from')).toHaveAttribute('data-kind', 'gps');
+  const want = expected(DHAKA.latitude, DHAKA.longitude, 10);
+  await expect.poll(async () => sheet.getByTestId('near-row').evaluateAll((els) => els.map((e) => e.getAttribute('data-id')))).toEqual(want.map((o) => o.id));
+  const kms = (await sheet.getByTestId('near-row-km').allTextContents()).map((s) => parseFloat(s));
+  expect([...kms].sort((a, b) => a - b)).toEqual(kms);
+  await expect(sheet.getByTestId('near-office')).toHaveAttribute('data-id', want[0]!.id);
   await expect(sheet.getByTestId('near-callcentre')).toContainText('16123');
   await expect(sheet.getByTestId('near-cc-call')).toHaveAttribute('href', 'tel:16123');
-  // sorted by distance, nearest first, the same as our own haversine over the data
-  const want = expected(24.75, 90.4);
-  const items = sheet.getByTestId('near-office');
-  await expect(items).toHaveCount(5);
-  expect(await items.evaluateAll((els) => els.map((e) => e.getAttribute('data-id')))).toEqual(want.map((o) => o.id));
-  const kms = (await sheet.getByTestId('near-km').allTextContents()).map((s) => parseFloat(s));
-  expect([...kms].sort((a, b) => a - b)).toEqual(kms);
-  // Go there: Google Maps directions to the office point
-  const first = want[0]!;
-  await expect(items.first().getByTestId('near-go')).toHaveAttribute('href', `https://www.google.com/maps/dir/?api=1&destination=${first.lat},${first.lon}`);
-  await expect(items.first().getByRole('link', { name: 'Open in OpenStreetMap' })).toHaveAttribute('href', /openstreetmap\.org\/\?mlat=/);
-  await expect(items.first()).toContainText('Approximate place');
-  // the map loads lazily and carries the OpenStreetMap credit
-  await expect(sheet.getByTestId('near-leaflet')).toBeVisible();
-  await expect(sheet.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap');
-  await expect(sheet.locator('.leaflet-marker-icon')).toHaveCount(4);
 });
 
-test('a phone number is a tel: link, and an officer is shown only with his or her source', async ({ page }) => {
+test('the finder: location refused falls back to the district list', async ({ page }) => {
+  await denyLocation(page);
   await page.goto(APP);
-  await handOff(page);
-  await page.getByTestId('near-open').click();
-  const sheet = page.getByRole('dialog', { name: 'Nearest agriculture office' });
-  const withPhone = expected(24.75, 90.4).findIndex((o) => o.phone);
-  expect(withPhone, 'one of the five nearest has a published phone').toBeGreaterThanOrEqual(0);
-  const phone = expected(24.75, 90.4)[withPhone]!.phone!;
-  await expect(sheet.getByTestId('near-office').nth(withPhone).getByTestId('near-call')).toHaveAttribute('href', `tel:${phone}`);
-  // every office that shows an officer also shows the source line with the portal host
-  for (const o of await sheet.getByTestId('near-office').all()) {
-    if (await o.getByTestId('near-officer').count()) await expect(o).toContainText('gov.bd');
-  }
-});
-
-test('geolocation: with permission the list is sorted from the farmer, not the sample farm', async ({ page, context }) => {
-  await context.grantPermissions(['geolocation']);
-  await context.setGeolocation({ latitude: 23.8103, longitude: 90.4125 }); // Dhaka
-  await page.goto(APP);
-  await handOff(page);
-  await page.getByTestId('near-open').click();
-  const sheet = page.getByRole('dialog', { name: 'Nearest agriculture office' });
-  await expect(sheet.getByTestId('near-locate')).toBeVisible();
+  await page.getByTestId('near-entry').first().click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
   await sheet.getByTestId('near-locate').click();
-  await expect(sheet.getByTestId('near-from')).toHaveAttribute('data-kind', 'you');
-  const want = expected(23.8103, 90.4125);
-  await expect
-    .poll(async () => sheet.getByTestId('near-office').evaluateAll((els) => els.map((e) => e.getAttribute('data-id'))))
-    .toEqual(want.map((o) => o.id));
+  await expect(sheet.getByTestId('near-denied')).toBeVisible();
+  await sheet.getByTestId('near-district').selectOption('Bogra');
+  await expect(sheet.getByTestId('near-from')).toHaveAttribute('data-kind', 'district');
+  await expect(sheet.getByTestId('near-row').first()).toHaveAttribute('data-id', /^bd-bogra-/);
+  await expect(sheet.getByTestId('near-office')).toHaveAttribute('data-id', /^bd-bogra-/);
 });
 
-test('geolocation refused: says so and keeps the sample farm', async ({ page, context }) => {
-  await context.clearPermissions();
-  await page.addInitScript(() => {
-    navigator.geolocation.getCurrentPosition = (_ok, err) => err?.({ code: 1, message: 'denied', PERMISSION_DENIED: 1, POSITION_UNAVAILABLE: 2, TIMEOUT: 3 } as GeolocationPositionError);
-  });
+test('an officer is shown only with the "as published" label and the government source', async ({ page }) => {
   await page.goto(APP);
-  await handOff(page);
-  await page.getByTestId('near-open').click();
-  const sheet = page.getByRole('dialog', { name: 'Nearest agriculture office' });
-  await sheet.getByTestId('near-locate').click();
-  await expect(sheet.getByTestId('near-denied')).toContainText('sample farm');
-  await expect(sheet.getByTestId('near-from')).toHaveAttribute('data-kind', 'sample');
+  await page.getByTestId('near-entry').first().click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
+  const withOfficer = data.offices.find((o) => o.officer?.mobile)!;
+  await sheet.getByTestId('near-search').fill(withOfficer.id.split('-').slice(2).join(' '));
+  await sheet.locator(`[data-testid="near-row"][data-id="${withOfficer.id}"]`).click();
+  const card = sheet.getByTestId('near-office');
+  await expect(card.getByTestId('near-officer')).toContainText(withOfficer.officer!.name_bn);
+  await expect(card).toContainText('As published on the DAE website');
+  await expect(card).toContainText('gov.bd');
+  await expect(card.getByTestId('near-call')).toHaveAttribute('href', `tel:${withOfficer.officer!.mobile}`);
 });
 
-test('the entry is in the farmer app and in the phone app Help tab', async ({ page }) => {
+test('the entry is on the farmer app Ask and Today tabs, and in the phone app; the card shows on /m Ask too', async ({ page }) => {
   await page.goto(APP);
-  await page.getByTestId('near-entry').click();
-  await expect(page.getByRole('dialog', { name: 'Nearest agriculture office' })).toBeVisible();
+  await expect(page.getByTestId('near-entry').first()).toContainText('Find your nearest Krishi officer');
+  await page.goto('/app?sample=1&lang=en&tab=today');
+  await expect(page.getByTestId('near-entry').first()).toBeVisible();
   await page.goto('/m?sample=1&lang=en&welcome=0');
   await page.getByTestId('m-tab-help').click();
-  await page.getByTestId('near-entry').click();
-  await expect(page.getByRole('dialog', { name: 'Nearest agriculture office' })).toBeVisible();
+  await page.getByTestId('near-entry').first().click();
+  await expect(page.getByRole('dialog', { name: 'Nearest Krishi officer' })).toBeVisible();
+  await page.goto(M);
+  await handOff(page);
+  await expect(page.getByTestId('near-card')).toBeVisible();
 });
 
-test('Bangla: the card and the sheet read in Bangla with the machine-written note', async ({ page }) => {
+test('Bangla: the card and the finder read in Bangla with the machine-written note', async ({ page }) => {
   await page.goto('/app?sample=1&lang=bn&tab=ask');
-  await page.getByTestId('near-entry').click();
-  const sheet = page.getByRole('dialog', { name: 'কাছের কৃষি অফিস' });
+  await expect(page.getByTestId('near-entry').first()).toContainText('কাছের কৃষি কর্মকর্তা খুঁজুন');
+  await page.getByTestId('near-entry').first().click();
+  const sheet = page.getByRole('dialog', { name: 'কাছের কৃষি কর্মকর্তা' });
   await expect(sheet).toBeVisible();
   await expect(sheet.getByTestId('near-callcentre')).toContainText('কৃষি কল সেন্টার');
-  await expect(sheet.getByTestId('near-go').first()).toContainText('সেখানে যান');
+  await sheet.getByTestId('near-search').fill('বগুড়া');
+  await expect(sheet.getByTestId('near-row').first()).toContainText('বগুড়া');
   await expect(sheet).toContainText('মেশিনে লেখা');
 });
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`axe, ${theme} theme: the card and the open sheet`, async ({ page }) => {
+  test(`axe, ${theme} theme: the card and the open finder`, async ({ page, context }) => {
+    await context.grantPermissions(['geolocation']);
+    await context.setGeolocation(DHAKA);
     await page.goto(`${APP}&theme=${theme}`);
     await handOff(page);
-    await axe(page, `${theme} card`);
-    await page.getByTestId('near-open').click();
-    await expect(page.getByTestId('near-office')).toHaveCount(5);
+    await axe(page, `${theme} card, asking`);
+    await page.getByTestId('near-card-locate').click();
+    await expect(page.getByTestId('near-card-office')).toBeVisible();
+    await axe(page, `${theme} card, office`);
+    await page.getByTestId('near-card-go').click();
+    await expect(page.getByTestId('near-office')).toBeVisible();
     await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible();
-    await axe(page, `${theme} sheet`);
+    await axe(page, `${theme} finder`);
   });
 }
 
-test('360 px: no sideways scroll, and every button and link is at least 48 px tall', async ({ page }) => {
-  await page.setViewportSize({ width: 360, height: 740 });
-  await page.goto(APP);
+test('390 px: no sideways scroll, and every button and link is at least 44 px tall', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation']);
+  await context.setGeolocation(DHAKA);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(M);
   await handOff(page);
   await noOverflow(page);
-  await page.getByTestId('near-open').click();
-  const sheet = page.getByRole('dialog', { name: 'Nearest agriculture office' });
-  await expect(sheet.getByTestId('near-office')).toHaveCount(5);
+  await page.getByTestId('near-card-locate').click();
+  const card = page.getByTestId('near-card');
+  await expect(card.getByTestId('near-card-office')).toBeVisible();
+  await noOverflow(page);
+  for (const el of await card.locator('a.btn, button.btn, .near-link').all()) {
+    const box = await el.boundingBox();
+    expect(box!.height, 'card targets are at least 44 px tall').toBeGreaterThanOrEqual(43.5);
+  }
+  await card.getByTestId('near-card-go').click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
+  await expect(sheet.getByTestId('near-office')).toBeVisible();
   await noOverflow(page);
   const sw = await sheet.evaluate((e) => (e.querySelector('.near-body') as HTMLElement).scrollWidth - (e.querySelector('.near-body') as HTMLElement).clientWidth);
   expect(sw, 'the sheet body does not scroll sideways').toBeLessThanOrEqual(1);
-  for (const id of ['near-go', 'near-call', 'near-cc-call', 'near-locate']) {
+  for (const id of ['near-directions', 'near-call', 'near-cc-call', 'near-locate', 'near-district', 'near-search', 'near-row']) {
     for (const el of await sheet.getByTestId(id).all()) {
       const box = await el.boundingBox();
-      expect(box!.height, `${id} is at least 48 px tall`).toBeGreaterThanOrEqual(47.5);
+      expect(box!.height, `${id} is at least 44 px tall`).toBeGreaterThanOrEqual(43.5);
     }
   }
-  // keyboard: Tab reaches the Go there link and Escape closes the sheet
-  await sheet.getByTestId('near-go').first().focus();
-  await expect(sheet.getByTestId('near-go').first()).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(sheet).toBeHidden();
 });

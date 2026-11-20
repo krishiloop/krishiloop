@@ -13,8 +13,9 @@
   flex: none;
   padding: 6px;
   border-radius: 12px;
-  background: #fcfaf4;
-  box-shadow: 0 0 0 1px rgb(20 38 28 / 0.08);
+  /* paper in both themes (.paper-object on the plate keeps the paper palette) */
+  background: var(--color-card);
+  box-shadow: 0 0 0 1px var(--color-rule);
 }
 .oop-body {
   display: grid;

@@ -30,6 +30,8 @@ const homestory = {
   'home.story.s7.line': 'The photo AI knows potato leaves.',
   'home.story.s8': 'Tomato',
   'home.story.s8.line': 'And tomato, rice and many more.',
+  'home.story.s9': 'Not sure?',
+  'home.story.s9.line': 'We show your nearest Krishi officer. Tap Go there.',
   'pl.c.apple': 'Apple',
   'pl.c.banana': 'Banana',
   'pl.c.basil': 'Basil',

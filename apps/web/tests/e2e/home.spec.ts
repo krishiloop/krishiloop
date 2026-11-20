@@ -29,7 +29,7 @@ const painted = (page: Page) =>
 /** the line on screen now (the one leaving, if any, is .is-out) */
 const lineNow = (page: Page) => page.locator('section.kg-hero .kg-line:not(.is-out)');
 
-test('home story: eight pictures that play by themselves, a pause button, dots that jump, and the leaves in their own chunk', async ({ page }) => {
+test('home story: nine pictures that play by themselves, a pause button, dots that jump, and the leaves in their own chunk', async ({ page }) => {
   const chunks: string[] = [];
   page.on('request', (r) => {
     if (/story\/field|field-[\w-]+\.js/.test(r.url())) chunks.push(r.url());
@@ -45,8 +45,9 @@ test('home story: eight pictures that play by themselves, a pause button, dots t
   await expect.poll(() => painted(page), { timeout: 8000 }).toBeGreaterThan(200);
   // every line is in the page for screen readers, and the canvas is hidden from them
   const lines = hero.locator('figcaption ol li');
-  await expect(lines).toHaveCount(8);
-  await expect(lines.nth(5)).toContainText('Nearby farms report. The area is warned.');
+  await expect(lines).toHaveCount(9);
+  await expect(lines.nth(4)).toContainText('We show your nearest Krishi officer.');
+  await expect(lines.nth(6)).toContainText('Nearby farms report. The area is warned.');
   await expect(hero.locator('canvas')).toHaveAttribute('aria-hidden', 'true');
   await expect(hero.locator('.kg-illus')).toBeVisible();
   await expect(hero.locator('.kg-illus')).toContainText('Illustration: drawn leaves, not real data');
@@ -56,7 +57,7 @@ test('home story: eight pictures that play by themselves, a pause button, dots t
   await expect(lineNow(page)).toContainText('Potato', { timeout: 9000 });
   await expect(hero).toHaveAttribute('data-tone', 'moss');
   // a dot jumps to the weather warning; while the mouse rests on the story, it waits
-  const dot = hero.getByRole('button', { name: 'Go to step 5: Weather warning' });
+  const dot = hero.getByRole('button', { name: 'Go to step 6: Weather warning' });
   await dot.click();
   await expect(dot).toHaveAttribute('aria-current', 'step');
   await expect(lineNow(page)).toContainText('Rain coming?');
@@ -65,7 +66,7 @@ test('home story: eight pictures that play by themselves, a pause button, dots t
   await expect(dot).toHaveAttribute('aria-current', 'step');
   // the mouse leaves: after a moment it plays on to the next picture
   await page.mouse.move(4, 4);
-  await expect(hero.getByRole('button', { name: 'Go to step 6: Disease map' })).toHaveAttribute('aria-current', 'step', { timeout: 9000 });
+  await expect(hero.getByRole('button', { name: 'Go to step 7: Disease map' })).toHaveAttribute('aria-current', 'step', { timeout: 9000 });
   // the visible pause button stops it for good (WCAG 2.2.2), and play starts it again
   const pause = hero.getByRole('button', { name: 'Pause the story' });
   await expect(pause).toBeVisible();
@@ -95,7 +96,7 @@ test('home story: reduced motion starts paused and draws each picture once, stil
   await page.waitForTimeout(700);
   expect(await painted(page), 'nothing moves under reduced motion').toBe(a);
   await expect(hero.locator('.kg-hint')).toHaveCount(0);
-  await hero.getByRole('button', { name: 'Go to step 8: The loop' }).click();
+  await hero.getByRole('button', { name: 'Go to step 9: The loop' }).click();
   await expect(lineNow(page)).toContainText('Wrong advice is taken back from everyone');
   await page.waitForTimeout(300);
   expect(await painted(page), 'the still picture changed with the step').not.toBe(a);
@@ -105,7 +106,7 @@ test('home story: no serious accessibility problems mid-story, Bangla, dark, pho
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/?lang=bn&theme=dark');
   const hero = page.locator('section.kg-hero');
-  await hero.getByRole('button', { name: /৬ নম্বর ধাপে যান/ }).click();
+  await hero.getByRole('button', { name: /৭ নম্বর ধাপে যান/ }).click();
   await expect(lineNow(page)).toContainText('রোগের মানচিত্র');
   await expect(hero.getByRole('button', { name: 'গল্প থামান' })).toBeVisible();
   const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

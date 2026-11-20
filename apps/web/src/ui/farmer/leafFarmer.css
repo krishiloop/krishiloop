@@ -1,0 +1,58 @@
+/* The leaf-built farmer's colours (leafKit.ts). The figure keeps the same colours in both themes, so he stays the
+   same person; only the world around him (sky, water, land) follows the theme. Green is the majority, always mixed
+   with terracotta, lotus, monsoon and lilac. No yellow anywhere: straw and ripe grain are terracotta tints. */
+.lf {
+  --lf-ground: #faf6ee;
+  --lf-main: #1f3d2c;
+  --lf-second: #8a3a1c;
+  --lf-accent: #a8d1df;
+  --lf-lilac: #c6b7e4;
+  --lf-leaf: var(--lf-main);
+  --lf-leaf2: color-mix(in srgb, var(--lf-main) 72%, var(--lf-accent));
+  --lf-leaf3: color-mix(in srgb, var(--lf-main) 58%, var(--lf-ground));
+  --lf-leaf4: color-mix(in srgb, var(--lf-leaf2) 70%, var(--lf-ground));
+  --lf-sage: color-mix(in srgb, var(--lf-main) 30%, var(--lf-ground));
+  --lf-shirt: color-mix(in srgb, var(--lf-second) 24%, var(--lf-ground));
+  --lf-shirtlt: color-mix(in srgb, var(--lf-second) 12%, var(--lf-ground));
+  --lf-skin: color-mix(in srgb, var(--lf-second) 66%, var(--lf-ground));
+  --lf-skinlit: color-mix(in srgb, var(--lf-second) 48%, var(--lf-ground));
+  --lf-skindk: color-mix(in srgb, var(--lf-second) 84%, var(--lf-main));
+  --lf-skinmd: color-mix(in srgb, var(--lf-second) 74%, var(--lf-ground));
+  --lf-lotus: color-mix(in srgb, #f0b9b4 70%, var(--lf-ground));
+  --lf-straw: color-mix(in srgb, var(--lf-second) 28%, var(--lf-ground));
+  --lf-strawdk: color-mix(in srgb, var(--lf-second) 50%, var(--lf-ground));
+  --lf-grain: color-mix(in srgb, var(--lf-second) 45%, var(--lf-ground));
+  --lf-cloth: color-mix(in srgb, var(--lf-accent) 62%, var(--lf-main));
+  --lf-clothlt: color-mix(in srgb, var(--lf-accent) 80%, var(--lf-ground));
+  --lf-clothdk: color-mix(in srgb, var(--lf-accent) 35%, var(--lf-main));
+  --lf-ink: color-mix(in srgb, var(--lf-main) 80%, var(--lf-second));
+  --lf-shade: color-mix(in srgb, var(--lf-main) 20%, transparent);
+  --lf-ash: color-mix(in srgb, var(--lf-main) 22%, var(--lf-ground));
+  /* the world: these follow the theme */
+  --lf-sky: color-mix(in srgb, var(--lf-accent) 24%, var(--lf-ground));
+  --lf-cloud: color-mix(in srgb, var(--lf-accent) 40%, var(--lf-ground));
+  --lf-glint: color-mix(in srgb, var(--lf-accent) 20%, var(--lf-ground));
+  --lf-far: color-mix(in srgb, var(--lf-main) 34%, var(--lf-sky));
+  --lf-land: color-mix(in srgb, var(--lf-main) 24%, var(--lf-ground));
+  --lf-water: color-mix(in srgb, var(--lf-accent) 58%, var(--lf-ground));
+  --lf-bund: color-mix(in srgb, var(--lf-second) 30%, var(--lf-land));
+  overflow: visible;
+}
+:root:not([data-theme="light"]) .lf-world {
+  --lf-sky: #163226;
+  --lf-cloud: color-mix(in srgb, var(--lf-accent) 26%, #163226);
+  --lf-glint: color-mix(in srgb, var(--lf-accent) 16%, #0e2419);
+  --lf-far: color-mix(in srgb, var(--lf-main) 60%, #0e2419);
+  --lf-land: #183a2a;
+  --lf-water: color-mix(in srgb, var(--lf-accent) 30%, #0e2419);
+  --lf-bund: color-mix(in srgb, var(--lf-second) 34%, #183a2a);
+}
+
+/* the character, wherever it stands on the site */
+.leaf-farmer {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}

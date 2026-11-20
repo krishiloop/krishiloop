@@ -48,13 +48,14 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         // the phone app (/m, builder Mo): opening the manifest's start_url gives the phone app, not the website. Quiet on
-        // purpose: nothing in the UI asks anyone to install it (the owner's rule). Forest app bar, cream page (the palette).
+        // purpose: nothing in the UI asks anyone to install it (the owner's rule). Cream like the site (the default theme): the
+        // splash and the status bar are the page colour #faf6ee; the dark theme repaints the bar at run time (lib/theme.ts).
         id: '/m',
         name: 'KrishiLoop: farm advice with a receipt',
         short_name: 'KrishiLoop',
         description: 'Farm advice for this week, a leaf check on your phone, and a receipt for every answer.',
-        theme_color: '#14261c',
-        background_color: '#14261c',
+        theme_color: '#faf6ee',
+        background_color: '#faf6ee',
         display: 'standalone',
         display_override: ['standalone', 'minimal-ui'],
         orientation: 'portrait',

@@ -35,7 +35,7 @@ export function OpenOnPhone({ className, compact }: { className?: string; compac
 
   return (
     <section className={cx('oop', compact && 'oop-compact', className)} aria-labelledby={titleId} data-testid="open-on-phone">
-      <div className="oop-qr">
+      <div className="oop-qr paper-object">
         <Qr value={url} size={compact ? 112 : 140} label={t('m.open.qrAlt')} />
       </div>
       <div className="oop-body">

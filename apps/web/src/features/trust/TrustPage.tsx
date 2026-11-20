@@ -22,6 +22,7 @@ import { blob } from '../proof/repo';
 import { Fold } from '../../ui/Fold';
 import { PlantSpot } from '../../ui/PlantSpot';
 import './trust.css';
+import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
 type View = { state: 'loading' } | { state: 'ready'; replay: ShapedReplay; bundled: boolean } | { state: 'missing' } | { state: 'error'; message: string };
 
@@ -72,6 +73,7 @@ export default function TrustPage() {
         <div className="wrap pt-10 pb-14 sm:pt-14 sm:pb-20">
           <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
             <div>
+              <FarmerCameo mood="curious" />
               <p className="eyebrow hero-rise">{t('tp.eyebrow')}</p>
               <h1 id="tp-title" className="t-title hero-rise mt-4 max-w-[16ch]" style={{ ['--i' as string]: 1 }} data-testid="trust-title">
                 {t('tp.title')}

@@ -1,7 +1,10 @@
-/* The phone app (/m), builder Mo. An app shell, not a web page: the whole screen (100dvh), a forest app bar under the
-   notch, one scrolling page, five tabs at the bottom in thumb reach and clear of the home bar. Tokens only
+/* The phone app (/m), builder Mo. An app shell, not a web page: the whole screen (100dvh), an app bar under the notch,
+   one scrolling page, five tabs at the bottom in thumb reach and clear of the home bar. Tokens only
    (src/styles/index.css). Every control is at least 48 px. Motion is transform and opacity only, each with its purpose;
-   reduced motion drops it. Class names are prefixed m- so nothing leaks. */
+   reduced motion drops it. Class names are prefixed m- so nothing leaks.
+   20 Nov: the same look as the website. Cream by default, forest only when the site's theme key says dark; the app bar
+   is the site's pastel mesh (kit.css .mesh), cards are the site's .surface, the deck's line art (.botanic-art) sits at
+   the foot of every tab, and every colour is a token (no one-off greens, no yellow). */
 
 .m-app {
   position: relative;
@@ -26,7 +29,7 @@
 @media (min-width: 600px) {
   .m-app {
     border-inline: 1px solid var(--color-rule);
-    box-shadow: 0 30px 80px -40px rgb(20 38 28 / 0.45);
+    box-shadow: var(--shadow-pop);
   }
 }
 
@@ -36,8 +39,17 @@
   z-index: 2;
   flex: none;
   padding: calc(env(safe-area-inset-top, 0px) + 10px) max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px));
+  border-bottom: 1px solid var(--color-rule);
   border-radius: 0 0 24px 24px;
-  box-shadow: 0 14px 34px -26px rgb(0 0 0 / 0.7);
+  box-shadow: var(--shadow-lift);
+}
+/* the app bar and the welcome bar wear the site's pastel mesh (kit.css .mesh): young paddy, lotus and rain sky over the
+   page colour, so the phone's status bar (theme-color = the page colour) runs straight into it */
+.m-head.mesh,
+.m-ob-top.mesh {
+  --m1: var(--color-moss-leaf);
+  --m2: var(--color-lotus-leaf);
+  --m3: var(--color-monsoon-leaf);
 }
 .m-head-row {
   display: flex;
@@ -48,11 +60,12 @@
   display: grid;
   flex: none;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 14px;
-  background: rgb(255 255 255 / 0.07);
-  color: var(--color-ink);
+  background: var(--color-card);
+  box-shadow: 0 0 0 1px var(--color-rule);
+  color: var(--color-accent-text);
 }
 .m-farm {
   display: -webkit-box;
@@ -139,9 +152,31 @@
   outline: none;
 }
 .m-panel {
-  padding: 18px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px));
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  /* the foot leaves room for the rice line art under the last card */
+  padding: 18px max(16px, env(safe-area-inset-right, 0px)) 104px max(16px, env(safe-area-inset-left, 0px));
   /* a new tab rises a touch as it arrives: it says "you moved" (220 ms, transform and opacity) */
   animation: fa-panel-in 220ms var(--ease-out-quint) both;
+}
+/* a soft pastel light behind the top of every tab, as on the site's pages (try.css, map.css): painted once, static */
+.m-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 420px;
+  pointer-events: none;
+  background:
+    radial-gradient(46% 52% at 100% 0%, color-mix(in oklab, var(--color-lotus) 80%, transparent), transparent 72%),
+    radial-gradient(50% 46% at 0% 22%, color-mix(in oklab, var(--color-moss) 85%, transparent), transparent 72%),
+    radial-gradient(40% 40% at 70% 40%, color-mix(in oklab, var(--color-monsoon) 60%, transparent), transparent 72%);
+  mask-image: linear-gradient(180deg, #000 50%, transparent);
+}
+/* the deck's rice line art (kit.css .botanic-art) rises from the foot of every tab, behind the content */
+.m-panel > .botanic-art {
+  z-index: -1;
 }
 
 /* ================================================================ tabs */
@@ -151,8 +186,9 @@
   flex: none;
   padding: 6px max(6px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(6px, env(safe-area-inset-left, 0px));
   border-top: 1px solid var(--color-rule);
+  border-radius: 24px 24px 0 0;
   background: var(--color-card);
-  box-shadow: 0 -12px 30px -24px rgb(0 0 0 / 0.5);
+  box-shadow: 0 -12px 30px -24px color-mix(in oklab, var(--color-ink) 45%, transparent);
 }
 .m-tabs {
   display: grid;
@@ -204,18 +240,17 @@
 .m-tab[aria-selected="true"] .m-tab-icon {
   background: color-mix(in oklab, var(--color-accent) 30%, transparent);
 }
-/* the camera is the app's main tool: its tab sits on a forest pill in both themes */
+/* the camera is the app's main tool: its tab sits on the site's action colour (forest with cream on the cream theme,
+   pale sage with forest on the forest theme); chosen, it gets a ring in the same colour */
 .m-tab[data-main] .m-tab-icon {
-  background: #14261c;
-  color: #dfe8d6;
-  box-shadow: 0 6px 16px -8px rgb(20 38 28 / 0.7);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  box-shadow: var(--glow-accent);
 }
 .m-tab[data-main][aria-selected="true"] .m-tab-icon {
-  background: var(--color-accent);
-  color: #14261c;
-}
-:root:not([data-theme="light"]) .m-tab[data-main] .m-tab-icon {
-  background: #2c5a40;
+  box-shadow:
+    0 0 0 2px var(--color-card),
+    0 0 0 4px var(--color-accent);
 }
 .m-tab:focus-visible {
   outline-offset: -3px;
@@ -234,13 +269,9 @@
   padding: 0 4px;
   border-radius: 999px;
   background: var(--color-stop);
-  color: #fff;
+  color: var(--color-paper);
   font-size: 0.68rem;
   font-weight: 700;
-}
-:root:not([data-theme="light"]) .m-tab-badge {
-  background: var(--color-ember);
-  color: #14130f;
 }
 
 /* toasts sit above the tab bar */
@@ -262,14 +293,15 @@
 }
 
 /* ================================================================ check a leaf */
+/* a moss card (the farmer app's tone card) with three tips, each on its own pastel */
 .m-tips {
   padding: 14px;
-  border-radius: 20px;
-  background: var(--color-moss);
-  color: var(--color-ink);
-}
-[data-theme="light"] .m-tips {
-  background: #e4ecd9;
+  border: 1px solid var(--t-line);
+  border-radius: var(--radius-frame);
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--t-leaf) 22%, transparent), transparent 62%),
+    var(--t-bg);
+  color: var(--t-ink);
 }
 .m-tips-sub {
   margin: 0;
@@ -291,6 +323,7 @@
   padding: 8px 4px;
   border-radius: 14px;
   background: var(--color-card);
+  color: var(--color-ink);
   font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.2;
@@ -298,7 +331,11 @@
 }
 .m-tips-row svg {
   flex: none;
-  color: var(--color-go);
+  box-sizing: content-box;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--t-leaf);
+  color: var(--t-on-leaf);
 }
 /* the camera button is the biggest thing on this tab */
 .m-leaf [data-testid="fa-ai-take"] {
@@ -307,13 +344,11 @@
 }
 
 /* ================================================================ my receipts */
+/* a saved receipt: the site's .surface card */
 .m-rc {
   display: grid;
   gap: 10px;
   padding: 12px;
-  border: 1px solid var(--color-rule);
-  border-radius: 20px;
-  background: var(--color-card);
 }
 .m-rc.is-recalled {
   border-color: color-mix(in oklab, var(--color-stop) 55%, var(--color-rule));
@@ -358,11 +393,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
+/* the QR stays on paper in both themes (.paper-object on the plate keeps the paper palette) */
 .m-qr-plate {
   padding: 10px;
   border-radius: 18px;
-  background: #fcfaf4;
-  box-shadow: 0 0 0 1px rgb(20 38 28 / 0.1);
+  background: var(--color-card);
+  box-shadow: 0 0 0 1px var(--color-rule);
 }
 
 /* ================================================================ help */
@@ -372,9 +408,14 @@
   gap: 12px 14px;
   align-items: center;
   padding: 16px;
-  border-radius: 22px;
-  background: #14261c;
-  color: #f3eee2;
+  border: 1px solid var(--t-line);
+  border-radius: var(--radius-frame);
+  /* a terracotta tone card (the farmer app's .fa-card), the forest action button on it */
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--t-leaf) 22%, transparent), transparent 62%),
+    var(--t-bg);
+  color: var(--t-ink);
+  box-shadow: var(--shadow-lift);
 }
 .m-officer-icon {
   display: grid;
@@ -382,62 +423,62 @@
   width: 52px;
   height: 52px;
   border-radius: 16px;
-  background: #c9dcbc;
-  color: #14261c;
+  background: var(--t-leaf);
+  color: var(--t-on-leaf);
 }
 .m-officer-title {
   margin: 0;
-  font-size: 1.14rem;
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 560;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+.m-officer-title:is(:lang(bn), :lang(hi)) {
+  font-family: var(--font-sans);
   font-weight: 650;
-  line-height: 1.25;
+  letter-spacing: 0;
 }
 .m-officer-sub {
   margin: 4px 0 0;
   font-size: 0.9rem;
   line-height: 1.4;
-  color: #c9d3c8;
+  color: var(--t-ink);
 }
 .m-officer-go {
   grid-column: 1 / -1;
   width: 100%;
   --btn-h: 54px;
 }
+/* a card is the site's .surface (kit.css); this only sets its padding */
 .m-card {
   padding: 16px;
-  border: 1px solid var(--color-rule);
-  border-radius: 20px;
-  background: var(--color-card);
 }
-.m-seg {
+/* the site's segmented control (ui.css .seg), full width and thumb-sized */
+.m-seg.seg {
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;
   gap: 4px;
-  padding: 4px;
   border-radius: 16px;
-  background: var(--color-sunk);
 }
-.m-seg button {
+.m-seg.seg button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: 48px;
-  border: 0;
   border-radius: 12px;
-  background: transparent;
-  color: var(--color-ink-2);
   font-size: 1rem;
   font-weight: 600;
-  cursor: pointer;
-}
-.m-seg button[aria-pressed="true"] {
-  background: var(--color-card);
-  color: var(--color-ink);
-  box-shadow: 0 1px 0 rgb(255 255 255 / 0.4) inset, 0 4px 12px -6px rgb(0 0 0 / 0.35);
 }
 .m-pick {
   min-height: 52px;
+}
+/* the radio dot (farmer.css .m-pick::before) needs its room back: the farmer app's tone picks took the left padding */
+.fa-pick.m-pick {
+  padding-left: 42px;
 }
 .m-honest {
   display: grid;
@@ -481,15 +522,8 @@
   justify-content: space-between;
   gap: 12px;
   padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 16px;
+  border-bottom: 1px solid var(--color-rule);
   border-radius: 0 0 24px 24px;
-}
-.m-ob-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 600;
 }
 .m-ob-dots {
   display: flex;
@@ -509,11 +543,16 @@
   background: var(--color-accent);
 }
 .m-ob-body {
+  position: relative;
+  isolation: isolate;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   padding: 22px 20px 20px;
   animation: fa-panel-in 260ms var(--ease-out-quint) both;
+}
+.m-ob-body > .botanic-art {
+  z-index: -1;
 }
 .m-ob-step {
   margin: 0 0 8px;
@@ -658,17 +697,10 @@
   height: 52px;
   border-radius: 16px;
 }
-.m-ob-what-icon[data-tone="butter"] {
-  background: var(--color-butter);
-  color: var(--color-butter-ink);
-}
-.m-ob-what-icon[data-tone="moss"] {
-  background: var(--color-moss);
-  color: var(--color-moss-ink);
-}
-.m-ob-what-icon[data-tone="lotus"] {
-  background: var(--color-lotus);
-  color: var(--color-lotus-ink);
+/* each line on its own pastel (farmer.css gives [data-tone] its --t-bg and --t-ink) */
+.m-ob-what-icon[data-tone] {
+  background: var(--t-bg);
+  color: var(--t-ink);
 }
 .m-ob-foot {
   display: flex;

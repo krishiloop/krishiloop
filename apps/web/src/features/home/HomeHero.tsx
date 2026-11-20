@@ -6,10 +6,37 @@ import { fmtNum } from '../../lib/format';
 import { SplitWords } from '../../ui/kit/SplitWords';
 import { LiquidLink } from '../../ui/kit/LiquidButton';
 import { useOnScreen } from '../../ui/kit/hooks';
+import { LeafFarmer, type Mood } from '../../ui/farmer/LeafFarmer';
 import { STEP_MS, STEPS, STORY } from './story/steps';
 import type { FieldApi } from './story/field';
 
 const isDark = () => document.documentElement.dataset.theme === 'dark';
+
+/**
+ * The leaf farmer presents the story (owner, 20 Nov): he stands beside the leaf pictures, faces them, and reacts to
+ * each one. A plain mood, or moods over the picture's time (seconds). Same order as STORY.
+ */
+const PRESENTER: (Mood | [number, Mood][])[] = [
+  'waving', // your field: he greets you
+  'pointing', // potato: look at this
+  'happy', // tomato
+  [
+    [0, 'leaf'],
+    [1.1, 'scan'],
+    [2.5, 'happy'],
+  ], // crop doctor: worried at the sick leaf, scans it with his phone, relieved
+  [
+    [0, 'thinking'],
+    [1.4, 'pointing'],
+  ], // not sure: thinks, then points the way to the nearest officer
+  [
+    [0, 'surprised'],
+    [1.5, 'phone'],
+  ], // weather: rain! the warning on his phone
+  'thinking', // the disease map
+  'proud', // a receipt
+  'happy', // the loop
+];
 
 /**
  * The first screen (builder H v4; v5 builder Ho): a field of leaves tells KrishiLoop's story in six pictures, and now
@@ -214,6 +241,11 @@ export function HomeHero() {
             <div className="kg-field" data-live={live ? '' : undefined}>
               <span ref={glow} className="kg-spot" aria-hidden />
               <canvas ref={canvas} aria-hidden />
+              {(() => {
+                // one farmer for the whole story (never remounted), so he gathers from leaves once and then just acts
+                const p = PRESENTER[step] ?? 'calm';
+                return <LeafFarmer className="kg-farmer" flip mood={typeof p === 'string' ? p : 'calm'} script={typeof p === 'string' ? undefined : p} scriptKey={step} />;
+              })()}
               <span className="chip chip-carbon kg-illus" title={t('home.story.illus')}>
                 {t('home.illus')}
                 <span className="sr-only-live">. {t('home.story.illus')}</span>

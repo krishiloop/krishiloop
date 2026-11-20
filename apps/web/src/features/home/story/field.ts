@@ -36,6 +36,7 @@ const SUBJECT: [number, number][] = [
   [0.03, -0.94], // the potato flower
   [0.2, 0.4], // the tomatoes
   [0, 0], // the lesion (replaced by the shape's own centre)
+  [0.22, -0.36], // the pin on the nearest office
   [-0.04, -0.42], // the cloud
   [-0.04, 0.02], // the map
   [0.13, 0.32], // the stamp and tick

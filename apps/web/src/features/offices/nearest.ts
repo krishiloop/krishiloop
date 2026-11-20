@@ -70,3 +70,28 @@ export const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, '')}`;
 
 /** Farther than this from every office means we have no list for the place (for example the Kenya sample farm). */
 export const NO_LIST_KM = 300;
+
+/**
+ * Where the farmer is, as far as we know. `gps`: the browser gave a position (only after the farmer tapped "Use my
+ * location"). `district`: the farmer picked a district (location refused or not wanted); distances are then not shown,
+ * because the middle of a district is not where the farmer stands.
+ */
+export type Place = { kind: 'gps'; lat: number; lon: number } | { kind: 'district'; district: string };
+
+/** The point we measure from: the GPS position, or the middle of the picked district's offices. Null when unknown. */
+export function originOf(place: Place | null, offices: readonly Office[]): { lat: number; lon: number } | null {
+  if (!place) return null;
+  if (place.kind === 'gps') return { lat: place.lat, lon: place.lon };
+  const mine = offices.filter((o) => o.district_en === place.district);
+  if (!mine.length) return null;
+  return { lat: mine.reduce((s, o) => s + o.lat, 0) / mine.length, lon: mine.reduce((s, o) => s + o.lon, 0) / mine.length };
+}
+
+/** The `n` nearest offices to the place. For a district, that district's own offices come first. */
+export function rankForPlace(offices: readonly Office[], place: Place | null, n = 5): Ranked[] {
+  const at = originOf(place, offices);
+  if (!place || !at) return [];
+  const all = nearest(offices, at.lat, at.lon, offices.length);
+  const ranked = place.kind === 'district' ? [...all.filter((r) => r.office.district_en === place.district), ...all.filter((r) => r.office.district_en !== place.district)] : all;
+  return ranked.slice(0, n);
+}

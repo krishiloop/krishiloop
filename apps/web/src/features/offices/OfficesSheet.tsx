@@ -1,84 +1,161 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { ExternalLink, LocateFixed, Mail, Navigation, Phone, UserRound } from 'lucide-react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { ExternalLink, LocateFixed, Mail, Navigation, Phone, Search } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, fmtNum } from '../../lib/format';
+import { motionReduced } from '../../lib/motionPref';
+import { cx } from '../../lib/cx';
 import { Sheet } from '../../ui/Sheet';
-import { currentField, useFarmer } from '../farmer/farmerStore';
-import { directionsUrl, nearest, NO_LIST_KM, osmUrl, telHref, type OfficeData, type Ranked } from './nearest';
+import { DISTRICTS, districtName, officeName, placeLine } from './districts';
+import { directionsUrl, haversineKm, NO_LIST_KM, originOf, osmUrl, rankForPlace, telHref, type Office, type Place } from './nearest';
+import { locate, pickDistrict, placeStore, useOffices } from './place';
+import { searchOffices } from './search';
+import { OfficeHead, OfficerLines } from './OfficerLines';
 
 const OfficeMap = lazy(() => import('./OfficeMap'));
 
-/** The Bangladesh sample farm (rules/demo/demo.yaml, BD-SAMPLE-01): used when no farm is loaded yet. */
-const SAMPLE = { lat: 24.75, lon: 90.4 };
-type Origin = { lat: number; lon: number; kind: 'you' | 'sample' };
-type Ask = 'idle' | 'asking' | 'denied';
-
-export default function OfficesSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+/**
+ * The finder: a map of every upazila agriculture office, a search box (upazila or district, Bangla or English),
+ * "Use my location" (a district list when the browser refuses), and a list sorted by distance. Choosing an office
+ * flies the map to it and opens its card with the officer (as published), Call and Open directions.
+ * `focusId` opens with that office chosen (the card's "Go there").
+ */
+export default function OfficesSheet({ open, focusId = null, onClose }: { open: boolean; focusId?: string | null; onClose: () => void }) {
   const { t, lang } = useI18n();
-  const st = useFarmer();
-  const f = currentField(st);
-  const sample: Origin = { lat: f?.lat ?? SAMPLE.lat, lon: f?.lon ?? SAMPLE.lon, kind: 'sample' };
-  const [you, setYou] = useState<Origin | null>(null);
-  const [ask, setAsk] = useState<Ask>('idle');
-  const [data, setData] = useState<OfficeData | null>(null);
-  const origin = you ?? sample;
+  const { place, status } = placeStore.use();
+  const data = useOffices(open);
+  const [q, setQ] = useState('');
+  const [sel, setSel] = useState<string | null>(focusId);
+  const mapBox = useRef<HTMLDivElement>(null);
 
+  // opened from a card's "Go there": that office is the chosen one
   useEffect(() => {
-    if (!open || data) return;
-    let live = true;
-    void import('../../data/offices/bd.json').then((m) => live && setData((m.default ?? m) as unknown as OfficeData));
-    return () => {
-      live = false;
-    };
-  }, [open, data]);
+    if (open && focusId) setSel(focusId);
+  }, [open, focusId]);
 
-  const locate = () => {
-    if (!('geolocation' in navigator)) return setAsk('denied');
-    setAsk('asking');
-    navigator.geolocation.getCurrentPosition(
-      (p) => {
-        setYou({ lat: p.coords.latitude, lon: p.coords.longitude, kind: 'you' });
-        setAsk('idle');
-      },
-      () => {
-        setYou(null);
-        setAsk('denied');
-      },
-      { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 },
-    );
-  };
+  const offices = data?.offices ?? [];
+  const origin = useMemo(() => originOf(place, offices), [place, offices]);
+  const ranked = useMemo(() => (data ? rankForPlace(data.offices, place, 10) : []), [data, place]);
+  const far = place?.kind === 'gps' && ranked.length > 0 && ranked[0]!.km > NO_LIST_KM;
+  const hits = useMemo(() => (data && q.trim() ? searchOffices(data.offices, q, place?.kind === 'gps' ? origin : null) : null), [data, q, place, origin]);
+  const showKm = place?.kind === 'gps' && !far;
+  const rows = hits ?? (far ? [] : ranked.map((r) => ({ office: r.office, km: r.km })));
 
-  const ranked: Ranked[] = data ? nearest(data.offices, origin.lat, origin.lon, 5) : [];
-  const far = ranked.length > 0 && ranked[0]!.km > NO_LIST_KM;
-  const shown = far ? [] : ranked;
+  // a new place, or nothing chosen yet: choose the nearest office (a card's "Go there" keeps its own office)
+  const lastPlace = useRef<Place | null>(place);
+  const top = far ? undefined : ranked[0]?.office.id;
+  useEffect(() => {
+    if (!top || (lastPlace.current === place && sel)) return;
+    lastPlace.current = place;
+    setSel(top);
+  }, [place, top, sel]);
+
+  const chosen = sel ? (offices.find((o) => o.id === sel) ?? null) : null;
+  const chosenKm = chosen && showKm && origin ? haversineKm(origin.lat, origin.lon, chosen.lat, chosen.lon) : null;
   const nat = data?.national;
+  const districts = lang === 'bn' ? [...DISTRICTS].sort((a, b) => a.bn.localeCompare(b.bn, 'bn')) : DISTRICTS;
+  const labelOf = (o: Office) => `${officeName(o, lang)} (${placeLine(o, lang)})`;
+
+  const choose = (id: string) => {
+    setSel(id);
+    mapBox.current?.scrollIntoView({ block: 'start', behavior: motionReduced() ? 'auto' : 'smooth' });
+  };
 
   return (
     <Sheet open={open} onClose={onClose} title={t('near.sheet.title')} subtitle={t('near.sheet.sub')} wide>
       <div className="near-body" data-testid="near-sheet">
-        <section className="near-loc" aria-labelledby="near-loc-title">
-          <p id="near-loc-title" className="near-from" data-testid="near-from" data-kind={origin.kind}>
-            <LocateFixed size={18} aria-hidden /> {origin.kind === 'you' ? t('near.from.you') : t('near.from.sample')}
-          </p>
-          {origin.kind === 'sample' && (
-            <>
-              <p className="text-sm text-ink-2">{t('near.loc.why')}</p>
-              <button type="button" className="btn btn-secondary near-hit w-fit" onClick={locate} disabled={ask === 'asking'} data-testid="near-locate">
-                <LocateFixed size={18} aria-hidden /> {ask === 'asking' ? t('near.loc.asking') : t('near.loc.allow')}
-              </button>
-              {ask === 'denied' && (
-                <p className="text-sm" role="status" data-testid="near-denied">
-                  {t('near.loc.denied')}
-                </p>
-              )}
-            </>
-          )}
-          {origin.kind === 'you' && (
-            <button type="button" className="btn btn-ghost near-hit w-fit" onClick={() => setYou(null)}>
-              {t('near.loc.sample')}
+        <section className="near-find" aria-label={t('near.search.label')}>
+          <label className="near-search">
+            <span className="near-label">{t('near.search.label')}</span>
+            <span className="near-searchbox">
+              <Search size={18} aria-hidden />
+              <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('near.search.ph')} autoComplete="off" enterKeyHint="search" data-testid="near-search" />
+            </span>
+          </label>
+          <div className="near-locrow">
+            <button type="button" className={cx('btn near-hit', place?.kind === 'gps' ? 'btn-secondary' : 'btn-primary')} onClick={locate} disabled={status === 'asking'} data-testid="near-locate">
+              <LocateFixed size={18} aria-hidden /> {status === 'asking' ? t('near.loc.asking') : t('near.loc.allow')}
             </button>
+            <select
+              className="near-select near-hit"
+              value={place?.kind === 'district' ? place.district : ''}
+              onChange={(e) => pickDistrict(e.target.value)}
+              aria-label={t('near.district.label')}
+              data-testid="near-district"
+            >
+              <option value="">{t('near.district.pick')}</option>
+              {districts.map((d) => (
+                <option key={d.en} value={d.en}>
+                  {lang === 'bn' ? d.bn : d.en}
+                </option>
+              ))}
+            </select>
+          </div>
+          <p className="near-from" data-testid="near-from" data-kind={place?.kind ?? 'none'}>
+            {place?.kind === 'gps' ? (
+              <>
+                <LocateFixed size={16} aria-hidden /> {t('near.from.you')}
+              </>
+            ) : place?.kind === 'district' ? (
+              t('near.from.district', { district: districtName(place.district, lang) ?? place.district })
+            ) : (
+              t('near.loc.why')
+            )}
+          </p>
+          {status === 'denied' && (
+            <p className="near-denied" role="status" data-testid="near-denied">
+              {t('near.loc.denied')}
+            </p>
           )}
         </section>
+
+        <div ref={mapBox} className="near-map" role="region" aria-label={t('near.map.label')} data-testid="near-map">
+          {data ? (
+            <Suspense fallback={<p className="near-maptext">{t('near.map.loading')}</p>}>
+              <OfficeMap offices={data.offices} origin={showKm ? origin : null} selected={chosen} onSelect={setSel} labelOf={labelOf} youLabel={t('near.map.you')} errorText={t('near.map.error')} />
+            </Suspense>
+          ) : (
+            <div className="skeleton h-full min-h-60" aria-hidden />
+          )}
+        </div>
+        <p className="near-attrib">
+          {t('near.map.tap')} {showKm && chosen ? t('near.map.line') : ''} {t('near.attrib')}
+        </p>
+
+        {far && (
+          <p className="near-far" role="status" data-testid="near-far">
+            {t('near.far')}
+          </p>
+        )}
+
+        {chosen && <OfficeCard office={chosen} km={chosenKm} inDistrict={place?.kind === 'district' && chosen.district_en === place.district} helpline={nat?.phone ?? null} />}
+
+        <h3 className="eyebrow">{hits ? t('near.search.results') : t('near.list')}</h3>
+        {hits && hits.length === 0 && (
+          <p className="near-note" role="status" data-testid="near-none">
+            {t('near.search.none', { q: q.trim() })}
+          </p>
+        )}
+        {!hits && !place && <p className="near-note">{t('near.list.hint')}</p>}
+        {rows.length > 0 && (
+          <ol className="near-list" data-testid="near-list">
+            {rows.map(({ office: o, km }) => (
+              <li key={o.id}>
+                <button type="button" className="near-row" aria-pressed={o.id === sel} onClick={() => choose(o.id)} data-testid="near-row" data-id={o.id}>
+                  <span className="min-w-0 flex-1 text-left">
+                    <span className="near-row-name">{officeName(o, lang)}</span>
+                    <span className="near-sub block">{placeLine(o, lang)}</span>
+                  </span>
+                  {showKm && km != null && (
+                    <span className="near-row-km" data-testid="near-row-km">
+                      {t('near.km', { km: fmtNum(km, lang, { maximumFractionDigits: km < 10 ? 1 : 0 }) })}
+                    </span>
+                  )}
+                  {o.officer && <span className="near-row-dot" aria-hidden />}
+                </button>
+              </li>
+            ))}
+          </ol>
+        )}
 
         {nat && (
           <section className="near-call" aria-labelledby="near-cc-title" data-testid="near-callcentre">
@@ -93,104 +170,67 @@ export default function OfficesSheet({ open, onClose }: { open: boolean; onClose
             </a>
           </section>
         )}
-
-        {!data && <div className="skeleton h-40" aria-hidden />}
-        {far && (
-          <p className="near-far" role="status" data-testid="near-far">
-            {t('near.far')}
-          </p>
-        )}
-
-        {shown.length > 0 && (
-          <>
-            <div className="near-map" role="region" aria-label={t('near.map.label')} data-testid="near-map">
-              <Suspense fallback={<p className="near-maptext">{t('near.map.loading')}</p>}>
-                <OfficeMap origin={origin} ranked={shown.slice(0, 3)} youLabel={origin.kind === 'you' ? t('near.map.you') : t('near.map.sample')} errorText={t('near.map.error')} />
-              </Suspense>
-            </div>
-            <p className="near-attrib">{t('near.attrib')}</p>
-            <h3 className="eyebrow">{t('near.list')}</h3>
-            <ol className="near-list" data-testid="near-list">
-              {shown.map(({ office: o, km }, i) => {
-                const name = lang === 'bn' && o.name_bn ? o.name_bn : o.name_en;
-                const place = [lang === 'bn' ? (o.upazila_bn ?? o.upazila_en) : o.upazila_en, lang === 'bn' ? (o.district_bn ?? o.district_en) : o.district_en].filter(Boolean).join(', ');
-                return (
-                  <li key={o.id} className="near-office panel" data-testid="near-office" data-id={o.id}>
-                    <div className="flex items-start gap-3">
-                      <span className="near-num" aria-hidden>
-                        {fmtNum(i + 1, lang)}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="near-title">{name}</h4>
-                        <p className="near-sub">{place}</p>
-                        <p className="near-km" data-testid="near-km">
-                          {t('near.km', { km: fmtNum(km, lang, { maximumFractionDigits: km < 10 ? 1 : 0 }) })}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="near-note">{o.geo === 'osm_point' ? t('near.exact') : t('near.approx')}</p>
-                    <div className="near-actions">
-                      <a className="btn btn-primary near-hit near-go" href={directionsUrl(o.lat, o.lon)} target="_blank" rel="noopener noreferrer" aria-label={t('near.gothere.aria', { name })} data-testid="near-go">
-                        <Navigation size={20} aria-hidden /> {t('near.gothere')}
-                      </a>
-                      {o.phone ? (
-                        <a className="btn btn-secondary near-hit" href={telHref(o.phone)} data-testid="near-call">
-                          <Phone size={18} aria-hidden /> {t('near.call', { phone: o.phone })}
-                        </a>
-                      ) : (
-                        <p className="near-note m-0" data-testid="near-nophone">
-                          {t('near.nophone')}
-                        </p>
-                      )}
-                    </div>
-                    {o.email && (
-                      <p className="near-line">
-                        <Mail size={16} aria-hidden />
-                        <a href={`mailto:${o.email}`}>{o.email}</a>
-                      </p>
-                    )}
-                    {o.officer ? (
-                      <div className="near-officer" data-testid="near-officer">
-                        <p className="near-line">
-                          <UserRound size={16} aria-hidden />
-                          <span>
-                            {t('near.officer')}: <span lang="bn">{o.officer.name_bn}</span>,{' '}
-                            {lang === 'bn' ? <span lang="bn">{o.officer.designation_bn ?? o.officer.designation_en}</span> : o.officer.designation_en}
-                          </span>
-                        </p>
-                        {o.officer.mobile && (
-                          <a className="btn btn-ghost near-hit w-fit" href={telHref(o.officer.mobile)} data-testid="near-officer-call">
-                            <Phone size={16} aria-hidden /> {t('near.officerCall', { phone: o.officer.mobile })}
-                          </a>
-                        )}
-                        <p className="near-small">{t('near.officerNote')}</p>
-                      </div>
-                    ) : (
-                      <p className="near-small">{t('near.officerNone')}</p>
-                    )}
-                    <p className="near-small">
-                      {o.source_url ? (
-                        <>
-                          {t('near.source', { date: o.source_read ? fmtDate(o.source_read, lang, 'long') : '' })}{' '}
-                          <a href={o.source_url} target="_blank" rel="noopener noreferrer">
-                            {new URL(o.source_url).host}
-                          </a>
-                        </>
-                      ) : (
-                        t('near.sourceNone')
-                      )}{' '}
-                      <a href={osmUrl(o.lat, o.lon)} target="_blank" rel="noopener noreferrer" className="near-osm">
-                        {t('near.osm')} <ExternalLink size={12} aria-hidden className="inline" />
-                      </a>
-                    </p>
-                  </li>
-                );
-              })}
-            </ol>
-          </>
-        )}
         {lang === 'bn' && <p className="near-small">{t('near.mt')}</p>}
       </div>
     </Sheet>
+  );
+}
+
+/** The chosen office: name, place, distance, the officer as published, Call, Open directions, and the source. */
+function OfficeCard({ office: o, km, inDistrict, helpline }: { office: Office; km: number | null; inDistrict: boolean; helpline: string | null }) {
+  const { t, lang } = useI18n();
+  const name = officeName(o, lang);
+  const call = o.officer?.mobile ? { who: 'officer', phone: o.officer.mobile } : o.phone ? { who: 'office', phone: o.phone } : null;
+  return (
+    <article className="near-office" data-testid="near-office" data-id={o.id} aria-label={t('near.selected')}>
+      <p className="near-eyebrow">{t('near.selected')}</p>
+      <OfficeHead office={o} km={km} inDistrict={inDistrict} />
+      <OfficerLines office={o} />
+      {!o.officer && <p className="near-small">{t('near.officerNone')}</p>}
+      <div className="near-actions">
+        {call && (
+          <a className="btn btn-primary near-hit near-grow" href={telHref(call.phone)} aria-label={`${call.who === 'officer' ? t('near.call.officer') : t('near.call.office')}, ${call.phone}`} data-testid="near-call">
+            <Phone size={18} aria-hidden /> {call.who === 'officer' ? t('near.call.officer') : t('near.call.office')}
+          </a>
+        )}
+        <a
+          className={cx('btn near-hit near-grow', call ? 'btn-secondary' : 'btn-primary')}
+          href={directionsUrl(o.lat, o.lon)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('near.directions.aria', { name })}
+          data-testid="near-directions"
+        >
+          <Navigation size={18} aria-hidden /> {t('near.directions')}
+        </a>
+        {!o.officer?.mobile && helpline && (
+          <a className="btn btn-secondary near-hit near-grow" href={telHref(helpline)} data-testid="near-helpline">
+            <Phone size={18} aria-hidden /> {t('near.callcentre.call')}
+          </a>
+        )}
+      </div>
+      {o.email && (
+        <p className="near-line">
+          <Mail size={16} aria-hidden />
+          <a href={`mailto:${o.email}`}>{o.email}</a>
+        </p>
+      )}
+      <p className="near-small">
+        {o.geo === 'osm_point' ? t('near.exact') : t('near.approx')}{' '}
+        {o.source_url ? (
+          <>
+            {t('near.source', { date: o.source_read ? fmtDate(o.source_read, lang, 'long') : '' })}{' '}
+            <a href={o.source_url} target="_blank" rel="noopener noreferrer">
+              {new URL(o.source_url).host}
+            </a>
+          </>
+        ) : (
+          t('near.sourceNone')
+        )}{' '}
+        <a href={osmUrl(o.lat, o.lon)} target="_blank" rel="noopener noreferrer" className="near-osm">
+          {t('near.osm')} <ExternalLink size={12} aria-hidden className="inline" />
+        </a>
+      </p>
+    </article>
   );
 }
