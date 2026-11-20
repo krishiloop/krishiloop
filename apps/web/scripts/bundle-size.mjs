@@ -72,7 +72,15 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   list and "not sure" card logic (~3.5 KB) plus the farmer cameo's shell. Map 117 -> 118, Officer 142 -> 143, Verify
 //   137 -> 138, Trust 125 -> 126, Proof 127 -> 128, About 110 -> 111 (each measured 0.1-0.3 KB over): the cameo's tiny
 //   always-loaded shell and its CSS (it holds the space). The farmer's drawing code itself (6.1 KB) is a lazy chunk.
-const PAGES = { HomePage: 190, MapPage: 118, TryPage: 140, ReceiptPage: 133, FarmerApp: 160, MobileApp: 160, OfficerPage: 143, VerifyPage: 138, TrustPage: 126, ProofPage: 128, AboutPage: 111 };
+//   20 Nov 2026 (NASA data): MapPage 118 -> 119 (measured 118.3: the NASA section's 17 English words; the picture and POWER code is a
+//   lazy chunk), ProofPage 128 -> 129 (measured 128.5: two register rows and their words), FarmerApp 160 -> 161 and MobileApp 160 -> 162
+//   (measured 160.6 and 161.0: four layer-switch words for the office map in en.offices, ~0.2 KB; the rest is shared-chunk growth
+//   from other edits, since TrustPage and AboutPage, which hold none of this code, are also 0.2-0.3 KB over). The GIBS tile layer
+//   code is inside the lazy OfficeMap chunk.
+//   20 Nov 2026 (v9, findable features): VerifyPage 138 -> 139 (measured 138.3), TrustPage 126 -> 127 (126.2), AboutPage
+//   111 -> 112 (111.2). The shared top bar now carries "Krishi officer" and the "Phone app" button on every page (two
+//   icons, the button and five words, ~0.8 KB gzipped); the QR code itself loads only when the panel opens.
+const PAGES = { HomePage: 190, MapPage: 119, TryPage: 140, ReceiptPage: 133, FarmerApp: 161, MobileApp: 162, OfficerPage: 143, VerifyPage: 139, TrustPage: 127, ProofPage: 129, AboutPage: 112 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

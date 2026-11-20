@@ -15,6 +15,11 @@ const offices = {
   'near.entry.sub': 'Every upazila agriculture office on a map. Search, or use your location.',
   'near.sheet.title': 'Nearest Krishi officer',
   'near.sheet.sub': 'Offices of the Department of Agricultural Extension (DAE)',
+  'near.btn': 'Krishi officer',
+  'near.page.kicker': 'Help from a person',
+  'near.page.title': 'Find your Krishi officer',
+  'near.page.sub': 'The nearest upazila agriculture office, the officer and phone, and the way there. When the app is not sure, this is who to ask.',
+  'near.page.callSub': 'free advice from the government, every day',
   'near.loc.why': 'To find the closest office we need to know where you are. Your place stays on this phone. We send it nowhere.',
   'near.loc.allow': 'Use my location',
   'near.loc.asking': 'Finding where you are',
@@ -60,6 +65,10 @@ const offices = {
   'near.map.you': 'You',
   'near.list': 'Closest offices',
   'near.attrib': 'Map: © OpenStreetMap contributors. Outlines: geoBoundaries.',
+  'near.layer.map': 'Map',
+  'near.layer.sat': 'Satellite (NASA)',
+  'near.layer.ndvi': 'Crop health (NASA NDVI)',
+  'near.layer.group': 'Map picture',
   'near.mt': 'The Bangla words here are machine-written and not yet checked by a native speaker.',
 } as const satisfies Record<string, string>;
 

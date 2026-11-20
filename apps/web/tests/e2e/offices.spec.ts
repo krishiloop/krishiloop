@@ -50,6 +50,7 @@ async function denyLocation(page: Page) {
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/tile.openstreetmap.org/**', (r) => r.fulfill({ status: 200, contentType: 'image/png', body: PNG }));
+  await page.route('https://gibs.earthdata.nasa.gov/**', (r) => r.fulfill({ status: 200, contentType: 'image/png', body: PNG }));
 });
 
 /** Ask a question the recorded answers send to the officer: the hand-off shows the card. */
@@ -252,4 +253,24 @@ test('390 px: no sideways scroll, and every button and link is at least 44 px ta
   }
   await page.keyboard.press('Escape');
   await expect(sheet).toBeHidden();
+});
+
+test('the finder map: switch to NASA satellite and NASA crop health, each with its source and date in the credit', async ({ page }) => {
+  const tiles: string[] = [];
+  page.on('request', (r) => r.url().includes('gibs.earthdata.nasa.gov') && tiles.push(r.url()));
+  await page.goto(APP);
+  await page.getByTestId('near-entry').first().click();
+  const sheet = page.getByRole('dialog', { name: 'Nearest Krishi officer' });
+  const map = sheet.getByTestId('near-leaflet');
+  await expect(map).toHaveAttribute('data-base', 'osm');
+  await expect(map.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap');
+  await sheet.getByTestId('near-layers').getByRole('button', { name: 'Satellite (NASA)' }).click();
+  await expect(map).toHaveAttribute('data-base', 'truecolor');
+  await expect(map.locator('.leaflet-control-attribution')).toContainText(/NASA EOSDIS GIBS, MODIS Terra, \d+ \w+ 20\d\d/);
+  await expect.poll(() => tiles.some((u) => u.includes('MODIS_Terra_CorrectedReflectance_TrueColor') && /\/\d{4}-\d{2}-\d{2}\//.test(u))).toBe(true);
+  await sheet.getByTestId('near-layers').getByRole('button', { name: 'Crop health (NASA NDVI)' }).click();
+  await expect(map.locator('.leaflet-control-attribution')).toContainText('MODIS Terra NDVI, 8-day');
+  await expect.poll(() => tiles.some((u) => u.includes('MODIS_Terra_NDVI_8Day'))).toBe(true);
+  await sheet.getByTestId('near-layers').getByRole('button', { name: 'Map', exact: true }).click();
+  await expect(map.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap');
 });

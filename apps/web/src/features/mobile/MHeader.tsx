@@ -6,6 +6,7 @@ import { DataMark } from '../../ui/DataMark';
 import { RECORDED_AT } from '../../data/recorded';
 import { currentField, useFarmer } from '../farmer/farmerStore';
 import { cropName, countryName, stageName } from '../farmer/words';
+import { OfficerButton } from '../offices/OfficerButton';
 
 /**
  * The app bar, under the notch: the site's pastel mesh over the page colour (cream, or forest in the dark theme) with the
@@ -49,12 +50,12 @@ export function MHeader() {
           ))}
         </div>
       </div>
-      {(plan || recorded) && (
-        <div className="m-head-meta">
-          {plan && <span data-testid="m-week">{t('m.head.week', { from: fmtDate(plan.valid_from, lang), to: fmtDate(plan.valid_to, lang) })}</span>}
-          {recorded && <DataMark kind="recorded" date={RECORDED_AT} />}
-        </div>
-      )}
+      <div className="m-head-meta">
+        {plan && <span data-testid="m-week">{t('m.head.week', { from: fmtDate(plan.valid_from, lang), to: fmtDate(plan.valid_to, lang) })}</span>}
+        {recorded && <DataMark kind="recorded" date={RECORDED_AT} />}
+        {/* the nearest Krishi officer, one tap away on every screen (owner, 20 Nov) */}
+        <OfficerButton className="ml-auto" />
+      </div>
     </header>
   );
 }

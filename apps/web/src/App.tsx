@@ -15,6 +15,7 @@ const ProofPage = lazy(() => import('./features/proof/ProofPage'));
 const AboutPage = lazy(() => import('./features/about/AboutPage'));
 const TryPage = lazy(() => import('./features/try/TryPage')); // builder I: /try
 const MapPage = lazy(() => import('./features/map/MapPage')); // builder M: the Disease map
+const OfficerFinderPage = lazy(() => import('./features/offices/OfficerFinderPage')); // the nearest Krishi officer, as a page
 const MobileApp = lazy(() => import('./features/mobile/MobileApp')); // builder Mo: the phone app at /m (no site header or footer)
 
 function NotFound() {
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="about" element={<AboutPage />} />
           <Route path="try" element={<TryPage />} />
           <Route path="map" element={<MapPage />} />
+          <Route path="krishi-officer" element={<OfficerFinderPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

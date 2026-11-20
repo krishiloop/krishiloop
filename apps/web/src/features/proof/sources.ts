@@ -261,7 +261,7 @@ export const TESTS = {
 };
 
 /* ------------------------------------------------------------------ data and licences */
-export type RegisterId = 'meteo' | 'sentinel' | 'brri' | 'cip' | 'leaf' | 'textModels' | 'voice';
+export type RegisterId = 'meteo' | 'sentinel' | 'brri' | 'cip' | 'leaf' | 'textModels' | 'voice' | 'gibs' | 'power';
 export const REGISTER: { id: RegisterId; name: string; licence: string; source: Source }[] = [
   { id: 'meteo', name: 'Open-Meteo forecast + GloFAS', licence: 'free API, non-commercial', source: file('services/engine/snapshot.py') },
   { id: 'sentinel', name: 'Sentinel-2 L2A / Sentinel-1 (STAC)', licence: 'Copernicus, free and open', source: file('docs/mcp/README.md') },
@@ -270,6 +270,9 @@ export const REGISTER: { id: RegisterId; name: string; licence: string; source: 
   { id: 'leaf', name: 'Dhan-Shomadhan, RiceyLeafDisease, RiceLeafDisease-BD5, RiceLeafDiseaseBD', licence: 'CC BY 4.0', source: file('ml/vision/MODEL_CARD.md') },
   { id: 'textModels', name: 'multilingual-e5-small · gte-multilingual-reranker-base', licence: 'MIT · Apache-2.0', source: file('ml/ask/eval_report.json') },
   { id: 'voice', name: 'Google Gemini TTS (readbacks, made ahead of time) · Omnilingual CTC-1B (speech input prototype)', licence: 'Gemini API terms · Apache-2.0', source: file('ml/voice/gemini_readbacks.py') },
+  // NASA data are free to use; cite the producer (NASA Earthdata data and information policy)
+  { id: 'gibs', name: 'NASA GIBS: MODIS Terra true colour and NDVI (cite: NASA EOSDIS GIBS)', licence: 'NASA data, free to use, cite EOSDIS GIBS', source: file('apps/web/src/lib/nasa/gibs.ts') },
+  { id: 'power', name: 'NASA POWER daily point data, community AG (cite: NASA POWER Project)', licence: 'NASA data, free to use, cite POWER Project', source: file('apps/web/src/features/map/nasa.ts') },
 ];
 
 export const READ_THE_CODE: Source[] = [file('README.md'), dir('specs'), dir('contracts'), file('ml/vision/MODEL_CARD.md'), dir('docs/prompt-library')];

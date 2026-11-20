@@ -991,3 +991,128 @@ html.reduce-motion .mp-rain {
   border-radius: 24px;
   box-shadow: 0 30px 60px -48px rgb(20 38 28 / 0.55);
 }
+
+/* NASA, from space: GIBS picture with the area's outline, and NASA POWER's last 14 days (bars from low to high °C) */
+.mp-nasa {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.85rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 16px;
+  background: var(--color-paper);
+  min-width: 0;
+}
+.mp-nasa-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.mp-nasa-tab {
+  min-height: 36px;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--color-rule);
+  border-radius: 99px;
+  background: var(--color-card);
+  color: var(--color-ink-2);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.mp-nasa-tab.is-on {
+  background: var(--color-moss);
+  color: var(--color-moss-ink);
+  border-color: var(--color-moss-ink);
+  font-weight: 700;
+}
+.mp-nasa-pic {
+  justify-self: center;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--color-monsoon);
+  max-height: 340px;
+  min-height: 120px;
+}
+.mp-nasa-pic img,
+.mp-nasa-pic svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.mp-nasa-pic svg path {
+  stroke: #fff;
+  stroke-width: 2.5px;
+  paint-order: stroke;
+}
+.mp-nasa-pic svg path {
+  filter: drop-shadow(0 0 1.5px #8a3a1c);
+}
+.mp-nasa-pic p {
+  position: relative;
+  padding: 1rem;
+  color: var(--color-monsoon-ink);
+}
+.mp-nasa-sub {
+  margin: 0.4rem 0 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.mp-nasa-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 0;
+}
+.mp-nasa-tiles > div {
+  padding: 0.45rem 0.6rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--color-card) 80%, transparent);
+  min-width: 0;
+}
+.mp-nasa-tiles dt {
+  font-size: 0.72rem;
+  color: var(--color-ink-3);
+}
+.mp-nasa-tiles dd {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.mp-nasa-days {
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mp-nasa-days li {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.mp-nasa-col {
+  position: relative;
+  width: 100%;
+  height: 54px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--color-card) 80%, transparent);
+}
+.mp-nasa-col i {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  border-radius: 99px;
+  background: var(--color-terracotta-ink);
+}
+.mp-nasa-days li[data-missing='yes'] .mp-nasa-col {
+  background: repeating-linear-gradient(45deg, transparent 0 4px, var(--color-rule) 4px 5px);
+}
+.mp-nasa-d {
+  font-size: 0.66rem;
+  color: var(--color-ink-3);
+}

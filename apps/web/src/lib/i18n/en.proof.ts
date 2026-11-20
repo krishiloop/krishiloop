@@ -237,6 +237,8 @@ const proof = {
   'proof.data.leaf': 'Rice-leaf photos for the vision study and the replay',
   'proof.data.textModels': 'Text models of the Ask router',
   'proof.data.voice': 'Our own Bangla voice in the farmer app: readbacks made on our GPU, speech to text when our server runs it',
+  'proof.data.gibs': 'NASA satellite pictures on the office map and in each area of the disease map (true colour and crop health, with the date shown)',
+  'proof.data.power': 'NASA weather for the centre of an area on the disease map: last 14 days of temperature, humidity and sunshine, fetched live',
   'proof.prompts.title': 'The prompts we used.',
   'proof.prompts.lead': 'Each with its purpose and result.',
   'proof.prompts.open': 'Open the prompt library',

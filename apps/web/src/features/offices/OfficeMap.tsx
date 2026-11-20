@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { motionReduced } from '../../lib/motionPref';
+import { useI18n } from '../../lib/i18n';
+import { fmtDate } from '../../lib/format';
+import { GIBS, gibsDate, gibsTileUrl, type GibsId } from '../../lib/nasa/gibs';
 import { type Office } from './nearest';
 
 type LeafletNS = typeof import('leaflet');
@@ -41,6 +44,10 @@ export default function OfficeMap({
   const el = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   const [L, setL] = useState<LeafletNS | null>(null);
+  const { t } = useI18n();
+  const [base, setBase] = useState<'osm' | GibsId>('osm');
+  const [date] = useState(() => gibsDate());
+  const baseLayer = useRef<import('leaflet').TileLayer | null>(null);
   const map = useRef<import('leaflet').Map | null>(null);
   const pick = useRef(onSelect);
   pick.current = onSelect;
@@ -56,7 +63,8 @@ export default function OfficeMap({
         if (dead || !el.current) return;
         const m = lf.map(el.current, { scrollWheelZoom: false, zoomControl: true, preferCanvas: true });
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>'); // the credit, without Leaflet's flag icon
-        lf.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(m);
+        // the site sends no referrer (vercel.json); OpenStreetMap blocks tile requests without one, so the tiles alone send
+        // the site's origin (never the page path), as OSM's tile policy asks
         m.fitBounds(BD);
         map.current = m;
         setL(lf);
@@ -66,8 +74,35 @@ export default function OfficeMap({
       dead = true;
       map.current?.remove();
       map.current = null;
+      baseLayer.current = null;
     };
   }, []);
+
+  // the picture under the dots: OpenStreetMap, or NASA GIBS satellite / crop health (no key, tiles at zoom 9 and below)
+  useEffect(() => {
+    const m = map.current;
+    if (!L || !m) return;
+    baseLayer.current?.remove();
+    let layer: import('leaflet').TileLayer;
+    if (base === 'osm') {
+      layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, referrerPolicy: 'strict-origin-when-cross-origin', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    } else {
+      const g = GIBS[base];
+      const shown = fmtDate(date, 'en', 'long');
+      layer = L.tileLayer(gibsTileUrl(g, date), {
+        maxZoom: 14,
+        maxNativeZoom: g.maxNativeZoom,
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        attribution: `<a href="https://earthdata.nasa.gov/gibs">NASA EOSDIS GIBS</a>, ${g.product}, ${shown}`,
+      });
+    }
+    layer.addTo(m);
+    layer.bringToBack();
+    baseLayer.current = layer;
+    return () => {
+      layer.remove();
+    };
+  }, [L, base, date]);
 
   // every office as a dot; a tap opens it
   useEffect(() => {
@@ -117,5 +152,44 @@ export default function OfficeMap({
   }, [L, origin?.lat, origin?.lon, selected, youLabel]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (failed) return <p className="near-maptext">{errorText}</p>;
-  return <div ref={el} className="near-leaflet" data-testid="near-leaflet" data-selected={selected?.id ?? ''} />;
+  const choices: { id: 'osm' | GibsId; label: string }[] = [
+    { id: 'osm', label: t('near.layer.map') },
+    { id: 'truecolor', label: t('near.layer.sat') },
+    { id: 'ndvi', label: t('near.layer.ndvi') },
+  ];
+  return (
+    <div>
+      <div ref={el} className="near-leaflet" data-testid="near-leaflet" data-selected={selected?.id ?? ''} data-base={base} data-nasa-date={base === 'osm' ? '' : date} />
+      <div
+        role="group"
+        aria-label={t('near.layer.group')}
+        data-testid="near-layers"
+        style={{ display: 'flex', flexWrap: 'wrap', gap: 4, padding: 6, borderTop: '1px solid var(--color-rule)', background: 'var(--color-card)' }}
+      >
+        {choices.map((c) => (
+          <button
+            key={c.id}
+            type="button"
+            aria-pressed={base === c.id}
+            data-layer={c.id}
+            onClick={() => setBase(c.id)}
+            style={{
+              minHeight: 44,
+              padding: '4px 12px',
+              borderRadius: 99,
+              border: '1px solid var(--color-rule)',
+              font: 'inherit',
+              fontSize: '0.82rem',
+              fontWeight: base === c.id ? 700 : 500,
+                            cursor: 'pointer',
+              color: base === c.id ? 'var(--color-moss-ink)' : 'var(--color-ink-2)',
+              background: base === c.id ? 'var(--color-moss)' : 'transparent',
+            }}
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }

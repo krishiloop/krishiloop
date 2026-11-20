@@ -1,0 +1,71 @@
+/* "Everything you can do" (QuickTools.tsx): ten tiles, each in its own pastel (green leads, never all green) */
+.qt {
+  padding-block: clamp(36px, 6vw, 72px) clamp(12px, 2vw, 24px);
+}
+.qt-title {
+  margin: 0 0 clamp(14px, 2vw, 22px);
+  font-family: var(--font-display);
+  font-size: var(--text-head);
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+.qt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qt-item {
+  --t-bg: var(--color-moss);
+  --t-ink: var(--color-moss-ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  height: 100%;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: var(--t-bg);
+  color: var(--t-ink);
+  border: 1px solid color-mix(in oklab, var(--t-ink) 16%, transparent);
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .qt-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -20px color-mix(in oklab, var(--t-ink) 70%, transparent);
+  }
+}
+.qt-item[data-tone="terracotta"] { --t-bg: var(--color-terracotta); --t-ink: var(--color-terracotta-ink); }
+.qt-item[data-tone="lotus"] { --t-bg: var(--color-lotus); --t-ink: var(--color-lotus-ink); }
+.qt-item[data-tone="hyacinth"] { --t-bg: var(--color-hyacinth); --t-ink: var(--color-hyacinth-ink); }
+.qt-item[data-tone="monsoon"] { --t-bg: var(--color-monsoon); --t-ink: var(--color-monsoon-ink); }
+.qt-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--color-card) 70%, transparent);
+}
+.qt-name {
+  display: block;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+.qt-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  opacity: 0.88;
+}
+@media (prefers-reduced-motion: reduce) {
+  .qt-item {
+    transition: none;
+  }
+}

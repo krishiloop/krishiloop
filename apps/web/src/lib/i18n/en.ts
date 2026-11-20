@@ -17,6 +17,7 @@ import photoai from './en.photoai'; // builder P: AgriTriage-Lite photo model
 import diseaseMap from './en.map'; // builder M: the Disease map
 import tryPage from './en.try'; // builder I: the /try tools
 import tryStrip from './en.trystrip'; // builder I: the "Try it" strip
+import quickTools from './en.quicktools'; // the home page's "Everything you can do"
 import homestory from './en.homestory'; // builder H: the home hero story
 import offices from './en.offices'; // builder O: nearest agriculture office
 import mobile from './en.mobile'; // builder Mo: the phone app (/m) and Open on your phone
@@ -37,6 +38,7 @@ const en = {
   ...diseaseMap,
   ...tryPage,
   ...tryStrip,
+  ...quickTools,
   ...homestory,
   ...mobile,
   ...offices,

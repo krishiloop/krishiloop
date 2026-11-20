@@ -1,4 +1,5 @@
 import { ProductIndex } from './ProductIndex';
+import { QuickTools } from './QuickTools';
 import { PlantStrip } from './PlantStrip';
 import { MapTeaser } from '../map/MapTeaser';
 import { TryTeaser } from '../try/TryTeaser';
@@ -20,6 +21,7 @@ import { TeamStrip } from '../about/TeamCards';
 export default function HomeRest() {
   return (
     <>
+      <QuickTools />
       <ProductIndex />
       <PlantStrip />
       {/* the two teasers come without their own page gutter (each page places them), so they share one here */}

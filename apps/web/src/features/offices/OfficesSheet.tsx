@@ -19,7 +19,8 @@ const OfficeMap = lazy(() => import('./OfficeMap'));
  * flies the map to it and opens its card with the officer (as published), Call and Open directions.
  * `focusId` opens with that office chosen (the card's "Go there").
  */
-export default function OfficesSheet({ open, focusId = null, onClose }: { open: boolean; focusId?: string | null; onClose: () => void }) {
+/** The finder: in a sheet (from a card's "Find my office") or, with `inline`, as the body of the /krishi-officer page. */
+export default function OfficesSheet({ open, focusId = null, onClose, inline = false }: { open: boolean; focusId?: string | null; onClose: () => void; inline?: boolean }) {
   const { t, lang } = useI18n();
   const { place, status } = placeStore.use();
   const data = useOffices(open);
@@ -60,8 +61,8 @@ export default function OfficesSheet({ open, focusId = null, onClose }: { open: 
     mapBox.current?.scrollIntoView({ block: 'start', behavior: motionReduced() ? 'auto' : 'smooth' });
   };
 
-  return (
-    <Sheet open={open} onClose={onClose} title={t('near.sheet.title')} subtitle={t('near.sheet.sub')} wide>
+  const body = (
+    <>
       <div className="near-body" data-testid="near-sheet">
         <section className="near-find" aria-label={t('near.search.label')}>
           <label className="near-search">
@@ -172,6 +173,12 @@ export default function OfficesSheet({ open, focusId = null, onClose }: { open: 
         )}
         {lang === 'bn' && <p className="near-small">{t('near.mt')}</p>}
       </div>
+    </>
+  );
+  if (inline) return body;
+  return (
+    <Sheet open={open} onClose={onClose} title={t('near.sheet.title')} subtitle={t('near.sheet.sub')} wide>
+      {body}
     </Sheet>
   );
 }

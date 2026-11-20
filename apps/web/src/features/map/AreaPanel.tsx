@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { CloudRain, ExternalLink, RefreshCw } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, fmtNum } from '../../lib/format';
@@ -8,6 +8,9 @@ import { DataMark } from '../../ui/DataMark';
 import type { RadarCell } from '../farmer/climate/types';
 import { fetchForecast, loadWatch, rainForecast, type Forecast, type Watch } from './data';
 import { PEST_PROBLEMS, PESTS, pestsInArea, toLonLat, type Country, type GeoArea, type GeoFile, type Level, type PestChoice, type PestId, type Sightings, type YearRange } from './model';
+
+/** NASA pictures and POWER weather: their own chunk, fetched when an area's panel opens. */
+const NasaPanel = lazy(() => import('./NasaPanel').then((m) => ({ default: m.NasaPanel })));
 
 /** Problem code (radar) -> our pest id, so a farmer report reads with the same plain name as the map. */
 const PEST_OF_PROBLEM = new Map(PESTS.flatMap((p) => PEST_PROBLEMS[p].map((code) => [code, p] as const)));
@@ -137,6 +140,9 @@ export function AreaPanel({
       )}
 
       <Weather area={area} geo={geo} />
+      <Suspense fallback={<div className="skeleton h-24 w-full" aria-hidden />}>
+        <NasaPanel key={area.code} area={area} geo={geo} />
+      </Suspense>
       <WatchList country={country} pest={pest} order={rows} />
     </div>
   );

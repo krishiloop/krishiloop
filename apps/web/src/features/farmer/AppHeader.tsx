@@ -9,6 +9,7 @@ import { RECORDED_AT } from '../../data/recorded';
 import { useApiState } from '../../lib/api/client';
 import { currentField, useFarmer } from './farmerStore';
 import { cropName, countryName, stageName } from './words';
+import { OfficerButton } from '../offices/OfficerButton';
 
 /**
  * The app's own header (on phones it replaces the site bar). On a phone it starts with a thin glass strip that keeps
@@ -63,6 +64,7 @@ export function AppHeader({ onGuide }: { onGuide: () => void }) {
               <span className="skeleton block h-10 w-44" aria-hidden />
             )}
           </div>
+          <OfficerButton className="max-lg:hidden" />
           <button type="button" className="btn btn-secondary fa-hit fa-guide lg:hidden" onClick={onGuide} data-testid="fa-guide">
             <BookOpen size={18} aria-hidden />
             {t('fa.guide')}
@@ -86,6 +88,8 @@ export function AppHeader({ onGuide }: { onGuide: () => void }) {
           </div>
           <LangSwitch compact className="fa-more-langs" />
         </div>
+        {/* on a phone: the nearest Krishi officer as its own full-width bar, so it never squeezes the farm's name */}
+        <OfficerButton className="fa-officer-bar lg:hidden" />
       </div>
     </header>
   );

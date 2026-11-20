@@ -123,6 +123,23 @@ const d: Record<keyof typeof map, string> = {
   'map.teaser.stat': 'GBIF থেকে {n}টি রেকর্ড করা দেখা, যার মানচিত্রে জায়গা আছে',
   'map.credits.fold': 'সূত্র ও লাইসেন্স',
   'map.label.sightings.more': 'কোথায় পোকা-রোগ নথিভুক্ত হয়েছে, এখন কত রোগ আছে তা নয়।',
+  'map.nasa.title': 'নাসা, মহাকাশ থেকে',
+  'map.nasa.pic.true': 'স্যাটেলাইটের ছবি',
+  'map.nasa.pic.ndvi': 'ফসলের স্বাস্থ্য (সবুজ মানে বেশি গাছ)',
+  'map.nasa.pic.alt': '{area}-এর নাসা স্যাটেলাইট ছবি, {date}',
+  'map.nasa.pic.credit': 'NASA EOSDIS GIBS, {product}, {date}।',
+  'map.nasa.pic.error': 'নাসার ছবি লোড হয়নি।',
+  'map.nasa.power.title': 'এই এলাকার কেন্দ্রে শেষ ১৪ দিন',
+  'map.nasa.power.loading': 'NASA POWER লোড হচ্ছে',
+  'map.nasa.power.error': 'NASA POWER লোড হয়নি।',
+  'map.nasa.power.credit': 'NASA POWER Project, {from} থেকে {to}, {lat}, {lon}-এ। সবচেয়ে নতুন দিনের তথ্য কয়েক দিন দেরিতে যোগ হয়।',
+  'map.nasa.power.hi': 'দিনের সর্বোচ্চ, গড়',
+  'map.nasa.power.lo': 'রাতের সর্বনিম্ন, গড়',
+  'map.nasa.power.rh': 'বাতাসের আর্দ্রতা, গড়',
+  'map.nasa.power.sun': 'রোদ, গড় (মেগাজুল প্রতি বর্গমিটার প্রতিদিন)',
+  'map.nasa.power.none': 'তথ্য নেই',
+  'map.nasa.power.day': '{day}: সর্বোচ্চ {hi} °C, সর্বনিম্ন {lo} °C, আর্দ্রতা {rh}%, রোদ {sun}',
+  'map.nasa.power.key': 'প্রতিটি দণ্ড সেই দিনের সর্বনিম্ন থেকে সর্বোচ্চ °C পর্যন্ত।',
 };
 
 export default d;

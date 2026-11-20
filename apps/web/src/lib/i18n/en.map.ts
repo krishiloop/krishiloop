@@ -121,6 +121,23 @@ const map = {
   'map.teaser.stat': '{n} recorded sightings with a place, from GBIF',
   'map.credits.fold': 'Sources and licences',
   'map.label.sightings.more': 'Where pests were recorded, not how much disease there is now.',
+  'map.nasa.title': 'NASA, from space',
+  'map.nasa.pic.true': 'Satellite picture',
+  'map.nasa.pic.ndvi': 'Crop health (green is more plants)',
+  'map.nasa.pic.alt': 'NASA satellite picture of {area}, {date}',
+  'map.nasa.pic.credit': 'NASA EOSDIS GIBS, {product}, {date}.',
+  'map.nasa.pic.error': 'The NASA picture could not load.',
+  'map.nasa.power.title': 'Last 14 days at the centre of this area',
+  'map.nasa.power.loading': 'Loading NASA POWER',
+  'map.nasa.power.error': 'NASA POWER could not load.',
+  'map.nasa.power.credit': 'NASA POWER Project, {from} to {to}, at {lat}, {lon}. The newest days are added a few days late.',
+  'map.nasa.power.hi': 'Day high, average',
+  'map.nasa.power.lo': 'Night low, average',
+  'map.nasa.power.rh': 'Air wetness (humidity), average',
+  'map.nasa.power.sun': 'Sunshine, average (MJ per m² a day)',
+  'map.nasa.power.none': 'no data',
+  'map.nasa.power.day': '{day}: high {hi} °C, low {lo} °C, humidity {rh}%, sunshine {sun}',
+  'map.nasa.power.key': 'Each bar runs from the lowest to the highest °C of that day.',
 } as const;
 
 export default map;

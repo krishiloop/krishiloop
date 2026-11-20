@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ChevronDown, Menu, Search } from 'lucide-react';
+import { ChevronDown, MapPin, Menu, Search, Smartphone } from 'lucide-react';
 import { useI18n, type Key } from '../lib/i18n';
 import { cx } from '../lib/cx';
 import { Wordmark } from '../ui/kit/LoopMark';
@@ -9,16 +9,20 @@ import { LinkButton } from '../ui/Button';
 import { LangSwitch, ThemeToggle } from '../ui/SiteControls';
 import { Sheet } from '../ui/Sheet';
 import { ApiBadge } from './ApiBadge';
+import { PhoneAppButton } from './PhoneAppButton';
 
 /** The bar's links (the logo is the way home); "More" holds the rest, and the menu sheet, the palette and the footer list everything. */
+// owner, 20 Nov: what a farmer needs most sits in the bar itself: the app, and the nearest Krishi officer (the officers'
+// own desk moves to "More"); the phone app is the "Phone app" button beside it
 export const NAV: { to: string; key: Key; end?: boolean }[] = [
   { to: '/app', key: 'ui.nav.app' },
+  { to: '/krishi-officer', key: 'ui.nav.krishiOfficer' },
   { to: '/map', key: 'ui.nav.map' },
   { to: '/try', key: 'ui.nav.try' },
-  { to: '/officer', key: 'ui.nav.officer' },
   { to: '/verify', key: 'ui.nav.verify' },
 ];
 export const NAV_MORE: { to: string; key: Key; end?: boolean }[] = [
+  { to: '/officer', key: 'ui.nav.officer' },
   { to: '/trust', key: 'ui.nav.trust' },
   { to: '/proof', key: 'ui.nav.proof' },
   { to: '/about', key: 'ui.nav.about' },
@@ -128,6 +132,7 @@ export function SiteHeader({ className }: { className?: string }) {
                       cx('relative z-10 inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[0.88rem] font-[500] transition-colors duration-200 xl:px-3.5', isActive ? 'text-ink' : 'text-ink-2 hover:text-ink')
                     }
                   >
+                    {n.to === '/krishi-officer' && <MapPin size={15} aria-hidden className="mr-1 shrink-0 text-terracotta-ink" />}
                     {t(n.key)}
                   </NavLink>
                 </li>
@@ -142,10 +147,11 @@ export function SiteHeader({ className }: { className?: string }) {
               <span className="sr-only">{t('ui.palette.open')}</span>
               <kbd className="mono rounded-md border border-rule px-1.5 text-[0.66rem] text-ink-3">Ctrl K</kbd>
             </button>
+            <PhoneAppButton className="hidden md:block" />
             <LangSwitch compact />
             <ThemeToggle />
             {pathname !== '/app' && (
-              <LinkButton to="/app" variant="primary" size="sm" className="ml-1 hidden sm:inline-flex lg:hidden xl:inline-flex">
+              <LinkButton to="/app" variant="primary" size="sm" className="ml-1 hidden sm:inline-flex lg:hidden 2xl:inline-flex">
                 {t('ui.cta.tryApp')}
               </LinkButton>
             )}
@@ -156,6 +162,17 @@ export function SiteHeader({ className }: { className?: string }) {
         </div>
       </header>
       <Sheet open={menu} onClose={() => setMenu(false)} title={t('ui.nav.menu')}>
+        {/* on a phone the two things a farmer needs first, as big buttons above the list */}
+        <div className="mb-4 grid grid-cols-2 gap-2">
+          <Link to="/m" className="nav-quick tone-lotus" data-testid="menu-phone">
+            <Smartphone size={20} aria-hidden />
+            {t('ui.nav.phoneApp')}
+          </Link>
+          <Link to="/krishi-officer" className="nav-quick tone-terracotta" data-testid="menu-officer">
+            <MapPin size={20} aria-hidden />
+            {t('ui.nav.krishiOfficer')}
+          </Link>
+        </div>
         <nav aria-label={t('ui.nav.main')}>
           <ul className="m-0 list-none p-0">
             {NAV_ALL.map((n) => (

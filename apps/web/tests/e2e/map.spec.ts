@@ -34,8 +34,27 @@ const WET = {
 const DRY = { ...WET, daily: { ...WET.daily, precipitation_sum: [0, 0, 0, 0.2, 0, 0, 0] } };
 
 /** Mock Open-Meteo; returns a counter of the requests it answered. */
+const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+/** NASA POWER, mocked: 16 days to 2026-11-19, the last two days -999 (not made yet), one day in the middle with no sun. */
+const POWER_BODY = (() => {
+  const days = Array.from({ length: 16 }, (_, i) => `202611${String(4 + i).padStart(2, '0')}`);
+  const mk = (f: (i: number) => number) => Object.fromEntries(days.map((d, i) => [d, i >= 14 ? -999 : f(i)]));
+  return {
+    properties: {
+      parameter: {
+        T2M_MAX: mk((i) => 30 + (i % 3)),
+        T2M_MIN: mk((i) => 18 + (i % 2)),
+        RH2M: mk(() => 64),
+        ALLSKY_SFC_SW_DWN: mk((i) => (i === 5 ? -999 : 15)),
+      },
+    },
+  };
+})();
+/** Mock Open-Meteo, NASA POWER and NASA GIBS; returns a counter of the Open-Meteo requests it answered. */
 async function mockWeather(page: Page, body: object | 'fail' = WET) {
   const calls: string[] = [];
+  await page.route('https://power.larc.nasa.gov/**', (route) => route.fulfill({ json: POWER_BODY, headers: { 'access-control-allow-origin': '*' } }));
+  await page.route('https://gibs.earthdata.nasa.gov/**', (route) => route.fulfill({ status: 200, contentType: 'image/png', body: PNG }));
   await page.route('https://api.open-meteo.com/**', (route) => {
     calls.push(route.request().url());
     return body === 'fail' ? route.fulfill({ status: 500, body: 'no' }) : route.fulfill({ json: body });
@@ -257,4 +276,29 @@ test('360 px: no sideways scroll; tapping an area opens a bottom sheet with the 
   await axe(page, 'map sheet 360');
   await page.keyboard.press('Escape');
   await expect(sheet).toBeHidden();
+});
+
+test('NASA section of the panel: a GIBS picture with its date, and NASA POWER with -999 shown as no data', async ({ page }) => {
+  await mockWeather(page, WET);
+  const gibs: string[] = [];
+  page.on('request', (r) => r.url().includes('gibs.earthdata.nasa.gov') && gibs.push(r.url()));
+  await page.goto(MAP);
+  await firstMap(page);
+  await country(page, 'BD').locator('path[data-code]').first().focus();
+  await page.keyboard.press('Enter');
+  const nasa = page.getByTestId('map-nasa');
+  await expect(nasa).toBeVisible();
+  await expect(nasa.getByRole('heading', { name: 'NASA, from space' })).toBeVisible();
+  await expect(page.getByTestId('map-nasa-credit')).toContainText(/NASA EOSDIS GIBS, MODIS Terra, \d+ \w+ 20\d\d/);
+  await expect(page.getByTestId('map-nasa-img')).toBeVisible();
+  // crop health: another layer, the credit says so
+  await nasa.getByRole('button', { name: /Crop health/ }).click();
+  await expect(page.getByTestId('map-nasa-credit')).toContainText('MODIS Terra NDVI, 8-day');
+  await expect.poll(() => gibs.some((u) => u.includes('MODIS_Terra_NDVI_8Day') && /TIME=\d{4}-\d{2}-\d{2}/.test(u))).toBe(true);
+  // POWER: the two newest days (-999) are dropped, 14 days shown, the day with no sunshine says "no data", never -999
+  await expect(page.getByTestId('map-power-days').locator('li')).toHaveCount(14);
+  await expect(page.getByTestId('map-power-credit')).toContainText('NASA POWER Project, 4 November 2026 to 17 November 2026');
+  await expect(page.getByTestId('map-power-days').locator('li').nth(5)).toHaveAttribute('aria-label', /sunshine no data/);
+  await expect(nasa).not.toContainText('999');
+  await expect(page.getByTestId('map-power-tiles')).toContainText('°C');
 });

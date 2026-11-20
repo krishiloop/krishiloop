@@ -115,9 +115,9 @@ test('header: every page is one click away, and the phone menu works', async ({ 
   const nav = page.getByRole('navigation', { name: 'Main' }).first();
   for (const [name, path] of [
     ['Farmer app', '/app'],
+    ['Krishi officer', '/krishi-officer'],
     ['Disease map', '/map'],
     ['Try it yourself', '/try'],
-    ['Officer desk', '/officer'],
     ['Check a receipt', '/verify'],
   ] as const) {
     await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('href', path);
@@ -127,6 +127,7 @@ test('header: every page is one click away, and the phone menu works', async ({ 
   await more.click();
   await expect(more).toHaveAttribute('aria-expanded', 'true');
   for (const [name, path] of [
+    ['Officer desk', '/officer'],
     ['Photo AI accuracy', '/trust'],
     ['Evidence', '/proof'],
     ['About', '/about'],
