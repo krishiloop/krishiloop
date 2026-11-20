@@ -41,7 +41,8 @@ export function PhoneAppButton({ className }: { className?: string }) {
         data-testid="nav-phone"
       >
         <Smartphone size={16} aria-hidden />
-        <span>{t('ui.nav.phoneApp')}</span>
+        {/* icon only from lg to xl, where longer languages (es, sw) would push the bar past its edge */}
+        <span className="lg:max-xl:sr-only">{t('ui.nav.phoneApp')}</span>
       </button>
       {open && (
         <div id="nav-phone-panel" className="nav-phone-panel glass" role="group" aria-label={t('ui.nav.phoneApp')} data-testid="nav-phone-panel">

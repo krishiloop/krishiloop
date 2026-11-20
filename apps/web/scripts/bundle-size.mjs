@@ -92,7 +92,10 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   20 Nov 2026 (design-system link): VerifyPage 139 -> 140 (measured 139.0), TrustPage 127 -> 128 (127.0). The shared footer
 //   now links the public design-system page (/design-system/, a static file outside the app): one link and two words in
 //   each language dictionary, a few bytes that tipped two pages already at their ceiling.
-const PAGES = { HomePage: 190, MapPage: 121, TryPage: 141, ReceiptPage: 133, FarmerApp: 162, MobileApp: 162, OfficerPage: 144, VerifyPage: 140, TrustPage: 128, ProofPage: 130, AboutPage: 112 };
+//   20 Nov 2026 (late, owner: no 'Saved answers' chip in the top bar; the bar fits in every language): the startup chunk
+//   shrank 101.9 -> 96.4 KB because the chip's API-state code left it; the pages that use that code now load it themselves,
+//   +0.4 to +0.9 KB each, so Map, Try, Farmer, Mobile, Officer, Verify, Trust and Proof get +1 KB.
+const PAGES = { HomePage: 190, MapPage: 122, TryPage: 142, ReceiptPage: 133, FarmerApp: 163, MobileApp: 163, OfficerPage: 145, VerifyPage: 141, TrustPage: 129, ProofPage: 131, AboutPage: 112 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

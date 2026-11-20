@@ -1,12 +1,9 @@
 <p align="center">
-  <img src="apps/web/public/favicon.svg" width="72" height="72" alt="KrishiLoop logo">
+  <a href="https://krishiloop.vercel.app"><img src="docs/media/header.svg" width="100%" alt="KrishiLoop: a plant doctor, farm adviser and weather warning on every farmer's phone, in their own language. Every answer comes with a receipt anyone can check."></a>
 </p>
 
-<h1 align="center">KrishiLoop</h1>
-
 <p align="center">
-  <b>A plant doctor, farm adviser and weather warning on every farmer's phone, in their own language.</b><br>
-  Every answer comes with a receipt anyone can check, and if it turns out wrong, we recall it from every farmer who got it.
+  <b>Every answer comes with a receipt anyone can check, and if it turns out wrong, we recall it from every farmer who got it.</b>
 </p>
 
 <p align="center">

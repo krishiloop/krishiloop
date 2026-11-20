@@ -8,7 +8,6 @@ import { openPalette } from '../ui/kit/CommandPalette';
 import { LinkButton } from '../ui/Button';
 import { LangSwitch, ThemeToggle } from '../ui/SiteControls';
 import { Sheet } from '../ui/Sheet';
-import { ApiBadge } from './ApiBadge';
 import { PhoneAppButton } from './PhoneAppButton';
 
 /** The bar's links (the logo is the way home); "More" holds the rest, and the menu sheet, the palette and the footer list everything. */
@@ -115,7 +114,7 @@ export function SiteHeader({ className }: { className?: string }) {
   return (
     <>
       <header className={cx('sticky top-0 z-50 flex h-[var(--header-h)] items-center px-[clamp(8px,1.6vw,20px)]', className)}>
-        <div className="glass mx-auto flex h-[54px] w-full max-w-[1240px] items-center gap-2 rounded-full pl-4 pr-2">
+        <div className="glass mx-auto flex h-[54px] w-full max-w-[1320px] items-center gap-2 rounded-full pl-4 pr-2">
           <Link to="/" aria-label={t('ui.nav.home')} className="press -ml-1 rounded-full px-1 py-1">
             <Wordmark />
           </Link>
@@ -129,7 +128,7 @@ export function SiteHeader({ className }: { className?: string }) {
                     to={n.to}
                     end={n.end}
                     className={({ isActive }) =>
-                      cx('relative z-10 inline-flex h-9 items-center whitespace-nowrap rounded-full px-3 text-[0.88rem] font-[500] transition-colors duration-200 xl:px-3.5', isActive ? 'text-ink' : 'text-ink-2 hover:text-ink')
+                      cx('relative z-10 inline-flex h-9 items-center whitespace-nowrap rounded-full px-2 text-[0.8rem] font-[500] transition-colors duration-200 xl:px-2.5 xl:text-[0.88rem] 2xl:px-3', isActive ? 'text-ink' : 'text-ink-2 hover:text-ink')
                     }
                   >
                     {n.to === '/krishi-officer' && <MapPin size={15} aria-hidden className="mr-1 shrink-0 text-terracotta-ink" />}
@@ -141,8 +140,7 @@ export function SiteHeader({ className }: { className?: string }) {
             </ul>
           </nav>
           <div className="ml-auto flex items-center gap-1 lg:ml-0">
-            <ApiBadge className="mr-1 hidden 2xl:inline-flex" />
-            <button type="button" onClick={openPalette} className="btn btn-ghost btn-sm hidden gap-2 px-3 xl:inline-flex">
+            <button type="button" onClick={openPalette} className="btn btn-ghost btn-sm hidden gap-2 px-3 2xl:inline-flex">
               <Search size={16} aria-hidden />
               <span className="sr-only">{t('ui.palette.open')}</span>
               <kbd className="mono rounded-md border border-rule px-1.5 text-[0.66rem] text-ink-3">Ctrl K</kbd>
@@ -187,7 +185,6 @@ export function SiteHeader({ className }: { className?: string }) {
           </ul>
         </nav>
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <ApiBadge />
           <LangSwitch />
           <ThemeToggle />
         </div>
