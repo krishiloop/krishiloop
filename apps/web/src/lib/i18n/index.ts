@@ -4,7 +4,7 @@ import { queryParam, readStore, writeStore } from '../storage';
 import ui from './en.ui';
 import type enAll from './en';
 
-export type Lang = 'en' | 'bn' | 'hi' | 'sw';
+export type Lang = 'en' | 'bn' | 'hi' | 'sw' | 'es';
 /** Every key of every screen (en.ts joins them; imported for its type only, so no page pays for the others' words). */
 export type Key = keyof typeof enAll;
 type Dict = Partial<Record<Key, string>>;
@@ -24,15 +24,16 @@ export const LANGS: { code: Lang; native: string; english: string; preview: bool
   { code: 'bn', native: 'বাংলা', english: 'Bangla', preview: false },
   { code: 'hi', native: 'हिन्दी', english: 'Hindi', preview: true },
   { code: 'sw', native: 'Kiswahili', english: 'Swahili', preview: true },
+  { code: 'es', native: 'Español', english: 'Spanish', preview: true },
 ];
 
-const dicts: Record<Lang, Dict | undefined> = { en, bn: undefined, hi: undefined, sw: undefined };
+const dicts: Record<Lang, Dict | undefined> = { en, bn: undefined, hi: undefined, sw: undefined, es: undefined };
 
 async function load(lang: Lang): Promise<Dict> {
   const hit = dicts[lang];
   if (hit) return hit;
   // each language is its own chunk: the English app never downloads the others
-  const mod = lang === 'bn' ? await import('./bn') : lang === 'hi' ? await import('./hi') : await import('./sw');
+  const mod = lang === 'bn' ? await import('./bn') : lang === 'hi' ? await import('./hi') : lang === 'es' ? await import('./es') : await import('./sw');
   dicts[lang] = mod.default as Dict;
   return mod.default as Dict;
 }
@@ -41,7 +42,7 @@ function initialLang(): Lang {
   const q = queryParam('lang');
   const stored = readStore('kl.lang');
   const pick = q ?? stored;
-  if (pick === 'en' || pick === 'bn' || pick === 'hi' || pick === 'sw') return pick;
+  if (pick === 'en' || pick === 'bn' || pick === 'hi' || pick === 'sw' || pick === 'es') return pick;
   return typeof navigator !== 'undefined' && navigator.language?.toLowerCase().startsWith('bn') ? 'bn' : 'en';
 }
 

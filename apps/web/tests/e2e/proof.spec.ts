@@ -141,3 +141,15 @@ test('/proof live smoke: the page renders and the recorded hero receipt still ve
   await checkHero(page);
   expect(errs.filter((e) => !/Failed to load resource/.test(e))).toEqual([]);
 });
+
+test('/proof register: the three NASA sources are listed with their licence note and the file that uses each', async ({ page }) => {
+  await page.goto('/proof?sample=1');
+  const reg = page.getByTestId('register');
+  await expect(reg).toContainText('NASA GIBS');
+  await expect(reg).toContainText('NASA POWER');
+  await expect(reg).toContainText('GPM IMERG Late Run V07, NASA GES DISC');
+  // the section is folded: check the links are in the page, not that they are open
+  await expect(reg.locator('a[href$="/tools/nasa_imerg.py"]')).toHaveCount(1);
+  await expect(reg.locator('a[href$="/apps/web/src/lib/nasa/gibs.ts"]')).toHaveCount(1);
+  await expect(reg.locator('a[href$="/apps/web/src/features/map/nasa.ts"]')).toHaveCount(1);
+});

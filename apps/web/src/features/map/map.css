@@ -1116,3 +1116,144 @@ html.reduce-motion .mp-rain {
   font-size: 0.66rem;
   color: var(--color-ink-3);
 }
+
+/* satellite rainfall: the row in the NASA block, the layer's note and its monsoon-blue steps (darker = more rain) */
+.mp-nasa-rain {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  background: var(--color-water-wash);
+}
+.mp-nasa-rainrow {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-water);
+}
+.mp-area.r-0 {
+  fill: color-mix(in oklab, var(--color-monsoon-ink) 6%, var(--color-card));
+}
+.mp-area.r-1 {
+  fill: color-mix(in oklab, var(--color-monsoon-ink) 22%, var(--color-card));
+}
+.mp-area.r-2 {
+  fill: color-mix(in oklab, var(--color-monsoon-ink) 38%, var(--color-card));
+}
+.mp-area.r-3 {
+  fill: color-mix(in oklab, var(--color-monsoon-ink) 55%, var(--color-card));
+}
+.mp-area.r-4 {
+  fill: color-mix(in oklab, var(--color-monsoon-ink) 72%, var(--color-card));
+}
+.mp-area.r-5 {
+  fill: color-mix(in oklab, var(--color-monsoon-ink) 90%, var(--color-card));
+}
+.mp-rainlegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+}
+.mp-rainlegend li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.mp-rainlegend .mp-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--map-stroke);
+}
+.mp-rainlegend .mp-swatch.r-0 { background: color-mix(in oklab, var(--color-monsoon-ink) 6%, var(--color-card)); }
+.mp-rainlegend .mp-swatch.r-1 { background: color-mix(in oklab, var(--color-monsoon-ink) 22%, var(--color-card)); }
+.mp-rainlegend .mp-swatch.r-2 { background: color-mix(in oklab, var(--color-monsoon-ink) 38%, var(--color-card)); }
+.mp-rainlegend .mp-swatch.r-3 { background: color-mix(in oklab, var(--color-monsoon-ink) 55%, var(--color-card)); }
+.mp-rainlegend .mp-swatch.r-4 { background: color-mix(in oklab, var(--color-monsoon-ink) 72%, var(--color-card)); }
+.mp-rainlegend .mp-swatch.r-5 { background: color-mix(in oklab, var(--color-monsoon-ink) 90%, var(--color-card)); }
+.mp-toggle input:checked + .sw-rain {
+  background: var(--color-monsoon-ink);
+  border-color: var(--color-water);
+}
+
+/* the country switch: one big card per country (name + sightings), the chosen one filled; a snapping scroller on phones */
+.mp-switch {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.mp-switch-hint {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-terracotta-ink);
+}
+.mp-switch-hint::before {
+  content: "\2193\00a0";
+}
+.mp-switch-row {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding: 0.2rem 0.1rem 0.5rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.mp-sw-card {
+  flex: 0 0 auto;
+  min-width: 9.5rem;
+  min-height: 56px;
+  display: grid;
+  gap: 0.15rem;
+  align-content: center;
+  text-align: left;
+  padding: 0.55rem 0.9rem;
+  border: 1.5px solid var(--color-rule-2);
+  border-radius: 16px;
+  background: var(--color-card);
+  color: var(--color-ink);
+  font: inherit;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+.mp-sw-card:hover {
+  border-color: var(--color-moss-ink);
+}
+.mp-sw-card:focus-visible {
+  outline: 3px solid var(--focus, var(--color-accent));
+  outline-offset: 2px;
+}
+.mp-sw-card.is-on {
+  background: var(--color-moss);
+  border-color: var(--color-moss-ink);
+  color: var(--color-moss-ink);
+}
+.mp-sw-name {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.mp-sw-n {
+  font-size: 0.78rem;
+  color: var(--color-ink-2);
+}
+.mp-sw-card.is-on .mp-sw-n {
+  color: var(--color-moss-ink);
+}
+@media (min-width: 900px) {
+  .mp-switch-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .mp-sw-card {
+    min-width: 0;
+  }
+}

@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { RadarCell } from '../farmer/climate/types';
 import {
+  COUNTRIES,
+  LEVEL_OF,
+  areaPlace,
   countInRange,
   countryTotals,
   isFullRange,
@@ -13,6 +16,7 @@ import {
   stepOf,
   toLonLat,
   yearSpan,
+  type Country,
   type GeoFile,
   type Sightings,
 } from './model';
@@ -36,6 +40,9 @@ const S: Sightings = {
     },
     IN: { levels: { state: { areas: 36 } }, taxa: {} },
     KE: { levels: { county: { areas: 47 } }, taxa: { faw: { total: 1, years: [2022, 2022], dated: 1, licences: {}, basis: {}, levels: { county: { placed: 1, unplaced: 0, areas: { 'KE-nakuru': { n: 1, y: [[2022, 1]] } } } } } } },
+    ES: { levels: { region: { areas: 19 } }, taxa: {} },
+    PT: { levels: { district: { areas: 20 } }, taxa: {} },
+    BR: { levels: { state: { areas: 27 } }, taxa: {} },
   },
 };
 const span = yearSpan(S);
@@ -150,8 +157,8 @@ describe('geography', () => {
 
 describe('the built file', () => {
   const data = real as unknown as Sightings;
-  it('has all three countries, the query date, the citation, and resolved GBIF keys', () => {
-    expect(Object.keys(data.countries).sort()).toEqual(['BD', 'IN', 'KE']);
+  it('has all six countries, the query date, the citation, and resolved GBIF keys', () => {
+    expect(Object.keys(data.countries).sort()).toEqual([...COUNTRIES].sort());
     expect(data.queried).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(data.citation).toMatch(/^GBIF\.org/);
     expect(data.taxa.filter((t) => t.key).length).toBeGreaterThanOrEqual(5);
@@ -159,5 +166,37 @@ describe('the built file', () => {
   it('never places more records than GBIF holds for that country and pest', () => {
     for (const c of Object.values(data.countries))
       for (const t of Object.values(c.taxa)) for (const lv of Object.values(t.levels)) expect(lv.placed).toBeLessThanOrEqual(t.total);
+  });
+});
+
+describe('the new countries (Spain, Portugal, Brazil)', () => {
+  const data = real as unknown as Sightings;
+  const geos = import.meta.glob('../../data/map/geo-{es,pt,br}.json', { eager: true }) as Record<string, { default: GeoFile }>;
+  const geoOf = (c: string) => Object.entries(geos).find(([k]) => k.endsWith(`geo-${c.toLowerCase()}.json`))![1].default;
+  it('every area code in the counts is an area of the outline, and the level is the one the page draws', () => {
+    for (const c of ['ES', 'PT', 'BR'] as const) {
+      const g = geoOf(c);
+      const codes = new Set(g.areas.map((a) => a.code));
+      const level = LEVEL_OF[c];
+      expect(Object.keys(data.countries[c].levels)).toEqual([level]);
+      for (const t of Object.values(data.countries[c].taxa)) for (const code of Object.keys(t.levels[level]?.areas ?? {})) expect(codes.has(code), `${c} ${code}`).toBe(true);
+    }
+  });
+  it('has real records for Spain, Portugal and Brazil, with the pests GBIF holds', () => {
+    const tot = (c: Country) => Object.values(data.countries[c].taxa).reduce((n, t) => n + t.total, 0);
+    expect(tot('ES')).toBeGreaterThan(500);
+    expect(tot('PT')).toBeGreaterThan(0);
+    expect(tot('BR')).toBeGreaterThan(1000);
+  });
+  it('Portugal draws its islands as insets and asks for their real place', () => {
+    const g = geoOf('PT');
+    const madeira = g.areas.find((a) => a.name === 'Madeira')!;
+    expect(madeira.off).toEqual([4.8, 3.3]);
+    const p = areaPlace(g, madeira);
+    expect(p.lat).toBeGreaterThan(32.3);
+    expect(p.lat).toBeLessThan(33.3); // Madeira is at about 32.7 N, not at the inset
+    expect(p.lon).toBeLessThan(-16);
+    const faro = g.areas.find((a) => a.name === 'Faro')!;
+    expect(areaPlace(g, faro).lat).toBeGreaterThan(36.8);
   });
 });

@@ -1,7 +1,7 @@
 import type { Lang } from './i18n/index';
 
 /** Intl locales per UI language. Bangla uses Bangla digits (bn-BD); English uses day-month order (en-GB). */
-export const LOCALES: Record<Lang, string> = { en: 'en-GB', bn: 'bn-BD', hi: 'hi-IN', sw: 'sw-KE' };
+export const LOCALES: Record<Lang, string> = { en: 'en-GB', bn: 'bn-BD', hi: 'hi-IN', sw: 'sw-KE', es: 'es-ES' };
 
 export function fmtNum(n: number, lang: Lang, opts?: Intl.NumberFormatOptions): string {
   try {

@@ -6,9 +6,9 @@ import { verifyReceipt } from '../../lib/api/client';
 import { held, setStatus, statusOf } from './receipts';
 
 /** Speech-to-text tags per UI language (the brief: bn-BD for Bangla, en-US for English). */
-export const STT_TAG: Record<Lang, string> = { en: 'en-US', bn: 'bn-BD', hi: 'hi-IN', sw: 'sw-KE' };
+export const STT_TAG: Record<Lang, string> = { en: 'en-US', bn: 'bn-BD', hi: 'hi-IN', sw: 'sw-KE', es: 'es-ES' };
 /** Text-to-speech tags per text language. */
-const TTS_TAG: Record<string, string> = { en: 'en-GB', bn: 'bn-BD', hi: 'hi-IN', sw: 'sw-KE' };
+const TTS_TAG: Record<string, string> = { en: 'en-GB', bn: 'bn-BD', hi: 'hi-IN', sw: 'sw-KE', es: 'es-ES' };
 
 export type { ReadOutcome, ReadRequest, ReceiptStatus };
 

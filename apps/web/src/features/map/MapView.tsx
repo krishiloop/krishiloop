@@ -1,6 +1,7 @@
 import { memo, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { TipLayer, type TipApi } from './TipLayer';
 import { cx } from '../../lib/cx';
+import { rainStep } from './rain';
 import { neighbour, reportStep, stepOf, type Dir, type GeoFile } from './model';
 
 export interface Tip {
@@ -22,6 +23,7 @@ export const MapView = memo(function MapView({
   values,
   reports,
   sim,
+  rain,
   selected,
   onOpen,
   describe,
@@ -34,6 +36,8 @@ export const MapView = memo(function MapView({
   values: Map<string, number> | null;
   reports: Map<string, number> | null;
   sim: Map<string, number> | null;
+  /** satellite rain per area (mm in 7 days), or null when that layer is off; it replaces the sightings colours */
+  rain?: Map<string, number | null> | null;
   selected: string | null;
   onOpen: (code: string) => void;
   /** the accessible name of an area: its name and every number on it */
@@ -105,7 +109,7 @@ export const MapView = memo(function MapView({
                 }}
                 d={a.d}
                 vectorEffect="non-scaling-stroke"
-                className={cx('mp-area', `s-${values ? stepOf(n) : 0}`, a.code === selected && 'is-sel')}
+                className={cx('mp-area', rain ? (rain.get(a.code) == null ? 's-0' : `r-${rainStep(rain.get(a.code)!)}`) : `s-${values ? stepOf(n) : 0}`, a.code === selected && 'is-sel')}
                 data-code={a.code}
                 data-count={n}
                 role="button"

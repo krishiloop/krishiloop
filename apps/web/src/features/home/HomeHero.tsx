@@ -1,7 +1,7 @@
 import '../../lib/i18n/strings.homestory';
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type FocusEvent, type PointerEvent as RPointerEvent } from 'react';
 import { Hand, Pause, Play } from 'lucide-react';
-import { useI18n } from '../../lib/i18n';
+import { LANGS, setLang, useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { SplitWords } from '../../ui/kit/SplitWords';
 import { LiquidLink } from '../../ui/kit/LiquidButton';
@@ -218,6 +218,15 @@ export function HomeHero() {
             <p className="kg-promise m-0 mt-4 max-w-[34ch] lg:mt-6" aria-hidden>
               {t('home.kg.promise')}
             </p>
+            {/* every language the app speaks, one tap to switch (owner, 20 Nov: an international competition, not Bangla only) */}
+            <div className="kg-langs hero-rise mt-4" role="group" aria-label={t('home.kg.langs')} style={{ '--i': 4 } as CSSProperties}>
+              {LANGS.map((l) => (
+                <button key={l.code} type="button" lang={l.code} className="kg-lang" aria-pressed={lang === l.code} onClick={() => void setLang(l.code)} data-testid={`hero-lang-${l.code}`}>
+                  {l.native}
+                  {l.preview && <span className="kg-lang-pre">{t('home.kg.preview')}</span>}
+                </button>
+              ))}
+            </div>
             <div className="hero-rise mt-5 flex flex-wrap items-center gap-2.5 sm:mt-6 sm:gap-3 lg:mt-10" style={{ '--i': 5 } as CSSProperties}>
               <LiquidLink to="/app" size="lg" arrow magnetic>
                 {t('ui.cta.tryApp')}

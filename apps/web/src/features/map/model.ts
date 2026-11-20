@@ -6,12 +6,15 @@
  */
 import type { RadarCell } from '../farmer/climate/types';
 
-export type Country = 'BD' | 'IN' | 'KE';
-export const COUNTRIES: Country[] = ['BD', 'IN', 'KE'];
+export type Country = 'BD' | 'IN' | 'KE' | 'ES' | 'PT' | 'BR';
+/** Bangladesh first (home), then the countries with GBIF records for our pest list, in the order they were added. */
+export const COUNTRIES: Country[] = ['BD', 'IN', 'KE', 'ES', 'PT', 'BR'];
 export type PestId = 'faw' | 'blast' | 'late_blight' | 'bph' | 'locust' | 'blb' | 'brown_spot';
 export const PESTS: PestId[] = ['faw', 'blast', 'late_blight', 'bph', 'locust', 'blb', 'brown_spot'];
 export type PestChoice = PestId | 'all';
-export type Level = 'district' | 'division' | 'state' | 'county';
+export type Level = 'district' | 'division' | 'state' | 'county' | 'region';
+/** The level each country is drawn at (Bangladesh can also be shown as divisions). */
+export const LEVEL_OF: Record<Country, Level> = { BD: 'district', IN: 'state', KE: 'county', ES: 'region', PT: 'district', BR: 'state' };
 
 /** The radar's problem codes for each pest (tools/build_map_data.py TAXA keeps the same list). */
 export const PEST_PROBLEMS: Record<PestId, string[]> = {
@@ -59,6 +62,8 @@ export interface GeoArea {
   label: [number, number];
   /** Bangladesh divisions only: the districts inside (for adding up district-level farmer reports) */
   districts?: string[];
+  /** an inset (Portugal's islands): the place drawn here is really at (drawn lon - off[0], drawn lat - off[1]) */
+  off?: [number, number];
 }
 export interface GeoFile {
   country: string;
@@ -183,6 +188,12 @@ export const reportStep = (n: number) => (n >= 8 ? 3 : n >= 5 ? 2 : 1);
 export function toLonLat(geo: Pick<GeoFile, 'projection'>, [x, y]: [number, number]): { lat: number; lon: number } {
   const p = geo.projection;
   return { lon: +(p.lon_min + x / (p.k * p.scale)).toFixed(3), lat: +(p.lat_max - y / p.scale).toFixed(3) };
+}
+
+/** The real longitude and latitude of an area's label point (undoing an inset, if the area has one). */
+export function areaPlace(geo: Pick<GeoFile, 'projection'>, area: Pick<GeoArea, 'label' | 'off'>): { lat: number; lon: number } {
+  const p = toLonLat(geo, area.label);
+  return area.off ? { lon: +(p.lon - area.off[0]).toFixed(3), lat: +(p.lat - area.off[1]).toFixed(3) } : p;
 }
 
 export type Dir = 'left' | 'right' | 'up' | 'down';

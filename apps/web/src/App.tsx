@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SiteLayout } from './shell/SiteLayout';
+import { PageGuard } from './shell/PageGuard';
 import { useI18n } from './lib/i18n';
 import { LinkButton } from './ui/Button';
 
@@ -38,7 +39,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="m" element={<Suspense fallback={null}><MobileApp /></Suspense>} />
+        <Route path="m" element={<PageGuard><Suspense fallback={null}><MobileApp /></Suspense></PageGuard>} />
         <Route element={<SiteLayout />}>
           <Route index element={<HomePage />} />
           <Route path="receipt" element={<ReceiptPage />} />

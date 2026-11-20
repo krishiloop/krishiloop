@@ -14,12 +14,17 @@ import './lib/theme';
 import './features/farmer/install';
 import { bootLang } from './lib/i18n';
 import App from './App';
+import { reloadOnce } from './shell/PageGuard';
 
 // The offline cache must never keep showing an old site after a deploy (owner, 20 Nov: the 19 Nov site with its old
 // hero kept appearing). registerSW in autoUpdate mode reloads the page once, as soon as a new version takes over. It is
 // loaded after the page, so it adds nothing to the first visit.
 window.addEventListener('load', () => {
   void import('virtual:pwa-register').then(({ registerSW }) => registerSW({ immediate: true }));
+});
+// a page's code that is gone after a deploy (an old open tab): reload once to the new version, never a white screen
+window.addEventListener('vite:preloadError', (e) => {
+  if (reloadOnce()) e.preventDefault();
 });
 
 // load the starting language first so a Bangla visitor never sees a flash of English

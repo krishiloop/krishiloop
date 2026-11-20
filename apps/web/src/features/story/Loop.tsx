@@ -103,7 +103,7 @@ function Artifact({ step }: { step: Step }) {
               <span className="chip">{t('ui.review.pending')}</span>
             </div>
             {/* code-like in Latin scripts; Bangla and Hindi words keep the sans (mono fonts have no Bengali or Devanagari) */}
-            <dl className={cx('mt-4 grid grid-cols-[3.2rem_1fr] gap-x-3 gap-y-2 leading-snug', lang === 'en' || lang === 'sw' ? 'mono text-[0.82rem]' : 'text-[0.95rem]')}>
+            <dl className={cx('mt-4 grid grid-cols-[3.2rem_1fr] gap-x-3 gap-y-2 leading-snug', lang === 'en' || lang === 'sw' || lang === 'es' ? 'mono text-[0.82rem]' : 'text-[0.95rem]')}>
               <dt className="text-ink-3">{t('story.loop.when')}</dt>
               <dd className="m-0">{t('story.loop.stage')}</dd>
               <dt className="text-ink-3">{t('story.loop.and')}</dt>

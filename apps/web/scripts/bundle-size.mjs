@@ -80,7 +80,16 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   20 Nov 2026 (v9, findable features): VerifyPage 138 -> 139 (measured 138.3), TrustPage 126 -> 127 (126.2), AboutPage
 //   111 -> 112 (111.2). The shared top bar now carries "Krishi officer" and the "Phone app" button on every page (two
 //   icons, the button and five words, ~0.8 KB gzipped); the QR code itself loads only when the panel opens.
-const PAGES = { HomePage: 190, MapPage: 119, TryPage: 140, ReceiptPage: 133, FarmerApp: 161, MobileApp: 162, OfficerPage: 143, VerifyPage: 139, TrustPage: 127, ProofPage: 129, AboutPage: 112 };
+//   20 Nov 2026 (NASA rainfall): MapPage 119 -> 120 (measured 119.0): the rainfall layer's switch, its colour steps in MapView and 22 English
+//   words; the layer's note and legend (RainNote) and the 7-day file are lazy chunks.
+//   20 Nov 2026 (more countries): MapPage 120 -> 121 (measured 120.4): the big country switch (cards, arrow keys, hint) and six country
+//   names, three levels' words and the switch's and thin-data lines in English; the three new outlines are lazy chunks like the others.
+//   Try, Farmer, Officer and Proof were 0.1-0.7 KB over at the same time with no change from this work: the entry grew 0.6 KB
+//   (101.2 -> 101.8) from edits made elsewhere, so their ceilings are left as they are for whoever made those edits.
+//   20 Nov 2026 (v10): TryPage 140 -> 141 (measured 140.7), FarmerApp 161 -> 162 (161.3), OfficerPage 143 -> 144 (143.4),
+//   ProofPage 129 -> 130 (129.3). The startup chunk grew 0.6 KB: the page guard (never a white screen: a page whose code is
+//   gone after a deploy reloads once, any other error shows Reload) and Spanish as a fifth language in the language list.
+const PAGES = { HomePage: 190, MapPage: 121, TryPage: 141, ReceiptPage: 133, FarmerApp: 162, MobileApp: 162, OfficerPage: 144, VerifyPage: 139, TrustPage: 127, ProofPage: 130, AboutPage: 112 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

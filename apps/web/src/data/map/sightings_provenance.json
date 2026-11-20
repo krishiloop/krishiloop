@@ -305,8 +305,137 @@
      "unmatched_ours": []
     }
    }
+  },
+  "ES": {
+   "levels": {
+    "region": {
+     "gadm_level": 1,
+     "gadm_units": 18,
+     "our_areas": 19,
+     "matched": 17,
+     "how": {
+      "Comunidad Valenciana": "exact -> ES-comunidad-valenciana",
+      "Extremadura": "exact -> ES-extremadura",
+      "Galicia": "exact -> ES-galicia",
+      "Islas Baleares": "exact -> ES-islas-baleares",
+      "Islas Canarias": "exact -> ES-islas-canarias",
+      "La Rioja": "exact -> ES-la-rioja",
+      "País Vasco": "exact -> ES-pais-vasco",
+      "Principado de Asturias": "variant -> ES-asturias",
+      "Región de Murcia": "variant -> ES-murcia",
+      "Andalucía": "exact -> ES-andalucia",
+      "Aragón": "exact -> ES-aragon",
+      "Cantabria": "exact -> ES-cantabria",
+      "Castilla-La Mancha": "exact -> ES-castilla-la-mancha",
+      "Castilla y León": "exact -> ES-castilla-y-leon",
+      "Cataluña": "exact -> ES-cataluna",
+      "Comunidad de Madrid": "variant -> ES-madrid",
+      "Comunidad Foral de Navarra": "alias -> ES-navarra"
+     },
+     "unmatched_gadm": [
+      {
+       "id": "ESP.7_1",
+       "name": "Ceuta y Melilla"
+      }
+     ],
+     "unmatched_ours": [
+      {
+       "code": "ES-ceuta",
+       "name": "Ceuta"
+      },
+      {
+       "code": "ES-melilla",
+       "name": "Melilla"
+      }
+     ]
+    }
+   }
+  },
+  "PT": {
+   "levels": {
+    "district": {
+     "gadm_level": 1,
+     "gadm_units": 20,
+     "our_areas": 20,
+     "matched": 20,
+     "how": {
+      "Guarda": "exact -> PT-guarda",
+      "Leiria": "exact -> PT-leiria",
+      "Lisboa": "exact -> PT-lisboa",
+      "Madeira": "exact -> PT-madeira",
+      "Portalegre": "exact -> PT-portalegre",
+      "Porto": "exact -> PT-porto",
+      "Santarém": "exact -> PT-santarem",
+      "Setúbal": "exact -> PT-setubal",
+      "Viana do Castelo": "exact -> PT-viana-do-castelo",
+      "Vila Real": "exact -> PT-vila-real",
+      "Aveiro": "exact -> PT-aveiro",
+      "Viseu": "exact -> PT-viseu",
+      "Azores": "exact -> PT-azores",
+      "Beja": "exact -> PT-beja",
+      "Braga": "exact -> PT-braga",
+      "Bragança": "exact -> PT-braganca",
+      "Castelo Branco": "exact -> PT-castelo-branco",
+      "Coimbra": "exact -> PT-coimbra",
+      "Évora": "exact -> PT-evora",
+      "Faro": "exact -> PT-faro"
+     },
+     "unmatched_gadm": [],
+     "unmatched_ours": []
+    }
+   }
+  },
+  "BR": {
+   "levels": {
+    "state": {
+     "gadm_level": 1,
+     "gadm_units": 27,
+     "our_areas": 27,
+     "matched": 27,
+     "how": {
+      "Maranhão": "exact -> BR-maranhao",
+      "Mato Grosso do Sul": "exact -> BR-mato-grosso-do-sul",
+      "Mato Grosso": "exact -> BR-mato-grosso",
+      "Minas Gerais": "exact -> BR-minas-gerais",
+      "Pará": "exact -> BR-para",
+      "Paraíba": "exact -> BR-paraiba",
+      "Paraná": "exact -> BR-parana",
+      "Pernambuco": "exact -> BR-pernambuco",
+      "Piauí": "exact -> BR-piaui",
+      "Rio de Janeiro": "exact -> BR-rio-de-janeiro",
+      "Acre": "exact -> BR-acre",
+      "Rio Grande do Norte": "exact -> BR-rio-grande-do-norte",
+      "Rio Grande do Sul": "exact -> BR-rio-grande-do-sul",
+      "Rondônia": "exact -> BR-rondonia",
+      "Roraima": "exact -> BR-roraima",
+      "Santa Catarina": "exact -> BR-santa-catarina",
+      "São Paulo": "exact -> BR-sao-paulo",
+      "Sergipe": "exact -> BR-sergipe",
+      "Tocantins": "exact -> BR-tocantins",
+      "Alagoas": "exact -> BR-alagoas",
+      "Amapá": "exact -> BR-amapa",
+      "Amazonas": "exact -> BR-amazonas",
+      "Bahia": "exact -> BR-bahia",
+      "Ceará": "exact -> BR-ceara",
+      "Distrito Federal": "exact -> BR-distrito-federal",
+      "Espírito Santo": "exact -> BR-espirito-santo",
+      "Goiás": "exact -> BR-goias"
+     },
+     "unmatched_gadm": [],
+     "unmatched_ours": []
+    }
+   }
   }
  },
  "citation": "GBIF.org (19 November 2026) GBIF occurrence search, facet counts via api.gbif.org/v1/occurrence/search. Records are shared by many publishers under CC0 1.0, CC BY 4.0 or CC BY-NC 4.0 (the mix per pest and country is listed with each count). A formal GBIF download with a DOI has not been made.",
- "geoBoundaries_disclaimer": "geoBoundaries (CITATION-AND-USE-geoBoundaries.txt, release 9469f09): \"we make no representations or warranties ... as to the validity, accuracy, completeness, or fitness for a particular purpose\". Its India metadata states no separate note on disputed borders."
+ "geoBoundaries_disclaimer": "geoBoundaries (CITATION-AND-USE-geoBoundaries.txt, release 9469f09): \"we make no representations or warranties ... as to the validity, accuracy, completeness, or fitness for a particular purpose\". Its India metadata states no separate note on disputed borders.",
+ "queries_added": {
+  "date": "2026-11-20",
+  "countries": [
+   "BR",
+   "ES",
+   "PT"
+  ],
+  "n": 83
+ }
 }

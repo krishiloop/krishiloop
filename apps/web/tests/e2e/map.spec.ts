@@ -16,6 +16,7 @@ test.describe.configure({ retries: 1 }); // the dev server is shared with other 
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const MAP = '/map?sample=1&lang=en';
+const imerg = JSON.parse(readFileSync(new URL('../../src/data/nasa/imerg_bd.json', import.meta.url), 'utf8'));
 const sightings = JSON.parse(readFileSync(new URL('../../src/data/map/sightings.json', import.meta.url), 'utf8'));
 
 const WET = {
@@ -88,7 +89,7 @@ async function firstMap(page: Page) {
   await expect(country(page, 'BD').locator('path[data-code]').first()).toBeVisible({ timeout: 30_000 });
 }
 
-test('country switch: Bangladesh districts first, then India, Kenya and all three side by side', async ({ page }) => {
+test('country switch: Bangladesh districts first, then India, Kenya, Spain, Portugal and Brazil', async ({ page }) => {
   await page.goto(MAP);
   await firstMap(page);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Where pests and diseases have been recorded');
@@ -105,13 +106,14 @@ test('country switch: Bangladesh districts first, then India, Kenya and all thre
   await expect(country(page, 'BD')).toHaveCount(0);
   await countries.getByRole('radio', { name: 'Kenya' }).click();
   await expect(country(page, 'KE').locator('path[data-code]')).toHaveCount(47);
-  await countries.getByRole('radio', { name: 'All three' }).click();
-  for (const c of ['BD', 'IN', 'KE']) await expect(country(page, c).locator('path[data-code]').first()).toBeVisible();
-  // side by side on a desktop screen
-  const [a, b] = await Promise.all([country(page, 'BD').boundingBox(), country(page, 'IN').boundingBox()]);
-  expect(Math.abs(a!.y - b!.y)).toBeLessThan(5);
-  expect(b!.x).toBeGreaterThan(a!.x + 100);
+  // the three added countries: their own outlines, counted at their own level
+  for (const [name, c, n] of [['Spain', 'ES', 19], ['Portugal', 'PT', 20], ['Brazil', 'BR', 27]] as const) {
+    await countries.getByRole('radio', { name }).click();
+    await expect(country(page, c).locator('path[data-code]')).toHaveCount(n);
+    await expect(country(page, 'KE')).toHaveCount(0);
+  }
 
+  await countries.getByRole('radio', { name: 'Bangladesh' }).click();
   // Bangladesh divisions: 8 areas
   await page.getByRole('radiogroup', { name: 'Bangladesh areas' }).getByRole('radio', { name: 'Divisions' }).click();
   await expect(country(page, 'BD').locator('path[data-code]')).toHaveCount(8);
@@ -264,8 +266,8 @@ test('360 px: no sideways scroll; tapping an area opens a bottom sheet with the 
   await page.goto(MAP);
   await firstMap(page);
   await noOverflow(page);
-  await page.getByRole('radiogroup', { name: 'Country' }).getByRole('radio', { name: 'All three' }).click();
-  await expect(country(page, 'KE').locator('path[data-code]').first()).toBeVisible();
+  await page.getByRole('radiogroup', { name: 'Country' }).getByRole('radio', { name: 'Portugal' }).click();
+  await expect(country(page, 'PT').locator('path[data-code]').first()).toBeVisible();
   await noOverflow(page);
   await page.getByRole('radiogroup', { name: 'Country' }).getByRole('radio', { name: 'Bangladesh' }).click();
   await country(page, 'BD').locator('path[data-code="BD-rajshahi"]').click();
@@ -302,3 +304,133 @@ test('NASA section of the panel: a GIBS picture with its date, and NASA POWER wi
   await expect(nasa).not.toContainText('999');
   await expect(page.getByTestId('map-power-tiles')).toContainText('°C');
 });
+
+test('NASA satellite rainfall: a row in the panel and a colour layer, both from the built IMERG file with its 7 dates', async ({ page }) => {
+  await mockWeather(page, WET);
+  await page.goto(MAP);
+  await firstMap(page);
+  const first = country(page, 'BD').locator('path[data-code]').first();
+  const name = (await first.getAttribute('aria-label'))!.split(',')[0]!;
+  const mm = imerg.districts[name];
+  expect(mm, `${name} is in the IMERG file`).not.toBeUndefined();
+  await first.focus();
+  await page.keyboard.press('Enter');
+  const row = page.getByTestId('map-nasa-rain');
+  await expect(row).toContainText('Satellite rainfall, last 7 days:');
+  await expect(row).toContainText('NASA GPM IMERG');
+  if (mm != null) await expect(row).toContainText(`${mm.toLocaleString('en-GB', { maximumFractionDigits: 1 })} mm`);
+  expect(imerg.days).toHaveLength(7);
+  // the layer: off at first; on, the districts take rain colours, the note names the source and dates, and no yellow is used
+  await expect(country(page, 'BD').locator('path.r-0, path.r-1, path.r-2, path.r-3, path.r-4, path.r-5')).toHaveCount(0);
+  await page.getByTestId('map-layer-rain').check();
+  const note = page.getByTestId('map-label-rain');
+  await expect(note).toContainText('GPM IMERG Late Run V');
+  await expect(note).toContainText('NASA GES DISC');
+  await expect(country(page, 'BD').locator('path.r-0, path.r-1, path.r-2, path.r-3, path.r-4, path.r-5')).toHaveCount(64);
+  await expect(note.locator('.mp-swatch')).toHaveCount(6);
+  await page.getByTestId('map-layer-rain').uncheck();
+  await expect(country(page, 'BD').locator('path.r-0, path.r-1, path.r-2, path.r-3, path.r-4, path.r-5')).toHaveCount(0);
+});
+
+test('the country switch: every country is a big card with its sightings, the chosen one filled, a hint until the first pick, arrow keys', async ({ page }) => {
+  await page.goto(MAP);
+  await firstMap(page);
+  const sw = page.getByTestId('map-switch');
+  const group = sw.getByRole('radiogroup', { name: 'Country' });
+  const radios = group.getByRole('radio');
+  await expect(radios).toHaveCount(6);
+  await expect(page.getByTestId('map-switch-hint')).toHaveText('Pick a country to see its map');
+  // each card names the country and its number of GBIF sightings (every pest, every year)
+  for (const [c, name] of [['BD', 'Bangladesh'], ['IN', 'India'], ['KE', 'Kenya'], ['ES', 'Spain'], ['PT', 'Portugal'], ['BR', 'Brazil']] as const) {
+    const total = Object.values(sightings.countries[c].taxa).reduce((n: number, t: any) => n + t.total, 0);
+    const card = group.getByRole('radio', { name });
+    await expect(card).toContainText(`${total.toLocaleString('en-GB')} sightings`);
+  }
+  await expect(group.getByRole('radio', { name: 'Bangladesh' })).toHaveAttribute('aria-checked', 'true');
+  // big enough to hit: 48 px tall at least
+  for (const h of await radios.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().height))) expect(h).toBeGreaterThanOrEqual(48);
+  // one tab stop, arrows move the choice and the map
+  await group.getByRole('radio', { name: 'Bangladesh' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(group.getByRole('radio', { name: 'India' })).toHaveAttribute('aria-checked', 'true');
+  await expect(country(page, 'IN').locator('path[data-code]')).toHaveCount(36);
+  await page.keyboard.press('End');
+  await expect(group.getByRole('radio', { name: 'Brazil' })).toHaveAttribute('aria-checked', 'true');
+  await expect(country(page, 'BR').locator('path[data-code]')).toHaveCount(27);
+  // after the first pick the hint is gone
+  await expect(page.getByTestId('map-switch-hint')).toHaveCount(0);
+  await expect(group.locator('[role="radio"][tabindex="0"]')).toHaveCount(1);
+});
+
+test('a new country: Spain draws its own outline, counts its own sightings, and its panel has weather and NASA (no rainfall layer)', async ({ page }) => {
+  await mockWeather(page, WET);
+  await page.goto(MAP);
+  await firstMap(page);
+  await page.getByTestId('map-switch').getByRole('radio', { name: 'Spain' }).click();
+  const es = country(page, 'ES');
+  await expect(es.locator('path[data-code]')).toHaveCount(19);
+  await expect(page.getByTestId('map-totals-ES')).toContainText('of 843 records');
+  // Canary Islands: where the desert locust records are
+  const canarias = sightings.countries.ES.taxa.locust.levels.region.areas['ES-islas-canarias'].n;
+  await page.getByTestId('map-pests').getByRole('radio', { name: /Desert locust/ }).click();
+  await expect(es.locator('path[data-code="ES-islas-canarias"]')).toHaveAttribute('data-count', String(canarias));
+  await es.locator('path[data-code="ES-islas-canarias"]').dispatchEvent('click'); // an archipelago: its box centre is open sea, so click the shape itself
+  const panel = page.getByTestId('map-panel');
+  await expect(panel).toHaveAttribute('data-area', 'ES-islas-canarias');
+  await expect(panel.getByTestId('map-wx-days').locator('li')).toHaveCount(7);
+  await expect(panel.getByTestId('map-nasa')).toBeVisible();
+  await expect(panel.getByTestId('map-power-days').locator('li')).toHaveCount(14);
+  await expect(panel.getByTestId('map-nasa-rain')).toHaveCount(0); // IMERG rainfall is Bangladesh only
+  await expect(panel.getByTestId('map-watch-none').first()).toContainText('no sourced rule for Spain');
+  await expect(panel).toContainText('no farmer reports from Spain');
+  // the rainfall layer says it is Bangladesh only
+  await page.getByTestId('map-layer-rain').check();
+  await expect(page.getByTestId('map-label-rain')).toContainText('Bangladesh districts');
+});
+
+test('Portugal: only 76 records, so the map says plainly that most areas are empty; an island is an inset and the panel asks for its real place', async ({ page }) => {
+  await mockWeather(page, WET);
+  const wx: string[] = [];
+  page.on('request', (r) => r.url().includes('api.open-meteo.com') && wx.push(r.url()));
+  await page.goto(MAP);
+  await firstMap(page);
+  await page.getByTestId('map-switch').getByRole('radio', { name: 'Portugal' }).click();
+  await expect(page.getByTestId('map-thin')).toContainText('only 76 records');
+  await expect(country(page, 'PT').locator('path[data-code]')).toHaveCount(20);
+  await country(page, 'PT').locator('path[data-code="PT-madeira"]').dispatchEvent('click');
+  await expect(page.getByTestId('map-panel')).toHaveAttribute('data-area', 'PT-madeira');
+  await expect(page.getByTestId('map-wx-days')).toBeVisible();
+  // the forecast asks for Madeira's real place (about 32.7 N, 17 W), not for where the inset is drawn
+  const u = new URL(wx[wx.length - 1]!);
+  expect(Number(u.searchParams.get('latitude'))).toBeGreaterThan(32);
+  expect(Number(u.searchParams.get('latitude'))).toBeLessThan(34);
+  expect(Number(u.searchParams.get('longitude'))).toBeLessThan(-15);
+});
+
+test('390 px: the country cards scroll sideways inside their own row, the page does not, and the cards are 48 px tall', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(MAP);
+  await firstMap(page);
+  await noOverflow(page);
+  const row = page.getByTestId('map-switch').getByRole('radiogroup');
+  const m = await row.evaluate((e) => ({ scroll: e.scrollWidth, client: e.clientWidth }));
+  expect(m.scroll).toBeGreaterThan(m.client); // six cards do not fit: they scroll inside the row
+  await page.getByTestId('map-switch').getByRole('radio', { name: 'Brazil' }).click();
+  await expect(country(page, 'BR').locator('path[data-code]').first()).toBeVisible();
+  await noOverflow(page);
+  for (const h of await row.getByRole('radio').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().height))) expect(h).toBeGreaterThanOrEqual(48);
+});
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`axe, ${theme} theme: the country switch and a new country`, async ({ page }) => {
+    await mockWeather(page);
+    await page.goto(`${MAP}&theme=${theme}`);
+    await firstMap(page);
+    await axe(page, `switch ${theme}`);
+    await page.getByTestId('map-switch').getByRole('radio', { name: 'Spain' }).click();
+    await expect(country(page, 'ES').locator('path[data-code]').first()).toBeVisible();
+    await country(page, 'ES').locator('path[data-code="ES-andalucia"]').click({ force: true });
+    await expect(page.getByTestId('map-nasa')).toBeVisible();
+    await axe(page, `Spain panel ${theme}`);
+  });
+}

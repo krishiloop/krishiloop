@@ -80,3 +80,26 @@ for (const theme of ['light', 'dark'] as const) {
     await axe(page, `home directory ${theme}`);
   });
 }
+
+test('never a white screen: a page whose code fails to load shows Reload (after one quiet retry)', async ({ page }) => {
+  await page.goto('/?lang=en');
+  // the officer desk's code is "gone" (as after a deploy, for an old open tab)
+  await page.route(/\/src\/features\/officer\/OfficerPage\.tsx/, (r) => r.abort());
+  await page.route(/\/assets\/OfficerPage-[\w-]+\.js/, (r) => r.abort());
+  await page.goto('/officer?lang=en');
+  await expect(page.getByTestId('page-guard')).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('button', { name: 'Reload' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Home' }).first()).toBeVisible();
+});
+
+test('the hero lists every language, and one tap switches (Spanish is a labelled preview)', async ({ page }) => {
+  await page.goto('/?lang=en');
+  const row = page.getByRole('group', { name: 'Languages' });
+  await expect(row.getByRole('button')).toHaveCount(5);
+  await expect(page.locator('.kg-promise')).toContainText('in their own language');
+  await page.getByTestId('hero-lang-es').click();
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(page.getByTestId('hero-lang-es')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('navigation', { name: 'Principal' }).first().getByRole('link', { name: 'App del agricultor' })).toBeVisible();
+  await expect(page.getByTestId('hero-lang-es')).toContainText('preview');
+});

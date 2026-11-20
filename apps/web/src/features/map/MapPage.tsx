@@ -1,6 +1,6 @@
 // this page's words (English loads per screen)
 import '../../lib/i18n/strings.map';
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type KeyboardEvent } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState, useSyncExternalStore, type KeyboardEvent } from 'react';
 import { MapPin } from 'lucide-react';
 import { useI18n } from '../../lib/i18n';
 import { fmtDate, fmtNum } from '../../lib/format';
@@ -11,8 +11,9 @@ import { Sheet } from '../../ui/Sheet';
 import { fetchRadar } from '../farmer/climate/api';
 import type { RadarData } from '../farmer/climate/types';
 import { loadGeo, loadSightings } from './data';
+import { loadRain, type RainFile } from './rain';
 import {
-  COUNTRIES,
+  LEVEL_OF,
   PESTS,
   countryTotals,
   isFullRange,
@@ -31,23 +32,26 @@ import {
 import { MapView } from './MapView';
 import { AreaPanel } from './AreaPanel';
 import { YearRange } from './YearRange';
+import { CountrySwitch } from './CountrySwitch';
 import { Fold } from '../../ui/Fold';
 import './map.css';
 import { FarmerCameo } from '../../ui/farmer/FarmerCameo';
 
-type View = Country | 'all';
+type View = Country;
 interface Layers {
   sightings: boolean;
   reports: boolean;
   sim: boolean;
+  rain: boolean;
 }
+/** the rainfall layer's label and steps: their own chunk */
+const RainNote = lazy(() => import('./RainNote').then((m) => ({ default: m.RainNote })));
 interface Open {
   country: Country;
   level: Level;
   code: string;
 }
 
-const LEVEL_OF: Record<Country, Level> = { BD: 'district', IN: 'state', KE: 'county' };
 const LICENCE_NAME: Record<string, string> = { CC0_1_0: 'CC0 1.0', CC_BY_4_0: 'CC BY 4.0', CC_BY_NC_4_0: 'CC BY-NC 4.0' };
 
 const wideQuery = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(min-width: 1024px)') : null;
@@ -63,7 +67,7 @@ function useWide() {
 }
 
 /**
- * /map, the Disease map (builder M): Bangladesh, India and Kenya, every district, state or county coloured by
+ * /map, the Disease map (builder M): Bangladesh, India, Kenya, Spain, Portugal and Brazil, every district, state or county coloured by
  * RECORDED SIGHTINGS in GBIF (built offline, labelled as such), with recent FARMER REPORTS (the radar's 14-day window) from the outbreak
  * radar (live only with the API) and the SIMULATED OUTBREAK as a separate, labelled practice layer. Click an area for
  * its counts per pest, a live 7-day forecast from Open-Meteo, and the sourced rules we hold for it (or a plain "none").
@@ -77,7 +81,21 @@ export default function MapPage() {
   const [bdLevel, setBdLevel] = useState<Level | null>(null);
   const [pest, setPest] = useState<PestChoice>('all');
   const [range, setRange] = useState<Range | null>(null);
-  const [layers, setLayers] = useState<Layers>({ sightings: true, reports: true, sim: false });
+  const [layers, setLayers] = useState<Layers>({ sightings: true, reports: true, sim: false, rain: false });
+  const [rain, setRain] = useState<RainFile | null>(null);
+  const [rainState, setRainState] = useState<'loading' | 'ready'>('loading');
+  useEffect(() => {
+    if (!layers.rain) return;
+    let alive = true;
+    void loadRain().then((r) => {
+      if (!alive) return;
+      setRain(r);
+      setRainState('ready');
+    });
+    return () => {
+      alive = false;
+    };
+  }, [layers.rain]);
   const [open, setOpen] = useState<Open | null>(null);
   const [geos, setGeos] = useState<Record<string, GeoFile>>({});
   const [failed, setFailed] = useState(false);
@@ -102,7 +120,7 @@ export default function MapPage() {
   }, []);
 
   const levelOf = useCallback((c: Country): Level => (c === 'BD' ? (bdLevel ?? 'district') : LEVEL_OF[c]), [bdLevel]);
-  const shown: Country[] = view === 'all' ? COUNTRIES : [view];
+  const shown: Country[] = [view];
 
   // outlines: only the countries on screen, each once (Bangladesh divisions also feed the district -> division sums)
   useEffect(() => {
@@ -173,6 +191,7 @@ export default function MapPage() {
             ['sightings', 'map.layer.sightings', 'sw-sight'],
             ['reports', 'map.layer.reports', 'sw-rep'],
             ['sim', 'map.layer.sim', 'sw-sim'],
+            ['rain', 'map.layer.rain', 'sw-rain'],
           ] as const
         ).map(([k, key, sw]) => (
           <label key={k} className="mp-toggle">
@@ -205,22 +224,15 @@ export default function MapPage() {
         </div>
       ) : (
         <>
+          <CountrySwitch
+            value={view}
+            sightings={sightings}
+            onChange={(v) => {
+              setView(v);
+              setOpen(null);
+            }}
+          />
           <div className="mp-controls" data-testid="map-controls">
-            <div className="mp-ctl">
-              <span className="mp-ctl-label" id="mp-c-country">
-                {t('map.ctl.country')}
-              </span>
-              <Segmented
-                label={t('map.ctl.country')}
-                value={view}
-                onChange={(v) => {
-                  setView(v);
-                  setOpen(null);
-                }}
-                options={[...COUNTRIES.map((c) => ({ value: c as View, label: t(`map.country.${c}`) })), { value: 'all' as View, label: t('map.country.all') }]}
-                className="mp-seg"
-              />
-            </div>
             {shown.includes('BD') && (
               <div className="mp-ctl">
                 <span className="mp-ctl-label">{t('map.ctl.bdLevel')}</span>
@@ -269,6 +281,11 @@ export default function MapPage() {
                 <span>{radar?.real ? t('map.reports.live', { k: fmtNum(radar.real.k, lang), days: fmtNum(radar.real.window_days, lang) }) : t('map.reports.needsLive')}</span>
               </p>
             )}
+            {layers.rain && (
+              <Suspense fallback={null}>
+                <RainNote rain={rain} state={shown.some((c) => c === 'BD' && levelOf(c) === 'district') ? rainState : 'level'} />
+              </Suspense>
+            )}
             {layers.sim && (
               <p className="mp-note is-sim" data-testid="map-label-sim">
                 <span className="chip chip-carbon">{t('map.mark.sim')}</span>
@@ -277,8 +294,8 @@ export default function MapPage() {
             )}
           </div>
 
-          <div className={cx('mp-body', view === 'all' && 'is-all', wide && open && 'has-panel')}>
-            <div className={cx('mp-maps', view === 'all' && 'is-three')}>
+          <div className={cx('mp-body', wide && open && 'has-panel')}>
+            <div className="mp-maps">
               {shown.map((c) => (
                 <CountryMap
                   key={c}
@@ -291,10 +308,11 @@ export default function MapPage() {
                   span={span}
                   pest={pest}
                   layers={layers}
+                  rainFile={layers.rain ? rain : null}
                   radar={radar}
                   selected={open?.country === c ? open.code : null}
                   onOpen={(code) => setOpen({ country: c, level: levelOf(c), code })}
-                  compact={view === 'all'}
+                  compact={false}
                 />
               ))}
             </div>
@@ -347,6 +365,7 @@ function CountryMap({
   span,
   pest,
   layers,
+  rainFile,
   radar,
   selected,
   onOpen,
@@ -361,6 +380,7 @@ function CountryMap({
   span: [number, number];
   pest: PestChoice;
   layers: Layers;
+  rainFile: RainFile | null;
   radar: RadarData | null;
   selected: string | null;
   onOpen: (code: string) => void;
@@ -374,6 +394,11 @@ function CountryMap({
     [layers.reports, radar, country, pest, divAreas],
   );
   const sim = useMemo(() => (layers.sim && radar ? reportsByArea(radar.simulated.cells, country, pest, divAreas) : null), [layers.sim, radar, country, pest, divAreas]);
+  // satellite rain per area (Bangladesh districts only), by the area's code; it replaces the sightings colours while on
+  const rain = useMemo(() => {
+    if (!rainFile || country !== 'BD' || level !== 'district' || !geo) return null;
+    return new Map(geo.areas.map((a) => [a.code, rainFile.districts[a.name] ?? null] as const));
+  }, [rainFile, country, level, geo]);
   const totals = countryTotals(sightings, country, level, pest);
   const countryName = t(`map.country.${country}`);
 
@@ -382,9 +407,10 @@ function CountryMap({
       const parts = [name, t('map.a11y.sightings', { n: fmtNum(values.get(code) ?? 0, lang) })];
       if (reports?.get(code)) parts.push(t('map.a11y.reports', { n: fmtNum(reports.get(code)!, lang), days: fmtNum(radar?.real?.window_days ?? 14, lang) }));
       if (sim?.get(code)) parts.push(t('map.a11y.sim', { n: fmtNum(sim.get(code)!, lang) }));
+      if (rain?.get(code) != null) parts.push(t('map.a11y.rain', { mm: fmtNum(rain.get(code)!, lang, { maximumFractionDigits: 1 }) }));
       return parts.join(', ');
     },
-    [values, reports, sim, t, lang, radar],
+    [values, reports, sim, rain, t, lang, radar],
   );
   const tipText = useCallback(
     (code: string, name: string) => {
@@ -405,6 +431,11 @@ function CountryMap({
           {t('map.totals', { placed: fmtNum(totals.placed, lang), total: fmtNum(totals.total, lang), level: t(`map.levels.${level}`) })}
         </span>
       </figcaption>
+      {totals.total < 100 && (
+        <p className="mp-note" data-testid="map-thin">
+          {t('map.thin', { n: fmtNum(totals.total, lang), country: countryName })}
+        </p>
+      )}
       {layers.sim && !!sim?.size && (
         <span className="mp-stamp" data-testid="map-sim-stamp">
           {t('map.mark.sim')}
@@ -413,9 +444,10 @@ function CountryMap({
       {geo ? (
         <MapView
           geo={geo}
-          values={layers.sightings ? values : null}
+          values={layers.sightings && !rain ? values : null}
           reports={reports}
           sim={sim}
+          rain={rain}
           selected={selected}
           onOpen={onOpen}
           describe={describe}

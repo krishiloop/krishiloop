@@ -16,9 +16,15 @@ export function loadGeo(country: Country, level: Level): Promise<GeoFile> {
         ? import('../../data/map/geo-in.json')
         : country === 'KE'
           ? import('../officer/radar/geo/ke.json')
-          : level === 'division'
-            ? import('../../data/map/geo-bd-div.json')
-            : import('../officer/radar/geo/bd.json')
+          : country === 'ES'
+            ? import('../../data/map/geo-es.json')
+            : country === 'PT'
+              ? import('../../data/map/geo-pt.json')
+              : country === 'BR'
+                ? import('../../data/map/geo-br.json')
+                : level === 'division'
+                  ? import('../../data/map/geo-bd-div.json')
+                  : import('../officer/radar/geo/bd.json')
     ).then((m) => m.default as unknown as GeoFile);
     p.catch(() => geoCache.delete(key));
     geoCache.set(key, p);

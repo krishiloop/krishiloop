@@ -7,7 +7,7 @@
 import { toLonLat, type GeoArea, type GeoFile } from './model';
 
 /** [west, south, east, north] of an area's outline, from its SVG path (only M, l and z are used by our outline files). */
-export function areaBounds(geo: Pick<GeoFile, 'projection'>, area: Pick<GeoArea, 'd'>): [number, number, number, number] {
+export function areaBounds(geo: Pick<GeoFile, 'projection'>, area: Pick<GeoArea, 'd' | 'off'>): [number, number, number, number] {
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -33,7 +33,8 @@ export function areaBounds(geo: Pick<GeoFile, 'projection'>, area: Pick<GeoArea,
   if (!Number.isFinite(minX)) return [0, 0, 1, 1];
   const nw = toLonLat(geo, [minX, minY]);
   const se = toLonLat(geo, [maxX, maxY]);
-  return [nw.lon, se.lat, se.lon, nw.lat];
+  const [dx, dy] = area.off ?? [0, 0]; // an inset (Portugal's islands): ask for the real place
+  return [nw.lon - dx, se.lat - dy, se.lon - dx, nw.lat - dy];
 }
 
 /** The box GIBS is asked for: the area plus a little margin, never smaller than 0.5 degrees, so the picture has the same shape as its box. */

@@ -6,7 +6,7 @@ import { fmtNum } from '../../lib/format';
 import { useInViewOnce } from '../../lib/hooks';
 import { LinkButton } from '../../ui/Button';
 import { loadGeo, loadSightings } from './data';
-import { COUNTRIES, countryTotals, sightingsByArea, stepOf, yearSpan, type GeoFile, type Sightings } from './model';
+import { COUNTRIES, LEVEL_OF, countryTotals, sightingsByArea, stepOf, yearSpan, type GeoFile, type Sightings } from './model';
 import './teaser.css';
 
 /**
@@ -31,7 +31,7 @@ export function MapTeaser({ className }: { className?: string }) {
     };
   }, [near, data]);
 
-  const placed = data ? COUNTRIES.reduce((n, c) => n + countryTotals(data.s, c, c === 'BD' ? 'division' : c === 'IN' ? 'state' : 'county', 'all').placed, 0) : null;
+  const placed = data ? COUNTRIES.reduce((n, c) => n + countryTotals(data.s, c, c === 'BD' ? 'division' : LEVEL_OF[c], 'all').placed, 0) : null;
   const values = data ? sightingsByArea(data.s, 'BD', 'division', 'all', { from: yearSpan(data.s)[0], to: yearSpan(data.s)[1] }, yearSpan(data.s)) : null;
 
   return (

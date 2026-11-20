@@ -1475,3 +1475,40 @@ section[aria-labelledby="bento-title"] .surface {
     left: 0;
   }
 }
+
+/* the hero's language row (HomeHero.tsx): every language the app speaks, one tap to switch; previews say so */
+.kg-langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.kg-lang {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-rule-2);
+  background: color-mix(in oklab, var(--color-card) 70%, transparent);
+  color: var(--color-ink-2);
+  font-size: 0.9rem;
+  font-weight: 560;
+  transition: background-color 200ms ease, color 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.kg-lang:active {
+  transform: scale(0.97);
+}
+.kg-lang[aria-pressed="true"] {
+  background: var(--color-moss);
+  border-color: color-mix(in oklab, var(--color-moss-ink) 40%, transparent);
+  color: var(--color-moss-ink);
+  font-weight: 680;
+}
+.kg-lang-pre {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-hyacinth-ink);
+}

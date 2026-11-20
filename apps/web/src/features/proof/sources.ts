@@ -261,7 +261,7 @@ export const TESTS = {
 };
 
 /* ------------------------------------------------------------------ data and licences */
-export type RegisterId = 'meteo' | 'sentinel' | 'brri' | 'cip' | 'leaf' | 'textModels' | 'voice' | 'gibs' | 'power';
+export type RegisterId = 'meteo' | 'sentinel' | 'brri' | 'cip' | 'leaf' | 'textModels' | 'voice' | 'gibs' | 'power' | 'imerg';
 export const REGISTER: { id: RegisterId; name: string; licence: string; source: Source }[] = [
   { id: 'meteo', name: 'Open-Meteo forecast + GloFAS', licence: 'free API, non-commercial', source: file('services/engine/snapshot.py') },
   { id: 'sentinel', name: 'Sentinel-2 L2A / Sentinel-1 (STAC)', licence: 'Copernicus, free and open', source: file('docs/mcp/README.md') },
@@ -273,6 +273,8 @@ export const REGISTER: { id: RegisterId; name: string; licence: string; source: 
   // NASA data are free to use; cite the producer (NASA Earthdata data and information policy)
   { id: 'gibs', name: 'NASA GIBS: MODIS Terra true colour and NDVI (cite: NASA EOSDIS GIBS)', licence: 'NASA data, free to use, cite EOSDIS GIBS', source: file('apps/web/src/lib/nasa/gibs.ts') },
   { id: 'power', name: 'NASA POWER daily point data, community AG (cite: NASA POWER Project)', licence: 'NASA data, free to use, cite POWER Project', source: file('apps/web/src/features/map/nasa.ts') },
+  // built offline by tools/nasa_imerg.py with an Earthdata token; the browser only reads the finished file
+  { id: 'imerg', name: 'GPM IMERG Late Run V07, NASA GES DISC: daily rainfall (build script: tools/nasa_imerg.py; data: apps/web/src/data/nasa/imerg_bd.json)', licence: 'NASA data, free to use, cite GPM IMERG, NASA GES DISC', source: file('tools/nasa_imerg.py') },
 ];
 
 export const READ_THE_CODE: Source[] = [file('README.md'), dir('specs'), dir('contracts'), file('ml/vision/MODEL_CARD.md'), dir('docs/prompt-library')];

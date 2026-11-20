@@ -7,7 +7,7 @@ import { useMotionReduced } from '../../lib/motionPref';
 import { DataMark } from '../../ui/DataMark';
 import type { RadarCell } from '../farmer/climate/types';
 import { fetchForecast, loadWatch, rainForecast, type Forecast, type Watch } from './data';
-import { PEST_PROBLEMS, PESTS, pestsInArea, toLonLat, type Country, type GeoArea, type GeoFile, type Level, type PestChoice, type PestId, type Sightings, type YearRange } from './model';
+import { PEST_PROBLEMS, PESTS, pestsInArea, areaPlace, type Country, type GeoArea, type GeoFile, type Level, type PestChoice, type PestId, type Sightings, type YearRange } from './model';
 
 /** NASA pictures and POWER weather: their own chunk, fetched when an area's panel opens. */
 const NasaPanel = lazy(() => import('./NasaPanel').then((m) => ({ default: m.NasaPanel })));
@@ -98,8 +98,8 @@ export function AreaPanel({
         <h3 id="mp-p-rep" className="mp-p-h">
           {t('map.layer.reports', { days: fmtNum(windowDays, lang) })}
         </h3>
-        {country === 'IN' ? (
-          <p className="mp-p-sub">{t('map.reports.india')}</p>
+        {country !== 'BD' && country !== 'KE' ? (
+          <p className="mp-p-sub">{country === 'IN' ? t('map.reports.india') : t('map.reports.noCountry', { country: t(`map.country.${country}`) })}</p>
         ) : !realOn ? (
           <p className="mp-p-sub">{t('map.reports.layerOff')}</p>
         ) : real === null ? (
@@ -141,7 +141,7 @@ export function AreaPanel({
 
       <Weather area={area} geo={geo} />
       <Suspense fallback={<div className="skeleton h-24 w-full" aria-hidden />}>
-        <NasaPanel key={area.code} area={area} geo={geo} />
+        <NasaPanel key={area.code} area={area} geo={geo} rainName={country === 'BD' && level === 'district' ? area.name : null} />
       </Suspense>
       <WatchList country={country} pest={pest} order={rows} />
     </div>
@@ -152,7 +152,7 @@ export function AreaPanel({
 function Weather({ area, geo }: { area: GeoArea; geo: GeoFile }) {
   const { t, lang } = useI18n();
   const reduced = useMotionReduced();
-  const [{ lat, lon }] = useState(() => toLonLat(geo, area.label));
+  const [{ lat, lon }] = useState(() => areaPlace(geo, area));
   const [wx, setWx] = useState<Forecast | null>(null);
   const [err, setErr] = useState(false);
   const [tick, setTick] = useState(0);

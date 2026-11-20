@@ -71,6 +71,10 @@ COUNTRIES = {
     # level-1 unit is added to India's list; GADM has no separate Ladakh unit, so Ladakh cannot be counted apart.
     "IN": {"iso3": "IND", "levels": {"state": 1}, "extra_gadm": ["Z01"]},
     "KE": {"iso3": "KEN", "levels": {"county": 1}},
+    # added 20 Nov 2026 after counting every candidate country for the same seven pests (see MORE_GEO below)
+    "ES": {"iso3": "ESP", "levels": {"region": 1}},
+    "PT": {"iso3": "PRT", "levels": {"district": 1}},
+    "BR": {"iso3": "BRA", "levels": {"state": 1}},
 }
 
 # GADM name (normalised) -> our outline name (normalised), only where the spelling differs beyond accents and
@@ -107,6 +111,12 @@ ALIASES: dict[str, dict[str, str]] = {
         "keiyomarakwet": "elgeyomarakwet",
     },
 }
+ALIASES["ES"] = {  # GADM name -> our short name (the outlines carry the short names)
+    "comunidadforaldenavarra": "navarra", "regiondemurcia": "murcia", "comunidaddemadrid": "madrid",
+    "principadodeasturias": "asturias",
+}
+ALIASES["PT"] = {}
+ALIASES["BR"] = {}
 # display fixes for typos in the boundary source (the code keeps the source spelling so it never changes silently)
 NAME_FIX = {"Rajshani": "Rajshahi"}
 
@@ -115,6 +125,11 @@ def norm(s: str) -> str:
     s = unicodedata.normalize("NFKD", s)
     s = "".join(ch for ch in s if not unicodedata.combining(ch)).lower().replace("&", "and")
     return "".join(ch for ch in s if ch.isalnum())
+
+
+def norm_fold(s: str) -> str:
+    """Accents folded, for area codes only ('Andalucía' -> 'Andalucia'); the shown name keeps its accents."""
+    return "".join(ch for ch in unicodedata.normalize("NFKD", s) if not unicodedata.combining(ch))
 
 
 def ascii_name(s: str) -> str:
@@ -210,18 +225,18 @@ def label_point(rings: list[list[list[float]]]) -> tuple[float, float]:
 
 
 def build_geo(country: str, level: str, geojson: dict, *, tolerance: float, min_island: float, code_prefix: str,
-              meta: dict) -> tuple[dict, list[dict]]:
+              meta: dict, keep_accents: bool = False) -> tuple[dict, list[dict]]:
     """A GeoFile for the web (same shape as the radar's) plus the lon/lat rings (for tests and the district lookup)."""
     areas = []
     for ft in geojson["features"]:
-        name = ascii_name(ft["properties"]["shapeName"])
+        name = ft["properties"]["shapeName"] if keep_accents else ascii_name(ft["properties"]["shapeName"])
         g = ft["geometry"]
         polys = g["coordinates"] if g["type"] == "MultiPolygon" else [g["coordinates"]]
         outers = [p[0] for p in polys]
         biggest = max(outers, key=_ring_area)
         rings = [simplify_ring(r, tolerance) for r in outers if r is biggest or _ring_area(r) >= min_island]
         rings = [[[round(x, 4), round(y, 4)] for x, y in r] for r in rings if len(r) >= 3]
-        areas.append({"code": f"{code_prefix}{slug(name)}", "name": name, "source_name": ft["properties"]["shapeName"],
+        areas.append({"code": f"{code_prefix}{slug(norm_fold(name) if keep_accents else name)}", "name": name, "source_name": ft["properties"]["shapeName"],
                       "rings": rings})
     areas.sort(key=lambda a: a["code"])
     proj, px, height = project(areas)
@@ -275,12 +290,75 @@ def cmd_geo(ind_path: str, bgd1_path: str) -> None:
           f"{sum(len(v) for v in kids.values())} districts placed")
 
 
+# ---- Spain, Portugal, Brazil (geoBoundaries gbOpen ADM1, release 9469f09; licences read from each country's metadata, 20 Nov 2026)
+def _pt_title(s: str) -> str:
+    small = {"do", "da", "de", "dos", "das"}
+    return " ".join(w.lower() if w.lower() in small else w.capitalize() for w in s.split())
+
+
+# source spelling -> the name shown (typos in the source, Spanish long official names, accents the source lost)
+DISPLAY = {
+    "ES": {"Canarias": "Islas Canarias", "Ciudad Autónoma de Melilla": "Melilla", "Ciudad Autónoma de Ceuta": "Ceuta",
+           "País Vasco/Euskadi": "País Vasco", "Comunidad Foral de Navarra": "Navarra", "Región de Murcia": "Murcia",
+           "Comunidad de Madrid": "Madrid", "Comunitat Valenciana": "Comunidad Valenciana", "Cataluña/Catalunya": "Cataluña",
+           "Illes Balears": "Islas Baleares", "Principado de Asturias": "Asturias"},
+    "PT": {"Região Autónoma da Madeira": "Madeira", "Região Autónoma dos Açores": "Azores"},
+    "BR": {"Amapa": "Amapá", "Para": "Pará", "Maranhao": "Maranhão", "Ceara": "Ceará", "Rio Granda do Norte": "Rio Grande do Norte",
+           "Paraiba": "Paraíba", "Piaui": "Piauí", "Rondonia": "Rondônia", "Goias": "Goiás", "Espirito Santo": "Espírito Santo",
+           "Rio de Jeneiro": "Rio de Janeiro", "Sao Paulo": "São Paulo", "Parana": "Paraná"},
+}
+# Portugal's two island regions sit far out in the Atlantic: drawn as insets, moved by (dlon, dlat) degrees. Each area records the
+# move ("off") so weather and NASA pictures still ask for the real place (real = drawn - off).
+INSETS = {"PT": {"Madeira": (4.8, 3.3), "Azores": (11.5, 1.2)}}
+MORE_GEO = {
+    "ES": {"file": "geo-es.json", "iso3": "ESP", "level": "region", "tolerance": 0.02, "min_island": 0.004,
+           "source": "geoBoundaries gbOpen ESP ADM1 (Instituto Geográfico Nacional, Spain; boundaries as of 2017; 19 autonomous communities and cities)",
+           "licence": "CC BY 4.0", "credit": "Instituto Geográfico Nacional (CNIG)"},
+    "PT": {"file": "geo-pt.json", "iso3": "PRT", "level": "district", "tolerance": 0.012, "min_island": 0.002,
+           "source": "geoBoundaries gbOpen PRT ADM1 (DG Território, Portugal; boundaries as of 2016; 18 districts and 2 island regions, the islands drawn as insets)",
+           "licence": "ODbL 1.0", "credit": "DG Território"},
+    "BR": {"file": "geo-br.json", "iso3": "BRA", "level": "state", "tolerance": 0.05, "min_island": 0.02,
+           "source": "geoBoundaries gbOpen BRA ADM1 (geoBoundaries; Wikimedia Commons; boundaries as of 2006; 26 states and the Federal District)",
+           "licence": "CC BY 2.5", "credit": "geoBoundaries, Wikimedia Commons"},
+}
+
+
+def cmd_geo_more(src_dir: str) -> None:
+    """Spain, Portugal and Brazil outlines from <dir>/<ISO3>-ADM1_simplified.geojson (see fetch-geo)."""
+    OUT.mkdir(parents=True, exist_ok=True)
+    for c, cfg in MORE_GEO.items():
+        gj = json.loads((Path(src_dir) / f"{cfg['iso3']}-ADM1_simplified.geojson").read_text(encoding="utf-8"))
+        disp = DISPLAY.get(c, {})
+        for ft in gj["features"]:
+            raw = ft["properties"]["shapeName"]
+            try:  # the Portuguese file's names are UTF-8 read as Latin-1 and saved again: undo that
+                raw = raw.encode("latin-1").decode("utf-8")
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                pass
+            ft["properties"]["shapeName"] = disp.get(raw) or (_pt_title(raw) if c == "PT" else raw.split("/")[0])
+            move = INSETS.get(c, {}).get(ft["properties"]["shapeName"])
+            ft["properties"]["off"] = list(move) if move else None
+            if move:
+                def shift(o):
+                    return [shift(x) for x in o] if isinstance(o[0], list) else [o[0] + move[0], o[1] + move[1]]
+                ft["geometry"]["coordinates"] = shift(ft["geometry"]["coordinates"])
+        meta = {"source": cfg["source"], "licence": cfg["licence"], "url": "https://www.geoboundaries.org/countryDownloads.html",
+                "credit": cfg["credit"]}
+        web, _ = build_geo(c, cfg["level"], gj, tolerance=cfg["tolerance"], min_island=cfg["min_island"], code_prefix=f"{c}-", meta=meta, keep_accents=True)
+        offs = {ft["properties"]["shapeName"]: ft["properties"]["off"] for ft in gj["features"]}
+        for a in web["areas"]:
+            if offs.get(a["name"]):
+                a["off"] = offs[a["name"]]
+        (OUT / cfg["file"]).write_text(json.dumps(web, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        print(f"{cfg['file']}: {len(web['areas'])} areas, {(OUT / cfg['file']).stat().st_size} bytes")
+
+
 def cmd_fetch_geo(dest: str) -> None:
     import requests  # only the build machine needs it
 
     d = Path(dest)
     d.mkdir(parents=True, exist_ok=True)
-    for iso3 in ("IND", "BGD"):
+    for iso3 in ("IND", "BGD", "ESP", "PRT", "BRA"):
         url = f"{GB_RELEASE}/{iso3}/ADM1/geoBoundaries-{iso3}-ADM1_simplified.geojson"
         r = requests.get(url, timeout=120, headers={"User-Agent": "krishiloop-map-build/1.0"})
         r.raise_for_status()
@@ -360,13 +438,16 @@ def our_areas(country: str, level: str) -> list[dict]:
         f = RADAR_GEO / "ke.json"
     elif country == "BD":
         f = OUT / "geo-bd-div.json"
+    elif country in MORE_GEO:
+        f = OUT / MORE_GEO[country]["file"]
     else:
         f = OUT / "geo-in.json"
     g = json.loads(f.read_text(encoding="utf-8"))
     return [{"code": a["code"], "name": a["name"]} for a in g["areas"]]
 
 
-def build_sightings(http_get: HttpGet, today: str, areas_of: Callable[[str, str], list[dict]] = our_areas) -> tuple[dict, dict]:
+def build_sightings(http_get: HttpGet, today: str, areas_of: Callable[[str, str], list[dict]] = our_areas,
+                    only: set[str] | None = None) -> tuple[dict, dict]:
     n_queries = 0
 
     def get(path: str, params: dict) -> object:
@@ -380,6 +461,8 @@ def build_sightings(http_get: HttpGet, today: str, areas_of: Callable[[str, str]
     for t in taxa:
         data["taxa"].append({k: t[k] for k in ("id", "sci", "key") if k in t})
     for c, cfg in COUNTRIES.items():
+        if only is not None and c not in only:
+            continue
         cdata: dict = {"levels": {}, "taxa": {}}
         cprov: dict = {"levels": {}}
         for level, gl in cfg["levels"].items():
@@ -456,10 +539,23 @@ def choose_bd_level(data: dict, min_districts: int = 10) -> str:
     return "district" if len(seen) >= min_districts else "division"
 
 
-def cmd_gbif(today: str) -> None:
-    data, prov = build_sightings(http_get_default(), today)
-    data["countries"]["BD"]["default_level"] = choose_bd_level(data)
-    prov["countries"]["BD"]["default_level"] = data["countries"]["BD"]["default_level"]
+def cmd_gbif(today: str, only: str | None = None) -> None:
+    """All countries, or only those named in `only` ("ES,PT,BR"): those are queried now and ADDED to the files already there,
+    so the countries counted earlier keep their own query date and numbers."""
+    keep = set(only.split(",")) if only else None
+    data, prov = build_sightings(http_get_default(), today, only=keep)
+    if keep is not None:
+        old = json.loads((OUT / "sightings.json").read_text(encoding="utf-8"))
+        oldp = json.loads((OUT / "sightings_provenance.json").read_text(encoding="utf-8"))
+        for c in keep:
+            data["countries"][c]["queried"] = today
+        old["countries"].update(data["countries"])
+        oldp["countries"].update(prov["countries"])
+        oldp["queries_added"] = {"date": today, "countries": sorted(keep), "n": prov["queries"]}
+        data, prov = old, oldp
+    else:
+        data["countries"]["BD"]["default_level"] = choose_bd_level(data)
+        prov["countries"]["BD"]["default_level"] = data["countries"]["BD"]["default_level"]
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "sightings.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     prov["geoBoundaries_disclaimer"] = (
@@ -536,17 +632,22 @@ def main(argv: list[str]) -> None:
     f = sub.add_parser("fetch-geo")
     f.add_argument("dest")
     sub.add_parser("watch")
+    gm = sub.add_parser("geo-more")
+    gm.add_argument("dir")
     b = sub.add_parser("gbif")
     b.add_argument("--date", default=dt.date.today().isoformat())
+    b.add_argument("--only", default=None, help="comma list of country codes to add, e.g. ES,PT,BR")
     a = ap.parse_args(argv)
     if a.cmd == "geo":
         cmd_geo(a.ind, a.bgd1)
+    elif a.cmd == "geo-more":
+        cmd_geo_more(a.dir)
     elif a.cmd == "watch":
         cmd_watch()
     elif a.cmd == "fetch-geo":
         cmd_fetch_geo(a.dest)
     else:
-        cmd_gbif(a.date)
+        cmd_gbif(a.date, a.only)
 
 
 if __name__ == "__main__":

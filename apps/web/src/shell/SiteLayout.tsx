@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation, useMatch } from 'react-router-dom';
+import { PageGuard } from './PageGuard';
 import { useI18n, type Key } from '../lib/i18n';
 import { startReveal } from '../lib/reveal';
 import { cx } from '../lib/cx';
@@ -87,9 +88,11 @@ export function SiteLayout() {
       <main id="main" ref={main} tabIndex={-1} className="relative isolate min-h-[70dvh]">
         {/* every inner page opens under the same field light: mustard dawn, paddy rows (static, behind everything) */}
         {!inApp && !isHome && <div className="page-dawn" aria-hidden />}
-        <Suspense fallback={<PageSkeleton />}>
-          <Outlet />
-        </Suspense>
+        <PageGuard resetKey={pathname}>
+          <Suspense fallback={<PageSkeleton />}>
+            <Outlet />
+          </Suspense>
+        </PageGuard>
       </main>
       {!inApp && <SiteFooter />}
       <Toaster />

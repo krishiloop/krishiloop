@@ -176,7 +176,8 @@ def _load(p: Path) -> dict:
 def test_every_counted_area_exists_in_its_outline_file():
     s = _load(MAP / "sightings.json")
     outlines = {("BD", "district"): RADAR / "bd.json", ("BD", "division"): MAP / "geo-bd-div.json",
-                ("IN", "state"): MAP / "geo-in.json", ("KE", "county"): RADAR / "ke.json"}
+                ("IN", "state"): MAP / "geo-in.json", ("KE", "county"): RADAR / "ke.json",
+                ("ES", "region"): MAP / "geo-es.json", ("PT", "district"): MAP / "geo-pt.json", ("BR", "state"): MAP / "geo-br.json"}
     for (c, lv), f in outlines.items():
         codes = {a["code"] for a in _load(f)["areas"]}
         for t in s["countries"][c]["taxa"].values():
@@ -209,3 +210,54 @@ def test_india_outline_carries_its_source_licence_and_caveat():
 def test_what_to_watch_matches_the_rule_packs_exactly():
     """watch.json is the rules' own titles and sources: rebuilding it from the YAML gives the same file (no drift)."""
     assert bmd.build_watch() == _load(MAP / "watch.json")
+
+
+def test_spain_portugal_brazil_are_counted_and_credited():
+    """Added 20 Nov 2026 after counting candidate countries for the same seven pests: real GBIF counts, outlines with their licence,
+    every GADM unit matched except Ceuta y Melilla (one GADM unit for two of our cities; no records there)."""
+    s = _load(MAP / "sightings.json")
+    prov = _load(MAP / "sightings_provenance.json")
+    want = {"ES": ("region", "CC BY 4.0", 19), "PT": ("district", "ODbL 1.0", 20), "BR": ("state", "CC BY 2.5", 27)}
+    for c, (lv, lic, n) in want.items():
+        g = _load(MAP / f"geo-{c.lower()}.json")
+        assert g["country"] == c and g["level"] == lv and g["licence"] == lic and len(g["areas"]) == n
+        assert "geoBoundaries" in g["source"] and g["credit"]
+        assert s["countries"][c]["queried"] == "2026-11-20"
+        assert sum(t["total"] for t in s["countries"][c]["taxa"].values()) > 0
+    assert [u["name"] for u in prov["countries"]["ES"]["levels"]["region"]["unmatched_gadm"]] == ["Ceuta y Melilla"]
+    assert prov["countries"]["PT"]["levels"]["district"]["unmatched_gadm"] == []
+    assert prov["countries"]["BR"]["levels"]["state"]["unmatched_gadm"] == []
+    # the earlier three countries were not re-queried: they keep the 19 Nov date of the global query
+    assert s["queried"] == "2026-11-19"
+
+
+def test_portugal_islands_are_insets_with_a_recorded_move():
+    g = _load(MAP / "geo-pt.json")
+    off = {a["name"]: a.get("off") for a in g["areas"]}
+    assert off["Madeira"] == [4.8, 3.3] and off["Azores"] == [11.5, 1.2]
+    assert all(v is None for k, v in off.items() if k not in ("Madeira", "Azores"))
+    assert g["viewBox"][3] / g["viewBox"][2] < 0.8  # the islands do not stretch the map out into the ocean
+
+
+def test_add_only_some_countries_leaves_the_others_untouched(tmp_path, monkeypatch):
+    """`gbif --only ES` queries Spain and merges it into the existing files (the other countries keep their numbers and date)."""
+    monkeypatch.setattr(bmd, "OUT", tmp_path)
+    for f in MAP.glob("geo-*.json"):
+        (tmp_path / f.name).write_bytes(f.read_bytes())
+    before = _load(MAP / "sightings.json")
+    (tmp_path / "sightings.json").write_text(json.dumps(before), encoding="utf-8")
+    (tmp_path / "sightings_provenance.json").write_text(json.dumps(_load(MAP / "sightings_provenance.json")), encoding="utf-8")
+
+    def fake(path, params):
+        if path == "species/match":
+            return {"matchType": "EXACT", "usageKey": 1, "scientificName": "x", "status": "ACCEPTED", "kingdom": "k"}
+        if path.startswith("geocode/gadm/"):
+            return []
+        return {"count": 0, "facets": []}
+
+    monkeypatch.setattr(bmd, "http_get_default", lambda: fake)
+    bmd.cmd_gbif("2026-11-21", "ES")
+    after = _load(tmp_path / "sightings.json")
+    for c in ("BD", "IN", "KE", "PT", "BR"):
+        assert after["countries"][c] == before["countries"][c]
+    assert after["countries"]["ES"]["queried"] == "2026-11-21" and after["queried"] == before["queried"]
