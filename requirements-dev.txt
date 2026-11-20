@@ -17,3 +17,7 @@ mcp==2.3.0
 # tokenizer.json (onnxruntime is in requirements-ml.txt; ml/ask/export_text_models.py installs the models).
 langgraph==1.2.14
 tokenizers==0.23.3
+# AgriTriage-Lite on the server (services/vision/): tests/test_agritriage.py runs the same ONNX file the farmer's phone
+# runs, so CI needs the image reader and the ONNX runtime too (missing since Nov 19: every push failed at collection).
+pillow==13.0.0
+onnxruntime==1.31.1
