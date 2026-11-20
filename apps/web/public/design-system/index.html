@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KrishiLoop design system</title>
+<meta name="description" content="KrishiLoop's design system: creamy white and forest green with field pastels, type, components and rules, as shipped at krishiloop.vercel.app.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:'Fraunces';src:url('/fonts/fraunces-latin-opsz.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}@font-face{font-family:'Fraunces';src:url('/fonts/fraunces-latin-opsz-italic.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}@font-face{font-family:'Inter';src:url('/fonts/inter-latin-wght.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}@font-face{font-family:'Hind Siliguri';src:url('/fonts/hind-siliguri-bengali-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:'Hind Siliguri';src:url('/fonts/hind-siliguri-bengali-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}@font-face{font-family:'Hind Siliguri';src:url('/fonts/hind-siliguri-bengali-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+:root{--paper:#faf6ee;--sunk:#f1ebe0;--card:#fffdf8;--raised:#ffffff;--ink:#14261c;--ink-2:#46524a;--ink-3:#5a645c;--rule:#dcd3bf;--rule-2:#cbbf9f;--accent:#1f3d2c;--accent-ink:#faf6ee;--accent-text:#2f5a35;--accent-soft:#e2ebd9;--eyebrow:#3d6b45;--go:#2f6b3a;--go-wash:#e2edd9;--wait:#7a4a1e;--wait-wash:#f8e4d8;--stop:#a83a21;--stop-wash:#f7e2d9;--ember:#b93d17;--carbon:#35428f;--carbon-wash:#e3e5f3;--gate-sure:#b9cfa8;--gate-unsure:#a8d1df;--gate-risky:#ef9e80;--moss:#e2ebd9;--moss-ink:#2f5a35;--terracotta:#f6dfd1;--terracotta-ink:#8a3a1c;--lotus:#f7e1dd;--lotus-ink:#8a2f3c;--monsoon:#deebf2;--monsoon-ink:#22506a;--hyacinth:#e8e1f2;--hyacinth-ink:#553f86;--butter:#f3eee4;--butter-ink:#5b4a36;--map-0:#e6ecdf;--map-1:#f3e4d6;--map-2:#f2c3a4;--map-3:#eda383;--map-4:#cf6f66;--map-5:#8c3550;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-12:48px;--space-24:96px;--radius-doc:3px;--radius-ui:12px;--radius-frame:22px;--radius-drawer:28px;--radius-pill:999px;--shadow-lift:0 1px 0 rgba(20,38,28,0.04), 0 14px 34px -20px rgba(20,38,28,0.28);--shadow-pop:0 1px 0 rgba(20,38,28,0.05), 0 28px 64px -24px rgba(20,38,28,0.32);--font-display:"Fraunces", "Hind Siliguri", Georgia, "Nirmala UI", serif;--font-sans:"Inter", "Hind Siliguri", ui-sans-serif, system-ui, "Nirmala UI", sans-serif;--font-bangla:"Hind Siliguri", "Nirmala UI", sans-serif;--font-mono:"Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;color-scheme:light}
+[data-theme="dark"]{--paper:#0e2419;--sunk:#0a1c13;--card:#173a29;--raised:#1d4532;--ink:#f3eee2;--ink-2:#c9d3c8;--ink-3:#a3b2a6;--rule:#24422f;--rule-2:#31553f;--accent:#c9dcbc;--accent-ink:#14261c;--accent-text:#c9dcbc;--accent-soft:#dfe8d6;--eyebrow:#c9dcbc;--go:#9bd18a;--go-wash:#1b3a26;--wait:#f2b59a;--wait-wash:#3a2a22;--stop:#f39478;--stop-wash:#3a2a20;--ember:#ff7a4d;--carbon:#b9c3f2;--carbon-wash:#1f2c3a;--gate-sure:#b9cfa8;--gate-unsure:#a8d1df;--gate-risky:#ef9e80;--moss:#18311f;--moss-ink:#b9cfa8;--terracotta:#4a2b1d;--terracotta-ink:#ef9e80;--lotus:#45263a;--lotus-ink:#f0b9b4;--monsoon:#193d50;--monsoon-ink:#a8d1df;--hyacinth:#2f2954;--hyacinth-ink:#c6b7e4;--butter:#2d2b25;--butter-ink:#e9e2d2;--map-0:#e6ecdf;--map-1:#f3e4d6;--map-2:#f2c3a4;--map-3:#eda383;--map-4:#cf6f66;--map-5:#8c3550;--shadow-lift:0 1px 0 rgba(0,0,0,0.3), 0 18px 44px -22px rgba(0,0,0,0.75);--shadow-pop:0 1px 0 rgba(0,0,0,0.3), 0 34px 80px -28px rgba(0,0,0,0.8);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.55}
+a{color:var(--accent-text);text-underline-offset:3px}
+code,.mono{font-family:var(--font-mono);font-size:.82em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+header.top .wrap{display:flex;align-items:center;gap:12px;min-height:60px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:600 18px/1 var(--font-display);color:var(--ink);text-decoration:none}
+.brand svg{width:30px;height:30px}
+.nav{display:flex;gap:14px;flex-wrap:wrap;margin-left:auto;font-size:14px}
+.nav a{color:var(--ink-2);text-decoration:none} .nav a:hover{color:var(--ink)}
+.theme{border:1px solid var(--rule-2);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:600 13px/1 var(--font-sans);cursor:pointer;min-height:36px}
+.eyebrow{font:650 11.84px/1.35 var(--font-sans);letter-spacing:.15em;text-transform:uppercase;color:var(--eyebrow)}
+h1,h2,h3{font-family:var(--font-display);color:var(--ink);letter-spacing:-.02em}
+h1{font-weight:360;font-size:clamp(2.6rem,1rem + 6vw,5.6rem);line-height:.95;margin:.2em 0 .25em}
+h2{font-weight:500;font-size:clamp(1.8rem,1.2rem + 2vw,2.8rem);line-height:1.05;margin:0 0 .4em}
+h3{font-weight:560;font-size:1.3rem;margin:1.6em 0 .6em}
+section.blk{padding:56px 0;border-top:1px solid var(--rule)}
+.lead{font-size:clamp(1.06rem,1rem + .32vw,1.24rem);color:var(--ink-2);max-width:62ch}
+.hero{padding:40px 0 24px}
+.cover-wrap{margin:28px 0 8px;border:1px solid var(--rule);border-radius:22px;overflow:hidden;background:var(--paper)}
+.cover-scale{transform-origin:top left}
+.swg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.sw{margin:0;border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:var(--card)}
+.sw .chip{height:64px;border-bottom:1px solid var(--rule)}
+.sw figcaption{padding:10px 12px;display:grid;gap:2px}
+.sw small,.ty small,.sp small,.rd small{color:var(--ink-3);font-size:12.5px;line-height:1.4}
+.ty{display:grid;grid-template-columns:minmax(180px,260px) 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--rule);align-items:center}
+.ty-k{display:grid;gap:2px} .ty-s{overflow-wrap:anywhere;color:var(--ink)}
+@media (max-width:640px){.ty{grid-template-columns:1fr}}
+.sp,.rd{display:grid;grid-template-columns:110px 120px 70px 1fr;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule)}
+.sp i{display:block;height:14px;background:var(--moss-ink);border-radius:3px}
+.rd i{display:block;width:56px;height:40px;border:2px solid var(--accent-text);background:var(--accent-soft)}
+@media (max-width:640px){.sp,.rd{grid-template-columns:90px 1fr;} .sp small,.rd small{grid-column:1/-1}}
+.comp{border:1px solid var(--rule);border-radius:22px;background:var(--card);margin:18px 0;overflow:hidden}
+.comp-h{padding:18px 20px 0} .comp-h h3{margin:.2em 0 .4em}
+.comp-p{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.comp-g{padding:6px 20px 14px;color:var(--ink-2);font-size:15px} .comp-g ul{padding-left:20px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.rule{border-radius:22px;padding:18px 20px} .rule h3{margin:0 0 .4em;font-size:1.15rem} .rule p{margin:0;color:var(--ink)}
+footer{padding:40px 0 64px;color:var(--ink-3);font-size:14px;border-top:1px solid var(--rule)}
+:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/" aria-label="KrishiLoop home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f3a28"/>
+      <stop offset="1" stop-color="#0b140f"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#b)"/>
+  <g transform="translate(8 8) scale(2)" fill="none" stroke="#f2ecde" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5.5 2.75h13v18.5l-2.17-1.4-2.16 1.4-2.17-1.4-2.17 1.4-2.16-1.4-2.17 1.4z"/>
+    <path d="M8.75 11.6l2.25 2.25 4.4-4.85" stroke="#c9dcbc"/>
+  </g>
+</svg>
+<span>KrishiLoop</span></a>
+  <nav class="nav" aria-label="Sections"><a href="#colour">Colour</a><a href="#type">Type</a><a href="#scale">Space</a><a href="#components">Components</a><a href="#rules">Rules</a></nav>
+  <button class="theme" id="theme" type="button" aria-pressed="false">Dark theme</button>
+</div></header>
+<main>
+<div class="wrap hero">
+  <span class="eyebrow">Design system · Field Guide</span>
+  <h1>KrishiLoop</h1>
+  <p class="lead">The look of the KrishiLoop site and farmer app: cream pages, forest green, Fraunces headlines and pastels taken from
+  Bangladeshi fields. Every value here is copied from <a href="https://github.com/krishiloop/krishiloop/blob/main/apps/web/src/styles/index.css">apps/web/src/styles/index.css</a>,
+  and every text colour pair passes WCAG AA in both themes.</p>
+  <div class="cover-wrap"><div class="cover-scale" id="cover"><style>.c-Cover .cover{position:relative;width:960px;height:300px;background:var(--paper);overflow:hidden}
+.c-Cover .cover svg{position:absolute;left:0;top:0}
+.c-Cover .forest{fill:var(--accent)}
+.c-Cover .sage{fill:var(--gate-sure)}
+.c-Cover .clay{fill:var(--gate-risky)}
+.c-Cover .rain{fill:var(--gate-unsure)}
+.c-Cover .lotus{fill:var(--map-5)}
+.c-Cover .leaf{fill:var(--paper)}
+.c-Cover .name{position:absolute;left:48px;bottom:56px;width:440px;font:360 80px/.95 var(--font-display);letter-spacing:-.035em;color:var(--ink)}
+.c-Cover .tag{position:absolute;left:50px;bottom:28px;width:440px;font:400 14px/1.4 var(--font-sans);color:var(--ink-2)}</style><div class="c-Cover"><div class="cover">
+  
+  <svg width="960" height="300" viewBox="0 0 960 300" aria-hidden="true">
+    
+    <rect class="forest" x="480" y="-24" width="160" height="348" rx="22"/>
+    <rect class="sage"x="656" y="0" width="160" height="136" rx="22"/>
+    <rect class="rain" x="832" y="-24" width="152" height="160" rx="22"/>
+    <rect class="clay" x="656" y="152" width="104" height="172" rx="22"/>
+    <rect class="lotus" x="776" y="152" width="208" height="100" rx="22"/>
+    <g>
+      <path class="leaf" d="M560 286 A34 34 0 0 1 520 246 A34 34 0 0 1 560 286Z"/>
+      <path class="leaf" d="M560 254 A34 34 0 0 0 600 214 A34 34 0 0 0 560 254Z"/>
+      <path class="leaf" d="M560 222 A34 34 0 0 1 520 182 A34 34 0 0 1 560 222Z"/>
+      <path class="leaf" d="M560 190 A34 34 0 0 0 600 150 A34 34 0 0 0 560 190Z"/>
+      <path class="leaf" d="M560 158 A34 34 0 0 1 520 118 A34 34 0 0 1 560 158Z"/>
+      <path class="leaf" d="M560 126 A34 34 0 0 0 600 86 A34 34 0 0 0 560 126Z"/>
+      <path class="leaf" d="M560 94 A34 34 0 0 1 528 46 A34 34 0 0 1 560 94Z"/>
+      <path class="leaf" d="M560 62 A30 30 0 0 0 584 20 A30 30 0 0 0 560 62Z"/>
+    </g>
+  </svg>
+  <div class="name">KrishiLoop</div>
+  <div class="tag">Farm advice with a receipt anyone can check.</div>
+</div>
+</div></div></div>
+</div>
+
+<section class="blk" id="colour"><div class="wrap">
+  <span class="eyebrow">Colour</span>
+  <h2>Green leads, pastels share the work, never yellow.</h2>
+  <p class="lead">Forest green marks the brand and the one primary action per screen. Six field pastels each belong to one part of the
+  product, so no page is all green. Meaning colours always come with an icon and a word. Each swatch shows the Cream value, then the Forest (dark) value.</p>
+  <h3>Surfaces</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--paper)"></div><figcaption><b>paper</b><span class="mono">#faf6ee · #0e2419</span><small>Page background: creamy white in Cream, deep forest in Forest.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--sunk)"></div><figcaption><b>sunk</b><span class="mono">#f1ebe0 · #0a1c13</span><small>Wells and inset areas below the page.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--card)"></div><figcaption><b>card</b><span class="mono">#fffdf8 · #173a29</span><small>Cards and sheets on paper.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--raised)"></div><figcaption><b>raised</b><span class="mono">#ffffff · #1d4532</span><small>Popovers and the topmost layer.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--rule)"></div><figcaption><b>rule</b><span class="mono">#dcd3bf · #24422f</span><small>Hairlines between rows and around cards.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--rule-2)"></div><figcaption><b>rule-2</b><span class="mono">#cbbf9f · #31553f</span><small>Stronger lines: control borders.</small></figcaption></figure></div><h3>Ink</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--ink)"></div><figcaption><b>ink</b><span class="mono">#14261c · #f3eee2</span><small>Body text and headlines on paper, sunk, card and every wash.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--ink-2)"></div><figcaption><b>ink-2</b><span class="mono">#46524a · #c9d3c8</span><small>Secondary text.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--ink-3)"></div><figcaption><b>ink-3</b><span class="mono">#5a645c · #a3b2a6</span><small>Tertiary text; passes AA on every cream surface.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--eyebrow)"></div><figcaption><b>eyebrow</b><span class="mono">#3d6b45 · #c9dcbc</span><small>Uppercase, letter-spaced labels above titles.</small></figcaption></figure></div><h3>Action</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--accent)"></div><figcaption><b>accent</b><span class="mono">#1f3d2c · #c9dcbc</span><small>The one primary action per screen (forest pill in Cream, pale sage pill in Forest).</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--accent-ink)"></div><figcaption><b>accent-ink</b><span class="mono">#faf6ee · #14261c</span><small>Text on accent.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--accent-text)"></div><figcaption><b>accent-text</b><span class="mono">#2f5a35 · #c9dcbc</span><small>Links and accent-coloured words on paper.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--accent-soft)"></div><figcaption><b>accent-soft</b><span class="mono">#e2ebd9 · #dfe8d6</span><small>Soft accent fill: selected chips, the active tab.</small></figcaption></figure></div><h3>Meaning (always with an icon and a word)</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--go)"></div><figcaption><b>go</b><span class="mono">#2f6b3a · #9bd18a</span><small>Verdict: fine / authentic. Always with an icon and a word.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--go-wash)"></div><figcaption><b>go-wash</b><span class="mono">#e2edd9 · #1b3a26</span><small>Background behind a go verdict.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--wait)"></div><figcaption><b>wait</b><span class="mono">#7a4a1e · #f2b59a</span><small>Verdict: re-check / expired. Earth brown, never yellow.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--wait-wash)"></div><figcaption><b>wait-wash</b><span class="mono">#f8e4d8 · #3a2a22</span><small>Background behind a wait verdict.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--stop)"></div><figcaption><b>stop</b><span class="mono">#a83a21 · #f39478</span><small>Verdict: act now / invalid. Always with an icon and a word.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--stop-wash)"></div><figcaption><b>stop-wash</b><span class="mono">#f7e2d9 · #3a2a20</span><small>Background behind a stop verdict.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--ember)"></div><figcaption><b>ember</b><span class="mono">#b93d17 · #ff7a4d</span><small>A recalled rule or receipt, and nothing else.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--carbon)"></div><figcaption><b>carbon</b><span class="mono">#35428f · #b9c3f2</span><small>Sample, saved or replay data (with a dashed outline).</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--carbon-wash)"></div><figcaption><b>carbon-wash</b><span class="mono">#e3e5f3 · #1f2c3a</span><small>Background of a sample-data tag.</small></figcaption></figure></div><h3>The photo gate</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--gate-sure)"></div><figcaption><b>gate-sure</b><span class="mono">#b9cfa8 · #b9cfa8</span><small>Photo gate: very sure (sage). Forest ink on top.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--gate-unsure)"></div><figcaption><b>gate-unsure</b><span class="mono">#a8d1df · #a8d1df</span><small>Photo gate: not sure (monsoon blue). Forest ink on top.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--gate-risky)"></div><figcaption><b>gate-risky</b><span class="mono">#ef9e80 · #ef9e80</span><small>Photo gate: new or risky (terracotta). Forest ink on top.</small></figcaption></figure></div><h3>Field pastels (wash, and the ink that reads on it)</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--moss)"></div><figcaption><b>moss</b><span class="mono">#e2ebd9 · #18311f</span><small>Pastel wash, young paddy: the crop doctor&#x27;s tile and band.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--moss-ink)"></div><figcaption><b>moss-ink</b><span class="mono">#2f5a35 · #b9cfa8</span><small>AA text on the moss wash.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--terracotta)"></div><figcaption><b>terracotta</b><span class="mono">#f6dfd1 · #4a2b1d</span><small>Pastel wash, village clay: the Krishi officer&#x27;s tile.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--terracotta-ink)"></div><figcaption><b>terracotta-ink</b><span class="mono">#8a3a1c · #ef9e80</span><small>AA text on the terracotta wash.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--lotus)"></div><figcaption><b>lotus</b><span class="mono">#f7e1dd · #45263a</span><small>Pastel wash, water-lily blush: the disease radar&#x27;s tile.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--lotus-ink)"></div><figcaption><b>lotus-ink</b><span class="mono">#8a2f3c · #f0b9b4</span><small>AA text on the lotus wash.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--monsoon)"></div><figcaption><b>monsoon</b><span class="mono">#deebf2 · #193d50</span><small>Pastel wash, rain sky: the weather warning&#x27;s tile.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--monsoon-ink)"></div><figcaption><b>monsoon-ink</b><span class="mono">#22506a · #a8d1df</span><small>AA text on the monsoon wash.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--hyacinth)"></div><figcaption><b>hyacinth</b><span class="mono">#e8e1f2 · #2f2954</span><small>Pastel wash, water hyacinth: the voice tile.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--hyacinth-ink)"></div><figcaption><b>hyacinth-ink</b><span class="mono">#553f86 · #c6b7e4</span><small>AA text on the hyacinth wash.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--butter)"></div><figcaption><b>butter</b><span class="mono">#f3eee4 · #2d2b25</span><small>Pastel wash, rice paste: a cream, never a yellow. Savings tile.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--butter-ink)"></div><figcaption><b>butter-ink</b><span class="mono">#5b4a36 · #e9e2d2</span><small>AA text on the butter wash.</small></figcaption></figure></div><h3>Disease map scale</h3><div class="swg"><figure class="sw"><div class="chip" style="background:var(--map-0)"></div><figcaption><b>map-0</b><span class="mono">#e6ecdf · #e6ecdf</span><small>Disease map, no reports: pale sage. Forest ink on 0-4.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--map-1)"></div><figcaption><b>map-1</b><span class="mono">#f3e4d6 · #f3e4d6</span><small>Disease map, a few reports: pale apricot.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--map-2)"></div><figcaption><b>map-2</b><span class="mono">#f2c3a4 · #f2c3a4</span><small>Disease map: peach.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--map-3)"></div><figcaption><b>map-3</b><span class="mono">#eda383 · #eda383</span><small>Disease map: terracotta.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--map-4)"></div><figcaption><b>map-4</b><span class="mono">#cf6f66 · #cf6f66</span><small>Disease map: clay rose.</small></figcaption></figure><figure class="sw"><div class="chip" style="background:var(--map-5)"></div><figcaption><b>map-5</b><span class="mono">#8c3550 · #8c3550</span><small>Disease map, many reports: deep lotus. Cream text on it.</small></figcaption></figure></div>
+</div></section>
+
+<section class="blk" id="type"><div class="wrap">
+  <span class="eyebrow">Type</span>
+  <h2>Fraunces to read from a distance, Inter to read and tap.</h2>
+  <p class="lead">Headlines and big numbers in Fraunces; everything you read or tap in Inter; Bangla in Hind Siliguri (Fraunces has
+  no Bangla); ids and hashes in Geist Mono. The fonts are self-hosted. Large display sizes are shown capped at 72 px here.</p>
+  <div class="ty"><div class="ty-k"><b>display</b><span class="mono">Display · 144px / 0.95 · 360</span><small>The wordmark and one giant word per page. Fluid: clamp(3.2rem, 0.9rem + 8vw, 9rem).</small></div><div class="ty-s" style="font-family:var(--font-display);font-size:72px;line-height:0.95;font-weight:360;letter-spacing:-0.03em;text-transform:none">KrishiLoop</div></div><div class="ty"><div class="ty-k"><b>hero</b><span class="mono">Display · 89.6px / 1 · 440</span><small>Page heroes. Fluid: clamp(2.6rem, 1rem + 5vw, 5.6rem).</small></div><div class="ty-s" style="font-family:var(--font-display);font-size:72px;line-height:1;font-weight:440;letter-spacing:-0.025em;text-transform:none">Farm advice with a receipt</div></div><div class="ty"><div class="ty-k"><b>title</b><span class="mono">Display · 64px / 1.04 · 500</span><small>Section titles. Fluid: clamp(2.1rem, 1.2rem + 3vw, 4rem).</small></div><div class="ty-s" style="font-family:var(--font-display);font-size:64.0px;line-height:1.04;font-weight:500;letter-spacing:-0.02em;text-transform:none">Is this receipt real?</div></div><div class="ty"><div class="ty-k"><b>head</b><span class="mono">Display · 29.6px / 1.16 · 560</span><small>Card and panel heads. Fluid: clamp(1.35rem, 1.1rem + 1vw, 1.85rem).</small></div><div class="ty-s" style="font-family:var(--font-display);font-size:29.6px;line-height:1.16;font-weight:560;letter-spacing:-0.01em;text-transform:none">Spray only if blast spots spread</div></div><div class="ty"><div class="ty-k"><b>figure</b><span class="mono">Display · 72px / 0.95 · 360</span><small>Big measured numbers, each next to its source file.</small></div><div class="ty-s" style="font-family:var(--font-display);font-size:72.0px;line-height:0.95;font-weight:360;letter-spacing:-0.035em;text-transform:none">01 / 06</div></div><div class="ty"><div class="ty-k"><b>lead</b><span class="mono">Text · 19.8px / 1.55 · 400</span><small>The one line under a title. Fluid: clamp(1.06rem, 1rem + 0.32vw, 1.24rem).</small></div><div class="ty-s" style="font-family:var(--font-sans);font-size:19.8px;line-height:1.55;font-weight:400;letter-spacing:normal;text-transform:none">One idea per section: a label, a big title, at most one line.</div></div><div class="ty"><div class="ty-k"><b>body</b><span class="mono">Text · 16px / 1.55 · 400</span><small>Everything you read or tap.</small></div><div class="ty-s" style="font-family:var(--font-sans);font-size:16.0px;line-height:1.55;font-weight:400;letter-spacing:normal;text-transform:none">Ask your Krishi officer before you spray.</div></div><div class="ty"><div class="ty-k"><b>eyebrow</b><span class="mono">Text · 11.84px / 1.35 · 650</span><small>Uppercase label above a title, in the eyebrow colour.</small></div><div class="ty-s" style="font-family:var(--font-sans);font-size:11.84px;line-height:1.35;font-weight:650;letter-spacing:0.15em;text-transform:uppercase">VERIFY A RECEIPT</div></div><div class="ty"><div class="ty-k"><b>bangla-body</b><span class="mono">Bangla · 17px / 1.7 · 400</span><small>Bangla body text (loads only when Bangla appears).</small></div><div class="ty-s" style="font-family:var(--font-bangla);font-size:17.0px;line-height:1.7;font-weight:400;letter-spacing:normal;text-transform:none">এই সপ্তাহে স্প্রে করার দরকার নেই।</div></div><div class="ty"><div class="ty-k"><b>bangla-head</b><span class="mono">Bangla · 28px / 1.3 · 700</span><small>Bangla headlines; Fraunces has no Bangla, so heads switch to Hind Siliguri 650-700.</small></div><div class="ty-s" style="font-family:var(--font-bangla);font-size:28.0px;line-height:1.3;font-weight:700;letter-spacing:normal;text-transform:none">কৃষিলুপ</div></div><div class="ty"><div class="ty-k"><b>mono</b><span class="mono">Mono · 13px / 1.5 · 450</span><small>Receipt ids, hashes, rule ids.</small></div><div class="ty-s" style="font-family:var(--font-mono);font-size:13.0px;line-height:1.5;font-weight:450;letter-spacing:normal;text-transform:none">urn:uuid:4f2c…e91a · eddsa-jcs-2022</div></div>
+</div></section>
+
+<section class="blk" id="scale"><div class="wrap">
+  <span class="eyebrow">Space and shape</span>
+  <h2>48 px to tap, 16 px to breathe.</h2>
+  <h3>Spacing</h3><div class="sp"><i style="width:4px"></i><b>space-1</b><span class="mono">4px</span><small>Icon to word.</small></div><div class="sp"><i style="width:8px"></i><b>space-2</b><span class="mono">8px</span><small>Inside chips and stamps.</small></div><div class="sp"><i style="width:12px"></i><b>space-3</b><span class="mono">12px</span><small>Between related lines.</small></div><div class="sp"><i style="width:16px"></i><b>space-4</b><span class="mono">16px</span><small>Card padding on phones; the side gutter.</small></div><div class="sp"><i style="width:24px"></i><b>space-6</b><span class="mono">24px</span><small>Card padding on desktop.</small></div><div class="sp"><i style="width:32px"></i><b>space-8</b><span class="mono">32px</span><small>Between cards.</small></div><div class="sp"><i style="width:48px"></i><b>space-12</b><span class="mono">48px</span><small>Minimum tap target height on farmer screens.</small></div><div class="sp"><i style="width:96px"></i><b>space-24</b><span class="mono">96px</span><small>Between page sections.</small></div>
+  <h3>Radius</h3><div class="rd"><i style="border-radius:3px"></i><b>radius-doc</b><span class="mono">3px</span><small>Paper objects: receipts and printed rules.</small></div><div class="rd"><i style="border-radius:12px"></i><b>radius-ui</b><span class="mono">12px</span><small>Inputs, chips, small cards.</small></div><div class="rd"><i style="border-radius:22px"></i><b>radius-frame</b><span class="mono">22px</span><small>Cards, tiles and frames.</small></div><div class="rd"><i style="border-radius:28px"></i><b>radius-drawer</b><span class="mono">28px</span><small>Drawers and bottom sheets (sheets are fluid: clamp(24px, 3.4vw, 44px)).</small></div><div class="rd"><i style="border-radius:999px"></i><b>radius-pill</b><span class="mono">999px</span><small>Buttons, stamps and the nav pill.</small></div>
+</div></section>
+
+<section class="blk" id="components"><div class="wrap">
+  <span class="eyebrow">Components</span>
+  <h2>Five pieces the product is built from.</h2>
+  <section class="comp" id="c-Button"><div class="comp-h"><span class="eyebrow">Actions</span><h3>Button</h3></div><div class="comp-p"><style>.c-Button .demo{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px;background:var(--paper);font-family:var(--font-sans)}
+.c-Button .btn{min-height:48px;padding:0 22px;border-radius:var(--radius-pill);font:600 15px/1 var(--font-sans);display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1)}
+.c-Button .btn:active{transform:scale(.97)}
+.c-Button .btn:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+.c-Button .primary{background:var(--accent);color:var(--accent-ink);border:0;box-shadow:var(--shadow-lift)}
+.c-Button .quiet{background:transparent;color:var(--ink);border:1px solid var(--rule-2)}
+.c-Button .ghost{background:transparent;color:var(--accent-text);border:0;padding:0 8px;text-decoration:underline;text-underline-offset:4px}
+.c-Button svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}</style><div class="c-Button"><div class="demo">
+  
+  <button class="btn primary"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Try the farmer app</button>
+  <button class="btn quiet"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>Verify a receipt</button>
+  <button class="btn ghost">How it works</button>
+  <button class="btn primary" lang="bn" style="font-family:var(--font-bangla)">কৃষক অ্যাপ খুলুন</button>
+</div>
+</div></div><div class="comp-g"><p>The forest pill (<code>accent</code> on <code>accent-ink</code>) is the one primary action on a screen; every other action is the quiet outline (<code>rule-2</code> border) or a text link (<code>accent-text</code>).</p><ul><li>At least 48px tall on farmer screens, with a <code>radius-pill</code> shape.</li><li>It presses to <code>scale(.97)</code> over 160 ms.</li><li>An icon goes before the word, never instead of it.</li><li>Bangla labels switch to Hind Siliguri and may wrap. They are never truncated.</li><li>In the Forest theme the pill becomes pale sage with forest text, so it stays the brightest thing on the screen.</li><li>Never use a second filled pill on the same screen. Never use yellow.</li></ul></div></section><section class="comp" id="c-Stamp"><div class="comp-h"><span class="eyebrow">Trust</span><h3>Stamp</h3></div><div class="comp-p"><style>.c-Stamp .demo{display:flex;flex-wrap:wrap;gap:10px;padding:16px;background:var(--paper);font-family:var(--font-sans)}
+.c-Stamp .stamp{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 9px;border-radius:var(--radius-pill);font:650 12px/1 var(--font-sans);letter-spacing:.12em;text-transform:uppercase;border:1.5px solid currentColor}
+.c-Stamp .stamp svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.c-Stamp .ok{color:var(--go);background:var(--go-wash)}
+.c-Stamp .rc{color:var(--ember);background:var(--stop-wash)}
+.c-Stamp .ex{color:var(--wait);background:var(--wait-wash)}
+.c-Stamp .no{color:var(--stop);background:var(--stop-wash);border-style:dashed}
+.c-Stamp .sm{color:var(--carbon);background:var(--carbon-wash);border-style:dashed}</style><div class="c-Stamp"><div class="demo">
+  
+  <span class="stamp ok"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>Authentic</span>
+  <span class="stamp rc"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Recalled</span>
+  <span class="stamp ex"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Expired</span>
+  <span class="stamp no"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>Can't verify</span>
+  <span class="stamp sm"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8"/></svg>Sample</span>
+</div>
+</div></div><div class="comp-g"><p>A stamp shows what a signed advice receipt&#x27;s check found: Authentic (<code>go</code>), Recalled (<code>ember</code>), Expired (<code>wait</code>) or Can&#x27;t verify (<code>stop</code>, dashed).</p><ul><li>Every stamp has an icon and an uppercase word, so it still reads in greyscale and for colour-blind farmers.</li><li>Recalled always means &quot;don&#x27;t follow this&quot;. Pair it with what to do now.</li><li>The dashed <code>carbon</code> Sample stamp marks example, saved or replay data. It sits on the thing it labels.</li><li>Wait is earth brown (<code>wait</code>), never yellow.</li></ul></div></section><section class="comp" id="c-GateChip"><div class="comp-h"><span class="eyebrow">Trust</span><h3>GateChip</h3></div><div class="comp-p"><style>.c-GateChip .demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;padding:16px;background:var(--paper);font-family:var(--font-sans)}
+.c-GateChip .chip{border-radius:var(--radius-ui);padding:12px 14px;color:#14261c}
+.c-GateChip .chip b{display:flex;align-items:center;gap:6px;font:650 14px/1.2 var(--font-sans)}
+.c-GateChip .chip span{display:block;margin-top:4px;font:400 13px/1.4 var(--font-sans)}
+.c-GateChip .chip svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.c-GateChip .s{background:var(--gate-sure)}
+.c-GateChip .u{background:var(--gate-unsure)}
+.c-GateChip .r{background:var(--gate-risky)}</style><div class="c-GateChip"><div class="demo">
+  
+  <div class="chip s"><b><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Very sure</b><span>Rice blast. Act on the advice.</span></div>
+  <div class="chip u"><b><svg viewBox="0 0 24 24"><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><circle cx="12" cy="17.5" r=".6"/></svg>Not sure</b><span>Two or three likely causes. Take a second photo.</span></div>
+  <div class="chip r"><b><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".6"/></svg>New or risky</b><span>Sent to your Krishi officer.</span></div>
+</div>
+</div></div><div class="comp-g"><p>A GateChip shows the plant doctor&#x27;s answer after the conformal gate: Very sure (<code>gate-sure</code>), Not sure (<code>gate-unsure</code>) or New or risky (<code>gate-risky</code>).</p><ul><li>The fills are the same in both themes, with forest ink #14261c on top (AA on all three).</li><li>The chip always says what happens next: act, take another photo, or &quot;sent to your Krishi officer&quot;.</li><li>Never show a single percentage as the answer. The gate&#x27;s set and its action are the answer.</li></ul></div></section><section class="comp" id="c-PastelTile"><div class="comp-h"><span class="eyebrow">Layout</span><h3>PastelTile</h3></div><div class="comp-p"><style>.c-PastelTile .demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;padding:16px;background:var(--paper)}
+.c-PastelTile .tile{border-radius:var(--radius-frame);padding:18px 18px 20px;min-height:118px}
+.c-PastelTile .tile i{display:block;font:650 11.84px/1.35 var(--font-sans);letter-spacing:.15em;font-style:normal;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid currentColor;width:28px}
+.c-PastelTile .tile h4{margin:0;font:560 22px/1.16 var(--font-display);letter-spacing:-.01em;color:var(--ink)}
+.c-PastelTile .tile p{margin:6px 0 0;font:400 14px/1.45 var(--font-sans);color:var(--ink)}
+.c-PastelTile .moss{background:var(--moss);color:var(--moss-ink)}
+.c-PastelTile .monsoon{background:var(--monsoon);color:var(--monsoon-ink)}
+.c-PastelTile .lotus{background:var(--lotus);color:var(--lotus-ink)}
+.c-PastelTile .butter{background:var(--butter);color:var(--butter-ink)}
+.c-PastelTile .hyacinth{background:var(--hyacinth);color:var(--hyacinth-ink)}
+.c-PastelTile .terracotta{background:var(--terracotta);color:var(--terracotta-ink)}</style><div class="c-PastelTile"><div class="demo">
+  
+  <div class="tile moss"><i>01</i><h4>Plant doctor</h4><p>A leaf photo, checked on the phone.</p></div>
+  <div class="tile monsoon"><i>02</i><h4>Weather warning</h4><p>Seven days ahead, before it rains.</p></div>
+  <div class="tile lotus"><i>03</i><h4>Disease radar</h4><p>What nearby villages are reporting.</p></div>
+  <div class="tile butter"><i>04</i><h4>Spray less</h4><p>Only when the rule says it pays.</p></div>
+  <div class="tile hyacinth"><i>05</i><h4>Voice</h4><p>Bangla and English, read aloud.</p></div>
+  <div class="tile terracotta"><i>06</i><h4>Krishi officer</h4><p>A person, when the AI is unsure.</p></div>
+</div>
+</div></div><div class="comp-g"><p>A PastelTile is a product card on one of the six washes. The wash names the part of the product, so the page is never all green.</p><ul><li>The number and its short rule take the wash&#x27;s <code>-ink</code>. The title and body are <code>ink</code>.</li><li>Use <code>radius-frame</code> corners and Fraunces for the title, with one plain line under it.</li><li>Keep a part&#x27;s wash the same everywhere it appears: tile, band, chart series.</li></ul></div></section><section class="comp" id="c-Receipt"><div class="comp-h"><span class="eyebrow">Trust</span><h3>Receipt</h3></div><div class="comp-p"><style>.c-Receipt .demo{padding:20px;background:var(--sunk);display:flex;justify-content:center}
+.c-Receipt .rc{width:100%;max-width:380px;background:#fbf8f1;color:#1b1a16;border-radius:var(--radius-doc);box-shadow:var(--shadow-lift);padding:18px 20px 16px;font-family:var(--font-sans);border:1px solid #e6decb}
+.c-Receipt .rc .top{display:flex;justify-content:space-between;align-items:center;font:650 11px/1 var(--font-sans);letter-spacing:.15em;text-transform:uppercase;color:#66625a}
+.c-Receipt .rc h4{margin:12px 0 4px;font:560 21px/1.2 var(--font-display);letter-spacing:-.01em}
+.c-Receipt .rc dl{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;line-height:1.4}
+.c-Receipt .rc dt{color:#66625a}
+.c-Receipt .rc dd{margin:0}
+.c-Receipt .rc .mono{font:450 12px/1.5 var(--font-mono);color:#4a463e;border-top:1px dashed #dcd3bf;margin-top:12px;padding-top:10px;word-break:break-all}
+.c-Receipt .st{display:inline-flex;align-items:center;gap:5px;color:#1e6b45;background:#e1ede2;border:1.5px solid currentColor;border-radius:var(--radius-pill);padding:4px 9px;letter-spacing:.12em}
+.c-Receipt .smp{color:#3646a6;border:1px dashed currentColor;border-radius:var(--radius-pill);padding:3px 8px;font:650 10px/1 var(--font-sans);letter-spacing:.12em}</style><div class="c-Receipt"><div class="demo">
+  
+  <article class="rc">
+    <div class="top"><span>Advice receipt</span><span class="st">✓ Authentic</span></div>
+    <h4>Don't spray this week</h4>
+    <span class="smp">SAMPLE FARM</span>
+    <dl>
+      <dt>Rule</dt><dd>A cited rule id and its page</dd>
+      <dt>Source</dt><dd>The extension manual, quoted word for word</dd>
+      <dt>Data</dt><dd>7-day forecast readings</dd>
+      <dt>Confidence</dt><dd>Medium · reviewed by our team</dd>
+    </dl>
+    <div class="mono">urn:uuid:… · eddsa-jcs-2022 · scan to verify, no login</div>
+  </article>
+</div>
+</div></div><div class="comp-g"><p>The receipt is the signed piece of advice, a W3C Verifiable Credential (eddsa-jcs-2022), drawn as paper. It always prints in light colours, even in the Forest theme.</p><ul><li>It uses <code>radius-doc</code> corners, a thin paper rule, <code>shadow-lift</code> and a dashed line above the mono ids.</li><li>It shows, in order:</li><li>1. its stamp;</li><li>2. the advice in one plain sentence;</li><li>3. the rule, the source quote, the data and the confidence;</li><li>4. the id and the QR that anyone can scan with no login.</li><li>Sample farms carry the dashed Sample tag on the receipt itself.</li><li>A recalled receipt swaps its stamp for Recalled and gains a &quot;What to do now&quot; line. It is never silently deleted.</li></ul></div></section>
+</div></section>
+
+<section class="blk" id="rules"><div class="wrap">
+  <span class="eyebrow">Rules</span>
+  <h2>How it should feel.</h2>
+  <div class="rules">
+    <div class="rule" style="background:var(--moss)"><h3 style="color:var(--moss-ink)">One idea per section</h3><p>A label, a big title, at most one line, then the thing itself: a receipt, a map, a measured number.</p></div>
+    <div class="rule" style="background:var(--monsoon)"><h3 style="color:var(--monsoon-ink)">Plain words</h3><p>"Spray only if the spots spread", not "apply fungicide upon lesion progression". Short sentences, in Bangla or English.</p></div>
+    <div class="rule" style="background:var(--terracotta)"><h3 style="color:var(--terracotta-ink)">Honesty you can see</h3><p>Sample, saved, replay and simulated data carry a tag on the thing itself. Every number sits next to its source.</p></div>
+    <div class="rule" style="background:var(--lotus)"><h3 style="color:var(--lotus-ink)">Never colour alone</h3><p>Every state has an icon and a word, so it reads in greyscale and for colour-blind farmers.</p></div>
+    <div class="rule" style="background:var(--hyacinth)"><h3 style="color:var(--hyacinth-ink)">Motion that explains</h3><p>Expo-out reveals, UI under 300 ms, no 3D or WebGL; reduced motion gets short fades only.</p></div>
+    <div class="rule" style="background:var(--butter)"><h3 style="color:var(--butter-ink)">Made for the field</h3><p>Readable at arm's length in sunlight, 48 px tap targets, buttons that wrap and never truncate.</p></div>
+  </div>
+</div></section>
+</main>
+<footer><div class="wrap">KrishiLoop design system · source: <a href="https://github.com/krishiloop/krishiloop">github.com/krishiloop/krishiloop</a> (apps/web/DESIGN.md, src/styles/index.css) ·
+the team also keeps it as a Claude Artifacts design system · <a href="/">Back to KrishiLoop</a></div></footer>
+<script>
+(function () {
+  var b = document.getElementById('theme'), root = document.documentElement;
+  b.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') !== 'dark';
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    b.textContent = dark ? 'Light theme' : 'Dark theme';
+    b.setAttribute('aria-pressed', String(dark));
+  });
+  var c = document.getElementById('cover');
+  function fit() { var w = c.parentElement.clientWidth, s = Math.min(1, w / 960); c.style.transform = 'scale(' + s + ')'; c.parentElement.style.height = (300 * s) + 'px'; }
+  window.addEventListener('resize', fit); fit();
+})();
+</script>
+</body>
+</html>

@@ -111,6 +111,7 @@ const d: Partial<Record<keyof typeof ui, string>> = {
   'ui.footer.modelCard': 'Kadi ya modeli',
   'ui.footer.prompts': 'Maktaba ya maagizo',
   'ui.footer.api': 'Mikataba ya API',
+  'ui.footer.design': 'Mfumo wa muundo',
   'ui.footer.credit': 'Imetengenezwa kwa ajili ya International AI Builders Congress 2026 · AgriSphere AI · Precision Farm',
   'ui.footer.noPii': 'Hakuna taarifa za wakulima hapa: kila shamba ni eneo la mfano lenye lebo.',
 };

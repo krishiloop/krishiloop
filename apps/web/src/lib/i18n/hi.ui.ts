@@ -111,6 +111,7 @@ const d: Partial<Record<keyof typeof ui, string>> = {
   'ui.footer.modelCard': 'मॉडल कार्ड',
   'ui.footer.prompts': 'प्रॉम्प्ट संग्रह',
   'ui.footer.api': 'API अनुबंध',
+  'ui.footer.design': 'डिज़ाइन सिस्टम',
   'ui.footer.credit': 'International AI Builders Congress 2026 के लिए बनाया गया · AgriSphere AI · Precision Farm',
   'ui.footer.noPii': 'यहाँ किसानों का कोई निजी डेटा नहीं है: हर खेत एक लेबल वाली नमूना जगह है।',
 };

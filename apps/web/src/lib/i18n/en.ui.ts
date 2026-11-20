@@ -143,6 +143,7 @@ const ui = {
   'ui.footer.modelCard': 'Photo AI fact sheet',
   'ui.footer.prompts': 'AI prompts we used',
   'ui.footer.api': 'Data formats',
+  'ui.footer.design': 'Design system',
   'ui.footer.credit': 'Built for the International AI Builders Congress 2026',
   'ui.footer.noPii': 'Every field here is a sample, and says so.',
 } as const satisfies Record<string, string>;

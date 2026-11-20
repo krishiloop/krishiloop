@@ -89,7 +89,10 @@ console.log(`startup (entry + its static imports): ${kb(sum(base))}  [${[...base
 //   20 Nov 2026 (v10): TryPage 140 -> 141 (measured 140.7), FarmerApp 161 -> 162 (161.3), OfficerPage 143 -> 144 (143.4),
 //   ProofPage 129 -> 130 (129.3). The startup chunk grew 0.6 KB: the page guard (never a white screen: a page whose code is
 //   gone after a deploy reloads once, any other error shows Reload) and Spanish as a fifth language in the language list.
-const PAGES = { HomePage: 190, MapPage: 121, TryPage: 141, ReceiptPage: 133, FarmerApp: 162, MobileApp: 162, OfficerPage: 144, VerifyPage: 139, TrustPage: 127, ProofPage: 130, AboutPage: 112 };
+//   20 Nov 2026 (design-system link): VerifyPage 139 -> 140 (measured 139.0), TrustPage 127 -> 128 (127.0). The shared footer
+//   now links the public design-system page (/design-system/, a static file outside the app): one link and two words in
+//   each language dictionary, a few bytes that tipped two pages already at their ceiling.
+const PAGES = { HomePage: 190, MapPage: 121, TryPage: 141, ReceiptPage: 133, FarmerApp: 162, MobileApp: 162, OfficerPage: 144, VerifyPage: 140, TrustPage: 128, ProofPage: 130, AboutPage: 112 };
 let over = 0;
 for (const [page, budget] of Object.entries(PAGES)) {
   const own = files.filter((f) => f.startsWith(`${page}-`));

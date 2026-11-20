@@ -89,7 +89,8 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         navigateFallback: '/index.html',
         // Verification must never be answered from a cache: a recalled receipt could look authentic offline.
-        navigateFallbackDenylist: [/^\/api\//, /^\/status\//, /^\/\.well-known\//],
+        // /design-system/ is a static page (public/design-system/index.html), not the app
+        navigateFallbackDenylist: [/^\/api\//, /^\/status\//, /^\/\.well-known\//, /^\/design-system/],
         runtimeCaching: [
           { urlPattern: ({ url }) => url.pathname.startsWith('/api/verify/') || url.pathname.startsWith('/status/'), handler: 'NetworkOnly' },
           // the leaf model (11.5 MB) and its runtime, once used, stay on the phone so the leaf check works with no internet

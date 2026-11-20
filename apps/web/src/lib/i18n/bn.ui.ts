@@ -137,6 +137,7 @@ const d: Record<keyof typeof ui, string> = {
   'ui.footer.modelCard': 'ছবির এআই সম্পর্কে তথ্য',
   'ui.footer.prompts': 'আমাদের ব্যবহার করা এআই প্রম্পট',
   'ui.footer.api': 'তথ্যের ফরম্যাট',
+  'ui.footer.design': 'ডিজাইন সিস্টেম',
   'ui.footer.credit': 'International AI Builders Congress 2026-এর জন্য তৈরি',
   'ui.footer.noPii': 'এখানকার সব জমি নমুনা, আর তা লেখা থাকে।',
 };
