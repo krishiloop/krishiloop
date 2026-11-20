@@ -11,6 +11,11 @@ same inputs. Receipt and recall counts depend on the local trust store, which is
 After the SQL report it also draws two Vega-Lite charts (altair, rendered to SVG by vl-convert-python; pins in
 requirements-ml.txt): ml/warehouse/sightings_per_country.svg and rules_per_pack.svg. Both come only from the
 deterministic counts (never receipts). If altair or vl-convert is not installed the chart step is skipped with a note.
+
+Lakehouse: every Parquet table is also committed as a Delta Lake table (delta-rs, `deltalake` in requirements-ml.txt)
+under data_warehouse/delta/<table>/: ACID commits, schema enforcement and time travel (each run is a new table
+version; `DeltaTable(path, version=0)` reads the first). The report lists the rows read back from each Delta table.
+If deltalake is not installed this step is skipped with a note.
 """
 from __future__ import annotations
 
@@ -219,7 +224,24 @@ def charts(results: dict, report_dir: Path) -> list[str]:
     return written
 
 
-def report(src: Sources | None = None, counts: dict | None = None) -> dict:
+def lakehouse(out_dir: Path) -> dict[str, dict] | None:
+    """Commit each Parquet table in out_dir as a Delta Lake table under out_dir/delta/<table>, then read it back.
+    Returns {table: {"rows": rows read back from Delta, "version": the table's latest version}}; None without deltalake."""
+    try:
+        from deltalake import DeltaTable, write_deltalake
+    except ImportError:
+        print("note: deltalake not installed, skipping the Delta Lake tables (see requirements-ml.txt)")
+        return None
+    back = {}
+    for f in sorted(Path(out_dir).glob("*.parquet")):
+        path = str(Path(out_dir) / "delta" / f.stem)
+        write_deltalake(path, pq.read_table(f), mode="overwrite", schema_mode="overwrite")
+        dt = DeltaTable(path)
+        back[f.stem] = {"rows": dt.to_pyarrow_table().num_rows, "version": dt.version()}
+    return back
+
+
+def report(src: Sources | None = None, counts: dict | None = None, lake: dict | None = None) -> dict:
     src = src or Sources()
     results = {name: query(src.out_dir, sql) for name, sql in QUERIES.items()}
     src.report_dir.mkdir(parents=True, exist_ok=True)
@@ -236,6 +258,10 @@ def report(src: Sources | None = None, counts: dict | None = None) -> dict:
         if f"{name}.svg" in drawn:
             md += [f"![{TITLES[name]}, Vega-Lite chart]({name}.svg)", ""]
         md += [_md_table(results[name])]
+    if lake:   # rows only: the version number grows with every run on a machine, so it stays out of the report
+        md += ["## Lakehouse: the same tables as Delta Lake tables", "",
+               "Each table is also committed as a Delta Lake table (delta-rs) under `data_warehouse/delta/`, then read back.",
+               "", _md_table([{"table": k, "rows_read_back": v["rows"]} for k, v in lake.items()])]
     (src.report_dir / "REPORT.md").write_text("\n".join(md), encoding="utf-8")
     return out
 
@@ -247,8 +273,11 @@ def main() -> int:
     a = ap.parse_args()
     src = Sources(**{k: v for k, v in (("out_dir", a.out), ("report_dir", a.report)) if v})
     counts = export(src)
-    report(src, counts)
+    lake = lakehouse(src.out_dir)
+    report(src, counts, lake)
     print("exported:", counts)
+    if lake:
+        print("delta lake:", {k: f"{v['rows']} rows, v{v['version']}" for k, v in lake.items()})
     print("report:", src.report_dir / "REPORT.md")
     return 0
 

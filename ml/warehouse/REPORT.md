@@ -65,3 +65,16 @@ _no rows_
 | ES | 843 |
 | BD | 354 |
 | PT | 76 |
+
+## Lakehouse: the same tables as Delta Lake tables
+
+Each table is also committed as a Delta Lake table (delta-rs) under `data_warehouse/delta/`, then read back.
+
+| table | rows_read_back |
+|---|---|
+| ask_eval | 10 |
+| recalls | 0 |
+| receipts | 11 |
+| rules | 23 |
+| safety_runs | 5444 |
+| sightings | 42 |

@@ -70,3 +70,22 @@ def test_report_draws_vega_lite_svgs_when_altair_is_installed(tmp_path):
     for name in ("sightings_per_country.svg", "rules_per_pack.svg"):
         assert (src.report_dir / name).read_text(encoding="utf-8").lstrip().startswith("<svg")
     assert "![Rules per pack" in (src.report_dir / "REPORT.md").read_text(encoding="utf-8")
+
+
+def test_lakehouse_delta_tables_round_trip_and_keep_history(tmp_path):
+    """Delta Lake (delta-rs): every Parquet table is committed as a Delta table, reads back with the same rows, and a
+    second run is a new version while version 0 is still readable (time travel). Skipped without deltalake."""
+    import pytest
+    deltalake = pytest.importorskip("deltalake")
+    src = _tiny(tmp_path)
+    counts = wh.export(src)
+    first = wh.lakehouse(src.out_dir)
+    assert {k: v["rows"] for k, v in first.items()} == counts
+    assert all(v["version"] == 0 for v in first.values())
+    second = wh.lakehouse(src.out_dir)
+    assert all(v["version"] == 1 for v in second.values())
+    old = deltalake.DeltaTable(str(src.out_dir / "delta" / "rules"), version=0)
+    assert old.to_pyarrow_table().num_rows == counts["rules"]
+    wh.report(src, counts, second)
+    md = (src.report_dir / "REPORT.md").read_text(encoding="utf-8")
+    assert "## Lakehouse: the same tables as Delta Lake tables" in md and "| rules | 2 |" in md
