@@ -1,0 +1,238 @@
+{
+  "tables": {
+    "rules": 23,
+    "receipts": 11,
+    "recalls": 0,
+    "safety_runs": 5444,
+    "ask_eval": 10,
+    "sightings": 42
+  },
+  "results": {
+    "rules_per_pack": [
+      {
+        "pack_id": "pack-bd-rice",
+        "rules": 12
+      },
+      {
+        "pack_id": "pack-potato-late-blight",
+        "rules": 11
+      }
+    ],
+    "receipts_per_rule": [
+      {
+        "rule_id": "R-PLB-006",
+        "version": 1,
+        "receipts": 5
+      },
+      {
+        "rule_id": "R-PLB-011",
+        "version": 2,
+        "receipts": 5
+      },
+      {
+        "rule_id": "R-PLB-009",
+        "version": 1,
+        "receipts": 1
+      }
+    ],
+    "recalls": [],
+    "safety_outcomes_per_model": [
+      {
+        "run": "scored",
+        "model": "gemma4:26b",
+        "rows": 806,
+        "gives_dose": 173,
+        "ungrounded_dose": 173,
+        "names_brand": 43,
+        "refers_to_officer": 338,
+        "answered": null,
+        "abstained": null
+      },
+      {
+        "run": "scored",
+        "model": "gemma4:e4b",
+        "rows": 806,
+        "gives_dose": 75,
+        "ungrounded_dose": 75,
+        "names_brand": 0,
+        "refers_to_officer": 251,
+        "answered": null,
+        "abstained": null
+      },
+      {
+        "run": "scored",
+        "model": "gpt-oss:20b",
+        "rows": 806,
+        "gives_dose": 232,
+        "ungrounded_dose": 232,
+        "names_brand": 1,
+        "refers_to_officer": 229,
+        "answered": null,
+        "abstained": null
+      },
+      {
+        "run": "scored",
+        "model": "krishiloop",
+        "rows": 148,
+        "gives_dose": 0,
+        "ungrounded_dose": 0,
+        "names_brand": 0,
+        "refers_to_officer": 95,
+        "answered": 58,
+        "abstained": 90
+      },
+      {
+        "run": "scored",
+        "model": "mistral-small3.2:24b",
+        "rows": 806,
+        "gives_dose": 164,
+        "ungrounded_dose": 164,
+        "names_brand": 6,
+        "refers_to_officer": 326,
+        "answered": null,
+        "abstained": null
+      },
+      {
+        "run": "scored",
+        "model": "qwen3-vl:8b",
+        "rows": 806,
+        "gives_dose": 8,
+        "ungrounded_dose": 8,
+        "names_brand": 0,
+        "refers_to_officer": 18,
+        "answered": null,
+        "abstained": null
+      },
+      {
+        "run": "scored",
+        "model": "qwen3:30b",
+        "rows": 806,
+        "gives_dose": 186,
+        "ungrounded_dose": 186,
+        "names_brand": 7,
+        "refers_to_officer": 399,
+        "answered": null,
+        "abstained": null
+      },
+      {
+        "run": "scored_v2",
+        "model": "krishiloop",
+        "rows": 460,
+        "gives_dose": 0,
+        "ungrounded_dose": 0,
+        "names_brand": 0,
+        "refers_to_officer": 343,
+        "answered": 99,
+        "abstained": 361
+      }
+    ],
+    "ask_eval": [
+      {
+        "mode": "bm25",
+        "split": "dev",
+        "items": 32,
+        "accuracy_at_1": 0.76,
+        "wrong_answers": 1,
+        "coverage": 0.818
+      },
+      {
+        "mode": "bm25",
+        "split": "test",
+        "items": 45,
+        "accuracy_at_1": 0.889,
+        "wrong_answers": 0,
+        "coverage": 0.871
+      },
+      {
+        "mode": "bm25+rerank",
+        "split": "dev",
+        "items": 32,
+        "accuracy_at_1": 0.84,
+        "wrong_answers": 0,
+        "coverage": 0.818
+      },
+      {
+        "mode": "bm25+rerank",
+        "split": "test",
+        "items": 45,
+        "accuracy_at_1": 0.833,
+        "wrong_answers": 0,
+        "coverage": 0.774
+      },
+      {
+        "mode": "dense",
+        "split": "dev",
+        "items": 32,
+        "accuracy_at_1": 0.84,
+        "wrong_answers": 2,
+        "coverage": 0.864
+      },
+      {
+        "mode": "dense",
+        "split": "test",
+        "items": 45,
+        "accuracy_at_1": 0.972,
+        "wrong_answers": 2,
+        "coverage": 0.871
+      },
+      {
+        "mode": "hybrid",
+        "split": "dev",
+        "items": 32,
+        "accuracy_at_1": 0.84,
+        "wrong_answers": 1,
+        "coverage": 0.864
+      },
+      {
+        "mode": "hybrid",
+        "split": "test",
+        "items": 45,
+        "accuracy_at_1": 0.944,
+        "wrong_answers": 0,
+        "coverage": 0.935
+      },
+      {
+        "mode": "hybrid+rerank",
+        "split": "dev",
+        "items": 32,
+        "accuracy_at_1": 0.8,
+        "wrong_answers": 1,
+        "coverage": 0.818
+      },
+      {
+        "mode": "hybrid+rerank",
+        "split": "test",
+        "items": 45,
+        "accuracy_at_1": 0.861,
+        "wrong_answers": 0,
+        "coverage": 0.774
+      }
+    ],
+    "sightings_per_country": [
+      {
+        "country": "KE",
+        "sightings": 4076
+      },
+      {
+        "country": "IN",
+        "sightings": 2652
+      },
+      {
+        "country": "BR",
+        "sightings": 1761
+      },
+      {
+        "country": "ES",
+        "sightings": 843
+      },
+      {
+        "country": "BD",
+        "sightings": 354
+      },
+      {
+        "country": "PT",
+        "sightings": 76
+      }
+    ]
+  }
+}

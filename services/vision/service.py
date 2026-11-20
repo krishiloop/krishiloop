@@ -18,6 +18,7 @@ from typing import Callable
 
 import numpy as np
 
+from services.engine import events
 from services.engine.planner import trust_area
 from services.vision import probe
 from services.vision.ledger import AreaLedger, LedgerError, Policy
@@ -103,6 +104,8 @@ class PhotoService:
                 photo.write_bytes(image)
                 case["photo"] = photo.name
             self._save_case(case)
+        events.publish(events.scope_of_status(self.store.status_id), "photo",
+                       {"action": "submitted", "case_id": case_id, "route": case["route"]})   # no photo, no area, no field
         return self.public(case)
 
     def judge(self, case_id: str, label: str, by: str) -> dict:
@@ -130,6 +133,8 @@ class PhotoService:
                 cred = self.store.trusted_photo_model(self.model, area)
                 if cred:
                     self.store.revoke(cred)
+            events.publish(events.scope_of_status(self.store.status_id), "photo",
+                           {"action": "verdict", "case_id": case_id, "gate": event["event"] if event else None})
             return {"case": self.public(case), "event": event, "area": self.area(area)}
 
     def _refit(self, area: str) -> None:

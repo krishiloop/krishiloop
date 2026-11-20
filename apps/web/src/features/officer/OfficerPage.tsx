@@ -5,7 +5,8 @@ import '../../lib/i18n/strings.radartab'; // builder R: the radar tab's label (t
 import { lazy, Suspense, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Camera, Inbox, Leaf, Radar, Undo2 } from 'lucide-react';
-import { currentSessionId, useApiState } from '../../lib/api/client';
+import { currentSessionId, useApiState, useSessionId } from '../../lib/api/client';
+import { connectEvents } from '../../lib/api/events';
 import { useI18n } from '../../lib/i18n';
 import { fmtNum } from '../../lib/format';
 import { caseStatus } from '../trust/gate';
@@ -58,6 +59,26 @@ export default function OfficerPage() {
       alive = false;
     };
   }, [api.forced]);
+
+  // live: the server pushes "something new" (a case, a recall, a photo); refetch, debounced. Recorded sample mode: nothing opens.
+  const sid = useSessionId();
+  const live = api.mode === 'live' && !api.forced && !!sid;
+  useEffect(() => {
+    if (!live || !sid) return;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const stop = connectEvents(sid, () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        void loadInbox();
+        void loadPhotoCases();
+        void loadStats();
+      }, 400);
+    });
+    return () => {
+      clearTimeout(t);
+      stop();
+    };
+  }, [live, sid]);
 
   const inbox = useInbox();
   const inboxMeta = useInboxMeta();

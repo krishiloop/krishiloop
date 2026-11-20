@@ -11,6 +11,8 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
+from services.engine import events
+
 ROOT = Path(__file__).resolve().parents[2]
 INBOX_DIR = ROOT / "data" / "inbox"
 
@@ -27,6 +29,8 @@ def create(field_id: str, farmer: str, reason_code: str, reason: dict, details: 
     tmp = d / f"{item_id}.json.tmp"
     tmp.write_text(json.dumps(item, ensure_ascii=False, indent=2), encoding="utf-8")
     os.replace(tmp, d / f"{item_id}.json")
+    events.publish(events.scope_of_inbox(inbox_dir), "inbox", {"action": "created", "item_id": item_id,
+                   "reason_code": reason_code, "priority": item.get("priority", "normal")})   # ids and codes only
     return item_id
 
 
@@ -53,4 +57,5 @@ def resolve(item_id: str, note: str, by: str, inbox_dir: Path | None = None) -> 
     tmp = d / f"{item_id}.json.tmp"
     tmp.write_text(json.dumps(item, ensure_ascii=False, indent=2), encoding="utf-8")
     os.replace(tmp, d / f"{item_id}.json")
+    events.publish(events.scope_of_inbox(inbox_dir), "inbox", {"action": "resolved", "item_id": item_id})
     return item

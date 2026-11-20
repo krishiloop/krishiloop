@@ -22,3 +22,10 @@ tokenizers==0.23.3
 pillow==13.0.0
 onnxruntime==1.31.1
 onnx==1.23.2
+# Data stack: Kuzu = embedded graph database (services/graph/, provenance graph + Graph RAG in the Ask router);
+# DuckDB + PyArrow = Parquet data warehouse (tools/warehouse.py -> ml/warehouse/REPORT.md).
+kuzu==0.11.3
+duckdb==2.0.0
+pyarrow==26.0.1
+# Ask vector store (services/ask/vectorstore.py): embedded LanceDB table of the e5 vectors; pyarrow builds the table.
+lancedb==0.41.0

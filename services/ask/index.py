@@ -26,6 +26,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from services.ask import vectorstore
 from services.ask.lexical import BM25, Lexicon
 from services.engine.rules import REGISTRY, load_pack, manifest
 
@@ -241,7 +242,7 @@ def corpus_units(lex: Lexicon, rules: dict[str, dict], embedder=None) -> list[Un
 
 
 class Index:
-    def __init__(self, lex: Lexicon, embedder=None):
+    def __init__(self, lex: Lexicon, embedder=None, vector_dir: Path | None = None):
         self.rules: dict[str, dict] = {}
         for pack in sorted(p.name for p in REGISTRY.iterdir() if p.is_dir()):
             for r in load_pack(pack):
@@ -251,6 +252,9 @@ class Index:
                          else "semantic: word overlap between adjacent sentences (embedder not installed)")
         self.bm25 = BM25(lex, [u.text for u in self.units])
         self.vectors = embedder.embed([u.text for u in self.units], "passage") if embedder is not None else None
+        # the vectors also go to LanceDB (services/ask/vectorstore.py); dense retrieval queries it, the matrix is the fallback
+        self.store = (vectorstore.build(self.units, self.vectors, getattr(embedder, "name", "embedder"), vector_dir)
+                      if self.vectors is not None else None)
         self.by_pack: dict[str, list[int]] = {}
         for i, u in enumerate(self.units):
             for p in u.packs:
@@ -263,7 +267,8 @@ class Index:
         return {"rule_units": sum(u.kind == "rule" for u in self.units), "corpus_chunks": len(chunks),
                 "corpus_docs": sorted({u.meta["doc_id"] for u in chunks}), "chunking": self.chunking,
                 "contextual_headers": "document, section, page, pack and crop prepended to every chunk",
-                "registry_sha256": self.registry_sha256}
+                "registry_sha256": self.registry_sha256,
+                "vector_store": self.store.describe() if self.store else "off (in-memory dense search)"}
 
     def pack_rules(self, pack_id: str) -> list[str]:
         return [rid for rid, r in self.rules.items() if r["pack_id"] == pack_id]

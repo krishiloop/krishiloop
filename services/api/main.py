@@ -7,6 +7,7 @@ issuer key. A judge's recall changes only that judge's receipts; the official li
 """
 from __future__ import annotations
 
+import asyncio
 import base64
 import binascii
 import hashlib
@@ -22,12 +23,16 @@ from datetime import date
 from pathlib import Path
 
 from fastapi import FastAPI, Header, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, StreamingResponse
 from jsonschema import Draft202012Validator
 from pydantic import BaseModel, Field
 from referencing import Registry, Resource
 
-from services.engine import inbox
+try:   # optional: the Kuzu provenance graph (requirements-dev.txt); a recall works without it
+    from services import graph as graph_mod
+except ImportError:  # pragma: no cover
+    graph_mod = None
+from services.engine import events, inbox
 from services.engine import snapshot as snap_mod
 from services.engine.planner import DEMO_FIELDS, DEMO_PROFILES, make_plan
 from services.engine.rules import REGISTRY, load_pack, pack_parameters
@@ -248,9 +253,14 @@ def _recall(st: TrustStore, body: RecallRequest, actor: str) -> dict:
             _plan_cache.pop(k)  # cached plans may contain the recalled rule
         for k in [k for k in _ask_cache if k[0] == st.status_id]:
             _ask_cache.pop(k)   # and so may cached answers
-    return {"recalled_rule_credentials": hits,
-            "note": "receipts that used this rule version now verify as 'recalled'; the planner no longer serves it",
-            "notified": reach.on_recall(st, body.rule_id, body.version)}   # Reach: notices to the receipts' holders
+    events.publish(events.scope_of_status(st.status_id), "recall",
+                   {"rule_id": body.rule_id, "version": body.version, "credentials": len(hits)})   # no reason text, no holders
+    out = {"recalled_rule_credentials": hits,
+           "note": "receipts that used this rule version now verify as 'recalled'; the planner no longer serves it",
+           "notified": reach.on_recall(st, body.rule_id, body.version)}   # Reach: notices to the receipts' holders
+    if graph_mod is not None:   # the provenance graph (Kuzu) lists the receipts it touches; the status list stays the truth
+        out["graph_blast_radius"] = graph_mod.blast_radius_for_store(st.dir, body.rule_id, body.version)
+    return out
 
 
 @app.middleware("http")
@@ -838,6 +848,49 @@ def demo_triage_recall(sid: str, body: ModelRecallRequest):
     return {"recalled_model_credentials": hits, "model": agritriage_mod.MODEL,
             "note": "receipts that used this model's readings now verify as 'recalled'; it gives no new receipts"}
 # ---------------------------------------------------------------- END AgriTriage block
+
+
+# ---------------------------------------------------------------- live events (Server-Sent Events)
+# GET /api/events?sid=<demo session>: new officer-inbox cases, recalls and photo-ledger events as they happen, from the
+# in-process hub (services/engine/events.py). Events hold ids and codes only; the client refetches what it shows.
+# A demo sandbox's stream needs no token (the sandbox is the visitor's own, like its inbox endpoint). The official
+# stream (no sid) needs the admin token in the X-Admin-Token header, as the official inbox does.
+SSE_HEARTBEAT_S = 15.0
+
+
+def _sse(ev: dict) -> str:
+    return f"id: {ev['id']}\nevent: {ev['event']}\ndata: {json.dumps({**ev['data'], 'at': ev['at']}, separators=(',', ':'))}\n\n"
+
+
+@app.get("/api/events")
+async def live_events(request: Request, sid: str = "", x_admin_token: str = Header(default="")):
+    if sid:
+        if not re.fullmatch(r"[0-9a-f]{16}", sid):
+            raise HTTPException(404, "unknown demo session")
+        scope = sid
+    else:
+        _admin(x_admin_token)
+        scope = events.OFFICIAL
+    if _rate_limited("events:" + (request.client.host if request.client else "unknown")):
+        raise HTTPException(429, "too many requests; try again in a minute")
+    sub = events.subscribe(scope)
+    if sub is None:
+        raise HTTPException(503, "too many live listeners; try again later")
+
+    async def stream():
+        try:
+            yield "retry: 3000\n\nevent: ready\ndata: {}\n\n"
+            while True:
+                try:
+                    ev = await asyncio.wait_for(sub.queue.get(), timeout=SSE_HEARTBEAT_S)
+                    yield _sse(ev)
+                except asyncio.TimeoutError:
+                    yield ": keep-alive\n\n"
+        finally:
+            sub.close()
+
+    return StreamingResponse(stream(), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no"})
 
 
 # ---------------------------------------------------------------- simple pages

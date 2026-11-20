@@ -89,6 +89,7 @@ class AskState(TypedDict, total=False):
     dense: Any
     fused: list
     ranked: list
+    graph_added: list
     facts: dict
     stale: bool
     gate: Any
@@ -101,7 +102,7 @@ class AskState(TypedDict, total=False):
 
 class Router:
     def __init__(self, embedder: Any = "auto", reranker: Any = "auto", thresholds: dict | None = None,
-                 config: dict | None = None):
+                 config: dict | None = None, graph_expand: bool | None = None):
         self.config = config or yaml.safe_load(CONFIG_PATH.read_text(encoding="utf-8"))
         self.retrieval = self.config.get("retrieval") or {}
         self.messages = {k: v for k, v in (self.config.get("messages") or {}).items() if k != "review"}
@@ -117,6 +118,7 @@ class Router:
         usable = [m for m, st in MODES.items() if self._available(st) and m in self.thresholds]
         chosen = (self.config.get("selected_mode") or {}).get("mode") if thresholds is None else None
         self.mode = chosen if chosen in usable else (usable[0] if usable else None)
+        self.siblings = self._sibling_map(graph_expand)   # Graph RAG: rule -> [(sibling, source page)], {} when off
         self.graph = self._build()
 
     # ------------------------------------------------------------------ set-up
@@ -139,7 +141,8 @@ class Router:
         g = StateGraph(AskState)
         for name, fn in (("normalise", self._normalise), ("screen", self._screen), ("retrieve_bm25", self._bm25),
                          ("retrieve_dense", self._dense),
-                         ("fuse", self._fuse), ("rerank", self._rerank), ("match_rules", self._match),
+                         ("fuse", self._fuse), ("rerank", self._rerank), ("graph_expand", self._graph_expand),
+                         ("match_rules", self._match),
                          ("decide", self._decide), ("render", self._render), ("validate", self._validate),
                          ("receipt", self._receipt), ("abstain", self._abstain)):
             g.add_node(name, fn)
@@ -149,7 +152,8 @@ class Router:
         g.add_edge("screen", "retrieve_dense")
         g.add_edge(["retrieve_bm25", "retrieve_dense"], "fuse")
         g.add_edge("fuse", "rerank")
-        g.add_edge("rerank", "match_rules")
+        g.add_edge("rerank", "graph_expand")
+        g.add_edge("graph_expand", "match_rules")
         g.add_edge("match_rules", "decide")
         g.add_conditional_edges("decide", lambda s: "render" if s["decision"]["kind"] == "answer" else "abstain",
                                 ["render", "abstain"])
@@ -195,6 +199,43 @@ class Router:
         ranked = retrieve.rerank(self.index, self.reranker, s["query"].text, s["lang"], s["fused"],
                                  int(self.retrieval.get("rerank_top_n", 8)))
         return {"ranked": ranked, "path": ["rerank"]}
+
+    def _sibling_map(self, enabled: bool | None) -> dict[str, list[tuple[str, str]]]:
+        """Graph RAG: which rules cite the same source page, walked once from the Kuzu provenance graph (rules only)
+        and kept as a plain map so a request never touches the database. On by default; KRISHILOOP_ASK_GRAPH=0 or
+        graph_expand=False turns it off. Empty if Kuzu is not installed."""
+        if enabled is None:
+            enabled = os.environ.get("KRISHILOOP_ASK_GRAPH", "1") != "0"
+        if not enabled:
+            return {}
+        try:
+            from services.graph import build_graph
+            with build_graph(trust_dirs=[]) as g:
+                return {rid: [(x["rule_id"], x["source"]) for x in g.rules_citing_same_source(rid, r["version"])
+                              if x["rule_id"] in self.index.rules]
+                        for rid, r in self.index.rules.items()}
+        except Exception:
+            return {}
+
+    def _graph_expand(self, s: AskState) -> dict:
+        """Graph RAG, as a tie-breaker only. Each of the top-k rules that reached the threshold lends half its score to the
+        rules citing the same source page, so a sibling the ranking left out can enter the top-k. Confidence is never
+        changed: a sibling still has to clear the threshold on its own evidence, so this cannot create an answer."""
+        tau = s.get("tau")
+        if not self.siblings or tau is None or not s.get("ranked"):
+            return {"graph_added": [], "path": ["graph_expand:skipped"]}
+        k = self.walk_settings()[0]
+        ranked = [retrieve.Hit(h.rule_id, h.score, h.conf, h.unit) for h in s["ranked"]]
+        by_id, added = {h.rule_id: h for h in ranked}, []
+        for parent in [h for h in s["ranked"][:k] if h.conf >= tau]:
+            for sib, src in self.siblings.get(parent.rule_id, ()):
+                h = by_id.get(sib)
+                if h is not None and parent.score * 0.5 > h.score:
+                    h.score, h.unit = parent.score * 0.5, f"graph:{parent.rule_id}"
+                    added.append({"rule_id": sib, "from_rule_id": parent.rule_id, "source": src,
+                                  "score": round(float(h.score), 4)})
+        ranked.sort(key=lambda h: (-h.score, -h.conf, h.rule_id))
+        return {"ranked": ranked, "graph_added": added, "path": ["graph_expand"]}
 
     def _match(self, s: AskState) -> dict:
         """The field's facts (as the planner computes them), and the candidates that clear the threshold."""
@@ -288,7 +329,8 @@ class Router:
                               "note": self.note(s["stages"]), "rewritten_query": q.dense_text, "crops_named": q.crops,
                               "problems_named": s.get("named") or [], "unsafe": s.get("unsafe") or [],
                               "candidates": [c.row() for c in d.get("tried", [])],
-                              "top_retrieved": [h.row() for h in s["ranked"][:3]]},
+                              "top_retrieved": [h.row() for h in s["ranked"][:3]],
+                              "graph_expansion": s.get("graph_added") or []},
                 "pipeline": {"engine": "langgraph", "path": s["path"] + last},
                 "data_mode": s["snap"].get("mode"), "data_as_of": s["snap"].get("created_at"), "generated_at": _now()}
 

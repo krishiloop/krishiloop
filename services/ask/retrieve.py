@@ -4,7 +4,8 @@ only direct evidence (the rule's own unit, or a chunk that holds its quote): a c
 the rule's quote can lift the rule in the ranking, never over the threshold.
 
 - bm25:   ranks by BM25; confidence = coverage (idf-weighted share of the question's concepts found);
-- dense:  ranks by cosine similarity of multilingual-e5-small vectors; confidence = that cosine;
+- dense:  ranks by cosine similarity of multilingual-e5-small vectors (LanceDB vector search when the store is
+          there, the in-memory matrix otherwise); confidence = that cosine;
 - fuse:   reciprocal-rank fusion (k=60) of the active stages; confidence = mean of the stages' confidences;
 - rerank: the cross-encoder reads the question with each of the top fused rules' own text; confidence = its
           sigmoid score, and the order follows it.
@@ -55,6 +56,15 @@ def bm25(index: Index, q: Query, pack_id: str) -> list[Hit]:
 
 def dense(index: Index, qvec: np.ndarray, pack_id: str) -> list[Hit]:
     docs = index.by_pack.get(pack_id, [])
+    store = getattr(index, "store", None)
+    if docs and store is not None:      # LanceDB vector search over the pack's rows; the same cosines as the matrix below
+        try:
+            found = dict(store.search(qvec, pack_id))
+            if set(found) == set(docs):
+                cos = [found[i] for i in docs]
+                return _pool(index, pack_id, docs, [(max(c, 0.0), min(max(c, 0.0), 1.0)) for c in cos])
+        except Exception:
+            pass                        # the store must never break an answer: use the in-memory vectors
     cos = [float(c) for c in index.vectors[docs] @ qvec.reshape(-1)] if docs else []
     return _pool(index, pack_id, docs, [(max(c, 0.0), min(max(c, 0.0), 1.0)) for c in cos])
 

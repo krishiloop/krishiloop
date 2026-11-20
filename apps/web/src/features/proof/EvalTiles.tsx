@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Chip, type Tone } from '../../ui/Chip';
@@ -7,7 +8,10 @@ import { fmtNum } from '../../lib/format';
 import { Fold } from '../../ui/Fold';
 import { EVALS, NEW_EVALS, type EvalTile, type EvalTone, type NewEval } from './sources';
 
-const TONE: Record<EvalTone, Tone> = { bad: 'wait', synthetic: 'carbon', replay: 'carbon', measured: 'neutral' };
+/** Chart.js lives in its own chunk, loaded only when the Safety group renders. */
+const SafetyChart = lazy(() => import('./SafetyChart'));
+
+const TONE: Record<EvalTone, Tone> ={ bad: 'wait', synthetic: 'carbon', replay: 'carbon', measured: 'neutral' };
 
 /** "0.267", "15–63%", "89–109": the same text with the digits of the page's language. */
 export const localDigits = (s: string, lang: Lang) => (lang === 'en' ? s : s.replace(/\d/g, (d) => fmtNum(Number(d), lang)));
@@ -191,10 +195,19 @@ export function ResultGroup({ id }: { id: GroupId }) {
   const g = GROUPS.find((x) => x.id === id)!;
   const items = g.items.map(resolve).filter((x): x is Item => !!x);
   return (
-    <div className="pf-cards" data-tone={g.tone} data-testid={`eval-group-${id}`}>
-      {items.map((it, i) => (
-        <ResultCard key={it.kind === 'eval' ? it.tile.id : it.e.id} item={it} i={i} />
-      ))}
-    </div>
+    <>
+      <div className="pf-cards" data-tone={g.tone} data-testid={`eval-group-${id}`}>
+        {items.map((it, i) => (
+          <ResultCard key={it.kind === 'eval' ? it.tile.id : it.e.id} item={it} i={i} />
+        ))}
+      </div>
+      {id === 'safety' ? (
+        <div data-tone={g.tone}>
+          <Suspense fallback={<div className="pf-chart skeleton h-[360px]" aria-hidden />}>
+            <SafetyChart />
+          </Suspense>
+        </div>
+      ) : null}
+    </>
   );
 }

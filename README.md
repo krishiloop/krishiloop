@@ -15,7 +15,8 @@
   <a href="https://krishiloop.vercel.app/proof"><img alt="Evidence" src="https://img.shields.io/badge/evidence-every%20number%20%2B%20its%20file-5f9fbd?style=for-the-badge"></a>
 </p>
 <p align="center">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-371%20pytest%20%C2%B7%20259%20unit%20%C2%B7%20165%20browser-2f5a35">
+  <a href="https://github.com/krishiloop/krishiloop/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/krishiloop/krishiloop/actions/workflows/ci.yml/badge.svg?branch=main"></a>
+  <img alt="Tests" src="https://img.shields.io/badge/tests-390%20pytest%20%C2%B7%20259%20unit%20%C2%B7%20165%20browser-2f5a35">
   <img alt="Languages" src="https://img.shields.io/badge/languages-Bangla%20%C2%B7%20English%20%2B%20Hindi%2C%20Swahili%2C%20Spanish%20previews-927fcc">
   <img alt="Licence" src="https://img.shields.io/badge/code-Apache--2.0-46524a">
 </p>
@@ -120,6 +121,9 @@ flowchart LR
 - **See:** the photo model is a **TinyViT-11M student distilled from DINOv2, CLIP and Perception Encoder**, with a **conformal safety gate** (diagnose, ask for a clearer photo, or refer) and an energy score for unknown photos.
 - **Prove:** every answer is a signed credential; recall uses a W3C Bitstring Status List.
 - **Reach:** five read-only **MCP servers** let other AI advisers verify our receipts and read our rules.
+- **Data:** a **Kùzu** graph database links every rule, the source page it quotes and every receipt that used it, so a recall lists exactly the receipts it touches, and the Ask router uses the same graph for a **Graph RAG** step (sibling rules that cite the same page). Dense retrieval runs on a **LanceDB** vector table (multilingual-e5, 384 dimensions, rules and source chunks), and it ranks exactly as the in-memory search did. A **DuckDB** warehouse turns our rules, receipts, recalls, evaluations and GBIF sightings into Parquet and one SQL report (`tools/warehouse.py`, `ml/warehouse/REPORT.md`). All three are embedded: files, no database server to host.
+- **Live:** `GET /api/events` streams new officer cases, recalls and photo-ledger events over **Server-Sent Events**. The officer console refreshes as they happen. Events carry ids and codes only, never personal data.
+- **Look:** the design system is published as a [Claude Artifacts design system](https://claude.ai/artifact/7m8moHoKncYg7jwzRpDcai) (tokens, type, components, rules). The evidence page draws the per-model safety result with **Chart.js**.
 
 ## Results, each with its file
 
@@ -168,6 +172,8 @@ python -m venv .venv
 | `services/trust/` | W3C Verifiable Credentials (`eddsa-jcs-2022`), status lists, did:web, recall |
 | `services/vision/` | Server-side photo reading and explainability (same ONNX model as the phone) |
 | `services/mcp/` | Five read-only MCP servers (weather, satellite, receipts, rules, photo trust) |
+| `services/graph/` | The Kùzu provenance graph: rules, sources, quotes, receipts; recall blast radius; Graph RAG siblings |
+| `tools/warehouse.py` | DuckDB + Parquet warehouse and its SQL report (`ml/warehouse/REPORT.md`) |
 | `rules/` | Rule packs (Bangladesh rice, Kenya potato), each rule with its verbatim source quote and page |
 | `contracts/` | JSON Schemas for plans, receipts, credentials, inbox items and more, validated in CI |
 | `ml/` | Vision, voice, safety and token evaluations, each with its report |
