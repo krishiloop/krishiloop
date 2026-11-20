@@ -6,6 +6,8 @@ Rows exported: rules 23, receipts 11, recalls 0, safety_runs 5444, ask_eval 10, 
 
 ## Rules per pack
 
+![Rules per pack, Vega-Lite chart](rules_per_pack.svg)
+
 | pack_id | rules |
 |---|---|
 | pack-bd-rice | 12 |
@@ -52,6 +54,8 @@ _no rows_
 | hybrid+rerank | test | 45 | 0.861 | 0 | 0.774 |
 
 ## GBIF sightings per country
+
+![GBIF sightings per country, Vega-Lite chart](sightings_per_country.svg)
 
 | country | sightings |
 |---|---|

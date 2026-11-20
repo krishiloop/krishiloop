@@ -10,7 +10,7 @@ const d: Partial<Record<keyof typeof verify, string>> = {
   'vf.entry.bad': 'यह रसीद की आईडी नहीं है। आईडी urn:uuid:… या /verify/… पर ख़त्म होने वाले लिंक जैसी दिखती है।',
   'vf.entry.scan': 'कैमरे से स्कैन करें',
   'vf.entry.noScan': 'यह ब्राउज़र यहाँ QR नहीं पढ़ सकता। फ़ोन के कैमरा ऐप को QR पर रखें: यही पेज खुलेगा।',
-  'vf.entry.try': 'एक रिकॉर्ड की गई रसीद देखें',
+  'vf.entry.try': 'एक नमूना रसीद देखें',
   'vf.legend.title': 'चार तरह के जवाब',
   'vf.legend.authentic': 'KrishiLoop ने दी, उसके बाद कुछ नहीं बदला।',
   'vf.legend.recalled': 'इसके पीछे का एक नियम वापस लिया गया। इस पर अमल न करें।',

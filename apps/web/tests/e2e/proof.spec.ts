@@ -55,7 +55,7 @@ test.describe('/proof in recorded mode', () => {
     const box = page.getByTestId('check-yourself');
     await box.getByTestId('check-input').fill('http://127.0.0.1:5173/verify/urn:uuid:00000000-0000-4000-8000-000000000000');
     await box.getByRole('button', { name: 'Check in my browser' }).click();
-    await expect(box.getByTestId('check-nocred')).toHaveText('Sample mode is on: only recorded receipts can be checked here.');
+    await expect(box.getByTestId('check-nocred')).toHaveText('Sample mode is on: only sample receipts can be checked here.');
   });
 
   test('the architecture: every step is a button with its one-line explanation and file', async ({ page }) => {

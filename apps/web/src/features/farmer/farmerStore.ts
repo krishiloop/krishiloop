@@ -196,7 +196,7 @@ export async function loadPlan(opts: { force?: boolean; photoCaseId?: string } =
     holdPlan(p.data, p.source);
   } catch (e) {
     if (token !== planSeq) return;
-    logError(forced ? 'recorded · plans.json' : 'POST /api/demo/‹sid›/plan', message(e));
+    logError(forced ? 'saved · plans.json' : 'POST /api/demo/‹sid›/plan', message(e));
     farmer.set((s) => ({ ...s, status: 'error', error: message(e) }));
   }
 }

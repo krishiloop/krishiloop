@@ -44,7 +44,7 @@ test.describe('recorded mode (deterministic)', () => {
   test('Today: the decision, why, other actions, the forecast, and the inspector logging the plan', async ({ page }) => {
     await page.goto(REC);
     await expect(decision(page)).toContainText('No spray needed');
-    await expect(page.getByTestId('farmer-app')).toContainText('Recorded 2 Nov');
+    await expect(page.getByTestId('farmer-app')).toContainText('Saved 2 Nov');
     // why this? the rule, its quote and the numbers people set
     await page.getByRole('button', { name: 'Why this?' }).click();
     const why = page.getByTestId('fa-why');
@@ -56,7 +56,7 @@ test.describe('recorded mode (deterministic)', () => {
     await expect(page.getByRole('list', { name: 'Next 7 days' })).toBeVisible();
     // glass box: the inspector shows the plan, rule versions and the signature suite
     const ins = page.getByTestId('fa-inspector');
-    await expect(ins.getByTestId('fa-ins-entry').first()).toContainText('recorded · plans.json');
+    await expect(ins.getByTestId('fa-ins-entry').first()).toContainText('saved · plans.json');
     await expect(ins).toContainText('R-BDR-002 v1');
     await expect(ins).toContainText('eddsa-jcs-2022');
     // the URL follows the app, so the state can be shared
@@ -291,7 +291,7 @@ test.describe('live API smoke', () => {
     test.setTimeout(120_000);
     await page.goto('/app?lang=en&field=BD-SAMPLE-02&profile=demo-farmer-c');
     await expect(decision(page)).toContainText('Re-check', { timeout: 30_000 });
-    await expect(page.getByTestId('farmer-app')).not.toContainText('Recorded 2 Nov');
+    await expect(page.getByTestId('farmer-app')).not.toContainText('Saved 2 Nov');
     await expect(page.getByTestId('fa-mode')).toContainText('Live');
     await expect(page.getByTestId('fa-inspector')).toContainText('POST /api/demo/‹sid›/plan');
     expect(await page.evaluate(() => sessionStorage.getItem('kl.demo.sid'))).toMatch(/^[0-9a-f]+$/);

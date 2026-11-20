@@ -10,7 +10,7 @@ const d: Partial<Record<keyof typeof verify, string>> = {
   'vf.entry.bad': 'Hiki si kitambulisho cha risiti. Kinafanana na urn:uuid:… au kiungo kinachoishia /verify/….',
   'vf.entry.scan': 'Changanua kwa kamera',
   'vf.entry.noScan': 'Kivinjari hiki hakiwezi kusoma QR hapa. Elekeza programu ya kamera ya simu kwenye QR: itafungua ukurasa huu.',
-  'vf.entry.try': 'Jaribu risiti iliyorekodiwa',
+  'vf.entry.try': 'Jaribu risiti ya mfano',
   'vf.legend.title': 'Majibu manne',
   'vf.legend.authentic': 'Imetolewa na KrishiLoop na haijabadilishwa.',
   'vf.legend.recalled': 'Kanuni iliyo nyuma yake imeondolewa. Usiifuate.',

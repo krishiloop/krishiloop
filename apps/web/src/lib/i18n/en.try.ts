@@ -175,23 +175,23 @@ const tryPage = {
   'try.rc.isLink': 'Receipt link',
   'try.rc.notYet': 'Not a code or receipt link yet',
   'try.rc.open': 'Open in the checker',
-  'try.rc.sample': 'Try a recorded receipt',
-  'try.rc.sampleNote': 'Recorded 2 Nov 2026.',
+  'try.rc.sample': 'Try a sample receipt',
+  'try.rc.sampleNote': 'Saved 2 Nov 2026.',
   'try.rc.how': 'Checked in your browser.',
 
   /* ---------------------------------------------------------------- "How much can I save?" */
   'try.sv.note': 'Your numbers stay on this device.',
 
   /* ---------------------------------------------------------------- "Take advice back (recall)" */
-  'try.recall.sim': 'Simulated here on recorded receipts',
+  'try.recall.sim': 'Simulated here on sample receipts',
   'try.recall.pick': 'Take back a rule',
   'try.recall.take': 'Take back {rule}',
   'try.recall.taken': '{rule} taken back',
-  'try.recall.reach': 'Used by {n} of {total} recorded receipts',
+  'try.recall.reach': 'Used by {n} of {total} sample receipts',
   'try.recall.undo': 'Undo all',
   'try.recall.open': 'Check it',
   'try.recall.after': '{n} of {total} receipts now show Recalled.',
-  'try.recall.loading': 'Loading the recorded receipts…',
+  'try.recall.loading': 'Loading the sample receipts…',
   'try.recall.receipt': 'Receipt {n}',
 } as const satisfies Record<string, string>;
 

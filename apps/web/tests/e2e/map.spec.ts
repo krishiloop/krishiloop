@@ -92,7 +92,7 @@ async function firstMap(page: Page) {
 test('country switch: Bangladesh districts first, then India, Kenya, Spain, Portugal and Brazil', async ({ page }) => {
   await page.goto(MAP);
   await firstMap(page);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Where pests and diseases have been recorded');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Where pests and diseases have been seen');
   await expect(country(page, 'BD')).toHaveAttribute('data-level', sightings.countries.BD.default_level);
   await expect(country(page, 'BD').locator('path[data-code]')).toHaveCount(64);
   // the exact label on the recorded layer

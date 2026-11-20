@@ -10,6 +10,7 @@ import { EVALS, NEW_EVALS, type EvalTile, type EvalTone, type NewEval } from './
 
 /** Chart.js lives in its own chunk, loaded only when the Safety group renders. */
 const SafetyChart = lazy(() => import('./SafetyChart'));
+const WarehouseChart = lazy(() => import('./WarehouseChart'));
 
 const TONE: Record<EvalTone, Tone> ={ bad: 'wait', synthetic: 'carbon', replay: 'carbon', measured: 'neutral' };
 
@@ -205,6 +206,9 @@ export function ResultGroup({ id }: { id: GroupId }) {
         <div data-tone={g.tone}>
           <Suspense fallback={<div className="pf-chart skeleton h-[360px]" aria-hidden />}>
             <SafetyChart />
+          </Suspense>
+          <Suspense fallback={<div className="pf-chart skeleton h-[300px]" aria-hidden />}>
+            <WarehouseChart />
           </Suspense>
         </div>
       ) : null}

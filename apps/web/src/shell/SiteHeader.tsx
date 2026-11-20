@@ -151,7 +151,9 @@ export function SiteHeader({ className }: { className?: string }) {
             <LangSwitch compact />
             <ThemeToggle />
             {pathname !== '/app' && (
-              <LinkButton to="/app" variant="primary" size="sm" className="ml-1 hidden sm:inline-flex lg:hidden 2xl:inline-flex">
+              /* phones and tablets only: from lg up the top bar already starts with "Farmer app", and on wide screens this
+                 button pushed past the bar's edge (owner, 20 Nov) */
+              <LinkButton to="/app" variant="primary" size="sm" className="ml-1 hidden sm:inline-flex lg:hidden">
                 {t('ui.cta.tryApp')}
               </LinkButton>
             )}

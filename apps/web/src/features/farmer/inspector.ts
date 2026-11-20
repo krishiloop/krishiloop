@@ -100,7 +100,7 @@ function receiptTrace(r: Receipt, credentialId: string | undefined, data: TraceN
 export function logBoot(source: DataSource, fields: number, profiles: number) {
   push({
     kind: 'boot',
-    req: source === 'live' ? 'GET /api/demo' : 'recorded · demo.json',
+    req: source === 'live' ? 'GET /api/demo' : 'saved · demo.json',
     recorded: source !== 'live',
     lines: [{ k: 'fa.ins.fields', v: [String(fields), ['fa.ins.profiles', { n: profiles }]] }],
   });
@@ -129,7 +129,7 @@ export function logPlan(plan: Plan, source: DataSource, opts: { cached?: boolean
   push({
     trace,
     kind: 'plan',
-    req: opts.cached ? `sessionStorage · kl.plan.${plan.field_id}.${plan.farmer_profile_id}` : source === 'live' ? `POST /api/demo/${SID}/plan` : 'recorded · plans.json',
+    req: opts.cached ? `sessionStorage · kl.plan.${plan.field_id}.${plan.farmer_profile_id}` : source === 'live' ? `POST /api/demo/${SID}/plan` : 'saved · plans.json',
     recorded: source !== 'live',
     lines,
   });
@@ -181,7 +181,7 @@ export function logAsk(o: AskOutcome, via: 'text' | 'voice') {
           { step: 'receipt', v: [short(r.answer.receipt_credential_id, 10), SUITE], s: ran.has('receipt') || !!r.answer.receipt_credential_id ? 'ok' : 'skip' },
         ]
       : [retrieval, { step: 'rule', v: [r.abstention?.reason_code ?? '–'], s: ran.has('match') ? 'ok' : 'skip' }, { step: 'officer', v: [r.abstention?.inbox_item_id ?? '–'], s: 'wait' }];
-  push({ kind: 'ask', req: o.source === 'live' ? `POST /api/demo/${SID}/ask` : 'recorded · asks.json', recorded: o.source !== 'live', lines, trace });
+  push({ kind: 'ask', req: o.source === 'live' ? `POST /api/demo/${SID}/ask` : 'saved · asks.json', recorded: o.source !== 'live', lines, trace });
 }
 
 export function logPhoto(c: PhotoCase, area: AreaStats | null) {
@@ -225,7 +225,7 @@ export function logVerify(id: string, r: VerifyOutcome) {
     if (r.credential?.issuer) lines.push({ k: 'fa.ins.issuer', v: [r.credential.issuer] });
     if (r.status_list) lines.push({ k: 'fa.ins.list', v: [r.status_list.replace(/^https?:\/\/[^/]+/, '').replace(/demo-[0-9a-f]+/, `demo-${SID}`), ['fa.ins.sandbox'], yesNo(r.sandbox)] });
   }
-  push({ kind: 'verify', req: r.source === 'sample' ? 'recorded · verify-before.json' : `GET /api/verify/${short(id, 12)}`, recorded: r.source === 'sample', lines, trace });
+  push({ kind: 'verify', req: r.source === 'sample' ? 'saved · verify-before.json' : `GET /api/verify/${short(id, 12)}`, recorded: r.source === 'sample', lines, trace });
 }
 
 export function logRecall(mode: 'sandbox' | 'sample') {

@@ -30,8 +30,8 @@ test.describe('recorded console', () => {
   test('who you are, the counters, the tabs, and the recorded inbox', async ({ page }) => {
     await page.goto('/officer?sample=1');
     await expect(page.getByRole('heading', { level: 1, name: 'Officer desk' })).toBeVisible();
-    await expect(page.getByText('Recorded answers. Recalls here are practice.')).toBeVisible();
-    await expect(page.getByTestId('data-mode')).toContainText('Recorded 2 Nov');
+    await expect(page.getByText('Saved answers. Recalls here are practice.')).toBeVisible();
+    await expect(page.getByTestId('data-mode')).toContainText('Saved 2 Nov');
     await expect(count(page, 'receipts')).toHaveText('20');
     await expect(count(page, 'recalled')).toHaveText('0');
     await expect(count(page, 'open')).toHaveText('2');
@@ -91,7 +91,7 @@ test.describe('recorded console', () => {
 
   test('recall: confirm with a reason, the ripple, the count, the farmer notice, and the receipt verifies as Recalled', async ({ page }) => {
     await page.goto('/officer?tab=recall&sample=1');
-    await expect(page.getByText('This recall is a practice run in your browser, on recorded receipts.')).toBeVisible();
+    await expect(page.getByText('This recall is a practice run in your browser, on sample receipts.')).toBeVisible();
     const tiles = page.getByTestId('receipt-tile');
     await expect(tiles).toHaveCount(20);
     await expect(page.locator('[data-testid=receipt-tile][data-state=recalled]')).toHaveCount(0);

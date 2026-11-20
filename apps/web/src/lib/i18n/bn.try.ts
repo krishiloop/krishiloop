@@ -172,21 +172,21 @@ const d: Record<keyof typeof tryPage, string> = {
   'try.rc.isLink': 'রসিদের লিংক',
   'try.rc.notYet': 'এখনো কোড বা রসিদের লিংক নয়',
   'try.rc.open': 'যাচাইকারীতে খুলুন',
-  'try.rc.sample': 'রেকর্ড করা একটি রসিদ দিয়ে দেখুন',
-  'try.rc.sampleNote': 'রেকর্ড করা, ২ নভেম্বর ২০২৬।',
+  'try.rc.sample': 'একটি নমুনা রসিদ দিয়ে দেখুন',
+  'try.rc.sampleNote': 'সংরক্ষিত, ২ নভেম্বর ২০২৬।',
   'try.rc.how': 'আপনার ব্রাউজারেই যাচাই হয়।',
 
   'try.sv.note': 'আপনার সংখ্যা এই ডিভাইসেই থাকে।',
 
-  'try.recall.sim': 'রেকর্ড করা রসিদে এখানে নকল করা',
+  'try.recall.sim': 'নমুনা রসিদে এখানে নকল করা',
   'try.recall.pick': 'একটি নিয়ম ফেরত নিন',
   'try.recall.take': '{rule} ফেরত নিন',
   'try.recall.taken': '{rule} ফেরত নেওয়া হয়েছে',
-  'try.recall.reach': '{total}টি রেকর্ড করা রসিদের {n}টিতে ব্যবহৃত',
+  'try.recall.reach': '{total}টি নমুনা রসিদের {n}টিতে ব্যবহৃত',
   'try.recall.undo': 'সব আগের মতো করুন',
   'try.recall.open': 'যাচাই করুন',
   'try.recall.after': '{total}টির মধ্যে {n}টি রসিদ এখন “ফেরত” দেখাচ্ছে।',
-  'try.recall.loading': 'রেকর্ড করা রসিদ লোড হচ্ছে…',
+  'try.recall.loading': 'নমুনা রসিদ লোড হচ্ছে…',
   'try.recall.receipt': 'রসিদ {n}',
 };
 

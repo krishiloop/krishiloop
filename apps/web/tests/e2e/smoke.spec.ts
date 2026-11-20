@@ -56,7 +56,7 @@ test('receipt: the sentence, a real receipt that prints, and no API calls', asyn
   await expect(receipt).toBeVisible();
   await expect(receipt).toContainText('R-BDR-002 v1');
   await expect(receipt.getByRole('img', { name: 'Verify this receipt' })).toBeVisible();
-  await expect(page.getByText('Recorded 2 Nov').first()).toBeVisible();
+  await expect(page.getByText('Saved 2 Nov').first()).toBeVisible();
   await page.waitForTimeout(400);
   expect(api, 'the receipt page never calls the API').toEqual([]);
 });

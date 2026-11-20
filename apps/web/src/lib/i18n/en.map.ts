@@ -5,7 +5,7 @@
  */
 const map = {
   'map.eyebrow': 'Disease map',
-  'map.title': 'Where pests and diseases have been recorded',
+  'map.title': 'Where pests and diseases have been seen',
   'map.lead':
     'Six countries, area by area: Bangladesh, India, Kenya, Spain, Portugal and Brazil.',
   'map.loading': 'Loading the map',
@@ -52,12 +52,12 @@ const map = {
   'map.years.all': 'All years',
   'map.years.since2000': 'Since 2000',
   'map.years.last10': 'Last 10 years',
-  'map.layer.sightings': 'Recorded sightings',
+  'map.layer.sightings': 'GBIF sightings',
   'map.layer.reports': 'Farmer reports, last {days} days',
   'map.layer.sim': 'Simulated outbreak: practice data',
 
   /* labels on the map */
-  'map.mark.recorded': 'Recorded',
+  'map.mark.recorded': 'GBIF',
   'map.mark.sim': 'Simulated',
   'map.label.sightings':
     'GBIF sightings, years {from} to {to}.',
@@ -77,14 +77,14 @@ const map = {
   'map.noneInRange': 'GBIF has no placed records of this pest in {country} for these years.',
   'map.caveat.IN':
     'Borders follow geoBoundaries. Some are disputed; this map takes no position.',
-  'map.a11y.sightings': '{n} recorded sightings',
+  'map.a11y.sightings': '{n} sightings',
   'map.a11y.reports': '{n} farmers reported in the last {days} days',
   'map.a11y.sim': '{n} simulated reports',
-  'map.tip': '{area}: {n} recorded',
+  'map.tip': '{area}: {n} sightings',
   'map.tipReports': '{n} farmers reported',
 
   /* legend */
-  'map.legend.title': 'Recorded sightings per area',
+  'map.legend.title': 'Sightings per area',
   'map.legend.none': 'none',
   'map.legend.range': '{from} to {to}',
   'map.legend.plus': '{n} or more',
@@ -94,9 +94,9 @@ const map = {
   /* the area panel */
   'map.panel.title': '{area} ({level}, {country})',
   'map.panel.empty': 'Choose an area to see its counts.',
-  'map.panel.recorded': 'Recorded sightings in GBIF',
+  'map.panel.recorded': 'Sightings in GBIF',
   'map.panel.recordedSub': '{n} records from {from} to {to}, by pest.',
-  'map.panel.recordedNote': 'Where people recorded these pests, not how much there is now.',
+  'map.panel.recordedNote': 'Where people reported these pests, not how much there is now.',
   'map.wx.title': 'Weather, next 7 days',
   'map.wx.loading': 'Loading the forecast',
   'map.wx.error': 'The forecast could not load.',
@@ -113,7 +113,7 @@ const map = {
   'map.watch.noCountry': 'We have no sourced rule for {country} yet.',
 
   /* credits */
-  'map.credit.sightings': 'Recorded sightings:',
+  'map.credit.sightings': 'Sightings:',
   'map.credit.gbif': 'GBIF occurrence counts, asked on {date} and stored with this page (the page does not call GBIF).',
   'map.credit.licences': 'Licences of these records: {list}.',
   'map.credit.keys': 'GBIF taxon keys:',
@@ -123,12 +123,12 @@ const map = {
 
   /* the home preview card */
   'map.teaser.eyebrow': 'Disease map',
-  'map.teaser.title': 'See where pests were recorded',
+  'map.teaser.title': 'See where pests were seen',
   'map.teaser.body': 'Six countries, area by area: Bangladesh, India, Kenya, Spain, Portugal and Brazil.',
   'map.teaser.cta': 'Open the disease map',
-  'map.teaser.stat': '{n} recorded sightings with a place, from GBIF',
+  'map.teaser.stat': '{n} sightings with a place, from GBIF',
   'map.credits.fold': 'Sources and licences',
-  'map.label.sightings.more': 'Where pests were recorded, not how much disease there is now.',
+  'map.label.sightings.more': 'Where pests were seen, not how much disease there is now.',
   'map.nasa.title': 'NASA, from space',
   'map.nasa.pic.true': 'Satellite picture',
   'map.nasa.pic.ndvi': 'Crop health (green is more plants)',

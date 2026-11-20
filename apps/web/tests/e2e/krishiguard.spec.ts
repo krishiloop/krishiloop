@@ -59,7 +59,7 @@ test('the shield: four checks from the recorded forecast, unknown as unknown, te
   // a clear check opens to its team-set threshold, said as such
   await page.getByTestId('kg-check-disease').getByRole('button').click();
   await expect(page.getByTestId('kg-team-disease')).toContainText('Limit set by our team, not from a written source');
-  await expect(shield(page)).toContainText('Recorded 2 Nov');
+  await expect(shield(page)).toContainText('Saved 2 Nov');
   await expect(page.getByTestId('kg-hear')).toBeVisible();
 });
 
@@ -193,7 +193,7 @@ test('radar: the map, the SIMULATION label, k-anonymous cells, hidden counts and
   await expect(box).toContainText('SIMULATED (demo, not real reports).');
   await expect(box).toContainText('ask your officer before you spray');
   await box.getByTestId('kg-warn-send').click();
-  await expect(page.getByTestId('kg-warn-result')).toContainText('Recorded mode: no live service, so nothing was sent.');
+  await expect(page.getByTestId('kg-warn-result')).toContainText('Sample mode: no live service, so nothing was sent.');
   // Kenya's counties
   await page.getByRole('radio', { name: 'Kenya' }).click();
   await expect(map.locator('.kg-map-base path')).toHaveCount(47);

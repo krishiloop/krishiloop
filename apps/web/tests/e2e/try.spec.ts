@@ -117,7 +117,7 @@ test('take advice back: the receipts that used the rule turn Recalled, and the p
   const recall = page.getByTestId('try-recall');
   await recall.scrollIntoViewIfNeeded();
   await expect(page.getByTestId('recall-ticket-0')).toHaveAttribute('data-status', 'authentic');
-  await expect(recall).toContainText('Used by 4 of 20 recorded receipts');
+  await expect(recall).toContainText('Used by 4 of 20 sample receipts');
   await page.getByTestId('recall-R-BDR-002').click();
   await expect(page.getByTestId('recall-ticket-0')).toHaveAttribute('data-status', 'recalled');
   await expect(page.getByTestId('recall-ticket-0').locator('.stamp')).toHaveText('Recalled');

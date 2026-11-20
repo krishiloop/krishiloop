@@ -99,7 +99,7 @@ test.describe('recorded receipt', () => {
     await expect(verdict.locator('.stamp')).toContainText('Authentic');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('This advice is real and unchanged.');
     await expect(verdict).toContainText('Real does not mean it fits every field');
-    await expect(verdict).toContainText('Recorded 2 Nov');
+    await expect(verdict).toContainText('Saved 2 Nov');
     await expect(page.getByTestId('note-sandbox')).toContainText('practice copy');
     // the document: sources with quotes, readings, numbers people set, confidence, signature, timeline
     await expect(page.getByTestId('doc-sources')).toContainText('Bangladesh Rice Research Institute');
@@ -265,6 +265,6 @@ test('live: a receipt made in a sandbox right now verifies as authentic', async 
   await page.goto(`/verify/${id}`);
   await expect(page.getByTestId('verdict')).toHaveAttribute('data-status', 'authentic');
   await expect(page.getByTestId('note-sandbox')).toBeVisible();
-  await expect(page.getByTestId('verdict')).not.toContainText('Recorded');
+  await expect(page.getByTestId('verdict')).not.toContainText('Saved');
   await expect(page.getByTestId('local-check')).not.toHaveAttribute('data-state', 'checking');
 });

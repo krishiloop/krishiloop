@@ -16,7 +16,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/krishiloop/krishiloop/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/krishiloop/krishiloop/actions/workflows/ci.yml/badge.svg?branch=main"></a>
-  <img alt="Tests" src="https://img.shields.io/badge/tests-390%20pytest%20%C2%B7%20259%20unit%20%C2%B7%20165%20browser-2f5a35">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-391%20pytest%20%C2%B7%20259%20unit%20%C2%B7%20165%20browser-2f5a35">
   <img alt="Languages" src="https://img.shields.io/badge/languages-Bangla%20%C2%B7%20English%20%2B%20Hindi%2C%20Swahili%2C%20Spanish%20previews-927fcc">
   <img alt="Licence" src="https://img.shields.io/badge/code-Apache--2.0-46524a">
 </p>
@@ -31,7 +31,7 @@
 
 ## Try it in one minute
 
-No login, no install. The live site runs in **recorded sample mode**: real answers recorded from our server, every one labelled "Recorded" on screen.
+No login, no install. The live site runs in **sample mode**: real answers saved from our server, every one labelled "Saved" on screen.
 
 | Open | What you see |
 |---|---|
@@ -123,7 +123,8 @@ flowchart LR
 - **Reach:** five read-only **MCP servers** let other AI advisers verify our receipts and read our rules.
 - **Data:** a **Kùzu** graph database links every rule, the source page it quotes and every receipt that used it, so a recall lists exactly the receipts it touches, and the Ask router uses the same graph for a **Graph RAG** step (sibling rules that cite the same page). Dense retrieval runs on a **LanceDB** vector table (multilingual-e5, 384 dimensions, rules and source chunks), and it ranks exactly as the in-memory search did. A **DuckDB** warehouse turns our rules, receipts, recalls, evaluations and GBIF sightings into Parquet and one SQL report (`tools/warehouse.py`, `ml/warehouse/REPORT.md`). All three are embedded: files, no database server to host.
 - **Live:** `GET /api/events` streams new officer cases, recalls and photo-ledger events over **Server-Sent Events**. The officer console refreshes as they happen. Events carry ids and codes only, never personal data.
-- **Look:** the design system is published as a [Claude Artifacts design system](https://claude.ai/artifact/7m8moHoKncYg7jwzRpDcai) (tokens, type, components, rules). The evidence page draws the per-model safety result with **Chart.js**.
+- **Look:** the design system is published as a [Claude Artifacts design system](https://claude.ai/artifact/7m8moHoKncYg7jwzRpDcai) (tokens, type, components, rules). The evidence page draws the per-model safety result with **Chart.js** and the warehouse's sightings per country with **D3.js** (`d3-scale`). The warehouse report's charts are **Vega-Lite** (Altair, rendered to SVG).
+- **Run:** a **Prefect** flow chains the data refresh: contract checks, quote checks, the warehouse build and its tests (`tools/pipeline_flow.py`, last run in `ml/warehouse/PIPELINE_RUN.md`). Our MCP server was also called by a remote client through a temporary **Pinggy** tunnel, with its DNS-rebinding guard kept on (`docs/mcp-over-tunnel.md`).
 
 ## Results, each with its file
 
@@ -147,7 +148,7 @@ flowchart LR
 # Web app (React 19 + Vite + Tailwind CSS 4)
 cd apps/web
 npm ci
-npm run dev                # http://localhost:5173 (recorded sample mode without the API)
+npm run dev                # http://localhost:5173 (sample mode without the API)
 npm test                   # unit tests (Vitest)
 npm run test:e2e           # browser tests (Playwright, uses your installed Chrome)
 
@@ -173,7 +174,8 @@ python -m venv .venv
 | `services/vision/` | Server-side photo reading and explainability (same ONNX model as the phone) |
 | `services/mcp/` | Five read-only MCP servers (weather, satellite, receipts, rules, photo trust) |
 | `services/graph/` | The Kùzu provenance graph: rules, sources, quotes, receipts; recall blast radius; Graph RAG siblings |
-| `tools/warehouse.py` | DuckDB + Parquet warehouse and its SQL report (`ml/warehouse/REPORT.md`) |
+| `tools/warehouse.py` | DuckDB + Parquet warehouse and its SQL report and Vega-Lite charts (`ml/warehouse/REPORT.md`) |
+| `tools/pipeline_flow.py` | The Prefect flow for the data refresh (contracts, quotes, warehouse, tests) |
 | `rules/` | Rule packs (Bangladesh rice, Kenya potato), each rule with its verbatim source quote and page |
 | `contracts/` | JSON Schemas for plans, receipts, credentials, inbox items and more, validated in CI |
 | `ml/` | Vision, voice, safety and token evaluations, each with its report |
@@ -182,7 +184,7 @@ python -m venv .venv
 
 ## Honest limits
 
-- The live demo runs in **recorded sample mode**; our API is not yet deployed publicly.
+- The live demo runs in **sample mode** (saved answers); our API is not yet deployed publicly.
 - Every rule **awaits expert review**; the Bangla, Hindi, Swahili and Spanish texts await native-speaker review.
 - The photo model's weights are **research weights trained on PlantWild (CC BY-NC-ND 4.0), non-commercial**; a commercial version would retrain on licence-checked data.
 - Office locations are upazila centres, marked approximate; officer names and phones are shown only as the government publishes them.

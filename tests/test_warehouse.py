@@ -59,3 +59,14 @@ def test_report_files_are_written_and_reproducible(tmp_path):
     wh.export(src)
     assert wh.report(src, counts) == first and (src.report_dir / "REPORT.md").read_text(encoding="utf-8") == md
     assert json.loads((src.report_dir / "report.json").read_text(encoding="utf-8"))["tables"]["rules"] == 2
+
+
+def test_report_draws_vega_lite_svgs_when_altair_is_installed(tmp_path):
+    import pytest
+    pytest.importorskip("altair")
+    pytest.importorskip("vl_convert")
+    src = _tiny(tmp_path)
+    wh.report(src, wh.export(src))
+    for name in ("sightings_per_country.svg", "rules_per_pack.svg"):
+        assert (src.report_dir / name).read_text(encoding="utf-8").lstrip().startswith("<svg")
+    assert "![Rules per pack" in (src.report_dir / "REPORT.md").read_text(encoding="utf-8")

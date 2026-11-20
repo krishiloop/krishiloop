@@ -113,7 +113,7 @@ test('Home: one big answer with Why, Listen and the receipt, weather warnings an
   await expect(tab(page, 'home')).toHaveAttribute('aria-selected', 'true');
   const decision = page.getByTestId('fa-decision');
   await expect(decision).toContainText('No spray needed');
-  await expect(page.getByTestId('m-head')).toContainText('Recorded 2 Nov');
+  await expect(page.getByTestId('m-head')).toContainText('Saved 2 Nov');
   await page.getByRole('button', { name: 'Why this?' }).click();
   await expect(page.getByTestId('fa-why')).toContainText('R-BDR-002 v1');
   await expect(page.getByTestId('fa-hear')).toHaveText(/Listen/);

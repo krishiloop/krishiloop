@@ -11,7 +11,7 @@ const d: Partial<Record<keyof typeof verify, string>> = {
   'vf.entry.bad': 'Eso no es un enlace de recibo. Se parece a https://…/verify/… o urn:uuid:….',
   'vf.entry.scan': 'Escanear el código QR',
   'vf.entry.noScan': 'Este navegador no puede leer códigos QR aquí. Usa la cámara de tu teléfono.',
-  'vf.entry.try': 'Probar un recibo grabado',
+  'vf.entry.try': 'Probar un recibo de ejemplo',
   'vf.legend.title': 'Lo que puedes ver',
   'vf.legend.authentic': 'Hecho por KrishiLoop, sin cambios.',
   'vf.legend.recalled': 'Se retiró una regla. No la sigas.',
