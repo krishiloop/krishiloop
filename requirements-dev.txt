@@ -18,6 +18,7 @@ mcp==2.3.0
 langgraph==1.2.14
 tokenizers==0.23.3
 # AgriTriage-Lite on the server (services/vision/): tests/test_agritriage.py runs the same ONNX file the farmer's phone
-# runs, so CI needs the image reader and the ONNX runtime too (missing since Nov 19: every push failed at collection).
+# runs (and tests/test_agritriage_xai.py reads its graph with onnx), so CI needs the image reader and the ONNX runtime too (missing since Nov 19: every push failed at collection).
 pillow==13.0.0
 onnxruntime==1.31.1
+onnx==1.23.2
