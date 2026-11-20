@@ -1,0 +1,27 @@
+{
+ "workflow": "KrishiLoop live-site check",
+ "n8n": "1.88.0",
+ "mode": "cli",
+ "startedAt": "2026-11-20T19:04:27.254Z",
+ "stoppedAt": "2026-11-20T19:04:28.809Z",
+ "finished": true,
+ "nodes": [
+  "Start",
+  "Photo model config",
+  "Check the model",
+  "Docs visibility",
+  "Report"
+ ],
+ "report": {
+  "checked_at": "2026-11-20T19:04:28.808Z",
+  "model_ok": true,
+  "classes": 89,
+  "model_mb": 11.5,
+  "docs_visible": true,
+  "docs_window": {
+   "start": "2026-11-20T00:00:00+06:00",
+   "end": "2026-12-31T23:59:00+06:00"
+  },
+  "all_ok": true
+ }
+}
