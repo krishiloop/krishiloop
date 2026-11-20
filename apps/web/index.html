@@ -25,7 +25,7 @@
         try {
           var d = document.documentElement;
           var q = new URLSearchParams(location.search);
-          var theme = q.get('theme') || localStorage.getItem('kl.theme');
+          var theme = q.get('theme') || localStorage.getItem('kl.theme.v6');
           d.dataset.theme = theme === 'dark' ? 'dark' : 'light';
           if (theme === 'dark') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0e2419');
           var lang = q.get('lang') || localStorage.getItem('kl.lang');

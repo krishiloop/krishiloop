@@ -5,7 +5,7 @@ import '../../../lib/i18n/strings.photoai';
 import { fmtNum } from '../../../lib/format';
 import { cx } from '../../../lib/cx';
 import { niceClass } from '../../../lib/agritriage/gate';
-import { attentionView, camUnit, GRID, lesion, overlap, upsample } from '../../../lib/agritriage/xai';
+import { attentionView, camUnit, GRID, gradcamUnit, lesion, overlap, upsample } from '../../../lib/agritriage/xai';
 import { Comparer } from '../../../ui/kit/Comparer';
 import { COOL, heatUrl, LEAF, photoUrl, rampCss, SPOT, spotsUrl, WARM } from './xaiDraw';
 import './xai.css';
@@ -35,7 +35,7 @@ export interface XaiViewsProps {
   size: number;
   /** the class explained (the model's English label) */
   target: string;
-  cam: { cells: ArrayLike<number>; bias: number; logit: number } | null;
+  cam: { cells: ArrayLike<number>; bias: number; logit: number; grad?: ArrayLike<number> } | null;
   /** attention each of the 49 squares receives (sums to 1) */
   attention: ArrayLike<number> | null;
   occlusion: { heat: number[]; grid: number } | null;
@@ -56,7 +56,9 @@ export function XaiViews(p: XaiViewsProps) {
   const S = p.size;
 
   const photo = useMemo(() => photoUrl(p.rgb, S), [p.rgb, S]);
-  const camMap = useMemo(() => (p.cam ? camUnit(p.cam.cells) : null), [p.cam]);
+  // true Grad-CAM when the model gives it (model_xai.onnx since 20 Nov); the exact CAM otherwise (the server's cases)
+  const isGrad = !!p.cam?.grad;
+  const camMap = useMemo(() => (p.cam ? (p.cam.grad ? gradcamUnit(p.cam.grad) : camUnit(p.cam.cells)) : null), [p.cam]);
   const att = useMemo(() => (p.attention ? attentionView(p.attention) : null), [p.attention]);
   const les = useMemo(() => lesion(p.rgb, S), [p.rgb, S]);
   const ov = useMemo(() => (camMap ? overlap(upsample(camMap, GRID, S), les) : null), [camMap, les, S]);
@@ -114,7 +116,7 @@ export function XaiViews(p: XaiViewsProps) {
             data-testid={`${p.tid}-xai-tab-${id}`}
           >
             <Icon size={16} aria-hidden className="flex-none" />
-            <span>{t(`photoai.xai.tab.${id}` as Key)}</span>
+            <span>{t((id === 'cam' && isGrad ? 'photoai.xai.tab.gradcam' : `photoai.xai.tab.${id}`) as Key)}</span>
           </button>
         ))}
       </div>
@@ -141,7 +143,7 @@ export function XaiViews(p: XaiViewsProps) {
         {view === 'cam' && p.cam && (
           <>
             <p className="m-0 text-sm font-semibold" data-testid={`${p.tid}-xai-say`}>
-              {t('photoai.xai.say.cam', { label })}
+              {t(isGrad ? 'photoai.xai.say.gradcam' : 'photoai.xai.say.cam', { label })}
             </p>
             <p className="m-0 text-xs text-ink-3">{t('photoai.xai.ready')}</p>
           </>
@@ -203,6 +205,7 @@ export function XaiViews(p: XaiViewsProps) {
               {t('photoai.xai.check', { err: camErr < 1e-4 ? '< 0.0001' : fmtNum(Math.round(camErr * 1e4) / 1e4, lang) })}
             </p>
           )}
+          {view === 'cam' && isGrad && <p className="m-0 mt-1.5 text-xs text-ink-3">{t('photoai.xai.checkGrad')}</p>}
         </details>
       </div>
     </section>

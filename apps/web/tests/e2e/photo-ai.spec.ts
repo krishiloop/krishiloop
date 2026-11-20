@@ -116,10 +116,10 @@ test.describe('AgriTriage-Lite on the phone', () => {
     // the CAM comes from the same model run as the answer: it is on screen with the card, no extra run
     await expect(page.getByTestId('fa-ai-xai-cmp')).toBeVisible({ timeout: 2_000 });
     await expect(xai).toHaveAttribute('data-view', 'cam');
-    for (const name of ['Where the AI looked', 'What the AI paid attention to', 'Spots on the leaf', 'Hide-and-check test']) {
+    for (const name of ['Grad-CAM', 'Attention map', 'Lesion mask', 'Occlusion test']) {
       await expect(xai.getByRole('tab', { name })).toBeVisible();
     }
-    await expect(xai.getByRole('tab', { name: 'Where the AI looked' })).toHaveAttribute('aria-selected', 'true');
+    await expect(xai.getByRole('tab', { name: 'Grad-CAM' })).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByTestId('fa-ai-xai-say')).toContainText('pushed the AI most towards');
     await expect(xai).toContainText('Ready at once: the same model run as the answer.');
     // exact: the 49 squares plus the fixed part rebuild the model's score in the browser too
@@ -130,17 +130,17 @@ test.describe('AgriTriage-Lite on the phone', () => {
     await expect(xai.getByRole('slider', { name: 'Compare the photo with where the AI looked' })).toHaveAttribute('aria-valuenow', '50');
 
     // keyboard: arrows move between the views (roving focus), as in any tab list
-    await xai.getByRole('tab', { name: 'Where the AI looked' }).focus();
+    await xai.getByRole('tab', { name: 'Grad-CAM' }).focus();
     await page.keyboard.press('ArrowRight');
     await expect(xai).toHaveAttribute('data-view', 'attention');
-    await expect(xai.getByRole('tab', { name: 'What the AI paid attention to' })).toBeFocused();
+    await expect(xai.getByRole('tab', { name: 'Attention map' })).toBeFocused();
     await expect(page.getByTestId('fa-ai-xai-say')).toContainText('attention went most');
     await expect(xai).toContainText('Ring: a square that soaks up attention');
     await expect(xai.getByRole('slider', { name: 'Compare the photo with what the AI paid attention to' })).toBeVisible();
 
     await page.keyboard.press('ArrowRight');
     await expect(xai).toHaveAttribute('data-view', 'spots');
-    await expect(page.getByTestId('fa-ai-xai-lesion-label')).toHaveText('Lesion area: a colour estimate, not the AI model');
+    await expect(page.getByTestId('fa-ai-xai-lesion-label')).toHaveText('Lesion mask: a colour estimate, not the AI model');
     await expect(page.getByTestId('fa-ai-xai-severity')).toContainText(/Spots cover about [\d.]+% of the leaf\./);
     const sev = Number(await page.getByTestId('fa-ai-xai-severity').getAttribute('data-pct'));
     expect(sev, 'the drawn leaf has brown spots').toBeGreaterThan(1);
@@ -197,9 +197,9 @@ test.describe('AgriTriage-Lite on the phone', () => {
       await readLeaf(page);
       await expect(page.getByTestId('fa-ai-outcome')).toHaveText(/রোগ নির্ণয়|আরও পরিষ্কার ছবি তুলুন|আপনার কর্মকর্তাকে জিজ্ঞেস করুন/);
       const xai = page.getByTestId('fa-ai-xai');
-      await expect(xai.getByRole('tab', { name: 'এআই কোথায় দেখেছে' })).toHaveAttribute('aria-selected', 'true');
-      await xai.getByRole('tab', { name: 'পাতার দাগ' }).click();
-      await expect(page.getByTestId('fa-ai-xai-lesion-label')).toHaveText('দাগের এলাকা: রং দেখে অনুমান, এআই মডেল নয়');
+      await expect(xai.getByRole('tab', { name: 'গ্র্যাড-ক্যাম (Grad-CAM)' })).toHaveAttribute('aria-selected', 'true');
+      await xai.getByRole('tab', { name: 'ক্ষতের মাস্ক' }).click();
+      await expect(page.getByTestId('fa-ai-xai-lesion-label')).toHaveText('ক্ষতের মাস্ক: রং দেখে অনুমান, এআই মডেল নয়');
       const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(over, 'no horizontal page scroll').toBeLessThanOrEqual(1);
       await axe(page, 'photo AI, 390 px, bn');
@@ -214,9 +214,9 @@ test.describe('AgriTriage-Lite on the phone', () => {
     const xai = page.getByTestId('leaf-xai');
     await expect(page.getByTestId('leaf-xai-cmp')).toBeVisible({ timeout: 2_000 });
     await expect(xai).toHaveAttribute('data-view', 'cam');
-    await xai.getByRole('tab', { name: 'Spots on the leaf' }).click();
-    await expect(page.getByTestId('leaf-xai-lesion-label')).toHaveText('Lesion area: a colour estimate, not the AI model');
-    await xai.getByRole('tab', { name: 'Hide-and-check test' }).click();
+    await xai.getByRole('tab', { name: 'Lesion mask' }).click();
+    await expect(page.getByTestId('leaf-xai-lesion-label')).toHaveText('Lesion mask: a colour estimate, not the AI model');
+    await xai.getByRole('tab', { name: 'Occlusion test' }).click();
     await expect(page.getByTestId('leaf-map-state')).toHaveText('Warm squares: hiding them lowered the answer the most.', { timeout: 60_000 });
     await expect(page.locator('[data-testid="leaf-xai-cmp"][data-view="occlusion"]')).toBeVisible();
     await axe(page, '/try leaf tool with the views');
@@ -256,9 +256,9 @@ test.describe('AgriTriage-Lite on the phone', () => {
     await expect(offXai).toBeVisible({ timeout: 60_000 });
     await expect(offXai).toHaveAttribute('data-view', 'cam');
     await expect(page.getByTestId('off-ai-xai-cmp').first()).toBeVisible();
-    await offXai.getByRole('tab', { name: 'Spots on the leaf' }).click();
-    await expect(page.getByTestId('off-ai-xai-lesion-label').first()).toHaveText('Lesion area: a colour estimate, not the AI model');
-    await offXai.getByRole('tab', { name: 'Hide-and-check test' }).click();
+    await offXai.getByRole('tab', { name: 'Lesion mask' }).click();
+    await expect(page.getByTestId('off-ai-xai-lesion-label').first()).toHaveText('Lesion mask: a colour estimate, not the AI model');
+    await offXai.getByRole('tab', { name: 'Occlusion test' }).click();
     await page.getByTestId('off-ai-where').first().click();
     await expect(page.locator('[data-testid="off-ai-xai-cmp"][data-view="occlusion"]').first()).toHaveAttribute('data-where', 'server', { timeout: 120_000 });
     await axe(page, 'officer photo case with the views');

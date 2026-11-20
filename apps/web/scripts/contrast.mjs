@@ -74,11 +74,11 @@ const PALETTE = {
     text: { ink: '#14261c', ink2: '#46524a', ink3: '#5a645c', accentText: '#2f5a35', go: '#2f6b3a', wait: '#7a4a1e', stop: '#a83a21', water: '#2b6476', carbon: '#35428f' },
   },
   dusk: {
-    washes: { butter: ['#23302a', '#e9e2d2'], lotus: ['#33212a', '#f0b9b4'], monsoon: ['#152f39', '#a8d1df'], hyacinth: ['#262238', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#35231a', '#ef9e80'] },
+    washes: { butter: ['#2d2b25', '#e9e2d2'], lotus: ['#45263a', '#f0b9b4'], monsoon: ['#193d50', '#a8d1df'], hyacinth: ['#2f2954', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#4a2b1d', '#ef9e80'] },
     text: { ink: '#f3eee2', ink2: '#c9d3c8', ink3: '#a3b2a6', accentText: '#c9dcbc', go: '#9bd18a', wait: '#f2b59a', stop: '#f39478', water: '#a8d1df', carbon: '#b9c3f2' },
   },
   forest: {
-    washes: { butter: ['#23302a', '#e9e2d2'], lotus: ['#33212a', '#f0b9b4'], monsoon: ['#152f39', '#a8d1df'], hyacinth: ['#262238', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#35231a', '#ef9e80'] },
+    washes: { butter: ['#2d2b25', '#e9e2d2'], lotus: ['#45263a', '#f0b9b4'], monsoon: ['#193d50', '#a8d1df'], hyacinth: ['#2f2954', '#c6b7e4'], moss: ['#18311f', '#b9cfa8'], terracotta: ['#4a2b1d', '#ef9e80'] },
     text: { ink: '#f3eee2', ink2: '#c9d3c8', ink3: '#a3b2a6', accentText: '#c9dcbc', go: '#9bd18a', wait: '#f2b59a', stop: '#f39478', water: '#a8d1df', carbon: '#b9c3f2' },
   },
 };

@@ -26,6 +26,13 @@ export const KINDS = ['brown', 'yellow', 'dark'] as const;
 export type Kind = (typeof KINDS)[number];
 type Num = ArrayLike<number>;
 
+/** Grad-CAM view (Selvaraju et al. 2017): ReLU of the gradient-weighted feature maps, scaled so the strongest cell is 1. */
+export function gradcamUnit(v: Num): number[] {
+  const a = Array.from(v, (x) => Math.max(0, x));
+  const hi = Math.max(0, ...a);
+  return hi > 0 ? a.map((x) => x / hi) : a.map(() => 0);
+}
+
 /** CAM view: cells that pushed against the answer are 0; the rest run from the weakest push (0) to the strongest (1). */
 export function camUnit(v: Num): number[] {
   const a = Array.from(v);

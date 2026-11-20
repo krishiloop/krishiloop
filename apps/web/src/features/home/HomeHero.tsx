@@ -163,8 +163,17 @@ export function HomeHero() {
           <div key={`${s.tone}-${i}`} className={`kg-wash kg-wash-${s.tone}`} data-on={i === step ? '' : undefined} />
         ))}
       </div>
-      {/* the deck's line drawings in the hero's corners (kit.css .botanic-art), swaying a little while on screen */}
-      <div className="botanic-art botanic-bg--branch kg-art" aria-hidden />
+      {/* botanical line art on BOTH sides (owner, 20 Nov: "clearly visible, left and right"): each drawing in its own colour
+          (leaf green, terracotta, lotus, lilac), drawn through a CSS mask so it takes any colour in either theme, and
+          swaying a little (CSS, transform only; still under reduced motion) */}
+      <div className="kg-flora" aria-hidden>
+        <span className="kg-fl kg-fl--l1" />
+        <span className="kg-fl kg-fl--l2" />
+        <span className="kg-fl kg-fl--l3" />
+        <span className="kg-fl kg-fl--r1" />
+        <span className="kg-fl kg-fl--r2" />
+        <span className="kg-fl kg-fl--r3" />
+      </div>
       <div className="kg-stick">
         <div className="wrap kg-grid">
           <div className="kg-copy relative z-10">
@@ -175,7 +184,8 @@ export function HomeHero() {
               কৃষিলুপ
             </p>
             <h1 id="home-title" className="kg-wordmark m-0 mt-1 lg:mt-2">
-              <SplitWords text="KrishiLoop" delay={0.15} play={play} />
+              <SplitWords text="Krishi" delay={0.15} play={play} />
+              <SplitWords text="Loop" className="kg-loop" delay={0.26} play={play} />
               <span className="sr-only-live"> · {t('home.kg.promise')}</span>
             </h1>
             <p className="kg-promise m-0 mt-4 max-w-[34ch] lg:mt-6" aria-hidden>

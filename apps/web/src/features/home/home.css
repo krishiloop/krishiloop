@@ -1234,3 +1234,213 @@ section[aria-labelledby="bento-title"] .surface {
 .pl-list li:nth-child(5n + 3) svg { color: var(--color-lotus-ink); }
 .pl-list li:nth-child(5n + 4) svg { color: var(--color-hyacinth-ink); }
 .pl-list li:nth-child(5n) svg { color: var(--color-terracotta-ink); }
+
+/* ------------------------------------------------------------------ the plant doctor's REAL explainability (RealXai.tsx)
+   A real photo and the model's own Grad-CAM, attention map and lesion mask. Each view has its own colour on its tab (not
+   all green): terracotta for Grad-CAM, hyacinth for attention, lotus for the lesion mask. */
+.rx {
+  position: relative;
+  display: grid;
+  gap: 12px;
+}
+.rx-cmp {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset, 0 22px 48px -26px rgb(20 38 28 / 0.55);
+}
+.rx-cmp img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rx-stack {
+  position: absolute;
+  inset: 0;
+}
+.rx-stack img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 280ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rx-stack img[data-on] {
+  opacity: 1;
+}
+.rx-real {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 3;
+  background: var(--color-card);
+  color: var(--color-moss-ink);
+  border-color: color-mix(in oklab, var(--color-moss-ink) 35%, transparent);
+  font-weight: 650;
+  pointer-events: none;
+}
+.rx-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--color-sunk);
+  border: 1px solid var(--color-rule);
+}
+.rx-tab {
+  position: relative;
+  overflow: hidden;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 650;
+  color: var(--color-ink-2);
+  transition: background-color 200ms ease, color 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rx-tab:active {
+  transform: scale(0.97);
+}
+.rx-tab[aria-selected="true"][data-tone="gradcam"] {
+  background: var(--color-terracotta);
+  color: var(--color-terracotta-ink);
+}
+.rx-tab[aria-selected="true"][data-tone="attention"] {
+  background: var(--color-hyacinth);
+  color: var(--color-hyacinth-ink);
+}
+.rx-tab[aria-selected="true"][data-tone="lesion"] {
+  background: var(--color-lotus);
+  color: var(--color-lotus-ink);
+}
+.rx-tab-bar {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.55;
+  transform-origin: 0 50%;
+  animation-name: rx-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+@keyframes rx-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.rx-say {
+  font-size: 0.95rem;
+  color: var(--color-ink-2);
+}
+.rx-say b {
+  color: var(--color-ink);
+}
+.rx-credit {
+  font-size: 0.75rem;
+  color: var(--color-ink-3);
+}
+.rx-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rx-stack img {
+    transition-duration: 1ms;
+  }
+}
+
+/* ------------------------------------------------------------------ v6 (owner, 20 Nov): a bolder, more colourful hero
+   Green stays the main colour, with clear contrast from the other pastels: stronger washes of each picture's colour, a
+   bigger and brighter disc behind the plant, "Loop" in terracotta, and botanical line art on both sides, each drawing in
+   its own colour. */
+.kg-wash {
+  background:
+    radial-gradient(56% 62% at 76% 52%, color-mix(in oklab, var(--w1) calc(78% * var(--a)), transparent), transparent 74%),
+    radial-gradient(42% 50% at 98% 2%, color-mix(in oklab, var(--w2) calc(64% * var(--a)), transparent), transparent 72%),
+    radial-gradient(50% 56% at 2% 100%, color-mix(in oklab, var(--w3) calc(60% * var(--a)), transparent), transparent 74%),
+    radial-gradient(36% 42% at 22% 6%, color-mix(in oklab, var(--w2) calc(40% * var(--a)), transparent), transparent 72%);
+}
+:root:not([data-theme="light"]) .kg-wash {
+  --a: 0.62;
+}
+.kg-spot {
+  width: min(94%, 700px);
+}
+.kg-field[data-live] .kg-spot {
+  opacity: 0.95;
+}
+:root:not([data-theme="light"]) .kg-field[data-live] .kg-spot {
+  opacity: 0.42;
+}
+.kg-loop .split-in {
+  color: var(--color-terracotta-ink);
+  font-style: italic;
+}
+.kg-bn-name {
+  color: var(--color-moss-ink);
+}
+
+.kg-flora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.kg-fl {
+  position: absolute;
+  display: block;
+  background: var(--fl-c);
+  -webkit-mask: var(--fl-art) center / contain no-repeat;
+  mask: var(--fl-art) center / contain no-repeat;
+  opacity: var(--fl-o, 0.72);
+  transform-origin: var(--fl-origin, 50% 100%);
+  animation: kg-sway var(--fl-d, 11s) cubic-bezier(0.77, 0, 0.175, 1) var(--fl-dl, 0s) infinite alternate;
+  will-change: transform;
+}
+.kg-hero[data-offscreen] .kg-fl {
+  animation-play-state: paused;
+}
+@keyframes kg-sway {
+  from {
+    transform: rotate(-2.6deg) translateY(0);
+  }
+  to {
+    transform: rotate(2.6deg) translateY(-6px);
+  }
+}
+/* left: a big leaf branch rising from the bottom corner, a potato plant at the top, a chilli in the margin */
+.kg-fl--l1 { --fl-art: url("/art/leaf-branch-mask.webp"); --fl-c: var(--color-moss-ink); --fl-d: 12s; bottom: -4%; left: -7vw; width: min(27vw, 370px); aspect-ratio: 687 / 407; --fl-origin: 10% 100%; }
+.kg-fl--l2 { --fl-art: url("/art/plants/potato.svg"); --fl-c: var(--color-terracotta-ink); --fl-d: 13s; --fl-dl: -4s; top: calc(var(--header-h) + 1vh); left: -3.5vw; width: min(13vw, 190px); aspect-ratio: 200 / 270; --fl-origin: 50% 100%; }
+.kg-fl--l3 { --fl-art: url("/art/plants/chilli.svg"); --fl-c: var(--color-lotus-ink); --fl-d: 10s; --fl-dl: -7s; top: 44%; left: -2.2vw; width: min(8.5vw, 120px); aspect-ratio: 200 / 270; --fl-origin: 50% 100%; }
+/* right: the flower branch under the nav, a rice plant at the bottom, a tomato on the edge */
+.kg-fl--r1 { --fl-art: url("/art/mustard-branch-mask.webp"); --fl-c: var(--color-hyacinth-ink); --fl-d: 14s; --fl-dl: -2s; top: calc(var(--header-h) + 4px); right: -2vw; width: min(28vw, 380px); aspect-ratio: 503 / 352; --fl-origin: 100% 20%; }
+.kg-fl--r2 { --fl-art: url("/art/rice-plant-mask.webp"); --fl-c: var(--color-moss-ink); --fl-d: 15s; --fl-dl: -6s; bottom: -5%; right: -6vw; width: min(29vw, 400px); aspect-ratio: 601 / 241; --fl-origin: 60% 100%; }
+.kg-fl--r3 { --fl-art: url("/art/plants/tomato.svg"); --fl-c: var(--color-terracotta-ink); --fl-d: 12s; --fl-dl: -3s; top: 46%; right: -2.4vw; width: min(10vw, 140px); aspect-ratio: 200 / 270; --fl-origin: 50% 100%; }
+:root:not([data-theme="light"]) .kg-fl {
+  --fl-o: 0.78;
+}
+@media (max-width: 767px) {
+  .kg-fl--l2,
+  .kg-fl--l3,
+  .kg-fl--r3 {
+    display: none;
+  }
+  .kg-fl {
+    --fl-o: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kg-fl {
+    animation: none;
+  }
+}

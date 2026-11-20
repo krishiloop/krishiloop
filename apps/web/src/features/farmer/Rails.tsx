@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Headset, Minus, RotateCcw, X } from 'lucide-react';
+import { ArrowRight, Carrot, Check, Headset, Minus, RotateCcw, Sprout, Wheat, X } from 'lucide-react';
 import { useI18n, type Key } from '../../lib/i18n';
 import { fmtNum, LOCALES } from '../../lib/format';
 import { cx } from '../../lib/cx';
@@ -29,6 +29,9 @@ const TRY_KEY: Record<TryId, Key> = {
 };
 const TRY_TAB: Partial<Record<TryId, TabId>> = { receipt: 'today', ask: 'ask', voice: 'ask', photo: 'photo' };
 
+const CROP_ICON = { rice: Wheat, potato: Carrot } as const;
+const CROP_TONE: Record<string, string> = { rice: 'moss', potato: 'terracotta' };
+
 export function DemoRail({ onTab, inSheet }: { onTab: (t: TabId) => void; inSheet?: boolean }) {
   const { t, lang } = useI18n();
   const st = useFarmer();
@@ -42,7 +45,7 @@ export function DemoRail({ onTab, inSheet }: { onTab: (t: TabId) => void; inShee
   const now = Date.now();
 
   return (
-    <div className="grid gap-5" data-testid="fa-rail">
+    <div className="fa-rail-grid grid gap-5" data-testid="fa-rail">
       <div className={cx(!inSheet && 'px-1')}>
         {!inSheet && (
           <>
@@ -57,7 +60,7 @@ export function DemoRail({ onTab, inSheet }: { onTab: (t: TabId) => void; inShee
         <p className="mt-1.5 text-[0.84rem] leading-snug text-ink-3">{recorded ? t('fa.rail.recorded') : t('fa.rail.live')}</p>
       </div>
 
-      <section aria-labelledby="fa-rail-try" className={cx('fa-card', !inSheet && 'surface')}>
+      <section aria-labelledby="fa-rail-try" className="fa-card" data-tone="lotus">
         <div className="flex items-baseline justify-between gap-2">
           <h3 id="fa-rail-try" className="label">
             {t('fa.rail.try')}
@@ -114,12 +117,18 @@ export function DemoRail({ onTab, inSheet }: { onTab: (t: TabId) => void; inShee
         )}
       </section>
 
-      <fieldset className="m-0 grid gap-1.5 border-0 p-0">
+      <fieldset className="fa-fieldset m-0 grid gap-1.5 border-0 p-0" data-tone="moss">
         <legend className="label mb-2 px-1">{t('fa.rail.field')}</legend>
         {st.fields.length === 0 && <div className="skeleton h-28" />}
         {st.fields.map((f) => (
-          <label key={f.field_id} className="fa-pick" data-checked={f.field_id === st.fieldId} title={f.field_id}>
+          <label key={f.field_id} className="fa-pick" data-checked={f.field_id === st.fieldId} data-tone={CROP_TONE[f.crop] ?? 'hyacinth'} title={f.field_id}>
             <input type="radio" name="fa-field" value={f.field_id} checked={f.field_id === st.fieldId} onChange={() => void select(f.field_id)} className="fa-pick-input" data-testid={`fa-field-${f.field_id}`} />
+            <span className="fa-pick-ic" aria-hidden>
+              {(() => {
+                const Ic = CROP_ICON[f.crop as keyof typeof CROP_ICON] ?? Sprout;
+                return <Ic size={17} strokeWidth={1.9} />;
+              })()}
+            </span>
             <span className="min-w-0 flex-1 truncate font-[560]">
               {cropName(f.crop, t)} · {stageName(f.stage, t)}
             </span>
@@ -128,13 +137,16 @@ export function DemoRail({ onTab, inSheet }: { onTab: (t: TabId) => void; inShee
         ))}
       </fieldset>
 
-      <fieldset className="m-0 grid gap-1.5 border-0 p-0">
+      <fieldset className="fa-fieldset m-0 grid gap-1.5 border-0 p-0" data-tone="hyacinth">
         <legend className="label mb-2 px-1">{t('fa.rail.farmer')}</legend>
         {profiles.map((p) => {
           const s = profileSummary(p, t);
           return (
-            <label key={p.farmer_profile_id} className="fa-pick" data-checked={p.farmer_profile_id === st.profileId}>
+            <label key={p.farmer_profile_id} className="fa-pick" data-tone="hyacinth" data-checked={p.farmer_profile_id === st.profileId}>
               <input type="radio" name="fa-profile" value={p.farmer_profile_id} checked={p.farmer_profile_id === st.profileId} onChange={() => void select(st.fieldId, p.farmer_profile_id)} className="fa-pick-input" data-testid={`fa-profile-${p.farmer_profile_id}`} />
+              <span className="fa-pick-ic fa-pick-av" aria-hidden>
+                {profileLetter(p.farmer_profile_id)}
+              </span>
               <span className="min-w-0">
                 <span className="block leading-tight">
                   <span className="font-[560]">{t('fa.profile.name', { id: profileLetter(p.farmer_profile_id) })}</span>
@@ -227,7 +239,7 @@ export function TracePanel({ bodyRef }: { bodyRef?: React.Ref<HTMLDivElement> })
   const kindKey = latest ? EVENT_KEY[latest.kind] : undefined;
 
   return (
-    <section className="fa-trace surface" aria-labelledby="fa-trace-title" data-busy={busy ? '' : undefined} data-testid="fa-trace">
+    <section className="fa-trace" data-tone="monsoon" aria-labelledby="fa-trace-title" data-busy={busy ? '' : undefined} data-testid="fa-trace">
       <header className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h2 id="fa-trace-title" className="label">
@@ -305,7 +317,7 @@ export function InspectorPanel() {
   const part = (p: Part) => (typeof p === 'string' ? p : t(p[0], p[1]));
 
   return (
-    <section aria-labelledby="fa-ins-title" className="fa-ins" data-testid="fa-inspector">
+    <section aria-labelledby="fa-ins-title" className="fa-ins" data-tone="butter" data-testid="fa-inspector">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h2 id="fa-ins-title" className="label">
@@ -326,7 +338,7 @@ export function InspectorPanel() {
           {entries.map((e: InsEntry) => (
             <li key={e.id} className={cx('fa-ins-entry', e.at >= since.current && 'is-new')} data-kind={e.kind} data-testid="fa-ins-entry">
               <div className="flex items-center justify-between gap-2">
-                <span className="fa-ins-kind">{t(KIND_KEY[e.kind])}</span>
+                <span className="fa-ins-kind" data-kind={e.kind}>{t(KIND_KEY[e.kind])}</span>
                 <span className="flex items-center gap-2">
                   {e.recorded && <span className="mono text-[0.68rem] text-carbon">{t('fa.ins.recorded')}</span>}
                   <time className="mono text-[0.7rem] text-ink-3" dateTime={new Date(e.at).toISOString()}>

@@ -160,22 +160,22 @@
      <name>-leaf = the pure pastel for art, leaves, charts and chips (forest ink on it). Forest values here, cream below.
      butter = creamy rice paste (a cream, not a yellow); lotus = the water lily's blush; monsoon = the rain sky; hyacinth = water hyacinth
      flowers on the ponds; moss = young paddy, pale sage; terracotta = the clay of village pots and river banks. */
-  --color-butter: #23302a;
+  --color-butter: #2d2b25;
   --color-butter-ink: #e9e2d2;
   --color-butter-leaf: #ece4d4;
-  --color-lotus: #33212a;
+  --color-lotus: #45263a;
   --color-lotus-ink: #f0b9b4;
   --color-lotus-leaf: #f0b9b4;
-  --color-monsoon: #152f39;
+  --color-monsoon: #193d50;
   --color-monsoon-ink: #a8d1df;
   --color-monsoon-leaf: #a8d1df;
-  --color-hyacinth: #262238;
+  --color-hyacinth: #2f2954;
   --color-hyacinth-ink: #c6b7e4;
   --color-hyacinth-leaf: #c6b7e4;
   --color-moss: #18311f;
   --color-moss-ink: #b9cfa8;
   --color-moss-leaf: #b9cfa8;
-  --color-terracotta: #35231a;
+  --color-terracotta: #4a2b1d;
   --color-terracotta-ink: #ef9e80;
   --color-terracotta-leaf: #ef9e80;
   /* the deep accent for contrast: aubergine (a band, a dark tile), never as a gradient into indigo or purple */
@@ -241,7 +241,7 @@
   --map-ink-4: #14261c;
   --map-ink-5: #fffdf8;
   --map-stroke: #14261c; /* borders between areas: forest page */
-  --map-water: #152f39; /* sea and rivers: monsoon, forest page */
+  --map-water: #193d50; /* sea and rivers: monsoon, forest page */
 }
 
 /* Cream: the deck's pages. The default theme (index.html), readable in sunlight. */
@@ -328,21 +328,21 @@
   --color-ember: #ff7a4d;
   --color-carbon: #b9c3f2;
   --color-carbon-wash: #1f2c3a;
-  --color-butter: #23302a;
+  --color-butter: #2d2b25;
   --color-butter-ink: #e9e2d2;
-  --color-lotus: #33212a;
+  --color-lotus: #45263a;
   --color-lotus-ink: #f0b9b4;
-  --color-monsoon: #152f39;
+  --color-monsoon: #193d50;
   --color-monsoon-ink: #a8d1df;
-  --color-hyacinth: #262238;
+  --color-hyacinth: #2f2954;
   --color-hyacinth-ink: #c6b7e4;
   --color-moss: #18311f;
   --color-moss-ink: #b9cfa8;
-  --color-terracotta: #35231a;
+  --color-terracotta: #4a2b1d;
   --color-terracotta-ink: #ef9e80;
   --map-stroke: #14261c;
-  --map-water: #152f39;
-  --glow-accent: 0 0 0 1px rgb(226 169 59 / 0.35), 0 10px 30px -12px rgb(226 169 59 / 0.55);
+  --map-water: #193d50;
+  --glow-accent: 0 0 0 1px rgb(201 220 188 / 0.35), 0 10px 30px -12px rgb(201 220 188 / 0.45);
   --glass-bg: rgb(23 58 41 / 0.6);
   --glass-edge: rgb(255 255 255 / 0.12);
   --rows: repeating-linear-gradient(176deg, rgb(243 238 226 / 0.05) 0 1px, transparent 1px 34px);

@@ -48,7 +48,7 @@ export function drawTestLeaf(size = 512): HTMLCanvasElement {
       g.stroke();
     }
   }
-  // lesions: brown centres with a yellow halo
+  // lesions: brown centres with a pale tan halo (no yellow anywhere: owner, 20 Nov)
   const spots: [number, number, number][] = [
     [-90, -30, 18],
     [-40, 34, 13],
@@ -59,8 +59,8 @@ export function drawTestLeaf(size = 512): HTMLCanvasElement {
   ];
   for (const [x, y, r] of spots) {
     const halo = g.createRadialGradient(x * s, y * s, r * 0.4 * s, x * s, y * s, r * 1.9 * s);
-    halo.addColorStop(0, 'rgba(214, 196, 74, 0.95)');
-    halo.addColorStop(1, 'rgba(214, 196, 74, 0)');
+    halo.addColorStop(0, 'rgba(176, 140, 96, 0.95)');
+    halo.addColorStop(1, 'rgba(176, 140, 96, 0)');
     g.fillStyle = halo;
     g.beginPath();
     g.ellipse(x * s, y * s, r * 2.2 * s, r * 1.5 * s, 0.3, 0, Math.PI * 2);

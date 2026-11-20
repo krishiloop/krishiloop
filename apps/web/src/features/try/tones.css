@@ -10,19 +10,19 @@
   --tone-ink: var(--color-moss-ink, #b9cfa8);
 }
 .tone-monsoon {
-  --tone: var(--color-monsoon, #152f39);
+  --tone: var(--color-monsoon, #193d50);
   --tone-ink: var(--color-monsoon-ink, #a8d1df);
 }
 .tone-terracotta {
-  --tone: var(--color-terracotta, #35231a);
+  --tone: var(--color-terracotta, #4a2b1d);
   --tone-ink: var(--color-terracotta-ink, #ef9e80);
 }
 .tone-hyacinth {
-  --tone: var(--color-hyacinth, #262238);
+  --tone: var(--color-hyacinth, #2f2954);
   --tone-ink: var(--color-hyacinth-ink, #c6b7e4);
 }
 .tone-lotus {
-  --tone: var(--color-lotus, #33212a);
+  --tone: var(--color-lotus, #45263a);
   --tone-ink: var(--color-lotus-ink, #f0b9b4);
 }
 [data-theme="light"] .tone-butter {

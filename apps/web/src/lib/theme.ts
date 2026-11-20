@@ -7,7 +7,8 @@ export type Theme = 'dark' | 'light';
 function initial(): Theme {
   const forced = queryParam('theme');
   if (forced === 'light' || forced === 'dark') return forced;
-  const stored = readStore('kl.theme');
+  // a new key on 20 Nov: everyone starts again on the creamy white theme (owner); dark stays one tap away
+  const stored = readStore('kl.theme.v6');
   return stored === 'dark' ? 'dark' : 'light';
 }
 
@@ -22,7 +23,7 @@ apply(themeStore.get());
 themeStore.subscribe(() => apply(themeStore.get()));
 
 export function setTheme(t: Theme) {
-  if (queryParam('theme') == null) writeStore('kl.theme', t);
+  if (queryParam('theme') == null) writeStore('kl.theme.v6', t);
   themeStore.set(t);
 }
 export const toggleTheme = () => setTheme(themeStore.get() === 'dark' ? 'light' : 'dark');

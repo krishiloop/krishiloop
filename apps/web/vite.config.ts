@@ -44,7 +44,7 @@ export default defineConfig({
     preloadHome(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      injectRegister: false, // registered in main.tsx, which also reloads the page when a new version takes over
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         // the phone app (/m, builder Mo): opening the manifest's start_url gives the phone app, not the website. Quiet on

@@ -16,6 +16,12 @@ not depend on the photo (`xai_cam_bias`). The 49 cells plus the bias give back t
 Added outputs (logits stays output 0):
     xai_cam        [B, 89, 49]   each 7 x 7 cell's share of each class's logit (row-major cells)
     xai_cam_bias   [89]          b + W . beta (the part no cell owns)
+    xai_gradcam    [B, 89, 49]   Grad-CAM before its ReLU: sum over channels k of alpha_ck * F_k,cell, where alpha_ck is
+                                 the mean over the 49 cells of d logit_c / d F_k,cell, i.e. (1/49) d logit_c / d v_k. That
+                                 gradient is exact (analytic through LayerNorm, its mu and sigma included):
+                                 d logit_c / d v_k = (1/sigma) [ w~_ck - mean_i w~_ci - y_k * mean_i (w~_ci * y_i) ],
+                                 with w~ = W * gamma and y = (v - mu) / sigma. The export checks it against a numerical
+                                 (central difference) gradient in numpy.
     xai_attn3_0    [B, 14, 49, 49]   stage-3 block-0 attention (softmax over keys; one 7 x 7 window = the whole image)
     xai_attn3_1    [B, 14, 49, 49]   stage-3 block-1 attention
     xai_attn2_5    [B, 8, 196, 196]  the last stage-2 attention (one 14 x 14 window = the whole image)
@@ -48,7 +54,7 @@ ATTN = {"xai_attn3_0": "/stages/stages.3/blocks/blocks.0/attn/Softmax_output_0",
         "xai_attn3_1": "/stages/stages.3/blocks/blocks.1/attn/Softmax_output_0",
         "xai_attn2_5": "/stages/stages.2/blocks/blocks.5/attn/Softmax_output_0"}
 PREFIX = "xai/"          # every added node and constant
-OUTPUTS = ["xai_cam", "xai_cam_bias", "xai_attn3_0", "xai_attn3_1", "xai_attn2_5", "xai_feat"]
+OUTPUTS = ["xai_cam", "xai_cam_bias", "xai_gradcam", "xai_attn3_0", "xai_attn3_1", "xai_attn2_5", "xai_feat"]
 TEST_SEEDS = (0, 1, 2)   # fixed inputs: numpy PCG64 uniform [0, 1) images, the same on every machine
 
 
@@ -113,16 +119,70 @@ def add_xai(model) -> None:
     # W [K, C] @ [B, C, 49] -> [B, K, 49], divided by 49: each cell's share of each logit
     cam = node("MatMul", [W_NAME, fr], "cam_sum")
     g.node.append(helper.make_node("Div", [cam, const("n_cells", np.float32(N))], ["xai_cam"], name=PREFIX + "cam"))
+    # Grad-CAM: the exact gradient of every logit with respect to the pooled vector v, through LayerNorm (above)
+    wt = node("Mul", [W_NAME, GAMMA], "w_tilde")                                                     # [K, C]
+    m1 = node("ReduceMean", [wt], "w_tilde_mean", axes=[1], keepdims=1)                              # [K, 1]
+    y = node("Reshape", [node("Div", [vc, sigma], "y_c11"), const("shape_bc1", np.array([-1, C, 1], dtype=np.int64))], "y_bc1")
+    m2 = node("Div", [node("MatMul", [wt, y], "wy"), const("n_ch", np.float32(C))], "wy_mean")      # [B, K, 1]
+    y_row = node("Reshape", [y, const("shape_b1c", np.array([-1, 1, C], dtype=np.int64))], "y_b1c")  # [B, 1, C]
+    sig = node("Reshape", [sigma, const("shape_b11", np.array([-1, 1, 1], dtype=np.int64))], "sigma_b11")
+    grad = node("Div", [node("Sub", [node("Sub", [wt, m1], "wt_centred"), node("Mul", [m2, y_row], "wy_y")], "grad_num"), sig], "grad_v")  # [B, K, C]
+    alpha = node("Div", [grad, const("n_cells_g", np.float32(N))], "alpha")                         # mean gradient per cell
+    f_raw = node("Reshape", [FEAT, const("shape_bcn_raw", np.array([-1, C, N], dtype=np.int64))], "f_raw_cells")
+    g.node.append(helper.make_node("MatMul", [alpha, f_raw], ["xai_gradcam"], name=PREFIX + "gradcam"))   # [B, K, 49]
     wb = node("MatMul", [W_NAME, BETA], "w_beta")
     g.node.append(helper.make_node("Add", [B_NAME, wb], ["xai_cam_bias"], name=PREFIX + "cam_bias"))
     for out, src in ATTN.items():
         g.node.append(helper.make_node("Identity", [src], [out], name=PREFIX + out))
     g.node.append(helper.make_node("Identity", [FEAT], ["xai_feat"], name=PREFIX + "feat"))
     K = int(inits[B_NAME].shape[0])
-    shapes = {"xai_cam": ["batch", K, N], "xai_cam_bias": [K], "xai_attn3_0": ["batch", 14, N, N],
+    shapes = {"xai_cam": ["batch", K, N], "xai_cam_bias": [K], "xai_gradcam": ["batch", K, N], "xai_attn3_0": ["batch", 14, N, N],
               "xai_attn3_1": ["batch", 14, N, N], "xai_attn2_5": ["batch", 8, 196, 196], "xai_feat": ["batch", C, 7, 7]}
     for out in OUTPUTS:
         g.output.append(helper.make_tensor_value_info(out, TensorProto.FLOAT, shapes[out]))
+
+
+def gradcam_check(model, outs) -> tuple[float, float]:
+    """Redo Grad-CAM in numpy for the top class of each test input: the gradient of the logit with respect to the pooled
+    vector by central differences (no formula), then alpha = gradient / 49 and the map = alpha . F. Returns the largest
+    relative errors: the formula's gradient against the numerical one, and the graph's map against the numerical map."""
+    from onnx import helper, numpy_helper
+    g = model.graph
+    inits = {t.name: numpy_helper.to_array(t) for t in g.initializer}
+    dq = next(n for n in g.node if W_NAME in n.output)                       # DequantizeLinear: (q - zero) * scale
+    q, scale = inits[dq.input[0]].astype(np.float64), inits[dq.input[1]].astype(np.float64)
+    zero = inits[dq.input[2]].astype(np.float64) if len(dq.input) > 2 else 0.0
+    axis = next((helper.get_attribute_value(a) for a in dq.attribute if a.name == "axis"), 1)
+    shp = [1] * q.ndim
+    if np.ndim(scale):
+        shp[axis] = -1
+    W = (q - np.reshape(zero, shp)) * np.reshape(scale, shp)
+    gamma, beta, b = (inits[n].astype(np.float64) for n in (GAMMA, BETA, B_NAME))
+    ln = next(n for n in g.node if n.name == HEAD_LN)
+    eps = next((helper.get_attribute_value(a) for a in ln.attribute if a.name == "epsilon"), 1e-5)
+    F = outs["xai_feat"].astype(np.float64)                                   # [B, C, 7, 7]
+    B, C = F.shape[:2]
+    cells = F.reshape(B, C, -1)
+    grad_err = gc_err = 0.0
+    for i in range(B):
+        c = int(np.argmax(outs["logits"][i]))
+
+        def logit(v: np.ndarray) -> float:
+            y = (v - v.mean()) / np.sqrt(v.var() + eps)
+            return float(W[c] @ (gamma * y + beta) + b[c])
+
+        v = cells[i].mean(-1)
+        h = 1e-3
+        num = np.array([(logit(v + h * e) - logit(v - h * e)) / (2 * h) for e in np.eye(C)])
+        gc_num = (num / cells.shape[-1]) @ cells[i]                             # alpha . F over the 49 cells
+        gc_graph = outs["xai_gradcam"][i, c].astype(np.float64)
+        # the formula's gradient in numpy too, so a wrong formula and a wrong graph cannot agree by accident
+        y = (v - v.mean()) / np.sqrt(v.var() + eps)
+        wt = W[c] * gamma
+        ana = (wt - wt.mean() - y * (wt * y).mean()) / np.sqrt(v.var() + eps)
+        grad_err = max(grad_err, float(np.abs(ana - num).max() / (np.abs(num).max() + 1e-12)))
+        gc_err = max(gc_err, float(np.abs(gc_graph - gc_num).max() / (np.abs(gc_num).max() + 1e-12)))
+    return grad_err, gc_err
 
 
 def session(raw: bytes):
@@ -160,6 +220,9 @@ def main() -> int:
     diff = float(np.abs(outs["logits"] - z_src).max())
     recon = float(np.abs(outs["xai_cam"].sum(-1) + outs["xai_cam_bias"][None] - outs["logits"]).max())
     rows = float(max(np.abs(outs[k].sum(-1) - 1).max() for k in ATTN))
+    grad_err, gc_err = gradcam_check(model, outs)
+    if grad_err > 1e-3 or gc_err > 1e-3:
+        raise SystemExit(f"Grad-CAM check failed: gradient err {grad_err:.3g}, map err {gc_err:.3g}")
     OUT.write_bytes(raw)
 
     cfg_path = MODEL_DIR / "config.json"
@@ -182,6 +245,8 @@ def main() -> int:
         "max_abs_logit_diff": diff,
         "cam_reconstruction_max_abs_err": recon,
         "attention_row_sum_max_err": rows,
+        "gradcam_gradient_vs_central_difference_max_rel_err": grad_err,
+        "gradcam_map_vs_numpy_max_rel_err": gc_err,
         "onnxruntime": __import__("onnxruntime").__version__,
     }
     if src != SRC and EVIDENCE.exists():   # a re-export keeps the ORIGINAL model's hash and logits

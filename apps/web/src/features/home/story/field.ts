@@ -113,7 +113,7 @@ const hash = (i: number, a: number, b: number) => {
 export function startField({ canvas, glow, step: first, reduced, mobile, dark: dark0 }: FieldOptions): FieldApi {
   const ctx = canvas.getContext('2d');
   if (!ctx) return { destroy() {}, go() {}, setDark() {} };
-  const n = mobile ? 300 : 680;
+  const n = mobile ? 360 : 960; // v6: a fuller, bolder picture (owner: "big and bold"); still one 2D canvas
   // the pictures: the one on screen now, the others one per idle moment (or at once when asked for), so starting the
   // field is one short task, not one long one
   const builders = shapeBuilders(n);
@@ -216,7 +216,7 @@ export function startField({ canvas, glow, step: first, reduced, mobile, dark: d
     R = (Math.min(W, H) / 2) * 0.88;
     cx = W / 2;
     cy = H / 2;
-    leaf = Math.max(8, Math.min(18, R * 0.062));
+    leaf = Math.max(9, Math.min(23, R * 0.072));
     placeGlow();
     if (reduced) draw(0);
   };

@@ -396,7 +396,7 @@
 .fa-tab:focus-visible {
   outline-offset: -4px;
 }
-/* the chosen tab sits on a liquid lozenge: lit from above, a mustard tint, a soft glow under it */
+/* the chosen tab sits on a liquid lozenge: lit from above, a soft neutral tint, a soft glow under it */
 .fa-tab-ind {
   position: absolute;
   top: 6px;
@@ -1579,4 +1579,525 @@ html.reduce-motion :is(.fa-press, .spark-burst) {
 }
 :root:not([data-theme="light"]) .fa-iph .iph-status {
   background: #0e2419;
+}
+
+/* ================================================================ colour: one tone per panel
+   Green stays the main colour (forest paper, forest buttons, the decision's go); the panels around it each take a tone
+   from the painter's palette: wash (--t-bg), ink for text on it (--t-ink, AA-checked), pure pastel for art (--t-leaf).
+   On a leaf the ink is always forest. Local names only: the palette itself lives in styles/index.css. */
+:is(.fa-stage, .fa-device, .m-app) [data-tone="moss"] {
+  --t-bg: var(--color-moss);
+  --t-ink: var(--color-moss-ink);
+  --t-leaf: var(--color-moss-leaf);
+}
+:is(.fa-stage, .fa-device, .m-app) [data-tone="terracotta"],
+.fa-tab[data-tab="today"],
+.m-tab[data-tab="home"] {
+  --t-bg: var(--color-terracotta);
+  --t-ink: var(--color-terracotta-ink);
+  --t-leaf: var(--color-terracotta-leaf);
+}
+:is(.fa-stage, .fa-device, .m-app) [data-tone="lotus"],
+.fa-tab[data-tab="receipts"],
+.m-tab[data-tab="receipts"] {
+  --t-bg: var(--color-lotus);
+  --t-ink: var(--color-lotus-ink);
+  --t-leaf: var(--color-lotus-leaf);
+}
+:is(.fa-stage, .fa-device, .m-app) [data-tone="monsoon"],
+.fa-tab[data-tab="photo"],
+.m-tab[data-tab="help"] {
+  --t-bg: var(--color-monsoon);
+  --t-ink: var(--color-monsoon-ink);
+  --t-leaf: var(--color-monsoon-leaf);
+}
+:is(.fa-stage, .fa-device, .m-app) [data-tone="hyacinth"],
+.fa-tab[data-tab="ask"],
+.m-tab[data-tab="ask"] {
+  --t-bg: var(--color-hyacinth);
+  --t-ink: var(--color-hyacinth-ink);
+  --t-leaf: var(--color-hyacinth-leaf);
+}
+:is(.fa-stage, .fa-device, .m-app) [data-tone="butter"] {
+  --t-bg: var(--color-butter);
+  --t-ink: var(--color-butter-ink);
+  --t-leaf: var(--color-butter-leaf);
+}
+/* the forest ink that sits on every leaf */
+.fa-stage,
+.fa-device,
+.m-app {
+  --t-on-leaf: #14261c;
+}
+:is(.fa-stage, .fa-device, .m-app) [data-tone],
+.fa-row,
+.fa-rc-row,
+.fa-qchip {
+  --t-on-leaf: #14261c;
+  --t-line: color-mix(in oklab, var(--t-ink) 20%, transparent);
+}
+
+/* ---- the stage: a soft light behind the phone (rose, sky, clay), never green on green; painted once, no motion */
+@media (min-width: 1024px) {
+  .fa-stage::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    z-index: 0;
+    width: min(880px, 100%);
+    height: calc(var(--phone-h) + 90px);
+    transform: translateX(-50%);
+    background:
+      radial-gradient(closest-side at 24% 34%, color-mix(in oklab, var(--color-lotus-leaf) 34%, transparent), transparent 72%),
+      radial-gradient(closest-side at 78% 28%, color-mix(in oklab, var(--color-monsoon-leaf) 32%, transparent), transparent 72%),
+      radial-gradient(closest-side at 50% 92%, color-mix(in oklab, var(--color-terracotta-leaf) 26%, transparent), transparent 74%);
+    pointer-events: none;
+  }
+  [data-theme="light"] .fa-stage::before {
+    background:
+      radial-gradient(closest-side at 24% 34%, color-mix(in oklab, var(--color-lotus-leaf) 40%, transparent), transparent 72%),
+      radial-gradient(closest-side at 78% 28%, color-mix(in oklab, var(--color-monsoon-leaf) 42%, transparent), transparent 72%),
+      radial-gradient(closest-side at 50% 92%, color-mix(in oklab, var(--color-terracotta-leaf) 30%, transparent), transparent 74%);
+  }
+}
+
+/* ---- left rail */
+.fa-rail-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.fa-rail-grid > * {
+  min-width: 0;
+}
+.fa-card {
+  padding: 18px 18px 12px;
+  border: 1px solid var(--t-line);
+  border-radius: var(--radius-frame);
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--t-leaf) 16%, transparent), transparent 62%),
+    var(--t-bg);
+  color: var(--t-ink);
+  box-shadow: var(--shadow-lift);
+}
+.fa-card .label,
+.fa-card .mono,
+.fa-card .btn {
+  color: var(--t-ink);
+}
+.fa-card .fa-progress {
+  background: var(--t-line);
+}
+.fa-card .fa-progress > span {
+  background: var(--t-ink);
+}
+.fa-card .fa-try {
+  border-bottom-color: var(--t-line);
+}
+.fa-card .fa-try-go,
+.fa-card .fa-try[data-done="true"] .fa-try-go,
+.fa-card .fa-try-go[data-off="true"] {
+  color: var(--t-ink);
+}
+.fa-card .fa-try[data-done="true"] .fa-try-go {
+  font-weight: 560;
+}
+.fa-card .fa-try-tick {
+  border-color: color-mix(in oklab, var(--t-ink) 55%, transparent);
+  color: var(--t-bg);
+}
+.fa-card .fa-try[data-done="true"] .fa-try-tick {
+  border-color: var(--t-ink);
+  background: var(--t-ink);
+}
+.fa-fieldset legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fa-fieldset legend::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--t-leaf);
+}
+/* a field or a farmer to pick: a tone tile first, the chosen one fills with the tone */
+.fa-pick {
+  gap: 10px;
+  padding: 7px 12px 7px 10px;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 140ms var(--ease-out);
+}
+.fa-pick::before {
+  display: none;
+}
+.fa-pick-ic {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--t-leaf);
+  color: var(--t-on-leaf);
+}
+.fa-pick-av {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.fa-pick[data-checked="true"] {
+  border-color: var(--t-ink);
+  background: var(--t-bg);
+  box-shadow: inset 0 0 0 1px var(--t-ink);
+}
+.fa-pick[data-checked="true"],
+.fa-pick[data-checked="true"] :is(.text-ink-2, .text-ink-3) {
+  color: var(--t-ink);
+}
+.fa-pick:active {
+  transform: scale(0.97);
+}
+/* the app's own help tab keeps its radio dot */
+.m-pick::before {
+  display: block;
+}
+.m-pick .fa-pick-ic {
+  display: none;
+}
+
+/* ---- right rail: behind the tap (sky) */
+.fa-trace {
+  padding: 20px 18px 16px;
+  border: 1px solid var(--t-line);
+  border-radius: var(--radius-frame);
+  background:
+    radial-gradient(110% 70% at 100% 0%, color-mix(in oklab, var(--t-leaf) 15%, transparent), transparent 62%),
+    var(--t-bg);
+  color: var(--t-ink);
+  box-shadow: var(--shadow-lift);
+}
+.fa-trace .label,
+.fa-trace .text-ink,
+.fa-trace .text-ink-3,
+.fa-trace-k,
+.fa-trace-s,
+.fa-trace-v {
+  color: var(--t-ink);
+}
+.fa-trace-step[data-state="idle"] .fa-trace-k {
+  color: var(--t-ink);
+  opacity: 0.8;
+}
+.fa-trace-dot {
+  border-color: color-mix(in oklab, var(--t-ink) 45%, transparent);
+  background: transparent;
+  color: var(--t-ink);
+}
+/* each kind of step has its own colour: the data, the lookup, the rule, the safety check, the receipt, the officer */
+.fa-trace-step {
+  --d: var(--color-monsoon-leaf);
+}
+.fa-trace-step[data-step="data"],
+.fa-trace-step[data-step="issuer"],
+.fa-trace-step[data-step="verdict"],
+.fa-trace-step[data-step="rebuilt"] {
+  --d: var(--color-moss-leaf);
+}
+.fa-trace-step[data-step="retrieval"],
+.fa-trace-step[data-step="model"] {
+  --d: var(--color-hyacinth-leaf);
+}
+.fa-trace-step[data-step="rule"],
+.fa-trace-step[data-step="officer"],
+.fa-trace-step[data-step="sig"] {
+  --d: var(--color-terracotta-leaf);
+}
+.fa-trace-step[data-step="validator"],
+.fa-trace-step[data-step="gate"],
+.fa-trace-step[data-step="recall"] {
+  --d: var(--color-lotus-leaf);
+}
+.fa-trace-step[data-state="ok"] .fa-trace-dot {
+  border: 1px solid color-mix(in oklab, var(--t-ink) 40%, transparent);
+  background: var(--d);
+  color: var(--t-on-leaf);
+}
+.fa-trace-step[data-state="wait"] .fa-trace-dot {
+  border-color: var(--color-wait);
+  background: var(--color-wait-wash);
+}
+.fa-trace-step[data-state="stop"] .fa-trace-dot {
+  border-color: var(--color-ember);
+  background: var(--color-stop-wash);
+}
+.fa-trace-step[data-state="wait"] .fa-trace-s {
+  color: var(--t-ink);
+}
+.fa-trace-step[data-state="stop"] .fa-trace-s {
+  color: var(--t-ink);
+  font-weight: 700;
+}
+
+/* ---- right rail: the activity log, quiet and neutral (kind chips carry the only colour) */
+.fa-ins {
+  padding: 16px 18px 6px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-frame);
+  background: color-mix(in oklab, var(--color-card) 45%, transparent);
+}
+.fa-ins-entry:first-of-type {
+  border-top: 0;
+}
+.fa-ins-kind {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--k-bg);
+  color: var(--k-ink);
+}
+.fa-ins-kind[data-kind="boot"] {
+  --k-bg: var(--color-butter);
+  --k-ink: var(--color-butter-ink);
+}
+.fa-ins-kind[data-kind="plan"] {
+  --k-bg: var(--color-moss);
+  --k-ink: var(--color-moss-ink);
+}
+.fa-ins-kind[data-kind="ask"] {
+  --k-bg: var(--color-hyacinth);
+  --k-ink: var(--color-hyacinth-ink);
+}
+.fa-ins-kind[data-kind="photo"] {
+  --k-bg: var(--color-terracotta);
+  --k-ink: var(--color-terracotta-ink);
+}
+.fa-ins-kind[data-kind="verify"] {
+  --k-bg: var(--color-monsoon);
+  --k-ink: var(--color-monsoon-ink);
+}
+.fa-ins-kind[data-kind="recall"],
+.fa-ins-kind[data-kind="error"] {
+  --k-bg: var(--color-lotus);
+  --k-ink: var(--color-lotus-ink);
+}
+
+/* ---- inside the phone: tabs, each with its own tone */
+.fa-tab > span:first-child {
+  background: color-mix(in oklab, var(--t-bg) 70%, transparent);
+  border-radius: 999px;
+  color: var(--t-ink);
+}
+.fa-tab svg {
+  color: var(--t-ink);
+}
+.fa-tab[aria-selected="true"] > span:first-child {
+  background: var(--t-leaf);
+}
+.fa-tab[aria-selected="true"] svg {
+  color: var(--t-on-leaf);
+}
+.fa-tab {
+  --t-on-leaf: #14261c;
+}
+.fa-tab-ind::before {
+  background: color-mix(in oklab, var(--color-ink) 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-ink) 10%, transparent);
+}
+
+/* ---- inside the phone: this week's decision keeps its meaning colour (go, wait, stop) as a soft wash */
+.fa-decision > .panel {
+  border-color: color-mix(in oklab, var(--dc, var(--color-rule-2)) 38%, var(--color-rule));
+  background:
+    radial-gradient(120% 80% at 0% 0%, color-mix(in oklab, var(--dc, transparent) 18%, transparent), transparent 70%),
+    var(--color-card);
+}
+.fa-decision[data-dec="go"] {
+  --dc: var(--color-go);
+}
+.fa-decision[data-dec="wait"] {
+  --dc: var(--color-wait);
+}
+.fa-decision[data-dec="stop"] {
+  --dc: var(--color-stop);
+}
+.fa-decision > .panel > div:last-child {
+  background: color-mix(in oklab, var(--color-sunk) 45%, transparent);
+}
+/* "Why this?" in lilac, "Listen" in sky */
+.fa-why {
+  border-color: var(--t-line);
+  background: var(--t-bg);
+  color: var(--t-ink);
+}
+.fa-why > .flex > .fa-why-btn:first-child {
+  color: var(--t-ink);
+}
+.fa-why-body {
+  border-top-color: var(--t-line);
+  border-radius: 0 0 var(--radius-ui) var(--radius-ui);
+  background: var(--color-card);
+  color: var(--color-ink);
+}
+.fa-hear {
+  align-self: center;
+  min-height: 44px;
+  margin: 4px 5px 4px 0;
+  border-radius: 12px;
+  background: var(--t-leaf);
+  color: var(--t-on-leaf);
+}
+.fa-hear:active {
+  transform: scale(0.97);
+}
+/* "also this week": a row per kind of job, its own tone */
+.fa-row {
+  --t-bg: var(--color-butter);
+  --t-ink: var(--color-butter-ink);
+  --t-leaf: var(--color-butter-leaf);
+  border-color: var(--t-line);
+  background: var(--t-bg);
+  color: var(--t-ink);
+}
+.fa-row :is(.text-ink, .text-ink-2, .text-ink-3) {
+  color: var(--t-ink);
+}
+.fa-row[data-kind="monitoring"],
+.fa-row[data-kind="irrigation"] {
+  --t-bg: var(--color-monsoon);
+  --t-ink: var(--color-monsoon-ink);
+  --t-leaf: var(--color-monsoon-leaf);
+}
+.fa-row[data-kind="harvest"],
+.fa-row[data-kind="other"] {
+  --t-bg: var(--color-terracotta);
+  --t-ink: var(--color-terracotta-ink);
+  --t-leaf: var(--color-terracotta-leaf);
+}
+.fa-row[data-kind="nutrient"],
+.fa-row[data-kind="input_decision"] {
+  --t-bg: var(--color-moss);
+  --t-ink: var(--color-moss-ink);
+  --t-leaf: var(--color-moss-leaf);
+}
+.fa-row[data-kind="officer_contact"] {
+  --t-bg: var(--color-hyacinth);
+  --t-ink: var(--color-hyacinth-ink);
+  --t-leaf: var(--color-hyacinth-leaf);
+}
+.fa-row[data-kind="practice"] {
+  --t-bg: var(--color-lotus);
+  --t-ink: var(--color-lotus-ink);
+  --t-leaf: var(--color-lotus-leaf);
+}
+.fa-row-tile {
+  background: var(--t-leaf);
+  color: var(--t-on-leaf);
+}
+/* a job that needs care keeps its colour as an edge: wait or stop */
+.fa-row[data-light="wait"] {
+  box-shadow: inset 4px 0 0 var(--color-wait);
+}
+.fa-row[data-light="stop"] {
+  box-shadow: inset 4px 0 0 var(--color-stop);
+}
+/* the forecast the plan used: a sky panel */
+.fa-weather {
+  padding: 16px 14px 14px;
+  border: 1px solid var(--t-line);
+  border-radius: var(--radius-frame);
+  background:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in oklab, var(--t-leaf) 16%, transparent), transparent 66%),
+    var(--t-bg);
+  color: var(--t-ink);
+}
+.fa-weather :is(.eyebrow, .text-ink, .text-ink-2, .text-ink-3, .mono) {
+  color: var(--t-ink);
+}
+.fa-weather .bg-sunk {
+  background: color-mix(in oklab, var(--t-ink) 16%, transparent);
+}
+.fa-weather .bg-card {
+  background: color-mix(in oklab, var(--color-card) 60%, transparent);
+}
+
+/* ---- receipts: a cream row each; the stamp and the tile say the rest */
+.fa-rc-row {
+  --t-bg: var(--color-butter);
+  --t-ink: var(--color-butter-ink);
+  border-color: var(--t-line);
+  background: var(--t-bg);
+}
+.fa-rc-row :is(.text-ink, .text-ink-2, .text-ink-3) {
+  color: var(--t-ink);
+}
+.fa-rc-row.is-recalled {
+  background: linear-gradient(90deg, var(--color-stop-wash), var(--color-card) 70%);
+}
+
+/* ---- Ask: the mic in lilac, the example questions in a cycle of tones */
+.fa-mic {
+  --m-bg: var(--color-hyacinth-ink);
+  --m-fg: var(--color-hyacinth);
+  background: var(--m-bg);
+  color: var(--m-fg);
+  box-shadow: 0 14px 30px -14px color-mix(in oklab, var(--m-bg) 70%, transparent);
+}
+:root:not([data-theme="light"]) .fa-mic {
+  --m-fg: #14261c;
+}
+.fa-mic::before,
+.fa-mic::after {
+  border-color: var(--m-bg);
+}
+.fa-qchip {
+  --t-bg: var(--color-monsoon);
+  --t-ink: var(--color-monsoon-ink);
+  border-color: var(--t-line);
+  background: var(--t-bg);
+  color: var(--t-ink);
+}
+li:nth-child(4n + 2) > .fa-qchip {
+  --t-bg: var(--color-lotus);
+  --t-ink: var(--color-lotus-ink);
+}
+li:nth-child(4n + 3) > .fa-qchip {
+  --t-bg: var(--color-terracotta);
+  --t-ink: var(--color-terracotta-ink);
+}
+li:nth-child(4n) > .fa-qchip {
+  --t-bg: var(--color-hyacinth);
+  --t-ink: var(--color-hyacinth-ink);
+}
+
+/* ---- /m: its five tabs, a tone each (the camera keeps its forest pill) */
+.m-tab:not([data-main]) {
+  --t-on-leaf: #14261c;
+}
+.m-tab:not([data-main]) .m-tab-icon {
+  background: color-mix(in oklab, var(--t-bg) 70%, transparent);
+  color: var(--t-ink);
+}
+.m-tab:not([data-main])[aria-selected="true"] .m-tab-icon {
+  background: var(--t-leaf);
+  color: var(--t-on-leaf);
+}
+.fa-fieldset {
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+/* panels that carry a tone (photo consent, the area's trust, the offline note) */
+.panel[data-tone] {
+  border-color: var(--t-line);
+  background: var(--t-bg);
+  color: var(--t-ink);
+}
+.panel[data-tone] :is(.text-ink, .text-ink-2, .text-ink-3, .eyebrow) {
+  color: var(--t-ink);
+}
+.fa-hear {
+  min-height: 48px;
+  margin: 2px 5px 2px 0;
 }

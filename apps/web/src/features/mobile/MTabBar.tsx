@@ -54,6 +54,7 @@ export function MTabBar({ value, onChange, recalled }: { value: MTab; onChange: 
               aria-controls={selected ? mPanelId(id) : undefined}
               tabIndex={selected ? 0 : -1}
               className="m-tab"
+              data-tab={id}
               data-main={id === 'leaf' || undefined}
               data-testid={`m-tab-${id}`}
               onPointerDown={() => setInput('pointer')}

@@ -40,7 +40,7 @@
 .btn-primary {
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(180deg, color-mix(in oklab, var(--color-accent) 88%, #fff 12%), var(--color-accent) 55%, color-mix(in oklab, var(--color-accent) 90%, #7a5a00 10%));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--color-accent) 88%, #fff 12%), var(--color-accent) 55%, color-mix(in oklab, var(--color-accent) 90%, #0e2419 10%));
   color: var(--color-accent-ink);
   font-weight: 650;
   box-shadow:

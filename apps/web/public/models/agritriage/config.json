@@ -226,6 +226,7 @@
   "outputs": [
    "xai_cam",
    "xai_cam_bias",
+   "xai_gradcam",
    "xai_attn3_0",
    "xai_attn3_1",
    "xai_attn2_5",

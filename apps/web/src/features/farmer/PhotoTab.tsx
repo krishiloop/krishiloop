@@ -132,7 +132,7 @@ export function PhotoTab({ onTab }: { onTab: (t: TabId) => void }) {
         <p className="m-0 text-ink-2">{t('fa.photo.sub')}</p>
 
       {offline ? (
-        <section className="panel p-5" data-testid="fa-photo-offline">
+        <section className="panel p-5" data-tone="terracotta" data-testid="fa-photo-offline">
           <p className="flex items-center gap-2 font-semibold">
             <ServerOff size={18} aria-hidden />
             {t('fa.photo.offTitle')}
@@ -157,7 +157,7 @@ export function PhotoTab({ onTab }: { onTab: (t: TabId) => void }) {
         <>
           <AreaStatus area={area} place={place} stats={stats} err={areaErr} />
 
-          <div className="panel flex items-start gap-3 p-4">
+          <div className="panel flex items-start gap-3 p-4" data-tone="monsoon">
             <div className="min-w-0 flex-1">
               <p id={consentId} className="font-semibold">
                 {t('fa.photo.consent')}
@@ -288,7 +288,7 @@ function AreaStatus({ area, place, stats, err }: { area: string | null; place: s
     );
   }
   return (
-    <section className="panel p-4" aria-labelledby="fa-area-title" data-testid="fa-area">
+    <section className="panel p-4" data-tone="lotus" aria-labelledby="fa-area-title" data-testid="fa-area">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h3 id="fa-area-title" className="eyebrow">
           {t('fa.photo.area')}

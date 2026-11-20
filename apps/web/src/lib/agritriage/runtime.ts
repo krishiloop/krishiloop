@@ -42,6 +42,8 @@ export interface Runtime {
   threads: number;
   /** the file has the XAI outputs (model_xai.onnx) */
   xai: boolean;
+  /** the model also gives true Grad-CAM (xai_gradcam: gradient-weighted feature maps, tools/xai_export.py) */
+  gradcam?: boolean;
 }
 
 let loading: Promise<Runtime> | null = null;
@@ -79,7 +81,8 @@ export function loadRuntime(): Promise<Runtime> {
         extra: { session: { disable_quant_qdq: '1' } }, // fold the INT8 weights to float once, at load (as the demo)
       });
       const xai = XAI_FETCH.every((n) => session.outputNames.includes(n));
-      return { cfg, session, ort, input: session.inputNames[0], loadS: (performance.now() - t0) / 1000, threads: 1, xai };
+      const gradcam = session.outputNames.includes('xai_gradcam');
+      return { cfg, session, ort, input: session.inputNames[0], loadS: (performance.now() - t0) / 1000, threads: 1, xai, gradcam };
     })();
     loading.catch(() => {
       loading = null; // a failed load may be retried
@@ -126,6 +129,8 @@ async function logits(rt: Runtime, x: Float32Array, batch = 1): Promise<Float32A
  *  stage-3 attention of its two blocks ([heads, 49, 49] each). lib/agritriage/xai.ts turns them into views. */
 export interface XaiRaw {
   cam: Float32Array;
+  /** Grad-CAM before its ReLU, every class's 49 cells (when the model has it) */
+  gradcam?: Float32Array;
   camBias: Float32Array;
   attn: Float32Array[];
   heads: number;
@@ -149,19 +154,20 @@ export async function readPhoto(rt: Runtime, x: Float32Array, crop: string | nul
     const z = await logits(rt, x);
     return { result: gate(z, rt.cfg, crop), logits: z, ms: performance.now() - t0, x, xai: null };
   }
-  const out = await rt.session.run({ [rt.input]: new rt.ort.Tensor('float32', x, [1, 3, S, S]) }, XAI_FETCH);
+  const out = await rt.session.run({ [rt.input]: new rt.ort.Tensor('float32', x, [1, 3, S, S]) }, rt.gradcam ? [...XAI_FETCH, 'xai_gradcam'] : [...XAI_FETCH]);
   const ms = performance.now() - t0;
   const z = out.logits.data;
   const a = out.xai_attn3_0;
-  const xai: XaiRaw = { cam: out.xai_cam.data, camBias: out.xai_cam_bias.data, attn: [a.data, out.xai_attn3_1.data], heads: a.dims[1] ?? 14, n: a.dims[3] ?? 49 };
+  const xai: XaiRaw = { cam: out.xai_cam.data, camBias: out.xai_cam_bias.data, gradcam: out.xai_gradcam?.data, attn: [a.data, out.xai_attn3_1.data], heads: a.dims[1] ?? 14, n: a.dims[3] ?? 49 };
   return { result: gate(z, rt.cfg, crop), logits: z, ms, x, xai };
 }
 
-/** The 49 CAM cells of one class, their bias and the logit they add up to. */
-export function camOf(r: Reading, target: number): { cells: Float32Array; bias: number; logit: number } | null {
+/** The 49 CAM cells of one class, their bias and the logit they add up to, and the class's Grad-CAM cells. */
+export function camOf(r: Reading, target: number): { cells: Float32Array; bias: number; logit: number; grad?: Float32Array } | null {
   if (!r.xai) return null;
   const N = 49;
-  return { cells: r.xai.cam.subarray(target * N, (target + 1) * N), bias: r.xai.camBias[target]!, logit: r.logits[target]! };
+  const grad = r.xai.gradcam?.subarray(target * N, (target + 1) * N);
+  return { cells: r.xai.cam.subarray(target * N, (target + 1) * N), bias: r.xai.camBias[target]!, logit: r.logits[target]!, grad };
 }
 
 export interface HeatMap {

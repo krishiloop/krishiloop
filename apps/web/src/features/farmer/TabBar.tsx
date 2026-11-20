@@ -37,7 +37,7 @@ export function TabBar({ value, onChange, recalled }: { value: TabId; onChange: 
   };
 
   return (
-    <div className="fa-tabbar" data-input={input}>
+    <div className="fa-tabbar" data-input={input} data-on={value}>
       <span className="fa-tab-ind" style={{ transform: `translateX(${index * 100}%)` }} aria-hidden />
       <div role="tablist" aria-label={t('fa.tabs')} className="fa-tabs">
         {TABS.map((id, i) => {
@@ -56,6 +56,7 @@ export function TabBar({ value, onChange, recalled }: { value: TabId; onChange: 
               aria-controls={selected ? panelId(id) : undefined}
               tabIndex={selected ? 0 : -1}
               className="fa-tab"
+              data-tab={id}
               data-testid={`fa-tab-${id}`}
               onPointerDown={() => setInput('pointer')}
               onClick={() => onChange(id)}

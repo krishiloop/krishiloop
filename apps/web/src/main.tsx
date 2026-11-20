@@ -15,6 +15,13 @@ import './features/farmer/install';
 import { bootLang } from './lib/i18n';
 import App from './App';
 
+// The offline cache must never keep showing an old site after a deploy (owner, 20 Nov: the 19 Nov site with its old
+// hero kept appearing). registerSW in autoUpdate mode reloads the page once, as soon as a new version takes over. It is
+// loaded after the page, so it adds nothing to the first visit.
+window.addEventListener('load', () => {
+  void import('virtual:pwa-register').then(({ registerSW }) => registerSW({ immediate: true }));
+});
+
 // load the starting language first so a Bangla visitor never sees a flash of English
 void bootLang().finally(() => {
   createRoot(document.getElementById('root')!).render(

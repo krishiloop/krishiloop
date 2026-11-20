@@ -11,7 +11,6 @@ import { Quote } from '../../ui/Quote';
 import { WeatherStrip } from '../../ui/WeatherStrip';
 import { DataAsOf } from '../../ui/DataAsOf';
 import { toneOfLight } from '../../ui/Chip';
-import { TONE_TILE } from '../../ui/Receipt';
 import { readingLines, sourceLabel } from '../../ui/receiptView';
 import { toast } from '../../ui/Toast';
 import { init, loadPlan, useFarmer } from './farmerStore';
@@ -69,7 +68,7 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
       ) : decision ? (
         <div className="grid gap-3">
           <h2 className="sr-only-live">{t('fa.today.title')}</h2>
-          <div key={plan.plan_id} className="fa-pop fa-arrive" data-testid="fa-decision">
+          <div key={plan.plan_id} className="fa-pop fa-arrive fa-decision" data-dec={toneOfLight(decision.traffic_light)} data-testid="fa-decision">
             <DecisionCard action={decision} validTo={plan.valid_to} onOpenReceipt={() => open(decision)} />
           </div>
           <WhyThis action={decision} />
@@ -77,7 +76,7 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
       ) : null}
 
       {others.length > 0 && plan.status !== 'abstained' && (
-        <section aria-labelledby="fa-also">
+        <section aria-labelledby="fa-also" className="fa-also">
           <h2 id="fa-also" className="eyebrow">
             {t('fa.today.also')}
           </h2>
@@ -87,8 +86,8 @@ export function TodayTab({ onOpenReceipt, onTab }: { onOpenReceipt: (r: ReceiptR
               const tone = toneOfLight(a.traffic_light);
               return (
                 <li key={a.action_id} style={{ ['--i' as string]: i }}>
-                  <button type="button" className="fa-row" onClick={() => open(a)} data-testid="fa-action-row">
-                    <span className={cx('grid size-11 flex-none place-items-center rounded-[10px]', TONE_TILE[tone])}>
+                  <button type="button" className="fa-row" data-kind={a.kind} data-light={tone} onClick={() => open(a)} data-testid="fa-action-row">
+                    <span className="fa-row-tile grid size-11 flex-none place-items-center rounded-[12px]">
                       <KindIcon kind={a.kind} size={22} />
                     </span>
                     <span className="min-w-0 flex-1 text-left">
@@ -129,7 +128,7 @@ function HearIt({ action, reader }: { action: Action; reader: ReturnType<typeof 
     if (r?.state === 'unsupported') toast(t('fa.voice.noTts'), { tone: 'info', ms: 4500 });
   };
   return (
-    <button type="button" className="fa-why-btn fa-hear flex-none" onClick={() => void go()} aria-pressed={reader.playing} title={t('fa.today.hear')} data-testid="fa-hear">
+    <button type="button" className="fa-why-btn fa-hear flex-none" data-tone="monsoon" onClick={() => void go()} aria-pressed={reader.playing} title={t('fa.today.hear')} data-testid="fa-hear">
       {reader.playing ? <Square size={18} aria-hidden /> : <Volume2 size={20} aria-hidden />}
       {reader.playing ? t('fa.rc.stop') : t('fa.today.hearShort')}
     </button>
@@ -158,7 +157,7 @@ function WhyThis({ action }: { action: Action }) {
   const short = firstSentence(basis);
 
   return (
-    <section className="fa-why" data-testid="fa-why">
+    <section className="fa-why" data-tone="hyacinth" data-testid="fa-why">
       <div className="flex items-stretch">
         <button type="button" className="fa-why-btn flex-1" aria-expanded={open} aria-controls={id} onClick={() => setOpen((o) => !o)}>
           <CircleHelp size={19} aria-hidden />
@@ -286,7 +285,7 @@ function Weather({ plan, snapshot }: { plan: Plan; snapshot: FieldSnapshot | nul
   const seen = useInViewOnce(ref, '0px 0px -6% 0px');
   const days = snapshot?.forecast?.days ?? [];
   return (
-    <section aria-labelledby="fa-wx-title" data-testid="fa-weather">
+    <section aria-labelledby="fa-wx-title" className="fa-weather" data-tone="monsoon" data-testid="fa-weather">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id="fa-wx-title" className="eyebrow">
           {t('ui.wx.title')}

@@ -18,6 +18,7 @@ export default function OfficeMap({ origin, ranked, youLabel, errorText }: { ori
         const L = mod.default ?? mod;
         if (dead || !el.current) return;
         map = L.map(el.current, { scrollWheelZoom: false, zoomControl: true });
+        map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>'); // the credit, without Leaflet's flag icon
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
         const dot = (cls: string, text: string) => L.divIcon({ className: '', html: `<span class="near-pin ${cls}">${text}</span>`, iconSize: [28, 28], iconAnchor: [14, 14] });
         const pts: [number, number][] = [[origin.lat, origin.lon]];

@@ -6,8 +6,8 @@
  },
  "output": {
   "file": "model_xai.onnx",
-  "sha256": "0659a5501b8ac41a791191ea32816dfe4d0fee1382b20ba2a420fc67c0a57532",
-  "bytes": 11502468
+  "sha256": "3e1cd599c344e1d9b07d058e48e3e200f5816010ef05c4599250dcf1fec7f472",
+  "bytes": 11503723
  },
  "weights_sha256": {
   "before": "c68713f79829df3b2dc91dd32bf5ddaabd3e96f8d6c5b681bff779c1638c91d9",
@@ -16,6 +16,7 @@
  "outputs_added": [
   "xai_cam",
   "xai_cam_bias",
+  "xai_gradcam",
   "xai_attn3_0",
   "xai_attn3_1",
   "xai_attn2_5",
@@ -300,5 +301,7 @@
  "max_abs_logit_diff": 0.0,
  "cam_reconstruction_max_abs_err": 1.1920928955078125e-06,
  "attention_row_sum_max_err": 4.76837158203125e-07,
+ "gradcam_gradient_vs_central_difference_max_rel_err": 1.926036899808336e-09,
+ "gradcam_map_vs_numpy_max_rel_err": 1.9256868351074587e-06,
  "onnxruntime": "1.31.1"
 }

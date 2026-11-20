@@ -35,7 +35,7 @@ test('home: the headline, the merged product, the receipt tiles, and no API call
   for (const name of ['Plant doctor', 'Weather warnings', 'Disease alerts nearby', 'Buy only what you need', 'Bangla voice, any phone', 'A real expert when unsure', 'A receipt anyone can check']) {
     await expect(page.getByRole('heading', { level: 3, name, exact: true })).toBeVisible();
   }
-  const slider = page.getByRole('slider', { name: 'Compare the leaf with the map of where the model looked' });
+  const slider = page.getByRole('slider', { name: 'A real photo, and what the AI saw in it' });
   await slider.focus();
   await page.keyboard.press('End');
   await expect(slider).toHaveAttribute('aria-valuenow', '100');

@@ -9,14 +9,13 @@ import { Qr } from '../../ui/Qr';
 import { ReceiptCard } from '../../ui/Receipt';
 import { DataMark } from '../../ui/DataMark';
 import { WeatherStrip } from '../../ui/WeatherStrip';
-import { Comparer } from '../../ui/kit/Comparer';
 import { Fold } from '../../ui/Fold';
 import { TiltCard } from '../../ui/kit/TiltCard';
 import { LiquidLink } from '../../ui/kit/LiquidButton';
 import { spotlight, useOnScreen } from '../../ui/kit/hooks';
 import { STORY } from '../story/storyData';
 import radarRaw from '../officer/radar/simulated.json';
-import { LeafArt } from './LeafArt';
+import { RealXai } from './RealXai';
 
 /* Measured numbers, each with its file:
    - the photo gate: public/models/agritriage/config.json -> test_report.any_crop (PlantWild test split, 3,663 photos;
@@ -173,23 +172,7 @@ export function ProductIndex() {
             title={t('home.pi.guardian')}
             sub={t('home.pi.guardian.sub')}
             to="/app?tab=photo"
-            art={
-              <div className="relative">
-                <Comparer
-                  className="aspect-[4/3] w-full"
-                  initial={46}
-                  label={t('home.pi.guardian.cmp')}
-                  before={<LeafArt />}
-                  after={<LeafArt map />}
-                  beforeLabel={t('home.pi.guardian.leaf')}
-                  afterLabel={t('home.pi.guardian.map')}
-                />
-                <span className="chip chip-carbon absolute bottom-3 left-3 z-10" title={t('home.illus.title')}>
-                  {t('home.illus')}
-                  <span className="sr-only-live">. {t('home.illus.title')}</span>
-                </span>
-              </div>
-            }
+            art={<RealXai />}
           >
             <p className="m-0 mt-4 flex flex-wrap gap-2">
               <span className="chip">{t('home.pi.guardian.size', { n: fmtNum(GATE.classes, lang), mb: fmtNum(11.5, lang) })}</span>
